@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetRepositoryRiskScoreTool(Tool):
@@ -49,9 +49,9 @@ class GetRepositoryRiskScoreTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", [])
+        alerts = data.get("code_scanning_alerts", {}).values()
         open_alerts = [
-            a for a in alerts if a.get("repo") == repo_name and a.get("state") == "open"
+            a for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
         ]
 
         score = sum(

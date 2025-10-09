@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ComputeAndResolveDestinationPathsTool(Tool):
@@ -39,7 +39,7 @@ class ComputeAndResolveDestinationPathsTool(Tool):
         sort_rules = sort_rules
         destination_paths: set[str] = set()
 
-        for file in data.get("file_list", []):
+        for file in data.get("file_list", {}).values():
             ext = file["filename"].split(".")[-1] if "." in file["filename"] else ""
             sub_dir = sort_rules.get(ext, "miscellaneous")
             base = (
@@ -59,7 +59,7 @@ class ComputeAndResolveDestinationPathsTool(Tool):
 
             destination_paths.add(candidate)
             file["destination_path"] = candidate
-        payload = {"status": "success", "paths_resolved": len(data.get("file_list", []))}
+        payload = {"status": "success", "paths_resolved": len(data.get("file_list", {}))}
         out = json.dumps(
             payload)
         return out

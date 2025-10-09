@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetProjectDetails(Tool):
@@ -24,14 +24,13 @@ class GetProjectDetails(Tool):
         project_id: str = None
     ) -> str:
         if not any([project_name, linked_article_id, project_id]):
-            payload = data.get("projects", [])
+            payload = data.get("projects", {}).values()
             out = json.dumps(payload, indent=2)
             return out
-        projects = data.get("projects", [])
+        projects = data.get("projects", {}).values()
         results = [
             p
-            for p in projects
-            if (
+            for p in projects.values() if (
                 not project_name
                 or project_name.lower() in p.get("project_name", "").lower()
             )

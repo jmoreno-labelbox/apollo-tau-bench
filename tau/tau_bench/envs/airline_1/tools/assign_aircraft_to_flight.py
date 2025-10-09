@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AssignAircraftToFlight(Tool):
@@ -18,10 +18,10 @@ class AssignAircraftToFlight(Tool):
     def invoke(
         data: dict[str, Any], flight_number: str, date: str, new_aircraft_id: str
     ) -> str:
-        flights_data = data.get("flights", [])
+        flights_data = data.get("flights", {}).values()
         for flight in flights_data:
             if flight.get("flight_number") == flight_number:
-                if date in flight.get("dates", {}):
+                if date in flight.get("dates", {}).values():
                     flight["dates"][date][
                         "notes"
                     ] = f"Aircraft reassigned to {new_aircraft_id}"

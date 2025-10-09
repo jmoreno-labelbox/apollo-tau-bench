@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateIssue(Tool):
@@ -23,7 +23,7 @@ class CreateIssue(Tool):
     ) -> str:
         """Create an issue with labels/assignees."""
         pass
-        issues_data = data.get("issues", [])
+        issues_data = data.get("issues", {}).values()
 
         #Confirm the validity of the assignees parameter
         if assignees is None:
@@ -39,7 +39,7 @@ class CreateIssue(Tool):
 
         #Locate the existing issue entry for this repository
         repo_issues = None
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values()):
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 repo_issues = issue_entry
                 break
@@ -61,7 +61,7 @@ class CreateIssue(Tool):
                 "created_ts": ["2023-12-05T12:00:00Z"],
                 "updated_ts": ["2023-12-05T12:00:00Z"],
             }
-            issues_data.append(repo_issues)
+            data["issues"][repo_issues["issue_id"]] = repo_issues
         else:
             #Append to the current issue entry - retrieve the highest existing issue number and increment by 1
             issue_number = max(repo_issues["issue_numbers"]) + 1

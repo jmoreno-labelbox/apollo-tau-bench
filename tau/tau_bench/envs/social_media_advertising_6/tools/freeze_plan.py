@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FreezePlan(Tool):
@@ -43,7 +43,7 @@ class FreezePlan(Tool):
 
         def _require_keys(obj: dict[str, Any], keys: list[str], ctx: str) -> str | None:
             pass
-            missing = [k for k in keys if k not in obj]
+            missing = [k for k in keys.values() if k not in obj]
             return (
                 f"missing_required_keys:{ctx}:{','.join(missing)}" if missing else None
             )
@@ -58,7 +58,7 @@ class FreezePlan(Tool):
         date: str = str(date)
 
         #Guidelines / defaults
-        rules = data.get("_rules", {}) if isinstance(data, dict) else {}
+        rules = data.get("_rules", {}).values() if isinstance(data, dict) else {}
         default_author = rules.get("default_author", "automation_agent")
         default_checksum = rules.get("default_checksum", "CHK001")
 

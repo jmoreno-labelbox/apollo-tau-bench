@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListCodeScanningAlertsTool(Tool):
@@ -31,9 +31,9 @@ class ListCodeScanningAlertsTool(Tool):
             )
             return out
 
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         repository = next(
-            (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
             None,
         )
 
@@ -47,11 +47,10 @@ class ListCodeScanningAlertsTool(Tool):
             )
             return out
 
-        alerts = data.get("code_scanning_alerts", [])
+        alerts = data.get("code_scanning_alerts", {}).values()
         repo_alerts = [
             alert
-            for alert in alerts
-            if alert["owner"] == owner and alert["repo_name"] == repo
+            for alert in alerts.values() if alert["owner"] == owner and alert["repo_name"] == repo
         ]
         payload = {"status": "success", "alerts": repo_alerts}
         out = json.dumps(payload, indent=2)

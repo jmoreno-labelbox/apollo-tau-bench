@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateOperationalEvent(Tool):
@@ -116,11 +116,11 @@ class CreateOperationalEvent(Tool):
                 return out
 
             #Confirm the aircraft is present
-            aircraft_data = data.get("aircraft", [])
+            aircraft_data = data.get("aircraft", {}).values()
             aircraft_exists = any(
                 aircraft.get("aircraft_id") == aircraft_id
                 and aircraft.get("tail_number") == tail_number
-                for aircraft in aircraft_data
+                for aircraft in aircraft_data.values()
             )
             if not aircraft_exists:
                 payload = {
@@ -144,11 +144,11 @@ class CreateOperationalEvent(Tool):
                 return out
 
             #Confirm the airport is present
-            airports = data.get("airports", [])
+            airports = data.get("airports", {}).values()
             airport_exists = any(
                 airport.get("airport_id") == airport_id
                 and airport.get("iata_code") == iata_code
-                for airport in airports
+                for airport in airports.values()
             )
             if not airport_exists:
                 payload = {
@@ -161,10 +161,10 @@ class CreateOperationalEvent(Tool):
                 return out
 
         #Create a unique event ID (sequential format: OE001, OE002, etc.)
-        operational_events = data.get("operational_events", [])
+        operational_events = data.get("operational_events", {}).values()
         existing_numbers = []
 
-        for event in operational_events:
+        for event in operational_events.values():
             event_id = event.get("event_id", "")
             if event_id.startswith("OE") and len(event_id) == 5:
                 try:
@@ -203,7 +203,7 @@ class CreateOperationalEvent(Tool):
             new_event["airport"] = {"airport_id": airport_id, "iata_code": iata_code}
 
         #Include in the operational events
-        operational_events.append(new_event)
+        data["operational_events"][new_event["operational_event_id"]] = new_event
         data["operational_events"] = operational_events
 
         #Formulate response

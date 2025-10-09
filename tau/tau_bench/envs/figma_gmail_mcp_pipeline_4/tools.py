@@ -11,7 +11,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -52,12 +52,12 @@ class UpdateReviewCycleStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        review_cycles = data.get("review_cycles", [])
-        review_approvals = data.get("review_approvals", [])
+        review_cycles = data.get("review_cycles", {}).values()
+        review_approvals = data.get("review_approvals", {}).values()
 
         # Locate the review cycle
         cycle_found = False
-        for cycle in review_cycles:
+        for cycle in review_cycles.values():
             if cycle.get("cycle_id") == cycle_id:
                 cycle_found = True
                 old_status = cycle.get("status")
@@ -78,7 +78,7 @@ class UpdateReviewCycleStatus(Tool):
                         "comments": comments,
                         "status": "APPROVED",
                     }
-                    review_approvals.append(new_approval)
+                    data["review_approvals"][new_approval["review_approval_id"]] = new_approval
 
                 elif new_status == "CHANGES_REQUESTED" and comments:
                     # Include change request in comments
@@ -170,16 +170,16 @@ class GetFigmaArtifactsByStatus(Tool):
         if tags is None:
             tags = []
 
-        figma_artifacts = data.get("figma_artifacts", [])
-        review_cycles = data.get("review_cycles", [])
+        figma_artifacts = data.get("figma_artifacts", {}).values()
+        review_cycles = data.get("review_cycles", {}).values()
 
         # Return the specific artifact if artifact_id is given
         if artifact_id:
-            for artifact in figma_artifacts:
+            for artifact in figma_artifacts.values():
                 if artifact.get("artifact_id") == artifact_id:
                     # Enhance with details from the review cycle
                     artifact_copy = artifact.copy()
-                    for cycle in review_cycles:
+                    for cycle in review_cycles.values():
                         if cycle.get("artifact_id") == artifact_id:
                             artifact_copy["review_cycle"] = cycle
                             break
@@ -192,7 +192,7 @@ class GetFigmaArtifactsByStatus(Tool):
 
         # Sort artifacts based on specified criteria
         results = []
-        for artifact in figma_artifacts:
+        for artifact in figma_artifacts.values():
             # Implement filters
             if status and artifact.get("status") != status:
                 continue
@@ -202,12 +202,12 @@ class GetFigmaArtifactsByStatus(Tool):
 
             if tags:
                 artifact_tags = artifact.get("current_tags", [])
-                if not any(tag in artifact_tags for tag in tags):
+                if not any(tag in artifact_tags for tag in tags.values()):
                     continue
 
             # Augment with review cycle details
             artifact_copy = artifact.copy()
-            for cycle in review_cycles:
+            for cycle in review_cycles.values():
                 if cycle.get("artifact_id") == artifact.get("artifact_id"):
                     artifact_copy["review_cycle"] = cycle
                     break
@@ -273,14 +273,14 @@ class GetAuditFindingsSummary(Tool):
         """
         Obtains a detailed summary of audit findings, including violations from the design system and accessibility.
         """
-        audits = data.get("audits", [])
-        audit_findings_ds = data.get("audit_findings_ds", [])
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audits = data.get("audits", {}).values()
+        audit_findings_ds = data.get("audit_findings_ds", {}).values()
+        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
 
         # Return specific audit findings if audit_id is supplied
         if audit_id:
             audit_info = None
-            for audit in audits:
+            for audit in audits.values():
                 if audit.get("audit_id") == audit_id:
                     audit_info = audit
                     break
@@ -292,10 +292,10 @@ class GetAuditFindingsSummary(Tool):
 
             # Retrieve findings related to this audit
             ds_findings = [
-                f for f in audit_findings_ds if f.get("audit_id") == audit_id
+                f for f in audit_findings_ds.values() if f.get("audit_id") == audit_id
             ]
             a11y_findings = [
-                f for f in audit_findings_a11y if f.get("audit_id") == audit_id
+                f for f in audit_findings_a11y.values() if f.get("audit_id") == audit_id
             ]
 
             summary = {
@@ -303,17 +303,16 @@ class GetAuditFindingsSummary(Tool):
                 "design_system_findings": {
                     "total": len(ds_findings),
                     "unmapped": len(
-                        [f for f in ds_findings if f.get("finding_type") == "UNMAPPED"]
+                        [f for f in ds_findings.values() if f.get("finding_type") == "UNMAPPED"]
                     ),
                     "substitute_recommended": len(
                         [
                             f
-                            for f in ds_findings
-                            if f.get("finding_type") == "SUBSTITUTE_RECOMMENDED"
+                            for f in ds_findings.values() if f.get("finding_type") == "SUBSTITUTE_RECOMMENDED"
                         ]
                     ),
                     "ambiguous": len(
-                        [f for f in ds_findings if f.get("finding_type") == "AMBIGUOUS"]
+                        [f for f in ds_findings.values() if f.get("finding_type") == "AMBIGUOUS"]
                     ),
                 },
                 "accessibility_findings": {
@@ -321,26 +320,23 @@ class GetAuditFindingsSummary(Tool):
                     "touch_target": len(
                         [
                             f
-                            for f in a11y_findings
-                            if f.get("violation_type") == "TOUCH_TARGET"
+                            for f in a11y_findings.values() if f.get("violation_type") == "TOUCH_TARGET"
                         ]
                     ),
                     "contrast": len(
                         [
                             f
-                            for f in a11y_findings
-                            if f.get("violation_type") == "CONTRAST"
+                            for f in a11y_findings.values() if f.get("violation_type") == "CONTRAST"
                         ]
                     ),
                     "text_sizing": len(
                         [
                             f
-                            for f in a11y_findings
-                            if f.get("violation_type") == "TEXT_SIZING"
+                            for f in a11y_findings.values() if f.get("violation_type") == "TEXT_SIZING"
                         ]
                     ),
                     "rtl": len(
-                        [f for f in a11y_findings if f.get("violation_type") == "RTL"]
+                        [f for f in a11y_findings.values() if f.get("violation_type") == "RTL"]
                     ),
                 },
                 "findings": {
@@ -469,11 +465,11 @@ class UpdateGmailThreadLabels(Tool):
             out = json.dumps(payload)
             return out
 
-        gmail_threads = data.get("gmail_threads", [])
+        gmail_threads = data.get("gmail_threads", {}).values()
 
         # Locate the thread
         thread_found = False
-        for thread in gmail_threads:
+        for thread in gmail_threads.values():
             if thread.get("thread_id") == thread_id:
                 thread_found = True
                 old_labels = thread.get("current_labels", []).copy()
@@ -601,11 +597,11 @@ class UpdateReleaseStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        releases = data.get("releases", [])
+        releases = data.get("releases", {}).values()
 
         # Identify the release
         release_found = False
-        for release in releases:
+        for release in releases.values():
             if release.get("release_id") == release_id:
                 release_found = True
                 old_status = release.get("status", "DRAFT")
@@ -713,11 +709,11 @@ class GetGmailThreadsByLabels(Tool):
         """
         Obtains Gmail threads filtered by labels, sender, and additional criteria.
         """
-        gmail_threads = data.get("gmail_threads", [])
+        gmail_threads = data.get("gmail_threads", {}).values()
 
         # Return the specific thread if thread_id is given
         if thread_id:
-            for thread in gmail_threads:
+            for thread in gmail_threads.values():
                 if thread.get("thread_id") == thread_id:
                     payload = thread
                     out = json.dumps(payload, indent=2)
@@ -728,11 +724,11 @@ class GetGmailThreadsByLabels(Tool):
 
         # Sort threads based on specified criteria
         results = []
-        for thread in gmail_threads:
+        for thread in gmail_threads.values():
             # Implement filters
             if labels:
                 thread_labels = thread.get("current_labels", [])
-                if not any(label in thread_labels for label in labels):
+                if not any(label in thread_labels for label in labels.values()):
                     continue
 
             if sender_email:
@@ -741,7 +737,7 @@ class GetGmailThreadsByLabels(Tool):
 
             if subject_keywords:
                 subject = thread.get("subject", "").lower()
-                if not any(keyword.lower() in subject for keyword in subject_keywords):
+                if not any(keyword.lower() in subject for keyword in subject_keywords.values()):
                     continue
 
             # Enforce date filters
@@ -814,13 +810,13 @@ class GetReleaseSummary(Tool):
         """
         Obtains detailed release information and metrics.
         """
-        releases = data.get("releases", [])
-        gmail_threads = data.get("gmail_threads", [])
+        releases = data.get("releases", {}).values()
+        gmail_threads = data.get("gmail_threads", {}).values()
 
         # Return the specific release if release_id is supplied
         if release_id:
             release_info = None
-            for release in releases:
+            for release in releases.values():
                 if release.get("release_id") == release_id:
                     release_info = release
                     break
@@ -834,7 +830,7 @@ class GetReleaseSummary(Tool):
             thread_id = release_info.get("thread_id_nullable")
             thread_info = None
             if thread_id:
-                for thread in gmail_threads:
+                for thread in gmail_threads.values():
                     if thread.get("thread_id") == thread_id:
                         thread_info = thread
                         break
@@ -866,7 +862,7 @@ class GetReleaseSummary(Tool):
             ]
 
         if status:
-            all_releases = [r for r in all_releases if r.get("status") == status]
+            all_releases = [r for r in all_releases.values() if r.get("status") == status]
 
         summary = {
             "total_releases": len(all_releases),
@@ -964,11 +960,11 @@ class UpdateAssetExportStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        assets = data.get("assets", [])
+        assets = data.get("assets", {}).values()
 
         # Locate the asset
         asset_found = False
-        for asset in assets:
+        for asset in assets.values():
             if asset.get("asset_id") == asset_id:
                 asset_found = True
                 old_status = asset.get("export_status", "PENDING")
@@ -1093,11 +1089,11 @@ class UpdateFigmaCommentStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        figma_comments = data.get("figma_comments", [])
+        figma_comments = data.get("figma_comments", {}).values()
 
         # Locate the comment
         comment_found = False
-        for comment in figma_comments:
+        for comment in figma_comments.values():
             if comment.get("comment_id") == comment_id:
                 comment_found = True
                 old_status = comment.get("comment_status", "OPEN")
@@ -1219,13 +1215,13 @@ class GetAssetExportSummary(Tool):
         """
         Obtains detailed asset export information and metrics.
         """
-        assets = data.get("assets", [])
-        figma_artifacts = data.get("figma_artifacts", [])
+        assets = data.get("assets", {}).values()
+        figma_artifacts = data.get("figma_artifacts", {}).values()
 
         # Return the specific asset if asset_id is given
         if asset_id:
             asset_info = None
-            for asset in assets:
+            for asset in assets.values():
                 if asset.get("asset_id") == asset_id:
                     asset_info = asset
                     break
@@ -1239,7 +1235,7 @@ class GetAssetExportSummary(Tool):
             artifact_id_ref = asset_info.get("artifact_id_nullable")
             artifact_info = None
             if artifact_id_ref:
-                for artifact in figma_artifacts:
+                for artifact in figma_artifacts.values():
                     if artifact.get("artifact_id") == artifact_id_ref:
                         artifact_info = artifact
                         break
@@ -1366,11 +1362,11 @@ class GetFigmaCommentsByArtifact(Tool):
         """
         Obtains Figma comments filtered by artifact, author, and additional criteria.
         """
-        figma_comments = data.get("figma_comments", [])
+        figma_comments = data.get("figma_comments", {}).values()
 
         # Return the specific comment if comment_id is supplied
         if comment_id:
-            for comment in figma_comments:
+            for comment in figma_comments.values():
                 if comment.get("comment_id") == comment_id:
                     payload = comment
                     out = json.dumps(payload, indent=2)
@@ -1381,7 +1377,7 @@ class GetFigmaCommentsByArtifact(Tool):
 
         # Sort comments based on specified criteria
         results = []
-        for comment in figma_comments:
+        for comment in figma_comments.values():
             # Implement filters
             if artifact_id:
                 if comment.get("artifact_id") != artifact_id:
@@ -1397,7 +1393,7 @@ class GetFigmaCommentsByArtifact(Tool):
 
             if content_keywords:
                 content = comment.get("content", "").lower()
-                if not any(keyword.lower() in content for keyword in content_keywords):
+                if not any(keyword.lower() in content for keyword in content_keywords.values()):
                     continue
 
             # Enforce date filters
@@ -1477,11 +1473,11 @@ class UpdateSystemConfig(Tool):
                 payload)
             return out
 
-        system_config = data.get("system_config", [])
+        system_config = data.get("system_config", {}).values()
 
         # Locate existing configuration or generate a new one
         config_found = False
-        for config in system_config:
+        for config in system_config.values():
             if config.get("config_key") == config_key:
                 config_found = True
                 old_value = config.get("config_value_json")
@@ -1533,7 +1529,7 @@ class UpdateSystemConfig(Tool):
                 }
             ]
 
-            system_config.append(new_config)
+            data["system_config"][new_config["system_config_id"]] = new_config
         payload = {
                 "success": True,
                 "config_key": config_key,
@@ -1603,7 +1599,7 @@ class UpdateTerminalLogLevel(Tool):
             out = json.dumps(payload)
             return out
 
-        terminal_logs = data.get("terminal_logs", [])
+        terminal_logs = data.get("terminal_logs", {}).values()
 
         # Generate a new log entry
         new_log_entry = {
@@ -1615,7 +1611,7 @@ class UpdateTerminalLogLevel(Tool):
         }
 
         # Include entry in logs
-        terminal_logs.append(new_log_entry)
+        data["terminal_logs"][new_log_entry["terminal_log_id"]] = new_log_entry
 
         # Enforce log retention by retaining only the latest entries
         if len(terminal_logs) > max_log_entries:
@@ -1686,11 +1682,11 @@ class GetSystemConfigByCategory(Tool):
         """
         Obtains system configuration entries filtered by category and key patterns.
         """
-        system_config = data.get("system_config", [])
+        system_config = data.get("system_config", {}).values()
 
         # Return the specific configuration if config_key is supplied
         if config_key:
-            for config in system_config:
+            for config in system_config.values():
                 if config.get("config_key") == config_key:
                     config_copy = config.copy()
                     if not include_history and "change_history" in config_copy:
@@ -1704,7 +1700,7 @@ class GetSystemConfigByCategory(Tool):
 
         # Sort configurations based on specified criteria
         results = []
-        for config in system_config:
+        for config in system_config.values():
             # Implement filters
             if config_category:
                 if config.get("category") != config_category:
@@ -1782,11 +1778,11 @@ class GetTerminalLogsSummary(Tool):
         """
         Obtains terminal logs with filtering and summarization features.
         """
-        terminal_logs = data.get("terminal_logs", [])
+        terminal_logs = data.get("terminal_logs", {}).values()
 
         # Sort logs based on specified criteria
         results = []
-        for log in terminal_logs:
+        for log in terminal_logs.values():
             # Implement filters
             if log_level:
                 log_message = log.get("message", "")
@@ -1803,7 +1799,7 @@ class GetTerminalLogsSummary(Tool):
 
             if message_keywords:
                 message = log.get("message", "").lower()
-                if not any(keyword.lower() in message for keyword in message_keywords):
+                if not any(keyword.lower() in message for keyword in message_keywords.values()):
                     continue
 
             # Enforce date filters
@@ -1931,11 +1927,11 @@ class UpdateGmailMessageStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        gmail_messages = data.get("gmail_messages", [])
+        gmail_messages = data.get("gmail_messages", {}).values()
 
         # Locate the message
         message_found = False
-        for message in gmail_messages:
+        for message in gmail_messages.values():
             if message.get("message_id") == message_id:
                 message_found = True
 
@@ -2078,11 +2074,11 @@ class UpdateFixPlanStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        fix_plans = data.get("fix_plans", [])
+        fix_plans = data.get("fix_plans", {}).values()
 
         # Locate the fix plan
         plan_found = False
-        for plan in fix_plans:
+        for plan in fix_plans.values():
             if plan.get("plan_id") == plan_id:
                 plan_found = True
                 old_status = plan.get("status")
@@ -2190,11 +2186,11 @@ class GetGmailMessagesByThread(Tool):
         """
         Obtains Gmail messages filtered by thread ID, sender, and additional criteria.
         """
-        gmail_messages = data.get("gmail_messages", [])
+        gmail_messages = data.get("gmail_messages", {}).values()
 
         # Return the specific message if message_id is given
         if message_id:
-            for message in gmail_messages:
+            for message in gmail_messages.values():
                 if message.get("message_id") == message_id:
                     payload = message
                     out = json.dumps(payload, indent=2)
@@ -2205,7 +2201,7 @@ class GetGmailMessagesByThread(Tool):
 
         # Sort messages based on specified criteria
         results = []
-        for message in gmail_messages:
+        for message in gmail_messages.values():
             # Implement filters
             if thread_id:
                 if message.get("thread_id") != thread_id:
@@ -2217,7 +2213,7 @@ class GetGmailMessagesByThread(Tool):
 
             if content_keywords:
                 content = message.get("body_text_stripped", "").lower()
-                if not any(keyword.lower() in content for keyword in content_keywords):
+                if not any(keyword.lower() in content for keyword in content_keywords.values()):
                     continue
 
             if has_attachments is not None:
@@ -2300,13 +2296,13 @@ class GetReleaseDiffSummary(Tool):
         """
         Obtains release diff information and summaries of changes between releases.
         """
-        release_diffs = data.get("release_diffs", [])
-        releases = data.get("releases", [])
+        release_diffs = data.get("release_diffs", {}).values()
+        releases = data.get("releases", {}).values()
 
         # Return the specific diff if diff_id is supplied
         if diff_id:
             diff_info = None
-            for diff in release_diffs:
+            for diff in release_diffs.values():
                 if diff.get("diff_id") == diff_id:
                     diff_info = diff
                     break
@@ -2318,7 +2314,7 @@ class GetReleaseDiffSummary(Tool):
 
             # Enhance with details from the release
             release_info = None
-            for release in releases:
+            for release in releases.values():
                 if release.get("release_id") == diff_info.get("release_id"):
                     release_info = release
                     break
@@ -2341,7 +2337,7 @@ class GetReleaseDiffSummary(Tool):
 
         # Sort diffs based on specified criteria
         results = []
-        for diff in release_diffs:
+        for diff in release_diffs.values():
             # Implement filters
             if release_id:
                 if diff.get("release_id") != release_id:
@@ -2453,11 +2449,11 @@ class UpdateAuditReportStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        audits = data.get("audits", [])
+        audits = data.get("audits", {}).values()
 
         # Locate the audit
         audit_found = False
-        for audit in audits:
+        for audit in audits.values():
             if audit.get("audit_id") == audit_id:
                 audit_found = True
                 old_status = audit.get("status")
@@ -2557,11 +2553,11 @@ class UpdateGmailThreadPriority(Tool):
             out = json.dumps(payload)
             return out
 
-        gmail_threads = data.get("gmail_threads", [])
+        gmail_threads = data.get("gmail_threads", {}).values()
 
         # Locate the thread
         thread_found = False
-        for thread in gmail_threads:
+        for thread in gmail_threads.values():
             if thread.get("thread_id") == thread_id:
                 thread_found = True
                 old_priority = thread.get("priority", "NORMAL")
@@ -2656,8 +2652,8 @@ class UpdateAuditStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        audits = data.get("audits", [])
-        for audit in audits:
+        audits = data.get("audits", {}).values()
+        for audit in audits.values():
             if audit.get("audit_id") == audit_id:
                 old_status = audit.get("status")
                 audit["status"] = new_status
@@ -2729,8 +2725,8 @@ class UpdateFixItemPriority(Tool):
             out = json.dumps(payload)
             return out
 
-        fix_items = data.get("fix_items", [])
-        for item in fix_items:
+        fix_items = data.get("fix_items", {}).values()
+        for item in fix_items.values():
             if item.get("fix_item_id") == fix_item_id:
                 old_priority = item.get("priority")
                 item["priority"] = new_priority
@@ -2796,12 +2792,12 @@ class GetAuditSummary(Tool):
         """
         Obtains a summary of audit findings and associated metrics.
         """
-        audits = data.get("audits", [])
-        findings_ds = data.get("audit_findings_ds", [])
-        findings_a11y = data.get("audit_findings_a11y", [])
+        audits = data.get("audits", {}).values()
+        findings_ds = data.get("audit_findings_ds", {}).values()
+        findings_a11y = data.get("audit_findings_a11y", {}).values()
 
         results = []
-        for audit in audits:
+        for audit in audits.values():
             if (
                 (audit_id and audit.get("audit_id") != audit_id)
                 or (status and audit.get("status") != status)
@@ -2810,8 +2806,8 @@ class GetAuditSummary(Tool):
                 continue
 
             audit_id = audit["audit_id"]
-            ds_findings = [f for f in findings_ds if f.get("audit_id") == audit_id]
-            a11y_findings = [f for f in findings_a11y if f.get("audit_id") == audit_id]
+            ds_findings = [f for f in findings_ds.values() if f.get("audit_id") == audit_id]
+            a11y_findings = [f for f in findings_a11y.values() if f.get("audit_id") == audit_id]
 
             summary = {
                 "audit_id": audit_id,
@@ -2826,14 +2822,14 @@ class GetAuditSummary(Tool):
             }
 
             # Tally by severity for design system findings
-            for finding in ds_findings:
+            for finding in ds_findings.values():
                 severity = finding.get("severity", "UNKNOWN")
                 summary["ds_findings"]["by_severity"][severity] = (
                     summary["ds_findings"]["by_severity"].get(severity, 0) + 1
                 )
 
             # Tally by violation type for accessibility findings
-            for finding in a11y_findings:
+            for finding in a11y_findings.values():
                 v_type = finding.get("violation_type", "UNKNOWN")
                 summary["a11y_findings"]["by_violation_type"][v_type] = (
                     summary["a11y_findings"]["by_violation_type"].get(v_type, 0) + 1
@@ -2883,11 +2879,11 @@ class GetFixPlanById(Tool):
             out = json.dumps(payload)
             return out
 
-        fix_plans = data.get("fix_plans", [])
-        fix_items = data.get("fix_items", [])
+        fix_plans = data.get("fix_plans", {}).values()
+        fix_items = data.get("fix_items", {}).values()
 
         # Locate the requested fix plan
-        plan = next((p for p in fix_plans if p.get("plan_id") == plan_id), None)
+        plan = next((p for p in fix_plans.values() if p.get("plan_id") == plan_id), None)
         if not plan:
             payload = {"error": f"Fix plan with ID '{plan_id}' not found"}
             out = json.dumps(payload)
@@ -2898,7 +2894,7 @@ class GetFixPlanById(Tool):
         # Add related items if requested
         if include_items:
             result["items"] = [
-                item for item in fix_items if item.get("plan_id") == plan_id
+                item for item in fix_items.values() if item.get("plan_id") == plan_id
             ]
 
         # Include extra metadata
@@ -2960,19 +2956,18 @@ class GetFixPlanItems(Tool):
             out = json.dumps(payload)
             return out
 
-        fix_plans = data.get("fix_plans", [])
-        fix_items = data.get("fix_items", [])
+        fix_plans = data.get("fix_plans", {}).values()
+        fix_items = data.get("fix_items", {}).values()
 
         result = []
         for plan_id in plan_ids:
-            plan = next((p for p in fix_plans if p.get("plan_id") == plan_id), None)
+            plan = next((p for p in fix_plans.values() if p.get("plan_id") == plan_id), None)
             if not plan:
                 continue
 
             plan_items = [
                 item
-                for item in fix_items
-                if item.get("plan_id") == plan_id
+                for item in fix_items.values() if item.get("plan_id") == plan_id
                 and (include_resolved or item.get("status") != "RESOLVED")
             ]
 
@@ -2998,7 +2993,7 @@ class GetFixPlanItems(Tool):
                 )
         payload = {
                 "total_plans": len(result),
-                "total_items": sum(len(plan["items"]) for plan in result),
+                "total_items": sum(len(plan["items"]) for plan in result.values()),
                 "plans": result,
             }
         out = json.dumps(
@@ -3063,11 +3058,11 @@ class GetAuditsByStatus(Tool):
         """
         Obtains audits filtered by status, type, and additional criteria.
         """
-        audits = data.get("audits", [])
+        audits = data.get("audits", {}).values()
 
         # Return the specific audit if audit_id is supplied
         if audit_id:
-            for audit in audits:
+            for audit in audits.values():
                 if audit.get("audit_id") == audit_id:
                     payload = audit
                     out = json.dumps(payload, indent=2)
@@ -3078,7 +3073,7 @@ class GetAuditsByStatus(Tool):
 
         # Sort audits based on specified criteria
         results = []
-        for audit in audits:
+        for audit in audits.values():
             # Implement filters
             if status:
                 if audit.get("status") != status:
@@ -3161,18 +3156,18 @@ class GetReviewApprovalsSummary(Tool):
         """
         Obtains review approvals with filtering and summarization features.
         """
-        review_approvals = data.get("review_approvals", [])
-        review_cycles = data.get("review_cycles", [])
+        review_approvals = data.get("review_approvals", {}).values()
+        review_cycles = data.get("review_cycles", {}).values()
 
         # Return the specific approval if approval_id is given
         if approval_id:
-            for approval in review_approvals:
+            for approval in review_approvals.values():
                 if approval.get("approval_id") == approval_id:
                     # Enhance with details from the cycle
                     approval_copy = approval.copy()
                     cycle_id_ref = approval.get("cycle_id")
                     if cycle_id_ref:
-                        for cycle in review_cycles:
+                        for cycle in review_cycles.values():
                             if cycle.get("cycle_id") == cycle_id_ref:
                                 approval_copy["review_cycle"] = cycle
                                 break
@@ -3185,7 +3180,7 @@ class GetReviewApprovalsSummary(Tool):
 
         # Sort approvals based on specified criteria
         results = []
-        for approval in review_approvals:
+        for approval in review_approvals.values():
             # Implement filters
             if cycle_id:
                 if approval.get("cycle_id") != cycle_id:
@@ -3214,7 +3209,7 @@ class GetReviewApprovalsSummary(Tool):
             approval_copy = approval.copy()
             cycle_id_ref = approval.get("cycle_id")
             if cycle_id_ref:
-                for cycle in review_cycles:
+                for cycle in review_cycles.values():
                     if cycle.get("cycle_id") == cycle_id_ref:
                         approval_copy["review_cycle"] = cycle
                         break
@@ -3301,11 +3296,11 @@ class UpdateReleaseVersion(Tool):
             out = json.dumps(payload)
             return out
 
-        releases = data.get("releases", [])
+        releases = data.get("releases", {}).values()
 
         # Locate the release
         release_found = False
-        for release in releases:
+        for release in releases.values():
             if release.get("release_id") == release_id:
                 release_found = True
                 old_version = release.get("version_id")
@@ -3411,7 +3406,7 @@ class AddTerminalLogEntry(Tool):
             out = json.dumps(payload)
             return out
 
-        terminal_logs = data.get("terminal_logs", [])
+        terminal_logs = data.get("terminal_logs", {}).values()
 
         # Generate a new log entry
         new_log = {
@@ -3426,7 +3421,7 @@ class AddTerminalLogEntry(Tool):
             new_log["user_email"] = user_email
 
         # Include in logs
-        terminal_logs.append(new_log)
+        data["terminal_logs"][new_log["terminal_log_id"]] = new_log
         payload = {"success": True, "log_entry": new_log, "total_logs": len(terminal_logs)}
         out = json.dumps(payload)
         return out
@@ -3481,11 +3476,11 @@ class GetReleasesByOwner(Tool):
             out = json.dumps(payload)
             return out
 
-        releases = data.get("releases", [])
+        releases = data.get("releases", {}).values()
 
         # Sort releases based on specified criteria
         results = []
-        for release in releases:
+        for release in releases.values():
             # Main filter - owner email
             if release.get("owner_email") != owner_email:
                 continue
@@ -3572,11 +3567,11 @@ class GetFilteredLogEntries(Tool):
         """
         Obtains terminal logs with filtering and summarization features.
         """
-        terminal_logs = data.get("terminal_logs", [])
+        terminal_logs = data.get("terminal_logs", {}).values()
 
         # Sort logs based on specified criteria
         results = []
-        for log in terminal_logs:
+        for log in terminal_logs.values():
             # Implement filter for log level
             if log_level:
                 log_message = log.get("message", "")
@@ -3685,7 +3680,7 @@ class UpdateAuditStatus(Tool):
             return out
 
         # Locate and modify the audit
-        for audit in data.get("audits", []):
+        for audit in data.get("audits", {}).values():
             if audit.get("audit_id") == audit_id:
                 audit["status"] = new_status
                 audit["last_updated"] = datetime.now().isoformat()
@@ -3748,12 +3743,12 @@ class GetAuditSummary(Tool):
             return out
 
         # Locate the audit
-        for audit in data.get("audits", []):
+        for audit in data.get("audits", {}).values():
             if audit.get("audit_id") == audit_id:
                 # Tally findings based on severity
                 findings = [
                     f
-                    for f in data.get("audit_findings", [])
+                    for f in data.get("audit_findings", {}).values()
                     if f.get("audit_id") == audit_id
                 ]
                 severity_counts = {}
@@ -3815,7 +3810,7 @@ class UpdateFixItemPriority(Tool):
             return out
 
         # Locate and modify the fix item
-        for item in data.get("fix_items", []):
+        for item in data.get("fix_items", {}).values():
             if item.get("item_id") == item_id:
                 item["priority"] = new_priority
                 item["last_updated"] = datetime.now().isoformat()
@@ -4008,14 +4003,14 @@ class GetAuditFindingsByType(Tool):
         """
         Obtains audit findings filtered by type and additional criteria.
         """
-        audit_findings_ds = data.get("audit_findings_ds", [])
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audit_findings_ds = data.get("audit_findings_ds", {}).values()
+        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
 
         results = []
 
         # Handle design system findings
         if not violation_type:  # Check design system findings only if no violation_type is given
-            for finding in audit_findings_ds:
+            for finding in audit_findings_ds.values()):
                 if finding_type and finding.get("finding_type") != finding_type:
                     continue
                 if severity and finding.get("severity") != severity:
@@ -4027,7 +4022,7 @@ class GetAuditFindingsByType(Tool):
 
         # Handle accessibility findings
         if not finding_type:  # Check accessibility findings only if no finding_type is given
-            for finding in audit_findings_a11y:
+            for finding in audit_findings_a11y.values()):
                 if violation_type and finding.get("violation_type") != violation_type:
                     continue
                 if severity and finding.get("severity") != severity:
@@ -4090,13 +4085,13 @@ class GetAuditReportSummary(Tool):
             out = json.dumps(payload)
             return out
 
-        audits = data.get("audits", [])
-        audit_findings_ds = data.get("audit_findings_ds", [])
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audits = data.get("audits", {}).values()
+        audit_findings_ds = data.get("audit_findings_ds", {}).values()
+        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
 
         #Locate the audit
         audit_info = None
-        for audit in audits:
+        for audit in audits.values():
             if audit.get("audit_id") == audit_id:
                 audit_info = audit
                 break
@@ -4107,15 +4102,15 @@ class GetAuditReportSummary(Tool):
             return out
 
         #Retrieve findings related to this audit
-        ds_findings = [f for f in audit_findings_ds if f.get("audit_id") == audit_id]
+        ds_findings = [f for f in audit_findings_ds.values() if f.get("audit_id") == audit_id]
         a11y_findings = [
-            f for f in audit_findings_a11y if f.get("audit_id") == audit_id
+            f for f in audit_findings_a11y.values() if f.get("audit_id") == audit_id
         ]
 
         #Tally findings based on severity
         severity_counts = {"LOW": 0, "MEDIUM": 0, "HIGH": 0, "CRITICAL": 0}
 
-        for finding in ds_findings + a11y_findings:
+        for finding in ds_findings.values() + a11y_findings:
             severity = finding.get("severity", "MEDIUM")
             if severity in severity_counts:
                 severity_counts[severity] += 1
@@ -4191,7 +4186,7 @@ class UpdateAuditFindingStatus(Tool):
         finding_type = None
 
         for dataset_name in ["audit_findings_ds", "audit_findings_a11y"]:
-            findings = data.get(dataset_name, [])
+            findings = data.get(dataset_name, {}).values()
             for finding in findings:
                 if finding.get("finding_id") == finding_id:
                     finding_found = True
@@ -4294,10 +4289,10 @@ class UpdateAuditProgress(Tool):
             out = json.dumps(payload)
             return out
 
-        audits = data.get("audits", [])
+        audits = data.get("audits", {}).values()
         audit_found = False
 
-        for audit in audits:
+        for audit in audits.values():
             if audit.get("audit_id") == audit_id:
                 audit_found = True
                 old_progress = audit.get("progress_percentage", 0)
@@ -4394,16 +4389,16 @@ class GetAuditFindingDetails(Tool):
             return out
 
         #Retrieve findings from both datasets
-        ds_findings = data.get("audit_findings_ds", [])
-        a11y_findings = data.get("audit_findings_a11y", [])
+        ds_findings = data.get("audit_findings_ds", {}).values()
+        a11y_findings = data.get("audit_findings_a11y", {}).values()
 
         #Sort by audit_id
-        ds_results = [f for f in ds_findings if f.get("audit_id") == audit_id]
-        a11y_results = [f for f in a11y_findings if f.get("audit_id") == audit_id]
+        ds_results = [f for f in ds_findings.values() if f.get("audit_id") == audit_id]
+        a11y_results = [f for f in a11y_findings.values() if f.get("audit_id") == audit_id]
 
         #Sort by specific finding_id if supplied
         if finding_id:
-            ds_results = [f for f in ds_results if f.get("finding_id") == finding_id]
+            ds_results = [f for f in ds_results.values() if f.get("finding_id") == finding_id]
             a11y_results = [
                 f for f in a11y_results if f.get("finding_id") == finding_id
             ]
@@ -4517,12 +4512,12 @@ class UpdateFixItemStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        fix_items = data.get("fix_items", [])
-        fix_plans = data.get("fix_plans", [])
+        fix_items = data.get("fix_items", {}).values()
+        fix_plans = data.get("fix_plans", {}).values()
 
         # Locate the fix item
         item_found = False
-        for item in fix_items:
+        for item in fix_items.values():
             if item.get("item_id") == fix_item_id:
                 item_found = True
                 old_status = item.get("status")
@@ -4556,11 +4551,11 @@ class UpdateFixItemStatus(Tool):
                 # Modify the progress of the fix plan
                 plan_id = item.get("plan_id")
                 if plan_id:
-                    for plan in fix_plans:
+                    for plan in fix_plans.values():
                         if plan.get("plan_id") == plan_id:
                             # Reassess the completion percentage
                             plan_items = [
-                                i for i in fix_items if i.get("plan_id") == plan_id
+                                i for i in fix_items.values() if i.get("plan_id") == plan_id
                             ]
                             completed_items = [
                                 i

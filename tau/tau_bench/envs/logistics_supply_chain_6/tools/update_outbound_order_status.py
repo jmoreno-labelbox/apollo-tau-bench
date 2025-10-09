@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateOutboundOrderStatus(Tool):
@@ -24,9 +24,9 @@ class UpdateOutboundOrderStatus(Tool):
         """Run the tool with the provided parameters."""
         _new_statusL = new_status or ''.lower()
         pass
-        orders = data.get("outbound_orders", [])
-        inventory = data.get("inventory", [])
-        for order in orders:
+        orders = data.get("outbound_orders", {}).values()
+        inventory = data.get("inventory", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 order["status"] = new_status
                 if tracking_number:
@@ -40,7 +40,7 @@ class UpdateOutboundOrderStatus(Tool):
                     for item in order["items"]:
                         sku = item["sku"]
                         quantity = item["quantity"]
-                        for inv_item in inventory:
+                        for inv_item in inventory.values():
                             if (
                                 inv_item["warehouse_id"] == warehouse_id
                                 and inv_item["sku"] == sku
@@ -59,9 +59,9 @@ class UpdateOutboundOrderStatus(Tool):
         """Run the tool with the provided parameters."""
         _new_statusL = new_status or ''.lower()
         pass
-        orders = data.get("outbound_orders", [])
-        inventory = data.get("inventory", [])
-        for order in orders:
+        orders = data.get("outbound_orders", {}).values()
+        inventory = data.get("inventory", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 order["status"] = new_status
                 if tracking_number:
@@ -75,7 +75,7 @@ class UpdateOutboundOrderStatus(Tool):
                     for item in order["items"]:
                         sku = item["sku"]
                         quantity = item["quantity"]
-                        for inv_item in inventory:
+                        for inv_item in inventory.values():
                             if (
                                 inv_item["warehouse_id"] == warehouse_id
                                 and inv_item["sku"] == sku

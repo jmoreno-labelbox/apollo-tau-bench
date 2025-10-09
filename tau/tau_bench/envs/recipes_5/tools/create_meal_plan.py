@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateMealPlan(Tool):
@@ -21,7 +21,7 @@ class CreateMealPlan(Tool):
         week_start_date = week_start_date or _next_week_start_date_for_household(data, household_id)
         if household_id is None or created_by_user_id is None:
             return _json_dump({"error": "unable to infer household or user"})
-        meal_plans = data.get("meal_plans", [])
+        meal_plans = data.get("meal_plans", {}).values()
         next_id = _max_id(meal_plans, "meal_plan_id", 6000) + 1
         new_row = {
             "meal_plan_id": next_id,
@@ -30,7 +30,7 @@ class CreateMealPlan(Tool):
             "created_by_user_id": int(created_by_user_id),
             "created_at": "2025-01-01T00:00:00Z",
         }
-        meal_plans.append(new_row)
+        data["meal_plans"][meal_plan_id] = new_row
         return _json_dump({"meal_plan_id": next_id})
     @staticmethod
     def get_info() -> dict[str, Any]:

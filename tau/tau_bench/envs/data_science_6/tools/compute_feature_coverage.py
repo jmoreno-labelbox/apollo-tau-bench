@@ -10,8 +10,8 @@ class ComputeFeatureCoverage(Tool):
         available = available_features or []
         req = sorted([str(x) for x in required])
         ava = sorted([str(x) for x in available])
-        present = [x for x in req if x in ava]
-        missing = [x for x in req if x not in ava]
+        present = [x for x in req.values() if x in ava]
+        missing = [x for x in req.values() if x not in ava]
         present_count = len(present)
         required_count = len(req)
         missing_count = len(missing)

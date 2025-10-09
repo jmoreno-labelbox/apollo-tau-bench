@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAircraftModelInfo(Tool):
@@ -23,17 +23,17 @@ class GetAircraftModelInfo(Tool):
             out = json.dumps(payload)
             return out
 
-        aircraft_models = data.get("aircraft_models", [])
+        aircraft_models = data.get("aircraft_models", {}).values()
         target_model = None
 
-        for model in aircraft_models:
+        for model in aircraft_models.values():
             if model.get("model_id") == model_id:
                 target_model = model
                 break
 
         if not target_model:
             # Aircraft model not located - provide useful information instead of an error
-            available_models = [model.get("model_id") for model in aircraft_models]
+            available_models = [model.get("model_id") for model in aircraft_models.values()]
             response = {
                 "status": "aircraft_model_not_available",
                 "requested_model_id": model_id,
@@ -49,16 +49,16 @@ class GetAircraftModelInfo(Tool):
             return out
 
         # Retrieve aircraft instances that utilize this model
-        aircraft = data.get("aircraft", [])
+        aircraft = data.get("aircraft", {}).values()
         model_aircraft = []
-        for ac in aircraft:
+        for ac in aircraft.values():
             if ac.get("model_id") == model_id:
                 model_aircraft.append(
                     {
                         "aircraft_id": ac.get("aircraft_id"),
                         "tail_number": ac.get("tail_number"),
                         "status": ac.get("status"),
-                        "current_location": ac.get("current_location", {}).get(
+                        "current_location": ac.get("current_location", {}).values().get(
                             "iata_code"
                         ),
                     }
@@ -67,13 +67,13 @@ class GetAircraftModelInfo(Tool):
         # Determine statistics for the fleet
         total_fleet_size = len(model_aircraft)
         operational_count = len(
-            [ac for ac in model_aircraft if ac.get("status") == "operational"]
+            [ac for ac in model_aircraft.values() if ac.get("status") == "operational"]
         )
         maintenance_count = len(
-            [ac for ac in model_aircraft if ac.get("status") == "maintenance"]
+            [ac for ac in model_aircraft.values() if ac.get("status") == "maintenance"]
         )
         grounded_count = len(
-            [ac for ac in model_aircraft if ac.get("status") == "grounded"]
+            [ac for ac in model_aircraft.values() if ac.get("status") == "grounded"]
         )
 
         response = {

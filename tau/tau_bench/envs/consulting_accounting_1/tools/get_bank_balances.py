@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetBankBalances(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        accts = data.get("bank_accounts", [])
+        accts = data.get("bank_accounts", {}).values()
         total = 0.0
         details: list[dict[str, Any]] = []
         for a in accts:

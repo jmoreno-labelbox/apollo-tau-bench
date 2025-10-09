@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class get_unused_review_id(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], reviews: list = None) -> str:
-        reviews = reviews if reviews is not None else data.get("reviews", [])
+        reviews = reviews if reviews is not None else data.get("reviews", {}).values()
         prefix = "PR"
         start_num = 10000
         if not reviews:

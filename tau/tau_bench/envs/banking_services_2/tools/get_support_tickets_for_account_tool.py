@@ -7,7 +7,7 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSupportTicketsForAccountTool(Tool):
@@ -16,15 +16,15 @@ class GetSupportTicketsForAccountTool(Tool):
         # Support both account_id and customer_id
         if not account_id and customer_id:
             # Find account for this customer
-            accounts = data.get('accounts', [])
-            for acc in accounts:
+            accounts = data.get('accounts', {}).values()
+            for acc in accounts.values():
                 if acc.get('customer_id') == customer_id:
                     account_id = acc.get('account_id')
                     break
-        support_tickets = data.get('support_tickets', [])
+        support_tickets = data.get('support_tickets', {}).values()
         results = []
 
-        for ticket in support_tickets:
+        for ticket in support_tickets.values():
             ticket_account_id = ticket.get('account_id', None)
             if ticket_account_id != account_id:
                 continue
@@ -32,7 +32,7 @@ class GetSupportTicketsForAccountTool(Tool):
                 subject = ticket.get('subject', '').lower()
                 description = ticket.get('description', '').lower()
                 category = ticket.get('category', '').lower()
-                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields):
+                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields.values()):
                     continue
             created_date = ticket.get('created_date', '')
             resolved_date = ticket.get('resolved_date', '')

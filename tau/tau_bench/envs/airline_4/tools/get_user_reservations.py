@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUserReservations(Tool):
@@ -31,20 +31,20 @@ class GetUserReservations(Tool):
 
         #If an email is given, locate the user_id initially
         target_user = None
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
 
         if user_email:
             #Locate user using their email
-            for user in users:
+            for user in users.values():
                 if user.get("email") == user_email:
                     target_user = user
                     #Obtain user_id from reservation data for cross-referencing
-                    reservations = data.get("reservations", [])
+                    reservations = data.get("reservations", {}).values()
                     user_reservation_ids = user.get("reservations", [])
 
                     #Determine the actual user_id by checking any reservation
                     if user_reservation_ids:
-                        for reservation in reservations:
+                        for reservation in reservations.values():
                             if (
                                 reservation.get("reservation_id")
                                 in user_reservation_ids
@@ -59,18 +59,18 @@ class GetUserReservations(Tool):
                 return out
         else:
             #Locate user using user_id via reservations
-            reservations = data.get("reservations", [])
+            reservations = data.get("reservations", {}).values()
             user_reservation_ids = []
 
             #Initially, locate all reservations associated with this user_id
-            for reservation in reservations:
+            for reservation in reservations.values():
                 if reservation.get("user_id") == user_id:
                     user_reservation_ids.append(reservation.get("reservation_id"))
 
             #Subsequently, locate the user profile that includes these reservations
-            for user in users:
+            for user in users.values():
                 user_reservations = user.get("reservations", [])
-                if any(res_id in user_reservation_ids for res_id in user_reservations):
+                if any(res_id in user_reservation_ids for res_id in user_reservations.values()):
                     target_user = user
                     break
 
@@ -84,15 +84,15 @@ class GetUserReservations(Tool):
             return out
 
         #Retrieve all reservations for this user
-        reservations = data.get("reservations", [])
+        reservations = data.get("reservations", {}).values()
         user_reservations = []
 
-        for reservation in reservations:
+        for reservation in reservations.values()):
             if reservation.get("user_id") == user_id:
                 #Generate a summary for each reservation
                 flights = reservation.get("flights", [])
                 passengers = reservation.get("passengers", [])
-                total_cost = sum(flight.get("price", 0) for flight in flights)
+                total_cost = sum(flight.get("price", 0) for flight in flights.values()
 
                 reservation_summary = {
                     "reservation_id": reservation.get("reservation_id"),
@@ -113,7 +113,7 @@ class GetUserReservations(Tool):
                     "passengers": passengers,
                 }
 
-                user_reservations.append(reservation_summary)
+                user_data["reservations"][reservation_id] = reservation_summary
 
         #Organize reservations by creation date (latest first)
         user_reservations.sort(key=lambda x: x.get("created_at", ""), reverse=True)

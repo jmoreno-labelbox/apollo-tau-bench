@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTeamContributionStatsTool(Tool):
@@ -43,22 +43,22 @@ class GetTeamContributionStatsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], repo_name: str) -> str:
-        commits = data.get("commits", [])
-        prs = data.get("pull_requests", [])
-        issues = data.get("issues", [])
+        commits = data.get("commits", {}).values()
+        prs = data.get("pull_requests", {}).values()
+        issues = data.get("issues", {}).values()
 
         stats = {}
-        for c in commits:
+        for c in commits.values():
             if c.get("repo") == repo_name:
                 author = _normalize_user(c.get("author"))
                 stats.setdefault(author, {"commits": 0, "prs": 0, "issues": 0})
                 stats[author]["commits"] += 1
-        for p in prs:
+        for p in prs.values():
             if p.get("repo") == repo_name:
                 author = _normalize_user(p.get("author"))
                 stats.setdefault(author, {"commits": 0, "prs": 0, "issues": 0})
                 stats[author]["prs"] += 1
-        for i in issues:
+        for i in issues.values():
             if i.get("repo") == repo_name:
                 for a in [_normalize_user(a) for a in i.get("assignees", [])]:
                     stats.setdefault(a, {"commits": 0, "prs": 0, "issues": 0})

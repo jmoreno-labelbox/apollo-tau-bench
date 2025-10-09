@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -20,8 +20,8 @@ class GetAirportDetailsByIATACode(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], iata_code: str) -> str:
         pass
-        airports = data.get("airports", [])
-        for airport in airports:
+        airports = data.get("airports", {}).values()
+        for airport in airports.values():
             if airport.get("iata_code") == iata_code:
                 payload = airport
                 out = json.dumps(payload)
@@ -57,8 +57,8 @@ class GetAircraftDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], aircraft_id: str) -> str:
         pass
-        aircraft_list = data.get("aircraft", [])
-        for aircraft in aircraft_list:
+        aircraft_list = data.get("aircraft", {}).values()
+        for aircraft in aircraft_list.values():
             if aircraft.get("aircraft_id") == aircraft_id:
                 payload = aircraft
                 out = json.dumps(payload)
@@ -100,10 +100,10 @@ class GetFlightsByCriteria(Tool):
         destination: str | None = None,
     ) -> str:
         pass
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         matched_flights = []
 
-        for flight in flights:
+        for flight in flights.values():
             #Apply filters based on origin and destination if available
             if origin and flight.get("origin") != origin:
                 continue
@@ -111,7 +111,7 @@ class GetFlightsByCriteria(Tool):
                 continue
 
             #Verify if the flight contains information for the specified departure date
-            date_info = flight.get("dates", {}).get(departure_date)
+            date_info = flight.get("dates", {}).values().get(departure_date)
             if not date_info:
                 continue
 
@@ -178,7 +178,7 @@ class GetFlightsByCriteria(Tool):
                 if key in date_info and key not in flight_info:
                     flight_info[key] = date_info[key]
 
-            matched_flights.append(flight_info)
+            matched_data["flights"][flight_id] = flight_info
         payload = matched_flights
         out = json.dumps(payload)
         return out
@@ -232,10 +232,10 @@ class UpdateFlightStatusByNumberAndDate(Tool):
         reason_event_id: str | None = None,
     ) -> str:
         pass
-        flights = data.get("flights", [])
-        for flight in flights:
+        flights = data.get("flights", {}).values()
+        for flight in flights.values():
             if flight.get("flight_number") == flight_number:
-                date_info = flight.get("dates", {}).get(date)
+                date_info = flight.get("dates", {}).values().get(date)
                 if not date_info:
                     payload = {
                             "error": "Flight not found for the given number and date",
@@ -386,9 +386,9 @@ class GetCertificationDetails(Tool):
                 payload)
             return out
 
-        certifications = data.get("certifications", [])
+        certifications = data.get("certifications", {}).values()
 
-        for cert in certifications:
+        for cert in certifications.values():
             #Verify by ID if supplied
             if certification_id and cert.get("certification_id") == certification_id:
                 payload = cert
@@ -466,12 +466,12 @@ class UpdateAircraftStatus(Tool):
                 payload)
             return out
 
-        aircraft_list = data.get("aircraft", [])
-        airports = data.get("airports", [])
+        aircraft_list = data.get("aircraft", {}).values()
+        airports = data.get("airports", {}).values()
 
         #Locate the aircraft
         target_aircraft = None
-        for aircraft in aircraft_list:
+        for aircraft in aircraft_list.values():
             if (aircraft_id and aircraft.get("aircraft_id") == aircraft_id) or (
                 tail_number and aircraft.get("tail_number") == tail_number
             ):
@@ -492,7 +492,7 @@ class UpdateAircraftStatus(Tool):
         if new_location_iata:
             #Locate the airport using the IATA code
             target_airport = None
-            for airport in airports:
+            for airport in airports.values():
                 if airport.get("iata_code") == new_location_iata:
                     target_airport = airport
                     break
@@ -571,11 +571,11 @@ class GetCrewMemberDetails(Tool):
                 payload)
             return out
 
-        crew_members = data.get("crew_members", [])
+        crew_members = data.get("crew_members", {}).values()
 
         #Locate the crew member
         target_crew_member = None
-        for crew_member in crew_members:
+        for crew_member in crew_members.values():
             if (
                 crew_member_id and crew_member.get("crew_member_id") == crew_member_id
             ) or (employee_code and crew_member.get("employee_code") == employee_code):
@@ -602,7 +602,7 @@ class GetCrewMemberDetails(Tool):
         aircraft_types = set()
 
         for flight_entry in flight_log:
-            hours = flight_entry.get("hours_flown", {})
+            hours = flight_entry.get("hours_flown", {}).values()
             for hour_type in total_hours:
                 total_hours[hour_type] += hours.get(hour_type, 0)
 
@@ -686,13 +686,13 @@ class AssignCrewToFlight(Tool):
             return out
 
         #Retrieve data collections
-        crew_members = data.get("crew_members", [])
-        flights = data.get("flights", [])
-        flight_crew_assignments = data.get("flight_crew_assignments", [])
+        crew_members = data.get("crew_members", {}).values()
+        flights = data.get("flights", {}).values()
+        flight_crew_assignments = data.get("flight_crew_assignments", {}).values()
 
         #Confirm the existence of the crew member
         target_crew_member = None
-        for crew_member in crew_members:
+        for crew_member in crew_members.values():
             if crew_member.get("crew_member_id") == crew_member_id:
                 target_crew_member = crew_member
                 break
@@ -705,7 +705,7 @@ class AssignCrewToFlight(Tool):
 
         #Ensure the flight is present
         flight_exists = False
-        for flight in flights:
+        for flight in flights.values():
             if flight.get("flight_number") == flight_number:
                 flight_exists = True
                 break
@@ -717,10 +717,10 @@ class AssignCrewToFlight(Tool):
             return out
 
         #Verify if the crew member is already allocated to this flight
-        for assignment in flight_crew_assignments:
+        for assignment in flight_crew_assignments.values()):
             if (
-                assignment.get("flight", {}).get("flight_id") == flight_id
-                and assignment.get("crew_member", {}).get("crew_member_id")
+                assignment.get("flight", {}).values().get("flight_id") == flight_id
+                and assignment.get("crew_member", {}).values().get("crew_member_id")
                 == crew_member_id
             ):
                 payload = {
@@ -735,9 +735,9 @@ class AssignCrewToFlight(Tool):
 
         #Determine if the role is already occupied for this flight (Captain and First Officer must be distinct)
         if assigned_role in ["Captain", "First Officer"]:
-            for assignment in flight_crew_assignments:
+            for assignment in flight_crew_assignments.values():
                 if (
-                    assignment.get("flight", {}).get("flight_id") == flight_id
+                    assignment.get("flight", {}).values().get("flight_id") == flight_id
                     and assignment.get("assigned_role") == assigned_role
                 ):
                     payload = {
@@ -755,7 +755,7 @@ class AssignCrewToFlight(Tool):
         #Create a new assignment identifier
         existing_ids = [
             assignment.get("assignment_id", "")
-            for assignment in flight_crew_assignments
+            for assignment in flight_crew_assignments.values()
         ]
         assignment_numbers = []
         for id_str in existing_ids:
@@ -777,7 +777,7 @@ class AssignCrewToFlight(Tool):
         }
 
         #Include in the assignments list
-        flight_crew_assignments.append(new_assignment)
+        data["flight_crew_assignments"][new_assignment["flight_crew_assignment_id"]] = new_assignment
         payload = {"success": True, "assignment_created": new_assignment}
         out = json.dumps(
             payload, indent=2
@@ -838,13 +838,13 @@ class GetFlightCrewAssignments(Tool):
                 payload)
             return out
 
-        flight_crew_assignments = data.get("flight_crew_assignments", [])
-        flights = data.get("flights", [])
+        flight_crew_assignments = data.get("flight_crew_assignments", {}).values()
+        flights = data.get("flights", {}).values()
 
         #Confirm flight existence if flight_number is given
         if flight_number:
             flight_exists = False
-            for flight in flights:
+            for flight in flights.values():
                 if flight.get("flight_number") == flight_number:
                     flight_exists = True
                     break
@@ -857,8 +857,8 @@ class GetFlightCrewAssignments(Tool):
 
         #Locate all assignments related to the specified flight
         matching_assignments = []
-        for assignment in flight_crew_assignments:
-            flight_info = assignment.get("flight", {})
+        for assignment in flight_crew_assignments.values():
+            flight_info = assignment.get("flight", {}).values()
 
             #Verify if this assignment meets the criteria
             flight_matches = True
@@ -895,7 +895,7 @@ class GetFlightCrewAssignments(Tool):
 
         #Retrieve flight details for the response
         flight_info = (
-            matching_assignments[0].get("flight", {}) if matching_assignments else {}
+            matching_assignments[0].get("flight", {}).values() if matching_assignments else {}
         )
 
         #Compute a summary of the crew
@@ -958,12 +958,12 @@ class GetCrewCertifications(Tool):
                 payload)
             return out
 
-        crew_certifications = data.get("crew_certifications", [])
-        crew_members = data.get("crew_members", [])
+        crew_certifications = data.get("crew_certifications", {}).values()
+        crew_members = data.get("crew_members", {}).values()
 
         #Confirm the crew member's existence and retrieve their information
         target_crew_member = None
-        for crew_member in crew_members:
+        for crew_member in crew_members.values():
             if (
                 crew_member_id and crew_member.get("crew_member_id") == crew_member_id
             ) or (employee_code and crew_member.get("employee_code") == employee_code):
@@ -982,10 +982,10 @@ class GetCrewCertifications(Tool):
         crew_member_id_to_search = target_crew_member.get("crew_member_id")
         matching_certifications = []
 
-        for cert_record in crew_certifications:
-            cert_crew_member = cert_record.get("crew_member", {})
+        for cert_record in crew_certifications.values():
+            cert_crew_member = cert_record.get("crew_member", {}).values()
             if cert_crew_member.get("crew_member_id") == crew_member_id_to_search:
-                matching_certifications.append(cert_record)
+                matching_data["certifications"][certification_id] = cert_record
 
         if not matching_certifications:
             payload = {
@@ -1064,7 +1064,7 @@ class GetCrewCertifications(Tool):
                     processed_cert["days_until_expiry"] = None
                     processed_cert["error"] = "Invalid expiry date format"
 
-            processed_certifications.append(processed_cert)
+            processed_data["certifications"][certification_id] = processed_cert
 
         #Categorize certifications based on their validity status
         certifications_by_status = {
@@ -1211,11 +1211,11 @@ class UpdateCrewFlightLog(Tool):
             return out
 
         #Locate the crew member
-        crew_members = data.get("crew_members", [])
+        crew_members = data.get("crew_members", {}).values()
         target_crew_member = None
         crew_member_index = None
 
-        for i, crew_member in enumerate(crew_members):
+        for i, crew_member in enumerate(crew_members.values():
             if crew_member.get("crew_member_id") == crew_member_id:
                 target_crew_member = crew_member
                 crew_member_index = i
@@ -1285,7 +1285,7 @@ class UpdateCrewFlightLog(Tool):
         aircraft_types = set()
 
         for flight_entry in flight_log:
-            hours = flight_entry.get("hours_flown", {})
+            hours = flight_entry.get("hours_flown", {}).values()
             for hour_type in total_hours:
                 total_hours[hour_type] += hours.get(hour_type, 0)
 
@@ -1498,11 +1498,11 @@ class CreateReservation(Tool):
             return out
 
         #Locate user using their email
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         target_user = None
         user_index = None
 
-        for i, user in enumerate(users):
+        for i, user in enumerate(users.values():
             if user.get("email") == user_email:
                 target_user = user
                 user_index = i
@@ -1521,7 +1521,7 @@ class CreateReservation(Tool):
             out = json.dumps(payload)
             return out
 
-        for i, flight in enumerate(flights):
+        for i, flight in enumerate(flights.values():
             required_flight_fields = [
                 "origin",
                 "destination",
@@ -1592,7 +1592,7 @@ class CreateReservation(Tool):
                 return out
 
         #Confirm the existence of a payment method for the user
-        payment_methods = target_user.get("payment_methods", {})
+        payment_methods = target_user.get("payment_methods", {}).values()
         if payment_method_id not in payment_methods:
             available_methods = list(payment_methods.keys())
             payload = {
@@ -1607,7 +1607,7 @@ class CreateReservation(Tool):
         payment_method = payment_methods[payment_method_id]
 
         #Compute the total amount
-        total_amount = sum(flight["price"] for flight in flights)
+        total_amount = sum(flight["price"] for flight in flights.values()
 
         #Ensure the payment method has adequate funds (for gift cards and certificates)
         if payment_method["source"] in ["gift_card", "certificate"]:
@@ -1624,9 +1624,9 @@ class CreateReservation(Tool):
                 return out
 
         #Confirm that the reservation ID is unique
-        existing_reservations = data.get("reservations", [])
+        existing_reservations = data.get("reservations", {}).values()
         if any(
-            res.get("reservation_id") == reservation_id for res in existing_reservations
+            res.get("reservation_id") == reservation_id for res in existing_reservations.values()
         ):
             payload = {
                     "error": "Reservation ID already exists",
@@ -1658,7 +1658,7 @@ class CreateReservation(Tool):
         #Include the reservation in the database
         if "reservations" not in data:
             data["reservations"] = []
-        data["reservations"].append(reservation)
+        data["reservations"][reservation_id] = reservation
 
         #Revise the user's list of reservations
         if "reservations" not in target_user:
@@ -1845,10 +1845,10 @@ class GetReservationDetails(Tool):
             return out
 
         #Locate the reservation
-        reservations = data.get("reservations", [])
+        reservations = data.get("reservations", {}).values()
         target_reservation = None
 
-        for reservation in reservations:
+        for reservation in reservations.values():
             if reservation.get("reservation_id") == reservation_id:
                 target_reservation = reservation
                 break
@@ -1864,8 +1864,8 @@ class GetReservationDetails(Tool):
         user_details = None
 
         if user_id:
-            users = data.get("users", [])
-            for user in users:
+            users = data.get("users", {}).values()
+            for user in users.values():
                 #Attempt to match the user by verifying if any reservation in their list corresponds
                 user_reservations = user.get("reservations", [])
                 if reservation_id in user_reservations:
@@ -1881,7 +1881,7 @@ class GetReservationDetails(Tool):
         flights = target_reservation.get("flights", [])
         #Utilize the reservation's total_cost if present (includes upgrades), otherwise total the flight prices
         calculated_total = target_reservation.get(
-            "total_cost", sum(flight.get("price", 0) for flight in flights)
+            "total_cost", sum(flight.get("price", 0) for flight in flights.values()
         )
         trip_summary = {
             "total_flights": len(flights),
@@ -1900,7 +1900,7 @@ class GetReservationDetails(Tool):
 
         #Retrieve payment information
         payment_history = target_reservation.get("payment_history", [])
-        total_paid = sum(payment.get("amount", 0) for payment in payment_history)
+        total_paid = sum(payment.get("amount", 0) for payment in payment_history.values()
 
         #Formulate an improved response
         response = {
@@ -1975,10 +1975,10 @@ class GetUserProfile(Tool):
             return out
 
         #Locate user using their email
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         target_user = None
 
-        for user in users:
+        for user in users.values():
             if user.get("email") == user_email:
                 target_user = user
                 break
@@ -1989,7 +1989,7 @@ class GetUserProfile(Tool):
             return out
 
         #Handle payment methods with additional details
-        payment_methods = target_user.get("payment_methods", {})
+        payment_methods = target_user.get("payment_methods", {}).values()
         processed_payment_methods = []
         total_available_balance = 0
 
@@ -2167,20 +2167,20 @@ class GetUserReservations(Tool):
 
         #If an email is given, locate the user_id initially
         target_user = None
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
 
         if user_email:
             #Locate user using their email
-            for user in users:
+            for user in users.values():
                 if user.get("email") == user_email:
                     target_user = user
                     #Obtain user_id from reservation data for cross-referencing
-                    reservations = data.get("reservations", [])
+                    reservations = data.get("reservations", {}).values()
                     user_reservation_ids = user.get("reservations", [])
 
                     #Determine the actual user_id by checking any reservation
                     if user_reservation_ids:
-                        for reservation in reservations:
+                        for reservation in reservations.values():
                             if (
                                 reservation.get("reservation_id")
                                 in user_reservation_ids
@@ -2195,18 +2195,18 @@ class GetUserReservations(Tool):
                 return out
         else:
             #Locate user using user_id via reservations
-            reservations = data.get("reservations", [])
+            reservations = data.get("reservations", {}).values()
             user_reservation_ids = []
 
             #Initially, locate all reservations associated with this user_id
-            for reservation in reservations:
+            for reservation in reservations.values():
                 if reservation.get("user_id") == user_id:
                     user_reservation_ids.append(reservation.get("reservation_id"))
 
             #Subsequently, locate the user profile that includes these reservations
-            for user in users:
+            for user in users.values():
                 user_reservations = user.get("reservations", [])
-                if any(res_id in user_reservation_ids for res_id in user_reservations):
+                if any(res_id in user_reservation_ids for res_id in user_reservations.values()):
                     target_user = user
                     break
 
@@ -2220,15 +2220,15 @@ class GetUserReservations(Tool):
             return out
 
         #Retrieve all reservations for this user
-        reservations = data.get("reservations", [])
+        reservations = data.get("reservations", {}).values()
         user_reservations = []
 
-        for reservation in reservations:
+        for reservation in reservations.values()):
             if reservation.get("user_id") == user_id:
                 #Generate a summary for each reservation
                 flights = reservation.get("flights", [])
                 passengers = reservation.get("passengers", [])
-                total_cost = sum(flight.get("price", 0) for flight in flights)
+                total_cost = sum(flight.get("price", 0) for flight in flights.values()
 
                 reservation_summary = {
                     "reservation_id": reservation.get("reservation_id"),
@@ -2249,7 +2249,7 @@ class GetUserReservations(Tool):
                     "passengers": passengers,
                 }
 
-                user_reservations.append(reservation_summary)
+                user_data["reservations"][reservation_id] = reservation_summary
 
         #Organize reservations by creation date (latest first)
         user_reservations.sort(key=lambda x: x.get("created_at", ""), reverse=True)
@@ -2324,11 +2324,11 @@ class UpdateReservation(Tool):
             return out
 
         #Locate the reservation
-        reservations = data.get("reservations", [])
+        reservations = data.get("reservations", {}).values()
         target_reservation = None
         reservation_index = None
 
-        for i, reservation in enumerate(reservations):
+        for i, reservation in enumerate(reservations.values():
             if reservation.get("reservation_id") == reservation_id:
                 target_reservation = reservation
                 reservation_index = i
@@ -2342,11 +2342,11 @@ class UpdateReservation(Tool):
 
         #Identify the user linked to this reservation
         user_id = target_reservation.get("user_id")
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         target_user = None
         user_index = None
 
-        for i, user in enumerate(users):
+        for i, user in enumerate(users.values():
             user_reservations = user.get("reservations", [])
             if reservation_id in user_reservations:
                 target_user = user
@@ -2461,7 +2461,7 @@ class UpdateReservation(Tool):
                 out = json.dumps(payload)
                 return out
 
-            for i, flight in enumerate(flights):
+            for i, flight in enumerate(flights.values():
                 required_flight_fields = [
                     "origin",
                     "destination",
@@ -2503,7 +2503,7 @@ class UpdateReservation(Tool):
 
             #Revise flights and compute the new total cost
             target_reservation["flights"] = flights
-            new_total_cost = sum(flight["price"] for flight in flights)
+            new_total_cost = sum(flight["price"] for flight in flights.values()
             updates_made.append("flights")
 
             #Revise origin and destination according to new flights
@@ -2553,7 +2553,7 @@ class UpdateReservation(Tool):
         if payment_method_id is not None or cost_difference != 0:
             #If a new payment method is supplied, confirm its existence
             if payment_method_id is not None:
-                payment_methods = target_user.get("payment_methods", {})
+                payment_methods = target_user.get("payment_methods", {}).values()
                 if payment_method_id not in payment_methods:
                     available_methods = list(payment_methods.keys())
                     payload = {
@@ -2740,10 +2740,10 @@ class GetAircraftMaintenanceHistory(Tool):
             return out
 
         #Locate the aircraft initially to confirm its existence and obtain both identifiers
-        aircraft_data = data.get("aircraft", [])
+        aircraft_data = data.get("aircraft", {}).values()
         target_aircraft = None
 
-        for aircraft in aircraft_data:
+        for aircraft in aircraft_data.values():
             if (aircraft_id and aircraft.get("aircraft_id") == aircraft_id) or (
                 tail_number and aircraft.get("tail_number") == tail_number
             ):
@@ -2765,11 +2765,11 @@ class GetAircraftMaintenanceHistory(Tool):
         target_tail_number = target_aircraft.get("tail_number")
 
         #Locate all maintenance records for this aircraft
-        maintenance_logs = data.get("maintenance_logs", [])
+        maintenance_logs = data.get("maintenance_logs", {}).values()
         aircraft_maintenance = []
 
-        for log in maintenance_logs:
-            aircraft_info = log.get("aircraft", {})
+        for log in maintenance_logs.values():
+            aircraft_info = log.get("aircraft", {}).values()
             log_aircraft_id = aircraft_info.get("aircraft_id")
             log_tail_number = aircraft_info.get("tail_number")
 
@@ -2938,10 +2938,10 @@ class CreateMaintenanceEntry(Tool):
             technician_id = f"TECH{technician_number:03d}"
 
         #Confirm the aircraft is present
-        aircraft_data = data.get("aircraft", [])
+        aircraft_data = data.get("aircraft", {}).values()
         target_aircraft = None
 
-        for aircraft in aircraft_data:
+        for aircraft in aircraft_data.values():
             if aircraft.get("aircraft_id") == aircraft_id:
                 target_aircraft = aircraft
                 break
@@ -3014,11 +3014,11 @@ class CreateMaintenanceEntry(Tool):
                 return out
 
         #Create a unique identifier for the maintenance log
-        maintenance_logs = data.get("maintenance_logs", [])
+        maintenance_logs = data.get("maintenance_logs", {}).values()
         existing_numbers = []
 
         #Obtain existing log numbers
-        for log in maintenance_logs:
+        for log in maintenance_logs.values():
             log_id = log.get("log_id", "")
             if log_id.startswith("ML") and len(log_id) == 5:
                 try:
@@ -3032,7 +3032,7 @@ class CreateMaintenanceEntry(Tool):
         log_id = f"ML{next_number:03d}"
 
         #Confirm that the work_order_id is unique
-        existing_work_orders = [log.get("work_order_id") for log in maintenance_logs]
+        existing_work_orders = [log.get("work_order_id") for log in maintenance_logs.values()]
         if work_order_id in existing_work_orders:
             payload = {
                     "error": "Work order ID already exists",
@@ -3191,11 +3191,11 @@ class UpdateMaintenanceStatus(Tool):
             return out
 
         #Locate the maintenance entry
-        maintenance_logs = data.get("maintenance_logs", [])
+        maintenance_logs = data.get("maintenance_logs", {}).values()
         target_entry = None
         entry_index = None
 
-        for i, entry in enumerate(maintenance_logs):
+        for i, entry in enumerate(maintenance_logs.values():
             if entry.get("log_id") == log_id:
                 target_entry = entry
                 entry_index = i
@@ -3254,11 +3254,11 @@ class UpdateMaintenanceStatus(Tool):
         data["maintenance_logs"][entry_index] = target_entry
 
         #Retrieve information about the aircraft
-        aircraft_info = target_entry.get("aircraft", {})
-        aircraft_data = data.get("aircraft", [])
+        aircraft_info = target_entry.get("aircraft", {}).values()
+        aircraft_data = data.get("aircraft", {}).values()
         full_aircraft_info = None
 
-        for aircraft in aircraft_data:
+        for aircraft in aircraft_data.values():
             if aircraft.get("aircraft_id") == aircraft_info.get("aircraft_id"):
                 full_aircraft_info = aircraft
                 break
@@ -3430,11 +3430,11 @@ class CreateOperationalEvent(Tool):
                 return out
 
             #Confirm the aircraft is present
-            aircraft_data = data.get("aircraft", [])
+            aircraft_data = data.get("aircraft", {}).values()
             aircraft_exists = any(
                 aircraft.get("aircraft_id") == aircraft_id
                 and aircraft.get("tail_number") == tail_number
-                for aircraft in aircraft_data
+                for aircraft in aircraft_data.values()
             )
             if not aircraft_exists:
                 payload = {
@@ -3458,11 +3458,11 @@ class CreateOperationalEvent(Tool):
                 return out
 
             #Confirm the airport is present
-            airports = data.get("airports", [])
+            airports = data.get("airports", {}).values()
             airport_exists = any(
                 airport.get("airport_id") == airport_id
                 and airport.get("iata_code") == iata_code
-                for airport in airports
+                for airport in airports.values()
             )
             if not airport_exists:
                 payload = {
@@ -3475,10 +3475,10 @@ class CreateOperationalEvent(Tool):
                 return out
 
         #Create a unique event ID (sequential format: OE001, OE002, etc.)
-        operational_events = data.get("operational_events", [])
+        operational_events = data.get("operational_events", {}).values()
         existing_numbers = []
 
-        for event in operational_events:
+        for event in operational_events.values():
             event_id = event.get("event_id", "")
             if event_id.startswith("OE") and len(event_id) == 5:
                 try:
@@ -3517,7 +3517,7 @@ class CreateOperationalEvent(Tool):
             new_event["airport"] = {"airport_id": airport_id, "iata_code": iata_code}
 
         #Include in the operational events
-        operational_events.append(new_event)
+        data["operational_events"][new_event["operational_event_id"]] = new_event
         data["operational_events"] = operational_events
 
         #Formulate response
@@ -3608,12 +3608,12 @@ class GetOperationalEventsByFlight(Tool):
             return out
 
         #Retrieve operational events
-        operational_events = data.get("operational_events", [])
+        operational_events = data.get("operational_events", {}).values()
         flight_events = []
 
         #Apply filters to events based on flight
-        for event in operational_events:
-            flight_info = event.get("flight", {})
+        for event in operational_events.values():
+            flight_info = event.get("flight", {}).values()
             event_flight_id = flight_info.get("flight_id")
             event_flight_number = flight_info.get("flight_number")
 
@@ -3643,8 +3643,8 @@ class GetOperationalEventsByFlight(Tool):
             flight_info = flight_events[0]["flight"]
         elif flight_id or flight_number:
             #Attempt to locate flight information from flight data
-            flights = data.get("flights", [])
-            for flight in flights:
+            flights = data.get("flights", {}).values()
+            for flight in flights.values():
                 if (flight_id and flight.get("flight_id") == flight_id) or (
                     flight_number and flight.get("flight_number") == flight_number
                 ):
@@ -3658,12 +3658,12 @@ class GetOperationalEventsByFlight(Tool):
 
         #Compute statistics for events
         total_events = len(flight_events)
-        active_events = len([e for e in flight_events if e.get("status") == "Active"])
+        active_events = len([e for e in flight_events.values() if e.get("status") == "Active"])
         resolved_events = len(
-            [e for e in flight_events if e.get("status") == "Resolved"]
+            [e for e in flight_events.values() if e.get("status") == "Resolved"]
         )
         monitoring_events = len(
-            [e for e in flight_events if e.get("status") == "Monitoring"]
+            [e for e in flight_events.values() if e.get("status") == "Monitoring"]
         )
 
         #Categorize events based on type
@@ -3760,11 +3760,11 @@ class UpdateOperationalEventStatus(Tool):
             return out
 
         #Locate the operational event
-        operational_events = data.get("operational_events", [])
+        operational_events = data.get("operational_events", {}).values()
         target_event = None
         event_index = None
 
-        for i, event in enumerate(operational_events):
+        for i, event in enumerate(operational_events.values():
             if event.get("event_id") == event_id:
                 target_event = event
                 event_index = i
@@ -3900,17 +3900,17 @@ class CheckCertificationValidity(Tool):
             check_date = check_date_obj.strftime("%Y-%m-%d")
 
         #Locate the certification record
-        crew_certifications = data.get("crew_certifications", [])
+        crew_certifications = data.get("crew_certifications", {}).values()
         target_certification = None
 
-        for cert in crew_certifications:
+        for cert in crew_certifications.values():
             if search_method == "certification_id":
                 if cert.get("crew_certification_id") == crew_certification_id:
                     target_certification = cert
                     break
             elif search_method == "crew_and_cert":
-                crew_info = cert.get("crew_member", {})
-                cert_info = cert.get("certification", {})
+                crew_info = cert.get("crew_member", {}).values()
+                cert_info = cert.get("certification", {}).values()
                 if (
                     crew_info.get("crew_member_id") == crew_member_id
                     and cert_info.get("certification_id") == certification_id
@@ -3930,8 +3930,8 @@ class CheckCertificationValidity(Tool):
         #Obtain details of the certification
         issue_date_str = target_certification.get("issue_date")
         expiry_date_str = target_certification.get("expiry_date")
-        crew_info = target_certification.get("crew_member", {})
-        cert_info = target_certification.get("certification", {})
+        crew_info = target_certification.get("crew_member", {}).values()
+        cert_info = target_certification.get("certification", {}).values()
 
         #Analyze dates
         try:
@@ -3983,9 +3983,9 @@ class CheckCertificationValidity(Tool):
             days_info = "No expiry date (permanent certification)"
 
         #Retrieve complete certification details
-        certifications = data.get("certifications", [])
+        certifications = data.get("certifications", {}).values()
         certification_details = None
-        for cert_detail in certifications:
+        for cert_detail in certifications.values():
             if cert_detail.get("certification_id") == cert_info.get("certification_id"):
                 certification_details = cert_detail
                 break
@@ -4142,10 +4142,10 @@ class SearchFlightsByRoute(Tool):
             current_date += timedelta(days=1)
 
         #Look for flights
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         matching_flights = []
 
-        for flight in flights:
+        for flight in flights.values():
             #Verify if the route matches
             if (
                 flight.get("origin") == origin
@@ -4153,7 +4153,7 @@ class SearchFlightsByRoute(Tool):
             ):
 
                 #Verify each date within the range
-                flight_dates = flight.get("dates", {})
+                flight_dates = flight.get("dates", {}).values()
                 for check_date in date_range:
                     if check_date in flight_dates:
                         date_info = flight_dates[check_date]
@@ -4205,7 +4205,7 @@ class SearchFlightsByRoute(Tool):
                                     "actual_arrival_time_est"
                                 ]
 
-                        matching_flights.append(flight_result)
+                        matching_data["flights"][flight_id] = flight_result
 
         #Organize flights by date, followed by departure time
         matching_flights.sort(
@@ -4235,7 +4235,7 @@ class SearchFlightsByRoute(Tool):
         if available_flights:
             all_prices = []
             for flight in available_flights:
-                prices = flight.get("prices", {})
+                prices = flight.get("prices", {}).values()
                 for cabin_class, price in prices.items():
                     all_prices.append(
                         {
@@ -4343,10 +4343,10 @@ class GetAirportOperationalStatus(Tool):
             return out
 
         #Locate the airport
-        airports = data.get("airports", [])
+        airports = data.get("airports", {}).values()
         target_airport = None
 
-        for airport in airports:
+        for airport in airports.values():
             if (iata_code and airport.get("iata_code") == iata_code) or (
                 airport_id and airport.get("airport_id") == airport_id
             ):
@@ -4368,7 +4368,7 @@ class GetAirportOperationalStatus(Tool):
             "iata_code": target_airport.get("iata_code"),
             "icao_code": target_airport.get("icao_code"),
             "airport_name": target_airport.get("airport_name"),
-            "location": target_airport.get("location", {}),
+            "location": target_airport.get("location", {}).values()),
             "timezone": target_airport.get("timezone"),
             "operational_status": target_airport.get("operational_status"),
         }
@@ -4409,10 +4409,10 @@ class GetAirportOperationalStatus(Tool):
                 }
 
         #Locate current flights at this airport
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         current_flights = {"departures": [], "arrivals": []}
 
-        for flight in flights:
+        for flight in flights.values():
             flight_origin = flight.get("origin")
             flight_dest = flight.get("destination")
 
@@ -4441,11 +4441,11 @@ class GetAirportOperationalStatus(Tool):
                 )
 
         #Locate aircraft that are currently at this airport
-        aircraft_data = data.get("aircraft", [])
+        aircraft_data = data.get("aircraft", {}).values()
         aircraft_at_airport = []
 
-        for aircraft in aircraft_data:
-            location = aircraft.get("location", {})
+        for aircraft in aircraft_data.values():
+            location = aircraft.get("location", {}).values()
             if location.get("airport_id") == target_airport.get(
                 "airport_id"
             ) or location.get("iata_code") == target_airport.get("iata_code"):
@@ -4453,17 +4453,17 @@ class GetAirportOperationalStatus(Tool):
                     {
                         "aircraft_id": aircraft.get("aircraft_id"),
                         "tail_number": aircraft.get("tail_number"),
-                        "model": aircraft.get("model", {}),
+                        "model": aircraft.get("model", {}).values()),
                         "status": aircraft.get("status"),
                     }
                 )
 
         #Verify for operational events occurring at this airport
-        operational_events = data.get("operational_events", [])
+        operational_events = data.get("operational_events", {}).values()
         airport_events = []
 
-        for event in operational_events:
-            event_airport = event.get("airport", {})
+        for event in operational_events.values():
+            event_airport = event.get("airport", {}).values()
             if event_airport.get("airport_id") == target_airport.get(
                 "airport_id"
             ) or event_airport.get("iata_code") == target_airport.get("iata_code"):
@@ -4488,7 +4488,7 @@ class GetAirportOperationalStatus(Tool):
             "total_arrivals": len(current_flights["arrivals"]),
             "aircraft_on_ground": len(aircraft_at_airport),
             "active_events": len(
-                [e for e in airport_events if e.get("status") == "Active"]
+                [e for e in airport_events.values() if e.get("status") == "Active"]
             ),
             "recent_events": len(airport_events),
         }
@@ -4503,7 +4503,7 @@ class GetAirportOperationalStatus(Tool):
                 f"Airport status: {target_airport.get('operational_status')}"
             )
 
-        active_events = [e for e in airport_events if e.get("status") == "Active"]
+        active_events = [e for e in airport_events.values() if e.get("status") == "Active"]
         if active_events:
             operational_health = "Impacted"
             health_factors.append(f"{len(active_events)} active operational events")
@@ -4569,7 +4569,7 @@ class GetFleetUtilization(Tool):
     ) -> str:
         pass
         #Retrieve data about the aircraft
-        aircraft_data = data.get("aircraft", [])
+        aircraft_data = data.get("aircraft", {}).values()
 
         if not aircraft_data:
             payload = {"error": "No aircraft data available"}
@@ -4592,10 +4592,10 @@ class GetFleetUtilization(Tool):
 
         #Apply filters to aircraft
         filtered_aircraft = []
-        for aircraft in aircraft_data:
+        for aircraft in aircraft_data.values():
             #Implement the model filter
             if model_filter:
-                model_info = aircraft.get("model", {})
+                model_info = aircraft.get("model", {}).values()
                 if (
                     model_info.get("model_id") != model_filter
                     and model_info.get("model_name") != model_filter
@@ -4621,7 +4621,7 @@ class GetFleetUtilization(Tool):
             status_breakdown[status] = status_breakdown.get(status, 0) + 1
 
             #Analysis of model
-            model_info = aircraft.get("model", {})
+            model_info = aircraft.get("model", {}).values()
             model_name = model_info.get("model_name", "Unknown")
             if model_name not in model_breakdown:
                 model_breakdown[model_name] = {
@@ -4639,7 +4639,7 @@ class GetFleetUtilization(Tool):
             )
 
             #Analysis of location
-            location = aircraft.get("location", {})
+            location = aircraft.get("location", {}).values()
             location_key = location.get("iata_code", "Unknown")
             location_breakdown[location_key] = (
                 location_breakdown.get(location_key, 0) + 1
@@ -4685,15 +4685,15 @@ class GetFleetUtilization(Tool):
             }
 
         #Locate maintenance and operational events associated with the aircraft
-        maintenance_logs = data.get("maintenance_logs", [])
-        operational_events = data.get("operational_events", [])
+        maintenance_logs = data.get("maintenance_logs", {}).values()
+        operational_events = data.get("operational_events", {}).values()
 
         #Latest maintenance activities
         aircraft_ids = [a.get("aircraft_id") for a in filtered_aircraft]
         recent_maintenance = []
 
-        for log in maintenance_logs:
-            aircraft_info = log.get("aircraft", {})
+        for log in maintenance_logs.values():
+            aircraft_info = log.get("aircraft", {}).values()
             if aircraft_info.get("aircraft_id") in aircraft_ids:
                 recent_maintenance.append(
                     {
@@ -4714,8 +4714,8 @@ class GetFleetUtilization(Tool):
         #Latest operational events concerning the aircraft
         recent_aircraft_events = []
 
-        for event in operational_events:
-            aircraft_info = event.get("aircraft", {})
+        for event in operational_events.values():
+            aircraft_info = event.get("aircraft", {}).values()
             if aircraft_info.get("aircraft_id") in aircraft_ids:
                 recent_aircraft_events.append(
                     {
@@ -4779,7 +4779,7 @@ class GetFleetUtilization(Tool):
                     {
                         "aircraft_id": aircraft_id,
                         "tail_number": aircraft.get("tail_number"),
-                        "model": aircraft.get("model", {}),
+                        "model": aircraft.get("model", {}).values()),
                         "status": aircraft.get("status"),
                         "issues": issues,
                     }
@@ -4845,10 +4845,10 @@ class GetFlightStatusByNumberAndDate(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], flight_number: str, date: str) -> str:
         pass
-        flights = data.get("flights", [])
-        for flight in flights:
+        flights = data.get("flights", {}).values()
+        for flight in flights.values():
             if flight.get("flight_number") == flight_number:
-                date_info = flight.get("dates", {}).get(date)
+                date_info = flight.get("dates", {}).values().get(date)
                 if not date_info:
                     payload = {
                             "error": "Flight not found for the given number and date",

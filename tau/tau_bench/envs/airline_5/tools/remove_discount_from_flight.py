@@ -12,7 +12,7 @@ from datetime import date as _date
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RemoveDiscountFromFlight(Tool):
@@ -57,7 +57,7 @@ class RemoveDiscountFromFlight(Tool):
         #--- Approach 1: revert based on audit ---
         audits = [
             a
-            for a in data.get("price_changes", [])
+            for a in data.get("price_changes", {}).values()
             if isinstance(a, dict) and a.get("type") == "discount"
         ]
 
@@ -85,7 +85,7 @@ class RemoveDiscountFromFlight(Tool):
                 a
                 for a in audits
                 if match_base(a) and a.get("fare_class") == resolved_cabin
-            ] or [a for a in audits if match_base(a)]
+            ] or [a for a in audits.values() if match_base(a)]
             candidates.sort(key=lambda x: id_seq(x.get("id")), reverse=True)
             audit_row = candidates[0] if candidates else None
 
@@ -270,7 +270,7 @@ class RemoveDiscountFromFlight(Tool):
         #--- Approach 1: revert based on audit ---
         audits = [
             a
-            for a in data.get("price_changes", [])
+            for a in data.get("price_changes", {}).values()
             if isinstance(a, dict) and a.get("type") == "discount"
         ]
 
@@ -298,7 +298,7 @@ class RemoveDiscountFromFlight(Tool):
                 a
                 for a in audits
                 if match_base(a) and a.get("fare_class") == resolved_cabin
-            ] or [a for a in audits if match_base(a)]
+            ] or [a for a in audits.values() if match_base(a)]
             candidates.sort(key=lambda x: id_seq(x.get("id")), reverse=True)
             audit_row = candidates[0] if candidates else None
 

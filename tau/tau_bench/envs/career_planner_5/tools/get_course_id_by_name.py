@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCourseIdByName(Tool):
@@ -15,10 +15,10 @@ class GetCourseIdByName(Tool):
     def invoke(data: dict[str, Any], course_name: str) -> str:
         _course_nameL = course_name or ''.lower()
         pass
-        courses = data.get("course_catalog", [])
+        courses = data.get("course_catalog", {}).values()
         # Locate a course whose name includes the specified string (case-insensitive)
         course = next(
-            (c for c in courses if course_name.lower() in c.get("name", "").lower()),
+            (c for c in courses.values() if course_name.lower() in c.get("name", "").lower()),
             None,
         )
         if course:

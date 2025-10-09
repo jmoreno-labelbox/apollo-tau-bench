@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateVendorFromRetrospective(Tool):
@@ -27,15 +27,14 @@ class CreateVendorFromRetrospective(Tool):
             out = json.dumps(payload)
             return out
 
-        vendors = data.get("vendors", [])
-        retrospectives = data.get("retrospectives", [])
-        teams = data.get("teams", [])
+        vendors = data.get("vendors", {}).values()
+        retrospectives = data.get("retrospectives", {}).values()
+        teams = data.get("teams", {}).values()
 
         existing = next(
             (
                 v
-                for v in vendors
-                if v.get("vendor_name", "").lower() == vendor_name.lower()
+                for v in vendors.values() if v.get("vendor_name", "").lower() == vendor_name.lower()
             ),
             None,
         )
@@ -49,14 +48,13 @@ class CreateVendorFromRetrospective(Tool):
             retro = next(
                 (
                     r
-                    for r in retrospectives
-                    if r.get("retrospective_id") == retrospective_id
+                    for r in retrospectives.values() if r.get("retrospective_id") == retrospective_id
                 ),
                 None,
             )
             if retro:
                 team_id = retro.get("team_id")
-                team = next((t for t in teams if t.get("team_id") == team_id), None)
+                team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
                 if team:
                     action_items = retro.get("action_items", [])
                     for item in action_items:
@@ -91,7 +89,7 @@ class CreateVendorFromRetrospective(Tool):
             "preferred_for_skills": team_skills,
         }
 
-        vendors.append(new_vendor)
+        data["vendors"][vendor_id] = new_vendor
         payload = {"success": True, "vendor": new_vendor}
         out = json.dumps(payload)
         return out

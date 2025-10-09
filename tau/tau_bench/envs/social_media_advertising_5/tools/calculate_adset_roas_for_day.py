@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateAdsetRoasForDay(Tool):
@@ -17,7 +17,7 @@ class CalculateAdsetRoasForDay(Tool):
     def invoke(data: dict[str, Any], adset_id: str = None, date: str = None) -> str:
         aid = adset_id
         d = date
-        for i in data.get("f_insights", []):
+        for i in data.get("f_insights", {}).values():
             if i.get("adset_id") == aid and i.get("date") == d:
                 spend = i.get("spend", 0)
                 revenue = i.get("revenue", 0)

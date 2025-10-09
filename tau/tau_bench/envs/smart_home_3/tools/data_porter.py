@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DataPorter(Tool):
@@ -16,17 +16,17 @@ class DataPorter(Tool):
         if action == "export":
             export_result = {}
             if "all" in data_types or "devices" in data_types:
-                export_result["devices"] = data.get("devices", [])
+                export_result["devices"] = data.get("devices", {}).values()
             if "all" in data_types or "scenes" in data_types:
-                export_result["scenes"] = data.get("scenes", [])
+                export_result["scenes"] = data.get("scenes", {}).values()
             if "all" in data_types or "lists" in data_types:
-                export_result["custom_lists"] = data.get("custom_lists", [])
+                export_result["custom_lists"] = data.get("custom_lists", {}).values()
             if "all" in data_types or "reminders" in data_types:
-                export_result["reminders"] = data.get("reminders", [])
+                export_result["reminders"] = data.get("reminders", {}).values()
             if "all" in data_types or "members" in data_types:
-                export_result["members"] = data.get("members", [])
+                export_result["members"] = data.get("members", {}).values()
             if "all" in data_types or "rooms" in data_types:
-                export_result["rooms"] = data.get("rooms", [])
+                export_result["rooms"] = data.get("rooms", {}).values()
             payload = export_result
             out = json.dumps(payload, indent=2)
             return out

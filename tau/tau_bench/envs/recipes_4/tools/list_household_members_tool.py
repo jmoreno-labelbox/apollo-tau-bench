@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListHouseholdMembersTool(Tool):
@@ -72,11 +72,11 @@ class ListHouseholdMembersTool(Tool):
 
         #2. Business Logic: Determine target household if not provided
         if not household_id:
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
             if not users:
                 return _build_error_response("NO_DATA_FOUND", {"entity": "Users"})
 
-            first_user = data.get("users", [])[0] if data.get("users") else None
+            first_user = data.get("users", {}).values()[0] if data.get("users") else None
             if not first_user:
                 return _build_error_response("NO_DATA_FOUND", {"entity": "Users"})
 
@@ -84,7 +84,7 @@ class ListHouseholdMembersTool(Tool):
             household = next(
                 (
                     h
-                    for h in data.get("households", [])
+                    for h in data.get("households", {}).values()
                     if h.get("primary_user_id") == first_user_id
                 ),
                 None,
@@ -100,7 +100,7 @@ class ListHouseholdMembersTool(Tool):
         target_household = next(
             (
                 h
-                for h in data.get("households", [])
+                for h in data.get("households", {}).values()
                 if h.get("household_id") == household_id
             ),
             None,
@@ -112,7 +112,7 @@ class ListHouseholdMembersTool(Tool):
 
         #4. Data Retrieval: Filter members by the determined household_id
         household_members = [
-            m for m in data.get("members", []) if m.get("household_id") == household_id
+            m for m in data.get("members", {}).values() if m.get("household_id") == household_id
         ]
 
         #5. Return a standardized success response

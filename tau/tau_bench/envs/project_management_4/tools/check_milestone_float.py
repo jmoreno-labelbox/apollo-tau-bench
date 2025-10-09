@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckMilestoneFloat(Tool):
@@ -20,9 +20,9 @@ class CheckMilestoneFloat(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
+        milestones = data.get("milestones", {}).values()
         project_milestones = [
-            m for m in milestones if m.get("project_id") == project_id
+            m for m in milestones.values() if m.get("project_id") == project_id
         ]
 
         float_analysis = []
@@ -62,17 +62,17 @@ class CheckMilestoneFloat(Tool):
 
         summary = {
             "negative_float": len(
-                [f for f in float_analysis if f["float_status"] == "negative"]
+                [f for f in float_analysis.values() if f["float_status"] == "negative"]
             ),
             "zero_float": len(
-                [f for f in float_analysis if f["float_status"] == "zero"]
+                [f for f in float_analysis.values() if f["float_status"] == "zero"]
             ),
-            "low_float": len([f for f in float_analysis if f["float_status"] == "low"]),
+            "low_float": len([f for f in float_analysis.values() if f["float_status"] == "low"]),
             "comfortable_float": len(
-                [f for f in float_analysis if f["float_status"] == "comfortable"]
+                [f for f in float_analysis.values() if f["float_status"] == "comfortable"]
             ),
             "critical_path_count": len(
-                [f for f in float_analysis if f["is_critical_path"]]
+                [f for f in float_analysis.values() if f["is_critical_path"]]
             ),
         }
         payload = {

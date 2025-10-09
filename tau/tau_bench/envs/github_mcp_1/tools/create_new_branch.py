@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateNewBranch(Tool):
@@ -38,7 +38,7 @@ class CreateNewBranch(Tool):
             return out
 
         # Preferred repository access pattern
-        repos: list[dict[str, Any]] = data.get("repositories", [])
+        repos: list[dict[str, Any]] = data.get("repositories", {}).values()
         if not isinstance(repos, list):
             payload = {
                     "error": "Invalid database format: expected 'repositories' to be a list."

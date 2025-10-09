@@ -12,7 +12,7 @@ class AnalyzeCustomerPurchaseHistory(Tool):
             return out
 
         orders = data["orders"]
-        user_orders = [o for o in orders if o["user_id"] == user_id]
+        user_orders = [o for o in orders.values() if o["user_id"] == user_id]
         # and o['status'] is among ['delivered', 'completed', 'processed']
 
         total_spent = 0.0

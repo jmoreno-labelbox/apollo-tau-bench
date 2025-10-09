@@ -25,7 +25,7 @@ class UpdateItemOption(Tool):
                 payload, indent=2
             )
             return out
-        opts = it.setdefault("options", {})
+        opts = it.setdefault("options", {}).values()
         opts[option_key] = option_value
         payload = {
                 "success": True,

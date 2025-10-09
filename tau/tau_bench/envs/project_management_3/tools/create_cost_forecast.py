@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateCostForecast(Tool):
@@ -26,13 +26,13 @@ class CreateCostForecast(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
-        budgets = data.get("budgets", [])
-        cost_forecasts = data.get("cost_forecasts", [])
+        projects = data.get("projects", {}).values()
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
+        budgets = data.get("budgets", {}).values()
+        cost_forecasts = data.get("cost_forecasts", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
@@ -40,14 +40,13 @@ class CreateCostForecast(Tool):
 
         project_allocations = [
             a
-            for a in allocations
-            if a.get("project_id") == project_id and a.get("status") == "active"
+            for a in allocations.values() if a.get("project_id") == project_id and a.get("status") == "active"
         ]
 
         monthly_personnel_cost = 0
         for alloc in project_allocations:
             employee = next(
-                (e for e in employees if e.get("employee_id") == alloc["employee_id"]),
+                (e for e in employees.values() if e.get("employee_id") == alloc["employee_id"]),
                 None,
             )
             if employee:
@@ -93,8 +92,7 @@ class CreateCostForecast(Tool):
         current_budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -124,7 +122,7 @@ class CreateCostForecast(Tool):
             "created_date": datetime.now().isoformat(),
         }
 
-        cost_forecasts.append(new_forecast)
+        data["cost_forecasts"][new_forecast["cost_forecast_id"]] = new_forecast
         payload = {"success": True, "forecast": new_forecast}
         out = json.dumps(payload)
         return out

@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -53,8 +53,8 @@ def _as_id(x: Any) -> str:
 class GetContactByEmail(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], email: Any) -> str:
-        contacts = data.get("contacts", [])
-        match = next((c for c in contacts if c.get("email") == email), None)
+        contacts = data.get("contacts", {}).values()
+        match = next((c for c in contacts.values() if c.get("email") == email), None)
         payload = match or {}
         out = json.dumps(payload, indent=2)
         return out
@@ -77,8 +77,8 @@ class GetContactByEmail(Tool):
 class GetProductByName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: Any) -> str:
-        products = data.get("products", [])
-        match = next((p for p in products if p.get("name") == name), None)
+        products = data.get("products", {}).values()
+        match = next((p for p in products.values() if p.get("name") == name), None)
         payload = match or {}
         out = json.dumps(payload, indent=2)
         return out
@@ -102,9 +102,9 @@ class ListProductsInCategory(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], category_id: Any, products: list = None) -> str:
         if products is None:
-            products = data.get("products", [])
+            products = data.get("products", {}).values()
         category_id = _as_id(category_id)
-        rows = [p for p in products if _as_id(p.get("category_id")) == category_id]
+        rows = [p for p in products.values() if _as_id(p.get("category_id")) == category_id]
         payload = {"products": rows}
         out = json.dumps(payload, indent=2)
         return out
@@ -127,9 +127,9 @@ class ListProductsInCategory(Tool):
 class GetPricebookByName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: Any) -> str:
-        pricebooks = data.get("pricebooks", [])
+        pricebooks = data.get("pricebooks", {}).values()
         match = next(
-            (pb for pb in pricebooks if pb.get("pricebook_name") == name), None
+            (pb for pb in pricebooks.values() if pb.get("pricebook_name") == name), None
         )
         payload = match or {}
         out = json.dumps(payload, indent=2)
@@ -153,8 +153,8 @@ class GetPricebookByName(Tool):
 class GetOfferByCode(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], code: Any) -> str:
-        offers = data.get("offers", [])
-        match = next((o for o in offers if o.get("offer_code") == code), None)
+        offers = data.get("offers", {}).values()
+        match = next((o for o in offers.values() if o.get("offer_code") == code), None)
         payload = match or {}
         out = json.dumps(payload, indent=2)
         return out
@@ -184,14 +184,14 @@ class CreateCart(Tool):
         if not cart_id or not contact_id or not created_at:
             return _err("cart_id, contact_id, created_at are required.")
         carts = data.setdefault("carts", [])
-        if any(_as_id(c.get("cart_id")) == cart_id for c in carts):
-            existing = next(c for c in carts if _as_id(c.get("cart_id")) == cart_id)
+        if any(_as_id(c.get("cart_id")) == cart_id for c in carts.values()):
+            existing = next(c for c in carts.values() if _as_id(c.get("cart_id")) == cart_id)
             payload = existing
             out = json.dumps(payload, indent=2)
             return out
-        contacts = data.get("contacts", [])
+        contacts = data.get("contacts", {}).values()
         contact = next(
-            (c for c in contacts if _as_id(c.get("contact_id")) == contact_id), None
+            (c for c in contacts.values() if _as_id(c.get("contact_id")) == contact_id), None
         )
         if not contact:
             return _err("Contact not found.")
@@ -203,7 +203,7 @@ class CreateCart(Tool):
             "override_pricebook_id": None,
             "last_updated_at": created_at,
         }
-        carts.append(cart)
+        data["carts"][cart_id] = cart
         payload = cart
         out = json.dumps(payload, indent=2)
         return out
@@ -238,13 +238,13 @@ class AddItemToCart(Tool):
         product_id = _as_id(product_id)
         if not cart_id or not product_id or quantity is None:
             return _err("cart_id, product_id, quantity are required.")
-        carts = data.get("carts", [])
-        cart = next((c for c in carts if _as_id(c.get("cart_id")) == cart_id), None)
+        carts = data.get("carts", {}).values()
+        cart = next((c for c in carts.values() if _as_id(c.get("cart_id")) == cart_id), None)
         if not cart:
             return _err("Cart not found.")
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         product = next(
-            (p for p in products if _as_id(p.get("product_id")) == product_id), None
+            (p for p in products.values() if _as_id(p.get("product_id")) == product_id), None
         )
         if not product:
             return _err("Product not found.")
@@ -255,8 +255,7 @@ class AddItemToCart(Tool):
         existing = next(
             (
                 ci
-                for ci in items
-                if _as_id(ci.get("cart_id")) == cart_id
+                for ci in items.values() if _as_id(ci.get("cart_id")) == cart_id
                 and _as_id(ci.get("product_id")) == product_id
             ),
             None,
@@ -274,7 +273,7 @@ class AddItemToCart(Tool):
             "product_id": product_id,
             "quantity": qty,
         }
-        items.append(cart_item)
+        data["cart_items"][cart_item_id] = cart_item
         payload = {"cart_item_id": cart_item["cart_item_id"], "updated": False}
         out = json.dumps(
             payload, indent=2
@@ -308,9 +307,9 @@ class SetItemQuantity(Tool):
         if not cart_item_id or new_quantity is None:
             return _err("cart_item_id and new_quantity are required.")
         cart_item_id = str(cart_item_id)
-        items = data.get("cart_items", [])
+        items = data.get("cart_items", {}).values()
         line = next(
-            (ci for ci in items if ci.get("cart_item_id") == cart_item_id), None
+            (ci for ci in items.values() if ci.get("cart_item_id") == cart_item_id), None
         )
         if not line:
             return _err("Cart item not found.")
@@ -347,12 +346,11 @@ class RemoveItemFromCart(Tool):
         product_id = _as_id(product_id)
         if not cart_id or not product_id:
             return _err("cart_id and product_id are required.")
-        items = data.get("cart_items", [])
+        items = data.get("cart_items", {}).values()
         before = len(items)
         data["cart_items"] = [
             ci
-            for ci in items
-            if not (
+            for ci in items.values() if not (
                 _as_id(ci.get("cart_id")) == cart_id
                 and _as_id(ci.get("product_id")) == product_id
             )
@@ -385,23 +383,22 @@ class ApplyOfferToCart(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], carts: list = None, offers: list = None, cart_id: Any = None, code: Any = None) -> str:
         if carts is None:
-            carts = data.get("carts", [])
+            carts = data.get("carts", {}).values()
         if offers is None:
-            offers = data.get("offers", [])
+            offers = data.get("offers", {}).values()
 
         cart_id = _as_id(cart_id)
         if not cart_id or not code:
             return _err("cart_id and code are required.")
 
-        cart = next((c for c in carts if _as_id(c.get("cart_id")) == cart_id), None)
+        cart = next((c for c in carts.values() if _as_id(c.get("cart_id")) == cart_id), None)
         if not cart:
             return _err("Cart not found.")
 
         offer = next(
             (
                 o
-                for o in offers
-                if o.get("offer_code") == code and o.get("is_active") is True
+                for o in offers.values() if o.get("offer_code") == code and o.get("is_active") is True
             ),
             None,
         )
@@ -444,8 +441,8 @@ class SwitchCartPricebook(Tool):
         pricebook_id = _as_id(pricebook_id)
         if not cart_id or not pricebook_id:
             return _err("cart_id and pricebook_id are required.")
-        carts = data.get("carts", [])
-        cart = next((c for c in carts if _as_id(c.get("cart_id")) == cart_id), None)
+        carts = data.get("carts", {}).values()
+        cart = next((c for c in carts.values() if _as_id(c.get("cart_id")) == cart_id), None)
         if not cart:
             return _err("Cart not found.")
         cart["override_pricebook_id"] = pricebook_id
@@ -486,16 +483,16 @@ class PreviewCartTotals(Tool):
         if not cart_id:
             return _err("cart_id is required.")
         carts = carts or []
-        cart = next((c for c in carts if c.get("cart_id") == cart_id), None)
+        cart = next((c for c in carts.values() if c.get("cart_id") == cart_id), None)
         if not cart:
             return _err("Cart not found.")
 
         items = cart_items or []
-        lines = [ci for ci in items if ci.get("cart_id") == cart_id]
+        lines = [ci for ci in items.values() if ci.get("cart_id") == cart_id]
 
         accounts = accounts or []
         account = next(
-            (a for a in accounts if a.get("account_id") == cart.get("account_id")), None
+            (a for a in accounts.values() if a.get("account_id") == cart.get("account_id")), None
         )
         pricebook_id = cart.get("override_pricebook_id") or (
             account.get("default_pricebook_id") if account else "1"
@@ -509,8 +506,7 @@ class PreviewCartTotals(Tool):
             entry = next(
                 (
                     e
-                    for e in pbes
-                    if e.get("pricebook_id") == pricebook_id
+                    for e in pbes.values() if e.get("pricebook_id") == pricebook_id
                     and e.get("product_id") == li.get("product_id")
                 ),
                 None,
@@ -524,8 +520,7 @@ class PreviewCartTotals(Tool):
             offer = next(
                 (
                     o
-                    for o in offers
-                    if o.get("offer_id") == cart.get("applied_offer_id")
+                    for o in offers.values() if o.get("offer_id") == cart.get("applied_offer_id")
                     and o.get("is_active") is True
                 ),
                 None,
@@ -580,38 +575,37 @@ class CreateOrder(Tool):
 
         orders = data.setdefault("orders", [])
         existing = next(
-            (o for o in orders if _as_id(o.get("order_id")) == order_id), None
+            (o for o in orders.values() if _as_id(o.get("order_id")) == order_id), None
         )
         if existing:
             payload = existing
             out = json.dumps(payload, indent=2)
             return out
 
-        carts = data.get("carts", [])
-        cart = next((c for c in carts if _as_id(c.get("cart_id")) == cart_id), None)
+        carts = data.get("carts", {}).values()
+        cart = next((c for c in carts.values() if _as_id(c.get("cart_id")) == cart_id), None)
         if not cart:
             return _err("Cart not found.")
 
-        cart_items = data.get("cart_items", [])
-        lines = [ci for ci in cart_items if _as_id(ci.get("cart_id")) == cart_id]
+        cart_items = data.get("cart_items", {}).values()
+        lines = [ci for ci in cart_items.values() if _as_id(ci.get("cart_id")) == cart_id]
         if not lines:
             return _err("Cart has no items.")
 
-        accounts = data.get("accounts", [])
+        accounts = data.get("accounts", {}).values()
         account = next(
             (
                 a
-                for a in accounts
-                if _as_id(a.get("account_id")) == _as_id(cart.get("account_id"))
+                for a in accounts.values() if _as_id(a.get("account_id")) == _as_id(cart.get("account_id"))
             ),
             None,
         )
         pricebook_id = cart.get("override_pricebook_id") or (
             account.get("default_pricebook_id") if account else "1"
         )
-        pbes = data.get("pricebook_entries", [])
-        offers = data.get("offers", [])
-        products = data.get("products", [])
+        pbes = data.get("pricebook_entries", {}).values()
+        offers = data.get("offers", {}).values()
+        products = data.get("products", {}).values()
 
         subtotal = 0.0
         for li in lines:
@@ -619,8 +613,7 @@ class CreateOrder(Tool):
             pbe = next(
                 (
                     e
-                    for e in pbes
-                    if _as_id(e.get("pricebook_id")) == _as_id(pricebook_id)
+                    for e in pbes.values() if _as_id(e.get("pricebook_id")) == _as_id(pricebook_id)
                     and _as_id(e.get("product_id")) == pid
                 ),
                 None,
@@ -632,7 +625,7 @@ class CreateOrder(Tool):
             subtotal += price * qty
 
             prod = next(
-                (p for p in products if _as_id(p.get("product_id")) == pid), None
+                (p for p in products.values() if _as_id(p.get("product_id")) == pid), None
             )
             if not prod:
                 return _err(f"Product {pid} not found.")
@@ -646,8 +639,7 @@ class CreateOrder(Tool):
             offer = next(
                 (
                     o
-                    for o in offers
-                    if _as_id(o.get("offer_id")) == _as_id(cart.get("applied_offer_id"))
+                    for o in offers.values() if _as_id(o.get("offer_id")) == _as_id(cart.get("applied_offer_id"))
                     and o.get("is_active") is True
                 ),
                 None,
@@ -676,7 +668,7 @@ class CreateOrder(Tool):
             "total_amount": total,
             "shipping_address_used": None,
         }
-        orders.append(new_order)
+        data["orders"][order_id] = new_order
 
         order_items = data.setdefault("order_items", [])
         for idx, li in enumerate(lines, start=1):
@@ -684,8 +676,7 @@ class CreateOrder(Tool):
             pbe = next(
                 (
                     e
-                    for e in pbes
-                    if _as_id(e.get("pricebook_id")) == _as_id(pricebook_id)
+                    for e in pbes.values() if _as_id(e.get("pricebook_id")) == _as_id(pricebook_id)
                     and _as_id(e.get("product_id")) == pid
                 ),
                 None,
@@ -728,8 +719,8 @@ class GetOrder(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], order_id: Any) -> str:
         order_id = _as_id(order_id)
-        orders = data.get("orders", [])
-        match = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
+        orders = data.get("orders", {}).values()
+        match = next((o for o in orders.values() if _as_id(o.get("order_id")) == order_id), None)
         payload = match or {}
         out = json.dumps(payload, indent=2)
         return out
@@ -753,8 +744,8 @@ class ListOrderItems(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], order_id: Any, order_items: list[dict[str, Any]] = None) -> str:
         order_id = _as_id(order_id)
-        order_items = order_items if order_items is not None else data.get("order_items", [])
-        rows = [oi for oi in order_items if _as_id(oi.get("order_id")) == order_id]
+        order_items = order_items if order_items is not None else data.get("order_items", {}).values()
+        rows = [oi for oi in order_items.values() if _as_id(oi.get("order_id")) == order_id]
         items = [
             {
                 "product_id": r.get("product_id"),
@@ -791,8 +782,8 @@ class SetOrderShippingAddress(Tool):
         order_id = _as_id(order_id)
         if not order_id or address is None:
             return _err("order_id and address are required.")
-        orders = data.get("orders", [])
-        order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if _as_id(o.get("order_id")) == order_id), None)
         if not order:
             return _err("Order not found.")
         order["shipping_address_used"] = address
@@ -826,8 +817,8 @@ class CancelOrder(Tool):
         order_id = _as_id(order_id)
         if not order_id or not cancel_at:
             return _err("order_id and cancel_at are required.")
-        orders = data.get("orders", [])
-        order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if _as_id(o.get("order_id")) == order_id), None)
         if not order:
             return _err("Order not found.")
         order["status"] = "Cancelled"
@@ -863,13 +854,13 @@ class ReturnOrder(Tool):
         if not order_id or lines is None:
             return _err("order_id and lines are required.")
         lines = _coerce_ids_in(lines)
-        orders = data.get("orders", [])
-        order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if _as_id(o.get("order_id")) == order_id), None)
         if not order:
             return _err("Order not found.")
 
-        order_items = data.get("order_items", [])
-        products = data.get("products", [])
+        order_items = data.get("order_items", {}).values()
+        products = data.get("products", {}).values()
 
         items_processed = []
         total_refund = 0.0
@@ -882,8 +873,7 @@ class ReturnOrder(Tool):
             oi = next(
                 (
                     x
-                    for x in order_items
-                    if _as_id(x.get("order_id")) == order_id
+                    for x in order_items.values() if _as_id(x.get("order_id")) == order_id
                     and _as_id(x.get("product_id")) == pid
                 ),
                 None,
@@ -895,7 +885,7 @@ class ReturnOrder(Tool):
             total_refund += refund
 
             prod = next(
-                (p for p in products if _as_id(p.get("product_id")) == pid), None
+                (p for p in products.values() if _as_id(p.get("product_id")) == pid), None
             )
             if prod:
                 prod["stock_quantity"] = int(prod.get("stock_quantity", 0)) + qty
@@ -975,7 +965,7 @@ class CreateCase(Tool):
         order_id = _as_id(order_id)
         contact_id = _as_id(contact_id)
         cases = data.setdefault("cases", [])
-        exist = next((c for c in cases if _as_id(c.get("case_id")) == case_id), None)
+        exist = next((c for c in cases.values() if _as_id(c.get("case_id")) == case_id), None)
         if exist:
             payload = exist
             out = json.dumps(payload, indent=2)
@@ -988,7 +978,7 @@ class CreateCase(Tool):
             "status": "New",
             "created_at": created_at,
         }
-        cases.append(case)
+        data["cases"][case_id] = case
         payload = case
         out = json.dumps(payload, indent=2)
         return out
@@ -1028,8 +1018,8 @@ class UpdateCaseStatus(Tool):
         if not case_id or not status:
             return _err("case_id and status are required.")
         case_id = _as_id(case_id)
-        cases = data.get("cases", [])
-        case = next((c for c in cases if _as_id(c.get("case_id")) == case_id), None)
+        cases = data.get("cases", {}).values()
+        case = next((c for c in cases.values() if _as_id(c.get("case_id")) == case_id), None)
         if not case:
             return _err("Case not found.")
         case["status"] = status
@@ -1061,8 +1051,8 @@ class RefundOrderFull(Tool):
         if not order_id or not reason:
             return _err("order_id and reason are required.")
         order_id = _as_id(order_id)
-        orders = data.get("orders", [])
-        order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if _as_id(o.get("order_id")) == order_id), None)
         if not order:
             return _err("Order not found.")
         refunds = data.setdefault("refunds", [])
@@ -1075,7 +1065,7 @@ class RefundOrderFull(Tool):
             "kind": "full",
             "reason": reason,
         }
-        refunds.append(rec)
+        data["refunds"][rec["refund_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -1115,7 +1105,7 @@ class RefundOrderPartial(Tool):
             "kind": "partial",
             "reason": reason,
         }
-        refunds.append(rec)
+        data["refunds"][rec["refund_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -1170,7 +1160,7 @@ class GetElastiCacheCluster(Tool):
         cluster_id = _as_id(cluster_id)
         clusters = aws_elasticache_clusters or []
         m = next(
-            (c for c in clusters if _as_id(c.get("cluster_id")) == cluster_id), None
+            (c for c in clusters.values() if _as_id(c.get("cluster_id")) == cluster_id), None
         )
         payload = m or {}
         out = json.dumps(payload, indent=2)
@@ -1211,7 +1201,7 @@ class ProvisionElastiCacheCluster(Tool):
         cluster_id = _as_id(cluster_id)
         clusters = data.setdefault("aws_elasticache_clusters", [])
         existing = next(
-            (c for c in clusters if _as_id(c.get("cluster_id")) == cluster_id), None
+            (c for c in clusters.values() if _as_id(c.get("cluster_id")) == cluster_id), None
         )
         if existing:
             payload = existing
@@ -1234,7 +1224,7 @@ class ProvisionElastiCacheCluster(Tool):
             "created_at": str(created_at),
             "last_modified_at": str(created_at),
         }
-        clusters.append(rec)
+        data["aws_elasticache_clusters"][rec["aws_elasticache_cluster_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -1288,9 +1278,9 @@ class UpdateElastiCacheClusterStatus(Tool):
         data: dict[str, Any], cluster_id: Any, status: Any, changed_at: Any
     ) -> str:
         cluster_id = _as_id(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", [])
+        clusters = data.get("aws_elasticache_clusters", {}).values()
         m = next(
-            (c for c in clusters if _as_id(c.get("cluster_id")) == cluster_id), None
+            (c for c in clusters.values() if _as_id(c.get("cluster_id")) == cluster_id), None
         )
         if not m:
             return _err("Cluster not found.")
@@ -1331,9 +1321,9 @@ class DeleteElastiCacheCluster(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cluster_id: Any, deleted_at: Any) -> str:
         cluster_id = _as_id(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", [])
+        clusters = data.get("aws_elasticache_clusters", {}).values()
         m = next(
-            (c for c in clusters if _as_id(c.get("cluster_id")) == cluster_id), None
+            (c for c in clusters.values() if _as_id(c.get("cluster_id")) == cluster_id), None
         )
         if not m:
             return _err("Cluster not found.")
@@ -1394,7 +1384,7 @@ class CreateSubnetGroup(Tool):
         subnet_group_id = _as_id(subnet_group_id)
         groups = data.setdefault("aws_subnet_groups", [])
         existing = next(
-            (g for g in groups if _as_id(g.get("subnet_group_id")) == subnet_group_id),
+            (g for g in groups.values() if _as_id(g.get("subnet_group_id")) == subnet_group_id),
             None,
         )
         if existing:
@@ -1408,7 +1398,7 @@ class CreateSubnetGroup(Tool):
             "subnet_ids": [str(s) for s in (subnet_ids or [])],
             "vpc_id": _as_id(vpc_id),
         }
-        groups.append(rec)
+        data["aws_subnet_groups"][rec["aws_subnet_group_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -1446,10 +1436,10 @@ class DeleteSubnetGroup(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], subnet_group_id: Any, aws_subnet_groups: list = None) -> str:
         subnet_group_id = _as_id(subnet_group_id)
-        groups = aws_subnet_groups if aws_subnet_groups is not None else data.get("aws_subnet_groups", [])
+        groups = aws_subnet_groups if aws_subnet_groups is not None else data.get("aws_subnet_groups", {}).values()
         before = len(groups)
         data["aws_subnet_groups"] = [
-            g for g in groups if _as_id(g.get("subnet_group_id")) != subnet_group_id
+            g for g in groups.values() if _as_id(g.get("subnet_group_id")) != subnet_group_id
         ]
         if len(data["aws_subnet_groups"]) == before:
             return _err("Subnet group not found.")
@@ -1477,7 +1467,7 @@ class ListSecurityGroupRules(Tool):
     def invoke(data: dict[str, Any], group_id: Any, aws_security_group_rules: list = None) -> str:
         group_id = _as_id(group_id)
         rules = aws_security_group_rules if aws_security_group_rules is not None else []
-        rows = [r for r in rules if _as_id(r.get("group_id")) == group_id]
+        rows = [r for r in rules.values() if _as_id(r.get("group_id")) == group_id]
         payload = {"group_id": group_id, "rules": rows}
         out = json.dumps(payload, indent=2)
         return out
@@ -1519,7 +1509,7 @@ class AddSecurityGroupRule(Tool):
             "cidr": str(cidr),
             "description": str(description),
         }
-        rules.append(rec)
+        data["aws_security_group_rules"][rec["aws_security_group_rule_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -1562,7 +1552,7 @@ class RemoveSecurityGroupRule(Tool):
         rules = aws_security_group_rules or []
         before = len(rules)
         data["aws_security_group_rules"] = [
-            r for r in rules if _as_id(r.get("rule_id")) != rule_id
+            r for r in rules.values() if _as_id(r.get("rule_id")) != rule_id
         ]
         if len(data["aws_security_group_rules"]) == before:
             return _err("Rule not found.")
@@ -1591,7 +1581,7 @@ class GetSubnetGroup(Tool):
         subnet_group_id = _as_id(subnet_group_id)
         groups = aws_subnet_groups or []
         g = next(
-            (x for x in groups if _as_id(x.get("subnet_group_id")) == subnet_group_id),
+            (x for x in groups.values() if _as_id(x.get("subnet_group_id")) == subnet_group_id),
             None,
         )
         payload = g or {}
@@ -1619,9 +1609,9 @@ class UpdateSubnetGroupDescription(Tool):
         data: dict[str, Any], subnet_group_id: Any, name: Any, description: Any
     ) -> str:
         subnet_group_id = _as_id(subnet_group_id)
-        groups = data.get("aws_subnet_groups", [])
+        groups = data.get("aws_subnet_groups", {}).values()
         g = next(
-            (x for x in groups if _as_id(x.get("subnet_group_id")) == subnet_group_id),
+            (x for x in groups.values() if _as_id(x.get("subnet_group_id")) == subnet_group_id),
             None,
         )
         if not g:
@@ -1669,9 +1659,9 @@ class UpdateElastiCacheClusterConfig(Tool):
         changed_at: Any,
     ) -> str:
         cluster_id = _as_id(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", [])
+        clusters = data.get("aws_elasticache_clusters", {}).values()
         c = next(
-            (x for x in clusters if _as_id(x.get("cluster_id")) == cluster_id), None
+            (x for x in clusters.values() if _as_id(x.get("cluster_id")) == cluster_id), None
         )
         if not c:
             return _err("Cluster not found.")
@@ -1716,8 +1706,8 @@ class UpdateSecurityGroupRule(Tool):
     def invoke(data: dict[str, Any], rule_id: Any, cidr: Any, description: Any) -> str:
         # Updates only the rules established through our add_security_group_rule (rule_id = 'SGR_####')
         rule_id = _as_id(rule_id)
-        rules = data.get("aws_security_group_rules", [])
-        r = next((x for x in rules if _as_id(x.get("rule_id")) == rule_id), None)
+        rules = data.get("aws_security_group_rules", {}).values()
+        r = next((x for x in rules.values() if _as_id(x.get("rule_id")) == rule_id), None)
         if not r:
             return _err("Rule not found.")
         r["cidr"] = str(cidr)
@@ -1769,7 +1759,7 @@ class ReserveCartId(Tool):
         used = [c.get("cart_id") for c in (carts or [])]
         reserved = (_id_reservations or {}).get("cart_ids", [])
         next_id = _next_sequential_id(list(used) + list(reserved), "C")
-        resv = data.setdefault("_id_reservations", {})
+        resv = data.setdefault("_id_reservations", [])
         resv["cart_ids"] = list(set(reserved + [next_id]))
         payload = {"cart_id": next_id}
         out = json.dumps(payload, indent=2)
@@ -1792,7 +1782,7 @@ class ReserveOrderId(Tool):
         used = [o.get("order_id") for o in (orders or [])]
         reserved = (_id_reservations or {}).get("order_ids", [])
         next_id = _next_sequential_id(list(used) + list(reserved), "O")
-        resv = data.setdefault("_id_reservations", {})
+        resv = data.setdefault("_id_reservations", [])
         resv["order_ids"] = list(set(reserved + [next_id]))
         payload = {"order_id": next_id}
         out = json.dumps(payload, indent=2)

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateAllocation(Tool):
@@ -20,8 +20,8 @@ class UpdateAllocation(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
-        for allocation in allocations:
+        allocations = data.get("allocations", {}).values()
+        for allocation in allocations.values():
             if allocation.get("allocation_id") == allocation_id:
                 if hours_per_week is not None:
                     allocation["hours_per_week"] = hours_per_week

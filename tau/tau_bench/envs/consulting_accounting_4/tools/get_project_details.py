@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetProjectDetails(Tool):
@@ -16,7 +16,7 @@ class GetProjectDetails(Tool):
     def invoke(data: dict[str, Any], project_id: str = None) -> str:
         pid = project_id
         row = next(
-            (p for p in data.get("projects", []) if p.get("project_id") == pid), None
+            (p for p in data.get("projects", {}).values() if p.get("project_id") == pid), None
         )
         if not row:
             payload = {"error": f"Project '{pid}' not found"}

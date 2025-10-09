@@ -20,7 +20,7 @@ class AppendTrackingEvent(Tool):
                 payload, indent=2
             )
             return out
-        history = t.setdefault("tracking_history", {})
+        history = t.setdefault("tracking_history", {}).values()
         history[event] = timestamp
         payload = {
                 "success": True,

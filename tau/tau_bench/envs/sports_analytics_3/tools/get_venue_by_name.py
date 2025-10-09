@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetVenueByName(Tool):
@@ -22,7 +22,7 @@ class GetVenueByName(Tool):
             return out
 
         #2) Retrieve DB
-        venues: list[dict[str, Any]] = data.get("venues", [])
+        venues: list[dict[str, Any]] = data.get("venues", {}).values()
 
         #3) Exact match (without normalization)
         for venue in venues:

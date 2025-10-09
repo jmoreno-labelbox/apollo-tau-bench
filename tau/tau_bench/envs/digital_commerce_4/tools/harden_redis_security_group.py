@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class HardenRedisSecurityGroup(Tool):
@@ -16,7 +16,7 @@ class HardenRedisSecurityGroup(Tool):
         data: dict[str, Any], security_group_id: str, allowed_cidr_list: list[str]
     ) -> str:
         security_group_id = _sid(security_group_id)
-        rules = data.get("aws_security_group_rules", [])
+        rules = data.get("aws_security_group_rules", {}).values()
         changed = []
         for r in list(rules):
             if (
@@ -29,8 +29,7 @@ class HardenRedisSecurityGroup(Tool):
                 changed.append(r.get("rule_id"))
         existing = {
             (x.get("port"), x.get("protocol"), x.get("source_ip"))
-            for x in rules
-            if x.get("security_group_id") == security_group_id
+            for x in rules.values() if x.get("security_group_id") == security_group_id
         }
         for cidr in allowed_cidr_list:
             key = (6379, "TCP", cidr)

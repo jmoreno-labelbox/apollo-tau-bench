@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetEmployeeExpenseHistory(Tool):
@@ -20,13 +20,13 @@ class GetEmployeeExpenseHistory(Tool):
             out = json.dumps(payload)
             return out
 
-        employees = data.get("employees", [])
-        expenses = data.get("expenses", [])
-        reimbursements = data.get("reimbursements", [])
-        allocations = data.get("allocations", [])
+        employees = data.get("employees", {}).values()
+        expenses = data.get("expenses", {}).values()
+        reimbursements = data.get("reimbursements", {}).values()
+        allocations = data.get("allocations", {}).values()
 
         employee = next(
-            (e for e in employees if e.get("employee_id") == employee_id), None
+            (e for e in employees.values() if e.get("employee_id") == employee_id), None
         )
         if not employee:
             payload = {"error": f"Employee {employee_id} not found"}
@@ -35,13 +35,12 @@ class GetEmployeeExpenseHistory(Tool):
 
         employee_expenses = [
             e
-            for e in expenses
-            if e.get("employee_id") == employee_id
+            for e in expenses.values() if e.get("employee_id") == employee_id
             and e.get("fiscal_year") == fiscal_year
         ]
 
         employee_reimbursements = [
-            r for r in reimbursements if r.get("employee_id") == employee_id
+            r for r in reimbursements.values() if r.get("employee_id") == employee_id
         ]
 
         expenses_by_project = {}
@@ -67,8 +66,7 @@ class GetEmployeeExpenseHistory(Tool):
         total_allocation_percentage = 0
         active_allocations = [
             a
-            for a in allocations
-            if a.get("employee_id") == employee_id and a.get("status") == "active"
+            for a in allocations.values() if a.get("employee_id") == employee_id and a.get("status") == "active"
         ]
 
         for allocation in active_allocations:
@@ -82,10 +80,10 @@ class GetEmployeeExpenseHistory(Tool):
             "employee_name": employee.get("name"),
             "fiscal_year": fiscal_year,
             "expense_summary": {
-                "total_expenses": sum(e.get("amount", 0) for e in employee_expenses),
+                "total_expenses": sum(e.get("amount", 0) for e in employee_expenses.values()),
                 "expense_count": len(employee_expenses),
                 "approved_count": len(
-                    [e for e in employee_expenses if e.get("status") == "approved"]
+                    [e for e in employee_expenses.values() if e.get("status") == "approved"]
                 ),
                 "pending_count": len(
                     [
@@ -95,7 +93,7 @@ class GetEmployeeExpenseHistory(Tool):
                     ]
                 ),
                 "rejected_count": len(
-                    [e for e in employee_expenses if e.get("status") == "rejected"]
+                    [e for e in employee_expenses.values() if e.get("status") == "rejected"]
                 ),
             },
             "reimbursement_summary": {
@@ -123,7 +121,7 @@ class GetEmployeeExpenseHistory(Tool):
                     ]
                 ),
                 "over_limit_expenses": len(
-                    [e for e in employee_expenses if e.get("amount", 0) > monthly_limit]
+                    [e for e in employee_expenses.values() if e.get("amount", 0) > monthly_limit]
                 ),
             },
         }

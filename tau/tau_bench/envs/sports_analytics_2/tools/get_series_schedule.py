@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSeriesSchedule(Tool):
@@ -16,11 +16,10 @@ class GetSeriesSchedule(Tool):
         pass
         opponent_team_id = kwargs.get("opponent_team_id")
         date_filter = kwargs.get("date")
-        games = data.get("games", [])
+        games = data.get("games", {}).values()
         schedule = [
             g
-            for g in games
-            if g.get("home_team_id") == opponent_team_id
+            for g in games.values() if g.get("home_team_id") == opponent_team_id
             or g.get("away_team_id") == opponent_team_id
         ]
         if date_filter:

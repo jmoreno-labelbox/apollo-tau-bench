@@ -8,16 +8,16 @@ from typing import Any, Dict, List
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RemoveBeneficiary(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], beneficiary_id: str = None) -> str:
-        beneficiaries = data.get('beneficiaries', [])
+        beneficiaries = data.get('beneficiaries', {}).values()
 
         initial_len = len(beneficiaries)
-        data['beneficiaries'] = [b for b in beneficiaries if b['beneficiary_id'] != beneficiary_id]
+        data['beneficiaries'] = [b for b in beneficiaries.values() if b['beneficiary_id'] != beneficiary_id]
 
         if len(data['beneficiaries']) < initial_len:
             return json.dumps({"status": "Success", "beneficiary_id": beneficiary_id, "action": "removed"})

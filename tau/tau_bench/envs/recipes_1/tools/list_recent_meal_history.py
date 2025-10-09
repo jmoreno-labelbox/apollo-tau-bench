@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListRecentMealHistory(Tool):
@@ -25,11 +25,11 @@ class ListRecentMealHistory(Tool):
         else:
             hh = [
                 h
-                for h in data.get("meal_history", [])
+                for h in data.get("meal_history", {}).values()
                 if int(h.get("household_id")) == int(household_id)
             ]
             if hh:
-                md = max(str(h["plan_date"]) for h in hh)
+                md = max(str(h["plan_date"]) for h in hh.values()
                 y, m, d = (int(x) for x in md.split("-"))
                 end = date(y, m, d)
             else:
@@ -37,7 +37,7 @@ class ListRecentMealHistory(Tool):
         start = end - timedelta(days=int(days_back))
         out = [
             int(r.get("recipe_id"))
-            for r in data.get("meal_history", [])
+            for r in data.get("meal_history", {}).values()
             if int(r.get("household_id")) == int(household_id)
             and str(r.get("plan_date")) >= start.isoformat()
         ]

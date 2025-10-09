@@ -24,7 +24,7 @@ class AssignLicense(Tool):
             return out
 
         #Alter the dictionary within the list directly
-        for item in data["license_inventory"]:
+        for item in data["license_inventory"].values():
             if item["license_id"] == license_id:
                 item["used_seats"] += 1
                 break

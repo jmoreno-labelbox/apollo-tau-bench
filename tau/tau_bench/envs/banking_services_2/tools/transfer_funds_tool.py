@@ -7,19 +7,19 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class TransferFundsTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], from_account_id: str, to_account_id: str, amount: float, description: str = 'Internal transfer') -> str:
-        accounts = data.get('accounts', [])
-        transactions = data.get('transactions', [])
+        accounts = data.get('accounts', {}).values()
+        transactions = data.get('transactions', {}).values()
 
         from_account = None
         to_account = None
 
-        for account in accounts:
+        for account in accounts.values():
             if account['account_id'] == from_account_id:
                 from_account = account
             elif account['account_id'] == to_account_id:
@@ -58,8 +58,8 @@ class TransferFundsTool(Tool):
             "channel": "Online"
         }
 
-        transactions.append(debit_transaction)
-        transactions.append(credit_transaction)
+        data["transactions"][transaction_id] = debit_transaction
+        data["transactions"][transaction_id] = credit_transaction
 
         return json.dumps({
             "success": True,

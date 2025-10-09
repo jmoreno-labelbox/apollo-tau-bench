@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RemoveDevice(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], devices: list = None, rooms: list = None, device_id: str = None, new_device: Any = None) -> str:
-        devices = devices if devices is not None else data.get("devices", [])
+        devices = devices if devices is not None else data.get("devices", {}).values()
         initial_len = len(devices)
-        devices[:] = [d for d in devices if d.get("id") != device_id]
+        devices[:] = [d for d in devices.values() if d.get("id") != device_id]
 
         if len(devices) == initial_len:
             payload = {"error": f"Device with ID '{device_id}' not found."}
@@ -25,7 +25,7 @@ class RemoveDevice(Tool):
             return out
 
         # Additionally, eliminate from rooms
-        rooms = rooms if rooms is not None else data.get("rooms", [])
+        rooms = rooms if rooms is not None else data.get("rooms", {}).values()
         for room in rooms:
             if device_id in room.get("devices", []):
                 room["devices"].remove(device_id)

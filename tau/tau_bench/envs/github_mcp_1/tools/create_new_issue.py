@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateNewIssue(Tool):
@@ -83,7 +83,7 @@ class CreateNewIssue(Tool):
             return out
 
         # Load issues DB
-        issues_db = _convert_db_to_list(data.get("issues", {}))
+        issues_db = _convert_db_to_list(data.get("issues", {}).values()
         if not isinstance(issues_db, list):
             payload = {"error": "Invalid issues DB: expected a list at data['issues']."}
             out = json.dumps(

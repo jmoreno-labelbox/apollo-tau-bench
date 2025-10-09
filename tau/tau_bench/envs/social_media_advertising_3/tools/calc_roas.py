@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalcRoas(Tool):
@@ -19,7 +19,7 @@ class CalcRoas(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], adset_id: str = None, date: str = None) -> str:
         aid, date = adset_id, date
-        for i in data.get("f_insights", []):
+        for i in data.get("f_insights", {}).values():
             if i.get("adset_id") == aid and i.get("date") == date:
                 s, r = i.get("spend", 0), i.get("revenue", 0)
                 payload = {"adset_id": aid, "roas": round(r / s, 2) if s > 0 else 0}

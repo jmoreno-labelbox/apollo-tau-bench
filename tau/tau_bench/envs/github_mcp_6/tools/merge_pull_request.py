@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class MergePullRequest(Tool):
@@ -22,9 +22,9 @@ class MergePullRequest(Tool):
     ) -> str:
         """Merge a PR using the specified method with optional commit message."""
         pass
-        pull_requests = data.get("pull_requests", [])
+        pull_requests = data.get("pull_requests", {}).values()
 
-        for pr_entry in pull_requests:
+        for pr_entry in pull_requests.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)

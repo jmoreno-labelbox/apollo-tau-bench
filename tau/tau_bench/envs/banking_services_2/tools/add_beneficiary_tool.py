@@ -7,14 +7,14 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddBeneficiaryTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None, beneficiary_name: str = None, 
                account_number: str = None, routing_number: str = None, bank_name: str = None, iban: str = None) -> str:
-        beneficiaries = data.get('beneficiaries', [])
+        beneficiaries = data.get('beneficiaries', {}).values()
 
         beneficiary_id = f"ben_{generate_unique_id()}"
 
@@ -32,7 +32,7 @@ class AddBeneficiaryTool(Tool):
         if iban:
             new_beneficiary["iban"] = iban
 
-        beneficiaries.append(new_beneficiary)
+        data["beneficiaries"][new_beneficiary["beneficiarie_id"]] = new_beneficiary
 
         return json.dumps({
             "beneficiary_id": beneficiary_id,

@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateReleaseTool(Tool):
@@ -51,9 +51,9 @@ class CreateReleaseTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        releases = data.get("releases", [])
+        releases = data.get("releases", {}).values()
         if any(
-            r.get("repo") == repo_name and r.get("version") == version for r in releases
+            r.get("repo") == repo_name and r.get("version") == version for r in releases.values()
         ):
             return _response(
                 "error",
@@ -73,7 +73,7 @@ class CreateReleaseTool(Tool):
         new_release["release_id"] = _safe_id(
             new_release, "release_id", "REL_", ["repo", "version"]
         )
-        releases.append(new_release)
+        data["releases"][release_id] = new_release
         return _response("ok", new_release)
     @staticmethod
     def get_info() -> dict[str, Any]:

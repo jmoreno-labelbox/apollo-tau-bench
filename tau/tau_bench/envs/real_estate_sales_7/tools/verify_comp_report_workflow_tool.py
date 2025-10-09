@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class VerifyCompReportWorkflowTool(Tool):
@@ -22,7 +22,7 @@ class VerifyCompReportWorkflowTool(Tool):
 
         reports = {
             int(r.get("report_id")): r
-            for r in data.get("comp_reports", [])
+            for r in data.get("comp_reports", {}).values()
             if r.get("report_id") is not None
         }
         r = reports.get(int(report_id))
@@ -32,21 +32,20 @@ class VerifyCompReportWorkflowTool(Tool):
 
         comps = [
             c
-            for c in data.get("comparables", [])
+            for c in data.get("comparables", {}).values()
             if int(c.get("report_id", -1)) == int(report_id)
         ]
         comparables_count = len(comps)
 
-        emails = data.get("emails", [])
+        emails = data.get("emails", {}).values()
         emails_sent = sum(
             1
-            for e in emails
-            if r and int(e.get("client_id", -1)) == int(r.get("client_id", -2))
+            for e in emails.values() if r and int(e.get("client_id", -1)) == int(r.get("client_id", -2))
         )
 
         audits = [
             a
-            for a in data.get("audit_events", [])
+            for a in data.get("audit_events", {}).values()
             if a.get("entity_type") == "comp_report"
             and str(a.get("entity_id")) == str(report_id)
         ]

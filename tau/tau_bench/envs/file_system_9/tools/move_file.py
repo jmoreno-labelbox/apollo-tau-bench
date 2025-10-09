@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class MoveFile(Tool):
@@ -18,7 +18,7 @@ class MoveFile(Tool):
         file_to_move = None
         source_directory = None
 
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             for directory in server.get("directories", []):
                 for file in directory.get("files", []):
                     if f"{directory.get('path')}/{file.get('filename')}" == source_path:
@@ -46,7 +46,7 @@ class MoveFile(Tool):
 
         file_to_move["filename"] = dest_filename
 
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             for directory in server.get("directories", []):
                 if directory.get("path") == dest_dir_path:
                     directory["files"].append(file_to_move)

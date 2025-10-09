@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DlpScanThreadTool(Tool):
@@ -24,9 +24,9 @@ class DlpScanThreadTool(Tool):
 
         dlp = _get_config_json(data, "dlp_config")
         patterns = dlp.get("block_patterns", []) if isinstance(dlp, dict) else []
-        messages = data.get("gmail_messages", [])
+        messages = data.get("gmail_messages", {}).values()
         found: set[str] = set()
-        for m in messages:
+        for m in messages.values():
             if m.get("thread_id") != thread_id:
                 continue
             body = (m.get("body") or "").lower()

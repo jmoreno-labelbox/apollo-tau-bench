@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpsertScene(Tool):
@@ -21,7 +21,7 @@ class UpsertScene(Tool):
         name: str = None,
         description: str = None
     ) -> str:
-        scenes_doc: list[dict[str, Any]] = data.get("scenes", [])
+        scenes_doc: list[dict[str, Any]] = data.get("scenes", {}).values()
         scenes = scenes_doc
         for scene in scenes:
             if scene.get("id") == id:
@@ -38,7 +38,7 @@ class UpsertScene(Tool):
         out = json.dumps(payload, indent=2)
         return out
         pass
-        scenes_doc: list[dict[str, Any]] = data.get("scenes", [])
+        scenes_doc: list[dict[str, Any]] = data.get("scenes", {}).values()
         scenes = scenes_doc
         for scene in scenes:
             if scene.get("id") == id:

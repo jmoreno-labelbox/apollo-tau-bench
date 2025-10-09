@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateScopeBaseline(Tool):
@@ -45,13 +45,12 @@ class CreateScopeBaseline(Tool):
             out = json.dumps(payload)
             return out
 
-        scope_baselines = data.get("scope_baselines", [])
+        scope_baselines = data.get("scope_baselines", {}).values()
 
         existing = next(
             (
                 b
-                for b in scope_baselines
-                if b.get("project_id") == project_id and b.get("status") == "approved"
+                for b in scope_baselines.values() if b.get("project_id") == project_id and b.get("status") == "approved"
             ),
             None,
         )
@@ -65,7 +64,7 @@ class CreateScopeBaseline(Tool):
         if baseline_id is None:
             baseline_id = f"bl_{uuid.uuid4().hex[:8]}"
 
-        total_hours = sum(d.get("estimated_hours", 0) for d in deliverables)
+        total_hours = sum(d.get("estimated_hours", 0) for d in deliverables.values()
 
         new_baseline = {
             "baseline_id": baseline_id,
@@ -88,7 +87,7 @@ class CreateScopeBaseline(Tool):
             "change_history": [],
         }
 
-        scope_baselines.append(new_baseline)
+        data["scope_baselines"][new_baseline["scope_baseline_id"]] = new_baseline
         payload = {"success": True, "baseline": new_baseline}
         out = json.dumps(payload)
         return out

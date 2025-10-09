@@ -9,7 +9,7 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateCustomerAccountTool(Tool):
@@ -39,7 +39,7 @@ class CreateCustomerAccountTool(Tool):
         if not all([customer_id, account_type, currency]):
             return json.dumps({"error": "Missing required fields"}, indent=2)
 
-        accounts = data.get("accounts", [])
+        accounts = data.get("accounts", {}).values()
         account_id = f"acc_{generate_unique_id()}"
         new_account = {
             "account_id": account_id,
@@ -50,7 +50,7 @@ class CreateCustomerAccountTool(Tool):
             "status": "Active",
             "created_at": get_current_timestamp(),
         }
-        accounts.append(new_account)
+        data["accounts"][account_id] = new_account
 
         return json.dumps(
             {"message": "Account created", "account_id": account_id}, indent=2
@@ -58,7 +58,7 @@ class CreateCustomerAccountTool(Tool):
         if not all([customer_id, account_type, currency]):
             return json.dumps({"error": "Missing required fields"}, indent=2)
 
-        accounts = data.get("accounts", [])
+        accounts = data.get("accounts", {}).values()
         account_id = f"acc_{generate_unique_id()}"
         new_account = {
             "account_id": account_id,
@@ -69,7 +69,7 @@ class CreateCustomerAccountTool(Tool):
             "status": "Active",
             "created_at": get_current_timestamp(),
         }
-        accounts.append(new_account)
+        data["accounts"][account_id] = new_account
 
         return json.dumps(
             {"message": "Account created", "account_id": account_id}, indent=2

@@ -36,7 +36,7 @@ class CreateTmsJob(Tool):
         if not jid:
             jid = f"tms_job_{len(jobs) + 1:04d}"
 
-        if any(j.get("id") == jid for j in jobs):
+        if any(j.get("id") == jid for j in jobs.values()):
             return _err(f"TMS job id {jid} already exists")
         job = {
             "id": jid,

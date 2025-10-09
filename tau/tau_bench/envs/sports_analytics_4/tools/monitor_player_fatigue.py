@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class MonitorPlayerFatigue(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], player_id: str = None) -> str:
-        workloads = data.get("player_workload", [])
-        workload = next((w for w in workloads if w.get("player_id") == player_id), {})
+        workloads = data.get("player_workload", {}).values()
+        workload = next((w for w in workloads.values() if w.get("player_id") == player_id), {}).values()
         fatigue_score = (
             workload.get("innings_pitched", 0) * 0.5
             + workload.get("pitches_thrown", 0) * 0.1

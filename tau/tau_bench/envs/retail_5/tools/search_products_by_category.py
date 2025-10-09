@@ -31,13 +31,13 @@ class SearchProductsByCategory(Tool):
 
         # Establish a mapping from item_id to stock level for fast retrieval
         item_stock_map = {}
-        for supplier in suppliers:
-            for item_id, stock in supplier.get("item_stock", {}).items():
+        for supplier in suppliers.values():
+            for item_id, stock in supplier.get("item_stock", {}).values().items():
                 # Take into account only numeric stock levels
                 if isinstance(stock, (int, float)) and stock >= 0:
                     item_stock_map[item_id] = stock
 
-        for product in products:
+        for product in products.values():
             if category.lower() in product["name"].lower():
                 for variant_id, variant in product["variants"].items():
                     if available_only and not variant.get("available", False):

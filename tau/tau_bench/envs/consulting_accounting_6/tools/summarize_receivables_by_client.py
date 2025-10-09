@@ -14,7 +14,7 @@ class SummarizeReceivablesByClient(Tool):
             pid = inv.get("publisher_id")
             bucket = inv.get("aging_bucket", "0-30")
             amt = float(inv.get("total_due", 0))
-            summary.setdefault(pid, {})
+            summary.setdefault(pid, {}).values()
             summary[pid][bucket] = summary[pid].get(bucket, 0.0) + amt
         payload = {"summary_by_publisher": summary}
         out = json.dumps(payload, indent=2)

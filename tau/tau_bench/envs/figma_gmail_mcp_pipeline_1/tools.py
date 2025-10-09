@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -26,13 +26,13 @@ def custom_hash(input_string):
 
 def get_config_options(data: dict[str, Any], key: str) -> list[str]:
     pass
-    system_config = data.get("system_config", [])
-    for item in system_config:
+    system_config = data.get("system_config", {}).values()
+    for item in system_config.values():
         if item.get("config_key") == key:
             try:
                 value = json.loads(item.get("config_value_json", "{}"))
                 if isinstance(value, dict):
-                    return list(value.values())
+                    return list(value)
                 elif isinstance(value, list):
                     return value
             except Exception:
@@ -65,7 +65,7 @@ class CreateReviewCycle(Tool):  #WRITE
             payload = {"error": f"Invalid status. Allowed: {allowed_status}"}
             out = json.dumps(payload)
             return out
-        review_cycles = data.get("review_cycles", [])
+        review_cycles = data.get("review_cycles", {}).values()
         #Create a new cycle_id
         next_num = len(review_cycles) + 1
         cycle_id = f"cycle_{next_num:03d}"
@@ -83,7 +83,7 @@ class CreateReviewCycle(Tool):  #WRITE
             "sla_breached_flag": False,
             "escalated_ts_nullable": None,
         }
-        review_cycles.append(new_cycle)
+        data["review_cycles"][new_cycle["review_cycle_id"]] = new_cycle
         payload = {"new_cycle": new_cycle}
         out = json.dumps(payload)
         return out
@@ -132,8 +132,8 @@ class ExportFigmaArtifactsToAssets(Tool):  #WRITE
             payload = {"error": "artifact_ids must be a list of strings"}
             out = json.dumps(payload)
             return out
-        artifacts = data.get("figma_artifacts", [])
-        assets = data.get("assets", [])
+        artifacts = data.get("figma_artifacts", {}).values()
+        assets = data.get("assets", {}).values()
         #Standard export profile
         default_profile = {"format": "PNG", "scale": "2x"}
         profile = export_profile if export_profile else default_profile
@@ -159,7 +159,7 @@ class ExportFigmaArtifactsToAssets(Tool):  #WRITE
             return out
         exported = []
         for aid in artifact_ids:
-            artifact = next((a for a in artifacts if a.get("artifact_id") == aid), None)
+            artifact = next((a for a in artifacts.values() if a.get("artifact_id") == aid), None)
             if not artifact:
                 continue
             #Construct the export_profile string similar to assets.json
@@ -178,7 +178,7 @@ class ExportFigmaArtifactsToAssets(Tool):  #WRITE
                 "dlp_scan_status": "CLEAN",
                 "dlp_scan_details_nullable": None,
             }
-            assets.append(asset)
+            data["assets"][asset_id] = asset
             exported.append(asset["asset_id"])
         payload = {"exported_asset_ids": exported, "profile": profile}
         out = json.dumps(payload)
@@ -226,17 +226,17 @@ class FilterFigmaArtifactsByTags(Tool):  #READ
     def invoke(data: dict[str, Any], tags: list[str]) -> str:
         pass
         #Check the input for validity
-        if not isinstance(tags, list) or not all(isinstance(tag, str) for tag in tags):
+        if not isinstance(tags, list) or not all(isinstance(tag, str) for tag in tags.values()):
             payload = {"error": "tags must be a list of strings"}
             out = json.dumps(payload)
             return out
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = data.get("figma_artifacts", {}).values()
         #Gather all distinct tags from artifacts
         all_tags = set()
-        for artifact in artifacts:
+        for artifact in artifacts.values():
             all_tags.update(artifact.get("current_tags", []))
         #Verify that all provided tags are plausible
-        unrealistic = [tag for tag in tags if tag not in all_tags]
+        unrealistic = [tag for tag in tags.values() if tag not in all_tags]
         if unrealistic:
             payload = {
                     "error": f"Unrealistic tags: {unrealistic}. These tags do not appear in any artifact."
@@ -245,9 +245,9 @@ class FilterFigmaArtifactsByTags(Tool):  #READ
                 payload)
             return out
         matching_ids = []
-        for artifact in artifacts:
+        for artifact in artifacts.values():
             artifact_tags = artifact.get("current_tags", [])
-            if all(tag in artifact_tags for tag in tags):
+            if all(tag in artifact_tags for tag in tags.values()):
                 matching_ids.append(artifact.get("artifact_id"))
         if not matching_ids:
             payload = {"artifact_ids": "No matching artifacts found."}
@@ -290,11 +290,11 @@ class GetArtifactIdFromName(Tool):  #READ
             out = json.dumps(payload)
             return out
 
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = data.get("figma_artifacts", {}).values()
 
         #Look for an exact match initially
         exact_match = None
-        for artifact in artifacts:
+        for artifact in artifacts.values():
             if artifact.get("artifact_name") == artifact_name:
                 exact_match = artifact
                 break
@@ -313,7 +313,7 @@ class GetArtifactIdFromName(Tool):  #READ
         #If an exact match is not found, search for partial matches (case-insensitive)
         partial_matches = []
         artifact_name_lower = artifact_name.lower()
-        for artifact in artifacts:
+        for artifact in artifacts.values():
             artifact_artifact_name = artifact.get("artifact_name", "").lower()
             if (
                 artifact_name_lower in artifact_artifact_name
@@ -385,7 +385,7 @@ class CreateGmailMessage(Tool):  #WRITE
             payload = {"error": "workflow_type must be a non-empty string"}
             out = json.dumps(payload)
             return out
-        gmail_messages = data.get("gmail_messages", [])
+        gmail_messages = data.get("gmail_messages", {}).values()
         next_num = len(gmail_messages) + 1
         message_id = f"msg_{next_num:03d}"
         sent_ts = "2025-08-26T12:00:00Z"  #Utilize the current date/time in production
@@ -404,7 +404,7 @@ class CreateGmailMessage(Tool):  #WRITE
                 attachments_asset_ids if attachments_asset_ids else []
             ),
         }
-        gmail_messages.append(new_message)
+        data["gmail_messages"][gmail_message_id] = new_message
         payload = {"new_message": new_message}
         out = json.dumps(payload)
         return out
@@ -479,13 +479,13 @@ class CreateGmailThread(Tool):  #WRITE
             out = json.dumps(payload)
             return out
         gmail_labels = get_config_options(data, "gmail_labels")
-        invalid_labels = [l for l in current_labels if l not in gmail_labels]
+        invalid_labels = [l for l in current_labels.values() if l not in gmail_labels]
         if invalid_labels:
             payload = {"error": f"Invalid labels: {invalid_labels}. Allowed: {gmail_labels}"}
             out = json.dumps(
                 payload)
             return out
-        gmail_threads = data.get("gmail_threads", [])
+        gmail_threads = data.get("gmail_threads", {}).values()
         next_num = len(gmail_threads) + 1
         thread_id = f"thread_{next_num:03d}"
         created_ts = "2025-08-26T12:00:00Z"  #Utilize the current date/time in production
@@ -501,7 +501,7 @@ class CreateGmailThread(Tool):  #WRITE
             "current_labels": current_labels,
             "created_ts": created_ts,
         }
-        gmail_threads.append(new_thread)
+        gmail_thredata["ads"][ad_id] = new_thread
         payload = {"new_thread": new_thread}
         out = json.dumps(payload)
         return out
@@ -563,11 +563,11 @@ class CreateFigmaCommentFromGmailMessage(Tool):  #WRITE
             payload = {"error": "gmail_message_id must be a non-empty string"}
             out = json.dumps(payload)
             return out
-        gmail_messages = data.get("gmail_messages", [])
-        figma_comments = data.get("figma_comments", [])
+        gmail_messages = data.get("gmail_messages", {}).values()
+        figma_comments = data.get("figma_comments", {}).values()
         #Locate the Gmail message
         gmail_msg = next(
-            (m for m in gmail_messages if m.get("message_id") == gmail_message_id), None
+            (m for m in gmail_messages.values() if m.get("message_id") == gmail_message_id), None
         )
         if not gmail_msg:
             payload = {"error": "gmail_message_id not found in gmail_messages"}
@@ -586,7 +586,7 @@ class CreateFigmaCommentFromGmailMessage(Tool):  #WRITE
             "comment_text": comment_text,
             "created_ts": created_ts,
         }
-        figma_comments.append(new_comment)
+        data["figma_comments"][new_comment["figma_comment_id"]] = new_comment
         payload = {"new_comment": new_comment}
         out = json.dumps(payload)
         return out
@@ -639,18 +639,17 @@ class CreateReviewApproval(Tool):  #WRITE
             out = json.dumps(
                 payload)
             return out
-        review_approvals = data.get("review_approvals", [])
+        review_approvals = data.get("review_approvals", {}).values()
         next_num = len(review_approvals) + 1
         approval_id = f"approval_{next_num:03d}"
         approved_ts = "2025-08-26T12:00:00Z"  #Utilize the current date/time in production
         #If a comment is given, attempt to retrieve approver_email from figma_comments
         if approval_comment_id:
-            figma_comments = data.get("figma_comments", [])
+            figma_comments = data.get("figma_comments", {}).values()
             comment = next(
                 (
                     c
-                    for c in figma_comments
-                    if c.get("comment_id") == approval_comment_id
+                    for c in figma_comments.values() if c.get("comment_id") == approval_comment_id
                 ),
                 None,
             )
@@ -663,7 +662,7 @@ class CreateReviewApproval(Tool):  #WRITE
             "approved_ts": approved_ts,
             "approval_comment_ref_nullable": approval_comment_id,
         }
-        review_approvals.append(new_approval)
+        data["review_approvals"][new_approval["review_approval_id"]] = new_approval
         payload = {"new_approval": new_approval}
         out = json.dumps(payload)
         return out
@@ -723,11 +722,11 @@ class UpdateReviewCycleStatus(Tool):  #WRITE
             out = json.dumps(payload)
             return out
 
-        review_cycles = data.get("review_cycles", [])
+        review_cycles = data.get("review_cycles", {}).values()
 
         #Identify the review cycle that needs updating
         cycle_found = False
-        for cycle in review_cycles:
+        for cycle in review_cycles.values():
             if cycle.get("cycle_id") == cycle_id:
                 cycle_found = True
                 old_status = cycle.get("status")
@@ -788,10 +787,10 @@ class DetectReleaseVersion(Tool):  #READ
             out = json.dumps(payload)
             return out
 
-        releases = data.get("releases", [])
+        releases = data.get("releases", {}).values()
 
         #Identify the release
-        release = next((r for r in releases if r.get("release_id") == release_id), None)
+        release = next((r for r in releases.values() if r.get("release_id") == release_id), None)
         if not release:
             payload = {"error": f"Release with release_id '{release_id}' not found"}
             out = json.dumps(
@@ -847,12 +846,12 @@ class ComputeReleaseDiffs(Tool):  #READ
                 payload)
             return out
 
-        releases = data.get("releases", [])
-        figma_artifacts = data.get("figma_artifacts", [])
+        releases = data.get("releases", {}).values()
+        figma_artifacts = data.get("figma_artifacts", {}).values()
 
         #Identify the active release
         current_release = next(
-            (r for r in releases if r.get("release_id") == release_id), None
+            (r for r in releases.values() if r.get("release_id") == release_id), None
         )
         if not current_release:
             payload = {"error": f"Release with release_id '{release_id}' not found"}
@@ -866,8 +865,7 @@ class ComputeReleaseDiffs(Tool):  #READ
         #Locate the last release with the same figma_file_id (using created_ts)
         same_file_releases = [
             r
-            for r in releases
-            if r.get("figma_file_id") == current_figma_file_id
+            for r in releases.values() if r.get("figma_file_id") == current_figma_file_id
             and r.get("release_id") != release_id
         ]
 
@@ -895,8 +893,7 @@ class ComputeReleaseDiffs(Tool):  #READ
         #Locate all figma_artifacts sharing the same figma_file_id
         same_file_artifacts = [
             artifact
-            for artifact in figma_artifacts
-            if artifact.get("figma_file_id") == current_figma_file_id
+            for artifact in figma_artifacts.values() if artifact.get("figma_file_id") == current_figma_file_id
         ]
 
         frames_added = []
@@ -1037,7 +1034,7 @@ class SaveReleaseDiffs(Tool):  #WRITE
 
         #Verify if a diff is already present for this release_id
         existing_diff = next(
-            (diff for diff in release_diffs if diff.get("release_id") == release_id),
+            (diff for diff in release_diffs.values() if diff.get("release_id") == release_id),
             None,
         )
         if existing_diff:
@@ -1209,7 +1206,7 @@ class CreateAuditSession(Tool):  #WRITE
         if audit_type not in allowed_audit_types:
             raise ValueError(f"audit_type must be one of: {allowed_audit_types}")
 
-        audits = data.get("audits", [])
+        audits = data.get("audits", {}).values()
 
         #Create a new audit_id by incrementing from current audits
         next_num = len(audits) + 1
@@ -1228,7 +1225,7 @@ class CreateAuditSession(Tool):  #WRITE
             "report_asset_id_nullable": None,
         }
 
-        audits.append(new_audit)
+        data["audits"][audit_id] = new_audit
         payload = {"new_audit": new_audit}
         out = json.dumps(payload)
         return out
@@ -1268,11 +1265,11 @@ class IdentifyCustomGroupsAndMapToDsComponents(Tool):  #READ
             out = json.dumps(payload)
             return out
 
-        audits = data.get("audits", [])
-        artifacts = data.get("figma_artifacts", [])
+        audits = data.get("audits", {}).values()
+        artifacts = data.get("figma_artifacts", {}).values()
 
         #Identify the audit
-        audit = next((a for a in audits if a.get("audit_id") == audit_id), None)
+        audit = next((a for a in audits.values() if a.get("audit_id") == audit_id), None)
         if not audit:
             payload = {"error": f"Audit {audit_id} not found"}
             out = json.dumps(payload)
@@ -1286,7 +1283,7 @@ class IdentifyCustomGroupsAndMapToDsComponents(Tool):  #READ
 
         #Locate the artifact
         artifact = next(
-            (a for a in artifacts if a.get("artifact_id") == artifact_id), None
+            (a for a in artifacts.values() if a.get("artifact_id") == artifact_id), None
         )
         if not artifact:
             payload = {"error": f"Artifact {artifact_id} not found"}
@@ -1375,11 +1372,11 @@ class EvaluateAccessibility(Tool):  #READ
             out = json.dumps(payload)
             return out
 
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = data.get("figma_artifacts", {}).values()
 
         #Locate the artifact
         artifact = next(
-            (a for a in artifacts if a.get("artifact_id") == artifact_id), None
+            (a for a in artifacts.values() if a.get("artifact_id") == artifact_id), None
         )
         if not artifact:
             payload = {"error": f"Artifact {artifact_id} not found"}
@@ -1529,8 +1526,8 @@ class RecordDsAuditFindings(Tool):  #WRITE
             return out
 
         #Check if the audit_id is present
-        audits = data.get("audits", [])
-        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits)
+        audits = data.get("audits", {}).values()
+        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits.values()
         if not audit_exists:
             payload = {"error": f"Audit with ID '{audit_id}' not found"}
             out = json.dumps(payload)
@@ -1554,7 +1551,7 @@ class RecordDsAuditFindings(Tool):  #WRITE
             return out
 
         #Retrieve audit_findings_ds data
-        audit_findings_ds = data.get("audit_findings_ds", [])
+        audit_findings_ds = data.get("audit_findings_ds", {}).values()
 
         #Create a new finding_id
         next_num = len(audit_findings_ds) + 1
@@ -1573,7 +1570,7 @@ class RecordDsAuditFindings(Tool):  #WRITE
         }
 
         #Include in data
-        audit_findings_ds.append(new_finding)
+        data["audit_findings_ds"][new_finding["audit_findings_d_id"]] = new_finding
         payload = {"new_finding": new_finding}
         out = json.dumps(payload)
         return out
@@ -1680,15 +1677,15 @@ class RecordAccessibilityAuditFindings(Tool):  #WRITE
             return out
 
         #Check if the audit_id is present
-        audits = data.get("audits", [])
-        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits)
+        audits = data.get("audits", {}).values()
+        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits.values()
         if not audit_exists:
             payload = {"error": f"Audit with ID '{audit_id}' not found"}
             out = json.dumps(payload)
             return out
 
         #Retrieve audit_findings_a11y data
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
 
         #Create a new finding_id
         next_num = len(audit_findings_a11y) + 1
@@ -1707,7 +1704,7 @@ class RecordAccessibilityAuditFindings(Tool):  #WRITE
         }
 
         #Include in data
-        audit_findings_a11y.append(new_finding)
+        data["audit_findings_a11y"][new_finding["audit_findings_a11y_id"]] = new_finding
         payload = {"new_finding": new_finding}
         out = json.dumps(payload)
         return out
@@ -1776,12 +1773,12 @@ class GenerateAuditReport(Tool):  #WRITE
             return out
 
         #Retrieve audits and assets data
-        audits = data.get("audits", [])
-        assets = data.get("assets", [])
-        figma_artifacts = data.get("figma_artifacts", [])
+        audits = data.get("audits", {}).values()
+        assets = data.get("assets", {}).values()
+        figma_artifacts = data.get("figma_artifacts", {}).values()
 
         #Identify the audit
-        audit = next((a for a in audits if a.get("audit_id") == audit_id), None)
+        audit = next((a for a in audits.values() if a.get("audit_id") == audit_id), None)
         if not audit:
             payload = {"error": f"Audit with ID '{audit_id}' not found"}
             out = json.dumps(payload)
@@ -1796,7 +1793,7 @@ class GenerateAuditReport(Tool):  #WRITE
 
         #Locate the artifact to retrieve the layer_name
         artifact = next(
-            (a for a in figma_artifacts if a.get("artifact_id") == artifact_id), None
+            (a for a in figma_artifacts.values() if a.get("artifact_id") == artifact_id), None
         )
         if not artifact:
             payload = {"error": f"Artifact with ID '{artifact_id}' not found"}
@@ -1831,7 +1828,7 @@ class GenerateAuditReport(Tool):  #WRITE
         }
 
         #Include in assets data
-        assets.append(new_asset)
+        data["assets"][asset_id] = new_asset
         payload = {"new_asset": new_asset}
         out = json.dumps(payload)
         return out
@@ -1880,11 +1877,11 @@ class UpdateAuditStatus(Tool):  #WRITE
             return out
 
         #Retrieve audits data
-        audits = data.get("audits", [])
+        audits = data.get("audits", {}).values()
 
         #Identify the audit that needs updating
         audit_to_update = None
-        for audit in audits:
+        for audit in audits.values():
             if audit.get("audit_id") == audit_id:
                 audit_to_update = audit
                 break
@@ -1947,11 +1944,11 @@ class LinkAuditReportAsset(Tool):  #WRITE
             return out
 
         #Retrieve audits and assets data
-        audits = data.get("audits", [])
-        assets = data.get("assets", [])
+        audits = data.get("audits", {}).values()
+        assets = data.get("assets", {}).values()
 
         #Check for the existence of the asset
-        asset_exists = any(asset.get("asset_id") == report_asset_id for asset in assets)
+        asset_exists = any(asset.get("asset_id") == report_asset_id for asset in assets.values()
         if not asset_exists:
             payload = {"error": f"Asset with ID '{report_asset_id}' not found"}
             out = json.dumps(payload)
@@ -1959,7 +1956,7 @@ class LinkAuditReportAsset(Tool):  #WRITE
 
         #Identify the audit that needs updating
         audit_to_update = None
-        for audit in audits:
+        for audit in audits.values():
             if audit.get("audit_id") == audit_id:
                 audit_to_update = audit
                 break
@@ -2017,9 +2014,9 @@ class LoadAuditFindings(Tool):  #READ
             return out
 
         #Identify the audit
-        audits = data.get("audits", [])
+        audits = data.get("audits", {}).values()
         audit = None
-        for a in audits:
+        for a in audits.values():
             if a.get("audit_id") == audit_id:
                 audit = a
                 break
@@ -2035,8 +2032,8 @@ class LoadAuditFindings(Tool):  #READ
 
         #Locate associated DS findings
         ds_findings = []
-        audit_findings_ds = data.get("audit_findings_ds", [])
-        for finding in audit_findings_ds:
+        audit_findings_ds = data.get("audit_findings_ds", {}).values()
+        for finding in audit_findings_ds.values():
             if finding.get("audit_id") == audit_id:
                 ds_findings.append(
                     {
@@ -2050,8 +2047,8 @@ class LoadAuditFindings(Tool):  #READ
 
         #Locate associated A11Y findings
         a11y_findings = []
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
-        for finding in audit_findings_a11y:
+        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
+        for finding in audit_findings_a11y.values():
             if finding.get("audit_id") == audit_id:
                 a11y_findings.append(
                     {
@@ -2114,8 +2111,8 @@ class PrioritizeAuditFindings(Tool):  #READ
             return out
 
         #Retrieve findings data
-        audit_findings_ds = data.get("audit_findings_ds", [])
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audit_findings_ds = data.get("audit_findings_ds", {}).values()
+        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
 
         #Gather all findings along with their details
         findings_with_details = []
@@ -2123,7 +2120,7 @@ class PrioritizeAuditFindings(Tool):  #READ
         for finding_id in finding_ids_list:
             #Prioritize searching in DS findings
             ds_finding = next(
-                (f for f in audit_findings_ds if f.get("finding_id") == finding_id),
+                (f for f in audit_findings_ds.values() if f.get("finding_id") == finding_id),
                 None,
             )
             if ds_finding:
@@ -2140,7 +2137,7 @@ class PrioritizeAuditFindings(Tool):  #READ
 
             #Search within A11Y findings
             a11y_finding = next(
-                (f for f in audit_findings_a11y if f.get("finding_id") == finding_id),
+                (f for f in audit_findings_a11y.values() if f.get("finding_id") == finding_id),
                 None,
             )
             if a11y_finding:
@@ -2254,15 +2251,15 @@ class CreateFixPlan(Tool):  #WRITE
             return out
 
         #Verify the existence of the audit
-        audits = data.get("audits", [])
-        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits)
+        audits = data.get("audits", {}).values()
+        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits.values()
         if not audit_exists:
             payload = {"error": f"Audit with ID '{audit_id}' not found"}
             out = json.dumps(payload)
             return out
 
         #Retrieve current fix plans to identify the next plan_id
-        fix_plans = data.get("fix_plans", [])
+        fix_plans = data.get("fix_plans", {}).values()
         next_num = len(fix_plans) + 1
         plan_id = f"plan_{next_num:03d}"
 
@@ -2283,7 +2280,7 @@ class CreateFixPlan(Tool):  #WRITE
         }
 
         #Include in fix_plans
-        fix_plans.append(new_fix_plan)
+        data["fix_plans"][new_fix_plan["fix_plan_id"]] = new_fix_plan
         payload = {"new_fix_plan": new_fix_plan}
         out = json.dumps(payload)
         return out
@@ -2329,22 +2326,22 @@ class CreateFixItem(Tool):  #WRITE
             return out
 
         #Verify the existence of the plan
-        fix_plans = data.get("fix_plans", [])
-        plan_exists = any(plan.get("plan_id") == plan_id for plan in fix_plans)
+        fix_plans = data.get("fix_plans", {}).values()
+        plan_exists = any(plan.get("plan_id") == plan_id for plan in fix_plans.values()
         if not plan_exists:
             payload = {"error": f"Fix plan with ID '{plan_id}' not found"}
             out = json.dumps(payload)
             return out
 
         #Verify if the finding is present in either DS or A11Y findings
-        audit_findings_ds = data.get("audit_findings_ds", [])
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audit_findings_ds = data.get("audit_findings_ds", {}).values()
+        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
 
         finding_exists_ds = any(
-            finding.get("finding_id") == finding_id for finding in audit_findings_ds
+            finding.get("finding_id") == finding_id for finding in audit_findings_ds.values()
         )
         finding_exists_a11y = any(
-            finding.get("finding_id") == finding_id for finding in audit_findings_a11y
+            finding.get("finding_id") == finding_id for finding in audit_findings_a11y.values()
         )
 
         if not (finding_exists_ds or finding_exists_a11y):
@@ -2356,7 +2353,7 @@ class CreateFixItem(Tool):  #WRITE
             return out
 
         #Retrieve current fix items to identify the next item_id
-        fix_items = data.get("fix_items", [])
+        fix_items = data.get("fix_items", {}).values()
         next_num = len(fix_items) + 1
         item_id = f"item_{next_num:03d}"
 
@@ -2368,8 +2365,7 @@ class CreateFixItem(Tool):  #WRITE
         #Locate existing items with the same proposed_change_type to extract details
         same_type_items = [
             item
-            for item in fix_items
-            if item.get("proposed_change_type") == proposed_change_type
+            for item in fix_items.values() if item.get("proposed_change_type") == proposed_change_type
         ]
 
         if same_type_items:
@@ -2398,7 +2394,7 @@ class CreateFixItem(Tool):  #WRITE
         }
 
         #Include in fix_items
-        fix_items.append(new_fix_item)
+        data["fix_items"][new_fix_item["fix_item_id"]] = new_fix_item
         payload = {"new_fix_item": new_fix_item}
         out = json.dumps(payload)
         return out
@@ -2439,9 +2435,9 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
             return out
 
         #Identify the fix plan
-        fix_plans = data.get("fix_plans", [])
+        fix_plans = data.get("fix_plans", {}).values()
         fix_plan = next(
-            (plan for plan in fix_plans if plan.get("plan_id") == plan_id), None
+            (plan for plan in fix_plans.values() if plan.get("plan_id") == plan_id), None
         )
 
         if not fix_plan:
@@ -2454,8 +2450,8 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
         owner_email = fix_plan.get("owner_email")
 
         #Locate the audit to retrieve artifact_id
-        audits = data.get("audits", [])
-        audit = next((a for a in audits if a.get("audit_id") == audit_id), None)
+        audits = data.get("audits", {}).values()
+        audit = next((a for a in audits.values() if a.get("audit_id") == audit_id), None)
 
         if not audit:
             payload = {"error": f"Audit with ID '{audit_id}' not found"}
@@ -2471,9 +2467,9 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
             ticket_id = f"JIRA-{ticket_digits}"
 
             #Modify all fix_items associated with this plan_id to establish external_ticket_ref_nullable
-            fix_items = data.get("fix_items", [])
+            fix_items = data.get("fix_items", {}).values()
             updated_count = 0
-            for item in fix_items:
+            for item in fix_items.values():
                 if item.get("plan_id") == plan_id:
                     item["external_ticket_ref_nullable"] = ticket_id
                     updated_count += 1
@@ -2488,7 +2484,7 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
 
         elif delivery_method == "COMMENTS":
             #Establish a new figma comment
-            figma_comments = data.get("figma_comments", [])
+            figma_comments = data.get("figma_comments", {}).values()
             next_num = len(figma_comments) + 1
             comment_id = f"comment_{next_num:03d}"
 
@@ -2502,7 +2498,7 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
                 "resolved_flag": False,
             }
 
-            figma_comments.append(new_comment)
+            data["figma_comments"][new_comment["figma_comment_id"]] = new_comment
             payload = {
                     "comment_id": comment_id,
                     "message": f"{comment_id} created",
@@ -2514,7 +2510,7 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
 
         elif delivery_method == "PDF":
             #Establish a new asset
-            assets = data.get("assets", [])
+            assets = data.get("assets", {}).values()
             next_num = len(assets) + 1
             asset_id = f"asset_{next_num:03d}"
 
@@ -2529,7 +2525,7 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
                 "dlp_scan_details_nullable": None,
             }
 
-            assets.append(new_asset)
+            data["assets"][asset_id] = new_asset
             payload = {
                     "asset_id": asset_id,
                     "message": f"{asset_id} created",
@@ -2603,13 +2599,13 @@ class NotifyStakeholders(Tool):  #WRITE
         #Retrieve valid Gmail labels for the notification workflow
         gmail_labels = get_config_options(data, "gmail_labels")
         notification_labels = ["fix-plan", "audit", "notification"]
-        valid_labels = [label for label in notification_labels if label in gmail_labels]
+        valid_labels = [label for label in notification_labels.values() if label in gmail_labels]
         if not valid_labels:
             #Revert to available labels
             valid_labels = gmail_labels[:2] if len(gmail_labels) >= 2 else gmail_labels
 
         #Initiate the Gmail thread first
-        gmail_threads = data.get("gmail_threads", [])
+        gmail_threads = data.get("gmail_threads", {}).values()
         next_thread_num = len(gmail_threads) + 1
         thread_id = f"thread_{next_thread_num:03d}"
         created_ts = "2025-08-29T12:00:00Z"
@@ -2624,10 +2620,10 @@ class NotifyStakeholders(Tool):  #WRITE
             "current_labels": valid_labels,
             "created_ts": created_ts,
         }
-        gmail_threads.append(new_thread)
+        gmail_thredata["ads"][ad_id] = new_thread
 
         #Compose a Gmail message within the thread
-        gmail_messages = data.get("gmail_messages", [])
+        gmail_messages = data.get("gmail_messages", {}).values()
         next_msg_num = len(gmail_messages) + 1
         message_id = f"msg_{next_msg_num:03d}"
         sent_ts = created_ts
@@ -2644,7 +2640,7 @@ class NotifyStakeholders(Tool):  #WRITE
             "sent_ts": sent_ts,
             "attachments_asset_ids": [],
         }
-        gmail_messages.append(new_message)
+        data["gmail_messages"][gmail_message_id] = new_message
         payload = {
                 "thread_created": new_thread,
                 "message_created": new_message,

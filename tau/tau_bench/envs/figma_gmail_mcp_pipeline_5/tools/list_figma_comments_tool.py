@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListFigmaCommentsTool(Tool):
@@ -28,9 +28,9 @@ class ListFigmaCommentsTool(Tool):
             out = json.dumps(payload)
             return out
 
-        rows = data.get("figma_comments", [])
+        rows = data.get("figma_comments", {}).values()
         out = []
-        for r in rows:
+        for r in rows.values():
             if r.get("artifact_id") != artifact_id:
                 continue
             if author_email and r.get("author_email") != author_email:

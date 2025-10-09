@@ -6,7 +6,7 @@ class GetInventoryItems(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int) -> str:
         inv = _get_table(data, "inventory_items")
-        items = [x for x in inv if x.get("household_id") == household_id]
+        items = [x for x in inv.values() if x.get("household_id") == household_id]
         payload = {"inventory_items": items}
         out = json.dumps(payload, indent=2)
         return out

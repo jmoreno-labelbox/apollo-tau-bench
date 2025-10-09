@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchRepositoriesTool(Tool):
@@ -45,8 +45,8 @@ class SearchRepositoriesTool(Tool):
             )
             return out
 
-        repos = data.get("repositories", [])
-        repo = next((c for c in repos if c["repo_name"] == query), None)
+        repos = data.get("repositories", {}).values()
+        repo = next((c for c in repos.values() if c["repo_name"] == query), None)
         #repo = get_data(repos, query)
 
         if not repo:

@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateLifecycleQueueStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], lifecycle_id: str = None, status: str = None) -> str:
-        queue = data.get("lifecycle_queue", [])
-        entry = next((e for e in queue if e.get("lifecycle_id") == lifecycle_id), None)
+        queue = data.get("lifecycle_queue", {}).values()
+        entry = next((e for e in queue.values() if e.get("lifecycle_id") == lifecycle_id), None)
         if not entry:
             payload = {"error": f"Lifecycle entry {lifecycle_id} not found."}
             out = json.dumps(payload, indent=2)

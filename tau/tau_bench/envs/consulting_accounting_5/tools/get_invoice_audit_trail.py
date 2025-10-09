@@ -10,7 +10,7 @@ class GetInvoiceAuditTrail(Tool):
         """
         Returns audit_ids for all audit events tied to a given invoice_id.
         """
-        audit_ids = [a["audit_id"] for a in data["invoice_audit"] if a["invoice_id"] == invoice_id]
+        audit_ids = [a["audit_id"] for a in data["invoice_audit"].values() if a["invoice_id"] == invoice_id]
         return json.dumps(audit_ids)
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddHouseholdMemberTool(Tool):
@@ -104,7 +104,7 @@ class AddHouseholdMemberTool(Tool):
         #2. Pre-condition Check: Ensure the household exists before adding to it.
         if not any(
             h
-            for h in data.get("households", [])
+            for h in data.get("households", {}).values()
             if h.get("household_id") == household_id
         ):
             return _build_error_response(
@@ -115,7 +115,7 @@ class AddHouseholdMemberTool(Tool):
         members_table = data.setdefault("members", [])
 
         #Generate a new unique ID
-        max_id = max((m.get("member_id", 0) for m in members_table), default=300)
+        max_id = max((m.get("member_id", 0) for m in members_table.values()), default=300)
         new_member_id = max_id + 1
 
         #Construct the new member record safely
@@ -126,7 +126,7 @@ class AddHouseholdMemberTool(Tool):
         for field in AddHouseholdMemberTool.EXPECTED_FIELDS:
             new_member_record[field] = new_member_data.get(field)
 
-        members_table.append(new_member_record)
+        data["members"][new_member_record["member_id"]] = new_member_record
 
         #4. Log the audit event for traceability
         _log_audit_event(

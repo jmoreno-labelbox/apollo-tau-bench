@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class get_employee_profile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        employee = find_employee(data.get("employees", []), employee_id)
+        employee = find_employee(data.get("employees", {}).values()), employee_id)
         if not employee:
             payload = {"error": f"employee_id {employee_id} not found"}
             out = json.dumps(
@@ -25,20 +25,20 @@ class get_employee_profile(Tool):
         profile = employee.copy()
         profile["compensation_history"] = [
             c
-            for c in data.get("compensation_records", [])
+            for c in data.get("compensation_records", {}).values()
             if c.get("employee_id") == employee_id
         ]
         profile["performance_reviews"] = [
             r
-            for r in data.get("performance_reviews", [])
+            for r in data.get("performance_reviews", {}).values()
             if r.get("employee_id") == employee_id
         ]
         profile["leave_records"] = [
             l
-            for l in data.get("leave_records", [])
+            for l in data.get("leave_records", {}).values()
             if l.get("employee_id") == employee_id
         ]
-        for doc_record in data.get("employee_documents", {}).get(
+        for doc_record in data.get("employee_documents", {}).values().get(
             "employee_documents", []
         ):
             if doc_record.get("employee_id") == employee_id:

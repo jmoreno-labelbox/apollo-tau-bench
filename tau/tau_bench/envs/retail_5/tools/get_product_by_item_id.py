@@ -14,7 +14,7 @@ class GetProductByItemId(Tool):
         products = data["products"]
 
         # Examine all products to identify which one includes this item_id
-        for product in products:
+        for product in products.values():
             if item_id in product["variants"]:
                 product["variants"][item_id]
                 payload = {

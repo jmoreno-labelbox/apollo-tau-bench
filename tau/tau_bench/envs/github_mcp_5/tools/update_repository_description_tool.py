@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateRepositoryDescriptionTool(Tool):
@@ -51,8 +51,8 @@ class UpdateRepositoryDescriptionTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        repos = data.get("repositories", [])
-        repo = next((r for r in repos if r.get("name") == repo_name), None)
+        repos = data.get("repositories", {}).values()
+        repo = next((r for r in repos.values() if r.get("name") == repo_name), None)
 
         if not repo:
             return _response(

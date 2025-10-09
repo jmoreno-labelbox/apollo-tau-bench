@@ -7,7 +7,7 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SetupScheduledPaymentTool(Tool):
@@ -15,7 +15,7 @@ class SetupScheduledPaymentTool(Tool):
     def invoke(data: Dict[str, Any], customer_id: str = None, from_account_id: str = None, 
                beneficiary_id: str = None, amount: float = None, frequency: str = None, 
                start_date: str = None) -> str:
-        scheduled_payments = data.get('scheduled_payments', [])
+        scheduled_payments = data.get('scheduled_payments', {}).values()
 
         payment_id = f"sched_{generate_unique_id()}"
 
@@ -32,7 +32,7 @@ class SetupScheduledPaymentTool(Tool):
             "next_payment_date": start_date
         }
 
-        scheduled_payments.append(new_payment)
+        data["scheduled_payments"][new_payment["scheduled_payment_id"]] = new_payment
 
         return json.dumps({
             "payment_id": payment_id,

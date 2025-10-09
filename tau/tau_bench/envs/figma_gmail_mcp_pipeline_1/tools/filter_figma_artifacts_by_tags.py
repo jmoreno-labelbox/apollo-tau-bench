@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FilterFigmaArtifactsByTags(Tool):  #READ
@@ -15,17 +15,17 @@ class FilterFigmaArtifactsByTags(Tool):  #READ
     def invoke(data: dict[str, Any], tags: list[str]) -> str:
         pass
         #Check the input for validity
-        if not isinstance(tags, list) or not all(isinstance(tag, str) for tag in tags):
+        if not isinstance(tags, list) or not all(isinstance(tag, str) for tag in tags.values()):
             payload = {"error": "tags must be a list of strings"}
             out = json.dumps(payload)
             return out
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = data.get("figma_artifacts", {}).values()
         #Gather all distinct tags from artifacts
         all_tags = set()
-        for artifact in artifacts:
+        for artifact in artifacts.values():
             all_tags.update(artifact.get("current_tags", []))
         #Verify that all provided tags are plausible
-        unrealistic = [tag for tag in tags if tag not in all_tags]
+        unrealistic = [tag for tag in tags.values() if tag not in all_tags]
         if unrealistic:
             payload = {
                     "error": f"Unrealistic tags: {unrealistic}. These tags do not appear in any artifact."
@@ -34,9 +34,9 @@ class FilterFigmaArtifactsByTags(Tool):  #READ
                 payload)
             return out
         matching_ids = []
-        for artifact in artifacts:
+        for artifact in artifacts.values():
             artifact_tags = artifact.get("current_tags", [])
-            if all(tag in artifact_tags for tag in tags):
+            if all(tag in artifact_tags for tag in tags.values()):
                 matching_ids.append(artifact.get("artifact_id"))
         if not matching_ids:
             payload = {"artifact_ids": "No matching artifacts found."}

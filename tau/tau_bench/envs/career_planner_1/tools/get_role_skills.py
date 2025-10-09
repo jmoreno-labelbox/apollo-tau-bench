@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetRoleSkills(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], role: str = None) -> str:
-        catalog = data.get("role_skill_catalog", [])
+        catalog = data.get("role_skill_catalog", {}).values()
 
         # Debug: Verify if the catalog is loaded
         if not catalog:
@@ -80,7 +80,7 @@ class GetRoleSkills(Tool):
                     return out
 
         # Display available roles for debugging purposes
-        available_roles = [entry.get("role") for entry in catalog]
+        available_roles = [entry.get("role") for entry in catalog.values()]
         payload = {"error": f"Role '{role}' not found", "available_roles": available_roles}
         out = json.dumps(payload, indent=2)
         return out

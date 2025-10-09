@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -38,8 +38,8 @@ class GetWeatherForecast(Tool):
             out = json.dumps(payload)
             return out
 
-        items = data.get("weather_forecasts", [])
-        for rec in items:
+        items = data.get("weather_forecasts", {}).values()
+        for rec in items.values():
             if rec.get("city") != city:
                 continue
             rec_start = GetWeatherForecast._parse_iso(rec.get("start_ts", ""))
@@ -55,7 +55,7 @@ class GetWeatherForecast(Tool):
                     dt = GetWeatherForecast._parse_iso(ts)
                     return dt is not None and (start_dt <= dt <= end_dt)
 
-                out_ts = [t for t in ts_list if in_range(t)]
+                out_ts = [t for t in ts_list.values() if in_range(t)]
                 # align series (nullable may exist)
                 precip = rec.get("precipitation_mm_hr_nullable") or []
                 temp = rec.get("temperature_2m_c_nullable") or []
@@ -135,8 +135,8 @@ class GetTidePredictions(Tool):
             out = json.dumps(payload)
             return out
 
-        items = data.get("tide_predictions", [])
-        for rec in items:
+        items = data.get("tide_predictions", {}).values()
+        for rec in items.values():
             if rec.get("station_id") != station_id:
                 continue
             rec_start = GetTidePredictions._parse_iso(rec.get("start_ts", ""))
@@ -221,8 +221,8 @@ class GetWaterLevels(Tool):
                 payload)
             return out
 
-        items = data.get("water_levels", [])
-        for rec in items:
+        items = data.get("water_levels", {}).values()
+        for rec in items.values():
             if rec.get("station_id") != station_id:
                 continue
             rec_start = GetWaterLevels._parse_iso(rec.get("start_ts", ""))
@@ -291,7 +291,7 @@ class GetModelMetrics(Tool):
             payload = {"error": "Missing model_name"}
             out = json.dumps(payload)
             return out
-        for m in data.get("metrics", []):
+        for m in data.get("metrics", {}).values():
             if m.get("model_name") == model_name:
                 payload = {
                     "model_name": model_name,
@@ -361,8 +361,8 @@ class CreateEtlRunRecord(Tool):
             out = json.dumps(payload)
             return out
 
-        etl_runs = data.get("etl_runs", [])
-        for rec in etl_runs:
+        etl_runs = data.get("etl_runs", {}).values()
+        for rec in etl_runs.values():
             if rec.get("run_id") == run_id:
                 payload = rec
                 out = json.dumps(payload)
@@ -376,7 +376,7 @@ class CreateEtlRunRecord(Tool):
             "finished_ts_nullable": finished_ts_nullable,
             "messages": messages,
         }
-        etl_runs.append(new_rec)
+        data["etl_runs"][new_rec["etl_run_id"]] = new_rec
         data["etl_runs"] = etl_runs
         payload = new_rec
         out = json.dumps(payload)
@@ -417,8 +417,8 @@ class GetProcessedTimeseriesMetadata(Tool):
             payload = {"error": "Missing csv_path"}
             out = json.dumps(payload)
             return out
-        items = data.get("processed_timeseries", [])
-        for rec in items:
+        items = data.get("processed_timeseries", {}).values()
+        for rec in items.values():
             if rec.get("csv_path") == csv_path:
                 payload = {
                         "csv_path": rec.get("csv_path"),
@@ -481,8 +481,8 @@ class CreateSplitSummaryRecord(Tool):
             out = json.dumps(payload)
             return out
 
-        ds = data.get("dataset_split", [])
-        for rec in ds:
+        ds = data.get("dataset_split", {}).values()
+        for rec in ds.values():
             if (
                 rec.get("method") == method
                 and rec.get("test_fraction") == test_fraction
@@ -503,7 +503,7 @@ class CreateSplitSummaryRecord(Tool):
             "split_summary_json_path": split_summary_json_path,
             "split_ts": split_ts,
         }
-        ds.append(new_rec)
+        data["dataset_split"][new_rec["dataset_split_id"]] = new_rec
         data["dataset_split"] = ds
         payload = new_rec
         out = json.dumps(payload)
@@ -651,7 +651,7 @@ class GetModelConfigParam(Tool):
             payload = {"error": "Missing saved_json_path"}
             out = json.dumps(payload)
             return out
-        for rec in data.get("model_config", []):
+        for rec in data.get("model_config", {}).values():
             if rec.get("saved_json_path") == saved_json_path:
                 payload = {
                     "saved_json_path": saved_json_path,
@@ -693,15 +693,15 @@ class GetSplitSummaryDefaults(Tool):
             payload = {"error": "Missing path"}
             out = json.dumps(payload)
             return out
-        items = data.get("file_store", [])
-        for blob in items:
+        items = data.get("file_store", {}).values()
+        for blob in items.values():
             if blob.get("paths") and path in blob.get("paths"):
                 # This path would necessitate searching through arrays; not utilized here.
                 break
 
         # Immediate retrieval from parsed data (processed file registry)
-        texts = data.get("file_store", [])
-        for rec in texts:
+        texts = data.get("file_store", {}).values()
+        for rec in texts.values():
             if rec.get("paths") and path in rec.get("paths"):
                 try:
                     payload = json.loads(rec.get("file_contents_text")[0])
@@ -791,7 +791,7 @@ class GetModelFeatures(Tool):
             payload = {"error": "Missing model_name"}
             out = json.dumps(payload)
             return out
-        for rec in data.get("models", []):
+        for rec in data.get("models", {}).values():
             if rec.get("model_name") == model_name:
                 payload = {
                     "model_name": model_name,
@@ -825,7 +825,7 @@ class GetModelInfo(Tool):
             payload = {"error": "Missing model_name"}
             out = json.dumps(payload)
             return out
-        for rec in data.get("models", []):
+        for rec in data.get("models", {}).values():
             if rec.get("model_name") == model_name:
                 payload = {"model_name": model_name, "model_path": rec.get("model_path")}
                 out = json.dumps(payload)
@@ -885,8 +885,8 @@ class ComputeFeatureCoverage(Tool):
         available = available_features or []
         req = sorted([str(x) for x in required])
         ava = sorted([str(x) for x in available])
-        present = [x for x in req if x in ava]
-        missing = [x for x in req if x not in ava]
+        present = [x for x in req.values() if x in ava]
+        missing = [x for x in req.values() if x not in ava]
         present_count = len(present)
         required_count = len(req)
         missing_count = len(missing)

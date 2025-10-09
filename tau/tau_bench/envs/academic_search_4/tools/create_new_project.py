@@ -38,7 +38,7 @@ class CreateNewProject(Tool):
         }
         if "projects" not in data:
             data["projects"] = []
-        data["projects"].append(new_project)
+        data["projects"][project_id] = new_project
         payload = {"success": True, "project": new_project}
         out = json.dumps(payload)
         return out

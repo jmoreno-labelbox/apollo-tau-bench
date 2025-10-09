@@ -10,13 +10,13 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
 def _check_required(kwargs: dict[str, Any], required: list[str]) -> str | None:
     pass
-    missing = [k for k in required if kwargs.get(k) is None]
+    missing = [k for k in required.values() if kwargs.get(k) is None]
     if missing:
         return f"Missing required argument(s): {', '.join(missing)}"
     return None
@@ -24,7 +24,7 @@ def _check_required(kwargs: dict[str, Any], required: list[str]) -> str | None:
 
 def _require_tables(data: dict[str, Any], required: list[str]) -> str | None:
     pass
-    missing = [t for t in required if t not in data or data.get(t) is None]
+    missing = [t for t in required.values() if t not in data or data.get(t) is None]
     if missing:
         return f"Missing required table(s): {', '.join(missing)}"
     return None
@@ -33,7 +33,7 @@ def _require_tables(data: dict[str, Any], required: list[str]) -> str | None:
 def _next_id(rows: list[dict[str, Any]], key: str) -> int:
     pass
     max_id = 0
-    for r in rows:
+    for r in rows.values():
         try:
             max_id = max(max_id, int(r.get(key, 0)))
         except Exception:
@@ -95,7 +95,7 @@ class GetGameDetails(Tool):
             payload = {"error": "game_pk is required."}
             out = json.dumps(payload, indent=2)
             return out
-        row = next((g for g in data["games"] if g.get("game_pk") == game_pk), None)
+        row = next((g for g in data["games"].values() if g.get("game_pk") == game_pk), None)
         payload = row or {"error": f"Game '{game_pk}' not found."}
         out = json.dumps(payload, indent=2)
         return out
@@ -129,7 +129,7 @@ class ListGamesByStatus(Tool):
             payload = {"error": "game_status is required."}
             out = json.dumps(payload, indent=2)
             return out
-        rows = [g for g in data["games"] if (g.get("game_status") == game_status)]
+        rows = [g for g in data["games"].values() if (g.get("game_status") == game_status)]
         payload = rows
         out = json.dumps(payload, indent=2)
         return out
@@ -164,9 +164,9 @@ class GetPlayerDetails(Tool):
         name = full_name
         row = None
         if pid is not None:
-            row = next((p for p in data["players"] if p.get("player_id") == pid), None)
+            row = next((p for p in data["players"].values() if p.get("player_id") == pid), None)
         elif name:
-            row = next((p for p in data["players"] if p.get("full_name") == name), None)
+            row = next((p for p in data["players"].values() if p.get("full_name") == name), None)
         else:
             payload = {"error": "Provide player_id or full_name."}
             out = json.dumps(payload, indent=2)
@@ -209,7 +209,7 @@ class ListPlayersByRosterStatus(Tool):
             payload = {"error": "roster_status is required."}
             out = json.dumps(payload, indent=2)
             return out
-        rows = [p for p in data["players"] if p.get("roster_status") == roster_status]
+        rows = [p for p in data["players"].values() if p.get("roster_status") == roster_status]
         payload = rows
         out = json.dumps(payload, indent=2)
         return out
@@ -255,7 +255,7 @@ class GetActiveRoster(Tool):
 
         rows = [
             p
-            for p in data["players"]
+            for p in data["players"].values()
             if p.get("current_team_id") == team_id and _eligible(p)
         ]
         payload = rows
@@ -297,15 +297,15 @@ class ListGameDayEvents(Tool):
             payload = {"error": "game_pk is required."}
             out = json.dumps(payload, indent=2)
             return out
-        rows = [e for e in data["game_day_events"] if e.get("game_pk") == game_pk]
+        rows = [e for e in data["game_day_events"].values() if e.get("game_pk") == game_pk]
         if min_leverage is not None:
-            rows = [e for e in rows if (e.get("leverage_index") or 0) >= float(min_leverage)]
+            rows = [e for e in rows.values() if (e.get("leverage_index") or 0) >= float(min_leverage)]
         if is_manual_alert is not None:
             rows = [
                 e for e in rows if bool(e.get("is_manual_alert")) == bool(is_manual_alert)
             ]
         if draft_status:
-            rows = [e for e in rows if e.get("draft_status") == draft_status]
+            rows = [e for e in rows.values() if e.get("draft_status") == draft_status]
         payload = rows
         out = json.dumps(payload, indent=2)
         return out
@@ -471,7 +471,7 @@ class UpdateEventStatus(Tool):
             )
             return out
         row = next(
-            (e for e in data["game_day_events"] if e.get("event_id") == event_id), None
+            (e for e in data["game_day_events"].values() if e.get("event_id") == event_id), None
         )
         if not row:
             payload = {"error": f"Event '{event_id}' not found."}
@@ -528,12 +528,12 @@ class ComputeGameLeverageSummary(Tool):
             payload = {"error": "game_pk is required."}
             out = json.dumps(payload, indent=2)
             return out
-        rows = [e for e in data["game_day_events"] if e.get("game_pk") == game_pk]
+        rows = [e for e in data["game_day_events"].values() if e.get("game_pk") == game_pk]
         total = len(rows)
         high = len(
-            [e for e in rows if (e.get("leverage_index") or 0) > float(threshold)]
+            [e for e in rows.values() if (e.get("leverage_index") or 0) > float(threshold)]
         )
-        manual = len([e for e in rows if e.get("is_manual_alert") is True])
+        manual = len([e for e in rows.values() if e.get("is_manual_alert") is True])
         payload = {
                 "game_pk": game_pk,
                 "events_total": total,
@@ -610,7 +610,7 @@ class CreateScoutingReport(Tool):
         rtype = report_type
         gpk = game_pk
         if rtype == "post-game":
-            g = next((g for g in data["games"] if g.get("game_pk") == gpk), None)
+            g = next((g for g in data["games"].values() if g.get("game_pk") == gpk), None)
             if not g or g.get("game_status") != "Final":
                 payload = {
                         "error": "post-game reports require games.game_status == 'Final'."
@@ -779,9 +779,9 @@ class ListCuratedInsights(Tool):
             return out
         rows = data["curated_insights"]
         if player_id is not None:
-            rows = [r for r in rows if r.get("player_id") == player_id]
+            rows = [r for r in rows.values() if r.get("player_id") == player_id]
         if report_id is not None:
-            rows = [r for r in rows if r.get("report_id") == report_id]
+            rows = [r for r in rows.values() if r.get("report_id") == report_id]
         if min_supporting_stat_value is not None:
             rows = [
                 r
@@ -966,7 +966,7 @@ class ApprovePlayerDevGoal(Tool):
             out = json.dumps(payload, indent=2)
             return out
         row = next(
-            (g for g in data["player_dev_goals"] if g.get("goal_id") == goal_id), None
+            (g for g in data["player_dev_goals"].values() if g.get("goal_id") == goal_id), None
         )
         if not row:
             payload = {"error": f"Goal '{goal_id}' not found."}
@@ -1081,7 +1081,7 @@ class ListVideoPlaylists(Tool):
             payload = {"error": "report_id is required."}
             out = json.dumps(payload, indent=2)
             return out
-        rows = [v for v in data["video_playlists"] if v.get("report_id") == report_id]
+        rows = [v for v in data["video_playlists"].values() if v.get("report_id") == report_id]
         payload = rows
         out = json.dumps(payload, indent=2)
         return out
@@ -1252,7 +1252,7 @@ class CanonicalizePitchTypes(Tool):
             out = json.dumps(payload, indent=2)
             return out
         updated = 0
-        for p in data["pitches"]:
+        for p in data["pitches"].values():
             raw = p.get("pitch_type_raw")
             if raw and not p.get("pitch_type_canonical"):
                 p["pitch_type_canonical"] = PITCH_MAP.get(raw, raw)
@@ -1307,7 +1307,7 @@ class GridEncodePitchLocations(Tool):
             return f"{cx if cx<=12 else 12}-{cz if cz<=12 else 12}"
 
         out = []
-        for p in data["pitches"]:
+        for p in data["pitches"].values():
             out.append(
                 {
                     "pitch_id": p.get("pitch_id"),
@@ -1533,7 +1533,7 @@ class GetUmpireGameModel(Tool):
             out = json.dumps(payload, indent=2)
             return out
         row = next(
-            (u for u in data["umpire_game_models"] if u.get("game_pk") == game_pk), None
+            (u for u in data["umpire_game_models"].values() if u.get("game_pk") == game_pk), None
         )
         payload = row or {"error": "Not found."}
         out = json.dumps(payload, indent=2)
@@ -1576,7 +1576,7 @@ class FindNextScheduledGame(Tool):
             return out
         candidates = [
             g
-            for g in data["games"]
+            for g in data["games"].values()
             if g.get("game_status") == "Scheduled"
             and str(g.get("game_date")) >= str(current_date)
         ]
@@ -1633,7 +1633,7 @@ class GetOpponentForTeamInGame(Tool):
             out = json.dumps(payload, indent=2)
             return out
         g = next(
-            (g for g in data["games"] if g.get("game_pk") == game_pk), None
+            (g for g in data["games"].values() if g.get("game_pk") == game_pk), None
         )
         if not g:
             payload = {"error": "Game not found."}
@@ -1752,7 +1752,7 @@ class ListProbablePitchers(Tool):
 
         candidates = [
             p
-            for p in data["players"]
+            for p in data["players"].values()
             if p.get("current_team_id") == team_id and _is_pitcher(p)
         ]
         # Consistent sorting

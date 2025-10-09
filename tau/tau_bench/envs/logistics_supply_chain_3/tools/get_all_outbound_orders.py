@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAllOutboundOrders(Tool):
@@ -16,7 +16,7 @@ class GetAllOutboundOrders(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], filters: dict[str, Any] = None) -> str:
-        outbound_orders = data.get("outbound_orders", [])
+        outbound_orders = data.get("outbound_orders", {}).values()
 
         if not outbound_orders:
             payload = {"message": "No outbound orders found."}

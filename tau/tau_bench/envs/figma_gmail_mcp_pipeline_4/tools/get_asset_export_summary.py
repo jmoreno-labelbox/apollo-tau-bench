@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAssetExportSummary(Tool):
@@ -26,13 +26,13 @@ class GetAssetExportSummary(Tool):
         """
         Obtains detailed asset export information and metrics.
         """
-        assets = data.get("assets", [])
-        figma_artifacts = data.get("figma_artifacts", [])
+        assets = data.get("assets", {}).values()
+        figma_artifacts = data.get("figma_artifacts", {}).values()
 
         # Return the specific asset if asset_id is given
         if asset_id:
             asset_info = None
-            for asset in assets:
+            for asset in assets.values():
                 if asset.get("asset_id") == asset_id:
                     asset_info = asset
                     break
@@ -46,7 +46,7 @@ class GetAssetExportSummary(Tool):
             artifact_id_ref = asset_info.get("artifact_id_nullable")
             artifact_info = None
             if artifact_id_ref:
-                for artifact in figma_artifacts:
+                for artifact in figma_artifacts.values():
                     if artifact.get("artifact_id") == artifact_id_ref:
                         artifact_info = artifact
                         break

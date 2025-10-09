@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class WriteGameDayEvent(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], **kwargs) -> str:
         pass
-        events = data.get("game_day_events", [])
-        events.append(kwargs)
+        events = data.get("game_day_events", {}).values()
+        data["game_day_events"][kwargs["game_day_event_id"]] = kwargs
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out

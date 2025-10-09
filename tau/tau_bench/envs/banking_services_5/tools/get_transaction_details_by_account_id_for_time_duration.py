@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTransactionDetailsByAccountIdForTimeDuration(Tool):
@@ -35,10 +35,9 @@ class GetTransactionDetailsByAccountIdForTimeDuration(Tool):
                 "error": "Invalid date format. Use ISO format (YYYY-MM-DD)."
             }, indent=2)
 
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
         filtered_transactions = [
-            txn for txn in transactions
-            if txn.get("account_id") == account_id and
+            txn for txn in transactions.values() if txn.get("account_id") == account_id and
                start_date <= datetime.fromisoformat(txn.get("transaction_date", "")) <= end_date
         ]
 

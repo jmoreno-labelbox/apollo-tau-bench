@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class MemberManager(Tool):
@@ -21,13 +21,12 @@ class MemberManager(Tool):
         member_data: dict[str, Any] = {},
         field_updates: dict[str, Any] = {}
     ) -> str:
-        members = data.get("members", [])
+        members = data.get("members", {}).values()
 
         if action == "get":
             result = [
                 m
-                for m in members
-                if (not member_id or m["id"] == member_id)
+                for m in members.values() if (not member_id or m["id"] == member_id)
                 and (not relation or relation.lower() in m["relation"].lower())
                 and (
                     lives_in_house is None
@@ -44,7 +43,7 @@ class MemberManager(Tool):
                     payload, indent=2
                 )
                 return out
-            for member in members:
+            for member in members.values():
                 if member["id"] == member_id:
                     for field, value in field_updates.items():
                         if "." in field:  # a nested field such as 'contact.phone'
@@ -65,7 +64,7 @@ class MemberManager(Tool):
                 payload = {"error": "member_data required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            members.append(member_data)
+            data["members"][member_id] = member_data
             payload = {"success": f"Created member {member_data.get('id')}"}
             out = json.dumps(
                 payload, indent=2
@@ -76,7 +75,7 @@ class MemberManager(Tool):
                 payload = {"error": "member_id required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            members[:] = [m for m in members if m["id"] != member_id]
+            members[:] = [m for m in members.values() if m["id"] != member_id]
             payload = {"success": f"Deleted member {member_id}"}
             out = json.dumps(payload, indent=2)
             return out

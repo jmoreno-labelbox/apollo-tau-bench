@@ -9,14 +9,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetPolicyParameter(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], param_name: str = None) -> str:
         n = param_name
-        for r in data.get("policy_params", []):
+        for r in data.get("policy_params", {}).values():
             if r.get("param_name") == n:
                 payload = r
                 out = json.dumps(payload)

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateNewGrade(Tool):
@@ -56,7 +56,7 @@ class CreateNewGrade(Tool):
             return out
 
         #2) Retrieve DB
-        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", [])
+        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", {}).values()
 
         #3) Create a new grade_id
         new_id = get_next_grade_id(data)

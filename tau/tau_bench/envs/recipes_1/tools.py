@@ -18,7 +18,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -29,7 +29,7 @@ def _ingredient_by_id(
     return next(
         (
             i
-            for i in data.get("ingredients", [])
+            for i in data.get("ingredients", {}).values()
             if int(i.get("ingredient_id")) == ingredient_id
         ),
         None,
@@ -52,7 +52,7 @@ def _store_products_for_ingredient(
     pass
     return [
         p
-        for p in data.get("store_products", [])
+        for p in data.get("store_products", {}).values()
         if int(p.get("store_id")) == store_id
         and int(p.get("ingredient_id")) == ingredient_id
     ]
@@ -82,7 +82,7 @@ def _require(
     data: dict[str, Any], table: str, key: str, value: Any
 ) -> dict[str, Any] | None:
     pass
-    row = next((r for r in data.get(table, []) if r.get(key) == value), None)
+    row = next((r for r in data.get(table, {}).values() if r.get(key) == value), None)
     return row
 
 
@@ -90,9 +90,9 @@ def _collect_recipe_ingredients(
     data: dict[str, Any], recipe_ids: list[int]
 ) -> list[dict[str, Any]]:
     pass
-    ri = data.get("recipe_ingredients", [])
+    ri = data.get("recipe_ingredients", {}).values()
     ridset = set(recipe_ids)
-    return [row for row in ri if int(row.get("recipe_id")) in ridset]
+    return [row for row in ri.values() if int(row.get("recipe_id")) in ridset]
 
 
 def _sum_grocery_items(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -153,7 +153,7 @@ def _parse_json_list_ids(json_str: str) -> list[int]:
 def _recipe_by_id(data: dict[str, Any], recipe_id: int) -> dict[str, Any] | None:
     pass
     return next(
-        (r for r in data.get("recipes", []) if int(r.get("recipe_id")) == recipe_id),
+        (r for r in data.get("recipes", {}).values() if int(r.get("recipe_id")) == recipe_id),
         None,
     )
 
@@ -222,7 +222,7 @@ class ListHouseholdMembers(Tool):
             return _json_dump({"error": "household_id is required"})
         rows = [
             m
-            for m in data.get("members", [])
+            for m in data.get("members", {}).values()
             if int(m.get("household_id")) == int(household_id)
         ]
         return _json_dump(rows)
@@ -286,7 +286,7 @@ class ListInventoryByHousehold(Tool):
             return _json_dump({"error": "household_id is required"})
         rows = [
             i
-            for i in data.get("inventory_items", [])
+            for i in data.get("inventory_items", {}).values()
             if int(i.get("household_id")) == int(household_id)
         ]
         if location_enum:
@@ -328,11 +328,11 @@ class ListRecentMealHistory(Tool):
         else:
             hh = [
                 h
-                for h in data.get("meal_history", [])
+                for h in data.get("meal_history", {}).values()
                 if int(h.get("household_id")) == int(household_id)
             ]
             if hh:
-                md = max(str(h["plan_date"]) for h in hh)
+                md = max(str(h["plan_date"]) for h in hh.values()
                 y, m, d = (int(x) for x in md.split("-"))
                 end = date(y, m, d)
             else:
@@ -340,7 +340,7 @@ class ListRecentMealHistory(Tool):
         start = end - timedelta(days=int(days_back))
         out = [
             int(r.get("recipe_id"))
-            for r in data.get("meal_history", [])
+            for r in data.get("meal_history", {}).values()
             if int(r.get("household_id")) == int(household_id)
             and str(r.get("plan_date")) >= start.isoformat()
         ]
@@ -405,14 +405,14 @@ class ListRecipeIngredients(Tool):
             return _json_dump({"error": "recipe_id is required"})
         rows = [
             r
-            for r in data.get("recipe_ingredients", [])
+            for r in data.get("recipe_ingredients", {}).values()
             if int(r.get("recipe_id")) == int(recipe_id)
         ]
-        ingr_ix = _index_by(data.get("ingredients", []), "ingredient_id")
+        ingr_ix = _index_by(list(data.get("ingredients", {}).values()), "ingredient_id")
         out = []
         for ri in rows:
             iid = int(ri["ingredient_id"])
-            meta = ingr_ix.get(iid, {})
+            meta = ingr_ix.get(iid, {}).values()
             out.append(
                 {
                     **ri,
@@ -462,7 +462,7 @@ class BuildRecipeFilters(Tool):
             cuisines_exclude = []
         if not isinstance(cuisines_exclude, list):
             cuisines_exclude = []
-        ex = ",".join(sorted(str(c) for c in cuisines_exclude))
+        ex = ",".join(sorted(str(c) for c in cuisines_exclude)
         token = f"F:{meal_type}:P{min_protein_g}:PF{1 if peanut_free else 0}:EX{ex}"
         return _json_dump({"filter_token": token})
 
@@ -507,7 +507,7 @@ class ListRecipesByFilters(Tool):
         except Exception:
             return _json_dump({"error": "invalid filter_token"})
         out = []
-        for r in data.get("recipes", []):
+        for r in data.get("recipes", {}).values():
             if str(r.get("meal_type")) != meal_type:
                 continue
             if int(r.get("protein_g_per_serving", 0)) < min_protein:
@@ -545,7 +545,7 @@ class ExcludeRecipeIds(Tool):
         exclude_ids = ExcludeRecipeIds or []
         cand = _parse_json_list_ids(candidates_json)
         exset = {int(x) for x in exclude_ids}
-        out = [rid for rid in cand if rid not in exset]
+        out = [rid for rid in cand.values() if rid not in exset]
         return _json_dump({"filtered_recipe_ids_json": json.dumps(out)})
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -615,7 +615,7 @@ class MinimizeNewIngredients(Tool):
         for rid in ids:
             rows = [
                 r
-                for r in data.get("recipe_ingredients", [])
+                for r in data.get("recipe_ingredients", {}).values()
                 if int(r.get("recipe_id")) == rid
             ]
             non_staples = 0
@@ -759,7 +759,7 @@ class CreateMealPlan(Tool):
             "created_by_user_id": int(created_by_user_id),
             "created_at": "2025-01-01T00:00:00Z",
         }
-        tbl.append(row)
+        data["meal_plans"][row["meal_plan_id"]] = row
         return _json_dump({"meal_plan_id": next_id})
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -860,7 +860,7 @@ class UpdateMealPlanEntryNotes(Tool):
         if meal_plan_id is None or not isinstance(notes_map, dict):
             return _json_dump({"error": "meal_plan_id and notes_map are required"})
         updated = 0
-        for e in data.get("meal_plan_entries", []):
+        for e in data.get("meal_plan_entries", {}).values():
             if int(e.get("meal_plan_id")) != int(meal_plan_id):
                 continue
             rid = str(e.get("recipe_id"))
@@ -950,7 +950,7 @@ class UpsertGroceryListItemsFromRecipes(Tool):
 
         #delete old
         gli_tbl = data.setdefault("grocery_list_items", [])
-        gli_tbl[:] = [r for r in gli_tbl if int(r.get("list_id")) != int(list_id)]
+        gli_tbl[:] = [r for r in gli_tbl.values() if int(r.get("list_id")) != int(list_id)]
 
         #add new
         next_id = _max_id(gli_tbl, "item_id", 8100)
@@ -1000,7 +1000,7 @@ class CategorizeGroceryListSections(Tool):
         if list_id is None:
             return _json_dump({"error": "list_id is required"})
         updated = 0
-        for item in data.get("grocery_list_items", []):
+        for item in data.get("grocery_list_items", {}).values():
             if int(item.get("list_id")) != int(list_id):
                 continue
             ing = _ingredient_by_id(data, int(item.get("ingredient_id")))
@@ -1031,7 +1031,7 @@ class FlagPantryStaplesOnList(Tool):
         if list_id is None:
             return _json_dump({"error": "list_id is required"})
         updated = 0
-        for item in data.get("grocery_list_items", []):
+        for item in data.get("grocery_list_items", {}).values():
             if int(item.get("list_id")) != int(list_id):
                 continue
             ing = _ingredient_by_id(data, int(item.get("ingredient_id")))
@@ -1073,7 +1073,7 @@ class FlagOverlapLastMonthOnList(Tool):
             int(r["ingredient_id"]) for r in _collect_recipe_ingredients(data, recent)
         }
         updated = 0
-        for item in data.get("grocery_list_items", []):
+        for item in data.get("grocery_list_items", {}).values():
             if int(item.get("list_id")) != int(list_id):
                 continue
             item["overlap_last_month_flag"] = (
@@ -1146,7 +1146,7 @@ class CheckStoreInventoryForList(Tool):
             return _json_dump({"error": "list_id and store_id are required"})
         gl_items = [
             i
-            for i in data.get("grocery_list_items", [])
+            for i in data.get("grocery_list_items", {}).values()
             if int(i.get("list_id")) == int(list_id)
         ]
         results = []
@@ -1201,7 +1201,7 @@ class ProposeSubstituteProducts(Tool):
             # Primary: same ingredient with the best availability
             prods = _store_products_for_ingredient(data, int(store_id), iid)
             best = _lowest_price_pref_stock(
-                [p for p in prods if p.get("stock_status_enum") in ("in_stock", "low")]
+                [p for p in prods.values() if p.get("stock_status_enum") in ("in_stock", "low")]
             )
             if best:
                 suggestions.append(
@@ -1256,7 +1256,7 @@ class UpdateGroceryListWithSubstitutes(Tool):
             if "ingredient_id" in s and "substitute_ingredient_id" in s
         }
         updated = 0
-        for it in data.get("grocery_list_items", []):
+        for it in data.get("grocery_list_items", {}).values():
             if int(it.get("list_id")) != int(list_id):
                 continue
             old = int(it.get("ingredient_id"))
@@ -1324,7 +1324,7 @@ class CreateOrderFromList(Tool):
             "scheduled_slot_start_ts": str(scheduled_slot_start_ts),
             "scheduled_slot_end_ts": str(scheduled_slot_end_ts),
         }
-        tbl.append(row)
+        data["orders"][row["order_id"]] = row
         return _json_dump({"order_id": next_id})
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -1374,7 +1374,7 @@ class AddOrderItemsFromList(Tool):
         list_id = int(order["list_id"])
         items = [
             i
-            for i in data.get("grocery_list_items", [])
+            for i in data.get("grocery_list_items", {}).values()
             if int(i.get("list_id")) == list_id
         ]
         oi_tbl = data.setdefault("order_items", [])
@@ -1391,7 +1391,7 @@ class AddOrderItemsFromList(Tool):
                 product = next(
                     (
                         p
-                        for p in data.get("store_products", [])
+                        for p in data.get("store_products", {}).values()
                         if int(p.get("product_id")) == int(override_pid)
                     ),
                     None,
@@ -1415,7 +1415,7 @@ class AddOrderItemsFromList(Tool):
                 "fulfilled_qty": 1,
                 "substitute_product_id": None,
             }
-            oi_tbl.append(row)
+            data["order_items"][row["order_item_id"]] = row
             created_ids.append(next_oi)
             subtotal += int(product.get("price_cents", 0))
         order["subtotal_cents"] = subtotal
@@ -1590,7 +1590,7 @@ class GetGroceryListDetails(Tool):
             return _json_dump({"error": f"list_id {list_id} not found"})
         items = [
             i
-            for i in data.get("grocery_list_items", [])
+            for i in data.get("grocery_list_items", {}).values()
             if int(i.get("list_id")) == int(list_id)
         ]
         return _json_dump({"grocery_list": header, "items": items})
@@ -1615,7 +1615,7 @@ class ListStores(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        return _json_dump(data.get("stores", []))
+        return _json_dump(data.get("stores", {}))
     @staticmethod
     def get_info() -> dict[str, Any]:
         return {
@@ -1637,7 +1637,7 @@ class ListStoreProducts(Tool):
             return _json_dump({"error": "store_id is required"})
         rows = [
             p
-            for p in data.get("store_products", [])
+            for p in data.get("store_products", {}).values()
             if int(p.get("store_id")) == int(store_id)
         ]
         if ingredient_id is not None:

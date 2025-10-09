@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetScheduledPaymentDetailsByCustomerIdAndBeneficiaryId(Tool):
@@ -26,8 +26,8 @@ class GetScheduledPaymentDetailsByCustomerIdAndBeneficiaryId(Tool):
                 "error": "customer_id and beneficiary_id are required."
             }, indent=2)
 
-        scheduled_payments = data.get("scheduled_payments", [])
-        for payment in scheduled_payments:
+        scheduled_payments = data.get("scheduled_payments", {}).values()
+        for payment in scheduled_payments.values():
             if payment.get("customer_id") == customer_id and payment.get("beneficiary_id") == beneficiary_id:
                 return json.dumps(payment, indent=2)
 

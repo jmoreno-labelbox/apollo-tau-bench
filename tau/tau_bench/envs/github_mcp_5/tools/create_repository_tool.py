@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateRepositoryTool(Tool):
@@ -54,8 +54,8 @@ class CreateRepositoryTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        repos = data.get("repositories", [])
-        if any(r.get("name") == repo_name for r in repos):
+        repos = data.get("repositories", {}).values()
+        if any(r.get("name") == repo_name for r in repos.values()):
             return _response(
                 "error",
                 ERROR_MESSAGES["ALREADY_EXISTS"].format(
@@ -73,7 +73,7 @@ class CreateRepositoryTool(Tool):
             "default_branch": "main",
         }
         new_repo["repo_id"] = _safe_id(new_repo, "repo_id", "REPO_", ["name"])
-        repos.append(new_repo)
+        data["repositories"][new_repo["repositorie_id"]] = new_repo
 
         return _response("ok", new_repo)
     @staticmethod

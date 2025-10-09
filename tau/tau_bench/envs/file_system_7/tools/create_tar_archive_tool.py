@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateTarArchiveTool(Tool):
@@ -39,7 +39,7 @@ class CreateTarArchiveTool(Tool):
         # Compute the total size of files to ascertain the archive size.
         total_size = sum(
             f["size"]
-            for f in data.get("remote_files", [])
+            for f in data.get("remote_files", {}).values()
             if f["path"] in file_paths
         )
         archive_size = int(total_size * 0.7)  # Estimate of the compression ratio.

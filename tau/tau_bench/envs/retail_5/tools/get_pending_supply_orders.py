@@ -9,7 +9,7 @@ class GetPendingSupplyOrders(Tool):
         supply_orders = data["supply_orders"]
         pending_orders = []
 
-        for order in supply_orders:
+        for order in supply_orders.values():
             if order["status"] == "pending":
                 if supplier_id and order["supplier_id"] != supplier_id:
                     continue

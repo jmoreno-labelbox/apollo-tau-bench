@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class conditional_benefit_maintenance(Tool):
@@ -20,8 +20,8 @@ class conditional_benefit_maintenance(Tool):
         reduced_benefits: list[str]
     ) -> str:
         # Retrieve the current compensation
-        comp = data.get("compensation_records", [])
-        current = [c for c in comp if c["employee_id"] == employee_id]
+        comp = data.get("compensation_records", {}).values()
+        current = [c for c in comp.values() if c["employee_id"] == employee_id]
         current.sort(key=lambda c: c["effective_date"], reverse=True)
 
         if not current:
@@ -34,8 +34,8 @@ class conditional_benefit_maintenance(Tool):
         latest = current[0]
         current_equity = latest.get("equity_grant", 0)
 
-        employees = data.get("employees", [])
-        employee = next((e for e in employees if e["employee_id"] == employee_id), None)
+        employees = data.get("employees", {}).values()
+        employee = next((e for e in employees.values() if e["employee_id"] == employee_id), None)
 
         if not employee:
             payload = {"error": f"Employee {employee_id} not found"}
@@ -68,8 +68,8 @@ class conditional_benefit_maintenance(Tool):
         return out
         pass
         #Retrieve the current compensation
-        comp = data.get("compensation_records", [])
-        current = [c for c in comp if c["employee_id"] == employee_id]
+        comp = data.get("compensation_records", {}).values()
+        current = [c for c in comp.values() if c["employee_id"] == employee_id]
         current.sort(key=lambda c: c["effective_date"], reverse=True)
 
         if not current:
@@ -82,8 +82,8 @@ class conditional_benefit_maintenance(Tool):
         latest = current[0]
         current_equity = latest.get("equity_grant", 0)
 
-        employees = data.get("employees", [])
-        employee = next((e for e in employees if e["employee_id"] == employee_id), None)
+        employees = data.get("employees", {}).values()
+        employee = next((e for e in employees.values() if e["employee_id"] == employee_id), None)
 
         if not employee:
             payload = {"error": f"Employee {employee_id} not found"}

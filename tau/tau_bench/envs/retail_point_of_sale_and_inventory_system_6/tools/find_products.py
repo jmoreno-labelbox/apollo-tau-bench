@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class find_products(Tool):
@@ -28,7 +28,7 @@ class find_products(Tool):
         created_at: str = None,
         updated_at: str = None
     ) -> str:
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
 
         # These columns will match precisely with the provided value
         exact_match_cols = [
@@ -62,7 +62,7 @@ class find_products(Tool):
         }
 
         matches = []
-        for product in products:
+        for product in products.values():
             # Add to the return list if all provided criteria align
             if all(
                 [

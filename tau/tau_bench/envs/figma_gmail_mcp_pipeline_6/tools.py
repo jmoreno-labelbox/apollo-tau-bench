@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -33,7 +33,7 @@ def _resolve_bot_email(data: dict[str, Any]) -> str:
 
     #shape of the list(s)
     if isinstance(cfg, list):
-        for el in cfg:
+        for el in cfg.values():
             #pair of list and tuple
             if isinstance(el, (list, tuple)) and len(el) == 2:
                 k, v = el[0], el[1]
@@ -122,7 +122,7 @@ class create_review_cycle(Tool):
         recipients: list[str],
     ) -> str:
         cycles = data.setdefault("review_cycles", [])
-        for c in cycles:
+        for c in cycles.values():
             if isinstance(c, dict) and c.get("cycle_id") == cycle_id:
                 if not c.get("recipients"):
                     c["recipients"] = sorted(list(dict.fromkeys(recipients or [])))
@@ -140,7 +140,7 @@ class create_review_cycle(Tool):
             "sla_days": None,
             "day": (timestamp or "").split("T")[0],
         }
-        cycles.append(row)
+        data["review_cycles"][row["review_cycle_id"]] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -190,8 +190,7 @@ class link_cycle_to_thread(Tool):
         cyc = next(
             (
                 c
-                for c in cycles
-                if isinstance(c, dict) and c.get("cycle_id") == cycle_id
+                for c in cycles.values() if isinstance(c, dict) and c.get("cycle_id") == cycle_id
             ),
             None,
         )
@@ -267,7 +266,7 @@ class export_assets(Tool):
             "day": day_iso,
             "export_id": export_id,
         }
-        assets.append(row)
+        data["assets"][asset_id] = row
         payload = {"asset_id": asset_id, "export_id": export_id}
         out = json.dumps(payload, indent=2)
         return out
@@ -320,7 +319,7 @@ class create_release_record(Tool):
             "day": day_iso,
             "request_id": request_id,
         }
-        releases.append(row)
+        data["releases"][release_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -359,7 +358,7 @@ class create_gmail_thread(Tool):
         threads = _table(data, "gmail_threads")
         thr_id = _id_from_request("thr", request_id)
         if thr_id:
-            for t in threads:
+            for t in threads.values():
                 if isinstance(t, dict) and t.get("thread_id") == thr_id:
                     payload = t
                     out = json.dumps(payload, indent=2)
@@ -369,7 +368,7 @@ class create_gmail_thread(Tool):
             "thread_id": thr_id
             or _get_next_id(
                 "thread",
-                [r.get("thread_id", "") for r in threads if isinstance(r, dict)],
+                [r.get("thread_id", "") for r in threads.values() if isinstance(r, dict)],
             ),
             "subject": subject,
             "to": _norm_list(recipients),
@@ -377,7 +376,7 @@ class create_gmail_thread(Tool):
             "sender_email": sender_email,
             "day": _ymd(timestamp),
         }
-        threads.append(row)
+        thredata["ads"][ad_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -633,8 +632,8 @@ class record_automation_run(Tool):
 class get_release_diff(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], release_id: str) -> str:
-        diffs = data.get("release_diffs", [])
-        for diff in diffs:
+        diffs = data.get("release_diffs", {}).values()
+        for diff in diffs.values():
             if diff.get("release_id") == release_id:
                 payload = diff
                 out = json.dumps(payload, indent=2)
@@ -668,8 +667,8 @@ class apply_gmail_labels(Tool):
         add_labels: list[str],
         remove_labels: list[str],
     ) -> str:
-        threads = data.get("gmail_threads", [])
-        for thread in threads:
+        threads = data.get("gmail_threads", {}).values()
+        for thread in threads.values():
             if thread.get("thread_id") == thread_id:
                 labels = set(thread.get("current_labels", []))
                 labels.update(add_labels)
@@ -707,8 +706,8 @@ class update_review_cycle_status(Tool):
     def invoke(
         data: dict[str, Any], cycle_id: str, status: str, updated_at: str
     ) -> str:
-        cycles = data.get("review_cycles", [])
-        for cycle in cycles:
+        cycles = data.get("review_cycles", {}).values()
+        for cycle in cycles.values():
             if cycle.get("cycle_id") == cycle_id:
                 cycle["status"] = status
                 cycle["updated_at"] = updated_at
@@ -749,7 +748,7 @@ class deliver_fix_plan(Tool):
         request_id: str,
     ) -> str:
         deliveries = data.setdefault("fix_plan_deliveries", [])
-        fix_items = data.get("fix_items", [])
+        fix_items = data.get("fix_items", {}).values()
         comments_tbl = data.setdefault("figma_comments", [])
         bot_email = _resolve_bot_email(data)
         run_id = _id_from_request("run", request_id) or _get_next_id(
@@ -769,7 +768,7 @@ class deliver_fix_plan(Tool):
             return out
 
         items_for_plan: list[dict[str, Any]] = []
-        for it in fix_items:
+        for it in fix_items.values():
             if isinstance(it, dict) and it.get("plan_id") == plan_id:
                 items_for_plan.append(it)
 
@@ -856,7 +855,7 @@ class update_fix_item_status(Tool):
     def invoke(
         data: dict[str, Any], item_id: str, status: str, timestamp: str, request_id: str
     ) -> str:
-        items = data.get("fix_items", [])
+        items = data.get("fix_items", {}).values()
         if not isinstance(items, list):
             payload = {"error": "fix_items table missing or invalid"}
             out = json.dumps(payload, indent=2)
@@ -865,8 +864,7 @@ class update_fix_item_status(Tool):
         row = next(
             (
                 it
-                for it in items
-                if isinstance(it, dict) and it.get("item_id") == item_id
+                for it in items.values() if isinstance(it, dict) and it.get("item_id") == item_id
             ),
             None,
         )
@@ -883,7 +881,7 @@ class update_fix_item_status(Tool):
         run_id = _id_from_request("run", request_id) or _get_next_id(
             "run", [r.get("run_id", "") for r in trail if isinstance(r, dict)]
         )
-        if not any(isinstance(r, dict) and r.get("run_id") == run_id for r in trail):
+        if not any(isinstance(r, dict) and r.get("run_id") == run_id for r in trail.values()):
             trail.append(
                 {
                     "run_id": run_id,
@@ -927,8 +925,8 @@ class generate_combined_audit_report(Tool):
         timestamp: str,
         request_id: str,
     ) -> str:
-        audits = data.get("audits", [])
-        arts = data.get("figma_artifacts", [])
+        audits = data.get("audits", {}).values()
+        arts = data.get("figma_artifacts", {}).values()
         if not any(
             isinstance(a, dict) and a.get("audit_id") == audit_id for a in audits
         ):
@@ -936,7 +934,7 @@ class generate_combined_audit_report(Tool):
             out = json.dumps(payload, indent=2)
             return out
         if not any(
-            isinstance(a, dict) and a.get("artifact_id") == artifact_id for a in arts
+            isinstance(a, dict) and a.get("artifact_id") == artifact_id for a in arts.values()
         ):
             payload = {"error": f"artifact_id '{artifact_id}' not found"}
             out = json.dumps(
@@ -980,7 +978,7 @@ class generate_combined_audit_report(Tool):
             "size_bytes": 0,
             "day": _ymd(timestamp),
         }
-        assets.append(asset_row)
+        data["assets"][asset_id] = asset_row
 
         report_row = {
             "report_id": report_id,
@@ -1032,11 +1030,11 @@ class sync_replies_to_figma_comments(Tool):
         - Generates Figma comments for any messages that are not yet included.
         - Connects comments to the corresponding original Gmail message.
         """
-        gmail_messages = data.get("gmail_messages", [])
-        figma_comments = data.get("figma_comments", [])
+        gmail_messages = data.get("gmail_messages", {}).values()
+        figma_comments = data.get("figma_comments", {}).values()
 
         synced_count = 0
-        for msg in gmail_messages:
+        for msg in gmail_messages.values():
             if msg.get("thread_id") != thread_id:
                 continue
 
@@ -1045,7 +1043,7 @@ class sync_replies_to_figma_comments(Tool):
             already_synced = any(
                 c.get("source_message_id_nullable") == msg_id
                 and c.get("artifact_id") == artifact_id
-                for c in figma_comments
+                for c in figma_comments.values()
             )
 
             if not already_synced:
@@ -1058,7 +1056,7 @@ class sync_replies_to_figma_comments(Tool):
                     "created_ts": msg.get("sent_ts"),
                     "resolved_flag": False,
                 }
-                figma_comments.append(new_comment)
+                data["figma_comments"][new_comment["figma_comment_id"]] = new_comment
                 synced_count += 1
         payload = {"synced_count": synced_count, "total_comments": len(figma_comments)}
         out = json.dumps(
@@ -1092,7 +1090,7 @@ class record_review_approval(Tool):
         approvals = _table(data, "review_approvals")
         cycles = _table(data, "review_cycles")
 
-        cyc = next((c for c in cycles if c.get("cycle_id") == cycle_id), None)
+        cyc = next((c for c in cycles.values() if c.get("cycle_id") == cycle_id), None)
         if not cyc:
             payload = {"error": f"cycle_id '{cycle_id}' not found"}
             out = json.dumps(payload, indent=2)
@@ -1162,7 +1160,7 @@ class update_review_status_by_quorum(Tool):
 
         review_cfg = {}
         if isinstance(cfg, dict):
-            review_cfg = cfg.get("review_workflow_config", {}) or {}
+            review_cfg = cfg.get("review_workflow_config", {}).values() or {}
         quorum = review_cfg.get("approval_quorum", 2)
         try:
             quorum = int(quorum)
@@ -1260,11 +1258,11 @@ class compute_fix_plan_summary(Tool):
     def invoke(
         data: dict[str, Any], plan_id: str, timestamp: str, request_id: str
     ) -> str:
-        items = data.get("fix_items", [])
+        items = data.get("fix_items", {}).values()
         total = 0
         pending_ids: list[str] = []
         applied_ids: list[str] = []
-        for it in items:
+        for it in items.values():
             if not isinstance(it, dict) or it.get("plan_id") != plan_id:
                 continue
             total += 1
@@ -1315,11 +1313,11 @@ class create_tickets_for_pending(Tool):
         timestamp: str,
         request_id: str,
     ) -> str:
-        items = data.get("fix_items", [])
+        items = data.get("fix_items", {}).values()
         tickets = data.setdefault("tickets", [])
         day = (timestamp or "").split("T")[0]
         pending_ids = []
-        for it in items:
+        for it in items.values():
             if not isinstance(it, dict) or it.get("plan_id") != plan_id:
                 continue
             status = (it.get("status") or "").upper()
@@ -1344,7 +1342,7 @@ class create_tickets_for_pending(Tool):
                 "day": day,
                 "request_id": request_id,
             }
-            tickets.append(row)
+            data["tickets"][ticket_id] = row
             created.append(ticket_id)
             existing_ids.add(ticket_id)
         payload = {"plan_id": plan_id, "ticket_ids": created, "count": len(created)}

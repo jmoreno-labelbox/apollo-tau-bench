@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SendEmailWithAttachmentsTool(Tool):
@@ -44,7 +44,7 @@ class SendEmailWithAttachmentsTool(Tool):
         candidate = next(
             (
                 c
-                for c in data.get("candidates", [])
+                for c in data.get("candidates", {}).values()
                 if str(c.get("candidate_id")) == str(candidate_id)
             ),
             None,
@@ -91,7 +91,7 @@ class SendEmailWithAttachmentsTool(Tool):
 
         emails = data.setdefault("emails", [])
         attachments = data.setdefault("attachments", [])
-        onboarding_files = data.get("onboarding_files", [])
+        onboarding_files = data.get("onboarding_files", {}).values()
 
         new_email = {
             "message_id": _next_str_id(emails, "message_id", "msg_"),
@@ -112,12 +112,12 @@ class SendEmailWithAttachmentsTool(Tool):
 
         if template_name == "welcome":
             welcome_packet_path = f"/onboarding/{candidate_id}/welcome_packet.md"
-            if any(f.get("file_path") == welcome_packet_path for f in onboarding_files):
+            if any(f.get("file_path") == welcome_packet_path for f in onboarding_files.values()):
                 attachment_file_paths.append(welcome_packet_path)
 
         for file_path in attachment_file_paths:
             source_file = next(
-                (f for f in onboarding_files if f.get("file_path") == file_path), None
+                (f for f in onboarding_files.values() if f.get("file_path") == file_path), None
             )
             if source_file:
                 new_attachment_id = _next_str_id(
@@ -132,7 +132,7 @@ class SendEmailWithAttachmentsTool(Tool):
                     "size_bytes": source_file.get("size_bytes", 1024),
                     "stored_ts": HARD_TS,
                 }
-                attachments.append(new_attachment)
+                data["attachments"][new_attachment["attachment_id"]] = new_attachment
                 new_email["attachments_ids"].append(new_attachment_id)
 
         emails.append(new_email)

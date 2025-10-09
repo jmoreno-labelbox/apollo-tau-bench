@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateNewTransaction(Tool):
@@ -37,8 +37,8 @@ class CreateNewTransaction(Tool):
         if not all([account_id, transaction_date, amount, currency, purchase_type, description, merchant_name, channel]):
             return json.dumps({"error": "All fields are required."}, indent=2)
 
-        accounts = data.get("accounts", [])
-        account = next((acc for acc in accounts if acc.get("account_id") == account_id), None)
+        accounts = data.get("accounts", {}).values()
+        account = next((acc for acc in accounts.values() if acc.get("account_id") == account_id), None)
 
         if not account:
             return json.dumps({"error": "Account not found."}, indent=2)

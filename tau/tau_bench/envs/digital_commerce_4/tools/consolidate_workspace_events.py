@@ -7,7 +7,7 @@ class ConsolidateWorkspaceEvents(Tool):
     def invoke(data: dict[str, Any], subject_id: str, event_types: list[str]) -> str:
         subject_id = _sid(subject_id)
         staged = _ws(data).get(subject_id, {"events": []}).get("events", [])
-        filt = [e for e in staged if e.get("event_type") in set(event_types)]
+        filt = [e for e in staged.values() if e.get("event_type") in set(event_types)]
         # Provide only a predictable subset
         slim = [
             {

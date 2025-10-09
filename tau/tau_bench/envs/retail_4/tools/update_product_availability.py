@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateProductAvailability(Tool):
@@ -25,12 +25,12 @@ class UpdateProductAvailability(Tool):
 
         Writes to: products.json (updates variant availability and price)
         """
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         product_to_update = None
         product_index = None
 
         # Find the product
-        for i, product in enumerate(products):
+        for i, product in enumerate(products.values():
             if product.get("product_id") == product_id:
                 product_to_update = product
                 product_index = i
@@ -42,7 +42,7 @@ class UpdateProductAvailability(Tool):
             return out
 
         # Rule: Confirm item_id exists in product variants before including in orders
-        variants = product_to_update.get("variants", {})
+        variants = product_to_update.get("variants", {}).values()
         if item_id not in variants:
             payload = {
                 "error": f"Item variant {item_id} not found in product {product_id}",
@@ -90,7 +90,7 @@ class UpdateProductAvailability(Tool):
                 if price_updated
                 else {"updated": False}
             ),
-            "variant_options": variant_to_update.get("options", {}),
+            "variant_options": variant_to_update.get("options", {}).values()),
             "last_updated": variant_to_update["last_updated"],
         }
         payload = result

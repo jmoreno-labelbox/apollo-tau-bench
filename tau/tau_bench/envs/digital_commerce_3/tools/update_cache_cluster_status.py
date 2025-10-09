@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateCacheClusterStatus(Tool):
@@ -29,7 +29,7 @@ class UpdateCacheClusterStatus(Tool):
         cluster = next(
             (
                 c
-                for c in data.get("aws_elasticache_clusters", [])
+                for c in data.get("aws_elasticache_clusters", {}).values()
                 if f"{c.get('cluster_id')}" == f"{cluster_id}"
             ),
             None,
@@ -58,7 +58,7 @@ class UpdateCacheClusterStatus(Tool):
         cluster = next(
             (
                 c
-                for c in data.get("aws_elasticache_clusters", [])
+                for c in data.get("aws_elasticache_clusters", {}).values()
                 if f"{c.get('cluster_id')}" == f"{cluster_id}"
             ),
             None,

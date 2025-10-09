@@ -8,7 +8,7 @@ class CreateDeposit(Tool):
     def invoke(data: Dict[str, Any], account_id: str = None, amount: float = None, description: str = None) -> str:
         transaction_id = _get_next_transaction_id(data)
 
-        account = next((acc for acc in data["accounts"] if acc["account_id"] == account_id), None)
+        account = next((acc for acc in data["accounts"].values() if acc["account_id"] == account_id), None)
         if not account:
             return json.dumps({"error": "Account not found."})
 
@@ -25,7 +25,7 @@ class CreateDeposit(Tool):
                 "status": "Completed",
                 "channel": "Online"
         }
-        data["transactions"].append(new_transaction)
+        data["transactions"][transaction_id] = new_transaction
 
         return json.dumps(new_transaction)
     @staticmethod

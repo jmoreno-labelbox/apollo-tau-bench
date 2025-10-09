@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ScheduleSceneRun(Tool):
@@ -15,7 +15,7 @@ class ScheduleSceneRun(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], scene_id: str, timestamp: str) -> str:
-        scenes_doc: list[dict[str, Any]] = data.get("scenes", [])
+        scenes_doc: list[dict[str, Any]] = data.get("scenes", {}).values()
         scenes = scenes_doc
         for scene in scenes:
             if scene.get("id") == scene_id:

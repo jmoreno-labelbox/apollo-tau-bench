@@ -10,11 +10,11 @@ class InventoryAlert(Tool):
         products = data["products"]
         critical_items = []
 
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             for item_id, stock in supplier["item_stock"].items():
                 if isinstance(stock, int) and stock <= threshold:
                     product_name = "Unknown"
-                    for product in products:
+                    for product in products.values():
                         if item_id in product["variants"]:
                             product_name = product["name"]
                             break

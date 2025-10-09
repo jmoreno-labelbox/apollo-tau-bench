@@ -15,7 +15,7 @@ class ListRecentTransactionsByCategory(Tool):
         if not account_ids:
             return json.dumps({'error': 'account_ids is required'})
         transactions = load_json('transactions.json')
-        filtered = [t for t in transactions if t['account_id'] in account_ids]
+        filtered = [t for t in transactions.values() if t['account_id'] in account_ids]
         filtered.sort(key=lambda t: t['transaction_date'], reverse=True)
         filtered = filtered[:limit]
         grouped = {}

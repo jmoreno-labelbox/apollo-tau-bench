@@ -7,15 +7,15 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateDetailedMonthlyReportTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str = None, month: str = None) -> str:
-        transactions = data.get('transactions', [])
-        scheduled_payments = data.get('scheduled_payments', [])
-        support_tickets = data.get('support_tickets', [])
+        transactions = data.get('transactions', {}).values()
+        scheduled_payments = data.get('scheduled_payments', {}).values()
+        support_tickets = data.get('support_tickets', {}).values()
 
         start_date = f"{month}-01T00:00:00Z"
         end_date = f"{month}-31T23:59:59Z"
@@ -27,7 +27,7 @@ class GenerateDetailedMonthlyReportTool(Tool):
         total_deposits = 0
         total_withdrawals = 0
 
-        for txn in transactions:
+        for txn in transactions.values():
             if txn.get('account_id') != account_id:
                 continue
             if txn.get('transaction_date', '') < start_date or txn.get('transaction_date', '') > end_date:
@@ -44,14 +44,14 @@ class GenerateDetailedMonthlyReportTool(Tool):
 
         scheduled = []
         recurring = []
-        for payment in scheduled_payments:
+        for payment in scheduled_payments.values():
             if payment.get('from_account_id', None) == account_id and payment.get('next_payment_date', '')[:7] == month:
                 scheduled.append(payment)
                 if payment.get('frequency') in ['Monthly', 'Weekly']:
                     recurring.append(payment)
 
         tickets = []
-        for ticket in support_tickets:
+        for ticket in support_tickets.values():
             if ticket.get('account_id', '') == account_id and ticket.get('created_date', '')[:7] == month:
                 tickets.append(ticket)
 

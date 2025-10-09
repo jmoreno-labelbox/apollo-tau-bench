@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateVelocityBudgetRatio(Tool):
@@ -25,14 +25,14 @@ class CalculateVelocityBudgetRatio(Tool):
             out = json.dumps(payload)
             return out
 
-        teams = data.get("teams", [])
-        sprints = data.get("sprints", [])
-        budgets = data.get("budgets", [])
-        expenses = data.get("expenses", [])
-        data.get("task_logs", [])
-        employees = data.get("employees", [])
+        teams = data.get("teams", {}).values()
+        sprints = data.get("sprints", {}).values()
+        budgets = data.get("budgets", {}).values()
+        expenses = data.get("expenses", {}).values()
+        data.get("task_logs", {}).values()
+        employees = data.get("employees", {}).values()
 
-        team = next((t for t in teams if t.get("team_id") == team_id), None)
+        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
         if not team:
             payload = {"error": f"Team {team_id} not found"}
             out = json.dumps(payload)
@@ -40,8 +40,7 @@ class CalculateVelocityBudgetRatio(Tool):
 
         team_sprints = [
             s
-            for s in sprints
-            if s.get("team_id") == team_id and s.get("status") == "completed"
+            for s in sprints.values() if s.get("team_id") == team_id and s.get("status") == "completed"
         ]
 
         team_sprints.sort(key=lambda x: x.get("end_date", ""), reverse=True)
@@ -70,7 +69,7 @@ class CalculateVelocityBudgetRatio(Tool):
 
             for member_id in team.get("members", []):
                 employee = next(
-                    (e for e in employees if e.get("employee_id") == member_id), None
+                    (e for e in employees.values() if e.get("employee_id") == member_id), None
                 )
                 if employee:
                     hourly_rate = (
@@ -82,11 +81,10 @@ class CalculateVelocityBudgetRatio(Tool):
 
             sprint_expenses = [
                 e
-                for e in expenses
-                if e.get("sprint_id") == sprint["sprint_id"]
+                for e in expenses.values() if e.get("sprint_id") == sprint["sprint_id"]
                 and e.get("status") == "approved"
             ]
-            sprint_expense_total = sum(e.get("amount", 0) for e in sprint_expenses)
+            sprint_expense_total = sum(e.get("amount", 0) for e in sprint_expenses.values()
             sprint_cost += sprint_expense_total
 
             total_cost += sprint_cost
@@ -110,8 +108,7 @@ class CalculateVelocityBudgetRatio(Tool):
         budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,

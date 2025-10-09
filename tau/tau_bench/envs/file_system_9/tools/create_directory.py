@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateDirectory(Tool):
@@ -15,7 +15,7 @@ class CreateDirectory(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], server_hostname: str = None, new_directory_path: str = None) -> str:
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == server_hostname:
                 server["directories"].append({"path": new_directory_path, "files": []})
                 payload = {

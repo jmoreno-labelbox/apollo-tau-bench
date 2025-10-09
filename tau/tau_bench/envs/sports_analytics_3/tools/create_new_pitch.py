@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateNewPitch(Tool):
@@ -80,7 +80,7 @@ class CreateNewPitch(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        pitches: list[dict[str, Any]] = data.get("pitches", [])
+        pitches: list[dict[str, Any]] = data.get("pitches", {}).values()
 
         # Create a new pitch_id in a deterministic manner
         new_id = get_next_pitch_id(data)

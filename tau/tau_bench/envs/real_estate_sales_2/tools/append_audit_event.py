@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AppendAuditEvent(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], actor_id: str = None, action: str = None, entity_type: str = None, entity_id: str = None, metadata_json: dict = None) -> str:
-        audits = data.get("audit_events", [])
+        audits = data.get("audit_events", {}).values()
         new_id = _next_auto_id(audits, "event_id")
         row = {
             "event_id": new_id,
@@ -25,7 +25,7 @@ class AppendAuditEvent(Tool):
             "occurred_at": _now_iso_fixed(),
             "metadata_json": metadata_json or {},
         }
-        audits.append(row)
+        data["audit_events"][row["audit_event_id"]] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out

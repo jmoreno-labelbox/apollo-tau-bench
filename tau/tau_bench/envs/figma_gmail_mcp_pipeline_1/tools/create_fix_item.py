@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateFixItem(Tool):  #WRITE
@@ -26,22 +26,22 @@ class CreateFixItem(Tool):  #WRITE
             return out
 
         #Verify the existence of the plan
-        fix_plans = data.get("fix_plans", [])
-        plan_exists = any(plan.get("plan_id") == plan_id for plan in fix_plans)
+        fix_plans = data.get("fix_plans", {}).values()
+        plan_exists = any(plan.get("plan_id") == plan_id for plan in fix_plans.values()
         if not plan_exists:
             payload = {"error": f"Fix plan with ID '{plan_id}' not found"}
             out = json.dumps(payload)
             return out
 
         #Verify if the finding is present in either DS or A11Y findings
-        audit_findings_ds = data.get("audit_findings_ds", [])
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audit_findings_ds = data.get("audit_findings_ds", {}).values()
+        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
 
         finding_exists_ds = any(
-            finding.get("finding_id") == finding_id for finding in audit_findings_ds
+            finding.get("finding_id") == finding_id for finding in audit_findings_ds.values()
         )
         finding_exists_a11y = any(
-            finding.get("finding_id") == finding_id for finding in audit_findings_a11y
+            finding.get("finding_id") == finding_id for finding in audit_findings_a11y.values()
         )
 
         if not (finding_exists_ds or finding_exists_a11y):
@@ -53,7 +53,7 @@ class CreateFixItem(Tool):  #WRITE
             return out
 
         #Retrieve current fix items to identify the next item_id
-        fix_items = data.get("fix_items", [])
+        fix_items = data.get("fix_items", {}).values()
         next_num = len(fix_items) + 1
         item_id = f"item_{next_num:03d}"
 
@@ -65,8 +65,7 @@ class CreateFixItem(Tool):  #WRITE
         #Locate existing items with the same proposed_change_type to extract details
         same_type_items = [
             item
-            for item in fix_items
-            if item.get("proposed_change_type") == proposed_change_type
+            for item in fix_items.values() if item.get("proposed_change_type") == proposed_change_type
         ]
 
         if same_type_items:
@@ -95,7 +94,7 @@ class CreateFixItem(Tool):  #WRITE
         }
 
         #Include in fix_items
-        fix_items.append(new_fix_item)
+        data["fix_items"][new_fix_item["fix_item_id"]] = new_fix_item
         payload = {"new_fix_item": new_fix_item}
         out = json.dumps(payload)
         return out

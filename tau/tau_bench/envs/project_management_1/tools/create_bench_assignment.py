@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateBenchAssignment(Tool):
@@ -27,13 +27,12 @@ class CreateBenchAssignment(Tool):
             out = json.dumps(payload)
             return out
 
-        bench_resources = data.get("bench_resources", [])
-        allocations = data.get("allocations", [])
+        bench_resources = data.get("bench_resources", {}).values()
+        allocations = data.get("allocations", {}).values()
 
         employee_allocations = [
             alloc
-            for alloc in allocations
-            if alloc.get("employee_id") == employee_id
+            for alloc in allocations.values() if alloc.get("employee_id") == employee_id
             and alloc.get("status") == "active"
         ]
 
@@ -70,21 +69,19 @@ class CreateBenchAssignment(Tool):
             "fully_available": is_actually_available,
         }
 
-        bench_resources.append(new_assignment)
+        data["bench_resources"][new_assignment["bench_resource_id"]] = new_assignment
 
         available_resources = len(
             [
                 r
-                for r in bench_resources
-                if r.get("status") == "active" and r.get("fully_available", True)
+                for r in bench_resources.values() if r.get("status") == "active" and r.get("fully_available", True)
             ]
         )
 
         partially_available = len(
             [
                 r
-                for r in bench_resources
-                if r.get("status") == "active" and not r.get("fully_available", True)
+                for r in bench_resources.values() if r.get("status") == "active" and not r.get("fully_available", True)
             ]
         )
         payload = {

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ArchiveMilestone(Tool):
@@ -20,12 +20,12 @@ class ArchiveMilestone(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        archived_milestones = data.get("archived_milestones", [])
+        milestones = data.get("milestones", {}).values()
+        archived_milestones = data.get("archived_milestones", {}).values()
 
         milestone_index = None
         milestone_to_archive = None
-        for i, milestone in enumerate(milestones):
+        for i, milestone in enumerate(milestones.values():
             if milestone.get("milestone_id") == milestone_id:
                 milestone_index = i
                 milestone_to_archive = milestone
@@ -44,7 +44,7 @@ class ArchiveMilestone(Tool):
         milestones.pop(milestone_index)
 
         milestone_to_archive["archived_date"] = datetime.now(timezone.utc).isoformat()
-        archived_milestones.append(milestone_to_archive)
+        archived_data["milestones"][milestone_id] = milestone_to_archive
         payload = {
                 "success": True,
                 "archived_milestone": {

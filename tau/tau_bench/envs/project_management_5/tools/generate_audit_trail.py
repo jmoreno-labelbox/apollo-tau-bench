@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateAuditTrail(Tool):
@@ -25,14 +25,14 @@ class GenerateAuditTrail(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        change_history = data.get("change_history", [])
-        change_approvals = data.get("change_approvals", [])
-        artifact_updates = data.get("artifact_updates", [])
-        risk_assessments = data.get("risk_assessments", [])
-        emergency_logs = data.get("emergency_logs", [])
+        change_requests = data.get("change_requests", {}).values()
+        change_history = data.get("change_history", {}).values()
+        change_approvals = data.get("change_approvals", {}).values()
+        artifact_updates = data.get("artifact_updates", {}).values()
+        risk_assessments = data.get("risk_assessments", {}).values()
+        emergency_logs = data.get("emergency_logs", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
@@ -55,7 +55,7 @@ class GenerateAuditTrail(Tool):
             }
         )
 
-        cr_history = [h for h in change_history if h.get("cr_id") == cr_id]
+        cr_history = [h for h in change_history.values() if h.get("cr_id") == cr_id]
         for event in sorted(cr_history, key=lambda x: x.get("timestamp", "")):
             audit_trail["timeline"].append(
                 {
@@ -83,7 +83,7 @@ class GenerateAuditTrail(Tool):
             )
 
         risk_assessment = next(
-            (r for r in risk_assessments if r.get("cr_id") == cr_id), None
+            (r for r in risk_assessments.values() if r.get("cr_id") == cr_id), None
         )
         if risk_assessment:
             audit_trail["timeline"].append(
@@ -96,7 +96,7 @@ class GenerateAuditTrail(Tool):
             )
 
         if cr.get("requires_emergency_approval"):
-            log = next((e for e in emergency_logs if e.get("cr_id") == cr_id), None)
+            log = next((e for e in emergency_logs.values() if e.get("cr_id") == cr_id), None)
             if log:
                 audit_trail["timeline"].append(
                     {
@@ -115,7 +115,7 @@ class GenerateAuditTrail(Tool):
                 )
 
         if include_approvals:
-            cr_approvals = [a for a in change_approvals if a.get("cr_id") == cr_id]
+            cr_approvals = [a for a in change_approvals.values() if a.get("cr_id") == cr_id]
             for approval in sorted(
                 cr_approvals, key=lambda x: x.get("action_date", "")
             ):
@@ -133,7 +133,7 @@ class GenerateAuditTrail(Tool):
                 )
 
         if include_artifacts:
-            cr_artifacts = [a for a in artifact_updates if a.get("cr_id") == cr_id]
+            cr_artifacts = [a for a in artifact_updates.values() if a.get("cr_id") == cr_id]
             for artifact in sorted(
                 cr_artifacts, key=lambda x: x.get("update_date", "")
             ):
@@ -167,7 +167,7 @@ class GenerateAuditTrail(Tool):
                 )
 
         if cr.get("requires_emergency_approval"):
-            log = next((e for e in emergency_logs if e.get("cr_id") == cr_id), None)
+            log = next((e for e in emergency_logs.values() if e.get("cr_id") == cr_id), None)
             if log and log.get("retroactive_status") == "pending":
                 deadline = log.get("retroactive_approval_deadline", "")
                 if deadline and datetime.now().isoformat() > deadline:

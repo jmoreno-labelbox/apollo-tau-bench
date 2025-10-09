@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ShipOutboundOrder(Tool):
@@ -26,7 +26,7 @@ class ShipOutboundOrder(Tool):
         order_to_update = next(
             (
                 o
-                for o in data.get("outbound_orders", [])
+                for o in data.get("outbound_orders", {}).values()
                 if o.get("order_id") == order_id
             ),
             None,
@@ -39,10 +39,10 @@ class ShipOutboundOrder(Tool):
         #--- NEW LOGIC INITIATION ---
         total_weight_kg = 0
         line_items = order_to_update.get("line_items", [])
-        product_master = data.get("product_master", [])
+        product_master = data.get("product_master", {}).values()
         for item in line_items:
             product = next(
-                (p for p in product_master if p.get("sku") == item["sku"]), None
+                (p for p in product_master.values() if p.get("sku") == item["sku"]), None
             )
             if product:
                 total_weight_kg += product.get("weight_kg", 0) * item["quantity"]
@@ -57,7 +57,7 @@ class ShipOutboundOrder(Tool):
         carrier_name = next(
             (
                 c.get("carrier_name")
-                for c in data.get("carriers", [])
+                for c in data.get("carriers", {}).values()
                 if c.get("scac") == carrier_scac
             ),
             "Unknown",
@@ -68,7 +68,7 @@ class ShipOutboundOrder(Tool):
         order_to_update["tracking_number"] = f"{carrier_scac}-{order_id_number}"
 
         for item in line_items:
-            for inv_record in data.get("inventory", []):
+            for inv_record in data.get("inventory", {}).values():
                 if (
                     inv_record.get("sku") == item.get("sku")
                     and inv_record.get("warehouse_id") == warehouse_id

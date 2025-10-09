@@ -6,7 +6,7 @@ class add_performance_review(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], performance_review: dict) -> str:
         reviews = data.setdefault("performance_reviews", [])
-        reviews.append(performance_review)
+        data["reviews"][review_id] = performance_review
         payload = {"success": True, "review_id": performance_review.get("review_id")}
         out = json.dumps(
             payload, indent=2,

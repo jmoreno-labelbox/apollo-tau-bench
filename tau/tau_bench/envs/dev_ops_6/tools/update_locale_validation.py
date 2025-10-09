@@ -26,8 +26,8 @@ class UpdateLocaleValidation(Tool):
                 break
         if not target_row:
             return _err("loc string not found")
-        target_row.setdefault("translations", {})
-        entry = target_row["translations"].setdefault(locale, {})
+        target_row.setdefault("translations", {}).values()
+        entry = target_row["translations"].setdefault(locale, {}).values()
         if validation_status is not None:
             entry["validation_status"] = validation_status
         if validation_error is not None:

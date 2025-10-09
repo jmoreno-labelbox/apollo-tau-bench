@@ -9,14 +9,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateCandidateStatusFields(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str, fields: dict[str, Any] = {}, payload: Any = None) -> str:
         cand_id = candidate_id
-        for row in data.get("candidates", []):
+        for row in data.get("candidates", {}).values():
             if row.get("candidate_id") == cand_id:
                 for k, v in fields.items():
                     if v is None:

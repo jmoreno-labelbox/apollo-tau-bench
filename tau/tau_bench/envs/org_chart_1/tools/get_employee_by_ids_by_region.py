@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class get_employee_by_ids_by_region(Tool):
@@ -52,13 +52,12 @@ class get_employee_by_ids_by_region(Tool):
             )
             return out
 
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
         target_nationalities = get_employee_by_ids_by_region.REGION_MAP[region]
 
         found_employees = [
             emp
-            for emp in employees
-            if emp.get("nationality") in target_nationalities
+            for emp in employees.values() if emp.get("nationality") in target_nationalities
             and emp.get("status") == status
         ]
         payload = found_employees

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateSiemRuleTool(Tool):
@@ -18,7 +18,7 @@ class CreateSiemRuleTool(Tool):
     created_on: Any = None,
     notes: str = None
     ) -> str:
-        rules = data.get("siem_rules", [])
+        rules = data.get("siem_rules", {}).values()
         new_id = f"RULE-{len(rules) + 1:03d}"
         rules.append(
             {

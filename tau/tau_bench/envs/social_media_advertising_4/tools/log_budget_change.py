@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LogBudgetChange(Tool):
@@ -16,8 +16,8 @@ class LogBudgetChange(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], adset_id: str = None, old_budget: float = None, new_budget: float = None, reason: str = None) -> str:
-        changes = data.get("budget_changes", [])
-        new_id = f"BC-{max((int(c['change_id'][3:]) for c in changes), default=0) + 1}"
+        changes = data.get("budget_changes", {}).values()
+        new_id = f"BC-{max((int(c['change_id'][3:]) for c in changes.values()), default=0) + 1}"
         new_log = {
             "change_id": new_id,
             "adset_id": adset_id,
@@ -26,7 +26,7 @@ class LogBudgetChange(Tool):
             "changed_at": "2025-08-15T01:00:00Z",
             "reason": reason,
         }
-        changes.append(new_log)
+        data["changes"][change_id] = new_log
         data["budget_changes"] = changes
         payload = new_log
         out = json.dumps(payload)

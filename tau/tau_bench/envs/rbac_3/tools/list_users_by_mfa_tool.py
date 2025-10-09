@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListUsersByMfaTool(Tool):
@@ -19,7 +19,7 @@ class ListUsersByMfaTool(Tool):
     def invoke(data: dict[str, Any], enabled: bool = None, status: str = None,
     user_id: Any = None,
     ) -> str:
-        users: list[dict[str, Any]] = data.get("users", [])
+        users: list[dict[str, Any]] = data.get("users", {}).values()
         out: list[dict[str, Any]] = []
 
         def _effective_enabled_and_source(
@@ -42,7 +42,7 @@ class ListUsersByMfaTool(Tool):
                     continue
 
             rec = dict(u)
-            rec.setdefault("mfa", {})
+            rec.setdefault("mfa", {}).values()
             rec["mfa"] = dict(rec["mfa"]) if isinstance(rec["mfa"], dict) else {}
             if eff is not None:
                 rec["mfa"]["enabled"] = bool(eff)

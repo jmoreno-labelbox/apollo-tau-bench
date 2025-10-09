@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateCompReportStatusTool(Tool):
@@ -20,9 +20,9 @@ class UpdateCompReportStatusTool(Tool):
         if report_id is None or not new_status or actor_id is None:
             return _err("report_id, new_status, and actor_id are required")
 
-        rows = data.get("comp_reports", [])
+        rows = data.get("comp_reports", {}).values()
         rec = next(
-            (r for r in rows if int(r.get("report_id", -1)) == int(report_id)), None
+            (r for r in rows.values() if int(r.get("report_id", -1)) == int(report_id)), None
         )
         if not rec:
             return _err(f"report_id {report_id} not found")
@@ -43,7 +43,7 @@ class UpdateCompReportStatusTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"new_status": new_status, "previous_status": prev},
         }
-        audit_rows.append(audit_rec)
+        audit_data["comp_reports"][audit_rec["comp_report_id"]] = audit_rec
         payload = {
                 "report_id": int(report_id),
                 "previous_status": prev,

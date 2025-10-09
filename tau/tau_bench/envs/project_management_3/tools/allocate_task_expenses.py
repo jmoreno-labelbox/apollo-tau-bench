@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AllocateTaskExpenses(Tool):
@@ -26,12 +26,12 @@ class AllocateTaskExpenses(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        expenses = data.get("expenses", [])
-        allocations = data.get("allocations", [])
-        budgets = data.get("budgets", [])
+        tasks = data.get("tasks", {}).values()
+        expenses = data.get("expenses", {}).values()
+        allocations = data.get("allocations", {}).values()
+        budgets = data.get("budgets", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task {task_id} not found"}
             out = json.dumps(payload)
@@ -41,8 +41,7 @@ class AllocateTaskExpenses(Tool):
         employee_allocation = next(
             (
                 a
-                for a in allocations
-                if a.get("employee_id") == employee_id and a.get("status") == "active"
+                for a in allocations.values() if a.get("employee_id") == employee_id and a.get("status") == "active"
             ),
             None,
         )
@@ -85,13 +84,12 @@ class AllocateTaskExpenses(Tool):
             },
         }
 
-        expenses.append(new_expense)
+        data["expenses"][expense_id] = new_expense
 
         budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == current_time.year
             ),
             None,

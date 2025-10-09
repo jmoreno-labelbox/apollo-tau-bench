@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ProcessBudgetTransfer(Tool):
@@ -26,11 +26,11 @@ class ProcessBudgetTransfer(Tool):
             out = json.dumps(payload)
             return out
 
-        budget_transfers = data.get("budget_transfers", [])
-        budgets = data.get("budgets", [])
+        budget_transfers = data.get("budget_transfers", {}).values()
+        budgets = data.get("budgets", {}).values()
 
         transfer = next(
-            (t for t in budget_transfers if t.get("transfer_id") == transfer_id), None
+            (t for t in budget_transfers.values() if t.get("transfer_id") == transfer_id), None
         )
         if not transfer:
             payload = {"error": f"Transfer {transfer_id} not found"}
@@ -52,12 +52,12 @@ class ProcessBudgetTransfer(Tool):
         }
 
         all_approved = all(
-            transfer["approvals"].get(role, {}).get("action") == "approve"
+            transfer["approvals"].get(role, {}).values().get("action") == "approve"
             for role in transfer["approvals_required"]
         )
 
         any_rejected = any(
-            transfer["approvals"].get(role, {}).get("action") == "reject"
+            transfer["approvals"].get(role, {}).values().get("action") == "reject"
             for role in transfer["approvals_required"]
         )
 
@@ -69,8 +69,7 @@ class ProcessBudgetTransfer(Tool):
             source_budget = next(
                 (
                     b
-                    for b in budgets
-                    if b.get("project_id") == transfer["source_project_id"]
+                    for b in budgets.values() if b.get("project_id") == transfer["source_project_id"]
                     and b.get("fiscal_year") == transfer["fiscal_year"]
                 ),
                 None,
@@ -78,8 +77,7 @@ class ProcessBudgetTransfer(Tool):
             target_budget = next(
                 (
                     b
-                    for b in budgets
-                    if b.get("project_id") == transfer["target_project_id"]
+                    for b in budgets.values() if b.get("project_id") == transfer["target_project_id"]
                     and b.get("fiscal_year") == transfer["fiscal_year"]
                 ),
                 None,

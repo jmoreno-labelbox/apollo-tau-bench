@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculatePropertyMetricsTool(Tool):
@@ -94,7 +94,7 @@ class CalculatePropertyMetricsTool(Tool):
 
         #---- Construct market pool (simplified - consider all listings as market) ----
         market_prices, market_ppsf = [], []
-        for l in data.get("listings", []):
+        for l in data.get("listings", {}).values():
             if l.get("list_price"):
                 market_prices.append(float(l["list_price"]))
             if l.get("price_per_sqft"):

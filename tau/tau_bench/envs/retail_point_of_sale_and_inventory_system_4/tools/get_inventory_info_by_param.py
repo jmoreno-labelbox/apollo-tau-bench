@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetInventoryInfoByParam(Tool):  #VIEW
@@ -17,7 +17,7 @@ class GetInventoryInfoByParam(Tool):  #VIEW
         filter_params: dict[str, Any],
         info_items: list[str] = None
     ) -> str:
-        db = _convert_db_to_list(data.get("inventory", {}))
+        db = _convert_db_to_list(data.get("inventory", {}).values()
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db
@@ -30,7 +30,7 @@ class GetInventoryInfoByParam(Tool):  #VIEW
         out = json.dumps(payload)
         return out
         pass
-        db = _convert_db_to_list(data.get("inventory", {}))
+        db = _convert_db_to_list(data.get("inventory", {}).values()
         filtered_db = _filter_db(db, filter_params)
         if not info_items:
             payload = filtered_db

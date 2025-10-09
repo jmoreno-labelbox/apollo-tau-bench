@@ -10,7 +10,7 @@ class GetPublisherInfo(Tool):
         """
         Retrieves the full details for a given publisher_id.
         """
-        publisher = next((p for p in data["publishers"] if p["publisher_id"] == publisher_id), None)
+        publisher = next((p for p in data["publishers"].values() if p["publisher_id"] == publisher_id), None)
         return json.dumps(publisher)
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -22,7 +22,7 @@ class NotifyUser(Tool):
             "timestamp": datetime.now().isoformat() + "Z",
             "status": "unread",
         }
-        data["notifications"].append(new_notification)
+        data["notifications"][notification_id] = new_notification
         payload = {"success": True, "notification": new_notification}
         out = json.dumps(payload)
         return out

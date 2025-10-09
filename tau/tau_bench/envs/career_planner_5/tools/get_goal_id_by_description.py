@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetGoalIdByDescription(Tool):
@@ -15,9 +15,9 @@ class GetGoalIdByDescription(Tool):
     def invoke(data: dict[str, Any], user_id: str, keyword: str) -> str:
         _keywordL = keyword or ''.lower()
         pass
-        goals_data = data.get("goals", [])
+        goals_data = data.get("goals", {}).values()
         user_goals_obj = next(
-            (g for g in goals_data if g.get("user_id") == user_id), None
+            (g for g in goals_data.values() if g.get("user_id") == user_id), None
         )
         if user_goals_obj:
             # Identify a goal with a description that includes the keyword (case-insensitive)

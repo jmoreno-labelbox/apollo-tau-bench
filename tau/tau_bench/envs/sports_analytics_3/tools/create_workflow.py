@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateWorkflow(Tool):
@@ -34,7 +34,7 @@ class CreateWorkflow(Tool):
             )
             return out
 
-        workflows = data.get("workflow_runs", [])
+        workflows = data.get("workflow_runs", {}).values()
         run_id = get_next_workflow_run_id(data)
         start_time = get_log_start_timestamp()
         end_time = get_log_end_timestamp()
@@ -50,7 +50,7 @@ class CreateWorkflow(Tool):
             "log_s3_path": log_path,
         }
 
-        workflows.append(new_entry)
+        data["workflow_runs"][new_entry["workflow_run_id"]] = new_entry
         payload = new_entry
         out = json.dumps(payload, indent=2)
         return out

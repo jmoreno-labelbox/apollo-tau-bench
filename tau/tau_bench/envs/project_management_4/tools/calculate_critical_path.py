@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateCriticalPath(Tool):
@@ -20,12 +20,12 @@ class CalculateCriticalPath(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        data.get("milestone_dependencies", [])
-        critical_paths = data.get("critical_paths", [])
+        milestones = data.get("milestones", {}).values()
+        data.get("milestone_dependencies", {}).values()
+        critical_paths = data.get("critical_paths", {}).values()
 
         project_milestones = [
-            m for m in milestones if m.get("project_id") == project_id
+            m for m in milestones.values() if m.get("project_id") == project_id
         ]
 
         if not project_milestones:
@@ -67,7 +67,7 @@ class CalculateCriticalPath(Tool):
 
         path_id = f"cp_{uuid.uuid4().hex[:8]}"
         existing_path = next(
-            (cp for cp in critical_paths if cp.get("project_id") == project_id), None
+            (cp for cp in critical_paths.values() if cp.get("project_id") == project_id), None
         )
 
         if existing_path:
@@ -84,7 +84,7 @@ class CalculateCriticalPath(Tool):
                 "slack_time": 0,
                 "last_calculated": datetime.now(timezone.utc).isoformat(),
             }
-            critical_paths.append(new_path)
+            data["critical_paths"][new_path["critical_path_id"]] = new_path
             result = new_path
         payload = {
                 "success": True,

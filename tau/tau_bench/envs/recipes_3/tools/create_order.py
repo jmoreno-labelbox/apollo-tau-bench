@@ -29,7 +29,7 @@ class CreateOrder(Tool):
             "scheduled_slot_start_ts": slot_start_ts,
             "scheduled_slot_end_ts": slot_end_ts,
         }
-        orders.append(rec)
+        data["orders"][order_id] = rec
         payload = {"order_id": next_id}
         out = json.dumps(payload, indent=2)
         return out
@@ -48,7 +48,7 @@ class CreateOrder(Tool):
             "scheduled_slot_start_ts": slot_start_ts,
             "scheduled_slot_end_ts": slot_end_ts,
         }
-        orders.append(rec)
+        data["orders"][order_id] = rec
         payload = {"order_id": next_id}
         out = json.dumps(payload, indent=2)
         return out

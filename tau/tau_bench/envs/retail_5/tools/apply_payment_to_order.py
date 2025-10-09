@@ -14,7 +14,7 @@ class ApplyPaymentToOrder(Tool):
                 payload)
             return out
 
-        order = next((o for o in data["orders"] if o["order_id"] == order_id), None)
+        order = next((o for o in data["orders"].values() if o["order_id"] == order_id), None)
         if not order:
             payload = {"error": "Order not found"}
             out = json.dumps(payload)
@@ -26,7 +26,7 @@ class ApplyPaymentToOrder(Tool):
             return out
 
         user = next(
-            (u for u in data["users"] if u["user_id"] == order["user_id"]), None
+            (u for u in data["users"].values() if u["user_id"] == order["user_id"]), None
         )
         if not user or payment_method_id not in user["payment_methods"]:
             payload = {"error": "Invalid payment method for user"}

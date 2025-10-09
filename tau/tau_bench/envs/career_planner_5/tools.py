@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -36,9 +36,9 @@ class GetTodayDate(Tool):
 class GetUserIdFromName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], first_name: str, last_name: str) -> str:
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         full_name = f"{first_name} {last_name}"
-        for user in users:
+        for user in users.values():
             if user.get("name") == full_name:
                 payload = {"user_id": user["user_id"]}
                 out = json.dumps(payload, indent=2)
@@ -71,10 +71,10 @@ class GetCourseIdByName(Tool):
     def invoke(data: dict[str, Any], course_name: str) -> str:
         _course_nameL = course_name or ''.lower()
         pass
-        courses = data.get("course_catalog", [])
+        courses = data.get("course_catalog", {}).values()
         # Locate a course whose name includes the specified string (case-insensitive)
         course = next(
-            (c for c in courses if course_name.lower() in c.get("name", "").lower()),
+            (c for c in courses.values() if course_name.lower() in c.get("name", "").lower()),
             None,
         )
         if course:
@@ -113,9 +113,9 @@ class GetGoalIdByDescription(Tool):
     def invoke(data: dict[str, Any], user_id: str, keyword: str) -> str:
         _keywordL = keyword or ''.lower()
         pass
-        goals_data = data.get("goals", [])
+        goals_data = data.get("goals", {}).values()
         user_goals_obj = next(
-            (g for g in goals_data if g.get("user_id") == user_id), None
+            (g for g in goals_data.values() if g.get("user_id") == user_id), None
         )
         if user_goals_obj:
             # Identify a goal with a description that includes the keyword (case-insensitive)
@@ -166,9 +166,9 @@ class GetTeamIdByName(Tool):
     def invoke(data: dict[str, Any], team_name: str) -> str:
         _team_nameL = team_name or ''.lower()
         pass
-        teams = data.get("teams", [])
+        teams = data.get("teams", {}).values()
         team = next(
-            (t for t in teams if t.get("team_name", "").lower() == team_name.lower()),
+            (t for t in teams.values() if t.get("team_name", "").lower() == team_name.lower()),
             None,
         )
         if team:
@@ -203,13 +203,12 @@ class FindHrWorkflowForUser(Tool):
         data: dict[str, Any],
         user_id: Any = None
     ) -> str:
-        hr_workflows = data.get("hr_workflows", [])
+        hr_workflows = data.get("hr_workflows", {}).values()
         # A user may serve as the main employee or a candidate within a workflow
         workflow = next(
             (
                 w
-                for w in hr_workflows
-                if w.get("employee_id") == user_id
+                for w in hr_workflows.values() if w.get("employee_id") == user_id
                 or user_id in [c.get("employee_id") for c in w.get("candidates", [])]
             ),
             None,
@@ -241,10 +240,10 @@ class FindHrWorkflowForUser(Tool):
 class SearchUsers(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], filters: dict = None) -> str:
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         if filters and "user_id" in filters:
             user = next(
-                (u for u in users if u.get("user_id") == filters["user_id"]), None
+                (u for u in users.values() if u.get("user_id") == filters["user_id"]), None
             )
             return (
                 json.dumps(user, indent=2)
@@ -274,8 +273,8 @@ class SearchUsers(Tool):
 class GetCourse(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], course_id: str) -> str:
-        courses = data.get("course_catalog", [])
-        course = next((c for c in courses if c.get("course_id") == course_id), None)
+        courses = data.get("course_catalog", {}).values()
+        course = next((c for c in courses.values() if c.get("course_id") == course_id), None)
         return (
             json.dumps(course, indent=2)
             if course
@@ -345,7 +344,7 @@ class ListUserCourses(Tool):
     def invoke(data: dict[str, Any], user_id: str) -> str:
         courses = [
             c
-            for c in data.get("user_course_progress", [])
+            for c in data.get("user_course_progress", {}).values()
             if c.get("user_id") == user_id
         ]
         payload = {"courses": courses}
@@ -374,7 +373,7 @@ class GetUserCourseProgress(Tool):
         progress = next(
             (
                 p
-                for p in data.get("user_course_progress", [])
+                for p in data.get("user_course_progress", {}).values()
                 if p.get("user_id") == user_id and p.get("course_id") == course_id
             ),
             None,
@@ -412,7 +411,7 @@ class UpdateUserCourseProgress(Tool):
         rec = next(
             (
                 r
-                for r in data.get("user_course_progress", [])
+                for r in data.get("user_course_progress", {}).values()
                 if r["user_id"] == user_id and r["course_id"] == course_id
             ),
             None,
@@ -454,7 +453,7 @@ class ComputeAverageProgress(Tool):
         """Provide the average completion rate for all courses associated with a user."""
         records = [
             rec
-            for rec in data.get("user_course_progress", [])
+            for rec in data.get("user_course_progress", {}).values()
             if rec["user_id"] == user_id
         ]
         if not records:
@@ -491,8 +490,8 @@ class ComputeAverageProgress(Tool):
 class ListUserGoals(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str) -> str:
-        goals_data = data.get("goals", [])
-        user_goals = next((g for g in goals_data if g.get("user_id") == user_id), {})
+        goals_data = data.get("goals", {}).values()
+        user_goals = next((g for g in goals_data.values() if g.get("user_id") == user_id), {}).values()
         goals = user_goals.get("goals", [])
         payload = {"user_id": user_id, "goals": goals}
         out = json.dumps(payload, indent=2)
@@ -517,8 +516,8 @@ class ListUserGoals(Tool):
 class GetGoal(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str, goal_id: str) -> str:
-        goals_data = data.get("goals", [])
-        user_goals = next((g for g in goals_data if g.get("user_id") == user_id), {})
+        goals_data = data.get("goals", {}).values()
+        user_goals = next((g for g in goals_data.values() if g.get("user_id") == user_id), {}).values()
         goals = user_goals.get("goals", [])
         goal = next((g for g in goals if g.get("goal_id") == goal_id), None)
         return (
@@ -550,7 +549,7 @@ class AddGoal(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str, goal: dict[str, Any]) -> str:
         """Add a new goal to a user's profile."""
-        for entry in data.get("goals", []):
+        for entry in data.get("goals", {}).values():
             if entry["user_id"] == user_id:
                 entry["goals"].append(goal)
                 break
@@ -581,8 +580,8 @@ class AddGoal(Tool):
 class UpdateGoal(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str, goal_id: str, updates: dict) -> str:
-        goals_data = data.get("goals", [])
-        user_goals = next((g for g in goals_data if g.get("user_id") == user_id), None)
+        goals_data = data.get("goals", {}).values()
+        user_goals = next((g for g in goals_data.values() if g.get("user_id") == user_id), None)
         if user_goals:
             goals = user_goals.get("goals", [])
             goal = next((g for g in goals if g.get("goal_id") == goal_id), None)
@@ -624,8 +623,8 @@ class UpdateGoal(Tool):
 class GetTeam(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], team_id: str) -> str:
-        teams = data.get("teams", [])
-        team = next((t for t in teams if t.get("team_id") == team_id), None)
+        teams = data.get("teams", {}).values()
+        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
         return (
             json.dumps(team, indent=2)
             if team
@@ -651,8 +650,8 @@ class GetTeam(Tool):
 class AddTeamMember(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], team_id: str, user_id: str) -> str:
-        teams = data.get("teams", [])
-        team = next((t for t in teams if t.get("team_id") == team_id), None)
+        teams = data.get("teams", {}).values()
+        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
         if team:
             team_members = team.setdefault("team_members", [])
             if user_id not in team_members:
@@ -694,13 +693,13 @@ class AddTeamMember(Tool):
 class GetSkillGapAnalysis(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], analysis_id: str = "", user_id: str = "") -> str:
-        analyses = data.get("skill_gap_analysis", [])
+        analyses = data.get("skill_gap_analysis", {}).values()
         if analysis_id:
             analysis = next(
-                (a for a in analyses if a.get("analysis_id") == analysis_id), None
+                (a for a in analyses.values() if a.get("analysis_id") == analysis_id), None
             )
         elif user_id:
-            analysis = next((a for a in analyses if a.get("user_id") == user_id), None)
+            analysis = next((a for a in analyses.values() if a.get("user_id") == user_id), None)
         else:
             payload = {"error": "Must provide either analysis_id or user_id"}
             out = json.dumps(
@@ -736,11 +735,10 @@ class ListUserMentorships(Tool):
     @staticmethod
     def invoke(data, user_id: str, user_mentorship_relationships: list = None) -> str:
         if user_mentorship_relationships is None:
-            user_mentorship_relationships = data.get("user_mentorship_relationships", [])
+            user_mentorship_relationships = data.get("user_mentorship_relationships", {}).values()
         rels = [
             rel
-            for rel in user_mentorship_relationships
-            if rel.get("mentee_id") == user_id
+            for rel in user_mentorship_relationships.values() if rel.get("mentee_id") == user_id
         ]
         payload = {"mentorships": rels}
         out = json.dumps(payload, indent=2)
@@ -848,7 +846,7 @@ class UpdateMentorshipRelationship(Tool):
         rel = next(
             (
                 r
-                for r in data.get("user_mentorship_relationships", [])
+                for r in data.get("user_mentorship_relationships", {}).values()
                 if r["relationship_id"] == relationship_id
             ),
             None,
@@ -927,7 +925,7 @@ class ComputeMentorLoad(Tool):
         """Calculate the number of active mentees for a mentor."""
         count = sum(
             1
-            for rel in data.get("user_mentorship_relationships", [])
+            for rel in data.get("user_mentorship_relationships", {}).values()
             if rel["mentor_id"] == mentor_id and rel["status"] == "Active"
         )
         payload = {"current_mentees": count}
@@ -955,7 +953,7 @@ class GetHrWorkflow(Tool):
         workflow = next(
             (
                 w
-                for w in data.get("hr_workflows", [])
+                for w in data.get("hr_workflows", {}).values()
                 if w.get("workflow_id") == workflow_id
             ),
             None,
@@ -988,7 +986,7 @@ class UpdateHrWorkflow(Tool):
         wf = next(
             (
                 w
-                for w in data.get("hr_workflows", [])
+                for w in data.get("hr_workflows", {}).values()
                 if w["workflow_id"] == workflow_id
             ),
             None,

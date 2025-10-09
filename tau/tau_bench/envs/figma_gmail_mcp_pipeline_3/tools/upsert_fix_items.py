@@ -18,7 +18,7 @@ class upsert_fix_items(Tool):
                     iid = i.get("item_id") or f"item_{len(by_id)+1:03d}"
                     i["item_id"] = iid
                     by_id[iid] = i
-                pl["items"] = list(by_id.values())
+                pl["items"] = list(by_id)
                 return _ok({"plan_id": pl["plan_id"], "items": pl["items"]})
         return _err("plan_not_found", {"plan_id": p["plan_id"]})
     @staticmethod

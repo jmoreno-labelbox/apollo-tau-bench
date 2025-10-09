@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RegisterArticleRecord(Tool):
@@ -18,7 +18,7 @@ class RegisterArticleRecord(Tool):
     def invoke(data: dict[str, Any], title: str, authors: list = None, topic: str = None, abstract: str = None) -> str:
         if authors is None:
             authors = []
-        articles = data.get("articles", [])
+        articles = data.get("articles", {}).values()
         new_article = {
             "article_id": f"art_{len(articles) + 1:02d}",
             "title": title,
@@ -28,7 +28,7 @@ class RegisterArticleRecord(Tool):
             "abstract": abstract,
             "status": "draft",
         }
-        articles.append(new_article)
+        data["articles"][article_id] = new_article
         payload = new_article
         out = json.dumps(payload, indent=2)
         return out

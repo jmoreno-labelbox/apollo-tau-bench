@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateResourceRequest(Tool):
@@ -28,17 +28,17 @@ class CreateResourceRequest(Tool):
             out = json.dumps(payload)
             return out
 
-        resource_requests = data.get("resource_requests", [])
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
+        resource_requests = data.get("resource_requests", {}).values()
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
 
         qualified_employees = []
-        for emp in employees:
+        for emp in employees.values():
             if department and emp.get("department") != department:
                 continue
             for skill in emp.get("skills", []):
                 if skill.get("skill") == skill_required:
-                    qualified_employees.append(emp)
+                    qualified_data["employees"][employee_id] = emp
                     break
 
         total_available_hours = 0
@@ -46,8 +46,7 @@ class CreateResourceRequest(Tool):
             emp_id = emp.get("employee_id")
             emp_allocations = [
                 alloc
-                for alloc in allocations
-                if alloc.get("employee_id") == emp_id
+                for alloc in allocations.values() if alloc.get("employee_id") == emp_id
                 and alloc.get("status") == "active"
             ]
             allocated_hours = sum(
@@ -74,7 +73,7 @@ class CreateResourceRequest(Tool):
             "allocated_hours": 0,
         }
 
-        resource_requests.append(new_request)
+        data["resource_requests"][new_request["resource_request_id"]] = new_request
         payload = {
             "success": True,
             "request": new_request,

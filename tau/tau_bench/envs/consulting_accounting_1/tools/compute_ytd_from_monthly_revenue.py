@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ComputeYtdFromMonthlyRevenue(Tool):
@@ -21,7 +21,7 @@ class ComputeYtdFromMonthlyRevenue(Tool):
             return out
         rows = [
             r
-            for r in data.get("monthly_revenue", [])
+            for r in data.get("monthly_revenue", {}).values()
             if str(r.get("month_year", "")).startswith(f"{year}-")
         ]
         total = 0.0

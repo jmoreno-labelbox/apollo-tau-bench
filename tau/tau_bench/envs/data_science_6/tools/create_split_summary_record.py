@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateSplitSummaryRecord(Tool):
@@ -43,8 +43,8 @@ class CreateSplitSummaryRecord(Tool):
             out = json.dumps(payload)
             return out
 
-        ds = data.get("dataset_split", [])
-        for rec in ds:
+        ds = data.get("dataset_split", {}).values()
+        for rec in ds.values():
             if (
                 rec.get("method") == method
                 and rec.get("test_fraction") == test_fraction
@@ -65,7 +65,7 @@ class CreateSplitSummaryRecord(Tool):
             "split_summary_json_path": split_summary_json_path,
             "split_ts": split_ts,
         }
-        ds.append(new_rec)
+        data["dataset_split"][new_rec["dataset_split_id"]] = new_rec
         data["dataset_split"] = ds
         payload = new_rec
         out = json.dumps(payload)

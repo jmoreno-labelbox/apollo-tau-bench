@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListUsersWithAccessToResource(Tool):
@@ -38,19 +38,19 @@ class ListUsersWithAccessToResource(Tool):
         # Construct mappings for permissions and roles
         perms = [
             p
-            for p in data.get("permissions", [])
+            for p in data.get("permissions", {}).values()
             if p.get("resource_id") == resource_id
         ]
         perm_ids = {p.get("permission_id") for p in perms if p.get("permission_id")}
         role_ids = {
             rp.get("role_id")
-            for rp in data.get("role_permissions", [])
+            for rp in data.get("role_permissions", {}).values()
             if rp.get("permission_id") in perm_ids
         }
 
         # Create utility functions
-        user_map = {u.get("user_id"): u for u in data.get("users", [])}
-        role_map = {r.get("role_id"): r for r in data.get("roles", [])}
+        user_map = {u.get("user_id"): u for u in data.get("users", {}).values()}
+        role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
 
         def is_active(ur: dict[str, Any]) -> bool:
             exp = _parse_iso(ur.get("expires_on"))
@@ -58,7 +58,7 @@ class ListUsersWithAccessToResource(Tool):
 
         # Collect users with corresponding roles
         acc: dict[str, dict[str, Any]] = {}
-        for ur in data.get("user_roles", []):
+        for ur in data.get("user_roles", {}).values():
             if ur.get("role_id") in role_ids and (not only_active or is_active(ur)):
                 uid = ur.get("user_id")
                 if uid not in acc:
@@ -74,7 +74,7 @@ class ListUsersWithAccessToResource(Tool):
                         rinfo["role_name"] = r.get("role_name")
                         rinfo["description"] = r.get("description")
                 acc[uid]["roles"].append(rinfo)
-        payload = {"resource_id": resource_id, "users": list(acc.values())}
+        payload = {"resource_id": resource_id, "users": list(acc.values()}
         out = json.dumps(payload)
         return out
     @staticmethod

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetRoleDetailsTool(Tool):
@@ -16,7 +16,7 @@ class GetRoleDetailsTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], role_id: str = None) -> str:
         rid = role_id
-        for r in data.get("roles", []):
+        for r in data.get("roles", {}).values():
             if r["role_id"] == rid:
                 payload = r
                 out = json.dumps(payload, indent=2)

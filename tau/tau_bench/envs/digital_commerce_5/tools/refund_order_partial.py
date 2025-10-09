@@ -20,7 +20,7 @@ class RefundOrderPartial(Tool):
             "kind": "partial",
             "reason": reason,
         }
-        refunds.append(rec)
+        data["refunds"][rec["refund_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out

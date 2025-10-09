@@ -8,20 +8,20 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class upload_employee_document(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, document_data: dict = None) -> str:
-        main_container = data.get("employee_documents", {}).get(
+        main_container = data.get("employee_documents", {}).values().get(
             "employee_documents", []
         )
 
         emp_doc_record = next(
             (
                 d
-                for d in data.get("employee_documents", {}).get(
+                for d in data.get("employee_documents", {}).values().get(
                     "employee_documents", []
                 )
                 if d.get("employee_id") == employee_id
@@ -29,7 +29,7 @@ class upload_employee_document(Tool):
             None,
         )
         if not emp_doc_record:
-            employee = find_employee(data.get("employees", []), employee_id)
+            employee = find_employee(data.get("employees", {}).values()), employee_id)
             employee_name = (
                 f"{employee.get('first_name')} {employee.get('last_name')}"
                 if employee
@@ -41,7 +41,7 @@ class upload_employee_document(Tool):
                 "name": employee_name,
                 "documents": [],
             }
-            main_container.append(emp_doc_record)
+            data["employee_documents"][emp_doc_record["employee_document_id"]] = emp_doc_record
 
         emp_doc_record["documents"].append(document_data)
         payload = {"success": f"Document uploaded for {employee_id}"}

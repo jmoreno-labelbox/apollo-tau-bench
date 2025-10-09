@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -327,7 +327,7 @@ class ListIssues(Tool):
             if i.get("owner") == owner and i.get("repo") == repo
         ]
         if state:
-            result = [i for i in result if i.get("state") == state]
+            result = [i for i in result.values() if i.get("state") == state]
         payload = result
         out = json.dumps(payload)
         return out
@@ -548,7 +548,7 @@ class ListPRs(Tool):
             p for p in _prs(data) if p.get("owner") == owner and p.get("repo") == repo
         ]
         if state:
-            result = [p for p in result if p.get("state") == state]
+            result = [p for p in result.values() if p.get("state") == state]
         payload = result
         out = json.dumps(payload)
         return out
@@ -725,7 +725,7 @@ class ListCommits(Tool):
             if c.get("owner") == owner and c.get("repo") == repo
         ]
         if branch:
-            result = [c for c in result if c.get("branch") == branch]
+            result = [c for c in result.values() if c.get("branch") == branch]
         payload = result
         out = json.dumps(payload)
         return out

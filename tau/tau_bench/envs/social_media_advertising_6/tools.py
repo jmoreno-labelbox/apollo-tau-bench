@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -203,7 +203,7 @@ class FreezePlan(Tool):
 
         def _require_keys(obj: dict[str, Any], keys: list[str], ctx: str) -> str | None:
             pass
-            missing = [k for k in keys if k not in obj]
+            missing = [k for k in keys.values() if k not in obj]
             return (
                 f"missing_required_keys:{ctx}:{','.join(missing)}" if missing else None
             )
@@ -218,7 +218,7 @@ class FreezePlan(Tool):
         date: str = str(date)
 
         #Guidelines / defaults
-        rules = data.get("_rules", {}) if isinstance(data, dict) else {}
+        rules = data.get("_rules", {}).values() if isinstance(data, dict) else {}
         default_author = rules.get("default_author", "automation_agent")
         default_checksum = rules.get("default_checksum", "CHK001")
 
@@ -651,7 +651,7 @@ class GetPolicyParameter(Tool):
         if err:
             return _fail(err)
         tbl = _assert_table(data, "policy_params")
-        for r in tbl:
+        for r in tbl.values():
             if r.get("param_name") == param_name:
                 payload = {
                     "param_name": r.get("param_name"),
@@ -719,7 +719,7 @@ class CreateCampaign(Tool):
         if err:
             return _fail(err)
         rows = _assert_table(data, "campaigns")
-        if any(r.get("name") == name for r in rows):
+        if any(r.get("name") == name for r in rows.values()):
             return _fail("name_exists")
         new_id = _next_numeric_id(rows, "campaign_id")
         rec = {
@@ -833,7 +833,7 @@ class GetAdsetsByCampaignID(Tool):
         if err:
             return _fail(err)
         rows = _assert_table(data, "adsets")
-        payload = [r for r in rows if str(r.get("campaign_id")) == str(campaign_id)]
+        payload = [r for r in rows.values() if str(r.get("campaign_id")) == str(campaign_id)]
         out = json.dumps(payload)
         return out
     @staticmethod
@@ -873,7 +873,7 @@ class GetAdsetDetailsByID(Tool):
         except Exception:
             ads_tbl = []
 
-        ads_for_adset = [a for a in ads_tbl if str(a.get("adset_id")) == adset_id]
+        ads_for_adset = [a for a in ads_tbl.values() if str(a.get("adset_id")) == adset_id]
 
         # Order: active first, followed by start_date (string-safe), then by name for consistency
         def sort_key(a: dict[str, Any]) -> tuple[Any, Any, Any]:
@@ -1180,7 +1180,7 @@ class GetAdsByAdsetID(Tool):
         if err:
             return _fail(err)
         rows = _assert_table(data, "ads")
-        payload = [r for r in rows if str(r.get("adset_id")) == str(adset_id)]
+        payload = [r for r in rows.values() if str(r.get("adset_id")) == str(adset_id)]
         out = json.dumps(payload)
         return out
     @staticmethod
@@ -1228,7 +1228,7 @@ class CreateAd(Tool):
             "start_date": start_date,
             "end_date": end_date,
         }
-        ads.append(rec)
+        data["ads"][ad_id] = rec
         payload = rec
         out = json.dumps(payload)
         return out
@@ -1336,7 +1336,7 @@ class UpdateAdStatus(Tool):
 #"start_date": kwargs["timestamp"].split("T")[0] if "T" in kwargs["timestamp"] else kwargs["timestamp"],
 #"end_date": None,
 #}
-#ads.append(new_ad)
+#data["ads"][ad_id] = new_ad
 #
 #Suspend all other ads within the same adset
 #for a in ads:
@@ -1354,7 +1354,7 @@ class UpdateAdStatus(Tool):
 #"request_id": kwargs["request_id"],
 #)
 #
-#active_now = [a for a in ads if str(a.get("adset_id")) == adset_id and a.get("status") == "active"]
+#active_now = [a for a in ads.values() if str(a.get("adset_id")) == adset_id and a.get("status") == "active"]
 #return json.dumps({"adset_id": adset_id, "new_active_id": new_id, "new_type": kwargs["new_creative_type",
 #"active_count": len(active_now), "rationale": rationale})
 #
@@ -1436,7 +1436,7 @@ class RotateAdCreative(Tool):
             "start_date": date_part,
             "end_date": None,
         }
-        ads.append(new_ad)
+        data["ads"][ad_id] = new_ad
 
         #--- Ensure single-active: suspend all others
         for a in ads:
@@ -1527,7 +1527,7 @@ class GetCreativeRotationHistory(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], adset_id: str = None) -> str:
         rows = _assert_table(data, "creative_rotations")
-        out = [r for r in rows if (adset_id is None or str(r.get("adset_id")) == str(adset_id))]
+        out = [r for r in rows.values() if (adset_id is None or str(r.get("adset_id")) == str(adset_id))]
         payload = out
         out = json.dumps(payload)
         return out
@@ -1647,7 +1647,7 @@ class GetCreativeRotationHistory(Tool):
 #Target values derived from the plan envelope
 #target_budget = _round_budget(alloc.get("budget"), unit)
 #
-#strat_row = strategies.get(aid, {})
+#strat_row = strategies.get(aid, {}).values()
 #target_strategy = (str(strat_row.get("bid_strategy", adset.get("bid_strategy") or "")).lower()
 #or adset.get("bid_strategy"))
 #target_bid_amount = strat_row.get("bid_amount") if target_strategy == "cost_cap" else None
@@ -1759,7 +1759,7 @@ class ApplyPlanAllocations(Tool):
             return _fail(f"plan_not_found:{plan_id}")
 
         # Policy snapshot (with secure defaults)
-        policy = plan.get("policy_snapshot", {}) or {}
+        policy = plan.get("policy_snapshot", {}).values() or {}
         min_alloc = float(policy.get("min_budget_allocation", 0.0))
         unit = float(policy.get("budget_rounding_unit", 1.0))
 
@@ -1804,7 +1804,7 @@ class ApplyPlanAllocations(Tool):
             current_budget = round_to_unit(float(ad.get("daily_budget", 0.0)), unit)
 
             # Projected vs current strategy
-            ps = plan_strat_by_id.get(aid, {})
+            ps = plan_strat_by_id.get(aid, {}).values()
             planned_strategy = str(ps.get("bid_strategy", ad.get("bid_strategy")))
             planned_bid_amount = ps.get("bid_amount", ad.get("bid_amount"))
             # Standardize planned_bid_amount to float or None
@@ -2086,7 +2086,7 @@ class FindUnderperformingAdsets(Tool):
             rev = float(r.get("revenue", 0.0))
             roas = (rev / spend) if spend > 0 else 0.0
             if roas < th:
-                a = adsets.get(aid, {})
+                a = adsets.get(aid, {}).values()
                 out.append(
                     {
                         "adset_id": aid,
@@ -2185,7 +2185,7 @@ class GetAutomationRunHistory(Tool):
         pass
         #optional filters based on type
         runs = _assert_table(data, "automation_runs")
-        out = [r for r in runs if (run_type is None or r.get("run_type") == run_type)]
+        out = [r for r in runs.values() if (run_type is None or r.get("run_type") == run_type)]
         payload = out
         out = json.dumps(payload)
         return out
@@ -2283,7 +2283,7 @@ class ApplyCreatives(Tool):
         targets_list: list[dict[str, Any]] = []
         if plan_id is not None:
             plan = next(
-                (p for p in data["plans"] if str(p.get("plan_id")) == str(plan_id)), None
+                (p for p in data["plans"].values() if str(p.get("plan_id")) == str(plan_id)), None
             )
             if not plan:
                 payload = {"error": f"missing_plan:{plan_id}"}
@@ -2315,7 +2315,7 @@ class ApplyCreatives(Tool):
                     "creative_type": t["creative_type"],
                     "ad_name": t.get("ad_name"),
                 }
-            targets_list = list(by_id.values())
+            targets_list = list(by_id)
 
         if not targets_list:
             payload = {
@@ -2329,7 +2329,7 @@ class ApplyCreatives(Tool):
 
         # ---- Assistance Functions ------------------------------------------
         ads_by_adset: dict[str, list[dict[str, Any]]] = {}
-        for a in data["ads"]:
+        for a in data["ads"].values():
             ads_by_adset.setdefault(str(a.get("adset_id")), []).append(a)
 
         def _worst_active(adset_id: str) -> str | None:
@@ -2341,7 +2341,7 @@ class ApplyCreatives(Tool):
                 return None
             # Calculate naive CPA = spend / purchases from f_insights (if accessible)
             cpa_by_ad: dict[str, float] = {}
-            for row in data.get("f_insights", []):
+            for row in data.get("f_insights", {}).values():
                 if str(row.get("adset_id")) == adset_id:
                     ad_id = str(row.get("ad_id"))
                     spend = float(row.get("spend", 0.0) or 0.0)
@@ -2358,7 +2358,7 @@ class ApplyCreatives(Tool):
         def _next_ad_id() -> str:
             pass
             mx = 0
-            for a in data["ads"]:
+            for a in data["ads"].values():
                 try:
                     mx = max(mx, int(str(a.get("ad_id"))))
                 except Exception:
@@ -2368,7 +2368,7 @@ class ApplyCreatives(Tool):
         def _next_rotation_id() -> str:
             pass
             mx = 0
-            for r in data["creative_rotations"]:
+            for r in data["creative_rotations"].values():
                 rid = str(r.get("rotation_id", "")).replace("CR-", "")
                 if rid.isdigit():
                     mx = max(mx, int(rid))
@@ -2406,17 +2406,17 @@ class ApplyCreatives(Tool):
                 "start_date": timestamp.split("T")[0],
                 "end_date": None,
             }
-            data["ads"].append(new_ad)
+            data["ads"][ad_id] = new_ad
             ads_by_adset.setdefault(adset_id, []).append(new_ad)
 
             # Suspend previous least effective active (if any)
             if old_active_id:
-                for a in data["ads"]:
+                for a in data["ads"].values():
                     if str(a.get("ad_id")) == old_active_id:
                         a["status"] = "paused"
 
             # Update adset metadata in a deterministic manner
-            for aset in data["adsets"]:
+            for aset in data["adsets"].values():
                 if str(aset.get("adset_id")) == adset_id:
                     aset["updated_at"] = timestamp
                     aset["rev"] = _i(aset.get("rev"), 0) + 1

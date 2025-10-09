@@ -8,18 +8,18 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AssignPermissionToRole(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], role_id: str = None, permission_id: str = None) -> str:
-        role_permissions = data.get("role_permissions", [])
+        role_permissions = data.get("role_permissions", {}).values()
         assignment = {
             "role_id": role_id,
             "permission_id": permission_id,
         }
-        role_permissions.append(assignment)
+        role_data["permissions"][permission_id] = assignment
         data["role_permissions"] = role_permissions
         payload = assignment
         out = json.dumps(payload)

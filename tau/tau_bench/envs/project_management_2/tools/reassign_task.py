@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReassignTask(Tool):
@@ -20,13 +20,13 @@ class ReassignTask(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        employees = data.get("employees", [])
-        task_history = data.get("task_history", [])
-        sprints = data.get("sprints", [])
+        tasks = data.get("tasks", {}).values()
+        employees = data.get("employees", {}).values()
+        task_history = data.get("task_history", {}).values()
+        sprints = data.get("sprints", {}).values()
 
         new_assignee = next(
-            (emp for emp in employees if emp.get("employee_id") == new_assignee_id),
+            (emp for emp in employees.values() if emp.get("employee_id") == new_assignee_id),
             None,
         )
         if not new_assignee:
@@ -34,7 +34,7 @@ class ReassignTask(Tool):
             out = json.dumps(payload)
             return out
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task '{task_id}' not found"}
             out = json.dumps(payload)
@@ -48,8 +48,7 @@ class ReassignTask(Tool):
             if not is_senior:
                 senior_members = [
                     emp
-                    for emp in employees
-                    if any(
+                    for emp in employees.values() if any(
                         skill.get("proficiency", 0) >= 4
                         for skill in emp.get("skills", [])
                     )
@@ -68,18 +67,17 @@ class ReassignTask(Tool):
 
         if task.get("sprint_id"):
             sprint = next(
-                (s for s in sprints if s.get("sprint_id") == task["sprint_id"]), None
+                (s for s in sprints.values() if s.get("sprint_id") == task["sprint_id"]), None
             )
             if sprint and sprint.get("status") == "active":
                 assignee_tasks = [
                     t
-                    for t in tasks
-                    if t.get("assignee_id") == new_assignee_id
+                    for t in tasks.values() if t.get("assignee_id") == new_assignee_id
                     and t.get("sprint_id") == task["sprint_id"]
                     and t.get("status") != "done"
                     and t.get("task_id") != task_id
                 ]
-                current_points = sum(t.get("story_points", 0) for t in assignee_tasks)
+                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values()
 
                 if current_points + task.get("story_points", 0) > 25:
                     payload = {
@@ -96,8 +94,7 @@ class ReassignTask(Tool):
         reassignment_count = len(
             [
                 h
-                for h in task_history
-                if h.get("task_id") == task_id and h.get("action") == "reassigned"
+                for h in task_history.values() if h.get("task_id") == task_id and h.get("action") == "reassigned"
             ]
         )
         if reassignment_count >= 2:
@@ -119,7 +116,7 @@ class ReassignTask(Tool):
             "to_assignee": new_assignee_id,
             "timestamp": datetime.now().isoformat(),
         }
-        task_history.append(history_entry)
+        data["task_history"][history_entry["task_history_id"]] = history_entry
 
         task["assignee_id"] = new_assignee_id
         task["updated_date"] = datetime.now().isoformat()

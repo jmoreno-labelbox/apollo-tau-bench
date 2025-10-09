@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateUserMfaStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, mfa_enabled: bool = None) -> str:
-        for user in data.get("users", []):
+        for user in data.get("users", {}).values():
             if user.get("user_id") == user_id:
                 user["mfa_enabled"] = mfa_enabled
                 payload = user

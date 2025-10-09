@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetGradesByPitchIds(Tool):
@@ -31,11 +31,11 @@ class GetGradesByPitchIds(Tool):
             return out
 
         #2) Retrieve DB
-        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", [])
+        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", {}).values()
 
         #3) Gather matches
         id_set = set(pitch_ids)
-        matches = [rec for rec in grades if rec.get("pitch_id") in id_set]
+        matches = [rec for rec in grades.values() if rec.get("pitch_id") in id_set]
 
         if not matches:
             payload = {"No grades found": f"No grades found for pitch_ids {pitch_ids}"}

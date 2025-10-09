@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateGmailMessage(Tool):  #WRITE
@@ -33,7 +33,7 @@ class CreateGmailMessage(Tool):  #WRITE
             payload = {"error": "workflow_type must be a non-empty string"}
             out = json.dumps(payload)
             return out
-        gmail_messages = data.get("gmail_messages", [])
+        gmail_messages = data.get("gmail_messages", {}).values()
         next_num = len(gmail_messages) + 1
         message_id = f"msg_{next_num:03d}"
         sent_ts = "2025-08-26T12:00:00Z"  #Utilize the current date/time in production
@@ -52,7 +52,7 @@ class CreateGmailMessage(Tool):  #WRITE
                 attachments_asset_ids if attachments_asset_ids else []
             ),
         }
-        gmail_messages.append(new_message)
+        data["gmail_messages"][new_message["gmail_message_id"]] = new_message
         payload = {"new_message": new_message}
         out = json.dumps(payload)
         return out

@@ -7,13 +7,13 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAccountChangesFromTicketsTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str = None) -> str:
-        support_tickets = data.get('support_tickets', [])
+        support_tickets = data.get('support_tickets', {}).values()
         changes = []
 
         for ticket in support_tickets:
@@ -25,7 +25,7 @@ class GetAccountChangesFromTicketsTool(Tool):
             category = ticket.get('category', '').lower()
 
             keywords = ["update", "change", "modify", "freeze", "close", "re-open", "unlock", "limit", "restriction", "address", "contact", "status", "name"]
-            if any(kw in subject or kw in description or kw in category for kw in keywords):
+            if any(kw in subject or kw in description or kw in category for kw in keywords.values()):
                 change_types.append("change_detected")
 
             changes.append({

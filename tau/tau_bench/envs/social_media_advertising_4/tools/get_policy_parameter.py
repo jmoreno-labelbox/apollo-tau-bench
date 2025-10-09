@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetPolicyParameter(Tool):
@@ -16,7 +16,7 @@ class GetPolicyParameter(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], param_name: str = None) -> str:
-        for param in data.get("policy_params", []):
+        for param in data.get("policy_params", {}).values():
             if param.get("param_name") == param_name:
                 payload = param
                 out = json.dumps(payload)

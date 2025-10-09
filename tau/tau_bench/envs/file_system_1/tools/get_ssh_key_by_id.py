@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSshKeyByID(Tool):
@@ -15,7 +15,7 @@ class GetSshKeyByID(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], key_id: str = None) -> str:
-        for key in data.get("ssh_keys", []):
+        for key in data.get("ssh_keys", {}).values():
             if key.get("key_id") == key_id:
                 payload = key
                 out = json.dumps(payload)

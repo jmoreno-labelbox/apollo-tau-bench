@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FlagOverlapLastMonthOnList(Tool):
@@ -27,7 +27,7 @@ class FlagOverlapLastMonthOnList(Tool):
             int(r["ingredient_id"]) for r in _collect_recipe_ingredients(data, recent)
         }
         updated = 0
-        for item in data.get("grocery_list_items", []):
+        for item in data.get("grocery_list_items", {}).values():
             if int(item.get("list_id")) != int(list_id):
                 continue
             item["overlap_last_month_flag"] = (

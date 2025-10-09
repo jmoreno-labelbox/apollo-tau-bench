@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class set_compensation(Tool):
@@ -17,11 +17,11 @@ class set_compensation(Tool):
             payload = {"error": "compensation record required"}
             out = json.dumps(payload, indent=2)
             return out
-        comp = data.get("compensation_records", [])
+        comp = data.get("compensation_records", {}).values()
         comp = [
-            c for c in comp if c["compensation_id"] != compensation["compensation_id"]
+            c for c in comp.values() if c["compensation_id"] != compensation["compensation_id"]
         ]
-        comp.append(compensation)
+        data["compensation_records"][compensation["compensation_record_id"]] = compensation
         data["compensation_records"] = comp
         payload = {"success": f'compensation {compensation["compensation_id"]} recorded'}
         out = json.dumps(

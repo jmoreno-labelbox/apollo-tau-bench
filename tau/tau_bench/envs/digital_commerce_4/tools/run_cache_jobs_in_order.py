@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RunCacheJobsInOrder(Tool):
@@ -19,7 +19,7 @@ class RunCacheJobsInOrder(Tool):
     ) -> str:
         org_id = _sid(org_id)
         required_seq = ["Load API Metadata", "Populate Cache Job"]
-        jobs = cache_jobs if cache_jobs is not None else data.get("cache_jobs", [])
+        jobs = cache_jobs if cache_jobs is not None else data.get("cache_jobs", {}).values()
         updated: list[str] = []
         for job_name in required_seq:
             for j in jobs:

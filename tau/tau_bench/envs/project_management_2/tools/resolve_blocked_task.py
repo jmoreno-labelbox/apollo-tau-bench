@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ResolveBlockedTask(Tool):
@@ -20,10 +20,10 @@ class ResolveBlockedTask(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        task_history = data.get("task_history", [])
+        tasks = data.get("tasks", {}).values()
+        task_history = data.get("task_history", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task '{task_id}' not found"}
             out = json.dumps(payload)
@@ -38,7 +38,7 @@ class ResolveBlockedTask(Tool):
             task["blocked_by"] = []
         else:
             for dep_id in task.get("dependencies", []):
-                dep_task = next((t for t in tasks if t.get("task_id") == dep_id), None)
+                dep_task = next((t for t in tasks.values() if t.get("task_id") == dep_id), None)
 
                 if dep_task and dep_task.get("status") != "done":
                     unresolved_deps.append(dep_id)
@@ -59,15 +59,15 @@ class ResolveBlockedTask(Tool):
             "resolution": resolution,
             "timestamp": datetime.now().isoformat(),
         }
-        task_history.append(history_entry)
+        data["task_history"][history_entry["task_history_id"]] = history_entry
 
         task["status"] = "todo"
         task["blocked_date"] = None
         task["updated_date"] = datetime.now().isoformat()
 
         if task.get("escalated"):
-            escalations = data.get("escalations", [])
-            for esc in escalations:
+            escalations = data.get("escalations", {}).values()
+            for esc in escalations.values():
                 if esc.get("task_id") == task_id and not esc.get("resolved"):
                     esc["resolved"] = True
                     esc["resolution_date"] = datetime.now().isoformat()

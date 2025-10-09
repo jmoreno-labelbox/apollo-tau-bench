@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class PostSlackMessageTool(Tool):
@@ -17,7 +17,7 @@ class PostSlackMessageTool(Tool):
     def invoke(data: dict[str, Any], channel: str = None, message: str = None) -> str:
         pass
         # Anticipate: data["slack_messages"] is a collection of dicts sourced from /mnt/data/slack_messages.json
-        slack_messages = data.get("slack_messages", [])
+        slack_messages = data.get("slack_messages", {}).values()
         if not isinstance(slack_messages, list):
             payload = {"error": "slack_messages must be a list"}
             out = json.dumps(payload, indent=2)
@@ -37,7 +37,7 @@ class PostSlackMessageTool(Tool):
             "channel": channel,
             "message": message,
         }
-        slack_messages.append(new_entry)
+        data["slack_messages"][new_entry["slack_message_id"]] = new_entry
         payload = {"success": f"Message posted to {channel}", "message": new_entry}
         out = json.dumps(
             payload, indent=2

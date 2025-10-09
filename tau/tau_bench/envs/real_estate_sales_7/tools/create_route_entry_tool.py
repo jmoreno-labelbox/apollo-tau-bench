@@ -38,7 +38,7 @@ class CreateRouteEntryTool(Tool):
             "created_by_broker_id": int(created_by_broker_id),
             "created_at": HARD_TS,
         }
-        rows.append(rec)
+        data["routes"][rec["route_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out

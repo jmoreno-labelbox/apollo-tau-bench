@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RegisterFeatureBundle(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], feature_set_name: str = None, version: str = None, columns: list = None) -> str:
-        feats = data.get("features", [])
+        feats = data.get("features", {}).values()
         max_id = 0
         for f in feats:
             try:
@@ -30,7 +30,7 @@ class RegisterFeatureBundle(Tool):
             "columns": columns,
             "created_at": _now_iso_fixed(),
         }
-        feats.append(row)
+        data["features"][row["feature_id"]] = row
         payload = {"feature_set_id": new_id, "feature_set_name": row["feature_set_name"]}
         out = json.dumps(
             payload, indent=2,

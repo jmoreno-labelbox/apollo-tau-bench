@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUserPreferences(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        preferences = data.get("user_preferences", [])
+        preferences = data.get("user_preferences", {}).values()
 
         for pref in preferences:
             if pref.get("user_id") == user_id:
@@ -23,7 +23,7 @@ class GetUserPreferences(Tool):
         payload = {
                 "error": "User preferences not found",
                 "user_id": user_id,
-                "available_users_with_prefs": [p.get("user_id") for p in preferences],
+                "available_users_with_prefs": [p.get("user_id") for p in preferences.values()],
             }
         out = json.dumps(
             payload, indent=2,

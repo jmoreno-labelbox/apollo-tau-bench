@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SendSlackMessage(Tool):
@@ -19,14 +19,13 @@ class SendSlackMessage(Tool):
     thread_id: Any = None,
     ) -> str:
         try:
-            slack_messages = data.get("slack_messages", [])
+            slack_messages = data.get("slack_messages", {}).values()
         except:
             slack_messages = []
 
         existing_ids = [
             int(item["message_id"].replace("SL-", ""))
-            for item in slack_messages
-            if item.get("message_id", "").startswith("SL-")
+            for item in slack_messages.values() if item.get("message_id", "").startswith("SL-")
         ]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         message_id = f"SL-{next_id_num:03d}"
@@ -40,7 +39,7 @@ class SendSlackMessage(Tool):
             "reply_to_message_id": reply_to_message_id,
         }
 
-        slack_messages.append(new_message)
+        data["slack_messages"][new_message["slack_message_id"]] = new_message
         data["slack_messages"] = slack_messages
         payload = {
             "message": "Slack message sent successfully.",

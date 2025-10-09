@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class PatchProjectSettings(Tool):
@@ -15,7 +15,7 @@ class PatchProjectSettings(Tool):
     def invoke(data: dict[str, Any], updates: dict[str, Any] = None) -> str:
         if updates is None:
             updates = {}
-        cfg = data.get("project_config", {})
+        cfg = data.get("project_config", {}).values()
         if cfg is None or isinstance(cfg, list):
             cfg = {}
             data["project_config"] = cfg

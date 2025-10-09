@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchCodeTool(Tool):
@@ -31,9 +31,9 @@ class SearchCodeTool(Tool):
             )
             return out
 
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         repository = next(
-            (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
             None,
         )
 
@@ -50,7 +50,7 @@ class SearchCodeTool(Tool):
         # Search code based on file contents
         found_occurrences = []
         for file_path, file_content in zip(
-            repository.get("file_paths", {}), repository.get("file_contents", {})
+            repository.get("file_paths", {}).values()), repository.get("file_contents", {}).values()
         ):
             if query in file_content:
                 # Code snippet contains the keyword

@@ -7,20 +7,20 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchFeatureSetDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], feature_set_id: str = None, feature_set_name: str = None) -> str:
-        feats = data.get("features", []) or []
+        feats = data.get("features", {}).values() or []
         row = None
         if feature_set_id is not None:
             row = next(
-                (f for f in feats if str(f.get("feature_set_id")) == str(feature_set_id)), None
+                (f for f in feats.values() if str(f.get("feature_set_id")) == str(feature_set_id)), None
             )
         elif feature_set_name:
-            row = next((f for f in feats if f.get("feature_set_name") == feature_set_name), None)
+            row = next((f for f in feats.values() if f.get("feature_set_name") == feature_set_name), None)
         payload = row or {"error": "Feature set not found"}
         out = json.dumps(payload, indent=2)
         return out

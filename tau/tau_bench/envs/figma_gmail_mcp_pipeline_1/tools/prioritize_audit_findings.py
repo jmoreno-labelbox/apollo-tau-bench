@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class PrioritizeAuditFindings(Tool):  #READ
@@ -28,8 +28,8 @@ class PrioritizeAuditFindings(Tool):  #READ
             return out
 
         #Retrieve findings data
-        audit_findings_ds = data.get("audit_findings_ds", [])
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audit_findings_ds = data.get("audit_findings_ds", {}).values()
+        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
 
         #Gather all findings along with their details
         findings_with_details = []
@@ -37,7 +37,7 @@ class PrioritizeAuditFindings(Tool):  #READ
         for finding_id in finding_ids_list:
             #Prioritize searching in DS findings
             ds_finding = next(
-                (f for f in audit_findings_ds if f.get("finding_id") == finding_id),
+                (f for f in audit_findings_ds.values() if f.get("finding_id") == finding_id),
                 None,
             )
             if ds_finding:
@@ -54,7 +54,7 @@ class PrioritizeAuditFindings(Tool):  #READ
 
             #Search within A11Y findings
             a11y_finding = next(
-                (f for f in audit_findings_a11y if f.get("finding_id") == finding_id),
+                (f for f in audit_findings_a11y.values() if f.get("finding_id") == finding_id),
                 None,
             )
             if a11y_finding:

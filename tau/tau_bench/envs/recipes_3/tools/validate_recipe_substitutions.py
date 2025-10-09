@@ -16,7 +16,7 @@ class ValidateRecipeSubstitutions(Tool):
         ri = _get_table(data, "recipe_ingredients")
         inv = _get_table(data, "inventory_items")
         ing_map = {i.get("ingredient_id"): i for i in ingredients}
-        recipe_rows = [x for x in ri if x.get("recipe_id") == recipe_id]
+        recipe_rows = [x for x in ri.values() if x.get("recipe_id") == recipe_id]
         inv_ids = {
             row.get("ingredient_id")
             for row in inv
@@ -60,7 +60,7 @@ class ValidateRecipeSubstitutions(Tool):
         ri = _get_table(data, "recipe_ingredients")
         inv = _get_table(data, "inventory_items")
         ing_map = {i.get("ingredient_id"): i for i in ingredients}
-        recipe_rows = [x for x in ri if x.get("recipe_id") == recipe_id]
+        recipe_rows = [x for x in ri.values() if x.get("recipe_id") == recipe_id]
         inv_ids = {
             row.get("ingredient_id")
             for row in inv

@@ -24,7 +24,7 @@ class create_release_record(Tool):
             "day": day_iso,
             "request_id": request_id,
         }
-        releases.append(row)
+        data["releases"][release_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out

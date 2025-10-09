@@ -10,7 +10,7 @@ class LockAccountManually(Tool):
         if not account_id:
             return json.dumps({'error': 'account_id is required'})
         accounts = load_json('accounts.json')
-        account = next((a for a in accounts if a['account_id'] == account_id), None)
+        account = next((a for a in accounts.values() if a['account_id'] == account_id), None)
         if not account or 'status' not in account:
             return json.dumps({'error': 'Account not found or missing status field.'})
         if account['status'] == 'Locked':

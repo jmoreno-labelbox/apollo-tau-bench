@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class create_promotion(Tool):
@@ -43,11 +43,11 @@ class create_promotion(Tool):
                 promotion_fields_unpacked["applicable_skus"]
             )
 
-        promotions = data.get("promotions", [])
-        products = data.get("products", [])
+        promotions = data.get("promotions", {}).values()
+        products = data.get("products", {}).values()
 
         promotion_id = (
-            max([int(x["promotion_id"].split("-")[1]) for x in promotions]) + 1
+            max([int(x["promotion_id"].split("-")[1]) for x in promotions.values()]) + 1
         )
 
         # TODO: automate status setting based on the start date
@@ -66,7 +66,7 @@ class create_promotion(Tool):
         }
 
         # Revise the skus
-        for product in products:
+        for product in products.values():
             if product["sku"] in promotion_fields_unpacked["applicable_skus"]:
                 product["is_discountable"] = True
 

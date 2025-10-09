@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetDateForPlan(Tool):
@@ -16,7 +16,7 @@ class GetDateForPlan(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], plan_id: str = None) -> str:
-        plans = data.get("plans", [])
+        plans = data.get("plans", {}).values()
 
         for plan in plans:
             if plan.get("plan_id") == plan_id:

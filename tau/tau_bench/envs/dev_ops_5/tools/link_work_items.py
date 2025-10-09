@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LinkWorkItems(Tool):
@@ -15,7 +15,7 @@ class LinkWorkItems(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], parent_id: str = None, child_id: str = None, link_type: str = None) -> str:
-        links = data.get("work_item_links", [])
+        links = data.get("work_item_links", {}).values()
         max([int(w["parent_id"].split("_")[1]) for w in links]) + 1
 
         new_link = {
@@ -23,7 +23,7 @@ class LinkWorkItems(Tool):
             "child_id": child_id,
             "link_type": link_type,
         }
-        links.append(new_link)
+        data["work_item_links"][new_link["work_item_link_id"]] = new_link
         payload = {
             "status": "success",
             "message": f"Linked {child_id} to {parent_id} as {link_type}.",

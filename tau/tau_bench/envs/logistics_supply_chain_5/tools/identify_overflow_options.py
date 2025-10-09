@@ -8,21 +8,21 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class IdentifyOverflowOptions(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str, required_capacity: int) -> str:
-        warehouses = data.get("warehouses", [])
-        current_warehouse = next((w for w in warehouses if w["warehouse_id"] == warehouse_id), None)
+        warehouses = data.get("warehouses", {}).values()
+        current_warehouse = next((w for w in warehouses.values() if w["warehouse_id"] == warehouse_id), None)
 
         if not current_warehouse:
             return json.dumps({"error": f"Warehouse {warehouse_id} not found"})
 
         # Locate nearby warehouses that have available space
         overflow_options = []
-        for warehouse in warehouses:
+        for warehouse in warehouses.values():
             if warehouse["warehouse_id"] != warehouse_id:
                 total_capacity = warehouse["total_storage_capacity_cbm"]
                 utilization = warehouse["current_utilization_percentage"]

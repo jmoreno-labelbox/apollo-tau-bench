@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateDirectoryAccount(Tool):
@@ -20,7 +20,7 @@ class CreateDirectoryAccount(Tool):
         job_title: Any = None,
         default_email: str = None
     ) -> str:
-        accounts = data.get("directory_accounts", [])
+        accounts = data.get("directory_accounts", {}).values()
         username = legal_name.lower().replace(" ", ".")
         upn = f"{username}@company.com"
         name_part = "".join(filter(str.isalnum, legal_name.split()[0])).lower()
@@ -37,7 +37,7 @@ class CreateDirectoryAccount(Tool):
             "created_at": FIXED_NOW,
             "disabled_at": None,
         }
-        accounts.append(new_account)
+        data["accounts"][account_id] = new_account
         payload = new_account
         out = json.dumps(payload, indent=2)
         return out

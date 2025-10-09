@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LockPlan(Tool):
@@ -24,12 +24,12 @@ class LockPlan(Tool):
 
         if envelope is None:
             plan = next(
-                (p for p in data.get("plans", []) if p.get("date") == date), None
+                (p for p in data.get("plans", {}).values() if p.get("date") == date), None
             )
             if plan is None:
                 pid = f"plan_{date}"
                 plan = next(
-                    (p for p in data.get("plans", []) if p.get("plan_id") == pid), None
+                    (p for p in data.get("plans", {}).values() if p.get("plan_id") == pid), None
                 )
 
             raw_rows = []

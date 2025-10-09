@@ -11,7 +11,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -33,10 +33,10 @@ class SearchEmployees(Tool):
         min_available_hours: float = None,
         disregard_employee_ids: list[int] = []
     ) -> str:
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
         results = []
 
-        for employee in employees:
+        for employee in employees.values():
 
             if name and name.lower() not in employee.get("name", "").lower():
                 continue
@@ -159,11 +159,10 @@ class GetEmployeeAllocations(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
+        allocations = data.get("allocations", {}).values()
         employee_allocations = [
             alloc
-            for alloc in allocations
-            if alloc.get("employee_id") == employee_id
+            for alloc in allocations.values() if alloc.get("employee_id") == employee_id
             and alloc.get("status") == "active"
         ]
         payload = employee_allocations
@@ -198,14 +197,13 @@ class GetProjectDetails(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
-        allocations = data.get("allocations", [])
+        projects = data.get("projects", {}).values()
+        allocations = data.get("allocations", {}).values()
         allocated_hours = sum(
             allocation["hours_per_week"]
-            for allocation in allocations
-            if allocation["project_id"] == project_id
+            for allocation in allocations.values() if allocation["project_id"] == project_id
         )
-        for project in projects:
+        for project in projects.values()):
             if project.get("project_id") == project_id:
                 data = project.copy()
                 data["allocated_hours"] = allocated_hours
@@ -244,8 +242,8 @@ class UpdateAllocation(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
-        for allocation in allocations:
+        allocations = data.get("allocations", {}).values()
+        for allocation in allocations.values():
             if allocation.get("allocation_id") == allocation_id:
                 if hours_per_week is not None:
                     allocation["hours_per_week"] = hours_per_week
@@ -291,11 +289,10 @@ class CalculateEmployeeUtilization(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
+        allocations = data.get("allocations", {}).values()
         employee_allocations = [
             alloc
-            for alloc in allocations
-            if alloc.get("employee_id") == employee_id
+            for alloc in allocations.values() if alloc.get("employee_id") == employee_id
             and alloc.get("status") == "active"
         ]
 
@@ -342,7 +339,7 @@ class UpdateUtilizationLog(Tool):
             out = json.dumps(payload)
             return out
 
-        utilization_logs = data.get("utilization_logs", [])
+        utilization_logs = data.get("utilization_logs", {}).values()
 
         log_entry = {
             "log_id": f"log_{uuid.uuid4().hex[:8]}",
@@ -351,10 +348,10 @@ class UpdateUtilizationLog(Tool):
             "timestamp": datetime.now().isoformat(),
         }
 
-        utilization_logs.append(log_entry)
+        data["utilization_logs"][log_entry["utilization_log_id"]] = log_entry
 
-        employees = data.get("employees", [])
-        for employee in employees:
+        employees = data.get("employees", {}).values()
+        for employee in employees.values():
             if employee.get("employee_id") == employee_id:
                 employee["current_utilization"] = new_utilization
                 break
@@ -394,19 +391,19 @@ class UpdateEmployeesUtilization(Tool):
             out = json.dumps(payload)
             return out
 
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
         employee_info = {
             info["employee_id"]: {
                 "index": i,
                 "max_hours_per_week": info["max_hours_per_week"],
             }
-            for i, info in enumerate(employees)
+            for i, info in enumerate(employees.values()
         }
 
-        allocations = data.get("allocations", [])
+        allocations = data.get("allocations", {}).values()
 
         utilization_per_employee = {}
-        for allocation in allocations:
+        for allocation in allocations.values():
             employee_id = allocation.get("employee_id")
             if employee_id not in employee_ids:
                 continue
@@ -440,7 +437,7 @@ class UpdateEmployeesUtilization(Tool):
         for employee_id, utilization_info in utilization_per_employee.items():
             if employee_id not in employee_ids:
                 continue
-            new_utilization_logs.append(utilization_info)
+            new_data["utilization_logs"][utilization_info["utilization_log_id"]] = utilization_info
             employees[employee_info[employee_id]["index"]]["current_utilization"] = (
                 utilization_info
             )["utilization_percentage"]
@@ -475,10 +472,10 @@ class UpdateEmployeesUtilization(Tool):
 class SearchProjects(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None, needs_resources: bool = None) -> str:
-        projects = data.get("projects", [])
+        projects = data.get("projects", {}).values()
         results = []
 
-        for project in projects:
+        for project in projects.values():
             match = True
 
             if name and name.lower() not in project.get("name", "").lower():
@@ -527,11 +524,10 @@ class CalculateEmployeeAvailability(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
+        allocations = data.get("allocations", {}).values()
         employee_allocations = [
             alloc
-            for alloc in allocations
-            if alloc.get("employee_id") == employee_id
+            for alloc in allocations.values() if alloc.get("employee_id") == employee_id
             and alloc.get("status") == "active"
         ]
 
@@ -586,17 +582,17 @@ class CreateResourceRequest(Tool):
             out = json.dumps(payload)
             return out
 
-        resource_requests = data.get("resource_requests", [])
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
+        resource_requests = data.get("resource_requests", {}).values()
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
 
         qualified_employees = []
-        for emp in employees:
+        for emp in employees.values():
             if department and emp.get("department") != department:
                 continue
             for skill in emp.get("skills", []):
                 if skill.get("skill") == skill_required:
-                    qualified_employees.append(emp)
+                    qualified_data["employees"][employee_id] = emp
                     break
 
         total_available_hours = 0
@@ -604,8 +600,7 @@ class CreateResourceRequest(Tool):
             emp_id = emp.get("employee_id")
             emp_allocations = [
                 alloc
-                for alloc in allocations
-                if alloc.get("employee_id") == emp_id
+                for alloc in allocations.values() if alloc.get("employee_id") == emp_id
                 and alloc.get("status") == "active"
             ]
             allocated_hours = sum(
@@ -632,7 +627,7 @@ class CreateResourceRequest(Tool):
             "allocated_hours": 0,
         }
 
-        resource_requests.append(new_request)
+        data["resource_requests"][new_request["resource_request_id"]] = new_request
         payload = {
             "success": True,
             "request": new_request,
@@ -705,24 +700,23 @@ class CreateAllocation(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
-        projects = data.get("projects", [])
-        skill_requirements = data.get("skill_requirements", [])
+        allocations = data.get("allocations", {}).values()
+        projects = data.get("projects", {}).values()
+        skill_requirements = data.get("skill_requirements", {}).values()
 
         is_temporary = any(
             term in role.lower()
             for term in ["consultant", "emergency", "temporary", "interim"]
         )
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
 
         skill_gap_filled = 0
         if project:
             project_requirements = next(
                 (
                     req
-                    for req in skill_requirements
-                    if req.get("project_id") == project_id
+                    for req in skill_requirements.values() if req.get("project_id") == project_id
                 ),
                 None,
             )
@@ -730,8 +724,7 @@ class CreateAllocation(Tool):
             if project_requirements:
                 current_allocations = [
                     alloc
-                    for alloc in allocations
-                    if alloc.get("project_id") == project_id
+                    for alloc in allocations.values() if alloc.get("project_id") == project_id
                     and alloc.get("status") == "active"
                 ]
                 current_hours = sum(
@@ -761,7 +754,7 @@ class CreateAllocation(Tool):
             "cross_department": cross_department,
         }
 
-        allocations.append(new_allocation)
+        data["allocations"][allocation_id] = new_allocation
 
         result = {
             "success": True,
@@ -838,9 +831,9 @@ class UpdateRequestStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        resource_requests = data.get("resource_requests", [])
+        resource_requests = data.get("resource_requests", {}).values()
 
-        for request in resource_requests:
+        for request in resource_requests.values():
             if request.get("request_id") == request_id:
                 request["status"] = status
                 request["assigned_employees"] = assigned_employees
@@ -899,9 +892,9 @@ class UpdateDepartmentCapacity(Tool):
             out = json.dumps(payload)
             return out
 
-        departments = data.get("departments", [])
+        departments = data.get("departments", {}).values()
 
-        for dept in departments:
+        for dept in departments.values():
             if dept.get("department_name") == department:
                 if "capacity_changes" not in dept:
                     dept["capacity_changes"] = []
@@ -958,11 +951,11 @@ class GetDepartmentCapacity(Tool):
             out = json.dumps(payload)
             return out
 
-        employees = data.get("employees", [])
-        allocations = data.get("allocations", [])
+        employees = data.get("employees", {}).values()
+        allocations = data.get("allocations", {}).values()
 
         dept_employees = [
-            emp for emp in employees if emp.get("department") == department
+            emp for emp in employees.values() if emp.get("department") == department
         ]
 
         total_capacity = len(dept_employees) * 40
@@ -971,8 +964,7 @@ class GetDepartmentCapacity(Tool):
         for employee in dept_employees:
             emp_allocations = [
                 alloc
-                for alloc in allocations
-                if alloc.get("employee_id") == employee.get("employee_id")
+                for alloc in allocations.values() if alloc.get("employee_id") == employee.get("employee_id")
                 and alloc.get("status") == "active"
             ]
             total_allocated += sum(
@@ -1024,9 +1016,9 @@ class GetTeamDetails(Tool):
             out = json.dumps(payload)
             return out
 
-        teams = data.get("teams", [])
+        teams = data.get("teams", {}).values()
 
-        for team in teams:
+        for team in teams.values():
             if (team_id and team.get("team_id") == team_id) or (
                 team_name and team.get("team_name") == team_name
             ):
@@ -1062,9 +1054,9 @@ class UpdateProjectStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
+        projects = data.get("projects", {}).values()
 
-        for project in projects:
+        for project in projects.values():
             if project.get("project_id") == project_id:
                 project["status"] = status
                 payload = {"success": True, "project": project}
@@ -1106,9 +1098,9 @@ class UpdateProjectRequiredHours(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
+        projects = data.get("projects", {}).values()
 
-        for project in projects:
+        for project in projects.values():
             if project.get("project_id") == project_id:
                 project["required_hours_per_week"] = required_hours
                 payload = {"success": True, "project": project}
@@ -1150,9 +1142,9 @@ class GetProjectAllocations(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
+        allocations = data.get("allocations", {}).values()
         project_allocations = [
-            alloc for alloc in allocations if alloc.get("project_id") == project_id
+            alloc for alloc in allocations.values() if alloc.get("project_id") == project_id
         ]
         payload = project_allocations
         out = json.dumps(payload, indent=2)
@@ -1186,8 +1178,8 @@ class GetEmployeeDetails(Tool):
             out = json.dumps(payload)
             return out
 
-        employees = data.get("employees", [])
-        for employee in employees:
+        employees = data.get("employees", {}).values()
+        for employee in employees.values():
             if employee.get("employee_id") == employee_id:
                 payload = employee
                 out = json.dumps(payload, indent=2)
@@ -1224,9 +1216,9 @@ class DeleteAllocation(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
+        allocations = data.get("allocations", {}).values()
 
-        for i, allocation in enumerate(allocations):
+        for i, allocation in enumerate(allocations.values():
             if allocation.get("allocation_id") == allocation_id:
                 removed_allocation = allocations.pop(i)
                 payload = {"success": True, "removed_allocation": removed_allocation}
@@ -1259,10 +1251,10 @@ class DeleteAllocation(Tool):
 class SearchAllocations(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], end_date_before: str = None, status: str = None, allocation_id: str = None) -> str:
-        allocations = data.get("allocations", [])
+        allocations = data.get("allocations", {}).values()
         results = []
 
-        for allocation in allocations:
+        for allocation in allocations.values():
             match = True
 
             if end_date_before and allocation.get("end_date"):
@@ -1323,13 +1315,12 @@ class CreateBenchAssignment(Tool):
             out = json.dumps(payload)
             return out
 
-        bench_resources = data.get("bench_resources", [])
-        allocations = data.get("allocations", [])
+        bench_resources = data.get("bench_resources", {}).values()
+        allocations = data.get("allocations", {}).values()
 
         employee_allocations = [
             alloc
-            for alloc in allocations
-            if alloc.get("employee_id") == employee_id
+            for alloc in allocations.values() if alloc.get("employee_id") == employee_id
             and alloc.get("status") == "active"
         ]
 
@@ -1366,21 +1357,19 @@ class CreateBenchAssignment(Tool):
             "fully_available": is_actually_available,
         }
 
-        bench_resources.append(new_assignment)
+        data["bench_resources"][new_assignment["bench_resource_id"]] = new_assignment
 
         available_resources = len(
             [
                 r
-                for r in bench_resources
-                if r.get("status") == "active" and r.get("fully_available", True)
+                for r in bench_resources.values() if r.get("status") == "active" and r.get("fully_available", True)
             ]
         )
 
         partially_available = len(
             [
                 r
-                for r in bench_resources
-                if r.get("status") == "active" and not r.get("fully_available", True)
+                for r in bench_resources.values() if r.get("status") == "active" and not r.get("fully_available", True)
             ]
         )
         payload = {
@@ -1439,9 +1428,9 @@ class UpdateEmployeeStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
 
-        for employee in employees:
+        for employee in employees.values():
             if employee.get("employee_id") == employee_id:
                 employee["status"] = status
                 if available_from:
@@ -1489,9 +1478,9 @@ class UpdateEmployeesDepartment(Tool):
             out = json.dumps(payload)
             return out
 
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
 
-        for employee in employees:
+        for employee in employees.values():
             if employee.get("employee_id") == employee_id:
                 employee["department"] = department
                 payload = {"success": True, "employee": employee}
@@ -1533,9 +1522,9 @@ class UpdateTeamsDepartment(Tool):
             out = json.dumps(payload)
             return out
 
-        teams = data.get("teams", [])
+        teams = data.get("teams", {}).values()
 
-        for team in teams:
+        for team in teams.values():
             if team.get("team_id") == team_id:
                 team["department"] = department
                 payload = {"success": True, "team": team}
@@ -1577,9 +1566,9 @@ class CheckAllocationDuration(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
+        allocations = data.get("allocations", {}).values()
 
-        for allocation in allocations:
+        for allocation in allocations.values():
             if (
                 allocation.get("employee_id") == employee_id
                 and allocation.get("project_id") == project_id
@@ -1645,14 +1634,13 @@ class CreateRotationSchedule(Tool):
             out = json.dumps(payload)
             return out
 
-        rotation_schedules = data.get("rotation_schedules", [])
-        allocations = data.get("allocations", [])
-        projects = data.get("projects", [])
+        rotation_schedules = data.get("rotation_schedules", {}).values()
+        allocations = data.get("allocations", {}).values()
+        projects = data.get("projects", {}).values()
 
         from_project_allocations = [
             alloc
-            for alloc in allocations
-            if alloc.get("project_id") == from_project
+            for alloc in allocations.values() if alloc.get("project_id") == from_project
             and alloc.get("status") == "active"
         ]
 
@@ -1671,7 +1659,7 @@ class CreateRotationSchedule(Tool):
             return out
 
         from_project_data = next(
-            (p for p in projects if p.get("project_id") == from_project), None
+            (p for p in projects.values() if p.get("project_id") == from_project), None
         )
         if from_project_data:
             required_hours = from_project_data.get("required_hours_per_week", 0)
@@ -1720,12 +1708,11 @@ class CreateRotationSchedule(Tool):
             "status": "scheduled",
         }
 
-        rotation_schedules.append(new_rotation)
+        data["rotation_schedules"][new_rotation["rotation_schedule_id"]] = new_rotation
 
         existing_rotations = [
             rot
-            for rot in rotation_schedules
-            if rot.get("status") == "scheduled"
+            for rot in rotation_schedules.values() if rot.get("status") == "scheduled"
             and skill_development_rotation.lower() == "true"
         ]
 
@@ -1811,8 +1798,8 @@ class GetDepartmentTeams(Tool):
             out = json.dumps(payload)
             return out
 
-        teams = data.get("teams", [])
-        dept_teams = [team for team in teams if team.get("department") == department]
+        teams = data.get("teams", {}).values()
+        dept_teams = [team for team in teams.values() if team.get("department") == department]
         payload = dept_teams
         out = json.dumps(payload, indent=2)
         return out
@@ -1845,11 +1832,11 @@ class GetTeamUtilization(Tool):
             out = json.dumps(payload)
             return out
 
-        teams = data.get("teams", [])
-        allocations = data.get("allocations", [])
+        teams = data.get("teams", {}).values()
+        allocations = data.get("allocations", {}).values()
 
         team = None
-        for t in teams:
+        for t in teams.values():
             if t.get("team_id") == team_id:
                 team = t
                 break
@@ -1867,8 +1854,7 @@ class GetTeamUtilization(Tool):
         for member_id in team_members:
             member_allocations = [
                 alloc
-                for alloc in allocations
-                if alloc.get("employee_id") == member_id
+                for alloc in allocations.values() if alloc.get("employee_id") == member_id
                 and alloc.get("status") == "active"
             ]
             member_hours = sum(
@@ -1972,11 +1958,11 @@ class CreateTeam(Tool):
             out = json.dumps(payload)
             return out
 
-        teams = data.get("teams", [])
-        projects = data.get("projects", [])
-        allocations = data.get("allocations", [])
+        teams = data.get("teams", {}).values()
+        projects = data.get("projects", {}).values()
+        allocations = data.get("allocations", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
@@ -1984,8 +1970,7 @@ class CreateTeam(Tool):
 
         project_allocations = [
             alloc
-            for alloc in allocations
-            if alloc.get("project_id") == project_id and alloc.get("status") == "active"
+            for alloc in allocations.values() if alloc.get("project_id") == project_id and alloc.get("status") == "active"
         ]
 
         total_allocated_hours = sum(
@@ -2025,7 +2010,7 @@ class CreateTeam(Tool):
             "status": "active",
         }
 
-        teams.append(new_team)
+        data["teams"][team_id] = new_team
         payload = {
                 "success": True,
                 "team": new_team,
@@ -2096,7 +2081,7 @@ class CreateProject(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
+        projects = data.get("projects", {}).values()
 
         new_project = {
             "project_id": project_id,
@@ -2110,7 +2095,7 @@ class CreateProject(Tool):
             "end_date": end_date,
         }
 
-        projects.append(new_project)
+        data["projects"][project_id] = new_project
         payload = {
             "success": True,
             "project_id": project_id,
@@ -2185,7 +2170,7 @@ class CreateDepartment(Tool):
             out = json.dumps(payload)
             return out
 
-        departments = data.get("departments", [])
+        departments = data.get("departments", {}).values()
 
         new_department = {
             "department_id": department_id,
@@ -2198,7 +2183,7 @@ class CreateDepartment(Tool):
             "avg_utilization": 85,
         }
 
-        departments.append(new_department)
+        data["departments"][department_id] = new_department
         payload = {
             "success": True,
             "department_id": department_id,
@@ -2236,12 +2221,12 @@ class CreateDepartment(Tool):
 class UpdateDepartmentsUtilization(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        departments = data.get("departments", [])
-        employees = data.get("employees", [])
-        allocations = data.get("allocations", [])
+        departments = data.get("departments", {}).values()
+        employees = data.get("employees", {}).values()
+        allocations = data.get("allocations", {}).values()
         employee_info = {}
         department_info = {}
-        for employee in employees:
+        for employee in employees.values():
             department = employee["department"]
             employee_info[employee["employee_id"]] = department
             if department in department_info:
@@ -2255,7 +2240,7 @@ class UpdateDepartmentsUtilization(Tool):
                     "employee_count": 1,
                 }
 
-        for allocation in allocations:
+        for allocation in allocations.values():
             employee_id = allocation["employee_id"]
             department = employee_info.get(employee_id)
             if department in department_info:
@@ -2272,7 +2257,7 @@ class UpdateDepartmentsUtilization(Tool):
                     "allocated_hours": allocation["hours_per_week"]
                 }
 
-        for department in departments:
+        for department in departments.values():
             department_name = department["department_name"]
             if department_name in department_info:
                 department["total_capacity_hours"] = department_info.get(
@@ -2318,9 +2303,9 @@ class DeleteDepartment(Tool):
             out = json.dumps(payload)
             return out
 
-        departments = data.get("departments", [])
+        departments = data.get("departments", {}).values()
 
-        for i, department in enumerate(departments):
+        for i, department in enumerate(departments.values():
             if department.get("department_name") == department_name:
                 departments.pop(i)
                 payload = {"success": True}
@@ -2358,9 +2343,9 @@ class GetDepartmentDetails(Tool):
             out = json.dumps(payload)
             return out
 
-        departments = data.get("departments", [])
+        departments = data.get("departments", {}).values()
 
-        for department in departments:
+        for department in departments.values():
             if department.get("department_name") == name:
                 payload = {"success": True, "details": department}
                 out = json.dumps(payload)
@@ -2403,9 +2388,9 @@ class AnalyzeAllocationEfficiency(Tool):
         if projects is None:
             projects = []
 
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
-        projects_data = data.get("projects", [])
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
+        projects_data = data.get("projects", {}).values()
 
         partial_allocations_found = 0
         skill_mismatches_found = 0
@@ -2414,7 +2399,7 @@ class AnalyzeAllocationEfficiency(Tool):
         if check_partial_allocations:
 
             employee_allocations = {}
-            for alloc in allocations:
+            for alloc in allocations.values():
                 if (
                     alloc.get("project_id") in projects
                     and alloc.get("status") == "active"
@@ -2434,14 +2419,14 @@ class AnalyzeAllocationEfficiency(Tool):
 
         if check_skill_mismatch:
 
-            for alloc in allocations:
+            for alloc in allocations.values():
                 if (
                     alloc.get("project_id") in projects
                     and alloc.get("status") == "active"
                 ):
                     emp_id = alloc.get("employee_id")
                     employee = next(
-                        (e for e in employees if e.get("employee_id") == emp_id), None
+                        (e for e in employees.values() if e.get("employee_id") == emp_id), None
                     )
 
                     if employee:
@@ -2449,8 +2434,7 @@ class AnalyzeAllocationEfficiency(Tool):
                         project = next(
                             (
                                 p
-                                for p in projects_data
-                                if p.get("project_id") == alloc.get("project_id")
+                                for p in projects_data.values() if p.get("project_id") == alloc.get("project_id")
                             ),
                             None,
                         )
@@ -2577,11 +2561,11 @@ class ReassignJuniorWork(Tool):
                 payload)
             return out
 
-        allocations: list[dict] = data.get("allocations", [])
+        allocations: list[dict] = data.get("allocations", {}).values()
         from_employee_found = False
         to_employee_found = False
         new_allocation = {}
-        for i, allocation in enumerate(allocations):
+        for i, allocation in enumerate(allocations.values():
             allocation_employee_id = allocation.get("employee_id")
             allocation_project_id = allocation.get("project_id")
             allocation_info = allocation.get("hours_per_week", 0)
@@ -2673,9 +2657,9 @@ class ReassignJuniorWork(Tool):
 class CalculateOptimizationMetrics(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], projects: list = [], metric_type: str = "efficiency_gain") -> str:
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
-        projects_data = data.get("projects", [])
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
+        projects_data = data.get("projects", {}).values()
 
         total_allocated_hours = 0
         total_required_hours = 0
@@ -2686,8 +2670,7 @@ class CalculateOptimizationMetrics(Tool):
 
         project_allocations = [
             alloc
-            for alloc in allocations
-            if alloc.get("project_id") in projects and alloc.get("status") == "active"
+            for alloc in allocations.values() if alloc.get("project_id") in projects and alloc.get("status") == "active"
         ]
 
         for alloc in project_allocations:
@@ -2696,15 +2679,15 @@ class CalculateOptimizationMetrics(Tool):
             if alloc.get("hours_per_week", 0) < 20:
                 partial_allocations += 1
 
-        for proj_id in projects:
+        for proj_id in projects.values():
             project = next(
-                (p for p in projects_data if p.get("project_id") == proj_id), None
+                (p for p in projects_data.values() if p.get("project_id") == proj_id), None
             )
             if project:
                 total_required_hours += project.get("required_hours_per_week", 0)
 
         employee_hours = {}
-        for alloc in allocations:
+        for alloc in allocations.values():
             if alloc.get("status") == "active":
                 emp_id = alloc.get("employee_id")
                 if emp_id not in employee_hours:
@@ -2721,13 +2704,12 @@ class CalculateOptimizationMetrics(Tool):
         for alloc in project_allocations:
             emp_id = alloc.get("employee_id")
             employee = next(
-                (e for e in employees if e.get("employee_id") == emp_id), None
+                (e for e in employees.values() if e.get("employee_id") == emp_id), None
             )
             project = next(
                 (
                     p
-                    for p in projects_data
-                    if p.get("project_id") == alloc.get("project_id")
+                    for p in projects_data.values() if p.get("project_id") == alloc.get("project_id")
                 ),
                 None,
             )
@@ -2807,7 +2789,7 @@ class CreateResourceConflict(Tool):
             out = json.dumps(payload)
             return out
 
-        resource_conflicts = data.get("resource_conflicts", [])
+        resource_conflicts = data.get("resource_conflicts", {}).values()
 
         conflict_id = f"conflict_{uuid.uuid4().hex[:8]}"
 
@@ -2821,7 +2803,7 @@ class CreateResourceConflict(Tool):
             "status": "resolved" if resolution else "pending",
         }
 
-        resource_conflicts.append(new_conflict)
+        data["resource_conflicts"][new_conflict["resource_conflict_id"]] = new_conflict
         payload = {"success": True, "conflict": new_conflict}
         out = json.dumps(payload)
         return out
@@ -2867,12 +2849,12 @@ class CompareProjectPriorities(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
+        projects = data.get("projects", {}).values()
 
         project_1 = None
         project_2 = None
 
-        for project in projects:
+        for project in projects.values():
             if project.get("project_id") == project_id_1:
                 project_1 = project
             elif project.get("project_id") == project_id_2:
@@ -3214,13 +3196,12 @@ class ValidateComplianceStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
 
         project_allocations = [
             alloc
-            for alloc in allocations
-            if alloc.get("project_id") == project_id and alloc.get("status") == "active"
+            for alloc in allocations.values() if alloc.get("project_id") == project_id and alloc.get("status") == "active"
         ]
 
         cleared_resources = 0
@@ -3230,7 +3211,7 @@ class ValidateComplianceStatus(Tool):
             employee_id = allocation.get("employee_id")
 
             employee = None
-            for emp in employees:
+            for emp in employees.values():
                 if emp.get("employee_id") == employee_id:
                     employee = emp
                     break
@@ -3312,12 +3293,12 @@ class SummarizeDepartmentMerger(Tool):
             return out
 
         if final_utilization is None and employees_affected:
-            employees = data.get("employees", [])
+            employees = data.get("employees", {}).values()
             total_hours = 0
             total_capacity = 0
 
-            for emp_id in employees_affected:
-                for employee in employees:
+            for emp_id in employees_affected.values():
+                for employee in employees.values():
                     if employee.get("employee_id") == emp_id:
                         total_capacity += 40
                         total_hours += (
@@ -3389,13 +3370,12 @@ class SummarizeProjectPhaseMetrics(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
 
         project_allocations = [
             alloc
-            for alloc in allocations
-            if alloc.get("project_id") == project_id and alloc.get("status") == "active"
+            for alloc in allocations.values() if alloc.get("project_id") == project_id and alloc.get("status") == "active"
         ]
 
         dev_hours = 0
@@ -3417,7 +3397,7 @@ class SummarizeProjectPhaseMetrics(Tool):
             hours = allocation.get("hours_per_week", 0)
 
             employee = next(
-                (emp for emp in employees if emp.get("employee_id") == employee_id),
+                (emp for emp in employees.values() if emp.get("employee_id") == employee_id),
                 None,
             )
 
@@ -3504,13 +3484,12 @@ class SummarizeHybridWorkAllocation(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
 
         project_allocations = [
             alloc
-            for alloc in allocations
-            if alloc.get("project_id") == project_id and alloc.get("status") == "active"
+            for alloc in allocations.values() if alloc.get("project_id") == project_id and alloc.get("status") == "active"
         ]
 
         total_hours = 0
@@ -3525,7 +3504,7 @@ class SummarizeHybridWorkAllocation(Tool):
             total_hours += hours
 
             employee = next(
-                (emp for emp in employees if emp.get("employee_id") == employee_id),
+                (emp for emp in employees.values() if emp.get("employee_id") == employee_id),
                 None,
             )
 

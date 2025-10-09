@@ -9,15 +9,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAirportByCode(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], iata_code: str) -> str:
-        airports = data.get("airports", [])
-        for airport in airports:
+        airports = data.get("airports", {}).values()
+        for airport in airports.values():
             if airport.get("iata_code") == iata_code:
                 payload = airport
                 out = json.dumps(payload)

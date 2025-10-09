@@ -43,7 +43,7 @@ class InsertInvoice(Tool):
             "paid_at": paid_at,
             "created_at": created_at,
         }
-        invs.append(record)
+        data["invoices"][record["invoice_id"]] = record
         payload = record
         out = json.dumps(payload, indent=2)
         return out

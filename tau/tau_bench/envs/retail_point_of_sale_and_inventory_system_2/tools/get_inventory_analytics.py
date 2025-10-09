@@ -8,31 +8,31 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetInventoryAnalytics(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], store_id: str | None = None) -> str:
-        inventory = data.get("inventory", [])
-        products = data.get("products", [])
+        inventory = data.get("inventory", {}).values()
+        products = data.get("products", {}).values()
 
         if store_id:
-            inventory = [inv for inv in inventory if inv.get("store_id") == store_id]
+            inventory = [inv for inv in inventory.values() if inv.get("store_id") == store_id]
 
         total_items = len(inventory)
-        total_quantity = sum(inv.get("quantity", 0) for inv in inventory)
+        total_quantity = sum(inv.get("quantity", 0) for inv in inventory.values()
         total_value = 0.0
 
-        for inv_record in inventory:
+        for inv_record in inventory.values()):
             product = next(
-                (p for p in products if p.get("sku") == inv_record.get("sku")), None
+                (p for p in products.values() if p.get("sku") == inv_record.get("sku")), None
             )
             if product:
                 total_value += inv_record.get("quantity", 0) * product.get("price", 0)
 
         low_stock_items = len(
-            [inv for inv in inventory if inv.get("quantity", 0) <= 10]
+            [inv for inv in inventory.values() if inv.get("quantity", 0) <= 10]
         )
 
         analytics = {

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAllEevntsByGamePk(Tool):
@@ -29,10 +29,10 @@ class GetAllEevntsByGamePk(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        events: list[dict[str, Any]] = data.get("game_day_events", [])
+        events: list[dict[str, Any]] = data.get("game_day_events", {}).values()
 
         #3) Filter for exact game_pk
-        matching = [e for e in events if e.get("game_pk") == game_pk]
+        matching = [e for e in events.values() if e.get("game_pk") == game_pk]
 
         if not matching:
             payload = {"error": f"No events found for game_pk {game_pk}"}

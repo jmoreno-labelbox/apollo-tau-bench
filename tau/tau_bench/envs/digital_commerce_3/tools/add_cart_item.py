@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddCartItem(Tool):
@@ -21,7 +21,7 @@ class AddCartItem(Tool):
         product = next(
             (
                 p
-                for p in data.get("products", [])
+                for p in data.get("products", {}).values()
                 if f"{p.get('product_id')}" == f"{product_id}"
             ),
             None,
@@ -30,7 +30,7 @@ class AddCartItem(Tool):
             payload = {"error": "Product out of stock or not found."}
             out = json.dumps(payload, indent=2)
             return out
-        items = data.get("cart_items", [])
+        items = data.get("cart_items", {}).values()
         new_id = _next_numeric_id(items, "cart_item_id")
         items.append(
             {
@@ -50,7 +50,7 @@ class AddCartItem(Tool):
         product = next(
             (
                 p
-                for p in data.get("products", [])
+                for p in data.get("products", {}).values()
                 if f"{p.get('product_id')}" == f"{product_id}"
             ),
             None,
@@ -59,7 +59,7 @@ class AddCartItem(Tool):
             payload = {"error": "Product out of stock or not found."}
             out = json.dumps(payload, indent=2)
             return out
-        items = data.get("cart_items", [])
+        items = data.get("cart_items", {}).values()
         new_id = _next_numeric_id(items, "cart_item_id")
         items.append(
             {

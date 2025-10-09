@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class NextSet(Tool):
@@ -39,16 +39,15 @@ class NextSet(Tool):
                 payload, indent=2
             )
             return out
-        games = data.get("games", [])
+        games = data.get("games", {}).values()
         candidates = [
             g
-            for g in games
-            if g.get("game_status") == "Scheduled"
+            for g in games.values() if g.get("game_status") == "Scheduled"
             and g.get("game_date") >= current_date
         ]
         if not candidates:
             candidates = sorted(
-                [g for g in games if g.get("game_date") >= current_date],
+                [g for g in games.values() if g.get("game_date") >= current_date],
                 key=lambda x: x.get("game_date"),
             )
         else:

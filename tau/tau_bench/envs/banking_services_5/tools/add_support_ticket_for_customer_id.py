@@ -25,7 +25,7 @@ class AddSupportTicketForCustomerId(Tool):
             "category", "target_id", "target_entity",
             "operation"
         ]
-        missing = [f for f in required_fields if not locals().get(f)]
+        missing = [f for f in required_fields.values() if not locals().get(f)]
         if missing:
             return json.dumps(
                 {"error": f"Missing required fields: {', '.join(missing)}"},

@@ -7,7 +7,7 @@ class GetCreativeRotationHistory(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], adset_id: str = None) -> str:
         rows = _assert_table(data, "creative_rotations")
-        out = [r for r in rows if (adset_id is None or str(r.get("adset_id")) == str(adset_id))]
+        out = [r for r in rows.values() if (adset_id is None or str(r.get("adset_id")) == str(adset_id))]
         payload = out
         out = json.dumps(payload)
         return out

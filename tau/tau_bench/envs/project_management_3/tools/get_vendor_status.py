@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetVendorStatus(Tool):
@@ -20,18 +20,18 @@ class GetVendorStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        vendors = data.get("vendors", [])
-        invoices = data.get("invoices", [])
-        data.get("payments", [])
-        purchase_orders = data.get("purchase_orders", [])
+        vendors = data.get("vendors", {}).values()
+        invoices = data.get("invoices", {}).values()
+        data.get("payments", {}).values()
+        purchase_orders = data.get("purchase_orders", {}).values()
 
-        vendor = next((v for v in vendors if v.get("vendor_id") == vendor_id), None)
+        vendor = next((v for v in vendors.values() if v.get("vendor_id") == vendor_id), None)
         if not vendor:
             payload = {"error": f"Vendor {vendor_id} not found"}
             out = json.dumps(payload)
             return out
 
-        vendor_invoices = [i for i in invoices if i.get("vendor_id") == vendor_id]
+        vendor_invoices = [i for i in invoices.values() if i.get("vendor_id") == vendor_id]
 
         outstanding_amount = sum(
             i.get("amount", 0) for i in vendor_invoices if i.get("status") != "paid"
@@ -39,14 +39,12 @@ class GetVendorStatus(Tool):
 
         pending_pos = [
             po
-            for po in purchase_orders
-            if po.get("vendor_id") == vendor_id
+            for po in purchase_orders.values() if po.get("vendor_id") == vendor_id
             and po.get("status") == "pending_approval"
         ]
         approved_pos = [
             po
-            for po in purchase_orders
-            if po.get("vendor_id") == vendor_id and po.get("status") == "approved"
+            for po in purchase_orders.values() if po.get("vendor_id") == vendor_id and po.get("status") == "approved"
         ]
 
         late_invoices = []
@@ -77,11 +75,11 @@ class GetVendorStatus(Tool):
             "requires_prepayment": vendor.get("late_payments", 0) >= 3,
             "outstanding_amount": outstanding_amount,
             "pending_pos_count": len(pending_pos),
-            "pending_pos_value": sum(po.get("total_amount", 0) for po in pending_pos),
+            "pending_pos_value": sum(po.get("total_amount", 0) for po in pending_pos.values()),
             "approved_pos_count": len(approved_pos),
-            "approved_pos_value": sum(po.get("total_amount", 0) for po in approved_pos),
+            "approved_pos_value": sum(po.get("total_amount", 0) for po in approved_pos.values()),
             "late_invoices": late_invoices,
-            "total_late_fees": sum(inv["late_fee"] for inv in late_invoices),
+            "total_late_fees": sum(inv["late_fee"] for inv in late_invoices.values()),
             "last_payment_date": vendor.get("last_payment_date"),
         }
         payload = status

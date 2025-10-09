@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2CalculateProjectProfitability(Tool):
@@ -20,16 +20,16 @@ class CaV2CalculateProjectProfitability(Tool):
             return _error("project_id is required.")
 
         # Retrieve project information
-        projects = data.get("projects", [])
-        project = _find_one(projects, "project_id", project_id)
+        projects = data.get("projects", {}).values()
+        project = _find_one(list(projects.values()), "project_id", project_id)
         if not project:
             return _error(f"Project '{project_id}' not found.")
 
         # Compute income from invoices
-        invoice_lines = data.get("invoice_lines", [])
+        invoice_lines = data.get("invoice_lines", {}).values()
         project_lines = _find_all(invoice_lines, "project_id", project_id)
-        total_revenue = sum(line.get("line_amount", 0) for line in project_lines)
-        total_hours = sum(line.get("hours_billed", 0) for line in project_lines)
+        total_revenue = sum(line.get("line_amount", 0) for line in project_lines.values()
+        total_hours = sum(line.get("hours_billed", 0) for line in project_lines.values()
 
         # Determine actual hourly rate
         effective_rate = total_revenue / total_hours if total_hours > 0 else 0

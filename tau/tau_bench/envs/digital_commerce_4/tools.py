@@ -11,7 +11,7 @@ FIXED_NOW = "2025-08-06T12:00:00Z"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -64,7 +64,7 @@ def _append_audit(
 
 def _ws(data: dict[str, Any]) -> dict[str, Any]:
     pass
-    return data.setdefault("_ws", {})
+    return data.setdefault("_ws", [])
 
 
 def _eq(a: Any, b: Any) -> bool:
@@ -83,8 +83,8 @@ class GetClusterById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cluster_id: str) -> str:
         cluster_id = _sid(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", [])
-        cluster = next((c for c in clusters if c.get("cluster_id") == cluster_id), None)
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        cluster = next((c for c in clusters.values() if c.get("cluster_id") == cluster_id), None)
         payload = cluster or {"error": f"cluster {cluster_id} not found"}
         out = json.dumps(
             payload, indent=2
@@ -109,8 +109,8 @@ class GetClusterById(Tool):
 class ListClustersByStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], status: str) -> str:
-        clusters = data.get("aws_elasticache_clusters", [])
-        result = [c for c in clusters if c.get("status") == status]
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        result = [c for c in clusters.values() if c.get("status") == status]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -134,8 +134,8 @@ class ValidateClusterEndpoint(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cluster_id: str) -> str:
         cluster_id = _sid(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", [])
-        cl = next((c for c in clusters if c.get("cluster_id") == cluster_id), None)
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        cl = next((c for c in clusters.values() if c.get("cluster_id") == cluster_id), None)
         if not cl:
             payload = {"error": f"cluster {cluster_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -174,8 +174,8 @@ class ListSecurityGroupRules(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], security_group_id: str) -> str:
         security_group_id = _sid(security_group_id)
-        rules = data.get("aws_security_group_rules", [])
-        result = [r for r in rules if r.get("security_group_id") == security_group_id]
+        rules = data.get("aws_security_group_rules", {}).values()
+        result = [r for r in rules.values() if r.get("security_group_id") == security_group_id]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -202,7 +202,7 @@ class HardenRedisSecurityGroup(Tool):
         data: dict[str, Any], security_group_id: str, allowed_cidr_list: list[str]
     ) -> str:
         security_group_id = _sid(security_group_id)
-        rules = data.get("aws_security_group_rules", [])
+        rules = data.get("aws_security_group_rules", {}).values()
         changed = []
         for r in list(rules):
             if (
@@ -215,8 +215,7 @@ class HardenRedisSecurityGroup(Tool):
                 changed.append(r.get("rule_id"))
         existing = {
             (x.get("port"), x.get("protocol"), x.get("source_ip"))
-            for x in rules
-            if x.get("security_group_id") == security_group_id
+            for x in rules.values() if x.get("security_group_id") == security_group_id
         }
         for cidr in allowed_cidr_list:
             key = (6379, "TCP", cidr)
@@ -269,8 +268,8 @@ class LinkCacheToOrg(Tool):
     ) -> str:
         org_id, cluster_id = _sid(org_id), _sid(cluster_id)
         partition_key = _sid(partition_key)
-        clusters = data.get("aws_elasticache_clusters", [])
-        cl = next((c for c in clusters if c.get("cluster_id") == cluster_id), None)
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        cl = next((c for c in clusters.values() if c.get("cluster_id") == cluster_id), None)
         if not cl:
             payload = {"error": f"cluster {cluster_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -282,12 +281,11 @@ class LinkCacheToOrg(Tool):
             payload = {"error": "cluster not usable"}
             out = json.dumps(payload, indent=2)
             return out
-        settings = data.get("custom_settings", [])
+        settings = data.get("custom_settings", {}).values()
         url_setting = next(
             (
                 s
-                for s in settings
-                if s.get("org_id") == org_id
+                for s in settings.values() if s.get("org_id") == org_id
                 and s.get("setting_name") == "CacheAPI.ExternalSystemURL"
             ),
             None,
@@ -297,8 +295,7 @@ class LinkCacheToOrg(Tool):
         pk_setting = next(
             (
                 s
-                for s in settings
-                if s.get("org_id") == org_id
+                for s in settings.values() if s.get("org_id") == org_id
                 and s.get("setting_name") == "CacheAPI.ExternalSystemPartitionKey"
             ),
             None,
@@ -339,8 +336,8 @@ class LinkCacheToOrg(Tool):
 class NormalizeCustomSetting(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], setting_id: str) -> str:
-        settings = data.get("custom_settings", [])
-        st = next((s for s in settings if s.get("setting_id") == setting_id), None)
+        settings = data.get("custom_settings", {}).values()
+        st = next((s for s in settings.values() if s.get("setting_id") == setting_id), None)
         if not st:
             payload = {"error": f"setting {setting_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -370,14 +367,14 @@ class RunCacheJob(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], org_id: str, job_name: str) -> str:
         org_id = _sid(org_id)
-        jobs = data.get("cache_jobs", [])
+        jobs = data.get("cache_jobs", {}).values()
         valid_jobs = {"Load API Metadata", "Populate Cache Job"}
         if job_name not in valid_jobs:
             payload = {"error": "invalid job name"}
             out = json.dumps(payload, indent=2)
             return out
         updated = []
-        for j in jobs:
+        for j in jobs.values():
             if j.get("org_id") == org_id and j.get("job_name") == job_name:
                 j["last_run_status"] = "Success"
                 j["last_run_time"] = FIXED_NOW
@@ -414,8 +411,8 @@ class GetCacheJobHistory(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], org_id: str) -> str:
         org_id = _sid(org_id)
-        jobs = data.get("cache_jobs", [])
-        result = [j for j in jobs if j.get("org_id") == org_id]
+        jobs = data.get("cache_jobs", {}).values()
+        result = [j for j in jobs.values() if j.get("org_id") == org_id]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -443,7 +440,7 @@ class NormalizeConnectedAppScopes(Tool):
         connected_apps: list = None
     ) -> str:
         app_id = _sid(app_id)
-        apps = connected_apps if connected_apps is not None else data.get("connected_apps", [])
+        apps = connected_apps if connected_apps is not None else data.get("connected_apps", {}).values()
         app = next((a for a in apps if a.get("app_id") == app_id), None)
         if not app:
             payload = {"error": f"app {app_id} not found"}
@@ -452,7 +449,7 @@ class NormalizeConnectedAppScopes(Tool):
         scopes = app.get("oauth_scopes")
         if isinstance(scopes, str):
             vals = [s.strip() for s in scopes.split(",")]
-            scopes_list = [v for v in vals if v]
+            scopes_list = [v for v in vals.values() if v]
         elif isinstance(scopes, list):
             scopes_list = scopes
         else:
@@ -491,12 +488,11 @@ class SetTraceFlag(Tool):
     ) -> str:
         org_id, flag_name = _sid(org_id), _sid(flag_name)
         is_active = bool(is_active)
-        flags = data.get("trace_flags", [])
+        flags = data.get("trace_flags", {}).values()
         tf = next(
             (
                 f
-                for f in flags
-                if f.get("org_id") == org_id and f.get("flag_name") == flag_name
+                for f in flags.values() if f.get("org_id") == org_id and f.get("flag_name") == flag_name
             ),
             None,
         )
@@ -559,12 +555,11 @@ class SetFeatureToggle(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], org_id: str, toggle_name: str, value: str) -> str:
         org_id, toggle_name, value = _sid(org_id), _sid(toggle_name), _sid(value)
-        settings = data.get("custom_settings", [])
+        settings = data.get("custom_settings", {}).values()
         st = next(
             (
                 s
-                for s in settings
-                if s.get("org_id") == org_id and s.get("setting_name") == toggle_name
+                for s in settings.values() if s.get("org_id") == org_id and s.get("setting_name") == toggle_name
             ),
             None,
         )
@@ -606,8 +601,8 @@ class GetOrder(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str) -> str:
         order_id = _sid(order_id)
-        orders = data.get("orders", [])
-        o = next((x for x in orders if x.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        o = next((x for x in orders.values() if x.get("order_id") == order_id), None)
         payload = o or {"error": f"order {order_id} not found"}
         out = json.dumps(payload, indent=2)
         return out
@@ -635,8 +630,8 @@ class GetOrderItems(Tool):
         order_items: list = None
     ) -> str:
         order_id = _sid(order_id)
-        items = order_items if order_items is not None else data.get("order_items", [])
-        result = [i for i in items if i.get("order_id") == order_id]
+        items = order_items if order_items is not None else data.get("order_items", {}).values()
+        result = [i for i in items.values() if i.get("order_id") == order_id]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -660,8 +655,8 @@ class GetAccount(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], account_id: str) -> str:
         account_id = _sid(account_id)
-        accs = data.get("accounts", [])
-        a = next((x for x in accs if x.get("account_id") == account_id), None)
+        accs = data.get("accounts", {}).values()
+        a = next((x for x in accs.values() if x.get("account_id") == account_id), None)
         payload = a or {"error": f"account {account_id} not found"}
         out = json.dumps(payload, indent=2)
         return out
@@ -685,8 +680,8 @@ class GetOrg(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], org_id: str) -> str:
         org_id = _sid(org_id)
-        orgs = data.get("salesforce_orgs", [])
-        org = next((o for o in orgs if o.get("org_id") == org_id), None)
+        orgs = data.get("salesforce_orgs", {}).values()
+        org = next((o for o in orgs.values() if o.get("org_id") == org_id), None)
         payload = org or {"error": f"org {org_id} not found"}
         out = json.dumps(payload, indent=2)
         return out
@@ -710,12 +705,11 @@ class GetPriceForProduct(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], pricebook_id: str, product_id: str) -> str:
         pricebook_id, product_id = _sid(pricebook_id), _sid(product_id)
-        pbes = data.get("pricebook_entries", [])
+        pbes = data.get("pricebook_entries", {}).values()
         pbe = next(
             (
                 p
-                for p in pbes
-                if p.get("pricebook_id") == pricebook_id
+                for p in pbes.values() if p.get("pricebook_id") == pricebook_id
                 and p.get("product_id") == product_id
             ),
             None,
@@ -746,8 +740,8 @@ class GetProductStock(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], product_id: str) -> str:
         product_id = _sid(product_id)
-        products = data.get("products", [])
-        p = next((x for x in products if x.get("product_id") == product_id), None)
+        products = data.get("products", {}).values()
+        p = next((x for x in products.values() if x.get("product_id") == product_id), None)
         if not p:
             payload = {"error": f"product {product_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -779,7 +773,7 @@ def _active_offer(
     pass
     if not offer_id:
         return None
-    off = next((o for o in offers if o.get("offer_id") == offer_id), None)
+    off = next((o for o in offers.values() if o.get("offer_id") == offer_id), None)
     if not off:
         return None
     if off.get("is_active") is False:
@@ -792,32 +786,31 @@ class RecomputeOrderTotals(Tool):
     def invoke(data: dict[str, Any], order_id: str) -> str:
         pass
         order_id = _sid(order_id)
-        orders = data.get("orders", [])
-        items = data.get("order_items", [])
-        accounts = data.get("accounts", [])
-        pbes = data.get("pricebook_entries", [])
-        offers = data.get("offers", [])
-        data.get("products", [])
+        orders = data.get("orders", {}).values()
+        items = data.get("order_items", {}).values()
+        accounts = data.get("accounts", {}).values()
+        pbes = data.get("pricebook_entries", {}).values()
+        offers = data.get("offers", {}).values()
+        data.get("products", {}).values()
 
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order {order_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
 
         account = next(
-            (a for a in accounts if a.get("account_id") == order.get("account_id")),
+            (a for a in accounts.values() if a.get("account_id") == order.get("account_id")),
             None,
         )
         pricebook_id = account.get("default_pricebook_id") if account else None
-        line_items = [i for i in items if i.get("order_id") == order_id]
+        line_items = [i for i in items.values() if i.get("order_id") == order_id]
         subtotal = 0.0
         for li in line_items:
             pbe = next(
                 (
                     p
-                    for p in pbes
-                    if p.get("pricebook_id") == pricebook_id
+                    for p in pbes.values() if p.get("pricebook_id") == pricebook_id
                     and p.get("product_id") == li.get("product_id")
                 ),
                 None,
@@ -842,8 +835,8 @@ class RecomputeOrderTotals(Tool):
         order["subtotal"] = round(subtotal, 2)
         order["discount_amount"] = round(discount_amount, 2)
         order["total_amount"] = total_amount
-        _append_audit(data, "RECOMPUTE_TOTALS", order_id, {})
-        _ws_append(data, order_id, "RECOMPUTE_TOTALS", {})
+        _append_audit(data, "RECOMPUTE_TOTALS", order_id, {}).values()
+        _ws_append(data, order_id, "RECOMPUTE_TOTALS", {}).values()
         payload = order
         out = json.dumps(payload, indent=2)
         return out
@@ -874,9 +867,9 @@ class ApplyOfferToOrder(Tool):
         offers: list = None
     ) -> str:
         order_id, offer_id = _sid(order_id), _sid(offer_id)
-        orders = orders if orders is not None else data.get("orders", [])
-        offers = offers if offers is not None else data.get("offers", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = orders if orders is not None else data.get("orders", {}).values()
+        offers = offers if offers is not None else data.get("offers", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order {order_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -920,15 +913,15 @@ class EnforceMinimumOrder(Tool):
         accounts: list = None
     ) -> str:
         order_id = _sid(order_id)
-        orders = orders if orders is not None else data.get("orders", [])
-        accounts = accounts if accounts is not None else data.get("accounts", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = orders if orders is not None else data.get("orders", {}).values()
+        accounts = accounts if accounts is not None else data.get("accounts", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order {order_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
         account = next(
-            (a for a in accounts if a.get("account_id") == order.get("account_id")),
+            (a for a in accounts.values() if a.get("account_id") == order.get("account_id")),
             None,
         )
         threshold = (
@@ -975,7 +968,7 @@ def _adjust_stock(products: list[dict[str, Any]], product_id: str, delta: int) -
         delta = int(delta)
     except Exception:
         return False
-    p = next((x for x in products if _eq(x.get("product_id"), product_id)), None)
+    p = next((x for x in products.values() if _eq(x.get("product_id"), product_id)), None)
     if not p:
         return False
     new_qty = int(p.get("stock_quantity", 0)) + delta
@@ -988,13 +981,13 @@ def _adjust_stock(products: list[dict[str, Any]], product_id: str, delta: int) -
 class UpdateProductStock(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], product_id: str, delta: int) -> str:
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         ok = _adjust_stock(products, product_id, delta)
         if not ok:
             payload = {"error": "stock adjustment failed"}
             out = json.dumps(payload, indent=2)
             return out
-        p = next((x for x in products if x.get("product_id") == product_id), None)
+        p = next((x for x in products.values() if x.get("product_id") == product_id), None)
         _append_audit(data, "UPDATE_STOCK", product_id, {"delta": delta})
         _ws_append(data, product_id, "UPDATE_STOCK", {"delta": delta})
         payload = {"product_id": product_id, "stock_quantity": p.get("stock_quantity")}
@@ -1025,8 +1018,8 @@ class ShipOrder(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str) -> str:
         order_id = _sid(order_id)
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order {order_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -1059,8 +1052,8 @@ class DeliverOrder(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str) -> str:
         order_id = _sid(order_id)
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order {order_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -1093,8 +1086,8 @@ class CancelOrder(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str) -> str:
         order_id = _sid(order_id)
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order {order_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -1127,9 +1120,9 @@ class CreateReturnCase(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str, items: list[dict[str, Any]]) -> str:
         order_id = _sid(order_id)
-        orders = data.get("orders", [])
-        cases = data.get("cases", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        cases = data.get("cases", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order {order_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -1192,13 +1185,13 @@ class ProcessReturn(Tool):
     def invoke(data: dict[str, Any], order_id: str, items: list[dict[str, Any]]) -> str:
         order_id = _sid(order_id)
         norm_items: list[dict[str, Any]] = []
-        for it in items or []:
+        for it in items.values() or []:
             pid = _sid(it.get("product_id"))
             qty = int(it.get("quantity", 1))
             reason = it.get("reason", "customer_request")
             norm_items.append({"product_id": pid, "quantity": qty, "reason": reason})
-        orders = data.get("orders", [])
-        order = next((o for o in orders if _eq(o.get("order_id"), order_id)), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if _eq(o.get("order_id"), order_id)), None)
         if not order:
             payload = {"error": f"order {order_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -1238,8 +1231,8 @@ class CloseCase(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], case_id: str, resolution: str) -> str:
         case_id = _sid(case_id)
-        cases = data.get("cases", [])
-        c = next((x for x in cases if x.get("case_id") == case_id), None)
+        cases = data.get("cases", {}).values()
+        c = next((x for x in cases.values() if x.get("case_id") == case_id), None)
         if not c:
             payload = {"error": f"case {case_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -1274,8 +1267,8 @@ class ActivateOffer(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], offer_id: str, is_active: bool) -> str:
         offer_id = _sid(offer_id)
-        offers = data.get("offers", [])
-        off = next((o for o in offers if o.get("offer_id") == offer_id), None)
+        offers = data.get("offers", {}).values()
+        off = next((o for o in offers.values() if o.get("offer_id") == offer_id), None)
         if not off:
             payload = {"error": f"offer {offer_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -1309,8 +1302,8 @@ class InvalidateCacheForCatalog(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], org_id: str, catalog_id: str) -> str:
         org_id, catalog_id = _sid(org_id), _sid(catalog_id)
-        _append_audit(data, "INVALIDATE_CACHE", f"{org_id}:{catalog_id}", {})
-        _ws_append(data, f"{org_id}:{catalog_id}", "INVALIDATE_CACHE", {})
+        _append_audit(data, "INVALIDATE_CACHE", f"{org_id}:{catalog_id}", {}).values()
+        _ws_append(data, f"{org_id}:{catalog_id}", "INVALIDATE_CACHE", {}).values()
         payload = {"org_id": org_id, "catalog_id": catalog_id, "scheduled": True}
         out = json.dumps(
             payload, indent=2
@@ -1341,7 +1334,7 @@ class NormalizeTimestampField(Tool):
         data: dict[str, Any], table_name: str, id_field: str, id_value: str, field: str
     ) -> str:
         id_value = _sid(id_value)
-        table = data.get(table_name, [])
+        table = data.get(table_name, {}).values()
         row = next((r for r in table if str(r.get(id_field)) == id_value), None)
         if not row:
             payload = {"error": "row not found"}
@@ -1462,9 +1455,9 @@ class NormalizeOrgCacheTimestamps(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], org_id: str) -> str:
         org_id = _sid(org_id)
-        jobs = data.get("cache_jobs", [])
+        jobs = data.get("cache_jobs", {}).values()
         updated: list[str] = []
-        for j in jobs:
+        for j in jobs.values():
             if j.get("org_id") == org_id:
                 j["last_run_time"] = FIXED_NOW
                 updated.append(j.get("job_id"))
@@ -1496,10 +1489,10 @@ class RunCacheJobsInOrder(Tool):
     ) -> str:
         org_id = _sid(org_id)
         required_seq = ["Load API Metadata", "Populate Cache Job"]
-        jobs = cache_jobs if cache_jobs is not None else data.get("cache_jobs", [])
+        jobs = cache_jobs if cache_jobs is not None else data.get("cache_jobs", {}).values()
         updated: list[str] = []
         for job_name in required_seq:
-            for j in jobs:
+            for j in jobs.values():
                 if j.get("org_id") == org_id and j.get("job_name") == job_name:
                     j["last_run_status"] = "Success"
                     j["last_run_time"] = FIXED_NOW
@@ -1542,11 +1535,11 @@ class VerifyOrderPricesAgainstPricebook(Tool):
         pass
         order_id = _sid(order_id)
         eff_pb = _sid(pricebook_id) if pricebook_id is not None else None
-        orders = data.get("orders", [])
-        items = data.get("order_items", [])
-        accounts = data.get("accounts", [])
-        pbes = data.get("pricebook_entries", [])
-        order = next((o for o in orders if _eq(o.get("order_id"), order_id)), None)
+        orders = data.get("orders", {}).values()
+        items = data.get("order_items", {}).values()
+        accounts = data.get("accounts", {}).values()
+        pbes = data.get("pricebook_entries", {}).values()
+        order = next((o for o in orders.values() if _eq(o.get("order_id"), order_id)), None)
         if not order:
             payload = {"error": f"order {order_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -1555,8 +1548,7 @@ class VerifyOrderPricesAgainstPricebook(Tool):
             acct = next(
                 (
                     a
-                    for a in accounts
-                    if _eq(a.get("account_id"), order.get("account_id"))
+                    for a in accounts.values() if _eq(a.get("account_id"), order.get("account_id"))
                 ),
                 None,
             )
@@ -1565,14 +1557,13 @@ class VerifyOrderPricesAgainstPricebook(Tool):
             payload = {"error": "no pricebook context available"}
             out = json.dumps(payload, indent=2)
             return out
-        lines = [li for li in items if _eq(li.get("order_id"), order_id)]
+        lines = [li for li in items.values() if _eq(li.get("order_id"), order_id)]
         checks = []
         for li in lines:
             pbe = next(
                 (
                     p
-                    for p in pbes
-                    if _eq(p.get("pricebook_id"), eff_pb)
+                    for p in pbes.values() if _eq(p.get("pricebook_id"), eff_pb)
                     and _eq(p.get("product_id"), li.get("product_id"))
                 ),
                 None,
@@ -1588,7 +1579,7 @@ class VerifyOrderPricesAgainstPricebook(Tool):
                     "matches": (pb is not None and abs(op - pb) < 1e-9),
                 }
             )
-        all_match = all(c["matches"] for c in checks) if checks else False
+        all_match = all(c["matches"] for c in checks.values() if checks else False
         _append_audit(
             data,
             "PRICEBOOK_VERIFICATION",
@@ -1666,7 +1657,7 @@ class CollectSubjectSnapshot(Tool):
             org_id = org_from(subject_id)
             #policy mandates two jobs
             required = {"Load API Metadata", "Populate Cache Job"}
-            org_jobs = [j for j in cache_jobs if j.get("org_id") == org_id]
+            org_jobs = [j for j in cache_jobs.values() if j.get("org_id") == org_id]
             found = {j.get("job_name") for j in org_jobs}
             details.update(
                 {
@@ -1680,7 +1671,7 @@ class CollectSubjectSnapshot(Tool):
             )
 
         elif subject_id.startswith("00D8"):  #appears to be an organization identifier
-            org_jobs = [j for j in cache_jobs if j.get("org_id") == subject_id]
+            org_jobs = [j for j in cache_jobs.values() if j.get("org_id") == subject_id]
             details.update(
                 {
                     "org_id": subject_id,
@@ -1694,11 +1685,11 @@ class CollectSubjectSnapshot(Tool):
 
         elif subject_id.isdigit():  #order or case (these are numeric in your dataset)
             #is it an order?
-            o = next((o for o in orders if o.get("order_id") == subject_id), None)
+            o = next((o for o in orders.values() if o.get("order_id") == subject_id), None)
             if o:
-                its = [li for li in items if li.get("order_id") == subject_id]
+                its = [li for li in items.values() if li.get("order_id") == subject_id]
                 acct = next(
-                    (a for a in accounts if a.get("account_id") == o.get("account_id")),
+                    (a for a in accounts.values() if a.get("account_id") == o.get("account_id")),
                     None,
                 )
                 details.update(
@@ -1713,7 +1704,7 @@ class CollectSubjectSnapshot(Tool):
                     }
                 )
             else:
-                c = next((c for c in cases if c.get("case_id") == subject_id), None)
+                c = next((c for c in cases.values() if c.get("case_id") == subject_id), None)
                 details.update(
                     {
                         "kind": "case",
@@ -1723,7 +1714,7 @@ class CollectSubjectSnapshot(Tool):
                 )
 
         elif subject_id.startswith("sg-"):  #identifier for the security group
-            grp = [r for r in sgs if r.get("security_group_id") == subject_id]
+            grp = [r for r in sgs.values() if r.get("security_group_id") == subject_id]
             has_public_redis = any(
                 r.get("port") == 6379
                 and r.get("protocol") == "TCP"
@@ -1924,7 +1915,7 @@ class ClassifySubjectForAudit(Tool):
             bucket = "CACHE_ALIGNMENT_EVIDENCE"
         elif subject_id.isdigit():
             staged = _ws(data).get(subject_id, {"events": []}).get("events", [])
-            if any(ev.get("event_type") == "PROCESS_RETURN" for ev in staged):
+            if any(ev.get("event_type") == "PROCESS_RETURN" for ev in staged.values()):
                 bucket = "RETURN_EVIDENCE"
             else:
                 bucket = "PRICING_EVIDENCE"
@@ -2073,7 +2064,7 @@ class ConsolidateWorkspaceEvents(Tool):
     def invoke(data: dict[str, Any], subject_id: str, event_types: list[str]) -> str:
         subject_id = _sid(subject_id)
         staged = _ws(data).get(subject_id, {"events": []}).get("events", [])
-        filt = [e for e in staged if e.get("event_type") in set(event_types)]
+        filt = [e for e in staged.values() if e.get("event_type") in set(event_types)]
         # Provide only a predictable subset
         slim = [
             {

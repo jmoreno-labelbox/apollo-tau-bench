@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListPublisherOpenInvoices(Tool):
@@ -17,11 +17,10 @@ class ListPublisherOpenInvoices(Tool):
             payload = {"error": "publisher_id is required"}
             out = json.dumps(payload, indent=2)
             return out
-        invoices = data.get("invoices", [])
+        invoices = data.get("invoices", {}).values()
         open_invs = [
             i
-            for i in invoices
-            if i.get("publisher_id") == publisher_id and not i.get("paid_at")
+            for i in invoices.values() if i.get("publisher_id") == publisher_id and not i.get("paid_at")
         ]
         payload = {
                 "publisher_id": publisher_id,

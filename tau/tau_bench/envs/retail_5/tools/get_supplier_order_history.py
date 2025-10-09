@@ -15,21 +15,21 @@ class GetSupplierOrderHistory(Tool):
         supply_orders = data["supply_orders"]
         products = data["products"]
 
-        supplier = next((s for s in suppliers if s["supplier_id"] == supplier_id), None)
+        supplier = next((s for s in suppliers.values() if s["supplier_id"] == supplier_id), None)
         if not supplier:
             payload = {"error": f"Supplier {supplier_id} not found"}
             out = json.dumps(payload)
             return out
 
         # Retrieve all orders related to this supplier
-        supplier_orders = [o for o in supply_orders if o["supplier_id"] == supplier_id]
+        supplier_orders = [o for o in supply_orders.values() if o["supplier_id"] == supplier_id]
         supplier_orders.sort(key=lambda x: x["order_date"], reverse=True)
 
         # Enhance orders by adding product names
         enriched_orders = []
         for order in supplier_orders[:limit]:
             product = next(
-                (p for p in products if p["product_id"] == order["product_id"]), None
+                (p for p in products.values() if p["product_id"] == order["product_id"]), None
             )
             enriched_order = order.copy()
             enriched_order["product_name"] = (
@@ -39,8 +39,8 @@ class GetSupplierOrderHistory(Tool):
 
         # Compute summary statistics
         total_orders = len(supplier_orders)
-        total_value = sum(o["total_cost"] for o in supplier_orders)
-        pending_orders = len([o for o in supplier_orders if o["status"] == "pending"])
+        total_value = sum(o["total_cost"] for o in supplier_orders.values()
+        pending_orders = len([o for o in supplier_orders.values() if o["status"] == "pending"])
         payload = {
             "supplier": {
                 "supplier_id": supplier["supplier_id"],

@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -18,8 +18,8 @@ class GetProjectConfigByCity(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], target_city: str) -> str:
-        rows = data.get("project_config", [])
-        for row in rows:
+        rows = data.get("project_config", {}).values()
+        for row in rows.values():
             if row.get("target_city") == target_city:
                 payload = row
                 out = json.dumps(payload)
@@ -54,8 +54,8 @@ class GetFileTextByPath(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], path: str) -> str:
-        rows = data.get("file_store", [])
-        for row in rows:
+        rows = data.get("file_store", {}).values()
+        for row in rows.values():
             paths = row.get("paths", [])
             if path in paths:
                 i = paths.index(path)
@@ -111,7 +111,7 @@ class GetTerminalLogCommandResult(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], command: str, terminal_log: list[dict[str, Any]] = None) -> str:
         rows = terminal_log or []
-        for row in rows:
+        for row in rows.values():
             cmds = row.get("commands", [])
             if command in cmds:
                 i = cmds.index(command)
@@ -176,8 +176,8 @@ class GetGeocodingResultByCity(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], query_city: str) -> str:
-        rows = data.get("geocoding_results", [])
-        for row in rows:
+        rows = data.get("geocoding_results", {}).values()
+        for row in rows.values():
             if row.get("query_city") == query_city:
                 payload = row
                 out = json.dumps(payload)
@@ -212,8 +212,8 @@ class GetWeatherForecastByCity(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], city: str, horizon_days: int) -> str:
-        rows = data.get("weather_forecasts", [])
-        for row in rows:
+        rows = data.get("weather_forecasts", {}).values()
+        for row in rows.values():
             if row.get("city") == city and row.get("horizon_days") == horizon_days:
                 payload = row
                 out = json.dumps(payload)
@@ -255,8 +255,8 @@ class GetStationsByLocation(Tool):
         query_longitude: float,
         radius_km: float,
     ) -> str:
-        rows = data.get("noaa_station_searches", [])
-        for row in rows:
+        rows = data.get("noaa_station_searches", {}).values()
+        for row in rows.values():
             if (
                 row.get("query_latitude") == query_latitude
                 and row.get("query_longitude") == query_longitude
@@ -304,8 +304,8 @@ class GetWaterLevelsWindow(Tool):
         window_start_ts: str,
         window_end_ts: str
     ) -> str:
-        rows = data.get("water_levels", [])
-        for row in rows:
+        rows = data.get("water_levels", {}).values()
+        for row in rows.values():
             if (
                 row.get("station_id") == station_id
                 and row.get("start_ts") <= window_start_ts
@@ -367,8 +367,8 @@ class GetTidePredictionsWindow(Tool):
         window_start_ts: str,
         window_end_ts: str
     ) -> str:
-        rows = data.get("tide_predictions", [])
-        for row in rows:
+        rows = data.get("tide_predictions", {}).values()
+        for row in rows.values():
             if (
                 row.get("station_id") == station_id
                 and row.get("start_ts") <= window_start_ts
@@ -425,8 +425,8 @@ class GetProcessedTimeseriesSummary(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], csv_path: str) -> str:
-        rows = data.get("processed_timeseries", [])
-        for row in rows:
+        rows = data.get("processed_timeseries", {}).values()
+        for row in rows.values():
             if row.get("csv_path") == csv_path:
                 payload = row
                 out = json.dumps(payload)
@@ -456,8 +456,8 @@ class GetFeaturesByCsvPath(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], csv_path: str) -> str:
-        rows = data.get("features", [])
-        for row in rows:
+        rows = data.get("features", {}).values()
+        for row in rows.values():
             if row.get("csv_path") == csv_path:
                 payload = row
                 out = json.dumps(payload)
@@ -487,8 +487,8 @@ class GetModelByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], model_name: str) -> str:
-        rows = data.get("models", [])
-        for row in rows:
+        rows = data.get("models", {}).values()
+        for row in rows.values():
             if row.get("model_name") == model_name:
                 payload = row
                 out = json.dumps(payload)
@@ -518,8 +518,8 @@ class GetPredictionsByModelName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], model_name: str) -> str:
-        rows = data.get("predictions", [])
-        for row in rows:
+        rows = data.get("predictions", {}).values()
+        for row in rows.values():
             if row.get("model_name") == model_name:
                 payload = row
                 out = json.dumps(payload)
@@ -549,8 +549,8 @@ class GetMetricsByModelName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], model_name: str) -> str:
-        rows = data.get("metrics", [])
-        for row in rows:
+        rows = data.get("metrics", {}).values()
+        for row in rows.values():
             if row.get("model_name") == model_name:
                 payload = row
                 out = json.dumps(payload)
@@ -580,9 +580,9 @@ class GetMcpToolCallsByServer(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], server_name: str) -> str:
-        rows = data.get("mcp_tool_calls", [])
+        rows = data.get("mcp_tool_calls", {}).values()
         out: list[dict[str, Any]] = []
-        for row in rows:
+        for row in rows.values():
             servers = row.get("server_names", [])
             tools = row.get("tool_names", [])
             params = row.get("params_json", [])
@@ -626,8 +626,8 @@ class GetGmailMessageBySubject(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], subject: str) -> str:
-        rows = data.get("gmail_messages", [])
-        for row in rows:
+        rows = data.get("gmail_messages", {}).values()
+        for row in rows.values():
             if row.get("subject") == subject:
                 payload = row
                 out = json.dumps(payload)
@@ -662,13 +662,13 @@ class UpsertProjectConfig(Tool):
             out = json.dumps(payload)
             return out
         rows = data.setdefault("project_config", [])
-        for row in rows:
+        for row in rows.values():
             if row.get("target_city") == record["target_city"]:
                 row.update(record)
                 payload = {"status": "updated", "record": row}
                 out = json.dumps(payload)
                 return out
-        rows.append(record)
+        data["processed_timeseries"][record["processed_timeserie_id"]] = record
         payload = {"status": "inserted", "record": record}
         out = json.dumps(payload)
         return out
@@ -781,7 +781,7 @@ class UpsertFileStoreText(Tool):
         data: dict[str, Any], path: str, file_contents_text: str, file_mime_type: str
     ) -> str:
         rows = data.setdefault("file_store", [])
-        for row in rows:
+        for row in rows.values():
             paths = row.get("paths", [])
             if path in paths:
                 i = paths.index(path)
@@ -1148,9 +1148,9 @@ class GenerateFeaturesFromProcessed(Tool):
         features_csv_path: str,
         generated_ts: str,
     ) -> str:
-        rows = data.get("processed_timeseries", [])
+        rows = data.get("processed_timeseries", {}).values()
         target = None
-        for row in rows:
+        for row in rows.values():
             if row.get("csv_path") == processed_csv_path:
                 target = row
                 break
@@ -1254,9 +1254,9 @@ class CreateTimeBasedDatasetSplit(Tool):
         split_summary_json_path: str,
         split_ts: str,
     ) -> str:
-        pts = data.get("processed_timeseries", [])
+        pts = data.get("processed_timeseries", {}).values()
         row = None
-        for r in pts:
+        for r in pts.values():
             if r.get("csv_path") == processed_csv_path:
                 row = r
                 break
@@ -1450,12 +1450,12 @@ class PublishStakeholderOutputs(Tool):
         generated_ts: str,
     ) -> str:
         preds_ok = False
-        for r in data.get("predictions", []):
+        for r in data.get("predictions", {}).values():
             if r.get("predictions_csv_path") == predictions_final_csv_path:
                 preds_ok = True
                 break
         metrics_ok = False
-        for r in data.get("metrics", []):
+        for r in data.get("metrics", {}).values():
             if r.get("metrics_csv_path") == metrics_summary_csv_path:
                 metrics_ok = True
                 break

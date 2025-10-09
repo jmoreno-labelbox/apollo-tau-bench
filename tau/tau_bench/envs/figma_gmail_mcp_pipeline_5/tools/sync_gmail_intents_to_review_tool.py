@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SyncGmailIntentsToReviewTool(Tool):
@@ -28,17 +28,17 @@ class SyncGmailIntentsToReviewTool(Tool):
         changes = [s.lower() for s in intents.get("changes", [])]
         blocker = [s.lower() for s in intents.get("blocker", [])]
 
-        msgs = data.get("gmail_messages", [])
+        msgs = data.get("gmail_messages", {}).values()
         counts = {"approve": 0, "changes": 0, "blocker": 0}
-        for m in msgs:
+        for m in msgs.values():
             if m.get("thread_id") != thread_id:
                 continue
             body = (m.get("body") or "").lower()
-            if any(k in body for k in approve):
+            if any(k in body for k in approve.values()):
                 counts["approve"] += 1
-            if any(k in body for k in changes):
+            if any(k in body for k in changes.values()):
                 counts["changes"] += 1
-            if any(k in body for k in blocker):
+            if any(k in body for k in blocker.values()):
                 counts["blocker"] += 1
 
         cycles = _safe_table(data, "review_cycles")

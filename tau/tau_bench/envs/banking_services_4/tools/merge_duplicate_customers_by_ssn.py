@@ -10,7 +10,7 @@ class MergeDuplicateCustomersBySSN(Tool):
         if not ssn_last_4:
             return json.dumps({'error': 'ssn_last_4 is required'})
         customers = load_json('customers.json')
-        matches = [c for c in customers if c.get('personal_info', {}).get('ssn_last_4') == ssn_last_4]
+        matches = [c for c in customers.values() if c.get('personal_info', {}).values().get('ssn_last_4') == ssn_last_4]
         if len(matches) < 2:
             return json.dumps({'error': 'Less than two customers with this SSN'})
         # Only merge if all fields to be merged exist

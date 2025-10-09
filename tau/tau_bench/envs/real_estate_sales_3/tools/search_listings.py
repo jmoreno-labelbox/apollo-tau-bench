@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchListings(Tool):
@@ -24,9 +24,9 @@ class SearchListings(Tool):
         property_type: str = None,
         limit: int = 15
     ) -> str:
-        props = _index_by(data.get("properties", []), "property_id")
+        props = _index_by(list(data.get("properties", {}).values()), "property_id")
         results: list[dict[str, Any]] = []
-        for lst in data.get("listings", []) or []:
+        for lst in data.get("listings", {}).values() or []:
             if lst.get("status") != "active":
                 continue
             pr = props.get(lst.get("property_id"))

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2GetProjectById(Tool):
@@ -19,8 +19,8 @@ class CaV2GetProjectById(Tool):
         if not project_id:
             return _error("project_id is required.")
 
-        projects = data.get("projects", [])
-        project = _find_one(projects, "project_id", project_id)
+        projects = data.get("projects", {}).values()
+        project = _find_one(list(projects.values()), "project_id", project_id)
 
         if not project:
             return _error(f"Project {project_id} not found.")

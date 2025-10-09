@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ScanRemoteDirectory(Tool):
@@ -24,7 +24,7 @@ class ScanRemoteDirectory(Tool):
         if directory is not None:
             directory_path = directory
         found_files = []
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == hostname:
                 for directory in server.get("directories", []):
                     if directory.get("path") == directory_path:

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ProcessReturnWithRefund(Tool):
@@ -26,8 +26,8 @@ class ProcessReturnWithRefund(Tool):
         if not order_id or not case_id:
             return _error("order_id and case_id are required.")
 
-        orders = data.get("orders", [])
-        order = _find_one(orders, "order_id", order_id)
+        orders = data.get("orders", {}).values()
+        order = _find_one(list(orders.values()), "order_id", order_id)
         if not order:
             return _error(f"Order '{order_id}' not found.")
         if order.get("status") not in ["Delivered", "Shipped", "Cancelled"]:
@@ -49,8 +49,8 @@ class ProcessReturnWithRefund(Tool):
                 }
             )
 
-        order_items = data.get("order_items", [])
-        products = data.get("products", [])
+        order_items = data.get("order_items", {}).values()
+        products = data.get("products", {}).values()
 
         total_refund = 0.0
         items_processed = []
@@ -61,8 +61,7 @@ class ProcessReturnWithRefund(Tool):
             oi = next(
                 (
                     oi
-                    for oi in order_items
-                    if f"{oi.get('order_id')}" == f"{order_id}"
+                    for oi in order_items.values() if f"{oi.get('order_id')}" == f"{order_id}"
                     and f"{oi.get('product_id')}" == f"{pid}"
                 ),
                 None,
@@ -72,7 +71,7 @@ class ProcessReturnWithRefund(Tool):
             item_refund = float(oi.get("price", 0.0)) * ret_qty
             total_refund += item_refund
 
-            product = _find_one(products, "product_id", pid)
+            product = _find_one(list(products.values()), "product_id", pid)
             if product:
                 product["stock_quantity"] = (
                     int(product.get("stock_quantity", 0)) + ret_qty
@@ -121,8 +120,8 @@ class ProcessReturnWithRefund(Tool):
         if not order_id or not case_id:
             return _error("order_id and case_id are required.")
 
-        orders = data.get("orders", [])
-        order = _find_one(orders, "order_id", order_id)
+        orders = data.get("orders", {}).values()
+        order = _find_one(list(orders.values()), "order_id", order_id)
         if not order:
             return _error(f"Order '{order_id}' not found.")
         if order.get("status") not in ["Delivered", "Shipped", "Cancelled"]:
@@ -144,8 +143,8 @@ class ProcessReturnWithRefund(Tool):
                 }
             )
 
-        order_items = data.get("order_items", [])
-        products = data.get("products", [])
+        order_items = data.get("order_items", {}).values()
+        products = data.get("products", {}).values()
 
         total_refund = 0.0
         items_processed = []
@@ -156,8 +155,7 @@ class ProcessReturnWithRefund(Tool):
             oi = next(
                 (
                     oi
-                    for oi in order_items
-                    if f"{oi.get('order_id')}" == f"{order_id}"
+                    for oi in order_items.values() if f"{oi.get('order_id')}" == f"{order_id}"
                     and f"{oi.get('product_id')}" == f"{pid}"
                 ),
                 None,
@@ -167,7 +165,7 @@ class ProcessReturnWithRefund(Tool):
             item_refund = float(oi.get("price", 0.0)) * ret_qty
             total_refund += item_refund
 
-            product = _find_one(products, "product_id", pid)
+            product = _find_one(list(products.values()), "product_id", pid)
             if product:
                 product["stock_quantity"] = (
                     int(product.get("stock_quantity", 0)) + ret_qty

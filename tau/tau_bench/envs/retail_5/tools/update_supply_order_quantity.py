@@ -19,7 +19,7 @@ class UpdateSupplyOrderQuantity(Tool):
 
         supply_orders = data["supply_orders"]
         order = next(
-            (o for o in supply_orders if o["supply_order_id"] == supply_order_id), None
+            (o for o in supply_orders.values() if o["supply_order_id"] == supply_order_id), None
         )
 
         if not order:

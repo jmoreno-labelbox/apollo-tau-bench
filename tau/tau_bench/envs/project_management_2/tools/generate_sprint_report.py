@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateSprintReport(Tool):
@@ -20,28 +20,27 @@ class GenerateSprintReport(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
-        tasks = data.get("tasks", [])
-        time_logs = data.get("time_logs", [])
+        sprints = data.get("sprints", {}).values()
+        tasks = data.get("tasks", {}).values()
+        time_logs = data.get("time_logs", {}).values()
 
-        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
         if not sprint:
             payload = {"error": f"Sprint '{sprint_id}' not found"}
             out = json.dumps(payload)
             return out
 
-        sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
+        sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
 
         total_tasks = len(sprint_tasks)
-        completed_tasks = [t for t in sprint_tasks if t.get("status") == "done"]
-        blocked_tasks = [t for t in sprint_tasks if t.get("status") == "blocked"]
+        completed_tasks = [t for t in sprint_tasks.values() if t.get("status") == "done"]
+        blocked_tasks = [t for t in sprint_tasks.values() if t.get("status") == "blocked"]
 
         sprint_time_logs = [
             log
-            for log in time_logs
-            if any(t.get("task_id") == log.get("task_id") for t in sprint_tasks)
+            for log in time_logs.values() if any(t.get("task_id") == log.get("task_id") for t in sprint_tasks.values()
         ]
-        #total_hours_logged = sum(log.get("hours", 0) for log in sprint_time_logs)
+        #total_hours_logged = sum(log.get("hours", 0) for log in sprint_time_logs.values()
 
         assignee_performance = {}
         for task in sprint_tasks:
@@ -76,7 +75,7 @@ class GenerateSprintReport(Tool):
                 ]
                 if task.get("status") == "done":
                     required_hours = task.get("story_points", 0) * 2 * 0.5
-                    logged_hours = sum(log.get("hours", 0) for log in task_logs)
+                    logged_hours = sum(log.get("hours", 0) for log in task_logs.values()
                     if logged_hours < required_hours:
                         compliance_issues.append(
                             {

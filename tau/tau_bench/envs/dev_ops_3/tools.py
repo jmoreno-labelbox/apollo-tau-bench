@@ -11,7 +11,7 @@ FIXED_TIMESTAMP = "2025-08-14T10:00:00Z"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -29,7 +29,7 @@ def _get_next_id(prefix: str, existing_ids: list[str]) -> str:
                 continue
 
     if max_id_num == 0:
-        if not any(s.startswith(prefix) for s in existing_ids):
+        if not any(s.startswith(prefix) for s in existing_ids.values()):
             return f"{prefix}_001"
 
     return f"{prefix}_{max_id_num + 1:03d}"
@@ -39,8 +39,8 @@ class get_crash_event_details(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], crash_id: str) -> str:
         pass
-        crash_events = data.get("crash_events", [])
-        for event in crash_events:
+        crash_events = data.get("crash_events", {}).values()
+        for event in crash_events.values():
             if event.get("id") == crash_id:
                 payload = event
                 out = json.dumps(payload, indent=2)
@@ -71,8 +71,8 @@ class find_work_item_by_crash_fingerprint(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], fingerprint: str) -> str:
         pass
-        work_items = data.get("work_items", [])
-        for item in work_items:
+        work_items = data.get("work_items", {}).values()
+        for item in work_items.values():
             if item.get("metadata") and fingerprint in item["metadata"].get(
                 "crash_fingerprint", ""
             ):
@@ -105,7 +105,7 @@ class get_code_owner_for_module(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], module_name: str) -> str:
         pass
-        ownership_map = data.get("ownership_map", [])
+        ownership_map = data.get("ownership_map", {}).values()
         path_map = {"GameEngine.dll": "src/game/engine/renderer.cpp"}
         file_path = path_map.get(module_name)
         if not file_path:
@@ -115,7 +115,7 @@ class get_code_owner_for_module(Tool):
             )
             return out
 
-        for owner_info in ownership_map:
+        for owner_info in ownership_map.values():
             if owner_info.get("file_path") in file_path:
                 payload = owner_info
                 out = json.dumps(payload, indent=2)
@@ -146,8 +146,8 @@ class update_work_item(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], work_item_id: str, updates: dict[str, Any]) -> str:
         pass
-        work_items = data.get("work_items", [])
-        for item in work_items:
+        work_items = data.get("work_items", {}).values()
+        for item in work_items.values():
             if item.get("id") == work_item_id:
                 item.update(updates)
                 data["work_items"] = work_items
@@ -188,13 +188,13 @@ class link_work_items(Tool):
         data: dict[str, Any], parent_id: str, child_id: str, link_type: str
     ) -> str:
         pass
-        links = data.get("work_item_links", [])
+        links = data.get("work_item_links", {}).values()
         new_link = {
             "parent_id": parent_id,
             "child_id": child_id,
             "link_type": link_type,
         }
-        links.append(new_link)
+        data["work_item_links"][new_link["work_item_link_id"]] = new_link
         data["work_item_links"] = links
         link_id = f"link_{parent_id}_{child_id}"
         payload = {
@@ -230,8 +230,8 @@ class get_asset_details(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], asset_id: str) -> str:
         pass
-        assets = data.get("asset_catalog", [])
-        for asset in assets:
+        assets = data.get("asset_catalog", {}).values()
+        for asset in assets.values():
             if asset.get("id") == asset_id:
                 payload = asset
                 out = json.dumps(payload, indent=2)
@@ -285,8 +285,8 @@ class find_build_run(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], commit_sha: str) -> str:
         pass
-        build_runs = data.get("build_runs", [])
-        for run in build_runs:
+        build_runs = data.get("build_runs", {}).values()
+        for run in build_runs.values():
             if run.get("commit_sha") == commit_sha:
                 payload = run
                 out = json.dumps(payload, indent=2)
@@ -317,8 +317,8 @@ class get_symbol_bundle_details(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], symbol_id: str) -> str:
         pass
-        symbols = data.get("symbols", [])
-        for s in symbols:
+        symbols = data.get("symbols", {}).values()
+        for s in symbols.values():
             if s.get("id") == symbol_id:
                 payload = s
                 out = json.dumps(payload, indent=2)
@@ -349,8 +349,8 @@ class find_team_by_name(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: str) -> str:
         pass
-        teams = data.get("teams", [])
-        for team in teams:
+        teams = data.get("teams", {}).values()
+        for team in teams.values():
             if team.get("name") == name:
                 payload = team
                 out = json.dumps(payload, indent=2)
@@ -381,8 +381,8 @@ class run_git_bisect(Tool):
         data: dict[str, Any], failing_commit_sha: str, last_known_good_commit_sha: str
     ) -> str:
         pass
-        bisect_results = data.get("bisect_results", [])
-        for result in bisect_results:
+        bisect_results = data.get("bisect_results", {}).values()
+        for result in bisect_results.values():
             if (
                 result.get("first_bad_commit") == failing_commit_sha
                 and result.get("last_good_commit") == last_known_good_commit_sha
@@ -419,8 +419,8 @@ class find_similar_incidents(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], issue_signature: str) -> str:
         pass
-        incidents = data.get("incident_history", [])
-        hits = [i for i in incidents if i.get("issue_signature") == issue_signature]
+        incidents = data.get("incident_history", {}).values()
+        hits = [i for i in incidents.values() if i.get("issue_signature") == issue_signature]
         payload = {"count": len(hits), "results": hits}
         out = json.dumps(payload, indent=2)
         return out
@@ -451,8 +451,8 @@ class create_work_item(Tool):
         description: str,
     ) -> str:
         pass
-        work_items = data.get("work_items", [])
-        existing_ids = [item["id"] for item in work_items]
+        work_items = data.get("work_items", {}).values()
+        existing_ids = [item["id"] for item in work_items.values()]
         new_id = _get_next_id("work", existing_ids)
         new_item = {
             "id": new_id,
@@ -467,7 +467,7 @@ class create_work_item(Tool):
             "points": 5,
             "metadata": {"description": description},
         }
-        work_items.append(new_item)
+        data["work_items"][work_item_id] = new_item
         data["work_items"] = work_items
         payload = {
                 "success": f"Created {item_type} ticket '{new_id}'",
@@ -506,8 +506,8 @@ class get_work_item_details(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], work_item_id: str) -> str:
         pass
-        work_items = data.get("work_items", [])
-        for item in work_items:
+        work_items = data.get("work_items", {}).values()
+        for item in work_items.values():
             if item.get("id") == work_item_id:
                 payload = item
                 out = json.dumps(payload, indent=2)
@@ -536,8 +536,8 @@ class find_translation_by_key_and_locale(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], string_key: str, locale: str) -> str:
         pass
-        translations = data.get("translations", [])
-        for t in translations:
+        translations = data.get("translations", {}).values()
+        for t in translations.values():
             if t.get("string_key") == string_key and t.get("locale") == locale:
                 payload = t
                 out = json.dumps(payload, indent=2)
@@ -580,8 +580,8 @@ class create_tms_job(Tool):
         string_keys: list[str],
     ) -> str:
         pass
-        tms_jobs = data.get("tms_jobs", [])
-        existing_ids = [job["id"] for job in tms_jobs]
+        tms_jobs = data.get("tms_jobs", {}).values()
+        existing_ids = [job["id"] for job in tms_jobs.values()]
         new_id = _get_next_id("tms_job", existing_ids)
 
         new_job = {
@@ -604,7 +604,7 @@ class create_tms_job(Tool):
             "metadata": {"string_keys": string_keys},
         }
 
-        tms_jobs.append(new_job)
+        data["tms_jobs"][tms_job_id] = new_job
         data["tms_jobs"] = tms_jobs
         payload = {"success": f"Created TMS job '{new_id}'.", "tms_job_id": new_id}
         out = json.dumps(
@@ -647,8 +647,8 @@ class get_tms_job_details(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], tms_job_id: str) -> str:
         pass
-        tms_jobs = data.get("tms_jobs", [])
-        for job in tms_jobs:
+        tms_jobs = data.get("tms_jobs", {}).values()
+        for job in tms_jobs.values():
             if job.get("id") == tms_job_id:
                 payload = job
                 out = json.dumps(payload, indent=2)
@@ -681,12 +681,12 @@ class find_newly_added_loc_strings(Tool):
         pass
         from datetime import datetime, timedelta
 
-        loc_strings = data.get("loc_strings", [])
+        loc_strings = data.get("loc_strings", {}).values()
         now = datetime.fromisoformat(FIXED_TIMESTAMP.replace("Z", "+00:00"))
         time_threshold = now - timedelta(hours=hours_ago)
 
         new_strings = []
-        for s in loc_strings:
+        for s in loc_strings.values():
             if s.get("project_id") == project_id:
                 try:
                     created_at_dt = datetime.fromisoformat(
@@ -760,8 +760,8 @@ class create_compliance_record(Tool):
         assignee_id: str,
     ) -> str:
         pass
-        compliance_records = data.get("compliance", [])
-        existing_ids = [item["id"] for item in compliance_records]
+        compliance_records = data.get("compliance", {}).values()
+        existing_ids = [item["id"] for item in compliance_records.values()]
         new_id = _get_next_id("compliance", existing_ids)
 
         new_record = {
@@ -776,7 +776,7 @@ class create_compliance_record(Tool):
             "created_at": FIXED_TIMESTAMP,
         }
 
-        compliance_records.append(new_record)
+        data["compliance"][new_record["compliance_id"]] = new_record
         data["compliance"] = compliance_records
         payload = {
                 "success": f"Created compliance record '{new_id}'.",
@@ -821,8 +821,8 @@ class find_project_by_name(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: str) -> str:
         pass
-        projects = data.get("projects", [])
-        for project in projects:
+        projects = data.get("projects", {}).values()
+        for project in projects.values():
             if project.get("name") == name:
                 payload = project
                 out = json.dumps(payload, indent=2)
@@ -851,8 +851,8 @@ class create_notification_record(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], message: str) -> str:
         pass
-        notifications = data.get("notifications", [])
-        existing_ids = [n["id"] for n in notifications]
+        notifications = data.get("notifications", {}).values()
+        existing_ids = [n["id"] for n in notifications.values()]
         new_id = _get_next_id("notification", existing_ids)
         new_notification = {
             "id": new_id,
@@ -860,7 +860,7 @@ class create_notification_record(Tool):
             "created_at": FIXED_TIMESTAMP,
             "status": "unread",
         }
-        notifications.append(new_notification)
+        data["notifications"][notification_id] = new_notification
         data["notifications"] = notifications
         payload = {
                 "success": f"Created notification record '{new_id}'.",
@@ -891,7 +891,7 @@ class list_tms_jobs(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
         pass
-        tms_jobs = data.get("tms_jobs", [])
+        tms_jobs = data.get("tms_jobs", {}).values()
         payload = {"count": len(tms_jobs), "results": tms_jobs}
         out = json.dumps(payload, indent=2)
         return out

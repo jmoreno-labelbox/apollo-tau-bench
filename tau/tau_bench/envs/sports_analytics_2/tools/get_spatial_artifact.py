@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSpatialArtifact(Tool):
@@ -16,12 +16,11 @@ class GetSpatialArtifact(Tool):
         pass
         game_pk = kwargs.get("game_pk")
         artifact_name = kwargs.get("artifact_name")
-        artifacts = data.get("spatial_artifacts", [])
+        artifacts = data.get("spatial_artifacts", {}).values()
         rec = next(
             (
                 a
-                for a in artifacts
-                if str(a.get("game_pk")) == str(game_pk)
+                for a in artifacts.values() if str(a.get("game_pk")) == str(game_pk)
                 and a.get("artifact_name") == artifact_name
             ),
             None,

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SendSlackNotification(Tool):
@@ -16,7 +16,7 @@ class SendSlackNotification(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], channel_name: str = None, message: str = None) -> str:
         channel_id = None
-        for channel in data.get("slack_channels", []):
+        for channel in data.get("slack_channels", {}).values():
             if channel.get("name") == channel_name:
                 channel_id = channel.get("channel_id")
                 break
@@ -26,10 +26,10 @@ class SendSlackNotification(Tool):
             out = json.dumps(payload)
             return out
 
-        slack_messages = data.get("slack_messages", [])
+        slack_messages = data.get("slack_messages", {}).values()
         max_id = 0
         if slack_messages:
-            for msg in slack_messages:
+            for msg in slack_messages.values():
                 try:
                     current_id_num = int(msg.get("message_id", "msg_000").split("_")[1])
                     if current_id_num > max_id:

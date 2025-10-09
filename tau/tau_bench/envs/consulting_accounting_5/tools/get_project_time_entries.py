@@ -7,7 +7,7 @@ from datetime import timedelta
 class GetProjectTimeEntries(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], project_id: int) -> str:
-        entries = [te['hours_worked'] for te in data["time_entries"] if te["project_id"] == project_id]
+        entries = [te['hours_worked'] for te in data["time_entries"].values() if te["project_id"] == project_id]
         return json.dumps({'project_id': project_id, 'hours': sum(entries)})
     @staticmethod
     def get_info() -> Dict[str, Any]:

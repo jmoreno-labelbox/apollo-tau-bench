@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListJobPostings(Tool):
@@ -17,7 +17,7 @@ class ListJobPostings(Tool):
     def invoke(data: dict[str, Any], role: str) -> str:
         postings = [
             jp
-            for jp in data.get("job_postings", [])
+            for jp in data.get("job_postings", {}).values()
             if jp.get("title", "").find(role) != -1
         ]
         payload = {"job_postings": postings}

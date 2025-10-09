@@ -15,7 +15,7 @@ class UpsertGroceryListItemsFromRecipes(Tool):
 
         #delete old
         gli_tbl = data.setdefault("grocery_list_items", [])
-        gli_tbl[:] = [r for r in gli_tbl if int(r.get("list_id")) != int(list_id)]
+        gli_tbl[:] = [r for r in gli_tbl.values() if int(r.get("list_id")) != int(list_id)]
 
         #add new
         next_id = _max_id(gli_tbl, "item_id", 8100)

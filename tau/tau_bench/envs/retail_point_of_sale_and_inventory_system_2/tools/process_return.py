@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ProcessReturn(Tool):
@@ -19,12 +19,11 @@ class ProcessReturn(Tool):
         items_to_return: list[dict[str, Any]],
         reason: str
     ) -> str:
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
         original_txn = next(
             (
                 t
-                for t in transactions
-                if t.get("transaction_id") == original_transaction_id
+                for t in transactions.values() if t.get("transaction_id") == original_transaction_id
             ),
             None,
         )
@@ -33,7 +32,7 @@ class ProcessReturn(Tool):
             out = json.dumps(payload)
             return out
 
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
         return_amount = 0.0
         validated_returns = []
 
@@ -65,7 +64,7 @@ class ProcessReturn(Tool):
 
             # Revise stock levels (reintroduce returned products)
             any_store_inventory = next(
-                (inv for inv in inventory if inv.get("sku") == sku), None
+                (inv for inv in inventory.values() if inv.get("sku") == sku), None
             )
             if any_store_inventory:
                 any_store_inventory["quantity"] = (
@@ -101,18 +100,17 @@ class ProcessReturn(Tool):
             "status": "completed",
         }
 
-        transactions.append(return_transaction)
+        data["transactions"][transaction_id] = return_transaction
         data["transactions"] = transactions
         payload = return_transaction
         out = json.dumps(payload, indent=2)
         return out
         pass
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
         original_txn = next(
             (
                 t
-                for t in transactions
-                if t.get("transaction_id") == original_transaction_id
+                for t in transactions.values() if t.get("transaction_id") == original_transaction_id
             ),
             None,
         )
@@ -122,7 +120,7 @@ class ProcessReturn(Tool):
                 payload)
             return out
 
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
         return_amount = 0.0
         validated_returns = []
 
@@ -156,7 +154,7 @@ class ProcessReturn(Tool):
 
             #Revise stock levels (reintroduce returned products)
             any_store_inventory = next(
-                (inv for inv in inventory if inv.get("sku") == sku), None
+                (inv for inv in inventory.values() if inv.get("sku") == sku), None
             )
             if any_store_inventory:
                 any_store_inventory["quantity"] = (
@@ -192,7 +190,7 @@ class ProcessReturn(Tool):
             "status": "completed",
         }
 
-        transactions.append(return_transaction)
+        data["transactions"][transaction_id] = return_transaction
         data["transactions"] = transactions
         payload = return_transaction
         out = json.dumps(payload, indent=2)

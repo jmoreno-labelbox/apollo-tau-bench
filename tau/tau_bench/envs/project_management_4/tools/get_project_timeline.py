@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetProjectTimeline(Tool):
@@ -24,18 +24,18 @@ class GetProjectTimeline(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        milestone_dependencies = data.get("milestone_dependencies", [])
-        projects = data.get("projects", [])
+        milestones = data.get("milestones", {}).values()
+        milestone_dependencies = data.get("milestone_dependencies", {}).values()
+        projects = data.get("projects", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project '{project_id}' not found"}
             out = json.dumps(payload)
             return out
 
         project_milestones = [
-            m for m in milestones if m.get("project_id") == project_id
+            m for m in milestones.values() if m.get("project_id") == project_id
         ]
 
         project_milestones.sort(key=lambda x: x.get("start_date"))
@@ -69,7 +69,7 @@ class GetProjectTimeline(Tool):
 
             if include_dependencies:
                 deps = []
-                for dep in milestone_dependencies:
+                for dep in milestone_dependencies.values():
                     if dep.get("successor_id") == milestone.get("milestone_id"):
                         deps.append(
                             {
@@ -84,22 +84,22 @@ class GetProjectTimeline(Tool):
             timeline["milestones"].append(milestone_info)
 
         if project_milestones:
-            earliest_start = min(m.get("start_date") for m in project_milestones)
-            latest_end = max(m.get("target_date") for m in project_milestones)
+            earliest_start = min(m.get("start_date") for m in project_milestones.values()
+            latest_end = max(m.get("target_date") for m in project_milestones.values()
 
             timeline["timeline_metrics"] = {
                 "total_milestones": len(project_milestones),
                 "completed": len(
-                    [m for m in project_milestones if m.get("status") == "completed"]
+                    [m for m in project_milestones.values() if m.get("status") == "completed"]
                 ),
                 "in_progress": len(
-                    [m for m in project_milestones if m.get("status") == "in_progress"]
+                    [m for m in project_milestones.values() if m.get("status") == "in_progress"]
                 ),
                 "delayed": len(
-                    [m for m in project_milestones if m.get("status") == "delayed"]
+                    [m for m in project_milestones.values() if m.get("status") == "delayed"]
                 ),
                 "critical_path_count": len(
-                    [m for m in project_milestones if m.get("is_critical_path")]
+                    [m for m in project_milestones.values() if m.get("is_critical_path")]
                 ),
                 "timeline_span": f"{earliest_start} to {latest_end}",
                 "major_milestones_without_criteria": len(

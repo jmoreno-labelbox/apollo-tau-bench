@@ -12,7 +12,7 @@ NOW_TS = "2025-01-01T09:00:00Z"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -29,7 +29,7 @@ def _slug(s: str) -> str:
     return (
         ""
         if s is None
-        else "".join(ch.lower() if ch.isalnum() else "_" for ch in s).strip("_")
+        else "".join(ch.lower() if ch.isalnum() else "_" for ch in s.values().strip("_")
     )
 
 

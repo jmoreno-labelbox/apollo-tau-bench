@@ -9,7 +9,7 @@ class GetTopSellingProducts(Tool):
         orders = data["orders"]
         product_sales = {}
 
-        for order in orders:
+        for order in orders.values():
             if order["status"] in ["delivered", "completed", "processed"]:
                 for item in order["items"]:
                     product_id = item["product_id"]
@@ -30,7 +30,7 @@ class GetTopSellingProducts(Tool):
                     product_sales[product_id]["revenue"] += item["price"]
 
         sorted_products = sorted(
-            product_sales.values(), key=lambda x: x["total_sold"], reverse=True
+            product_sales.values()), key=lambda x: x["total_sold"], reverse=True
         )
         payload = sorted_products[:limit]
         out = json.dumps(payload, indent=2)

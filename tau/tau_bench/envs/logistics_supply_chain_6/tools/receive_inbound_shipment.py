@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReceiveInboundShipment(Tool):
@@ -18,10 +18,10 @@ class ReceiveInboundShipment(Tool):
         data: dict[str, Any], shipment_id: str, items_received: list[dict[str, Any]]
     ) -> str:
         """Run the tool using the specified parameters."""
-        shipments = data.get("inbound_shipments", [])
-        inventory = data.get("inventory", [])
+        shipments = data.get("inbound_shipments", {}).values()
+        inventory = data.get("inventory", {}).values()
         shipment_found = False
-        for shipment in shipments:
+        for shipment in shipments.values():
             if shipment.get("shipment_id") == shipment_id:
                 shipment_found = True
                 if shipment["status"] == "Received":
@@ -42,7 +42,7 @@ class ReceiveInboundShipment(Tool):
                     sku = received_item["sku"]
                     quantity = received_item["quantity"]
                     inv_item_found = False
-                    for inv_item in inventory:
+                    for inv_item in inventory.values():
                         if (
                             inv_item["warehouse_id"] == warehouse_id
                             and inv_item["sku"] == sku
@@ -75,10 +75,10 @@ class ReceiveInboundShipment(Tool):
         """Run the tool using the specified parameters."""
         pass
 
-        shipments = data.get("inbound_shipments", [])
-        inventory = data.get("inventory", [])
+        shipments = data.get("inbound_shipments", {}).values()
+        inventory = data.get("inventory", {}).values()
         shipment_found = False
-        for shipment in shipments:
+        for shipment in shipments.values():
             if shipment.get("shipment_id") == shipment_id:
                 shipment_found = True
                 if shipment["status"] == "Received":
@@ -99,7 +99,7 @@ class ReceiveInboundShipment(Tool):
                     sku = received_item["sku"]
                     quantity = received_item["quantity"]
                     inv_item_found = False
-                    for inv_item in inventory:
+                    for inv_item in inventory.values():
                         if (
                             inv_item["warehouse_id"] == warehouse_id
                             and inv_item["sku"] == sku

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LogTaskCompletion(Tool):
@@ -15,7 +15,7 @@ class LogTaskCompletion(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], task_type: str = None, task_id: str = None, user_id: str = None) -> str:
-        task_logs = data.get("task_logs", [])
+        task_logs = data.get("task_logs", {}).values()
 
         # Automatically create notes according to the type of task
         if task_type == "archive":
@@ -35,7 +35,7 @@ class LogTaskCompletion(Tool):
             "completed_at": "2024-01-20T13:00:00Z",
             "notes": notes,
         }
-        task_logs.append(new_log)
+        data["task_logs"][new_log["task_log_id"]] = new_log
         data["task_logs"] = task_logs
         payload = new_log
         out = json.dumps(payload)

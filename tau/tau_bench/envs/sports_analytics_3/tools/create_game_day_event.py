@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateGameDayEvent(Tool):
@@ -52,7 +52,7 @@ class CreateGameDayEvent(Tool):
             return out
 
         #2) Retrieve DB
-        events: list[dict[str, Any]] = data.get("game_day_events", [])
+        events: list[dict[str, Any]] = data.get("game_day_events", {}).values()
 
         #4) Establish a new event row
         new_event = {

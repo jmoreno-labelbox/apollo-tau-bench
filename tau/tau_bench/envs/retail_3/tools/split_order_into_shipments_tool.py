@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SplitOrderIntoShipmentsTool(Tool):
@@ -42,15 +42,15 @@ class SplitOrderIntoShipmentsTool(Tool):
             )
             return out
 
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order_id '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
 
-        couriers = data.get("couriers", [])
-        tracking_db = _convert_db_to_list(data.get("tracking", {}))
+        couriers = data.get("couriers", {}).values()
+        tracking_db = _convert_db_to_list(data.get("tracking", {}).values()
         items_len = len(order.get("items", []))
         created = []
 
@@ -84,7 +84,7 @@ class SplitOrderIntoShipmentsTool(Tool):
                 return out
 
             #locate courier
-            courier = next((c for c in couriers if c.get("name") == courier_name), None)
+            courier = next((c for c in couriers.values() if c.get("name") == courier_name), None)
             if not courier:
                 payload = {"error": f"courier '{courier_name}' not found"}
                 out = json.dumps(

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateEmployeeCostRate(Tool):
@@ -20,11 +20,11 @@ class CalculateEmployeeCostRate(Tool):
             out = json.dumps(payload)
             return out
 
-        employees = data.get("employees", [])
-        allocations = data.get("allocations", [])
+        employees = data.get("employees", {}).values()
+        allocations = data.get("allocations", {}).values()
 
         employee = next(
-            (e for e in employees if e.get("employee_id") == employee_id), None
+            (e for e in employees.values() if e.get("employee_id") == employee_id), None
         )
         if not employee:
             payload = {"error": f"Employee {employee_id} not found"}
@@ -44,7 +44,7 @@ class CalculateEmployeeCostRate(Tool):
             base_rate = 100
 
         skills = employee.get("skills", [])
-        max_proficiency = max((s.get("proficiency", 0) for s in skills), default=3)
+        max_proficiency = max((s.get("proficiency", 0) for s in skills.values()), default=3)
         skill_multiplier = 1 + (max_proficiency - 3) * 0.1
 
         adjusted_rate = base_rate * skill_multiplier
@@ -57,10 +57,9 @@ class CalculateEmployeeCostRate(Tool):
 
         active_allocations = [
             a
-            for a in allocations
-            if a.get("employee_id") == employee_id and a.get("status") == "active"
+            for a in allocations.values() if a.get("employee_id") == employee_id and a.get("status") == "active"
         ]
-        total_hours = sum(a.get("hours_per_week", 0) for a in active_allocations)
+        total_hours = sum(a.get("hours_per_week", 0) for a in active_allocations.values()
 
         cost_rates = {
             "weekly_rate": round(fully_loaded_rate * 40, 2),

@@ -10,7 +10,7 @@ class AdjustLoanPaymentDueDate(Tool):
         if not loan_id or not new_due_date:
             return json.dumps({'error': 'loan_id and new_due_date are required'})
         loans = load_json('loans.json')
-        loan = next((l for l in loans if l['loan_id'] == loan_id), None)
+        loan = next((l for l in loans.values() if l['loan_id'] == loan_id), None)
         if not loan or 'maturity_date' not in loan:
             return json.dumps({'error': 'Loan not found or maturity_date not present.'})
         loan['maturity_date'] = new_due_date

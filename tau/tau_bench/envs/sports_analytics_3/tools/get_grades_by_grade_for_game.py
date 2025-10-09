@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetGradesByGradeForGame(Tool):
@@ -40,7 +40,7 @@ class GetGradesByGradeForGame(Tool):
             return out
 
         #2) Retrieve DB
-        records: list[dict[str, Any]] = data.get("pitch_execution_grades", [])
+        records: list[dict[str, Any]] = data.get("pitch_execution_grades", {}).values()
 
         #3) Apply filter (exact, case-sensitive)
         allowed = set(grades)

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateMilestoneDates(Tool):
@@ -25,12 +25,12 @@ class UpdateMilestoneDates(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        schedule_changes = data.get("schedule_changes", [])
-        milestone_dependencies = data.get("milestone_dependencies", [])
+        milestones = data.get("milestones", {}).values()
+        schedule_changes = data.get("schedule_changes", {}).values()
+        milestone_dependencies = data.get("milestone_dependencies", {}).values()
 
         milestone = next(
-            (m for m in milestones if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
         )
         if not milestone:
             payload = {"error": f"Milestone '{milestone_id}' not found"}
@@ -49,17 +49,16 @@ class UpdateMilestoneDates(Tool):
             slippage_days = (new_target_dt - old_target_dt).days
 
             if slippage_days > 5:
-                schedule_impact_analyses = data.get("schedule_impact_analyses", [])
+                schedule_impact_analyses = data.get("schedule_impact_analyses", {}).values()
                 analysis_id = f"sia_{uuid.uuid4().hex[:8]}"
 
                 downstream_milestones = []
-                for dep in milestone_dependencies:
+                for dep in milestone_dependencies.values():
                     if dep.get("predecessor_id") == milestone_id:
                         succ_milestone = next(
                             (
                                 m
-                                for m in milestones
-                                if m.get("milestone_id") == dep.get("successor_id")
+                                for m in milestones.values() if m.get("milestone_id") == dep.get("successor_id")
                             ),
                             None,
                         )
@@ -84,7 +83,7 @@ class UpdateMilestoneDates(Tool):
                     "status": "mandatory_review_required",
                 }
 
-                schedule_impact_analyses.append(impact_analysis)
+                data["schedule_impact_analyses"][impact_analysis["schedule_impact_analyse_id"]] = impact_analysis
                 payload = {
                     "error": f"Critical path milestone slippage of {slippage_days} days exceeds 5-day threshold. Mandatory schedule impact analysis created.",
                     "impact_analysis": impact_analysis,
@@ -93,7 +92,7 @@ class UpdateMilestoneDates(Tool):
                 return out
 
         impacted_milestones = []
-        for dep in milestone_dependencies:
+        for dep in milestone_dependencies.values():
             if dep.get("predecessor_id") == milestone_id:
                 impacted_milestones.append(dep.get("successor_id"))
 
@@ -109,7 +108,7 @@ class UpdateMilestoneDates(Tool):
             "is_critical_path": is_critical,
             "change_date": datetime.now(timezone.utc).isoformat(),
         }
-        schedule_changes.append(change_record)
+        schedule_data["changes"][change_id] = change_record
 
         if new_start_date:
             milestone["start_date"] = new_start_date

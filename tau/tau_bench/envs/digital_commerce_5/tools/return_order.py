@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReturnOrder(Tool):
@@ -20,13 +20,13 @@ class ReturnOrder(Tool):
         if not order_id or lines is None:
             return _err("order_id and lines are required.")
         lines = _coerce_ids_in(lines)
-        orders = data.get("orders", [])
-        order = next((o for o in orders if _as_id(o.get("order_id")) == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if _as_id(o.get("order_id")) == order_id), None)
         if not order:
             return _err("Order not found.")
 
-        order_items = data.get("order_items", [])
-        products = data.get("products", [])
+        order_items = data.get("order_items", {}).values()
+        products = data.get("products", {}).values()
 
         items_processed = []
         total_refund = 0.0
@@ -39,8 +39,7 @@ class ReturnOrder(Tool):
             oi = next(
                 (
                     x
-                    for x in order_items
-                    if _as_id(x.get("order_id")) == order_id
+                    for x in order_items.values() if _as_id(x.get("order_id")) == order_id
                     and _as_id(x.get("product_id")) == pid
                 ),
                 None,
@@ -52,7 +51,7 @@ class ReturnOrder(Tool):
             total_refund += refund
 
             prod = next(
-                (p for p in products if _as_id(p.get("product_id")) == pid), None
+                (p for p in products.values() if _as_id(p.get("product_id")) == pid), None
             )
             if prod:
                 prod["stock_quantity"] = int(prod.get("stock_quantity", 0)) + qty

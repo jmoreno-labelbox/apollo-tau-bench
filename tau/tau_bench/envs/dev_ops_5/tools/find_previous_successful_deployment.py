@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindPreviousSuccessfulDeployment(Tool):
@@ -18,7 +18,7 @@ class FindPreviousSuccessfulDeployment(Tool):
         deployments = sorted(
             [
                 d
-                for d in data.get("deployments", [])
+                for d in data.get("deployments", {}).values()
                 if d.get("pipeline_id") == pipeline_id
                 and d.get("deployed_at") < before_timestamp
             ],

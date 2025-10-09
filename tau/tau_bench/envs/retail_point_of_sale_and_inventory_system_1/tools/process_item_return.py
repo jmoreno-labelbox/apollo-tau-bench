@@ -9,21 +9,21 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ProcessItemReturn(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], transaction_id: str = None, sku: str = None, quantity_returned: int = None, unit_price: float = None) -> str:
-        transactions = data.get("transactions", [])
-        inventory = data.get("inventory", [])
+        transactions = data.get("transactions", {}).values()
+        inventory = data.get("inventory", {}).values()
 
-        for txn in transactions:
+        for txn in transactions.values():
             if txn.get("transaction_id") == transaction_id:
                 txn["status"] = "returned"
                 break
 
-        for item in inventory:
+        for item in inventory.values():
             if item.get("sku") == sku:
                 item["quantity"] += quantity_returned
                 break

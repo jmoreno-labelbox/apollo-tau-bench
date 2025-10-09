@@ -6,17 +6,17 @@ class RecomputeDailyMetrics(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], date: str) -> str:
         pass
-        opened = len([t for t in data["tickets"] if t["opened_at"].startswith(date)])
+        opened = len([t for t in data["tickets"].values() if t["opened_at"].startswith(date)])
         closed = len(
             [
                 t
-                for t in data["tickets"]
+                for t in data["tickets"].values()
                 if t.get("closed_at") and t["closed_at"].startswith(date)
             ]
         )
         closed_24 = 0
         #Estimate: consider any closures on the same date as occurring within 24 hours
-        for t in data["tickets"]:
+        for t in data["tickets"].values():
             if (
                 t.get("closed_at")
                 and t["closed_at"].startswith(date)

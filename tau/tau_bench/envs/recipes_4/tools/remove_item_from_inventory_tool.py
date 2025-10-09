@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RemoveItemFromInventoryTool(Tool):
@@ -106,14 +106,13 @@ class RemoveItemFromInventoryTool(Tool):
             )
 
         #3. Find the item to remove
-        inventory_table = data.get("inventory_items", [])
+        inventory_table = data.get("inventory_items", {}).values()
         item_to_remove = None
         if inv_item_id:
             item_to_remove = next(
                 (
                     item
-                    for item in inventory_table
-                    if item.get("inv_item_id") == inv_item_id
+                    for item in inventory_table.values() if item.get("inv_item_id") == inv_item_id
                 ),
                 None,
             )
@@ -121,8 +120,7 @@ class RemoveItemFromInventoryTool(Tool):
             item_to_remove = next(
                 (
                     item
-                    for item in inventory_table
-                    if item.get("household_id") == household_id
+                    for item in inventory_table.values() if item.get("household_id") == household_id
                     and item.get("ingredient_id") == ingredient_id
                 ),
                 None,
@@ -152,8 +150,7 @@ class RemoveItemFromInventoryTool(Tool):
         #5. Perform the removal
         data["inventory_items"] = [
             item
-            for item in inventory_table
-            if item.get("inv_item_id") != item_id_to_remove
+            for item in inventory_table.values() if item.get("inv_item_id") != item_id_to_remove
         ]
 
         #6. Response

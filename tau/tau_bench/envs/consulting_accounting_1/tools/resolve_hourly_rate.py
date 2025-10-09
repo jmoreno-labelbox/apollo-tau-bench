@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ResolveHourlyRate(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], project_id: str = None) -> str:
         proj = next(
-            (p for p in data.get("projects", []) if p.get("project_id") == project_id), None
+            (p for p in data.get("projects", {}).values() if p.get("project_id") == project_id), None
         )
         if not proj:
             payload = {"error": f"Project {project_id} not found"}

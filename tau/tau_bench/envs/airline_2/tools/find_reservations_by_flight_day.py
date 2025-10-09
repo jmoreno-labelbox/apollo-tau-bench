@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindReservationsByFlightDay(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], flight_number: str, date: str) -> str:
         out = []
-        for r in data.get("reservations", []):
+        for r in data.get("reservations", {}).values():
             for seg in r.get("flights", []):
                 if (
                     seg.get("flight_number") == flight_number

@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -30,9 +30,9 @@ class GetProductDetails(Tool):
                 payload, indent=2
             )
             return out
-        product_master = data.get("product_master", [])
+        product_master = data.get("product_master", {}).values()
         product = next(
-            (p for p in product_master if p.get("product_name") == product_name), None
+            (p for p in product_master.values() if p.get("product_name") == product_name), None
         )
         if product:
             payload = product
@@ -73,9 +73,9 @@ class ListWarehousesByCapability(Tool):
                 payload, indent=2
             )
             return out
-        warehouses = data.get("warehouses", [])
+        warehouses = data.get("warehouses", {}).values()
         matching_warehouses = [
-            wh for wh in warehouses if certification in wh.get("certifications", [])
+            wh for wh in warehouses.values() if certification in wh.get("certifications", [])
         ]
         payload = matching_warehouses
         out = json.dumps(payload, indent=2)
@@ -110,8 +110,8 @@ class GetInventoryBySku(Tool):
             payload = {"error": "sku is a required argument."}
             out = json.dumps(payload, indent=2)
             return out
-        inventory = data.get("inventory", [])
-        sku_inventory = [item for item in inventory if item.get("sku") == sku]
+        inventory = data.get("inventory", {}).values()
+        sku_inventory = [item for item in inventory.values() if item.get("sku") == sku]
         payload = sku_inventory
         out = json.dumps(payload, indent=2)
         return out
@@ -145,11 +145,10 @@ class ListCarriersByMode(Tool):
             payload = {"error": "mode is a required argument."}
             out = json.dumps(payload, indent=2)
             return out
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
         matching_carriers = [
             c
-            for c in carriers
-            if c.get("active_status") is True
+            for c in carriers.values() if c.get("active_status") is True
             and mode.title() in c.get("supported_modes", [])
         ]
         payload = matching_carriers
@@ -195,14 +194,14 @@ class CreateOutboundOrder(Tool):
                 payload, indent=2,
             )
             return out
-        outbound_orders = data.get("outbound_orders", [])
+        outbound_orders = data.get("outbound_orders", {}).values()
         max_id = max(
-            (int(o.get("order_id", "ORD-0").split("-")[1]) for o in outbound_orders),
+            (int(o.get("order_id", "ORD-0").split("-")[1]) for o in outbound_orders.values()),
             default=0,
         )
         new_order_id = f"ORD-{max_id + 1:04d}"
         customer_details = next(
-            (o for o in outbound_orders if o.get("customer_name") == customer_name), {}
+            (o for o in outbound_orders.values() if o.get("customer_name") == customer_name), {}
         )
         new_order = {
             "order_id": new_order_id,
@@ -217,7 +216,7 @@ class CreateOutboundOrder(Tool):
             "destination_country": customer_details.get("customer_country"),
             "status": "Pending",
             "number_of_line_items": len(line_items),
-            "total_units": sum(item.get("quantity", 0) for item in line_items),
+            "total_units": sum(item.get("quantity", 0) for item in line_items.values()),
             "priority_level": priority_level,
             "line_items": line_items,
             "warehouse_id": None,
@@ -225,7 +224,7 @@ class CreateOutboundOrder(Tool):
             "carrier_name": None,
             "tracking_number": None,
         }
-        outbound_orders.append(new_order)
+        outbound_data["orders"][order_id] = new_order
         payload = {"order_id": new_order_id}
         out = json.dumps(payload, indent=2)
         return out
@@ -280,7 +279,7 @@ class ShipOutboundOrder(Tool):
         order_to_update = next(
             (
                 o
-                for o in data.get("outbound_orders", [])
+                for o in data.get("outbound_orders", {}).values()
                 if o.get("order_id") == order_id
             ),
             None,
@@ -293,10 +292,10 @@ class ShipOutboundOrder(Tool):
         #--- NEW LOGIC INITIATION ---
         total_weight_kg = 0
         line_items = order_to_update.get("line_items", [])
-        product_master = data.get("product_master", [])
+        product_master = data.get("product_master", {}).values()
         for item in line_items:
             product = next(
-                (p for p in product_master if p.get("sku") == item["sku"]), None
+                (p for p in product_master.values() if p.get("sku") == item["sku"]), None
             )
             if product:
                 total_weight_kg += product.get("weight_kg", 0) * item["quantity"]
@@ -311,7 +310,7 @@ class ShipOutboundOrder(Tool):
         carrier_name = next(
             (
                 c.get("carrier_name")
-                for c in data.get("carriers", [])
+                for c in data.get("carriers", {}).values()
                 if c.get("scac") == carrier_scac
             ),
             "Unknown",
@@ -322,7 +321,7 @@ class ShipOutboundOrder(Tool):
         order_to_update["tracking_number"] = f"{carrier_scac}-{order_id_number}"
 
         for item in line_items:
-            for inv_record in data.get("inventory", []):
+            for inv_record in data.get("inventory", {}).values():
                 if (
                     inv_record.get("sku") == item.get("sku")
                     and inv_record.get("warehouse_id") == warehouse_id
@@ -364,11 +363,10 @@ class FindInboundShipment(Tool):
                 payload, indent=2,
             )
             return out
-        shipments = data.get("inbound_shipments", [])
+        shipments = data.get("inbound_shipments", {}).values()
         results = [
             s
-            for s in shipments
-            if s.get("supplier_name") == supplier_name
+            for s in shipments.values() if s.get("supplier_name") == supplier_name
             and s.get("origin_city") == origin_city
             and (not status or s.get("status") == status)
         ]
@@ -412,7 +410,7 @@ class UpdateShipmentStatus(Tool):
         shipment_to_update = next(
             (
                 s
-                for s in data.get("inbound_shipments", [])
+                for s in data.get("inbound_shipments", {}).values()
                 if s.get("shipment_id") == shipment_id
             ),
             None,
@@ -462,7 +460,7 @@ class LogSupplierPerformanceIssue(Tool):
         supplier_to_update = next(
             (
                 s
-                for s in data.get("supplier_master", [])
+                for s in data.get("supplier_master", {}).values()
                 if s.get("supplier_id") == supplier_id
             ),
             None,
@@ -512,7 +510,7 @@ class GetWarehouseDetails(Tool):
         warehouse = next(
             (
                 w
-                for w in data.get("warehouses", [])
+                for w in data.get("warehouses", {}).values()
                 if w.get("warehouse_name") == warehouse_name
             ),
             None,
@@ -555,20 +553,18 @@ class InitiateWarehouseTransfer(Tool):
                 payload, indent=2,
             )
             return out
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
         source_inv = next(
             (
                 i
-                for i in inventory
-                if i.get("sku") == sku and i.get("warehouse_id") == from_warehouse_id
+                for i in inventory.values() if i.get("sku") == sku and i.get("warehouse_id") == from_warehouse_id
             ),
             None,
         )
         dest_inv = next(
             (
                 i
-                for i in inventory
-                if i.get("sku") == sku and i.get("warehouse_id") == to_warehouse_id
+                for i in inventory.values() if i.get("sku") == sku and i.get("warehouse_id") == to_warehouse_id
             ),
             None,
         )
@@ -592,7 +588,7 @@ class InitiateWarehouseTransfer(Tool):
             dest_inv["quantity_inbound"] += quantity
         else:
             product_details = next(
-                (p for p in data.get("product_master", []) if p.get("sku") == sku), {}
+                (p for p in data.get("product_master", {}).values() if p.get("sku") == sku), {}
             )
             new_inv_record = {
                 "inventory_id": f"INV-{random.randint(10000, 99999)}",
@@ -605,7 +601,7 @@ class InitiateWarehouseTransfer(Tool):
                 "quantity_inbound": quantity,
                 "quantity_damaged": 0,
             }
-            inventory.append(new_inv_record)
+            data["inventory"][inventory_id] = new_inv_record
         payload = {
                 "status": "success",
                 "transfer_id": f"T-{from_warehouse_id}-{to_warehouse_id}-{random.randint(1000, 9999)}",
@@ -654,7 +650,7 @@ class UpdateWarehouseNotes(Tool):
         warehouse = next(
             (
                 w
-                for w in data.get("warehouses", [])
+                for w in data.get("warehouses", {}).values()
                 if w.get("warehouse_id") == warehouse_id
             ),
             None,
@@ -703,11 +699,10 @@ class FindOrdersByCarrier(Tool):
                 payload, indent=2
             )
             return out
-        orders = data.get("outbound_orders", [])
+        orders = data.get("outbound_orders", {}).values()
         results = [
             o
-            for o in orders
-            if o.get("carrier_name") == carrier_name
+            for o in orders.values() if o.get("carrier_name") == carrier_name
             and (not status or o.get("status") == status)
         ]
         payload = results
@@ -746,7 +741,7 @@ class ReassignOrderCarrier(Tool):
         order = next(
             (
                 o
-                for o in data.get("outbound_orders", [])
+                for o in data.get("outbound_orders", {}).values()
                 if o.get("order_id") == order_id
             ),
             None,
@@ -756,7 +751,7 @@ class ReassignOrderCarrier(Tool):
             out = json.dumps(payload, indent=2)
             return out
         new_carrier = next(
-            (c for c in data.get("carriers", []) if c.get("scac") == new_carrier_scac),
+            (c for c in data.get("carriers", {}).values() if c.get("scac") == new_carrier_scac),
             None,
         )
         if not new_carrier:
@@ -863,7 +858,7 @@ class UpdateCarrierStatus(Tool):
         carrier_to_update = next(
             (
                 c
-                for c in data.get("carriers", [])
+                for c in data.get("carriers", {}).values()
                 if c.get("carrier_name") == carrier_name
             ),
             None,
@@ -921,7 +916,7 @@ class GetOutboundOrderDetails(Tool):
         order = next(
             (
                 o
-                for o in data.get("outbound_orders", [])
+                for o in data.get("outbound_orders", {}).values()
                 if o.get("order_id") == order_id
             ),
             None,
@@ -961,7 +956,7 @@ class GetInventoryDetails(Tool):
         inventory_record = next(
             (
                 i
-                for i in data.get("inventory", [])
+                for i in data.get("inventory", {}).values()
                 if i.get("sku") == sku and i.get("warehouse_id") == warehouse_id
             ),
             None,
@@ -1008,7 +1003,7 @@ class GetCarrierDetails(Tool):
         carrier = next(
             (
                 c
-                for c in data.get("carriers", [])
+                for c in data.get("carriers", {}).values()
                 if carrier_name.lower() in c.get("carrier_name", "").lower()
             ),
             None,
@@ -1053,7 +1048,7 @@ class UpdateInventoryDamageStatus(Tool):
         inventory_record = next(
             (
                 i
-                for i in data.get("inventory", [])
+                for i in data.get("inventory", {}).values()
                 if i.get("inventory_id") == inventory_id
             ),
             None,
@@ -1131,7 +1126,7 @@ class CreatePurchaseOrder(Tool):
         supplier = next(
             (
                 s
-                for s in data.get("supplier_master", [])
+                for s in data.get("supplier_master", {}).values()
                 if s.get("supplier_id") == supplier_id
             ),
             None,
@@ -1143,15 +1138,14 @@ class CreatePurchaseOrder(Tool):
             )
             return out
 
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
 
         current_year_str = str(get_current_year())
 
         #Select POs exclusively for the current year
         pos_this_year = [
             s
-            for s in inbound_shipments
-            if s.get("purchase_order_number", "").startswith(f"PO-{current_year_str}")
+            for s in inbound_shipments.values() if s.get("purchase_order_number", "").startswith(f"PO-{current_year_str}")
         ]
 
         #Identify the highest sequence number for the current year
@@ -1172,7 +1166,7 @@ class CreatePurchaseOrder(Tool):
         max_ship_id = max(
             (
                 int(s.get("shipment_id", "SHIP-0").split("-")[1])
-                for s in inbound_shipments
+                for s in inbound_shipments.values()
             ),
             default=0,
         )
@@ -1180,7 +1174,7 @@ class CreatePurchaseOrder(Tool):
 
         first_sku = line_items[0]["sku"]
         dest_warehouse = next(
-            (i for i in data.get("inventory", []) if i.get("sku") == first_sku), {}
+            (i for i in data.get("inventory", {}).values() if i.get("sku") == first_sku), {}
         )
 
         new_shipment = {
@@ -1188,14 +1182,14 @@ class CreatePurchaseOrder(Tool):
             "purchase_order_number": new_po_number,
             "supplier_id": supplier_id,
             "supplier_name": supplier.get("supplier_name"),
-            "origin_address": supplier.get("contact_information", {})
-            .get("address", {})
+            "origin_address": supplier.get("contact_information", {}).values()
+            .get("address", {}).values()
             .get("street"),
-            "origin_city": supplier.get("contact_information", {})
-            .get("address", {})
+            "origin_city": supplier.get("contact_information", {}).values()
+            .get("address", {}).values()
             .get("city"),
-            "origin_country": supplier.get("contact_information", {})
-            .get("address", {})
+            "origin_country": supplier.get("contact_information", {}).values()
+            .get("address", {}).values()
             .get("country"),
             "destination_warehouse_id": dest_warehouse.get("warehouse_id"),
             "destination_warehouse_name": dest_warehouse.get("warehouse_name"),
@@ -1203,7 +1197,7 @@ class CreatePurchaseOrder(Tool):
             "priority_level": priority,
         }
 
-        inbound_shipments.append(new_shipment)
+        inbound_data["shipments"][shipment_id] = new_shipment
         payload = {"status": "success", "purchase_order_number": new_po_number}
         out = json.dumps(
             payload, indent=2
@@ -1259,7 +1253,7 @@ class GetPurchaseOrderDetails(Tool):
         shipment = next(
             (
                 s
-                for s in data.get("inbound_shipments", [])
+                for s in data.get("inbound_shipments", {}).values()
                 if s.get("purchase_order_number") == po_number
             ),
             None,
@@ -1310,7 +1304,7 @@ class GetOutboundOrderDetailsBySo(Tool):
         order = next(
             (
                 o
-                for o in data.get("outbound_orders", [])
+                for o in data.get("outbound_orders", {}).values()
                 if o.get("sales_order_number") == sales_order_number
             ),
             None,
@@ -1366,7 +1360,7 @@ class CreateReturnAuthorization(Tool):
         max_rma_num = max(
             (
                 int(r.get("rma_id", "RMA-1000").split("-")[1])
-                for r in data["rma_authorizations"]
+                for r in data["rma_authorizations"].values()
             ),
             default=1000,
         )
@@ -1440,11 +1434,11 @@ class CreateInboundReturnShipment(Tool):
             )
             return out
 
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
         max_ship_id = max(
             (
                 int(s.get("shipment_id", "SHIP-0").split("-")[1])
-                for s in inbound_shipments
+                for s in inbound_shipments.values()
             ),
             default=0,
         )
@@ -1453,7 +1447,7 @@ class CreateInboundReturnShipment(Tool):
         customer = next(
             (
                 o
-                for o in data.get("outbound_orders", [])
+                for o in data.get("outbound_orders", {}).values()
                 if o.get("customer_id") == from_customer_id
             ),
             {},
@@ -1461,7 +1455,7 @@ class CreateInboundReturnShipment(Tool):
         warehouse = next(
             (
                 w
-                for w in data.get("warehouses", [])
+                for w in data.get("warehouses", {}).values()
                 if w.get("warehouse_id") == to_warehouse_id
             ),
             {},
@@ -1480,7 +1474,7 @@ class CreateInboundReturnShipment(Tool):
             "carrier_name": next(
                 (
                     c.get("carrier_name")
-                    for c in data.get("carriers", [])
+                    for c in data.get("carriers", {}).values()
                     if c.get("scac") == carrier_scac
                 ),
                 "Unknown",
@@ -1489,7 +1483,7 @@ class CreateInboundReturnShipment(Tool):
             "status": "Planned",
             "priority_level": "Medium",
         }
-        inbound_shipments.append(new_shipment)
+        inbound_data["shipments"][shipment_id] = new_shipment
         payload = new_shipment
         out = json.dumps(payload, indent=2)
         return out
@@ -1546,7 +1540,7 @@ class UpdateOutboundOrderStatus(Tool):
         order = next(
             (
                 o
-                for o in data.get("outbound_orders", [])
+                for o in data.get("outbound_orders", {}).values()
                 if o.get("order_id") == order_id
             ),
             None,
@@ -1558,7 +1552,7 @@ class UpdateOutboundOrderStatus(Tool):
 
         if new_status == "Cancelled":
             for item in order.get("line_items", []):
-                for inv_record in data.get("inventory", []):
+                for inv_record in data.get("inventory", {}).values():
                     if inv_record.get("sku") == item.get("sku") and inv_record.get(
                         "warehouse_id"
                     ) == order.get("warehouse_id"):
@@ -1627,10 +1621,10 @@ class IssueCustomerCreditMemo(Tool):
         credit_memo_id = f"CM-{order_id_num}"
 
         total_credit_value = 0
-        product_master = data.get("product_master", [])
+        product_master = data.get("product_master", {}).values()
         for item in returned_items:
             product = next(
-                (p for p in product_master if p.get("sku") == item["sku"]), None
+                (p for p in product_master.values() if p.get("sku") == item["sku"]), None
             )
             if product:
                 total_credit_value += product.get("unit_price", 0) * item["quantity"]
@@ -1647,7 +1641,7 @@ class IssueCustomerCreditMemo(Tool):
             "currency": "USD",
             "status": "Issued",
         }
-        data["credit_memos"].append(credit_memo)
+        data["credit_memos"][credit_memo_id] = credit_memo
         payload = credit_memo
         out = json.dumps(payload, indent=2)
         return out
@@ -1701,7 +1695,7 @@ class GetReturnAuthorizationDetails(Tool):
         rma = next(
             (
                 r
-                for r in data.get("rma_authorizations", [])
+                for r in data.get("rma_authorizations", {}).values()
                 if r.get("rma_id") == rma_id
             ),
             None,
@@ -1747,7 +1741,7 @@ class GetCreditMemoDetails(Tool):
         memo = next(
             (
                 m
-                for m in data.get("credit_memos", [])
+                for m in data.get("credit_memos", {}).values()
                 if m.get("credit_memo_id") == credit_memo_id
             ),
             None,

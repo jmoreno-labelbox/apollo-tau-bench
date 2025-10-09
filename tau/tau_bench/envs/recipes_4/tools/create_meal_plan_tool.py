@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateMealPlanTool(Tool):
@@ -84,12 +84,12 @@ class CreateMealPlanTool(Tool):
 
         #2. Pre-condition Checks
         if not any(
-            h.get("household_id") == household_id for h in data.get("households", [])
+            h.get("household_id") == household_id for h in data.get("households", {}).values()
         ):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Household", "entity_id": household_id}
             )
-        if not any(u.get("user_id") == user_id for u in data.get("users", [])):
+        if not any(u.get("user_id") == user_id for u in data.get("users", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "User", "entity_id": user_id}
             )
@@ -97,7 +97,7 @@ class CreateMealPlanTool(Tool):
         #Business Rule: Prevent duplicate plans for the same week
         existing_plan = any(
             p
-            for p in data.get("meal_plans", [])
+            for p in data.get("meal_plans", {}).values()
             if p.get("household_id") == household_id
             and p.get("week_start_date") == week_start_date
         )
@@ -115,7 +115,7 @@ class CreateMealPlanTool(Tool):
 
         #Generate a new unique ID
         max_id = max(
-            (p.get("meal_plan_id", 0) for p in meal_plans_table),
+            (p.get("meal_plan_id", 0) for p in meal_plans_table.values()),
             default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["meal_plans"],
         )
         new_plan_id = max_id + 1
@@ -130,7 +130,7 @@ class CreateMealPlanTool(Tool):
             "created_at": timestamp,
         }
 
-        meal_plans_table.append(new_plan_record)
+        data["meal_plans"][new_plan_record["meal_plan_id"]] = new_plan_record
 
         #4. Auditing
         _log_audit_event(

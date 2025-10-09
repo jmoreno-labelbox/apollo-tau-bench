@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateProjectBudget(Tool):
@@ -30,12 +30,12 @@ class CreateProjectBudget(Tool):
             out = json.dumps(payload)
             return out
 
-        budgets = data.get("budgets", [])
-        projects = data.get("projects", [])
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
+        budgets = data.get("budgets", {}).values()
+        projects = data.get("projects", {}).values()
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
@@ -50,8 +50,7 @@ class CreateProjectBudget(Tool):
 
         project_allocations = [
             a
-            for a in allocations
-            if a.get("project_id") == project_id and a.get("status") == "active"
+            for a in allocations.values() if a.get("project_id") == project_id and a.get("status") == "active"
         ]
 
         total_personnel_cost = 0
@@ -59,8 +58,7 @@ class CreateProjectBudget(Tool):
             employee = next(
                 (
                     e
-                    for e in employees
-                    if e.get("employee_id") == allocation.get("employee_id")
+                    for e in employees.values() if e.get("employee_id") == allocation.get("employee_id")
                 ),
                 None,
             )
@@ -102,7 +100,7 @@ class CreateProjectBudget(Tool):
             "department": project.get("department"),
         }
 
-        budgets.append(new_budget)
+        data["budgets"][budget_id] = new_budget
         payload = {"success": True, "budget": new_budget}
         out = json.dumps(payload)
         return out

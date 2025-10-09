@@ -17,7 +17,7 @@ class UpdateInventory(Tool):
             return out
 
         suppliers = data["suppliers"]
-        supplier = next((s for s in suppliers if s["supplier_id"] == supplier_id), None)
+        supplier = next((s for s in suppliers.values() if s["supplier_id"] == supplier_id), None)
 
         if not supplier:
             payload = {"error": "Supplier not found"}

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListRecipesByFilters(Tool):
@@ -27,7 +27,7 @@ class ListRecipesByFilters(Tool):
         except Exception:
             return _json_dump({"error": "invalid filter_token"})
         out = []
-        for r in data.get("recipes", []):
+        for r in data.get("recipes", {}).values():
             if str(r.get("meal_type")) != meal_type:
                 continue
             if int(r.get("protein_g_per_serving", 0)) < min_protein:

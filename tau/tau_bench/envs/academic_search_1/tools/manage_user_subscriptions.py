@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ManageUserSubscriptions(Tool):
@@ -24,12 +24,12 @@ class ManageUserSubscriptions(Tool):
             out = json.dumps(payload)
             return out
 
-        subscriptions = data.get("subscriptions", [])
+        subscriptions = data.get("subscriptions", {}).values()
 
         if action.lower() == "add":
             already_subscribed = any(
                 sub.get("person_id") == user_id and sub.get("subject") == topic
-                for sub in subscriptions
+                for sub in subscriptions.values()
             )
             if already_subscribed:
                 payload = {
@@ -45,7 +45,7 @@ class ManageUserSubscriptions(Tool):
                 "person_id": user_id,
                 "subject": topic,
             }
-            subscriptions.append(new_subscription)
+            data["subscriptions"][new_subscription["subscription_id"]] = new_subscription
             payload = {"success": True, "subscription": new_subscription}
             out = json.dumps(payload)
             return out
@@ -55,8 +55,7 @@ class ManageUserSubscriptions(Tool):
             # Generate a new list that omits the subscription intended for removal.
             data["subscriptions"] = [
                 sub
-                for sub in subscriptions
-                if not (sub.get("person_id") == user_id and sub.get("subject") == topic)
+                for sub in subscriptions.values() if not (sub.get("person_id") == user_id and sub.get("subject") == topic)
             ]
 
             if len(data["subscriptions"]) < initial_count:

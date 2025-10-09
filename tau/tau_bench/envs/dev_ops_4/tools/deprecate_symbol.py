@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DeprecateSymbol(Tool):
@@ -32,8 +32,8 @@ class DeprecateSymbol(Tool):
     @staticmethod
     def invoke(data, symbol_id=None):
         pass
-        symbols = data.get("symbols", [])
-        sym = next((s for s in symbols if s.get("id") == symbol_id), None)
+        symbols = data.get("symbols", {}).values()
+        sym = next((s for s in symbols.values() if s.get("id") == symbol_id), None)
         if not sym:
             payload = {"error": "symbol_not_found", "symbol_id": symbol_id}
             out = json.dumps(payload)

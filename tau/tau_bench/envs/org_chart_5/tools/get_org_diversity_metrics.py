@@ -8,24 +8,24 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class get_org_diversity_metrics(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], department_id: str = None, level: str = None) -> str:
-        employees_to_scan = data.get("employees", [])
+        employees_to_scan = data.get("employees", {}).values()
         if department_id:
             employees_to_scan = [
-                e for e in employees_to_scan if e.get("department_id") == department_id
+                e for e in employees_to_scan.values() if e.get("department_id") == department_id
             ]
         if level:
             employees_to_scan = [
-                e for e in employees_to_scan if e.get("level_id") == level
+                e for e in employees_to_scan.values() if e.get("level_id") == level
             ]
 
-        gender_counts = Counter(e.get("gender") for e in employees_to_scan)
-        ethnicity_counts = Counter(e.get("ethnicity_code") for e in employees_to_scan)
+        gender_counts = Counter(e.get("gender") for e in employees_to_scan.values()
+        ethnicity_counts = Counter(e.get("ethnicity_code") for e in employees_to_scan.values()
 
         metrics = {
             "filter_department": department_id,

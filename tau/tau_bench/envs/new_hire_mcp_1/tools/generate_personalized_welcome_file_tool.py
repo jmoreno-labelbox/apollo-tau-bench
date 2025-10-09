@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GeneratePersonalizedWelcomeFileTool(Tool):
@@ -27,7 +27,7 @@ class GeneratePersonalizedWelcomeFileTool(Tool):
             return _err("candidate_id or candidate_ids is required.")
 
         candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", [])
+            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
         }
         onboarding_files = data.setdefault("onboarding_files", [])
         created_files = []

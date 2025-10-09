@@ -9,15 +9,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateOptimizationMetrics(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], projects: list = [], metric_type: str = "efficiency_gain") -> str:
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
-        projects_data = data.get("projects", [])
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
+        projects_data = data.get("projects", {}).values()
 
         total_allocated_hours = 0
         total_required_hours = 0
@@ -28,8 +28,7 @@ class CalculateOptimizationMetrics(Tool):
 
         project_allocations = [
             alloc
-            for alloc in allocations
-            if alloc.get("project_id") in projects and alloc.get("status") == "active"
+            for alloc in allocations.values() if alloc.get("project_id") in projects and alloc.get("status") == "active"
         ]
 
         for alloc in project_allocations:
@@ -40,7 +39,7 @@ class CalculateOptimizationMetrics(Tool):
 
         for proj_id in projects:
             project = next(
-                (p for p in projects_data if p.get("project_id") == proj_id), None
+                (p for p in projects_data.values() if p.get("project_id") == proj_id), None
             )
             if project:
                 total_required_hours += project.get("required_hours_per_week", 0)
@@ -63,13 +62,12 @@ class CalculateOptimizationMetrics(Tool):
         for alloc in project_allocations:
             emp_id = alloc.get("employee_id")
             employee = next(
-                (e for e in employees if e.get("employee_id") == emp_id), None
+                (e for e in employees.values() if e.get("employee_id") == emp_id), None
             )
             project = next(
                 (
                     p
-                    for p in projects_data
-                    if p.get("project_id") == alloc.get("project_id")
+                    for p in projects_data.values() if p.get("project_id") == alloc.get("project_id")
                 ),
                 None,
             )

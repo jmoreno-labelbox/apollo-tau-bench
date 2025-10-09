@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateNewGoal(Tool):
@@ -63,7 +63,7 @@ class CreateNewGoal(Tool):
             )
             return out
 
-        goals: list[dict[str, Any]] = data.get("player_dev_goals", [])
+        goals: list[dict[str, Any]] = data.get("player_dev_goals", {}).values()
 
         new_goal = {
             "goal_id": get_next_player_goal_id(data),

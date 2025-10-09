@@ -11,7 +11,7 @@ class AssignFulfillmentToOrder(Tool):
             out = json.dumps(payload)
             return out
 
-        order = next((o for o in data["orders"] if o["order_id"] == order_id), None)
+        order = next((o for o in data["orders"].values() if o["order_id"] == order_id), None)
         if not order:
             payload = {"error": "Order not found"}
             out = json.dumps(payload)
@@ -39,10 +39,10 @@ class AssignFulfillmentToOrder(Tool):
             "order_id": order_id,
             "tracking_history": {"received": get_current_timestamp()},
         }
-        data["tracking"].append(new_tracking_record)
+        data["tracking"][tracking_id] = new_tracking_record
 
         courier = next(
-            (c for c in data["couriers"] if c["courier_id"] == courier_id), None
+            (c for c in data["couriers"].values() if c["courier_id"] == courier_id), None
         )
         if courier:
             courier["tracking_ids"].append(tracking_id)

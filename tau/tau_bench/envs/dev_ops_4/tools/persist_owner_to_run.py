@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class PersistOwnerToRun(Tool):
@@ -48,8 +48,8 @@ class PersistOwnerToRun(Tool):
             "ownership_type": ownership_type,
             "confidence_score": confidence_score,
         }
-        runs = data.get("build_runs", [])
-        run = next((r for r in runs if r.get("id") == run_id), None)
+        runs = data.get("build_runs", {}).values()
+        run = next((r for r in runs.values() if r.get("id") == run_id), None)
         if not run:
             payload = {"error": "run_not_found", "run_id": run_id}
             out = json.dumps(payload)

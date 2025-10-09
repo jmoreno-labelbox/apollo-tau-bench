@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateDepartmentFinancialReport(Tool):
@@ -25,15 +25,15 @@ class GenerateDepartmentFinancialReport(Tool):
             out = json.dumps(payload)
             return out
 
-        departments = data.get("departments", [])
-        projects = data.get("projects", [])
-        budgets = data.get("budgets", [])
-        employees = data.get("employees", [])
-        allocations = data.get("allocations", [])
-        data.get("expenses", [])
+        departments = data.get("departments", {}).values()
+        projects = data.get("projects", {}).values()
+        budgets = data.get("budgets", {}).values()
+        employees = data.get("employees", {}).values()
+        allocations = data.get("allocations", {}).values()
+        data.get("expenses", {}).values()
 
         department = next(
-            (d for d in departments if d.get("department_name") == department_name),
+            (d for d in departments.values() if d.get("department_name") == department_name),
             None,
         )
         if not department:
@@ -41,7 +41,7 @@ class GenerateDepartmentFinancialReport(Tool):
             out = json.dumps(payload)
             return out
 
-        dept_projects = [p for p in projects if p.get("department") == department_name]
+        dept_projects = [p for p in projects.values() if p.get("department") == department_name]
 
         total_budget = 0
         total_spent = 0
@@ -52,8 +52,7 @@ class GenerateDepartmentFinancialReport(Tool):
             project_budget = next(
                 (
                     b
-                    for b in budgets
-                    if b.get("project_id") == project["project_id"]
+                    for b in budgets.values() if b.get("project_id") == project["project_id"]
                     and b.get("fiscal_year") == fiscal_year
                 ),
                 None,
@@ -84,19 +83,18 @@ class GenerateDepartmentFinancialReport(Tool):
         employee_costs = {}
         if include_employee_costs:
             dept_employees = [
-                e for e in employees if e.get("department") == department_name
+                e for e in employees.values() if e.get("department") == department_name
             ]
 
             for employee in dept_employees:
 
                 emp_allocations = [
                     a
-                    for a in allocations
-                    if a.get("employee_id") == employee["employee_id"]
+                    for a in allocations.values() if a.get("employee_id") == employee["employee_id"]
                     and a.get("status") == "active"
                 ]
 
-                total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations)
+                total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values()
                 hourly_rate = (
                     150 if "senior" in employee.get("role", "").lower() else 100
                 )
@@ -141,10 +139,10 @@ class GenerateDepartmentFinancialReport(Tool):
                 "allocated_hours": department.get("allocated_hours", 0),
             },
             "high_priority_projects": len(
-                [p for p in dept_projects if p.get("priority") == "critical"]
+                [p for p in dept_projects.values() if p.get("priority") == "critical"]
             ),
             "projects_over_budget": len(
-                [p for p in project_summaries if p["utilization"] > 90]
+                [p for p in project_summaries.values() if p["utilization"] > 90]
             ),
             "report_generated": datetime.now().isoformat(),
         }

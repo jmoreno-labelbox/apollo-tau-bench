@@ -20,7 +20,7 @@ class ScheduleDelivery(Tool):
                 payload, indent=2
             )
             return out
-        hist = tr.setdefault("tracking_history", {})
+        hist = tr.setdefault("tracking_history", {}).values()
         hist["scheduled"] = scheduled
         payload = {"success": True, "tracking_id": tracking_id, "scheduled": scheduled}
         out = json.dumps(

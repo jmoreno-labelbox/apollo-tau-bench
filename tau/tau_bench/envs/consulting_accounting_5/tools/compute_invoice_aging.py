@@ -12,7 +12,7 @@ class ComputeInvoiceAging(Tool):
         """
         as_of_date = datetime.strptime(as_of_date, "%Y-%m-%d")
 
-        invoice = next((inv for inv in data["invoices"] if inv["invoice_id"] == invoice_id), None)
+        invoice = next((inv for inv in data["invoices"].values() if inv["invoice_id"] == invoice_id), None)
         if not invoice:
             return json.dumps({"error": "invoice not found"})
 

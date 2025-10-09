@@ -8,13 +8,13 @@ from typing import Any, Dict, List
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetBeneficiaryDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], beneficiary_id: str = None) -> str:
-        beneficiary = next((b for b in data.get('beneficiaries', []) if b.get('beneficiary_id') == beneficiary_id), None)
+        beneficiary = next((b for b in data.get('beneficiaries', {}).values() if b.get('beneficiary_id') == beneficiary_id), None)
 
         if beneficiary:
             return json.dumps(beneficiary)

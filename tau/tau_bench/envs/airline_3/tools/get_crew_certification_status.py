@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCrewCertificationStatus(Tool):
@@ -28,8 +28,8 @@ class GetCrewCertificationStatus(Tool):
         from datetime import datetime, timedelta
         import json
 
-        crew_certifications = data.get("crew_certifications", [])
-        crew_members = data.get("crew_members", [])
+        crew_certifications = data.get("crew_certifications", {}).values()
+        crew_members = data.get("crew_members", {}).values()
         filtered_certifications = []
 
         # Establish a default expiry threshold if none is given
@@ -42,24 +42,24 @@ class GetCrewCertificationStatus(Tool):
         today = datetime.now().date()
         threshold_date = today + timedelta(days=expiry_threshold_days)
 
-        for cert in crew_certifications:
+        for cert in crew_certifications.values():
             # Implement filters
             if (
                 target_crew_id
-                and cert.get("crew_member", {}).get("crew_member_id") != target_crew_id
+                and cert.get("crew_member", {}).values().get("crew_member_id") != target_crew_id
             ):
                 continue
             if (
                 certification_type
-                and cert.get("certification", {}).get("certification_code")
+                and cert.get("certification", {}).values().get("certification_code")
                 != certification_type
             ):
                 continue
 
             # Retrieve details about the crew member
-            crew_member_id = cert.get("crew_member", {}).get("crew_member_id")
+            crew_member_id = cert.get("crew_member", {}).values().get("crew_member_id")
             crew_details = None
-            for crew in crew_members:
+            for crew in crew_members.values():
                 if crew.get("crew_member_id") == crew_member_id:
                     crew_details = crew
                     break
@@ -88,9 +88,9 @@ class GetCrewCertificationStatus(Tool):
             cert_info = {
                 "certification_id": cert.get("crew_certification_id"),
                 "crew_id": crew_member_id,
-                "crew_name": cert.get("crew_member", {}).get("full_name"),
+                "crew_name": cert.get("crew_member", {}).values().get("full_name"),
                 "crew_role": crew_details.get("role") if crew_details else None,
-                "certification_type": cert.get("certification", {}).get(
+                "certification_type": cert.get("certification", {}).values().get(
                     "certification_code"
                 ),
                 "issue_date": cert.get("issue_date"),
@@ -99,7 +99,7 @@ class GetCrewCertificationStatus(Tool):
                 "days_until_expiry": days_until_expiry,
             }
 
-            filtered_certifications.append(cert_info)
+            filtered_data["certifications"][certification_id] = cert_info
 
         # Arrange by status priority and expiry date
         status_priority = {

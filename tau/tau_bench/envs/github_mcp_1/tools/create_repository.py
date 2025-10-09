@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateRepository(Tool):
@@ -40,7 +40,7 @@ class CreateRepository(Tool):
             )
             return out
 
-        repos = data.get("repositories", [])
+        repos = data.get("repositories", {}).values()
 
         # Normalize description to the nullable field name used in the DB
         description_nullable = description if description is not None else None
@@ -48,7 +48,7 @@ class CreateRepository(Tool):
         # Collision handling: if (owner, repo_name) exists, try single '_v2' suffix
         def _exists(o: str, n: str) -> bool:
             pass
-            return any(r.get("owner") == o and r.get("repo_name") == n for r in repos)
+            return any(r.get("owner") == o and r.get("repo_name") == n for r in repos.values()
 
         if _exists(owner, repo_name):
             candidate = f"{repo_name}_v2"
@@ -108,7 +108,7 @@ class CreateRepository(Tool):
         }
 
         # Insert deterministically at the end
-        repos.append(new_repo)
+        data["repositories"][new_repo["repositorie_id"]] = new_repo
 
         add_terminal_message(
             data, f"Repository '{owner}/{repo_name}' created.", get_current_timestamp()

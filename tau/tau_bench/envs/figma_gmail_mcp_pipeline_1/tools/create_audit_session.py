@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateAuditSession(Tool):  #WRITE
@@ -22,7 +22,7 @@ class CreateAuditSession(Tool):  #WRITE
         if audit_type not in allowed_audit_types:
             raise ValueError(f"audit_type must be one of: {allowed_audit_types}")
 
-        audits = data.get("audits", [])
+        audits = data.get("audits", {}).values()
 
         #Create a new audit_id by incrementing from current audits
         next_num = len(audits) + 1
@@ -41,7 +41,7 @@ class CreateAuditSession(Tool):  #WRITE
             "report_asset_id_nullable": None,
         }
 
-        audits.append(new_audit)
+        data["audits"][audit_id] = new_audit
         payload = {"new_audit": new_audit}
         out = json.dumps(payload)
         return out

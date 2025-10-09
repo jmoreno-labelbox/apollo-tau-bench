@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateTaskPriority(Tool):
@@ -25,11 +25,11 @@ class UpdateTaskPriority(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        task_history = data.get("task_history", [])
-        employees = data.get("employees", [])
+        tasks = data.get("tasks", {}).values()
+        task_history = data.get("task_history", {}).values()
+        employees = data.get("employees", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task '{task_id}' not found"}
             out = json.dumps(payload)
@@ -41,8 +41,7 @@ class UpdateTaskPriority(Tool):
             assignee = next(
                 (
                     emp
-                    for emp in employees
-                    if emp.get("employee_id") == task.get("assignee_id")
+                    for emp in employees.values() if emp.get("employee_id") == task.get("assignee_id")
                 ),
                 None,
             )
@@ -54,8 +53,7 @@ class UpdateTaskPriority(Tool):
                 if not is_senior:
                     senior_members = [
                         emp
-                        for emp in employees
-                        if any(
+                        for emp in employees.values() if any(
                             skill.get("proficiency", 0) >= 4
                             for skill in emp.get("skills", [])
                         )
@@ -81,7 +79,7 @@ class UpdateTaskPriority(Tool):
             "to_priority": new_priority,
             "timestamp": datetime.now().isoformat(),
         }
-        task_history.append(history_entry)
+        data["task_history"][history_entry["task_history_id"]] = history_entry
 
         task["priority"] = new_priority
         task["updated_date"] = datetime.now().isoformat()

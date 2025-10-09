@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateEtlRunRecord(Tool):
@@ -53,8 +53,8 @@ class CreateEtlRunRecord(Tool):
             out = json.dumps(payload)
             return out
 
-        etl_runs = data.get("etl_runs", [])
-        for rec in etl_runs:
+        etl_runs = data.get("etl_runs", {}).values()
+        for rec in etl_runs.values():
             if rec.get("run_id") == run_id:
                 payload = rec
                 out = json.dumps(payload)
@@ -68,7 +68,7 @@ class CreateEtlRunRecord(Tool):
             "finished_ts_nullable": finished_ts_nullable,
             "messages": messages,
         }
-        etl_runs.append(new_rec)
+        data["etl_runs"][new_rec["etl_run_id"]] = new_rec
         data["etl_runs"] = etl_runs
         payload = new_rec
         out = json.dumps(payload)

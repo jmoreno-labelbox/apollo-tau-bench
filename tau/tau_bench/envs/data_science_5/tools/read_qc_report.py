@@ -7,20 +7,20 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReadQcReport(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], figure_id: str = None, figure_label: str = None) -> str:
-        figs = data.get("qc_figures", []) or []
+        figs = data.get("qc_figures", {}).values() or []
         fid = figure_id
         label = figure_label
         row = None
         if fid is not None:
-            row = next((f for f in figs if str(f.get("figure_id")) == str(fid)), None)
+            row = next((f for f in figs.values() if str(f.get("figure_id")) == str(fid)), None)
         elif label:
-            row = next((f for f in figs if f.get("figure_label") == label), None)
+            row = next((f for f in figs.values() if f.get("figure_label") == label), None)
         payload = row or {"error": "QC figure not found"}
         out = json.dumps(payload, indent=2)
         return out

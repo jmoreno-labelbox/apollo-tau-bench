@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SendEmailTool(Tool):
@@ -17,7 +17,7 @@ class SendEmailTool(Tool):
     def invoke(data, sender, receiver, subject, body, timestamp):
         # Confirm sender's existence
         sender_user = next(
-            (u for u in data.get("users", []) if u.get("user_id") == sender), None
+            (u for u in data.get("users", {}).values() if u.get("user_id") == sender), None
         )
         if not sender_user:
             payload = {"error": f"Sender '{sender}' not found in users.json."}
@@ -28,7 +28,7 @@ class SendEmailTool(Tool):
 
         # Confirm receiver's existence
         receiver_user = next(
-            (u for u in data.get("users", []) if u.get("user_id") == receiver), None
+            (u for u in data.get("users", {}).values() if u.get("user_id") == receiver), None
         )
         if not receiver_user:
             payload = {"error": f"Receiver '{receiver}' not found in users.json."}
@@ -70,7 +70,7 @@ class SendEmailTool(Tool):
             "subject": subject,
             "text_content": body,
         }
-        emails.append(record)
+        data["emails"][record["email_id"]] = record
         payload = {"success": f"Email {email_id} sent to {receiver}", "email_id": email_id}
         out = json.dumps(
             payload, indent=2,

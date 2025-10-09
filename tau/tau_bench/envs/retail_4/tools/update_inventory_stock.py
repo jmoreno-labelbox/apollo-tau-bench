@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateInventoryStock(Tool):
@@ -114,12 +114,12 @@ class UpdateInventoryStock(Tool):
                 payload)
             return out
 
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         supplier_to_update = None
         supplier_index = None
 
         #Find the supplier
-        for i, supplier in enumerate(suppliers):
+        for i, supplier in enumerate(suppliers.values():
             if supplier.get("supplier_id") == supplier_id:
                 supplier_to_update = supplier
                 supplier_index = i
@@ -134,16 +134,16 @@ class UpdateInventoryStock(Tool):
         #Get product availability information if exclude_unavailable is True
         item_availability_map = {}
         if exclude_unavailable:
-            products = data.get("products", [])
-            for product in products:
-                variants = product.get("variants", {})
+            products = data.get("products", {}).values()
+            for product in products.values():
+                variants = product.get("variants", {}).values()
                 for variant_id, variant_info in variants.items():
                     item_availability_map[variant_id] = variant_info.get(
                         "available", False
                     )
 
         #Validate all items exist in supplier's stock and filter by availability if needed
-        item_stock = supplier_to_update.get("item_stock", {})
+        item_stock = supplier_to_update.get("item_stock", {}).values()
         missing_items = []
         unavailable_items = []
         filtered_items = []
@@ -246,8 +246,8 @@ class UpdateInventoryStock(Tool):
         data["suppliers"][supplier_index] = supplier_to_update
 
         #Calculate summary statistics
-        successful_updates = [r for r in update_results if r["status"] == "success"]
-        failed_updates = [r for r in update_results if r["status"] == "error"]
+        successful_updates = [r for r in update_results.values() if r["status"] == "success"]
+        failed_updates = [r for r in update_results.values() if r["status"] == "error"]
 
         result = {
             "status": "success",

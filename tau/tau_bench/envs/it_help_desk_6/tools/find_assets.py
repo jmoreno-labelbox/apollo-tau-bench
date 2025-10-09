@@ -14,7 +14,7 @@ class FindAssets(Tool):
     ) -> str:
         pass
         results = []
-        for a in data["it_assets"]:
+        for a in data["it_assets"].values():
             if asset_type and a["asset_type"] != asset_type:
                 continue
             if status and a["status"] != status:

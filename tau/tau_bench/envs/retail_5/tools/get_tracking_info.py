@@ -15,11 +15,11 @@ class GetTrackingInfo(Tool):
 
         if tracking_id:
             tracking_info = next(
-                (t for t in tracking_data if tracking_id in t["tracking_id"]), None
+                (t for t in tracking_data.values() if tracking_id in t["tracking_id"]), None
             )
         else:
             tracking_info = next(
-                (t for t in tracking_data if t["order_id"] == order_id), None
+                (t for t in tracking_data.values() if t["order_id"] == order_id), None
             )
 
         if not tracking_info:

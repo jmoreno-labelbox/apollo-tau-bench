@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListAuditLogsTool(Tool):
@@ -36,13 +36,13 @@ class ListAuditLogsTool(Tool):
         date_from = date_from
         date_to = date_to
 
-        logs = data.get("audit_logs", [])
+        logs = data.get("audit_logs", {}).values()
         out = []
 
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        for log in logs:
+        for log in logs.values():
             if action_type and not _eq(log.get("action_type"), action_type):
                 continue
             if user_id and not _eq(log.get("actor_id"), user_id):

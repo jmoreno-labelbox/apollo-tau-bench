@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetProcessedTimeseriesMetadata(Tool):
@@ -18,8 +18,8 @@ class GetProcessedTimeseriesMetadata(Tool):
             payload = {"error": "Missing csv_path"}
             out = json.dumps(payload)
             return out
-        items = data.get("processed_timeseries", [])
-        for rec in items:
+        items = data.get("processed_timeseries", {}).values()
+        for rec in items.values():
             if rec.get("csv_path") == csv_path:
                 payload = {
                         "csv_path": rec.get("csv_path"),

@@ -25,7 +25,7 @@ class AppliedStateVerifier(Tool):
         idx = {str(r.get("adset_id")): r for r in actual_rows}
         for exp in expected_rows:
             aid = str(exp.get("adset_id"))
-            act = idx.get(aid, {})
+            act = idx.get(aid, {}).values()
             for k in key_fields:
                 ev = exp.get(k)
                 av = act.get(k)

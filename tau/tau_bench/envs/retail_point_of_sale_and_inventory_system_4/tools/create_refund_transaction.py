@@ -13,7 +13,7 @@ class CreateRefundTransaction(Tool):  #CREATE
         original_transaction_id: str
     ) -> str:
         transactions = data["transactions"]
-        for transaction in transactions:
+        for transaction in transactions.values():
             if transaction["transaction_id"] == original_transaction_id:
                 original_transaction = transaction
                 break
@@ -48,13 +48,13 @@ class CreateRefundTransaction(Tool):  #CREATE
         refund_transaction["line_items"] = [item_info]
 
         # Add entry to transactions table
-        transactions.append(refund_transaction)
+        data["transactions"][transaction_id] = refund_transaction
         payload = refund_transaction
         out = json.dumps(payload)
         return out
         pass
         transactions = data["transactions"]
-        for transaction in transactions:
+        for transaction in transactions.values():
             if transaction["transaction_id"] == original_transaction_id:
                 original_transaction = transaction
                 break
@@ -89,7 +89,7 @@ class CreateRefundTransaction(Tool):  #CREATE
         refund_transaction["line_items"] = [item_info]
 
         #Add entry to transactions table
-        transactions.append(refund_transaction)
+        data["transactions"][transaction_id] = refund_transaction
         payload = refund_transaction
         out = json.dumps(payload)
         return out

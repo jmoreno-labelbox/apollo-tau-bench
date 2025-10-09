@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class QueryLabelUsagePatternsTool(Tool):
@@ -20,13 +20,13 @@ class QueryLabelUsagePatternsTool(Tool):
         pass
         label_category_filter = label_category  # This parameter remains but will not be utilized since the category is absent
 
-        labels_map = {l.get("label_id"): l for l in data.get("email_labels", [])}
-        emails = data.get("emails", [])
+        labels_map = {l.get("label_id"): l for l in data.get("email_labels", {}).values()}
+        emails = data.get("emails", {}).values()
 
         usage_stats = {}
         unlabeled_emails = 0
 
-        for email in emails:
+        for email in emails.values():
             label_ids = email.get("labels_ids", [])
             if not label_ids:
                 unlabeled_emails += 1

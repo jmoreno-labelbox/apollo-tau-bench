@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAllBeneficiariesForCustomerId(Tool):
@@ -21,7 +21,7 @@ class GetAllBeneficiariesForCustomerId(Tool):
             return json.dumps({"error": "customer_id is required."}, indent=2)
 
         all_benes = [
-            bene for bene in data.get("beneficiaries", [])
+            bene for bene in data.get("beneficiaries", {}).values()
             if bene.get("customer_id") == customer_id
         ]
 

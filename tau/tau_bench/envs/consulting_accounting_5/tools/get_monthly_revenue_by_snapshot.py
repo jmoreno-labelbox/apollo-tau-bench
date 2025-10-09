@@ -10,7 +10,7 @@ class GetMonthlyRevenueBySnapshot(Tool):
         """
         Returns row_ids of monthly revenue for a given snapshot_id.
         """
-        records = [mr["row_id"] for mr in data["monthly_revenue"] if mr["snapshot_id"] == snapshot_id]
+        records = [mr["row_id"] for mr in data["monthly_revenue"].values() if mr["snapshot_id"] == snapshot_id]
         return json.dumps(records)
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -11,7 +11,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -24,11 +24,11 @@ class SearchUsers(Tool):
         - If not, it filters users based on 'name' and/or 'research_field'.
         - If no arguments are given, it returns all users.
         """
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
 
         # When a user_id is given, it takes precedence and retrieves a specific user.
         if user_id:
-            for user in users:
+            for user in users.values():
                 if user.get("person_id") == user_id:
                     payload = user
                     out = json.dumps(payload, indent=2)
@@ -45,7 +45,7 @@ class SearchUsers(Tool):
 
         results = [
             user
-            for user in users
+            for user in users.values()
             if (not name or name.lower() in user.get("label", "").lower())
             and (
                 not research_field
@@ -103,24 +103,24 @@ class CreateLogEntry(Tool):
             out = json.dumps(payload)
             return out
         users, articles, logs = (
-            data.get("users", []),
-            data.get("articles", []),
-            data.get("research_logs", []),
+            data.get("users", {}).values()),
+            data.get("articles", {}).values()),
+            data.get("research_logs", {}).values()),
         )
-        if not any(u["person_id"] == user_id for u in users):
+        if not any(u["person_id"] == user_id for u in users.values()):
             payload = {"error": f"User with ID '{user_id}' not found."}
             out = json.dumps(payload)
             return out
 
         if article_id:
-            if not any(a["paper_id"] == article_id for a in articles):
+            if not any(a["paper_id"] == article_id for a in articles.values()):
                 payload = {"error": f"Article with ID '{article_id}' not found."}
                 out = json.dumps(payload)
                 return out
         new_log_id = (
             log_id_override if log_id_override else f"log_{uuid.uuid4().hex[:4]}"
         )
-        if log_id_override and any(log["record_log_id"] == log_id_override for log in logs):
+        if log_id_override and any(log["record_log_id"] == log_id_override for log in logs.values()):
             payload = {
                 "error": f"A log entry with the override ID '{log_id_override}' already exists."
             }
@@ -134,10 +134,10 @@ class CreateLogEntry(Tool):
             "annotations": notes,
             "significance": relevance,
         }
-        logs.append(new_log_entry)
+        data["research_logs"][new_log_id] = new_log_entry
 
         if article_id:
-            for user in users:
+            for user in users.values():
                 if (
                     user["person_id"] == user_id
                     and article_id not in user["recorded_papers"]
@@ -193,7 +193,7 @@ class UpdateLogNotes(Tool):
             payload = {"error": "log_id and new_notes are required."}
             out = json.dumps(payload)
             return out
-        for log in data.get("research_logs", []):
+        for log in data.get("research_logs", {}).values():
             if log["record_log_id"] == log_id:
                 log["annotations"] += f"\n[UPDATE]: {new_notes}"
                 payload = {"success": True, "log_entry": log}
@@ -235,7 +235,7 @@ class GetLogDetails(Tool):
             payload = {"error": "log_id is required."}
             out = json.dumps(payload)
             return out
-        for log in data.get("research_logs", []):
+        for log in data.get("research_logs", {}).values():
             if log["record_log_id"] == log_id:
                 return log.get("annotations", "")
         payload = {"error": f"Log entry with ID '{log_id}' not found."}
@@ -269,7 +269,7 @@ class UpdateArticleDetails(Tool):
             payload = {"error": "article_id and either new_topic or new_status are required."}
             out = json.dumps(payload)
             return out
-        for article in data.get("articles", []):
+        for article in data.get("articles", {}).values():
             if article["paper_id"] == article_id:
                 if new_topic:
                     article["subject"] = new_topic
@@ -318,8 +318,8 @@ class GetSubmissionByArticle(Tool):
             out = json.dumps(payload)
             return out
 
-        submissions = data.get("submissions", [])
-        for submission in submissions:
+        submissions = data.get("submissions", {}).values()
+        for submission in submissions.values():
             if submission.get("paper_id") == article_id:
                 payload = submission
                 out = json.dumps(payload, indent=2)
@@ -356,7 +356,7 @@ class SearchProjects(Tool):
         - Filters based on 'project_name', 'funding_source_id', and/or 'chief_researcher_id'.
         - If no parameters are supplied, it returns all projects.
         """
-        projects = data.get("projects", [])
+        projects = data.get("projects", {}).values()
 
         if not project_name and not funding_source_id and not chief_researcher_id:
             payload = projects
@@ -365,7 +365,7 @@ class SearchProjects(Tool):
 
         results = [
             p
-            for p in projects
+            for p in projects.values()
             if (
                 not project_name
                 or project_name.lower() in p.get("project_name", "").lower()
@@ -415,7 +415,7 @@ class SearchProjects(Tool):
 class SearchFundingSources(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], source_name: Any = None, focus_area: Any = None, status: Any = None, funding_source_id: Any = None) -> str:
-        sources = data.get("funding_sources", [])
+        sources = data.get("funding_sources", {}).values()
 
         if not source_name and not focus_area and not status and not funding_source_id:
             payload = sources
@@ -424,7 +424,7 @@ class SearchFundingSources(Tool):
 
         results = [
             s
-            for s in sources
+            for s in sources.values()
             if (
                 not source_name
                 or source_name.lower() in s.get("source_name", "").lower()
@@ -479,8 +479,8 @@ class GetReviewBySubmission(Tool):
             out = json.dumps(payload)
             return out
 
-        reviews = data.get("reviews", [])
-        for review in reviews:
+        reviews = data.get("reviews", {}).values()
+        for review in reviews.values():
             if review.get("proposal_id") == submission_id:
                 payload = review
                 out = json.dumps(payload, indent=2)
@@ -519,8 +519,8 @@ class GetProjectDetails(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
-        for p in projects:
+        projects = data.get("projects", {}).values()
+        for p in projects.values():
             if p.get("study_id") == project_id:
                 payload = p
                 out = json.dumps(payload, indent=2)
@@ -557,7 +557,7 @@ class AssignReviewerToSubmission(Tool):
             out = json.dumps(payload)
             return out
 
-        for sub in data.get("submissions", []):
+        for sub in data.get("submissions", {}).values():
             if sub["proposal_id"] == submission_id:
                 if reviewer_user_id not in sub["allocated_evaluators"]:
                     sub["allocated_evaluators"].append(reviewer_user_id)
@@ -610,7 +610,7 @@ class CreateProject(Tool):
             else f"proj_{uuid.uuid4().hex[:4]}"
         )
 
-        if any(p["study_id"] == new_id for p in data.get("projects", [])):
+        if any(p["study_id"] == new_id for p in data.get("projects", {}).values():
             payload = {"error": f"Project with ID '{new_id}' already exists."}
             out = json.dumps(payload)
             return out
@@ -625,7 +625,7 @@ class CreateProject(Tool):
             "connected_papers": linked_articles or [],
             "sponsor_id": funding_source_id,
         }
-        data["projects"].append(new_project)
+        data["projects"][project_id] = new_project
         payload = {"success": True, "project": new_project}
         out = json.dumps(payload)
         return out
@@ -676,7 +676,7 @@ class GetCitationDetails(Tool):
             out = json.dumps(payload)
             return out
 
-        for citation in data.get("citations", []):
+        for citation in data.get("citations", {}).values():
             if citation.get("reference_id") == citation_id:
                 payload = citation
                 out = json.dumps(payload, indent=2)
@@ -715,7 +715,7 @@ class UpdateProjectLinks(Tool):
             out = json.dumps(payload)
             return out
 
-        for project in data.get("projects", []):
+        for project in data.get("projects", {}).values():
             if project["study_id"] == project_id:
                 if add_article_id not in project.get("connected_papers", []):
                     project["connected_papers"].append(add_article_id)
@@ -758,7 +758,7 @@ class UpdateSubmissionStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        for sub in data.get("submissions", []):
+        for sub in data.get("submissions", {}).values():
             if sub["proposal_id"] == submission_id:
                 sub["state"] = new_status
                 payload = {"success": True, "submission": sub}
@@ -800,8 +800,8 @@ class GetSubmissionDetails(Tool):
             out = json.dumps(payload)
             return out
 
-        submissions = data.get("submissions", [])
-        for sub in submissions:
+        submissions = data.get("submissions", {}).values()
+        for sub in submissions.values():
             if sub.get("proposal_id") == submission_id:
                 payload = sub
                 out = json.dumps(payload, indent=2)
@@ -838,7 +838,7 @@ class UpdateProjectStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        for project in data.get("projects", []):
+        for project in data.get("projects", {}).values():
             if project["study_id"] == project_id:
                 project["state"] = new_status
                 if new_end_date is not None:
@@ -898,7 +898,7 @@ class CreateCitation(Tool):
             "referenced_paper_id": cited_article_id,
             "reference_context": context,
         }
-        data["citations"].append(new_citation)
+        data["citations"][citation_id] = new_citation
         payload = {"success": True, "citation": new_citation}
         out = json.dumps(payload)
         return out
@@ -945,19 +945,19 @@ class SearchCitations(Tool):
             out = json.dumps(payload)
             return out
 
-        citations = data.get("citations", [])
+        citations = data.get("citations", {}).values()
         results = []
 
         if direction.lower() == "to":
             keyword = context_keyword.lower() if context_keyword else None
             results = [
                 c
-                for c in citations
+                for c in citations.values()
                 if c.get("referenced_paper_id") == article_id
                 and (not keyword or keyword in c.get("citation_context", "").lower())
             ]
         elif direction.lower() == "from":
-            results = [c for c in citations if c.get("source_article_id") == article_id]
+            results = [c for c in citations.values() if c.get("source_article_id") == article_id]
         else:
             payload = {"error": "Invalid direction. Must be 'to' or 'from'."}
             out = json.dumps(payload)
@@ -1011,12 +1011,12 @@ class ManageUserSubscriptions(Tool):
             out = json.dumps(payload)
             return out
 
-        subscriptions = data.get("subscriptions", [])
+        subscriptions = data.get("subscriptions", {}).values()
 
         if action.lower() == "add":
             already_subscribed = any(
                 sub.get("person_id") == user_id and sub.get("subject") == topic
-                for sub in subscriptions
+                for sub in subscriptions.values()
             )
             if already_subscribed:
                 payload = {
@@ -1032,7 +1032,7 @@ class ManageUserSubscriptions(Tool):
                 "person_id": user_id,
                 "subject": topic,
             }
-            subscriptions.append(new_subscription)
+            data["subscriptions"][new_subscription["subscription_id"]] = new_subscription
             payload = {"success": True, "subscription": new_subscription}
             out = json.dumps(payload)
             return out
@@ -1042,8 +1042,7 @@ class ManageUserSubscriptions(Tool):
             # Generate a new list that omits the subscription intended for removal.
             data["subscriptions"] = [
                 sub
-                for sub in subscriptions
-                if not (sub.get("person_id") == user_id and sub.get("subject") == topic)
+                for sub in subscriptions.values() if not (sub.get("person_id") == user_id and sub.get("subject") == topic)
             ]
 
             if len(data["subscriptions"]) < initial_count:
@@ -1109,7 +1108,7 @@ class SendNotification(Tool):
             out = json.dumps(payload)
             return out
 
-        notifications = data.get("notifications", [])
+        notifications = data.get("notifications", {}).values()
         new_notification = {
             "alert_id": f"notif_{uuid.uuid4().hex[:6]}",
             "receiver_person_id": recipient_user_id,
@@ -1118,7 +1117,7 @@ class SendNotification(Tool):
             "time_recorded": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
             "state": "unread",
         }
-        notifications.append(new_notification)
+        data["notifications"][new_notification["notification_id"]] = new_notification
         payload = {"success": True, "notification": new_notification}
         out = json.dumps(payload)
         return out
@@ -1168,10 +1167,10 @@ class SearchArticles(Tool):
         abstract_keyword: Any = None,
         full_text_keyword: Any = None
     ) -> str:
-        articles = data.get("articles", [])
+        articles = data.get("articles", {}).values()
 
         if article_id:
-            for article in articles:
+            for article in articles.values():
                 if article.get("paper_id") == article_id:
                     payload = [article]
                     out = json.dumps(payload, indent=2)
@@ -1189,7 +1188,7 @@ class SearchArticles(Tool):
 
         results = [
             a
-            for a in articles
+            for a in articles.values()
             if (not title or title.lower() in a.get("heading", "").lower())
             and (not topic or topic.lower() in a.get("subject", "").lower())
             and (not year or year == a.get("release_year"))
@@ -1273,8 +1272,8 @@ class SummarizeArticle(Tool):
             out = json.dumps(payload)
             return out
 
-        articles = data.get("articles", [])
-        for article in articles:
+        articles = data.get("articles", {}).values()
+        for article in articles.values():
             if article.get("paper_id") == article_id:
                 full_text = article.get("complete_text")
                 if not full_text:

@@ -11,9 +11,9 @@ class GetTaxRate(Tool):
         Returns tax_rate_id(s). Optionally filter by year.
         """
         if year:
-            ids = [t["tax_rate_id"] for t in data["tax_rates"] if t.get("year") == year]
+            ids = [t["tax_rate_id"] for t in data["tax_rates"].values() if t.get("year") == year]
         else:
-            ids = [t["tax_rate_id"] for t in data["tax_rates"]]
+            ids = [t["tax_rate_id"] for t in data["tax_rates"].values()]
         return json.dumps(ids)
     @staticmethod
     def get_info() -> Dict[str, Any]:

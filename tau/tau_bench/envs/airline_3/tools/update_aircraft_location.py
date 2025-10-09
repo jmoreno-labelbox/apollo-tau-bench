@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateAircraftLocation(Tool):
@@ -18,17 +18,17 @@ class UpdateAircraftLocation(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], aircraft_id: str, new_location: str) -> str:
-        aircraft_list = data.get("aircraft", [])
-        airports = data.get("airports", [])
+        aircraft_list = data.get("aircraft", {}).values()
+        airports = data.get("airports", {}).values()
 
         # Locate the aircraft
         for aircraft in aircraft_list:
             if aircraft.get("aircraft_id") == aircraft_id:
-                old_location = aircraft.get("location", {}).get("iata_code")
+                old_location = aircraft.get("location", {}).values().get("iata_code")
 
                 # Locate the airport using the IATA code
                 airport_found = False
-                for airport in airports:
+                for airport in airports.values():
                     if airport.get("iata_code") == new_location:
                         aircraft["location"] = {
                             "airport_id": airport.get("airport_id"),

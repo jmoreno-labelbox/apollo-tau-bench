@@ -19,7 +19,7 @@ class RecordAccessChecks(Tool):
                 "note_nullable": chk.get("note"),
                 "checked_ts": _fixed_ts(chk.get("checked_ts")),
             }
-            rows.append(payload)
+            data["access_checks"][payload["access_check_id"]] = payload
             ids.append(payload["access_check_id"])
         payload = {"inserted": len(ids), "access_check_ids": ids}
         out = json.dumps(payload, indent=2)

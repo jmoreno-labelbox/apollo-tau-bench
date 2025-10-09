@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchRepositories(Tool):
@@ -16,10 +16,10 @@ class SearchRepositories(Tool):
         """Search repositories by query string (exact-match permitted)."""
         _queryL = query or ''.lower()
         pass
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         matching_repos = []
 
-        for repo in repositories:
+        for repo in repositories.values():
             if query.lower() in repo["repo_name"].lower():
                 matching_repos.append(repo["repo_name"])
         payload = {"repo_names": matching_repos}

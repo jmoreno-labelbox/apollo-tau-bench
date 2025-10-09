@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetFlightCrewAssignments(Tool):
@@ -27,13 +27,13 @@ class GetFlightCrewAssignments(Tool):
                 payload)
             return out
 
-        flight_crew_assignments = data.get("flight_crew_assignments", [])
-        flights = data.get("flights", [])
+        flight_crew_assignments = data.get("flight_crew_assignments", {}).values()
+        flights = data.get("flights", {}).values()
 
         #Confirm flight existence if flight_number is given
         if flight_number:
             flight_exists = False
-            for flight in flights:
+            for flight in flights.values():
                 if flight.get("flight_number") == flight_number:
                     flight_exists = True
                     break
@@ -46,8 +46,8 @@ class GetFlightCrewAssignments(Tool):
 
         #Locate all assignments related to the specified flight
         matching_assignments = []
-        for assignment in flight_crew_assignments:
-            flight_info = assignment.get("flight", {})
+        for assignment in flight_crew_assignments.values():
+            flight_info = assignment.get("flight", {}).values()
 
             #Verify if this assignment meets the criteria
             flight_matches = True
@@ -84,7 +84,7 @@ class GetFlightCrewAssignments(Tool):
 
         #Retrieve flight details for the response
         flight_info = (
-            matching_assignments[0].get("flight", {}) if matching_assignments else {}
+            matching_assignments[0].get("flight", {}).values() if matching_assignments else {}
         )
 
         #Compute a summary of the crew

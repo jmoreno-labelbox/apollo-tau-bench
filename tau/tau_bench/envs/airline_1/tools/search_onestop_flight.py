@@ -9,19 +9,19 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchOnestopFlight(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], origin: str, destination: str, date: str) -> str:
-        flights_data = data.get("flights", [])
+        flights_data = data.get("flights", {}).values()
         results = []
 
         for flight1 in flights_data:
             if flight1.get("origin") == origin:
-                date_info1 = flight1.get("dates", {}).get(date)
+                date_info1 = flight1.get("dates", {}).values().get(date)
                 if date_info1 and date_info1.get("status") == "available":
                     for flight2 in flights_data:
                         if flight2.get("destination") == destination and flight2.get(
@@ -43,7 +43,7 @@ class SearchOnestopFlight(Tool):
 
                                 date2 = date
                                 if arrival_time1 < departure_time2:
-                                    date_info2 = flight2.get("dates", {}).get(date2)
+                                    date_info2 = flight2.get("dates", {}).values().get(date2)
                                     if (
                                         date_info2
                                         and date_info2.get("status") == "available"

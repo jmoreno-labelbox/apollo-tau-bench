@@ -12,14 +12,14 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
 def _get_config_json(data: dict[str, Any], key: str) -> dict[str, Any]:
     """Retrieve a configuration row from system_config and interpret its JSON value."""
-    rows = data.get("system_config", [])
-    for r in rows:
+    rows = data.get("system_config", {}).values()
+    for r in rows.values():
         if r.get("config_key") == key:
             try:
                 return json.loads(r.get("config_value_json") or "{}")
@@ -83,9 +83,9 @@ class ListArtifactsTool(Tool):
         artifact_type: str = None,
         modified_since: str = None
     ) -> str:
-        rows = data.get("figma_artifacts", [])
+        rows = data.get("figma_artifacts", {}).values()
         out: list[dict[str, Any]] = []
-        for r in rows:
+        for r in rows.values():
             if owner_email and r.get("owner_email") != owner_email:
                 continue
             if artifact_type and r.get("artifact_type") != artifact_type:
@@ -147,8 +147,8 @@ class GetArtifactSummaryTool(Tool):
             out = json.dumps(payload)
             return out
 
-        rows = data.get("figma_artifacts", [])
-        for r in rows:
+        rows = data.get("figma_artifacts", {}).values()
+        for r in rows.values():
             if r.get("artifact_id") == artifact_id:
                 payload = _small_fields(
                         r,
@@ -196,9 +196,9 @@ class ListAssetsForArtifactTool(Tool):
             out = json.dumps(payload)
             return out
 
-        assets = data.get("assets", [])
+        assets = data.get("assets", {}).values()
         out = []
-        for a in assets:
+        for a in assets.values():
             if a.get("artifact_id_nullable") == artifact_id:
                 out.append(
                     _small_fields(a, ["asset_id", "profile", "file_name", "mime_type"])
@@ -369,9 +369,9 @@ class ListFigmaCommentsTool(Tool):
             out = json.dumps(payload)
             return out
 
-        rows = data.get("figma_comments", [])
+        rows = data.get("figma_comments", {}).values()
         out = []
-        for r in rows:
+        for r in rows.values():
             if r.get("artifact_id") != artifact_id:
                 continue
             if author_email and r.get("author_email") != author_email:
@@ -495,9 +495,9 @@ class SearchGmailThreadsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], label: str = None, participant: str = None, keyword: str = None) -> str:
-        threads = data.get("gmail_threads", [])
+        threads = data.get("gmail_threads", {}).values()
         out = []
-        for t in threads:
+        for t in threads.values():
             if label and label not in (t.get("current_labels") or []):
                 continue
             if participant:
@@ -545,9 +545,9 @@ class GetThreadMessagesTool(Tool):
             out = json.dumps(payload)
             return out
 
-        msgs = data.get("gmail_messages", [])
+        msgs = data.get("gmail_messages", {}).values()
         out = []
-        for m in msgs:
+        for m in msgs.values():
             if m.get("thread_id") == thread_id:
                 out.append(
                     _small_fields(
@@ -597,7 +597,7 @@ class AppendMessageToThreadTool(Tool):
 
         message_id = _det_id("msg", [thread_id, from_email, created_ts, body[:64]])
         messages = _safe_table(data, "gmail_messages")
-        idx = _index_by(messages, "message_id")
+        idx = _index_by(list(messages.values()), "message_id")
         row = {
             "message_id": message_id,
             "thread_id": thread_id,
@@ -609,10 +609,10 @@ class AppendMessageToThreadTool(Tool):
         if message_id in idx:
             messages[idx[message_id]] = row
         else:
-            messages.append(row)
+            data["gmail_messages"][row["gmail_message_id"]] = row
 
         threads = _safe_table(data, "gmail_threads")
-        t_idx = _index_by(threads, "thread_id")
+        t_idx = _index_by(list(threads.values()), "thread_id")
         if thread_id in t_idx:
             threads[t_idx[thread_id]]["updated_ts"] = created_ts
         payload = {"success": True, "message_id": message_id}
@@ -660,7 +660,7 @@ class UpdateThreadLabelsTool(Tool):
             return out
 
         threads = _safe_table(data, "gmail_threads")
-        idx = _index_by(threads, "thread_id")
+        idx = _index_by(list(threads.values()), "thread_id")
         if thread_id not in idx:
             payload = {"error": f"thread_id {thread_id} not found"}
             out = json.dumps(payload)
@@ -715,9 +715,9 @@ class DlpScanThreadTool(Tool):
 
         dlp = _get_config_json(data, "dlp_config")
         patterns = dlp.get("block_patterns", []) if isinstance(dlp, dict) else []
-        messages = data.get("gmail_messages", [])
+        messages = data.get("gmail_messages", {}).values()
         found: set[str] = set()
-        for m in messages:
+        for m in messages.values():
             if m.get("thread_id") != thread_id:
                 continue
             body = (m.get("body") or "").lower()
@@ -762,7 +762,7 @@ class StartReviewCycleTool(Tool):
 
         cycle_id = _det_id("cycle", [artifact_id, created_ts, status])
         cycles = _safe_table(data, "review_cycles")
-        idx = _index_by(cycles, "cycle_id")
+        idx = _index_by(list(cycles.values()), "cycle_id")
         row = {
             "cycle_id": cycle_id,
             "artifact_id": artifact_id,
@@ -779,7 +779,7 @@ class StartReviewCycleTool(Tool):
             row["thread_id_nullable"] = existing.get("thread_id_nullable")
             cycles[idx[cycle_id]] = row
         else:
-            cycles.append(row)
+            data["review_cycles"][row["review_cycle_id"]] = row
         payload = {"success": True, "cycle_id": cycle_id, "status": status}
         out = json.dumps(
             payload, indent=2
@@ -831,7 +831,7 @@ class AdvanceReviewStatusTool(Tool):
             return out
 
         cycles = _safe_table(data, "review_cycles")
-        idx = _index_by(cycles, "cycle_id")
+        idx = _index_by(list(cycles.values()), "cycle_id")
         if cycle_id not in idx:
             payload = {"error": f"cycle_id {cycle_id} not found"}
             out = json.dumps(payload)
@@ -962,21 +962,21 @@ class SyncGmailIntentsToReviewTool(Tool):
         changes = [s.lower() for s in intents.get("changes", [])]
         blocker = [s.lower() for s in intents.get("blocker", [])]
 
-        msgs = data.get("gmail_messages", [])
+        msgs = data.get("gmail_messages", {}).values()
         counts = {"approve": 0, "changes": 0, "blocker": 0}
-        for m in msgs:
+        for m in msgs.values():
             if m.get("thread_id") != thread_id:
                 continue
             body = (m.get("body") or "").lower()
-            if any(k in body for k in approve):
+            if any(k in body for k in approve.values()):
                 counts["approve"] += 1
-            if any(k in body for k in changes):
+            if any(k in body for k in changes.values()):
                 counts["changes"] += 1
-            if any(k in body for k in blocker):
+            if any(k in body for k in blocker.values()):
                 counts["blocker"] += 1
 
         cycles = _safe_table(data, "review_cycles")
-        idx = _index_by(cycles, "cycle_id")
+        idx = _index_by(list(cycles.values()), "cycle_id")
         if cycle_id in idx:
             c = cycles[idx[cycle_id]]
             c["intent_counts"] = counts
@@ -1018,7 +1018,7 @@ class LinkReviewToThreadTool(Tool):
             return out
 
         cycles = _safe_table(data, "review_cycles")
-        idx = _index_by(cycles, "cycle_id")
+        idx = _index_by(list(cycles.values()), "cycle_id")
         if cycle_id not in idx:
             payload = {"error": f"cycle_id {cycle_id} not found"}
             out = json.dumps(payload)
@@ -1062,14 +1062,14 @@ class FindStaleReviewsTool(Tool):
             out = json.dumps(payload)
             return out
 
-        cycles = data.get("review_cycles", [])
+        cycles = data.get("review_cycles", {}).values()
         sla_hours = _get_config_json(data, "sla_deadlines").get("design_review", 72)
 
         def overdue(c: dict[str, Any]) -> bool:
             return c.get("status") != "APPROVED" and c.get("last_updated", "") < now_iso
 
         out = []
-        for c in cycles:
+        for c in cycles.values():
             if overdue(c):
                 out.append(
                     _small_fields(
@@ -1109,9 +1109,9 @@ class ListReleasesTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], version_prefix: str = "release/", artifact_id: str = None) -> str:
-        releases = data.get("releases", [])
+        releases = data.get("releases", {}).values()
         out = []
-        for r in releases:
+        for r in releases.values():
             if version_prefix and not str(r.get("version_tag", "")).startswith(version_prefix):
                 continue
             if artifact_id and r.get("artifact_id") != artifact_id:
@@ -1164,9 +1164,9 @@ class GetReleaseDiffSummaryTool(Tool):
             out = json.dumps(payload)
             return out
 
-        diffs = data.get("release_diffs", [])
+        diffs = data.get("release_diffs", {}).values()
         adds = updates = removes = 0
-        for d in diffs:
+        for d in diffs.values():
             if d.get("release_id") != release_id:
                 continue
             t = d.get("change_type")
@@ -1232,7 +1232,7 @@ class ComposeReleaseEmailDraftTool(Tool):
             "relmsg", [release_id, thread_id, created_ts, subject[:32]]
         )
         messages = _safe_table(data, "gmail_messages")
-        idx = _index_by(messages, "message_id")
+        idx = _index_by(list(messages.values()), "message_id")
         row = {
             "message_id": message_id,
             "thread_id": thread_id,
@@ -1245,7 +1245,7 @@ class ComposeReleaseEmailDraftTool(Tool):
         if message_id in idx:
             messages[idx[message_id]] = row
         else:
-            messages.append(row)
+            data["gmail_messages"][row["gmail_message_id"]] = row
         payload = {"success": True, "message_id": message_id}
         out = json.dumps(payload, indent=2)
         return out
@@ -1287,9 +1287,9 @@ class ListAuditsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], artifact_id: str = None, status: str = None) -> str:
-        audits = data.get("audits", [])
+        audits = data.get("audits", {}).values()
         out = []
-        for a in audits:
+        for a in audits.values():
             if artifact_id and a.get("artifact_id") != artifact_id:
                 continue
             if status and a.get("status") != status:
@@ -1332,10 +1332,10 @@ class SummarizeAuditTool(Tool):
             out = json.dumps(payload)
             return out
 
-        ds = data.get("audit_findings_ds", [])
-        a11y = data.get("audit_findings_a11y", [])
-        ds_count = sum(1 for r in ds if r.get("audit_id") == audit_id)
-        a11y_count = sum(1 for r in a11y if r.get("audit_id") == audit_id)
+        ds = data.get("audit_findings_ds", {}).values()
+        a11y = data.get("audit_findings_a11y", {}).values()
+        ds_count = sum(1 for r in ds.values() if r.get("audit_id") == audit_id)
+        a11y_count = sum(1 for r in a11y.values() if r.get("audit_id") == audit_id)
         payload = {
                 "audit_id": audit_id,
                 "ds_findings": ds_count,
@@ -1380,7 +1380,7 @@ class CreateAuditSessionTool(Tool):
 
         audit_id = _det_id("audit", [artifact_id, created_ts, audit_type])
         audits = _safe_table(data, "audits")
-        idx = _index_by(audits, "audit_id")
+        idx = _index_by(list(audits.values()), "audit_id")
         row = {
             "audit_id": audit_id,
             "artifact_id": artifact_id,
@@ -1391,7 +1391,7 @@ class CreateAuditSessionTool(Tool):
         if audit_id in idx:
             audits[idx[audit_id]] = row
         else:
-            audits.append(row)
+            data["audits"][audit_id] = row
         payload = {"success": True, "audit_id": audit_id}
         out = json.dumps(payload, indent=2)
         return out
@@ -1428,20 +1428,20 @@ class MapFindingsToFramesSummaryTool(Tool):
 
         ds = [
             r
-            for r in data.get("audit_findings_ds", [])
+            for r in data.get("audit_findings_ds", {}).values()
             if r.get("audit_id") == audit_id
         ]
         a11y = [
             r
-            for r in data.get("audit_findings_a11y", [])
+            for r in data.get("audit_findings_a11y", {}).values()
             if r.get("audit_id") == audit_id
         ]
         counts: dict[str, dict[str, int]] = {}
-        for r in ds:
+        for r in ds.values():
             fid = r.get("frame_id")
             bucket = counts.setdefault(fid, {"ds": 0, "a11y": 0})
             bucket["ds"] += 1
-        for r in a11y:
+        for r in a11y.values():
             fid = r.get("frame_id")
             bucket = counts.setdefault(fid, {"ds": 0, "a11y": 0})
             bucket["a11y"] += 1
@@ -1510,21 +1510,21 @@ class GenerateFixPlanFromAuditTool(Tool):
 
         ds = [
             r
-            for r in data.get("audit_findings_ds", [])
+            for r in data.get("audit_findings_ds", {}).values()
             if r.get("audit_id") == audit_id
         ]
         a11y = [
             r
-            for r in data.get("audit_findings_a11y", [])
+            for r in data.get("audit_findings_a11y", {}).values()
             if r.get("audit_id") == audit_id
         ]
         grouped: dict[str, list[dict[str, Any]]] = {}
-        for r in ds + a11y:
+        for r in ds.values() + a11y:
             fid = r.get("frame_id")
             grouped.setdefault(fid, []).append(r)
 
         items = _safe_table(data, "fix_items")
-        i_idx = _index_by(items, "item_id")
+        i_idx = _index_by(list(items.values()), "item_id")
         created_item_ids: list[str] = []
 
         for frame_id in sorted(grouped.keys()):
@@ -1545,8 +1545,8 @@ class GenerateFixPlanFromAuditTool(Tool):
                 if item_id in i_idx:
                     items[i_idx[item_id]] = row
                 else:
-                    items.append(row)
-                created_item_ids.append(item_id)
+                    data["fix_items"][row["fix_item_id"]] = row
+                created_item_idata["audit_findings_ds"][item_id["audit_findings_d_id"]] = item_id
         payload = {"success": True, "plan_id": plan_id, "created_items": created_item_ids}
         out = json.dumps(
             payload, indent=2,
@@ -1592,7 +1592,7 @@ class UpdateFixItemStatusDeterministicTool(Tool):
             return out
 
         items = _safe_table(data, "fix_items")
-        idx = _index_by(items, "item_id")
+        idx = _index_by(list(items.values()), "item_id")
         if item_id not in idx:
             payload = {"error": f"item_id {item_id} not found"}
             out = json.dumps(payload)
@@ -1647,11 +1647,10 @@ class EnforceChangeBudgetForFrameTool(Tool):
         cfg = _get_config_json(data, "fix_workflow_config")
         budget = int(cfg.get("change_budget_per_frame", 5))
 
-        items = data.get("fix_items", [])
+        items = data.get("fix_items", {}).values()
         count = sum(
             1
-            for r in items
-            if r.get("plan_id") == plan_id and r.get("frame_id") == frame_id
+            for r in items.values() if r.get("plan_id") == plan_id and r.get("frame_id") == frame_id
         )
         payload = {
                 "plan_id": plan_id,
@@ -1697,8 +1696,8 @@ class ReadSystemConfigTool(Tool):
             out = json.dumps(payload)
             return out
 
-        rows = data.get("system_config", [])
-        for r in rows:
+        rows = data.get("system_config", {}).values()
+        for r in rows.values():
             if r.get("config_key") == config_key:
                 payload = {
                     "config_key": r.get("config_key"),
@@ -1829,9 +1828,9 @@ class GuardAttachmentPolicyOnDraftTool(Tool):
             out = json.dumps(payload)
             return out
 
-        messages = data.get("gmail_messages", [])
+        messages = data.get("gmail_messages", {}).values()
         target = None
-        for m in messages:
+        for m in messages.values():
             if m.get("message_id") == message_id:
                 target = m
                 break

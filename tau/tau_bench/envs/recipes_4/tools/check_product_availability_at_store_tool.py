@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckProductAvailabilityAtStoreTool(Tool):
@@ -72,11 +72,11 @@ class CheckProductAvailabilityAtStoreTool(Tool):
             )
 
         #2. Pre-condition Checks
-        if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", [])):
+        if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "GroceryList", "entity_id": list_id}
             )
-        if not any(s.get("store_id") == store_id for s in data.get("stores", [])):
+        if not any(s.get("store_id") == store_id for s in data.get("stores", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Store", "entity_id": store_id}
             )
@@ -84,11 +84,11 @@ class CheckProductAvailabilityAtStoreTool(Tool):
         #3. Core Logic
         list_items = [
             item
-            for item in data.get("grocery_list_items", [])
+            for item in data.get("grocery_list_items", {}).values()
             if item.get("list_id") == list_id
         ]
-        all_store_products = data.get("store_products", [])
-        all_ingredients_meta = data.get("ingredients", [])
+        all_store_products = data.get("store_products", {}).values()
+        all_ingredients_meta = data.get("ingredients", {}).values()
 
         problem_items = []
         for item in list_items:
@@ -97,8 +97,7 @@ class CheckProductAvailabilityAtStoreTool(Tool):
             #Find all products at the store for this ingredient
             candidate_products = [
                 p
-                for p in all_store_products
-                if p.get("store_id") == store_id
+                for p in all_store_products.values() if p.get("store_id") == store_id
                 and p.get("ingredient_id") == ingredient_id
             ]
 
@@ -125,8 +124,7 @@ class CheckProductAvailabilityAtStoreTool(Tool):
                 ingredient_meta = next(
                     (
                         i
-                        for i in all_ingredients_meta
-                        if i["ingredient_id"] == ingredient_id
+                        for i in all_ingredients_meta.values() if i["ingredient_id"] == ingredient_id
                     ),
                     {},
                 )

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSprintFinancialAnalysis(Tool):
@@ -20,19 +20,19 @@ class GetSprintFinancialAnalysis(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
-        tasks = data.get("tasks", [])
-        task_logs = data.get("task_logs", [])
-        employees = data.get("employees", [])
-        expenses = data.get("expenses", [])
+        sprints = data.get("sprints", {}).values()
+        tasks = data.get("tasks", {}).values()
+        task_logs = data.get("task_logs", {}).values()
+        employees = data.get("employees", {}).values()
+        expenses = data.get("expenses", {}).values()
 
-        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
         if not sprint:
             payload = {"error": f"Sprint {sprint_id} not found"}
             out = json.dumps(payload)
             return out
 
-        sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
+        sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
 
         employee_costs = {}
         total_hours = 0
@@ -40,7 +40,7 @@ class GetSprintFinancialAnalysis(Tool):
 
         for task in sprint_tasks:
             task_time_logs = [
-                log for log in task_logs if log.get("task_id") == task["task_id"]
+                log for log in task_logs.values() if log.get("task_id") == task["task_id"]
             ]
 
             for log in task_time_logs:
@@ -49,7 +49,7 @@ class GetSprintFinancialAnalysis(Tool):
 
                 if employee_id not in employee_costs:
                     employee = next(
-                        (e for e in employees if e.get("employee_id") == employee_id),
+                        (e for e in employees.values() if e.get("employee_id") == employee_id),
                         None,
                     )
                     if employee:
@@ -80,9 +80,9 @@ class GetSprintFinancialAnalysis(Tool):
         sprint_end = datetime.fromisoformat(sprint["end_date"].replace("Z", "+00:00"))
 
         sprint_expenses = []
-        for expense in expenses:
+        for expense in expenses.values():
             if expense.get("sprint_id") == sprint_id:
-                sprint_expenses.append(expense)
+                sprint_data["expenses"][expense["expense_id"]] = expense
             elif expense.get("submitted_date"):
 
                 try:
@@ -103,7 +103,7 @@ class GetSprintFinancialAnalysis(Tool):
                         ).replace(tzinfo=timezone.utc)
 
                     if sprint_start <= submitted_date <= sprint_end:
-                        sprint_expenses.append(expense)
+                        sprint_data["expenses"][expense["expense_id"]] = expense
                 except Exception:
 
                     pass

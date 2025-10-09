@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckSkillGapSeverity(Tool):
@@ -22,7 +22,7 @@ class CheckSkillGapSeverity(Tool):
         user_analysis = next(
             (
                 a
-                for a in data.get("skill_gap_analysis", [])
+                for a in data.get("skill_gap_analysis", {}).values()
                 if a.get("user_id") == user_id
             ),
             None,

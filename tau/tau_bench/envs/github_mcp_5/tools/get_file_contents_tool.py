@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetFileContentsTool(Tool):
@@ -31,9 +31,9 @@ class GetFileContentsTool(Tool):
             )
             return out
 
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         repository = next(
-            (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
             None,
         )
 
@@ -47,7 +47,7 @@ class GetFileContentsTool(Tool):
             )
             return out
 
-        if path in repository.get("file_contents", {}):
+        if path in repository.get("file_contents", {}).values():
             payload = {
                     "status": "success",
                     "content": repository["file_contents"][path],

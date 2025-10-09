@@ -9,18 +9,18 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CancelReservation(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], reservation_id: str) -> str:
-        reservations = data.get("reservations", [])
-        users = data.get("users", [])
+        reservations = data.get("reservations", {}).values()
+        users = data.get("users", {}).values()
 
         reservation = next(
-            (r for r in reservations if r.get("reservation_id") == reservation_id), None
+            (r for r in reservations.values() if r.get("reservation_id") == reservation_id), None
         )
 
         if not reservation:
@@ -37,7 +37,7 @@ class CancelReservation(Tool):
             return out
 
         user_id = reservation.get("user_id")
-        user = next((u for u in users if u.get("email", "").startswith(user_id)), None)
+        user = next((u for u in users.values() if u.get("email", "").startswith(user_id)), None)
 
         refund_transactions = []
         for payment in reservation.get("payment_history", []):
@@ -49,7 +49,7 @@ class CancelReservation(Tool):
             )
 
             if user and payment_id:
-                payment_method = user.get("payment_methods", {}).get(payment_id)
+                payment_method = user.get("payment_methods", {}).values().get(payment_id)
                 if payment_method and payment_method.get("source") in [
                     "gift_card",
                     "certificate",

@@ -9,14 +9,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateCampaign(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None, objective: str = None, created_date: str = None) -> str:
-        campaigns = data.get("campaigns", [])
-        nid = max((int(c["campaign_id"]) for c in campaigns), default=0) + 1
+        campaigns = data.get("campaigns", {}).values()
+        nid = max((int(c["campaign_id"]) for c in campaigns.values()), default=0) + 1
         rec = {
             "campaign_id": str(nid),
             "name": name,
@@ -24,7 +24,7 @@ class CreateCampaign(Tool):
             "created_date": created_date,
             "status": "paused",
         }
-        campaigns.append(rec)
+        data["campaigns"][campaign_id] = rec
         data["campaigns"] = campaigns
         payload = rec
         out = json.dumps(payload)

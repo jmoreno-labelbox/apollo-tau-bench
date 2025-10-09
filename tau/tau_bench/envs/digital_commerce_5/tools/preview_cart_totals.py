@@ -23,7 +23,7 @@ class PreviewCartTotals(Tool):
             return _err("Cart not found.")
 
         items = cart_items or []
-        lines = [ci for ci in items if ci.get("cart_id") == cart_id]
+        lines = [ci for ci in items.values() if ci.get("cart_id") == cart_id]
 
         accounts = accounts or []
         account = next(

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RemoveRole(Tool):
@@ -21,10 +21,10 @@ class RemoveRole(Tool):
             out = json.dumps(payload)
             return out
 
-        roles = data.get("roles", [])
+        roles = data.get("roles", {}).values()
         initial_roles_len = len(roles)
         updated_roles = [
-            role for role in roles if role.get("role_id") != role_id_to_remove
+            role for role in roles.values() if role.get("role_id") != role_id_to_remove
         ]
 
         if len(updated_roles) == initial_roles_len:
@@ -34,15 +34,15 @@ class RemoveRole(Tool):
 
         data["roles"] = updated_roles
 
-        role_permissions = data.get("role_permissions", [])
+        role_permissions = data.get("role_permissions", {}).values()
         updated_role_permissions = [
-            rp for rp in role_permissions if rp.get("role_id") != role_id_to_remove
+            rp for rp in role_permissions.values() if rp.get("role_id") != role_id_to_remove
         ]
         data["role_permissions"] = updated_role_permissions
 
-        user_roles = data.get("user_roles", [])
+        user_roles = data.get("user_roles", {}).values()
         updated_user_roles = [
-            ur for ur in user_roles if ur.get("role_id") != role_id_to_remove
+            ur for ur in user_roles.values() if ur.get("role_id") != role_id_to_remove
         ]
         data["user_roles"] = updated_user_roles
         payload = {"role_id": role_id_to_remove, "status": "removed"}

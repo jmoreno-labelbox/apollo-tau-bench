@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListCertificationsByStatusTool(Tool):
@@ -19,7 +19,7 @@ class ListCertificationsByStatusTool(Tool):
     def invoke(data: dict[str, Any], status: str = None, certification_id: str = None) -> str:
         out = [
             c
-            for c in data.get("certifications", [])
+            for c in data.get("certifications", {}).values()
             if (status is None or c.get("status") == status)
             and (
                 certification_id is None

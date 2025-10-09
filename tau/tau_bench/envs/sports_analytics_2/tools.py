@@ -9,13 +9,13 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
 def _load_table(data: dict[str, Any], table: str) -> list[dict[str, Any]]:
     pass
-    return data.get(table, [])
+    return data.get(table, {}).values()
 
 
 class GetNextSeriesInfo(Tool):
@@ -48,16 +48,15 @@ class GetNextSeriesInfo(Tool):
                 payload, indent=2
             )
             return out
-        games = data.get("games", [])
+        games = data.get("games", {}).values()
         candidates = [
             g
-            for g in games
-            if g.get("game_status") == "Scheduled"
+            for g in games.values() if g.get("game_status") == "Scheduled"
             and g.get("game_date") >= current_date
         ]
         if not candidates:
             candidates = sorted(
-                [g for g in games if g.get("game_date") >= current_date],
+                [g for g in games.values() if g.get("game_date") >= current_date],
                 key=lambda x: x.get("game_date"),
             )
         else:
@@ -517,11 +516,10 @@ class GetSeriesSchedule(Tool):
         pass
         opponent_team_id = kwargs.get("opponent_team_id")
         date_filter = kwargs.get("date")
-        games = data.get("games", [])
+        games = data.get("games", {}).values()
         schedule = [
             g
-            for g in games
-            if g.get("home_team_id") == opponent_team_id
+            for g in games.values() if g.get("home_team_id") == opponent_team_id
             or g.get("away_team_id") == opponent_team_id
         ]
         if date_filter:
@@ -579,7 +577,7 @@ class GetTeamDetails(Tool):
         pass
         team_id = kwargs.get("team_id")
         team = next(
-            (t for t in data.get("teams", []) if t.get("team_id") == team_id), None
+            (t for t in data.get("teams", {}).values() if t.get("team_id") == team_id), None
         )
         payload = team or {}
         out = json.dumps(payload, indent=2)
@@ -607,11 +605,11 @@ class GetVenueDetails(Tool):
         pass
         game_pk = kwargs.get("game_pk")
         game = next(
-            (g for g in data.get("games", []) if g.get("game_pk") == int(game_pk)), None
+            (g for g in data.get("games", {}).values() if g.get("game_pk") == int(game_pk)), None
         )
-        venues = data.get("venues", [])
+        venues = data.get("venues", {}).values()
         venue = next(
-            (v for v in venues if v.get("venue_id") == (game or {}).get("venue_id")),
+            (v for v in venues.values() if v.get("venue_id") == (game or {}).get("venue_id")),
             None,
         )
         payload = venue or {}
@@ -640,12 +638,12 @@ class FetchParkFactors(Tool):
         pass
         game_pk = kwargs.get("game_pk")
         game = next(
-            (g for g in data.get("games", []) if g.get("game_pk") == int(game_pk)), None
+            (g for g in data.get("games", {}).values() if g.get("game_pk") == int(game_pk)), None
         )
         venue = next(
             (
                 v
-                for v in data.get("venues", [])
+                for v in data.get("venues", {}).values()
                 if v.get("venue_id") == (game or {}).get("venue_id")
             ),
             None,
@@ -686,7 +684,7 @@ class GetUmpireRotation(Tool):
         game_pk = kwargs.get("game_pk")
         rotation = [
             u
-            for u in data.get("umpire_game_models", [])
+            for u in data.get("umpire_game_models", {}).values()
             if u.get("game_pk") == int(game_pk)
         ]
         payload = rotation
@@ -868,7 +866,7 @@ class WriteCuratedInsight(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], **kwargs) -> str:
         pass
-        curated = data.get("curated_insights", [])
+        curated = data.get("curated_insights", {}).values()
         curated.append(
             {
                 "report_id": kwargs.get("report_id"),
@@ -913,8 +911,8 @@ class WriteGameDayEvent(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], **kwargs) -> str:
         pass
-        events = data.get("game_day_events", [])
-        events.append(kwargs)
+        events = data.get("game_day_events", {}).values()
+        data["game_day_events"][kwargs["game_day_event_id"]] = kwargs
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out
@@ -944,8 +942,8 @@ class WriteIngestionLog(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], **kwargs) -> str:
         pass
-        logs = data.get("ingestion_logs", [])
-        logs.append(kwargs)
+        logs = data.get("ingestion_logs", {}).values()
+        data["ingestion_logs"][kwargs["ingestion_log_id"]] = kwargs
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out
@@ -978,7 +976,7 @@ class GetReportById(Tool):
         report = next(
             (
                 r
-                for r in data.get("scouting_reports", [])
+                for r in data.get("scouting_reports", {}).values()
                 if r.get("report_id") == report_id
             ),
             None,
@@ -1218,7 +1216,7 @@ class WritePlayerDevGoals(Tool):
         active_players = kwargs.get("active_players")
         data.setdefault("player_dev_goals", []).append(
             {
-                "goal_id": f"goal_{len(data.get('player_dev_goals', []))+1}",
+                "goal_id": f"goal_{len(data.get("player_dev_goals", {}))+1}",
                 "week_of": week_of,
                 "active_players": active_players,
             }
@@ -1254,7 +1252,7 @@ class WritePlayerDevReports(Tool):
         report_count = kwargs.get("report_count")
         data.setdefault("player_dev_reports", []).append(
             {
-                "dev_report_id": f"dev_{len(data.get('player_dev_reports', []))+1}",
+                "dev_report_id": f"dev_{len(data.get("player_dev_reports", {}))+1}",
                 "week_of": week_of,
                 "report_count": report_count,
             }
@@ -1290,7 +1288,7 @@ class WritePitchExecutionGrades(Tool):
         grades_count = kwargs.get("grades_count")
         data.setdefault("pitch_execution_grades", []).append(
             {
-                "grade_id": f"grade_{len(data.get('pitch_execution_grades', []))+1}",
+                "grade_id": f"grade_{len(data.get("pitch_execution_grades", {}))+1}",
                 "game_pk": game_pk,
                 "grades_count": grades_count,
             }
@@ -1328,7 +1326,7 @@ class WriteUmpireGameModel(Tool):
         calibration_error_pct = kwargs.get("calibration_error_pct")
         data.setdefault("umpire_game_models", []).append(
             {
-                "umpire_game_id": f"ump_{len(data.get('umpire_game_models', []))+1}",
+                "umpire_game_id": f"ump_{len(data.get("umpire_game_models", {}))+1}",
                 "game_pk": game_pk,
                 "zone_shift_x": zone_shift_x,
                 "zone_shift_z": zone_shift_z,
@@ -1437,12 +1435,11 @@ class GetSpatialArtifact(Tool):
         pass
         game_pk = kwargs.get("game_pk")
         artifact_name = kwargs.get("artifact_name")
-        artifacts = data.get("spatial_artifacts", [])
+        artifacts = data.get("spatial_artifacts", {}).values()
         rec = next(
             (
                 a
-                for a in artifacts
-                if str(a.get("game_pk")) == str(game_pk)
+                for a in artifacts.values() if str(a.get("game_pk")) == str(game_pk)
                 and a.get("artifact_name") == artifact_name
             ),
             None,
@@ -1481,9 +1478,9 @@ class FetchBatchGameData(Tool):
         batch_results = {}
 
         #Retrieve actual data from JSON files
-        pitches = data.get("pitches", [])
-        games = data.get("games", [])
-        players = data.get("players", [])
+        pitches = data.get("pitches", {}).values()
+        games = data.get("games", {}).values()
+        players = data.get("players", {}).values()
 
         for window in windows:
             if "PA" in window:  #Window for plate appearances
@@ -1498,7 +1495,7 @@ class FetchBatchGameData(Tool):
                         if p.get("exit_velocity")
                     )
                     / max(
-                        len([p for p in filtered_pitches if p.get("exit_velocity")]), 1
+                        len([p for p in filtered_pitches.values() if p.get("exit_velocity")]), 1
                     ),
                     "pitch_types": list(
                         {

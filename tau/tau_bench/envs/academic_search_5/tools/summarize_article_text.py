@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SummarizeArticleText(Tool):
@@ -22,8 +22,8 @@ class SummarizeArticleText(Tool):
             out = json.dumps(payload)
             return out
 
-        articles = data.get("articles", [])
-        for article in articles:
+        articles = data.get("articles", {}).values()
+        for article in articles.values():
             if article.get("article_id") == article_id:
                 # This serves as a mock summary tool. In an actual system, it would utilize NLP.
                 # In this case, we return only the abstract or a shortened version of the complete text.

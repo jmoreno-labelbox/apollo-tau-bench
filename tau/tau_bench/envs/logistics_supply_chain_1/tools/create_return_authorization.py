@@ -21,7 +21,7 @@ class CreateReturnAuthorization(Tool):
         max_rma_num = max(
             (
                 int(r.get("rma_id", "RMA-1000").split("-")[1])
-                for r in data["rma_authorizations"]
+                for r in data["rma_authorizations"].values()
             ),
             default=1000,
         )

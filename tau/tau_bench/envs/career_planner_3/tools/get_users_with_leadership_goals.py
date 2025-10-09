@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUsersWithLeadershipGoals(Tool):
@@ -15,10 +15,10 @@ class GetUsersWithLeadershipGoals(Tool):
     def invoke(data: dict[str, Any], user_ids: list[int] = None) -> str:
         if user_ids is None:
             user_ids = []
-        goals = data.get("goals", [])
+        goals = data.get("goals", {}).values()
         leadership_users = []
 
-        for g in goals:
+        for g in goals.values():
             if g["user_id"] in user_ids:
                 for goal in g.get("goals", []):
                     goal_desc = goal.get("goal_description", "").lower()

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class TransferBudgetBetweenTeams(Tool):
@@ -26,15 +26,15 @@ class TransferBudgetBetweenTeams(Tool):
             out = json.dumps(payload)
             return out
 
-        teams = data.get("teams", [])
-        budgets = data.get("budgets", [])
-        budget_transfers = data.get("budget_transfers", [])
+        teams = data.get("teams", {}).values()
+        budgets = data.get("budgets", {}).values()
+        budget_transfers = data.get("budget_transfers", {}).values()
 
         source_team = next(
-            (t for t in teams if t.get("team_id") == source_team_id), None
+            (t for t in teams.values() if t.get("team_id") == source_team_id), None
         )
         target_team = next(
-            (t for t in teams if t.get("team_id") == target_team_id), None
+            (t for t in teams.values() if t.get("team_id") == target_team_id), None
         )
 
         if not source_team or not target_team:
@@ -48,8 +48,7 @@ class TransferBudgetBetweenTeams(Tool):
         source_budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == source_project_id
+                for b in budgets.values() if b.get("project_id") == source_project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -78,8 +77,7 @@ class TransferBudgetBetweenTeams(Tool):
         target_budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == target_project_id
+                for b in budgets.values() if b.get("project_id") == target_project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -104,7 +102,7 @@ class TransferBudgetBetweenTeams(Tool):
             "fiscal_year": fiscal_year,
         }
 
-        budget_transfers.append(new_transfer)
+        data["budget_transfers"][new_transfer["budget_transfer_id"]] = new_transfer
 
         if new_transfer["status"] == "approved":
             source_budget["total_budget"] -= transfer_amount

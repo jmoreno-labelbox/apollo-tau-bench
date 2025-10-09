@@ -8,17 +8,17 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetApprovedSuppliers(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], sku: str, preferred_supplier: str = None) -> str:
-        suppliers = data.get("supplier_master", [])
-        product_master = data.get("product_master", [])
+        suppliers = data.get("supplier_master", {}).values()
+        product_master = data.get("product_master", {}).values()
 
         # Identify the product to determine its category
-        product = next((p for p in product_master if p.get("sku") == sku), None)
+        product = next((p for p in product_master.values() if p.get("sku") == sku), None)
         if not product:
             return json.dumps({"error": f"Product {sku} not found"})
 
@@ -26,7 +26,7 @@ class GetApprovedSuppliers(Tool):
 
         # Locate suppliers that offer products within this category
         approved_suppliers = []
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             supplier_categories = supplier.get("product_categories", [])
 
             if preferred_supplier and supplier.get("supplier_id") == preferred_supplier:
@@ -43,7 +43,7 @@ class GetApprovedSuppliers(Tool):
                 break
             else:
                 # Verify if the supplier caters to this product category and is operational
-                if (any(cat in product_category for cat in supplier_categories) and
+                if (any(cat in product_category for cat in supplier_categories.values() and
                     supplier.get("relationship_status") == "Active" and
                     supplier.get("performance_rating", 0) >= 4.0):
 

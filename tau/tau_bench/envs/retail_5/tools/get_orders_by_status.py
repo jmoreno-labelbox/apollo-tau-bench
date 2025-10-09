@@ -14,7 +14,7 @@ class GetOrdersByStatus(Tool):
         orders = data["orders"]
         filtered_orders = []
 
-        for order in orders:
+        for order in orders.values():
             if order["status"] != status:
                 continue
 
@@ -32,7 +32,7 @@ class GetOrdersByStatus(Tool):
                     if f.get("tracking_id")
                 ],
             }
-            filtered_orders.append(order_summary)
+            filtered_data["orders"][order_id] = order_summary
 
         filtered_orders.sort(key=lambda x: x["order_id"], reverse=True)
         payload = filtered_orders[:limit]

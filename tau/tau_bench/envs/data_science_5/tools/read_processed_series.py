@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReadProcessedSeries(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], series_name: str = None, start: str = None, end: str = None) -> str:
         rows = []
-        for r in data.get("processed_timeseries", []) or []:
+        for r in data.get("processed_timeseries", {}).values() or []:
             if series_name and r.get("series_name") != series_name:
                 continue
             ts = r.get("timestamp", "")

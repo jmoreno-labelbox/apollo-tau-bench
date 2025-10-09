@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateIngestionLog(Tool):
@@ -45,7 +45,7 @@ class CreateIngestionLog(Tool):
             return out
 
         #2) Access DB
-        logs: list[dict[str, Any]] = data.get("ingestion_logs", [])
+        logs: list[dict[str, Any]] = data.get("ingestion_logs", {}).values()
 
         #3) Create a new ingestion_id in a deterministic manner
         new_id = get_next_ingestion_id(data)

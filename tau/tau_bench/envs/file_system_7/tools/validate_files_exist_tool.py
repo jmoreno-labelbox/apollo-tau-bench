@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ValidateFilesExistTool(Tool):
@@ -34,8 +34,8 @@ class ValidateFilesExistTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], file_paths: list[str], minimum_size_bytes: Any = None, check_permissions: Any = None, validate_format: Any = None) -> str:
-        existing_paths = {f["path"] for f in data.get("remote_files", [])}
-        missing_files = [p for p in file_paths if p not in existing_paths]
+        existing_paths = {f["path"] for f in data.get("remote_files", {}).values()}
+        missing_files = [p for p in file_paths.values() if p not in existing_paths]
         if missing_files:
             payload = {"status": "failed", "missing_files": missing_files}
             out = json.dumps(payload)

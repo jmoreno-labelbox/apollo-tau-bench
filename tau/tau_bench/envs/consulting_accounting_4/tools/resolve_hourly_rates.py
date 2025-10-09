@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ResolveHourlyRates(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], project_id_list: list[str] = None) -> str:
         project_id_list = project_id_list or []
-        projects = _index_by(data.get("projects", []), "project_id")
+        projects = _index_by(list(data.get("projects", {}).values()), "project_id")
         rate_map = {}
         for pid in project_id_list:
             pr = projects.get(pid) or {}

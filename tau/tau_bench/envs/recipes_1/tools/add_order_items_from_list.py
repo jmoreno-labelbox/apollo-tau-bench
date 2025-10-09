@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddOrderItemsFromList(Tool):
@@ -30,7 +30,7 @@ class AddOrderItemsFromList(Tool):
         list_id = int(order["list_id"])
         items = [
             i
-            for i in data.get("grocery_list_items", [])
+            for i in data.get("grocery_list_items", {}).values()
             if int(i.get("list_id")) == list_id
         ]
         oi_tbl = data.setdefault("order_items", [])
@@ -47,7 +47,7 @@ class AddOrderItemsFromList(Tool):
                 product = next(
                     (
                         p
-                        for p in data.get("store_products", [])
+                        for p in data.get("store_products", {}).values()
                         if int(p.get("product_id")) == int(override_pid)
                     ),
                     None,
@@ -71,7 +71,7 @@ class AddOrderItemsFromList(Tool):
                 "fulfilled_qty": 1,
                 "substitute_product_id": None,
             }
-            oi_tbl.append(row)
+            data["order_items"][row["order_item_id"]] = row
             created_ids.append(next_oi)
             subtotal += int(product.get("price_cents", 0))
         order["subtotal_cents"] = subtotal

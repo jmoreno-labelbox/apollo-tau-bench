@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchGetSupplyOrders:
@@ -74,7 +74,7 @@ class SearchGetSupplyOrders:
                 return out
             status_filter = [status]
         elif statuses:
-            invalid_statuses = [s for s in statuses if s not in valid_statuses]
+            invalid_statuses = [s for s in statuses.values() if s not in valid_statuses]
             if invalid_statuses:
                 payload = {
                     "error": f"Invalid statuses: {', '.join(invalid_statuses)}. Valid statuses: {', '.join(valid_statuses)}",
@@ -85,23 +85,23 @@ class SearchGetSupplyOrders:
             status_filter = statuses
 
         # Get product information for item-to-product mapping
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         item_to_product_map = {}
-        for product in products:
+        for product in products.values():
             product_id = product.get("product_id")
             if product_id:
-                variants = product.get("variants", {})
+                variants = product.get("variants", {}).values()
                 for item_id in variants.keys():
                     item_to_product_map[item_id] = product_id
 
         # Filter supply orders and collect IDs
-        supply_orders = data.get("supply_orders", [])
+        supply_orders = data.get("supply_orders", {}).values()
         all_supply_order_ids = set()
         all_supplier_ids = set()
         all_product_ids = set()
         all_item_ids = set()
 
-        for order in supply_orders:
+        for order in supply_orders.values():
             order_supplier_id = order.get("supplier_id")
             order_quantity = order.get("quantity", 0)
             order_status = order.get("status", "")

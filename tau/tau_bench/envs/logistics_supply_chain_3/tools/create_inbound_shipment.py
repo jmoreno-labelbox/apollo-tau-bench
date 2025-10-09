@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateInboundShipment(Tool):
@@ -69,10 +69,10 @@ class CreateInboundShipment(Tool):
             out = json.dumps(payload)
             return out
 
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
 
         max_ship_num = 0
-        for shipment in inbound_shipments:
+        for shipment in inbound_shipments.values():
             ship_id = shipment.get("shipment_id", "SHIP-0000")
             ship_num_str = ship_id.split("-")[-1]
             if ship_num_str.isdigit():
@@ -80,7 +80,7 @@ class CreateInboundShipment(Tool):
         new_shipment_id = f"SHIP-{max_ship_num + 1:04d}"
 
         max_po_num = 0
-        for shipment in inbound_shipments:
+        for shipment in inbound_shipments.values():
             po_num_str = shipment.get("purchase_order_number", "PO-2024-0000").split(
                 "-"
             )[-1]
@@ -88,22 +88,21 @@ class CreateInboundShipment(Tool):
                 max_po_num = max(max_po_num, int(po_num_str))
         new_po_number = f"PO-2024-{max_po_num + 1:04d}"
 
-        warehouses = data.get("warehouses", [])
+        warehouses = data.get("warehouses", {}).values()
         destination_warehouse_details = next(
             (
                 wh
-                for wh in warehouses
-                if wh.get("warehouse_id") == destination_warehouse_id
+                for wh in warehouses.values() if wh.get("warehouse_id") == destination_warehouse_id
             ),
             {},
         )
 
-        suppliers = data.get("supplier_master", [])
+        suppliers = data.get("supplier_master", {}).values()
         supplier_details = next(
-            (sup for sup in suppliers if sup.get("supplier_id") == supplier_id), {}
+            (sup for sup in suppliers.values() if sup.get("supplier_id") == supplier_id), {}
         )
-        supplier_contact_info = supplier_details.get("contact_information", {})
-        supplier_address = supplier_contact_info.get("address", {})
+        supplier_contact_info = supplier_details.get("contact_information", {}).values()
+        supplier_address = supplier_contact_info.get("address", {}).values()
 
         new_shipment = {
             "shipment_id": new_shipment_id,
@@ -151,7 +150,7 @@ class CreateInboundShipment(Tool):
             "priority_level": priority_level,
             "notes": notes,
         }
-        inbound_shipments.append(new_shipment)
+        inbound_data["shipments"][shipment_id] = new_shipment
         payload = {
             "status": "success",
             "shipment_id": new_shipment_id,

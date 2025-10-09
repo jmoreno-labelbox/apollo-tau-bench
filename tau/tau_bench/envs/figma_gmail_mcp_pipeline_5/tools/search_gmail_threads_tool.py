@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchGmailThreadsTool(Tool):
@@ -16,7 +16,7 @@ class SearchGmailThreadsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], label: str = None, participant: str = None, keyword: str = None) -> str:
-        threads = data.get("gmail_threads", [])
+        threads = data.get("gmail_threads", {}).values()
         out = []
         for t in threads:
             if label and label not in (t.get("current_labels") or []):

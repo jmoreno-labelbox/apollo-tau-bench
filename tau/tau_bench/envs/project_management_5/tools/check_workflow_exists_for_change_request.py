@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckWorkflowExistsForChangeRequest(Tool):
@@ -20,10 +20,10 @@ class CheckWorkflowExistsForChangeRequest(Tool):
             out = json.dumps(payload)
             return out
 
-        approval_workflows = data.get("approval_workflows", [])
+        approval_workflows = data.get("approval_workflows", {}).values()
 
         existing = next(
-            (w for w in approval_workflows if w.get("cr_id") == cr_id), None
+            (w for w in approval_workflows.values() if w.get("cr_id") == cr_id), None
         )
         if existing:
             payload = {"success": True, "exists": True}

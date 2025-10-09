@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class create_notification_record(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], message: str) -> str:
         pass
-        notifications = data.get("notifications", [])
-        existing_ids = [n["id"] for n in notifications]
+        notifications = data.get("notifications", {}).values()
+        existing_ids = [n["id"] for n in notifications.values()]
         new_id = _get_next_id("notification", existing_ids)
         new_notification = {
             "id": new_id,
@@ -23,7 +23,7 @@ class create_notification_record(Tool):
             "created_at": FIXED_TIMESTAMP,
             "status": "unread",
         }
-        notifications.append(new_notification)
+        data["notifications"][notification_id] = new_notification
         data["notifications"] = notifications
         payload = {
                 "success": f"Created notification record '{new_id}'.",

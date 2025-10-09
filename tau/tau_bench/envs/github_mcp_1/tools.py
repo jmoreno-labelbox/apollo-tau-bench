@@ -12,32 +12,32 @@ issue_num = 100
 
 
 #def get_next_branch_sha(data):
-#repo = data.get("repositories", [])
+#repo = data.get("repositories", {}).values()
 #next_num = 88 + len(repo) + 1
 #return f"branch_sha_{next_num}"
 
 #def get_next_merge_sha(data):
-#repo = data.get("repositories", [])
+#repo = data.get("repositories", {}).values()
 #next_num = 88 + len(repo) + 1
 #return f"merge_sha_{next_num}"
 
 #def get_next_commit_sha(data):
-#commits = data.get("commits", [])
+#commits = data.get("commits", {}).values()
 #next_num = 88 + len(commits) + 1
 #return f"commit_sha_{next_num}"
 
 #def get_next_pr_number(data):
-#prs = len(data.get("pull_requests", []))
+#prs = len(data.get("pull_requests", {}))
 #next_num = 91 + prs + 1
 #return next_num
 
 #def get_next_alert_number(data):
-#prs = len(data.get("code_scanning_alerts", []))
+#prs = len(data.get("code_scanning_alerts", {}))
 #next_num = 91 + prs + 1
 #return next_num
 
 #def get_next_issue_number(data):
-#prs = len(data.get("issues", []))
+#prs = len(data.get("issues", {}))
 #next_num = 89 + prs + 1
 #return next_num
 
@@ -96,7 +96,7 @@ issue_num = 100
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -117,7 +117,7 @@ def add_terminal_message(
     if not message or not timestamp:
         return {"error": "Both 'message' and 'timestamp' are required."}
 
-    terminal = data.get("terminal", [])
+    terminal = data.get("terminal", {}).values()
 
     #Normalize to the terminal entry object that has 'printed_ts' and 'messages'
     if isinstance(terminal, list):
@@ -220,15 +220,15 @@ class AuthenticateUser(Tool):
             )
             return out
 
-        #Primary store: data.get("authentication", [])
-        authentication = data.get("authentication", [])
+        #Primary store: data.get("authentication", {}).values()
+        authentication = data.get("authentication", {}).values()
 
         #Fallback if the DB was provided as a top-level list
         if not isinstance(authentication, list) and isinstance(data, list):
             authentication = data
 
         #Lookup by username first
-        user = next((u for u in authentication if u.get("username") == username), None)
+        user = next((u for u in authentication.values() if u.get("username") == username), None)
         if not user:
             payload = {"error": "User not found."}
             out = json.dumps(payload, indent=2)
@@ -289,13 +289,12 @@ class GetRepoInfoForOwner(Tool):
             return out
 
         # DB may be { "repositories": [...] } or a direct list
-        repos = data.get("repositories", [])
+        repos = data.get("repositories", {}).values()
 
         repo = next(
             (
                 r
-                for r in repos
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
+                for r in repos.values() if r.get("owner") == owner and r.get("repo_name") == repo_name
             ),
             None,
         )
@@ -371,13 +370,12 @@ class GetBranchContent(Tool):
             return out
 
         # Support either {"repositories": [...]} or a direct list
-        repos = data.get("repositories", [])
+        repos = data.get("repositories", {}).values()
 
         repo = next(
             (
                 r
-                for r in repos
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
+                for r in repos.values() if r.get("owner") == owner and r.get("repo_name") == repo_name
             ),
             None,
         )
@@ -478,7 +476,7 @@ class DeleteRepository(Tool):
         # Support either {"repositories": [...]} or a direct list
         repos = None
         if isinstance(data, dict) and "repositories" in data:
-            repos = data.get("repositories", [])
+            repos = data.get("repositories", {}).values()
         elif isinstance(data, list):
             repos = data
         else:
@@ -494,7 +492,7 @@ class DeleteRepository(Tool):
         idx = next(
             (
                 i
-                for i, r in enumerate(repos)
+                for i, r in enumerate(repos.values()
                 if r.get("owner") == owner and r.get("repo_name") == repo_name
             ),
             None,
@@ -580,7 +578,7 @@ class CreateRepository(Tool):
             )
             return out
 
-        repos = data.get("repositories", [])
+        repos = data.get("repositories", {}).values()
 
         # Normalize description to the nullable field name used in the DB
         description_nullable = description if description is not None else None
@@ -588,7 +586,7 @@ class CreateRepository(Tool):
         # Collision handling: if (owner, repo_name) exists, try single '_v2' suffix
         def _exists(o: str, n: str) -> bool:
             pass
-            return any(r.get("owner") == o and r.get("repo_name") == n for r in repos)
+            return any(r.get("owner") == o and r.get("repo_name") == n for r in repos.values()
 
         if _exists(owner, repo_name):
             candidate = f"{repo_name}_v2"
@@ -648,7 +646,7 @@ class CreateRepository(Tool):
         }
 
         # Insert deterministically at the end
-        repos.append(new_repo)
+        data["repositories"][new_repo["repositorie_id"]] = new_repo
 
         add_terminal_message(
             data, f"Repository '{owner}/{repo_name}' created.", get_current_timestamp()
@@ -745,7 +743,7 @@ class AddNewFileInRepo(Tool):
             return out
 
         #Preferred repository access pattern
-        repos = data.get("repositories", [])
+        repos = data.get("repositories", {}).values()
         if not isinstance(repos, list):
             payload = {
                     "error": "Invalid database format: expected 'repositories' to be a list."
@@ -759,8 +757,7 @@ class AddNewFileInRepo(Tool):
         repo = next(
             (
                 r
-                for r in repos
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
+                for r in repos.values() if r.get("owner") == owner and r.get("repo_name") == repo_name
             ),
             None,
         )
@@ -918,7 +915,7 @@ class UpdateFileInRepo(Tool):
             return out
 
         #Preferred repository access pattern
-        repos: list[dict[str, Any]] = data.get("repositories", [])
+        repos: list[dict[str, Any]] = data.get("repositories", {}).values()
         if not isinstance(repos, list):
             payload = {
                     "error": "Invalid database format: expected 'repositories' to be a list."
@@ -932,8 +929,7 @@ class UpdateFileInRepo(Tool):
         repo = next(
             (
                 r
-                for r in repos
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
+                for r in repos.values() if r.get("owner") == owner and r.get("repo_name") == repo_name
             ),
             None,
         )
@@ -1089,7 +1085,7 @@ class DeleteFileInRepo(Tool):
             return out
 
         #Preferred repository access pattern
-        repos: list[dict[str, Any]] = data.get("repositories", [])
+        repos: list[dict[str, Any]] = data.get("repositories", {}).values()
         if not isinstance(repos, list):
             payload = {
                     "error": "Invalid database format: expected 'repositories' to be a list."
@@ -1103,8 +1099,7 @@ class DeleteFileInRepo(Tool):
         repo = next(
             (
                 r
-                for r in repos
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
+                for r in repos.values() if r.get("owner") == owner and r.get("repo_name") == repo_name
             ),
             None,
         )
@@ -1260,7 +1255,7 @@ class CreateNewBranch(Tool):
             return out
 
         # Preferred repository access pattern
-        repos: list[dict[str, Any]] = data.get("repositories", [])
+        repos: list[dict[str, Any]] = data.get("repositories", {}).values()
         if not isinstance(repos, list):
             payload = {
                     "error": "Invalid database format: expected 'repositories' to be a list."
@@ -1274,8 +1269,7 @@ class CreateNewBranch(Tool):
         repo = next(
             (
                 r
-                for r in repos
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
+                for r in repos.values() if r.get("owner") == owner and r.get("repo_name") == repo_name
             ),
             None,
         )
@@ -1428,7 +1422,7 @@ class DeleteBranch(Tool):
             return out
 
         #Preferred repository access pattern
-        repos: list[dict[str, Any]] = data.get("repositories", [])
+        repos: list[dict[str, Any]] = data.get("repositories", {}).values()
         if not isinstance(repos, list):
             payload = {
                     "error": "Invalid database format: expected 'repositories' to be a list."
@@ -1442,8 +1436,7 @@ class DeleteBranch(Tool):
         repo = next(
             (
                 r
-                for r in repos
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
+                for r in repos.values() if r.get("owner") == owner and r.get("repo_name") == repo_name
             ),
             None,
         )
@@ -1574,12 +1567,12 @@ class DeleteBranch(Tool):
 #return json.dumps({"error": "source_branch_name and target_branch_name must be different."}, indent=2)
 
 #Preferred repository access pattern
-#repos: List[Dict[str, Any]] = data.get("repositories", [])
+#repos: List[Dict[str, Any]] = data.get("repositories", {}).values()
 #if not isinstance(repos, list):
 #return json.dumps({"error": "Invalid database format: expected 'repositories' to be a list."}, indent=2)
 
 #Find repo
-#repo = next((r for r in repos if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
+#repo = next((r for r in repos.values() if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
 #if not repo:
 #return json.dumps({"error": f"Repository '{owner}/{repo_name}' not found."}, indent=2)
 
@@ -1716,7 +1709,7 @@ class MergeBranch(Tool):
             return out
 
         #Load repositories DB
-        repos: list[dict[str, Any]] = data.get("repositories", [])
+        repos: list[dict[str, Any]] = data.get("repositories", {}).values()
         if not isinstance(repos, list):
             payload = {"error": "Invalid database: 'repositories' must be a list."}
             out = json.dumps(
@@ -1728,8 +1721,7 @@ class MergeBranch(Tool):
         repo = next(
             (
                 r
-                for r in repos
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
+                for r in repos.values() if r.get("owner") == owner and r.get("repo_name") == repo_name
             ),
             None,
         )
@@ -1890,7 +1882,7 @@ class InitialCommit(Tool):
             return out
 
         # Load commits DB (supports either {"commits": [...]} or a top-level list)
-        commits_db = _convert_db_to_list(data.get("commits", {}))
+        commits_db = _convert_db_to_list(data.get("commits", {}).values()
         if isinstance(commits_db, list):
             pass
         elif isinstance(data, list):
@@ -2058,7 +2050,7 @@ class MakeCommit(Tool):
         # Load commits DB (prefer dict["commits"], fallback to top-level list)
         commits_db = None
         if isinstance(data, dict):
-            commits_db = _convert_db_to_list(data.get("commits", {}))
+            commits_db = _convert_db_to_list(data.get("commits", {}).values()
         elif isinstance(data, list):
             commits_db = data
         else:
@@ -2247,7 +2239,7 @@ class CreatePullRequest(Tool):
             return out
 
         # Load PR DB (supports dict with 'pull_requests' or top-level list)
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values()
 
         # Find or create repo bucket
         rec = next(
@@ -2413,7 +2405,7 @@ class GetPRDetails(Tool):
     """
     Returns all details for a pull request identified by (owner, repo_name, pr_number).
     - Accepts 'pr_number' (preferred) or 'prnumber' as an alias.
-    - Reads from data.get('pull_requests', []) or top-level list.
+    - Reads from data.get("pull_requests", {}).values() or top-level list.
     """
 
     @staticmethod
@@ -2440,7 +2432,7 @@ class GetPRDetails(Tool):
             return out
 
         # Load PR DB (supports dict with 'pull_requests' or a top-level list)
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values()
 
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
@@ -2537,7 +2529,7 @@ class ListOfPRForRepo(Tool):
     Lists pull requests for a repository.
     - Inputs: owner, repo_name, (optional) state in {'open','closed','merged'}
     - Returns an array of PR summaries (number, title, state, branches, head_sha, timestamps, files).
-    - Reads from data.get('pull_requests', []) or top-level list.
+    - Reads from data.get("pull_requests", {}).values() or top-level list.
     """
 
     @staticmethod
@@ -2561,7 +2553,7 @@ class ListOfPRForRepo(Tool):
             return out
 
         # Load PR DB (supports dict with 'pull_requests' or a top-level list)
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values()
 
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
@@ -2717,7 +2709,7 @@ class AddPullRequestComment(Tool):
             return out
 
         #Load PR DB (expects list at data['pull_requests'])
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values()
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
             out = json.dumps(
@@ -3000,7 +2992,7 @@ class AssignPullRequestReviewers(Tool):
             return out
 
         # Load PR DB (supports dict with 'pull_requests' or top-level list)
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values()
 
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
@@ -3172,7 +3164,7 @@ class ApprovePR(Tool):
             return out
 
         #Load PR DB (expects list at data['pull_requests'])
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values()
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
             out = json.dumps(
@@ -3367,7 +3359,7 @@ class ApprovePR(Tool):
 #return json.dumps({"error": "pr_number must be an integer."}, indent=2)
 
 #Load PR DB (expects list at data['pull_requests'])
-#pr_db = _convert_db_to_list(data.get("pull_requests", {}))
+#pr_db = _convert_db_to_list(data.get("pull_requests", {}).values()
 #if not isinstance(pr_db, list):
 #return json.dumps({"error": "Invalid pull requests DB: expected a list."}, indent=2)
 
@@ -3431,11 +3423,11 @@ class ApprovePR(Tool):
 #pr_files = rec["pr_files"][idx] if isinstance(rec["pr_files"][idx], list) else []
 
 #Load repository DB to actually merge files head -> base
-#repos = data.get("repositories", [])
+#repos = data.get("repositories", {}).values()
 #if not isinstance(repos, list):
 #return json.dumps({"error": "Invalid repositories DB: expected a list."}, indent=2)
 
-#repo = next((r for r in repos if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
+#repo = next((r for r in repos.values() if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
 #if repo is None:
 #return json.dumps({"error": f"Repository '{owner}/{repo_name}' not found."}, indent=2)
 
@@ -3604,7 +3596,7 @@ class MarkPRasMerged(Tool):
             return out
 
         #Load PR DB
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values()
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
             out = json.dumps(
@@ -3807,7 +3799,7 @@ class CreateNewIssue(Tool):
             return out
 
         # Load issues DB
-        issues_db = _convert_db_to_list(data.get("issues", {}))
+        issues_db = _convert_db_to_list(data.get("issues", {}).values()
         if not isinstance(issues_db, list):
             payload = {"error": "Invalid issues DB: expected a list at data['issues']."}
             out = json.dumps(
@@ -3970,7 +3962,7 @@ class GetAllIssuesForRepo(Tool):
             return out
 
         # Load issues DB
-        issues_db = _convert_db_to_list(data.get("issues", {}))
+        issues_db = _convert_db_to_list(data.get("issues", {}).values()
         if not isinstance(issues_db, list):
             payload = {"error": "Invalid issues DB: expected a list at data['issues']."}
             out = json.dumps(
@@ -4108,7 +4100,7 @@ class AddCommentToIssue(Tool):
             return out
 
         # Load issues DB
-        issues_db = _convert_db_to_list(data.get("issues", {}))
+        issues_db = _convert_db_to_list(data.get("issues", {}).values()
         if not isinstance(issues_db, list):
             payload = {"error": "Invalid issues DB: expected a list at data['issues']."}
             out = json.dumps(
@@ -4258,7 +4250,7 @@ class CloseIssue(Tool):
             return out
 
         # Load issues DB
-        issues_db = _convert_db_to_list(data.get("issues", {}))
+        issues_db = _convert_db_to_list(data.get("issues", {}).values()
         if not isinstance(issues_db, list):
             payload = {"error": "Invalid issues DB: expected a list at data['issues']."}
             out = json.dumps(
@@ -4415,7 +4407,7 @@ class CreateCodeScanningAlert(Tool):
             return out
 
         # Load alerts DB
-        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}))
+        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}).values()
         if not isinstance(alerts_db, list):
             payload = {
                     "error": "Invalid DB: expected a list at data['code_scanning_alerts']."
@@ -4575,7 +4567,7 @@ class GetAlertDetails(Tool):
             return out
 
         # Load alerts DB
-        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}))
+        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}).values()
         if not isinstance(alerts_db, list):
             payload = {
                     "error": "Invalid DB: expected a list at data['code_scanning_alerts']."
@@ -4694,7 +4686,7 @@ class ListOpenAlertsForRepo(Tool):
             severity_filter = sev
 
         # Load alerts DB
-        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}))
+        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}).values()
         if not isinstance(alerts_db, list):
             payload = {
                 "error": "Invalid DB: expected a list at data['code_scanning_alerts']."
@@ -4829,7 +4821,7 @@ class DismissAlert(Tool):
             return out
 
         # Load alerts DB
-        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}))
+        alerts_db = _convert_db_to_list(data.get("code_scanning_alerts", {}).values()
         if not isinstance(alerts_db, list):
             payload = {
                     "error": "Invalid DB: expected a list at data['code_scanning_alerts']."
@@ -4949,7 +4941,7 @@ class ListAllTerminalMessage(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
         # Load terminal entry
-        terminal = data.get("terminal", [])
+        terminal = data.get("terminal", {}).values()
         if isinstance(terminal, list):
             entry = terminal[0] if terminal else {"printed_ts": [], "messages": []}
         elif isinstance(terminal, dict):

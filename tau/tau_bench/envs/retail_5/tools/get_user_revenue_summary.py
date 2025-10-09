@@ -14,7 +14,7 @@ class GetUserRevenueSummary(Tool):
         orders = data["orders"]
         revenue_data = {"user_id": user_id, "total_revenue": 0.0, "order_count": 0}
 
-        for order in orders:
+        for order in orders.values():
             if order["user_id"] == user_id and order["status"] in [
                 "delivered",
                 "completed",

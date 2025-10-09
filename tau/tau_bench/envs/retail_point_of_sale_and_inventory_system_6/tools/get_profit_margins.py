@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class get_profit_margins(Tool):
@@ -23,9 +23,9 @@ class get_profit_margins(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
 
-        for product in products:
+        for product in products.values():
             if ((sku is not None) and (product["sku"] == sku)) or (
                 (barcode is not None) and (product["barcode"] == barcode)
             ):
@@ -59,7 +59,7 @@ class get_profit_margins(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sku_list: str = None, ignore_discounts: bool = True) -> str:
         pass
-        data.get("products", [])
+        data.get("products", {}).values()
 
         if isinstance(sku_list, str):
             sku_list = json.loads(sku_list)

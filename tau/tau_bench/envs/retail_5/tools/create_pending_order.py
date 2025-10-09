@@ -11,7 +11,7 @@ class CreatePendingOrder(Tool):
             out = json.dumps(payload)
             return out
 
-        user = next((u for u in data["users"] if u["user_id"] == user_id), None)
+        user = next((u for u in data["users"].values() if u["user_id"] == user_id), None)
         if not user:
             payload = {"error": "User not found"}
             out = json.dumps(payload)
@@ -22,7 +22,7 @@ class CreatePendingOrder(Tool):
         for detail in item_details:
             item_id, quantity = detail["item_id"], detail.get("quantity", 1)
             found_item = None
-            for p in data["products"]:
+            for p in data["products"].values():
                 if item_id in p["variants"]:
                     variant = p["variants"][item_id]
                     if variant["available"]:
@@ -61,7 +61,7 @@ class CreatePendingOrder(Tool):
         if existing_order_index is not None:
             data["orders"][existing_order_index] = new_order
         else:
-            data["orders"].append(new_order)
+            data["orders"][order_id] = new_order
         payload = {"success": True, "order_id": order_id, "total_amount": total_amount}
         out = json.dumps(
             payload, indent=2,

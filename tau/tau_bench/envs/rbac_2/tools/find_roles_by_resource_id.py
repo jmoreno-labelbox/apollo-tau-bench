@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindRolesByResourceId(Tool):
@@ -17,8 +17,8 @@ class FindRolesByResourceId(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], role_permissions: list = None, permissions: list = None, resource_id: str = None) -> str:
         try:
-            role_permissions = role_permissions if role_permissions is not None else data.get("role_permissions", [])
-            permissions = permissions if permissions is not None else data.get("permissions", [])
+            role_permissions = role_permissions if role_permissions is not None else data.get("role_permissions", {}).values()
+            permissions = permissions if permissions is not None else data.get("permissions", {}).values()
         except:
             payload = {"error": "Data files not found."}
             out = json.dumps(payload)

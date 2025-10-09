@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReadRoute(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], route_id: str = None) -> str:
         rid = route_id
-        r = next((x for x in data.get("routes", []) if x.get("route_id") == rid), None)
+        r = next((x for x in data.get("routes", {}).values() if x.get("route_id") == rid), None)
         if not r:
             payload = {"error": f"route_id {rid} not found"}
             out = json.dumps(payload, indent=2)

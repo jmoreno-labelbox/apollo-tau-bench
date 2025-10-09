@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ResolveSSOAccessIssueTool(Tool):
@@ -20,15 +20,14 @@ class ResolveSSOAccessIssueTool(Tool):
         if not candidate_id:
             return _err("candidate_id is required.")
 
-        access_checks = data.get("access_checks", [])
+        access_checks = data.get("access_checks", {}).values()
         updated_checks = []
 
         # Locate and resolve the unsuccessful SSO verification
         sso_check = next(
             (
                 ac
-                for ac in access_checks
-                if ac.get("candidate_id") == candidate_id
+                for ac in access_checks.values() if ac.get("candidate_id") == candidate_id
                 and ac.get("system_name") == "SSO"
                 and ac.get("status") == "Failed"
             ),
@@ -52,8 +51,7 @@ class ResolveSSOAccessIssueTool(Tool):
             dependent_check = next(
                 (
                     ac
-                    for ac in access_checks
-                    if ac.get("candidate_id") == candidate_id
+                    for ac in access_checks.values() if ac.get("candidate_id") == candidate_id
                     and ac.get("system_name") == system
                 ),
                 None,

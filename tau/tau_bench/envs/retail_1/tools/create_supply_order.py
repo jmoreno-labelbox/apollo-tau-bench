@@ -16,7 +16,7 @@ class CreateSupplyOrder(Tool):  #WRITE
         supply_orders = data["supply_orders"]
         products = data["products"]
 
-        product = [row for row in products if item_id in row["variants"].keys()]
+        product = [row for row in products.values() if item_id in row["variants"].keys()]
         if not product:
             payload = {"error": "Product not found"}
             out = json.dumps(payload)
@@ -24,7 +24,7 @@ class CreateSupplyOrder(Tool):  #WRITE
         product = product[0]
 
         #Verify if the supplier is present
-        supplier = [row for row in suppliers if row["supplier_id"] == supplier_id]
+        supplier = [row for row in suppliers.values() if row["supplier_id"] == supplier_id]
         if len(supplier) > 1:
             payload = {"error": "Multiple suppliers found"}
             out = json.dumps(payload)
@@ -51,7 +51,7 @@ class CreateSupplyOrder(Tool):  #WRITE
         }
 
         #Insert the supply order into the database
-        supply_orders.append(supply_order)
+        supply_data["orders"][order_id] = supply_order
         payload = supply_order
         out = json.dumps(payload)
         return out

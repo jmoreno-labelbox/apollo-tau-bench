@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateOutboundOrder(Tool):
@@ -52,8 +52,8 @@ class CreateOutboundOrder(Tool):
         priority_level: str = "Medium",
         notes: str = None
     ) -> str:
-        outbound_orders = data.get("outbound_orders", [])
-        warehouses = data.get("warehouses", [])
+        outbound_orders = data.get("outbound_orders", {}).values()
+        warehouses = data.get("warehouses", {}).values()
 
         max_order_num = 0
         for order in outbound_orders:
@@ -64,7 +64,7 @@ class CreateOutboundOrder(Tool):
         new_order_id = f"ORD-{max_order_num + 1:04d}"
 
         warehouse_details = next(
-            (wh for wh in warehouses if wh.get("warehouse_id") == warehouse_id), {}
+            (wh for wh in warehouses.values() if wh.get("warehouse_id") == warehouse_id), {}
         )
         warehouse_name = warehouse_details.get("warehouse_name", "")
         warehouse_address = warehouse_details.get("address", "")
@@ -119,7 +119,7 @@ class CreateOutboundOrder(Tool):
             "return_status": "None",
             "notes": notes,
         }
-        outbound_orders.append(new_order)
+        outbound_data["orders"][order_id] = new_order
         payload = {
             "status": "success",
             "order_id": new_order_id,

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCarrierDetails(Tool):
@@ -16,8 +16,8 @@ class GetCarrierDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], carrier_id: str) -> str:
         """Run the tool with the provided parameters."""
-        carriers = data.get("carriers", [])
-        for carrier in carriers:
+        carriers = data.get("carriers", {}).values()
+        for carrier in carriers.values():
             if carrier.get("carrier_id") == carrier_id:
                 payload = carrier
                 out = json.dumps(payload, indent=2)

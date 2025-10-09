@@ -9,15 +9,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateCustomerLoyaltyPoints(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], customer_id: str = None, points_to_add: int = None) -> str:
-        customers = data.get("customers", [])
+        customers = data.get("customers", {}).values()
         updated_customer = None
-        for customer in customers:
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
                 customer["loyalty_points"] = (
                     customer.get("loyalty_points", 0) + points_to_add

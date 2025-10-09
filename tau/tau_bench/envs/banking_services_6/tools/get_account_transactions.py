@@ -8,7 +8,7 @@ from typing import Any, Dict, List
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAccountTransactions(Tool):
@@ -16,8 +16,8 @@ class GetAccountTransactions(Tool):
     def invoke(data: Dict[str, Any], account_id: str, days_history: int = 30, current_date: str = None) -> str:
         current_dt = NOW if not current_date else datetime.combine(date=date.fromisoformat(current_date), time=time(hour=0, minute=0, second=0, tzinfo=timezone.utc))
 
-        transactions = data.get('transactions', [])
-        account_transactions = [t for t in transactions if t['account_id'] == account_id]
+        transactions = data.get('transactions', {}).values()
+        account_transactions = [t for t in transactions.values() if t['account_id'] == account_id]
         cutoff_date = current_dt - timedelta(days=days_history)
 
         recent_transactions = [

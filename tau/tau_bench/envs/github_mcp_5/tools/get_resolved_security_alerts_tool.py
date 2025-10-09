@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetResolvedSecurityAlertsTool(Tool):
@@ -54,7 +54,7 @@ class GetResolvedSecurityAlertsTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", [])
+        alerts = data.get("code_scanning_alerts", {}).values()
         resolved = [
             {
                 "alert_id": _safe_id(
@@ -65,8 +65,7 @@ class GetResolvedSecurityAlertsTool(Tool):
                 "resolved_at": a.get("resolved_at") or CURRENT_DATE,
                 "description": a.get("description"),
             }
-            for a in alerts
-            if a.get("repo") == repo_name and a.get("state") in ["fixed", "dismissed"]
+            for a in alerts.values() if a.get("repo") == repo_name and a.get("state") in ["fixed", "dismissed"]
         ]
         return _response("ok", resolved)
     @staticmethod

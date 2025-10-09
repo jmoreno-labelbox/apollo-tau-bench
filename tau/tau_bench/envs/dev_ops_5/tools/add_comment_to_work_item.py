@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddCommentToWorkItem(Tool):
@@ -16,8 +16,8 @@ class AddCommentToWorkItem(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], id: str = None, comment: str = None) -> str:
         work_item_id = id
-        work_items = data.get("work_items", [])
-        for item in work_items:
+        work_items = data.get("work_items", {}).values()
+        for item in work_items.values():
             if item.get("id", "") == work_item_id:
                 break
         else:

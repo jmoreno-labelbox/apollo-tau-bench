@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetItemIdByProduct:
@@ -31,13 +31,13 @@ class GetItemIdByProduct:
             out = json.dumps(payload)
             return out
 
-        products = data.get("products", [])
-        suppliers = data.get("suppliers", [])
+        products = data.get("products", {}).values()
+        suppliers = data.get("suppliers", {}).values()
 
         # Build stock information map from all suppliers
         stock_info_map = {}
-        for supplier in suppliers:
-            item_stock = supplier.get("item_stock", {})
+        for supplier in suppliers.values():
+            item_stock = supplier.get("item_stock", {}).values()
             for item_id, stock_level in item_stock.items():
                 # Track all suppliers that have this item and their stock levels
                 if item_id not in stock_info_map:
@@ -65,10 +65,10 @@ class GetItemIdByProduct:
         for requested_product_id in product_ids:
             product_found = False
 
-            for product in products:
+            for product in products.values():
                 product_id = product.get("product_id")
                 product_name = product.get("name", "").lower()
-                variants = product.get("variants", {})
+                variants = product.get("variants", {}).values()
 
                 if product_id == requested_product_id:
                     product_found = True
@@ -174,7 +174,7 @@ class GetItemIdByProduct:
                             "item_id": item_id,
                             "price": variant_info.get("price", 0),
                             "available": is_available,
-                            "options": variant_info.get("options", {}),
+                            "options": variant_info.get("options", {}).values()),
                             "stock_info": {
                                 "stock_status": stock_status,
                                 "total_stock_across_suppliers": total_stock_across_suppliers,
@@ -192,7 +192,7 @@ class GetItemIdByProduct:
                             "product_name": product.get("name"),
                             "total_variants": len(product_items),
                             "available_variants": len(
-                                [item for item in product_items if item["available"]]
+                                [item for item in product_items.values() if item["available"]]
                             ),
                             "unavailable_variants": len(
                                 [

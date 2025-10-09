@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RotateAdCreative(Tool):
@@ -18,7 +18,7 @@ class RotateAdCreative(Tool):
     def invoke(data: dict[str, Any], ad_id_to_activate: str = None, ad_id_to_pause: str = None, timestamp: Any = None) -> str:
         ad_to_activate, ad_to_pause = ad_id_to_activate, ad_id_to_pause
         activated, paused = False, False
-        for ad in data.get("ads", []):
+        for ad in data.get("ads", {}).values():
             if ad.get("ad_id") == ad_to_activate:
                 ad["status"], activated = "active", True
             if ad.get("ad_id") == ad_to_pause:

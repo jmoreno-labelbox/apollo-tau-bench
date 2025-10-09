@@ -8,7 +8,7 @@ from decimal import ROUND_HALF_UP, Decimal
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ApplyIngressPlanStep(Tool):
@@ -20,7 +20,7 @@ class ApplyIngressPlanStep(Tool):
         step_index = int(step_index)
         #retrieve plan
         plan = None
-        for p in data.get("aws_plans", []):
+        for p in data.get("aws_plans", {}).values():
             if p.get("plan_id") == plan_id and p.get("type") == "ingress":
                 plan = p
                 break
@@ -35,7 +35,7 @@ class ApplyIngressPlanStep(Tool):
             return out
 
         sg_id = plan["security_group_id"]
-        rules = data.get("aws_security_group_rules", [])
+        rules = data.get("aws_security_group_rules", {}).values()
         step = steps[step_index]
 
         def _append_tag(desc: str, tag: str) -> str:
@@ -47,7 +47,7 @@ class ApplyIngressPlanStep(Tool):
 
         if step == "update_rule":
             #assign source and description to the original rule
-            for r in rules:
+            for r in rules.values():
                 if r.get("rule_id") == plan["rule_id"]:
                     r["source_ip"] = plan["target_cidr"]
                     r["description"] = plan["final_description"]
@@ -63,7 +63,7 @@ class ApplyIngressPlanStep(Tool):
             keep = None
             removed = []
             remain = []
-            for r in rules:
+            for r in rules.values():
                 if r.get("security_group_id") == sg_id and r.get("port") == 6379:
                     if keep is None:
                         keep = r
@@ -101,7 +101,7 @@ class ApplyIngressPlanStep(Tool):
             #add environment tag to every 6379 rule in this Security Group
             updated = []
             tag = plan["env_tag"]
-            for r in rules:
+            for r in rules.values():
                 if r.get("security_group_id") == sg_id and r.get("port") == 6379:
                     before = r.get("description", "")
                     after = _append_tag(before, tag)

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCitationDetails(Tool):
@@ -21,7 +21,7 @@ class GetCitationDetails(Tool):
             out = json.dumps(payload)
             return out
 
-        for citation in data.get("citations", []):
+        for citation in data.get("citations", {}).values():
             if citation.get("reference_id") == citation_id:
                 payload = citation
                 out = json.dumps(payload, indent=2)

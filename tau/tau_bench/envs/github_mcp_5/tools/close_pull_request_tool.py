@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ClosePullRequestTool(Tool):
@@ -47,12 +47,11 @@ class ClosePullRequestTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", [])
+        prs = data.get("pull_requests", {}).values()
         pr = next(
             (
                 p
-                for p in prs
-                if p.get("repo") == repo_name
+                for p in prs.values() if p.get("repo") == repo_name
                 and _safe_id(
                     p,
                     "pr_id",

@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class find_build_run(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], commit_sha: str) -> str:
         pass
-        build_runs = data.get("build_runs", [])
-        for run in build_runs:
+        build_runs = data.get("build_runs", {}).values()
+        for run in build_runs.values():
             if run.get("commit_sha") == commit_sha:
                 payload = run
                 out = json.dumps(payload, indent=2)

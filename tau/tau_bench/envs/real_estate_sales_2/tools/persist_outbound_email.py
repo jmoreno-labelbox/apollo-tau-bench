@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class PersistOutboundEmail(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], client_id: str = None, broker_id: str = None, subject: str = None, body_uri: str = None, template_code: str = None, campaign_id: str = None) -> str:
-        emails = data.get("emails", [])
+        emails = data.get("emails", {}).values()
         new_email_id = _next_auto_id(emails, "email_id")
         row = {
             "email_id": new_email_id,
@@ -26,7 +26,7 @@ class PersistOutboundEmail(Tool):
             "sent_at": _now_iso_fixed(),
             "campaign_id": campaign_id,
         }
-        emails.append(row)
+        data["emails"][email_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateNewInsight(Tool):
@@ -55,7 +55,7 @@ class CreateNewInsight(Tool):
             return out
 
         #2) Retrieve DB
-        insights: list[dict[str, Any]] = data.get("curated_insights", [])
+        insights: list[dict[str, Any]] = data.get("curated_insights", {}).values()
 
         #3) Create a new insight_id in a deterministic manner
         new_id = get_next_insight_id(data)

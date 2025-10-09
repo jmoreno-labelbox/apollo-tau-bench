@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2GetInvoiceById(Tool):
@@ -19,8 +19,8 @@ class CaV2GetInvoiceById(Tool):
         if not invoice_id:
             return _error("invoice_id is required.")
 
-        invoices = data.get("invoices", [])
-        invoice = _find_one(invoices, "invoice_id", invoice_id)
+        invoices = data.get("invoices", {}).values()
+        invoice = _find_one(list(invoices.values()), "invoice_id", invoice_id)
         return (
             json.dumps(invoice)
             if invoice

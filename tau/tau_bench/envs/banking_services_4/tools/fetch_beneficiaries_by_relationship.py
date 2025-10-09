@@ -10,7 +10,7 @@ class FetchBeneficiariesByRelationship(Tool):
         if not customer_id or not relationship:
             return json.dumps({'error': 'customer_id and relationship are required'})
         beneficiaries = load_json('beneficiaries.json')
-        filtered = [b for b in beneficiaries if b['customer_id'] == customer_id and b['relationship'].lower() == relationship.lower()]
+        filtered = [b for b in beneficiaries.values() if b['customer_id'] == customer_id and b['relationship'].lower() == relationship.lower()]
         return json.dumps(filtered, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LogEtlExecution(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], run_name: str = None, task: str = None, status: str = None, rows_processed: int = None) -> str:
-        runs = data.get("etl_runs", [])
+        runs = data.get("etl_runs", {}).values()
         max_id = 0
         for r in runs:
             try:
@@ -32,7 +32,7 @@ class LogEtlExecution(Tool):
             "started_at": _now_iso_fixed(),
             "finished_at": _now_iso_fixed(),
         }
-        runs.append(row)
+        data["etl_runs"][row["etl_run_id"]] = row
         payload = {"run_id": new_id, "run_name": row["run_name"]}
         out = json.dumps(payload, indent=2)
         return out

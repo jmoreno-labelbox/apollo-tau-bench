@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetDelayedShipments(Tool):
@@ -18,10 +18,10 @@ class GetDelayedShipments(Tool):
     def invoke(data: dict[str, Any], list_of_ids: list = None, today: str = None) -> str:
         from datetime import datetime
 
-        shipments = data.get("inbound_shipments", [])
+        shipments = data.get("inbound_shipments", {}).values()
         today_date = datetime.strptime(today, "%Y-%m-%d").date()
         delayed = []
-        for s in shipments:
+        for s in shipments.values():
             expected_arrival = s.get("expected_arrival_date")
             actual_arrival = s.get("actual_arrival_date")
             if expected_arrival and actual_arrival is None:
@@ -34,7 +34,7 @@ class GetDelayedShipments(Tool):
                 except Exception:
                     pass
         if list_of_ids:
-            delayed = [d for d in delayed if d in list_of_ids]
+            delayed = [d for d in delayed.values() if d in list_of_ids]
         payload = delayed
         out = json.dumps(payload, indent=2)
         return out

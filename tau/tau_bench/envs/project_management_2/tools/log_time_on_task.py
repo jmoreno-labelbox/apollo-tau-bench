@@ -9,16 +9,16 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LogTimeOnTask(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str = None, hours_logged: float = None, employee_id: str = None, notes: str = "") -> str:
-        tasks = data.get("tasks", [])
-        time_logs = data.get("time_logs", [])
+        tasks = data.get("tasks", {}).values()
+        time_logs = data.get("time_logs", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task '{task_id}' not found"}
             out = json.dumps(payload)
@@ -37,7 +37,7 @@ class LogTimeOnTask(Tool):
             "notes": notes,
             "logged_date": datetime.now().isoformat(),
         }
-        time_logs.append(log_entry)
+        data["time_logs"][log_entry["time_log_id"]] = log_entry
 
         task["time_logged"] = task.get("time_logged", 0) + hours_logged
         task["updated_date"] = datetime.now().isoformat()

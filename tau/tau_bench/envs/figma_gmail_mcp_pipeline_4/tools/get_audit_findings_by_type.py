@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAuditFindingsByType(Tool):
@@ -25,14 +25,14 @@ class GetAuditFindingsByType(Tool):
         """
         Obtains audit findings filtered by type and additional criteria.
         """
-        audit_findings_ds = data.get("audit_findings_ds", [])
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audit_findings_ds = data.get("audit_findings_ds", {}).values()
+        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
 
         results = []
 
         # Handle design system findings
         if not violation_type:  # Check design system findings only if no violation_type is given
-            for finding in audit_findings_ds:
+            for finding in audit_findings_ds.values()):
                 if finding_type and finding.get("finding_type") != finding_type:
                     continue
                 if severity and finding.get("severity") != severity:
@@ -44,7 +44,7 @@ class GetAuditFindingsByType(Tool):
 
         # Handle accessibility findings
         if not finding_type:  # Check accessibility findings only if no finding_type is given
-            for finding in audit_findings_a11y:
+            for finding in audit_findings_a11y.values()):
                 if violation_type and finding.get("violation_type") != violation_type:
                     continue
                 if severity and finding.get("severity") != severity:

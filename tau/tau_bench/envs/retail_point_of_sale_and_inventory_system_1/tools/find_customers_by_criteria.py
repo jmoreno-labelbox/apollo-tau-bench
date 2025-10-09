@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindCustomersByCriteria(Tool):
@@ -20,19 +20,19 @@ class FindCustomersByCriteria(Tool):
         if purchase_history_skus is None:
             purchase_history_skus = []
 
-        customers = data.get("customers", [])
-        transactions = data.get("transactions", [])
+        customers = data.get("customers", {}).values()
+        transactions = data.get("transactions", {}).values()
 
         qualified_customers = []
 
-        for customer in customers:
+        for customer in customers.values():
             if customer.get("membership_level") in membership_levels:
                 customer_id = customer.get("customer_id")
-                for txn in transactions:
+                for txn in transactions.values():
                     if txn.get("customer_id") == customer_id:
                         for item in txn.get("line_items", []):
                             if item.get("sku") in purchase_history_skus:
-                                qualified_customers.append(customer)
+                                qualified_data["customers"][customer_id] = customer
                                 break
                         break
         payload = qualified_customers

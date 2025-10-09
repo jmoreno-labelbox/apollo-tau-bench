@@ -22,7 +22,7 @@ class UpdateFlightInventoryAndPrices(Tool):
     def _existing_cabins(route: dict[str, Any], date: str) -> set[str]:
         pass
         cabins: set[str] = set()
-        dates = route.get("dates", {})
+        dates = route.get("dates", {}).values()
         if date in dates:
             di = dates[date] or {}
             cabins |= set((di.get("available_seats") or {}).keys())
@@ -52,7 +52,7 @@ class UpdateFlightInventoryAndPrices(Tool):
         if not route:
             return _json({"error": "flight_not_found", "flight_number": flight_number})
 
-        dates = route.setdefault("dates", {})
+        dates = route.setdefault("dates", {}).values()
         date_info = dates.setdefault(
             date, {"status": "available", "available_seats": {}, "prices": {}}
         )
@@ -78,7 +78,7 @@ class UpdateFlightInventoryAndPrices(Tool):
         if available_seats is not None:
             if not isinstance(available_seats, dict):
                 return _json({"error": "invalid_available_seats_type"})
-            seat_map = date_info.setdefault("available_seats", {})
+            seat_map = date_info.setdefault("available_seats", {}).values()
             for k, v in available_seats.items():
                 try:
                     iv = int(v)
@@ -94,7 +94,7 @@ class UpdateFlightInventoryAndPrices(Tool):
         if prices is not None:
             if not isinstance(prices, dict):
                 return _json({"error": "invalid_prices_type"})
-            price_map = date_info.setdefault("prices", {})
+            price_map = date_info.setdefault("prices", {}).values()
             for k, v in prices.items():
                 try:
                     fv = float(v)
@@ -121,8 +121,8 @@ class UpdateFlightInventoryAndPrices(Tool):
                 "flight_number": flight_number,
                 "date": date,
                 "status": _norm_status(date_info.get("status")),
-                "available_seats": date_info.get("available_seats", {}),
-                "prices": date_info.get("prices", {}),
+                "available_seats": date_info.get("available_seats", {}).values()),
+                "prices": date_info.get("prices", {}).values()),
                 "updated": updated,
                 # "existing_cabins": sorted(list(_cabins_existing))  # uncomment if beneficial
             }
@@ -135,7 +135,7 @@ class UpdateFlightInventoryAndPrices(Tool):
         if not route:
             return _json({"error": "flight_not_found", "flight_number": flight_number})
 
-        dates = route.setdefault("dates", {})
+        dates = route.setdefault("dates", {}).values()
         date_info = dates.setdefault(
             date, {"status": "available", "available_seats": {}, "prices": {}}
         )
@@ -161,7 +161,7 @@ class UpdateFlightInventoryAndPrices(Tool):
         if available_seats is not None:
             if not isinstance(available_seats, dict):
                 return _json({"error": "invalid_available_seats_type"})
-            seat_map = date_info.setdefault("available_seats", {})
+            seat_map = date_info.setdefault("available_seats", {}).values()
             for k, v in available_seats.items():
                 try:
                     iv = int(v)
@@ -177,7 +177,7 @@ class UpdateFlightInventoryAndPrices(Tool):
         if prices is not None:
             if not isinstance(prices, dict):
                 return _json({"error": "invalid_prices_type"})
-            price_map = date_info.setdefault("prices", {})
+            price_map = date_info.setdefault("prices", {}).values()
             for k, v in prices.items():
                 try:
                     fv = float(v)
@@ -204,8 +204,8 @@ class UpdateFlightInventoryAndPrices(Tool):
                 "flight_number": flight_number,
                 "date": date,
                 "status": _norm_status(date_info.get("status")),
-                "available_seats": date_info.get("available_seats", {}),
-                "prices": date_info.get("prices", {}),
+                "available_seats": date_info.get("available_seats", {}).values()),
+                "prices": date_info.get("prices", {}).values()),
                 "updated": updated,
                 #"existing_cabins": sorted(list(_cabins_existing))  # uncomment if beneficial
             }

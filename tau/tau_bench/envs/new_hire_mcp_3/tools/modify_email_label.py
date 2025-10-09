@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ModifyEmailLabel(Tool):
@@ -20,8 +20,8 @@ class ModifyEmailLabel(Tool):
         email_id: str = None
     ) -> str:
         updates = updates or {}
-        labels = data.get("email_labels", [])
-        for l in labels:
+        labels = data.get("email_labels", {}).values()
+        for l in labels.values():
             if l.get("label_id") == label_id:
                 l.update(updates)
                 l["updated_at"] = _fixed_now_iso()

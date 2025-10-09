@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTransactionDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], transaction_id: str) -> str:
-        transactions = data.get("transactions", [])
-        for transaction in transactions:
+        transactions = data.get("transactions", {}).values()
+        for transaction in transactions.values():
             if transaction.get("transaction_id") == transaction_id:
                 payload = transaction
                 out = json.dumps(payload, indent=2)

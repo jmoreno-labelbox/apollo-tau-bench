@@ -7,16 +7,16 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateFinancialReportTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        transactions = data.get('transactions', [])
-        scheduled_payments = data.get('scheduled_payments', [])
-        support_tickets = data.get('support_tickets', [])
-        loans = data.get('loans', [])
+        transactions = data.get('transactions', {}).values()
+        scheduled_payments = data.get('scheduled_payments', {}).values()
+        support_tickets = data.get('support_tickets', {}).values()
+        loans = data.get('loans', {}).values()
 
         total_deposits = 0
         total_withdrawals = 0
@@ -31,7 +31,7 @@ class GenerateFinancialReportTool(Tool):
         bill_payment_count = 0
         atm_withdrawal_count = 0
 
-        for txn in transactions:
+        for txn in transactions.values():
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')
@@ -64,7 +64,7 @@ class GenerateFinancialReportTool(Tool):
                 atm_withdrawal_count += 1
 
         scheduled_count = 0
-        for payment in scheduled_payments:
+        for payment in scheduled_payments.values():
             if payment.get('from_account_id', None) != account_id:
                 continue
             payment_date = payment.get('next_payment_date', '')
@@ -76,7 +76,7 @@ class GenerateFinancialReportTool(Tool):
             scheduled_count += 1
 
         support_ticket_count = 0
-        for ticket in support_tickets:
+        for ticket in support_tickets.values():
             if ticket.get('account_id', '') != account_id:
                 continue
             ticket_date = ticket.get('created_date', '')
@@ -88,7 +88,7 @@ class GenerateFinancialReportTool(Tool):
             support_ticket_count += 1
 
         loans_for_account = []
-        for loan in loans:
+        for loan in loans.values():
             if loan.get('account_id', '') != account_id:
                 continue
             loan_date = loan.get('issue_date', '')

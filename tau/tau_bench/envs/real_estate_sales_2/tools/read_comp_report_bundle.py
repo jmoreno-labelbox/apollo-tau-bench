@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReadCompReportBundle(Tool):
@@ -17,7 +17,7 @@ class ReadCompReportBundle(Tool):
         rpt = next(
             (
                 r
-                for r in data.get("comp_reports", [])
+                for r in data.get("comp_reports", {}).values()
                 if r.get("report_id") == report_id
             ),
             None,
@@ -28,12 +28,12 @@ class ReadCompReportBundle(Tool):
             return out
         comps = [
             c
-            for c in data.get("comparables", [])
+            for c in data.get("comparables", {}).values()
             if c.get("report_id") == report_id
         ]
         docs = [
             d
-            for d in data.get("documents", [])
+            for d in data.get("documents", {}).values()
             if d.get("entity_type") == "comp_report"
             and d.get("entity_id") == report_id
         ]

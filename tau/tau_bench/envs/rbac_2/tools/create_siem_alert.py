@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateSiemAlert(Tool):
@@ -24,14 +24,13 @@ class CreateSiemAlert(Tool):
         severity: str = None
     ) -> str:
         try:
-            siem_alerts = data.get("siem_alerts", [])
+            siem_alerts = data.get("siem_alerts", {}).values()
         except:
             siem_alerts = []
 
         existing_ids = [
             int(item["alert_id"].replace("ALRT-", ""))
-            for item in siem_alerts
-            if item.get("alert_id", "").startswith("ALRT-")
+            for item in siem_alerts.values() if item.get("alert_id", "").startswith("ALRT-")
         ]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         alert_id = f"ALRT-{next_id_num:03d}"
@@ -45,7 +44,7 @@ class CreateSiemAlert(Tool):
             "severity": severity,
         }
 
-        siem_alerts.append(new_alert)
+        data["siem_alerts"][new_alert["siem_alert_id"]] = new_alert
         data["siem_alerts"] = siem_alerts
         payload = {"message": "SIEM alert created successfully.", "alert_details": new_alert}
         out = json.dumps(payload)

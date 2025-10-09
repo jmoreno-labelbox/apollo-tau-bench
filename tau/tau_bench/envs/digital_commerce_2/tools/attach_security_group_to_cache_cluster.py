@@ -8,7 +8,7 @@ from decimal import ROUND_HALF_UP, Decimal
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AttachSecurityGroupToCacheCluster(Tool):
@@ -17,8 +17,8 @@ class AttachSecurityGroupToCacheCluster(Tool):
     def invoke(data: dict[str, Any], cluster_id: Any, security_group_id: Any) -> str:
         cluster_id = _idstr(cluster_id)
         security_group_id = _idstr(security_group_id)
-        clusters = data.get("aws_elasticache_clusters", [])
-        for c in clusters:
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        for c in clusters.values():
             if c.get("cluster_id") == cluster_id:
                 c["security_group_id"] = security_group_id
                 payload = c

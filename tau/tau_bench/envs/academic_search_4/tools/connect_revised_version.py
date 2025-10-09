@@ -11,7 +11,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ConnectRevisedVersion(Tool):
@@ -22,8 +22,8 @@ class ConnectRevisedVersion(Tool):
             out = json.dumps(payload)
             return out
 
-        submissions = data.get("submissions", [])
-        for sub in submissions:
+        submissions = data.get("submissions", {}).values()
+        for sub in submissions.values():
             if sub.get("submission_id") == submission_id:
                 sub["revised_version_article_id"] = revised_article_id
                 payload = {"success": True, "submission": sub}

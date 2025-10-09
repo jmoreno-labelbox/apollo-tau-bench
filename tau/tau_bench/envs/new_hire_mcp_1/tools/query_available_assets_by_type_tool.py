@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class QueryAvailableAssetsByTypeTool(Tool):
@@ -28,12 +28,11 @@ class QueryAvailableAssetsByTypeTool(Tool):
                 f"Invalid status_filter. Valid statuses are: {sorted(list(valid_statuses))}"
             )
 
-        assets = data.get("inventory_assets", [])
+        assets = data.get("inventory_assets", {}).values()
 
         matching_assets = [
             asset
-            for asset in assets
-            if asset.get("asset_type") == asset_type
+            for asset in assets.values() if asset.get("asset_type") == asset_type
             and asset.get("status") == status_filter
         ]
         payload = matching_assets

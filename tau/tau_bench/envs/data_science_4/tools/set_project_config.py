@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SetProjectConfig(Tool):
@@ -16,10 +16,10 @@ class SetProjectConfig(Tool):
         target_city = target_city
         horizon = forecast_horizon_days
         max_radius = max_station_distance_km_nullable
-        configs = data.get("project_config", [])
+        configs = data.get("project_config", {}).values()
 
         timezone = "America/New_York"
-        for config in configs:
+        for config in configs.values():
             if config.get("target_city") == target_city:
                 timezone = config.get("timezone_default")
                 break
@@ -30,7 +30,7 @@ class SetProjectConfig(Tool):
             "forecast_horizon_days": horizon,
             "max_station_distance_km_nullable": max_radius,
         }
-        data.get("project_config", []).append(config)
+        data["project_config"][config["project_config_id"]] = config
         payload = {"config_id": "CONFIG_001", **config}
         out = json.dumps(payload)
         return out

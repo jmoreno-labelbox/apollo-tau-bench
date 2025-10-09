@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReviewPolicyExceptionTool(Tool):
@@ -19,7 +19,7 @@ class ReviewPolicyExceptionTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], exception_id: str = None, reviewer_id: str = None, approve: bool = None, notes: str = None) -> str:
-        exceptions = data.get("policy_exceptions", [])
+        exceptions = data.get("policy_exceptions", {}).values()
         for pe in exceptions:
             if pe.get("exception_id") == exception_id:
                 pe["status"] = "APPROVED" if approve else "DENIED"

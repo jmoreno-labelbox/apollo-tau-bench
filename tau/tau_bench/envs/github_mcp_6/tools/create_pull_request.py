@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreatePullRequest(Tool):
@@ -26,14 +26,14 @@ class CreatePullRequest(Tool):
         _bodyL = body or ''.lower()
         _titleL = title or ''.lower()
         pass
-        pull_requests = data.get("pull_requests", [])
-        repositories = data.get("repositories", [])
-        commits_data = data.get("commits", [])
-        issues_data = data.get("issues", [])
+        pull_requests = data.get("pull_requests", {}).values()
+        repositories = data.get("repositories", {}).values()
+        commits_data = data.get("commits", {}).values()
+        issues_data = data.get("issues", {}).values()
 
         #Confirm the repository's existence
         target_repo = None
-        for repository in repositories:
+        for repository in repositories.values():
             if repository["owner"] == owner and repository["repo_name"] == repo:
                 target_repo = repository
                 break
@@ -100,7 +100,7 @@ class CreatePullRequest(Tool):
 
         #Locate the existing PR entry for this repository
         repo_prs = None
-        for pr_entry in pull_requests:
+        for pr_entry in pull_requests.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 repo_prs = pr_entry
                 break
@@ -129,7 +129,7 @@ class CreatePullRequest(Tool):
                 "created_ts": ["2023-12-05T12:00:00Z"],
                 "updated_ts": ["2023-12-05T12:00:00Z"],
             }
-            pull_requests.append(repo_prs)
+            data["pull_requests"][repo_prs["pull_request_id"]] = repo_prs
         else:
             #Append to the current PR entry
             pr_number = max(repo_prs["pr_numbers"]) + 1
@@ -172,7 +172,7 @@ class CreatePullRequest(Tool):
 
         #Identify commits present in the head branch but absent in the base
         commits_in_pr = []
-        for commit_entry in commits_data:
+        for commit_entry in commits_data.values()):
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 if head in commit_entry.get("branch_names", []):
                     head_branch_idx = commit_entry["branch_names"].index(head)
@@ -185,7 +185,7 @@ class CreatePullRequest(Tool):
 
         #Identify linked issues (analyze body for issue references)
         linked_issues = []
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values():
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 for i, issue_number in enumerate(issue_entry.get("issue_numbers", [])):
                     if (

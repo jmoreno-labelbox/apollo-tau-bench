@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ValidateCourseSkillMapping(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], course_id: str = None, skill_name: str = None) -> str:
-        courses = data.get("course_catalog", [])
+        courses = data.get("course_catalog", {}).values()
 
         course = None
         for c in courses:

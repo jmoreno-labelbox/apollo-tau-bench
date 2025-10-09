@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LogMealAsPreparedTool(Tool):
@@ -101,12 +101,12 @@ class LogMealAsPreparedTool(Tool):
 
         #2. Pre-condition Checks: Ensure related entities exist
         if not any(
-            h.get("household_id") == household_id for h in data.get("households", [])
+            h.get("household_id") == household_id for h in data.get("households", {}).values()
         ):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Household", "entity_id": household_id}
             )
-        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", [])):
+        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Recipe", "entity_id": recipe_id}
             )
@@ -115,7 +115,7 @@ class LogMealAsPreparedTool(Tool):
         history_table = data.setdefault("meal_history", [])
 
         #Generate a new unique ID
-        max_id = max((h.get("history_id", 0) for h in history_table), default=6000)
+        max_id = max((h.get("history_id", 0) for h in history_table.values()), default=6000)
         new_history_id = max_id + 1
 
         #Build the new record

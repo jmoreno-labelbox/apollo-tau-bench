@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCalendarEventsForClient(Tool):
@@ -21,8 +21,8 @@ class GetCalendarEventsForClient(Tool):
             return out
 
         # Fetch calendar events for the client
-        events = data.get("calendar_events", [])
-        client_events = [e for e in events if e.get("client_id") == client_id]
+        events = data.get("calendar_events", {}).values()
+        client_events = [e for e in events.values() if e.get("client_id") == client_id]
         payload = {
             "client_id": client_id,
             "event_count": len(client_events),

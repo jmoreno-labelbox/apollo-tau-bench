@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class MergeAndDeprecateRole(Tool):
@@ -16,12 +16,12 @@ class MergeAndDeprecateRole(Tool):
     def invoke(data: dict[str, Any], source_role_id: str = None, target_role_id: str = None, actor_id: str = None) -> str:
         source_perms = {
             rp["permission_id"]
-            for rp in data.get("role_permissions", [])
+            for rp in data.get("role_permissions", {}).values()
             if rp["role_id"] == source_role_id
         }
         target_perms = {
             rp["permission_id"]
-            for rp in data.get("role_permissions", [])
+            for rp in data.get("role_permissions", {}).values()
             if rp["role_id"] == target_role_id
         }
 
@@ -33,7 +33,7 @@ class MergeAndDeprecateRole(Tool):
 
         users_to_migrate = [
             ur["user_id"]
-            for ur in data.get("user_roles", [])
+            for ur in data.get("user_roles", {}).values()
             if ur["role_id"] == source_role_id
         ]
 
@@ -41,12 +41,12 @@ class MergeAndDeprecateRole(Tool):
         for user_id in users_to_migrate:
             has_target_role = any(
                 ur["user_id"] == user_id and ur["role_id"] == target_role_id
-                for ur in data.get("user_roles", [])
+                for ur in data.get("user_roles", {}).values()
             )
             if not has_target_role:
                 new_id_num = (
                     max(
-                        (int(ur["user_role_id"][3:]) for ur in data["user_roles"]),
+                        (int(ur["user_role_id"][3:]) for ur in data["user_roles"].values()),
                         default=0,
                     )
                     + 1
@@ -62,15 +62,15 @@ class MergeAndDeprecateRole(Tool):
                         "expires_on": None,
                     }
                 )
-                migrated_users.append(user_id)
+                migrated_data["users"][user_id] = user_id
 
         data["user_roles"] = [
             ur
-            for ur in data.get("user_roles", [])
+            for ur in data.get("user_roles", {}).values()
             if ur.get("role_id") != source_role_id
         ]
 
-        for role in data.get("roles", []):
+        for role in data.get("roles", {}).values():
             if role.get("role_id") == source_role_id:
                 role["role_name"] = f"DEPRECATED-{role['role_name']}"
                 role["description"] = f"[DEPRECATED] Merged into {target_role_id}."

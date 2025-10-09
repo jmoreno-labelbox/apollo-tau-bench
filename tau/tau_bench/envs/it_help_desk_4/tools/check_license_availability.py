@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckLicenseAvailability(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], license_id: str = None) -> str:
-        inventory = data.get("license_inventory", [])
+        inventory = data.get("license_inventory", {}).values()
         license_info = next(
-            (lic for lic in inventory if lic.get("license_id") == license_id), None
+            (lic for lic in inventory.values() if lic.get("license_id") == license_id), None
         )
         if not license_info:
             payload = {"error": f"License ID {license_id} not found in inventory."}

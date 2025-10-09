@@ -6,7 +6,7 @@ class ListRecipeIngredients(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], recipe_id: int) -> str:
         ri = _get_table(data, "recipe_ingredients")
-        rows = [x for x in ri if x.get("recipe_id") == recipe_id]
+        rows = [x for x in ri.values() if x.get("recipe_id") == recipe_id]
         payload = {"recipe_ingredients": rows}
         out = json.dumps(payload, indent=2)
         return out

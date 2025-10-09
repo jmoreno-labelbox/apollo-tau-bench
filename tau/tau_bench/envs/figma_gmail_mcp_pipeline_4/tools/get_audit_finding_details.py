@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAuditFindingDetails(Tool):
@@ -24,16 +24,16 @@ class GetAuditFindingDetails(Tool):
             return out
 
         #Retrieve findings from both datasets
-        ds_findings = data.get("audit_findings_ds", [])
-        a11y_findings = data.get("audit_findings_a11y", [])
+        ds_findings = data.get("audit_findings_ds", {}).values()
+        a11y_findings = data.get("audit_findings_a11y", {}).values()
 
         #Sort by audit_id
-        ds_results = [f for f in ds_findings if f.get("audit_id") == audit_id]
-        a11y_results = [f for f in a11y_findings if f.get("audit_id") == audit_id]
+        ds_results = [f for f in ds_findings.values() if f.get("audit_id") == audit_id]
+        a11y_results = [f for f in a11y_findings.values() if f.get("audit_id") == audit_id]
 
         #Sort by specific finding_id if supplied
         if finding_id:
-            ds_results = [f for f in ds_results if f.get("finding_id") == finding_id]
+            ds_results = [f for f in ds_results.values() if f.get("finding_id") == finding_id]
             a11y_results = [
                 f for f in a11y_results if f.get("finding_id") == finding_id
             ]

@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateHubspotTicket(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], subject: str = None, description: str = None, requester_id: int = None, category: str = None, assignee_id: int = None) -> str:
-        tickets = data.get("hubspot_tickets", [])
-        new_id_num = max((int(t["ticket_id"][3:]) for t in tickets), default=0) + 1
+        tickets = data.get("hubspot_tickets", {}).values()
+        new_id_num = max((int(t["ticket_id"][3:]) for t in tickets.values()), default=0) + 1
         new_ticket_id = f"TI-{new_id_num:03d}"
         new_ticket = {
             "ticket_id": new_ticket_id,
@@ -26,7 +26,7 @@ class CreateHubspotTicket(Tool):
             "assignee_id": assignee_id,
             "status": "OPEN",
         }
-        tickets.append(new_ticket)
+        data["tickets"][ticket_id] = new_ticket
         data["hubspot_tickets"] = tickets
         payload = new_ticket
         out = json.dumps(payload)

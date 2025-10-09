@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class create_customer(Tool):
@@ -26,7 +26,7 @@ class create_customer(Tool):
         opt_in_marketing: bool = False,
     ) -> str:
         pass
-        customers = data.get("customers", [])
+        customers = data.get("customers", {}).values()
 
         # A timestamp must be included for database entries
 
@@ -53,7 +53,7 @@ class create_customer(Tool):
         fill_in = {
             "customer_id": "CUST-5{customer_id:03}".format(
                 customer_id=max(
-                    [int(x["customer_id"].split("-")[1][1:]) for x in customers]
+                    [int(x["customer_id"].split("-")[1][1:]) for x in customers.values()]
                 )
                 + 1
             ),
@@ -67,7 +67,7 @@ class create_customer(Tool):
             payload = {
                 "error": "required values not sent: "
                 + ", ".join(
-                    [k for k in required_values if required_values[k] is None]
+                    [k for k in required_values.values() if required_values[k] is None]
                 )
             }
             out = json.dumps(

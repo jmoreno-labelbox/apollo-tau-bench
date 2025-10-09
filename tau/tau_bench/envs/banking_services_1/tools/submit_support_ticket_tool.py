@@ -53,7 +53,7 @@ class SubmitSupportTicketTool(Tool):
             "status": "Open",
             "created_at": get_current_timestamp(),
         }
-        tickets.append(new_ticket)
+        data["tickets"][ticket_id] = new_ticket
 
         return json.dumps({"ticket_id": ticket_id, "status": "Open"}, indent=2)
         if ticket_id is None:
@@ -79,7 +79,7 @@ class SubmitSupportTicketTool(Tool):
             "status": "Open",
             "created_at": get_current_timestamp(),
         }
-        tickets.append(new_ticket)
+        data["tickets"][ticket_id] = new_ticket
 
         return json.dumps({"ticket_id": ticket_id, "status": "Open"}, indent=2)
     @staticmethod

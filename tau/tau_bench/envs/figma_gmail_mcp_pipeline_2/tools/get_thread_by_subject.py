@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetThreadBySubject(Tool):
@@ -20,7 +20,7 @@ class GetThreadBySubject(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        threads: list[dict[str, Any]] = data.get("gmail_threads", [])
+        threads: list[dict[str, Any]] = data.get("gmail_threads", {}).values()
         results: list[dict[str, Any]] = []
         for row in threads:
             if row.get("subject") != subject:

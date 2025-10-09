@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetLastAccessTime(Tool):
@@ -15,7 +15,7 @@ class GetLastAccessTime(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], filepath: str = None, server_hostname: str = None) -> str:
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == server_hostname:
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):

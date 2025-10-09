@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -21,7 +21,7 @@ class GetUserProfile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
         uid = user_id
-        for u in data.get("users", []):
+        for u in data.get("users", {}).values():
             if u.get("user_id") == uid:
                 payload = u
                 out = json.dumps(payload, indent=2)
@@ -50,7 +50,7 @@ class GetSkillGap(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        for g in data.get("skill_gap_analysis", []):
+        for g in data.get("skill_gap_analysis", {}).values():
             if g.get("user_id") == user_id and g.get("target_role") == target_role:
                 payload = g.get("skill_gaps", [])
                 out = json.dumps(payload, indent=2)
@@ -84,7 +84,7 @@ class GetPerformanceReview(Tool):
     def invoke(data: dict[str, Any], user_id: str = None, period: str = None) -> str:
         reviews = [
             wf
-            for wf in data.get("hr_workflows", [])
+            for wf in data.get("hr_workflows", {}).values()
             if wf.get("workflow_type") == "Performance Review"
             and wf.get("employee_id") == user_id
             and wf.get("review_period") == period
@@ -116,7 +116,7 @@ class GetCourseProgress(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, course_id: str = None) -> str:
-        for rec in data.get("user_course_progress", []):
+        for rec in data.get("user_course_progress", {}).values():
             if rec.get("user_id") == user_id and rec.get("course_id") == course_id:
                 payload = rec
                 out = json.dumps(payload, indent=2)
@@ -151,7 +151,7 @@ class GetUserCourseProgress(Tool):
         uid = user_id
         progress = [
             rec
-            for rec in data.get("user_course_progress", [])
+            for rec in data.get("user_course_progress", {}).values()
             if rec.get("user_id") == uid
         ]
         payload = progress
@@ -182,7 +182,7 @@ class SearchCourses(Tool):
         # Adjusted to look for 'related_skills' and conduct a case-insensitive check
         courses = [
             c
-            for c in data.get("course_catalog", [])
+            for c in data.get("course_catalog", {}).values()
             if skill_query.lower() in [s.lower() for s in c.get("related_skills", [])]
         ]
         payload = courses
@@ -213,9 +213,9 @@ class SearchJobPostings(Tool):
             skill_keywords = []
         res = [
             p
-            for p in data.get("job_postings", [])
+            for p in data.get("job_postings", {}).values()
             if (not location or location.lower() in p.get("location", ""))
-            and all(kw.lower() in json.dumps(p).lower() for kw in skill_keywords)
+            and all(kw.lower() in json.dumps(p).lower() for kw in skill_keywords.values()
         ]
         payload = res
         out = json.dumps(payload, indent=2)
@@ -248,7 +248,7 @@ class GetJobApplication(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], application_id: str = None) -> str:
         aid = application_id
-        for a in data.get("job_applications", []):
+        for a in data.get("job_applications", {}).values():
             if a.get("application_id") == aid:
                 payload = a
                 out = json.dumps(payload, indent=2)
@@ -279,7 +279,7 @@ class ShortlistCandidate(Tool):
     def invoke(data: dict[str, Any], job_id: str = None, candidate_id: str = None) -> str:
         jid = job_id
         cid = candidate_id
-        for p in data.get("job_postings", []):
+        for p in data.get("job_postings", {}).values():
             if p.get("job_id") == jid:
                 sl = p.setdefault("shortlist", [])
                 if cid not in sl:
@@ -314,7 +314,7 @@ class UpdateApplicationStatus(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], application_id: str = None, status: str = None) -> str:
-        for a in data.get("job_applications", []):
+        for a in data.get("job_applications", {}).values():
             if a.get("application_id") == application_id:
                 a["status"] = status
                 a["last_updated"] = datetime.utcnow().date().isoformat()
@@ -352,7 +352,7 @@ class AssignCourse(Tool):
         uid = user_id
         cid = course_id
         log = data.setdefault("user_course_progress", [])
-        log[:] = [r for r in log if not (r["user_id"] == uid and r["course_id"] == cid)]
+        log[:] = [r for r in log.values() if not (r["user_id"] == uid and r["course_id"] == cid)]
         log.append(
             {
                 "user_id": uid,
@@ -432,7 +432,7 @@ class UpdateWorkflowStage(Tool):
         wid = workflow_id
         stg = stage
         st = status
-        for wf in data.get("hr_workflows", []):
+        for wf in data.get("hr_workflows", {}).values():
             if wf.get("workflow_id") == wid:
                 for s in wf.get("workflow_stages", []):
                     if s.get("stage") == stg:
@@ -543,7 +543,7 @@ class GetTeamTrainingLog(Tool):
     def invoke(data: dict[str, Any], team_id: str = None) -> str:
         logs = [
             log
-            for log in data.get("team_training_logs", [])
+            for log in data.get("team_training_logs", {}).values()
             if log.get("team_id") == team_id
         ]
         payload = logs
@@ -607,7 +607,7 @@ class GetUserCertification(Tool):
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
         uid = user_id
         certs = [
-            c for c in data.get("user_certifications", []) if c.get("user_id") == uid
+            c for c in data.get("user_certifications", {}).values() if c.get("user_id") == uid
         ]
         payload = certs
         out = json.dumps(payload, indent=2)
@@ -673,7 +673,7 @@ class FindUserByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None) -> str:
-        for u in data.get("users", []):
+        for u in data.get("users", {}).values():
             if u.get("name").lower() == name.lower():
                 payload = {"user_id": u.get("user_id")}
                 out = json.dumps(payload)
@@ -702,7 +702,7 @@ class FindCourseByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None) -> str:
-        for c in data.get("course_catalog", []):
+        for c in data.get("course_catalog", {}).values():
             if c.get("name").lower() == name.lower():
                 payload = {"course_id": c.get("course_id")}
                 out = json.dumps(payload)
@@ -731,7 +731,7 @@ class FindJobByTitle(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], title: str = None) -> str:
-        for j in data.get("job_postings", []):
+        for j in data.get("job_postings", {}).values():
             if j.get("title").lower() == title.lower():
                 payload = {"job_id": j.get("job_id")}
                 out = json.dumps(payload)
@@ -760,7 +760,7 @@ class FindApplication(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, job_id: str = None) -> str:
-        for a in data.get("job_applications", []):
+        for a in data.get("job_applications", {}).values():
             if a.get("applicant_id") == user_id and a.get("job_id") == job_id:
                 payload = {"application_id": a.get("application_id")}
                 out = json.dumps(payload)
@@ -792,7 +792,7 @@ class FindMentor(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], expertise: list[str] = None) -> str:
-        mentors = data.get("user_mentorship", [])
+        mentors = data.get("user_mentorship", {}).values()
         # Deterministic choice: the first mentor from the list who meets all expertise criteria and is available.
         for m in sorted(mentors, key=lambda x: x["mentor_id"]):  # Sort to ensure determinism
             if m.get("availability") != "Full" and all(
@@ -831,7 +831,7 @@ class FindWorkflow(Tool):
         uid = employee_id
         name = workflow_name
 
-        for wf in data.get("hr_workflows", []):
+        for wf in data.get("hr_workflows", {}).values():
             # Verify if the workflow name matches initially
             if wf.get("workflow_name", "").lower() == name.lower():
                 # Verify the presence of a top-level employee_id (e.g., Performance Review)
@@ -882,7 +882,7 @@ class GetWorkflowDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], workflow_id: str = None) -> str:
         wid = workflow_id
-        for wf in data.get("hr_workflows", []):
+        for wf in data.get("hr_workflows", {}).values():
             if wf.get("workflow_id") == wid:
                 payload = wf
                 out = json.dumps(payload, indent=2)

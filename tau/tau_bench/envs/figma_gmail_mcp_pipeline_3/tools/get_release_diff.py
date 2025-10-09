@@ -13,7 +13,7 @@ class get_release_diff(Tool):
             return miss
         for r in _ensure(data, "releases", []):
             if r.get("release_id") == p["release_id"]:
-                return _ok({"release_id": r["release_id"], "diff": r.get("diff", {})})
+                return _ok({"release_id": r["release_id"], "diff": r.get("diff", {}).values()})
         return _err("release_not_found", {"release_id": p["release_id"]})
     @staticmethod
     def get_info() -> dict[str, Any]:

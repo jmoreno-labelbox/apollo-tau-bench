@@ -10,7 +10,7 @@ class ListActiveLoansWithBalances(Tool):
         if not customer_id:
             return json.dumps({'error': 'customer_id is required'})
         loans = load_json('loans.json')
-        filtered = [l for l in loans if l['customer_id'] == customer_id and l['status'] == 'Active']
+        filtered = [l for l in loans.values() if l['customer_id'] == customer_id and l['status'] == 'Active']
         result = [
             {
                 'loan_id': l['loan_id'],

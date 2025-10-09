@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUserTargetRole(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        goals_data = data.get("goals", [])
+        goals_data = data.get("goals", {}).values()
 
-        user_goals = [g for g in goals_data if g.get("user_id") == user_id]
+        user_goals = [g for g in goals_data.values() if g.get("user_id") == user_id]
 
         if not user_goals:
             payload = {"error": f"No goals found for user {user_id}."}

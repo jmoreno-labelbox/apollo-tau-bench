@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTeamByName(Tool):
@@ -15,8 +15,8 @@ class GetTeamByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None) -> str:
-        teams = data.get("teams", [])
-        for team in teams:
+        teams = data.get("teams", {}).values()
+        for team in teams.values():
             if team.get("name") == name:
                 payload = team
                 out = json.dumps(payload)

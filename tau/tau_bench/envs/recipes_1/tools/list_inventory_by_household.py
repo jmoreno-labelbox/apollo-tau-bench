@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListInventoryByHousehold(Tool):
@@ -19,7 +19,7 @@ class ListInventoryByHousehold(Tool):
             return _json_dump({"error": "household_id is required"})
         rows = [
             i
-            for i in data.get("inventory_items", [])
+            for i in data.get("inventory_items", {}).values()
             if int(i.get("household_id")) == int(household_id)
         ]
         if location_enum:

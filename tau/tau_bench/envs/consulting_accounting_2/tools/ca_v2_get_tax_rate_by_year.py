@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2GetTaxRateByYear(Tool):
@@ -19,8 +19,8 @@ class CaV2GetTaxRateByYear(Tool):
         if not year:
             return _error("year is required.")
 
-        tax_rates = data.get("tax_rates", [])
-        tax_rate = _find_one(tax_rates, "tax_year", int(year))
+        tax_rates = data.get("tax_rates", {}).values()
+        tax_rate = _find_one(list(tax_rates.values()), "tax_year", int(year))
         return (
             json.dumps(tax_rate)
             if tax_rate

@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RemoveBeneficiaryByBeneficiaryId(Tool):
@@ -21,8 +21,8 @@ class RemoveBeneficiaryByBeneficiaryId(Tool):
         if not customer_id or not beneficiary_id:
             return json.dumps({"error": "customer_id and beneficiary_id are required."}, indent=2)
 
-        beneficiaries = data.get("beneficiaries", [])
-        for i, beneficiary in enumerate(beneficiaries):
+        beneficiaries = data.get("beneficiaries", {}).values()
+        for i, beneficiary in enumerate(beneficiaries.values():
             if (beneficiary.get("beneficiary_id") == beneficiary_id
                     and beneficiary.get("customer_id") == customer_id):
                 del beneficiaries[i]

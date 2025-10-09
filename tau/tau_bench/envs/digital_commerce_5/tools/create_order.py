@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateOrder(Tool):
@@ -31,31 +31,30 @@ class CreateOrder(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        carts = data.get("carts", [])
-        cart = next((c for c in carts if _as_id(c.get("cart_id")) == cart_id), None)
+        carts = data.get("carts", {}).values()
+        cart = next((c for c in carts.values() if _as_id(c.get("cart_id")) == cart_id), None)
         if not cart:
             return _err("Cart not found.")
 
-        cart_items = data.get("cart_items", [])
-        lines = [ci for ci in cart_items if _as_id(ci.get("cart_id")) == cart_id]
+        cart_items = data.get("cart_items", {}).values()
+        lines = [ci for ci in cart_items.values() if _as_id(ci.get("cart_id")) == cart_id]
         if not lines:
             return _err("Cart has no items.")
 
-        accounts = data.get("accounts", [])
+        accounts = data.get("accounts", {}).values()
         account = next(
             (
                 a
-                for a in accounts
-                if _as_id(a.get("account_id")) == _as_id(cart.get("account_id"))
+                for a in accounts.values() if _as_id(a.get("account_id")) == _as_id(cart.get("account_id"))
             ),
             None,
         )
         pricebook_id = cart.get("override_pricebook_id") or (
             account.get("default_pricebook_id") if account else "1"
         )
-        pbes = data.get("pricebook_entries", [])
-        offers = data.get("offers", [])
-        products = data.get("products", [])
+        pbes = data.get("pricebook_entries", {}).values()
+        offers = data.get("offers", {}).values()
+        products = data.get("products", {}).values()
 
         subtotal = 0.0
         for li in lines:
@@ -63,8 +62,7 @@ class CreateOrder(Tool):
             pbe = next(
                 (
                     e
-                    for e in pbes
-                    if _as_id(e.get("pricebook_id")) == _as_id(pricebook_id)
+                    for e in pbes.values() if _as_id(e.get("pricebook_id")) == _as_id(pricebook_id)
                     and _as_id(e.get("product_id")) == pid
                 ),
                 None,
@@ -76,7 +74,7 @@ class CreateOrder(Tool):
             subtotal += price * qty
 
             prod = next(
-                (p for p in products if _as_id(p.get("product_id")) == pid), None
+                (p for p in products.values() if _as_id(p.get("product_id")) == pid), None
             )
             if not prod:
                 return _err(f"Product {pid} not found.")
@@ -90,8 +88,7 @@ class CreateOrder(Tool):
             offer = next(
                 (
                     o
-                    for o in offers
-                    if _as_id(o.get("offer_id")) == _as_id(cart.get("applied_offer_id"))
+                    for o in offers.values() if _as_id(o.get("offer_id")) == _as_id(cart.get("applied_offer_id"))
                     and o.get("is_active") is True
                 ),
                 None,
@@ -120,7 +117,7 @@ class CreateOrder(Tool):
             "total_amount": total,
             "shipping_address_used": None,
         }
-        orders.append(new_order)
+        data["orders"][order_id] = new_order
 
         order_items = data.setdefault("order_items", [])
         for idx, li in enumerate(lines, start=1):
@@ -128,8 +125,7 @@ class CreateOrder(Tool):
             pbe = next(
                 (
                     e
-                    for e in pbes
-                    if _as_id(e.get("pricebook_id")) == _as_id(pricebook_id)
+                    for e in pbes.values() if _as_id(e.get("pricebook_id")) == _as_id(pricebook_id)
                     and _as_id(e.get("product_id")) == pid
                 ),
                 None,

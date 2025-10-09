@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class deliver_fix_plan(Tool):
@@ -20,7 +20,7 @@ class deliver_fix_plan(Tool):
         request_id: str,
     ) -> str:
         deliveries = data.setdefault("fix_plan_deliveries", [])
-        fix_items = data.get("fix_items", [])
+        fix_items = data.get("fix_items", {}).values()
         comments_tbl = data.setdefault("figma_comments", [])
         bot_email = _resolve_bot_email(data)
         run_id = _id_from_request("run", request_id) or _get_next_id(
@@ -40,7 +40,7 @@ class deliver_fix_plan(Tool):
             return out
 
         items_for_plan: list[dict[str, Any]] = []
-        for it in fix_items:
+        for it in fix_items.values():
             if isinstance(it, dict) and it.get("plan_id") == plan_id:
                 items_for_plan.append(it)
 

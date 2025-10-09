@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetEmployeeWorkload(Tool):
@@ -20,9 +20,9 @@ class GetEmployeeWorkload(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
+        tasks = data.get("tasks", {}).values()
 
-        employee_tasks = [t for t in tasks if t.get("assignee_id") == employee_id]
+        employee_tasks = [t for t in tasks.values() if t.get("assignee_id") == employee_id]
 
         if sprint_id:
             employee_tasks = [
@@ -34,18 +34,18 @@ class GetEmployeeWorkload(Tool):
         ]
         if include_blocked:
             active_tasks.extend(
-                [t for t in employee_tasks if t.get("status") == "blocked"]
+                [t for t in employee_tasks.values() if t.get("status") == "blocked"]
             )
 
-        total_story_points = sum(t.get("story_points", 0) for t in active_tasks)
+        total_story_points = sum(t.get("story_points", 0) for t in active_tasks.values()
 
         status_breakdown = {
-            "todo": len([t for t in employee_tasks if t.get("status") == "todo"]),
+            "todo": len([t for t in employee_tasks.values() if t.get("status") == "todo"]),
             "in_progress": len(
-                [t for t in employee_tasks if t.get("status") == "in_progress"]
+                [t for t in employee_tasks.values() if t.get("status") == "in_progress"]
             ),
-            "blocked": len([t for t in employee_tasks if t.get("status") == "blocked"]),
-            "done": len([t for t in employee_tasks if t.get("status") == "done"]),
+            "blocked": len([t for t in employee_tasks.values() if t.get("status") == "blocked"]),
+            "done": len([t for t in employee_tasks.values() if t.get("status") == "done"]),
         }
 
         priority_breakdown = {

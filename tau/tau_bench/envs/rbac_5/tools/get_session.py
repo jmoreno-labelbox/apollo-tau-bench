@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSession(Tool):
@@ -24,7 +24,7 @@ class GetSession(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], session_id: str = None, user_id: str = None, ip_address: str = None, only_active: bool = False) -> str:
-        sessions = data.get("sessions", [])
+        sessions = data.get("sessions", {}).values()
 
         # If session_id is supplied, return the specific session
         if session_id:
@@ -39,7 +39,7 @@ class GetSession(Tool):
 
         # Narrow down sessions according to the supplied criteria
         filtered_sessions = []
-        for session in sessions:
+        for session in sessions.values()):
             # Narrow down by user_id if supplied
             if user_id and session.get("user_id") != user_id:
                 continue
@@ -49,7 +49,7 @@ class GetSession(Tool):
             # Narrow down by active status if requested
             if only_active and session.get("end_time") is not None:
                 continue
-            filtered_sessions.append(session)
+            filtered_data["sessions"][session_id] = session
         payload = {
             "ok": True,
             "sessions": (

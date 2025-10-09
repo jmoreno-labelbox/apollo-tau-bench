@@ -24,7 +24,7 @@ class SendNotification(Tool):
         if not nid:
             nid = f"notification_{len(notifications) + 1:04d}"
 
-        if any(n.get("id") == nid for n in notifications):
+        if any(n.get("id") == nid for n in notifications.values()):
             return _err(f"notification id {nid} already exists")
         record = {
             "id": nid,

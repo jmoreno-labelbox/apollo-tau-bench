@@ -10,18 +10,17 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
 class GetStoreInventory(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], store_id: str = None, sku: str = None) -> str:
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
         result = [
             item
-            for item in inventory
-            if item["store_id"] == store_id and item["sku"] == sku
+            for item in inventory.values() if item["store_id"] == store_id and item["sku"] == sku
         ]
         payload = result
         out = json.dumps(payload, indent=2)
@@ -53,11 +52,10 @@ class GetPhysicalCount(Tool):
             payload = {"physical_count": 40}
             out = json.dumps(payload)
             return out
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
         result = [
             item
-            for item in inventory
-            if item["store_id"] == store_id and item["sku"] == sku
+            for item in inventory.values() if item["store_id"] == store_id and item["sku"] == sku
         ]
         if result:
             physical_count = result[0]["quantity"]
@@ -182,9 +180,9 @@ class CreateInventoryAdjustment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], store_id: str, sku: str, amount: int, reason: str = "audit_discrepancy", timestamp: Any = None) -> str:
         # Verify the existence of the inventory record
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
         exists = any(
-            item["store_id"] == store_id and item["sku"] == sku for item in inventory
+            item["store_id"] == store_id and item["sku"] == sku for item in inventory.values()
         )
         if not exists:
             payload = {
@@ -477,8 +475,8 @@ class ComputeDiscrepancyAmount(Tool):
 class GetProductInfo(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sku: str) -> str:
-        products = data.get("products", [])
-        result = [item for item in products if item["sku"] == sku]
+        products = data.get("products", {}).values()
+        result = [item for item in products.values() if item["sku"] == sku]
         if result:
             payload = result[0]
             out = json.dumps(payload)
@@ -506,8 +504,8 @@ class GetProductInfo(Tool):
 class GetStoreInfo(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], store_id: str = None) -> str:
-        stores = data.get("stores", [])
-        result = [item for item in stores if item["store_id"] == store_id]
+        stores = data.get("stores", {}).values()
+        result = [item for item in stores.values() if item["store_id"] == store_id]
         if result:
             payload = result[0]
             out = json.dumps(payload)
@@ -530,8 +528,8 @@ class GetStoreInfo(Tool):
 class GetEmployeeInfo(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        employees = data.get("employees", [])
-        result = [item for item in employees if item["employee_id"] == employee_id]
+        employees = data.get("employees", {}).values()
+        result = [item for item in employees.values() if item["employee_id"] == employee_id]
         if result:
             payload = result[0]
             out = json.dumps(payload)
@@ -559,8 +557,8 @@ class GetEmployeeInfo(Tool):
 class ListStoreSKUs(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], store_id: str = None) -> str:
-        inventory = data.get("inventory", [])
-        result = [item["sku"] for item in inventory if item["store_id"] == store_id]
+        inventory = data.get("inventory", {}).values()
+        result = [item["sku"] for item in inventory.values() if item["store_id"] == store_id]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -584,8 +582,8 @@ class ListStoreSKUs(Tool):
 class ListStoreEmployees(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], store_id: str = None) -> str:
-        employees = data.get("employees", [])
-        result = [item for item in employees if item["store_id"] == store_id]
+        employees = data.get("employees", {}).values()
+        result = [item for item in employees.values() if item["store_id"] == store_id]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -671,8 +669,8 @@ class ListActivePromotions(Tool):
 class GetCustomerInfo(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], customer_id: str, sku: Any = None) -> str:
-        customers = data.get("customers", [])
-        result = [item for item in customers if item["customer_id"] == customer_id]
+        customers = data.get("customers", {}).values()
+        result = [item for item in customers.values() if item["customer_id"] == customer_id]
         if result:
             payload = result[0]
             out = json.dumps(payload)
@@ -700,8 +698,8 @@ class GetCustomerInfo(Tool):
 class ListStoreTransactions(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], store_id: str = None) -> str:
-        transactions = data.get("transactions", [])
-        result = [item for item in transactions if item["store_id"] == store_id]
+        transactions = data.get("transactions", {}).values()
+        result = [item for item in transactions.values() if item["store_id"] == store_id]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -725,9 +723,9 @@ class ListStoreTransactions(Tool):
 class GetTransactionDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], transaction_id: str = None) -> str:
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
         result = [
-            item for item in transactions if item["transaction_id"] == transaction_id
+            item for item in transactions.values() if item["transaction_id"] == transaction_id
         ]
         payload = result
         out = json.dumps(payload, indent=2)

@@ -24,7 +24,7 @@ class ValidateOrderItems(Tool):
             quantity = quantities[i] if quantities else 1
             product_variant, product_name, product = None, None, None
 
-            for p in products:
+            for p in products.values()):
                 if item_id in p["variants"]:
                     product_variant = p["variants"][item_id]
                     product_name = p["name"]
@@ -44,7 +44,7 @@ class ValidateOrderItems(Tool):
                 continue
 
             supplier = next(
-                (s for s in suppliers if s["supplier_id"] == product["supplier_id"]),
+                (s for s in suppliers.values() if s["supplier_id"] == product["supplier_id"]),
                 None,
             )
             stock = supplier["item_stock"].get(item_id) if supplier else None

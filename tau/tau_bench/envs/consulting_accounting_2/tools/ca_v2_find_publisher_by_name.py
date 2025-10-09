@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2FindPublisherByName(Tool):
@@ -18,8 +18,8 @@ class CaV2FindPublisherByName(Tool):
     def invoke(data: dict[str, Any], publisher_name: str = None) -> str:
         if not publisher_name:
             return _error("publisher_name is required.")
-        publishers = data.get("publishers", [])
-        publisher = _find_one(publishers, "name", publisher_name)
+        publishers = data.get("publishers", {}).values()
+        publisher = _find_one(list(publishers.values()), "name", publisher_name)
         return (
             json.dumps(publisher)
             if publisher

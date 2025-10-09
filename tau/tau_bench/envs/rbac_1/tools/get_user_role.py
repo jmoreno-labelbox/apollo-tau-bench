@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUserRole(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, role_name: str = None) -> str:
         role_id = None
-        for role in data.get("roles", []):
+        for role in data.get("roles", {}).values():
             if role.get("role_name") == role_name:
                 role_id = role.get("role_id")
                 break
@@ -24,7 +24,7 @@ class GetUserRole(Tool):
             out = json.dumps(payload)
             return out
 
-        for ur in data.get("user_roles", []):
+        for ur in data.get("user_roles", {}).values():
             if ur.get("user_id") == user_id and ur.get("role_id") == role_id:
                 payload = ur
                 out = json.dumps(payload)

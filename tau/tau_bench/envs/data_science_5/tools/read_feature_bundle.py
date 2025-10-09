@@ -7,22 +7,22 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReadFeatureBundle(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], feature_set_id: str = None, feature_set_name: str = None) -> str:
-        feats = data.get("features", []) or []
+        feats = data.get("features", {}).values() or []
         fid = feature_set_id
         fname = feature_set_name
         row = None
         if fid is not None:
             row = next(
-                (f for f in feats if str(f.get("feature_set_id")) == str(fid)), None
+                (f for f in feats.values() if str(f.get("feature_set_id")) == str(fid)), None
             )
         elif fname:
-            row = next((f for f in feats if f.get("feature_set_name") == fname), None)
+            row = next((f for f in feats.values() if f.get("feature_set_name") == fname), None)
         payload = row or {"error": "Feature set not found"}
         out = json.dumps(payload, indent=2)
         return out

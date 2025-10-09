@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CanAccessResource(Tool):
@@ -42,13 +42,13 @@ class CanAccessResource(Tool):
             return out
 
         # Confirm the user is present
-        if not _find_by_id(data.get("users", []), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
 
         # Confirm the resource is present
-        if not _find_by_id(data.get("resources", []), "resource_id", resource_id):
+        if not _find_by_id(data.get("resources", {}).values()), "resource_id", resource_id):
             payload = {"error": f"resource_id {resource_id} not found"}
             out = json.dumps(payload)
             return out
@@ -63,7 +63,7 @@ class CanAccessResource(Tool):
         # Step 1: Retrieve all permissions associated with the resource
         resource_permissions = [
             p
-            for p in data.get("permissions", [])
+            for p in data.get("permissions", {}).values()
             if p.get("resource_id") == resource_id
         ]
 
@@ -84,7 +84,7 @@ class CanAccessResource(Tool):
         # Step 2: Retrieve all roles that possess those permissions
         roles_with_permissions = [
             rp
-            for rp in data.get("role_permissions", [])
+            for rp in data.get("role_permissions", {}).values()
             if rp.get("permission_id") in resource_permission_ids
         ]
 
@@ -105,7 +105,7 @@ class CanAccessResource(Tool):
         # Step 3: Verify if the user holds any of those roles (and they are active)
         user_assignments = [
             ur
-            for ur in data.get("user_roles", [])
+            for ur in data.get("user_roles", {}).values()
             if ur.get("user_id") == user_id and is_active(ur)
         ]
 
@@ -126,15 +126,15 @@ class CanAccessResource(Tool):
 
         if include_details:
             # Create a comprehensive breakdown
-            role_map = {r.get("role_id"): r for r in data.get("roles", [])}
+            role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
             permission_map = {
-                p.get("permission_id"): p for p in data.get("permissions", [])
+                p.get("permission_id"): p for p in data.get("permissions", {}).values()
             }
 
             # Identify which permissions are assigned by the roles held by the user
             granting_details = []
             for role_id in granting_role_ids:
-                role = role_map.get(role_id, {})
+                role = role_map.get(role_id, {}).values()
 
                 # Determine which permissions this role grants for the specified resource
                 role_permissions_for_resource = [
@@ -145,7 +145,7 @@ class CanAccessResource(Tool):
 
                 permissions_detail = []
                 for perm_id in role_permissions_for_resource:
-                    perm = permission_map.get(perm_id, {})
+                    perm = permission_map.get(perm_id, {}).values()
                     permissions_detail.append(
                         {
                             "permission_id": perm_id,

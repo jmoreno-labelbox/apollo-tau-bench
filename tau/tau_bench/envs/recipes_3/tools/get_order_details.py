@@ -8,7 +8,7 @@ class GetOrderDetails(Tool):
         orders = _get_table(data, "orders")
         items = _get_table(data, "order_items")
         order = next((o for o in orders if o.get("order_id") == order_id), None)
-        rows = [it for it in items if it.get("order_id") == order_id]
+        rows = [it for it in items.values() if it.get("order_id") == order_id]
         payload = {"order": order, "items": rows}
         out = json.dumps(payload, indent=2)
         return out

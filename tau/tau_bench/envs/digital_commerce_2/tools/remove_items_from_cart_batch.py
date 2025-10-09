@@ -8,7 +8,7 @@ from decimal import ROUND_HALF_UP, Decimal
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RemoveItemsFromCartBatch(Tool):
@@ -21,12 +21,11 @@ class RemoveItemsFromCartBatch(Tool):
                 payload, indent=2,
             )
             return out
-        cart_items = data.get("cart_items", [])
+        cart_items = data.get("cart_items", {}).values()
         before = len(cart_items)
         cart_items[:] = [
             r
-            for r in cart_items
-            if not (r.get("cart_id") == cart_id and r.get("product_id") in product_ids)
+            for r in cart_items.values() if not (r.get("cart_id") == cart_id and r.get("product_id") in product_ids)
         ]
         removed = before - len(cart_items)
         payload = {

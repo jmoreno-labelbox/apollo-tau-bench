@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class NormalizeTimestampField(Tool):
@@ -16,7 +16,7 @@ class NormalizeTimestampField(Tool):
         data: dict[str, Any], table_name: str, id_field: str, id_value: str, field: str
     ) -> str:
         id_value = _sid(id_value)
-        table = data.get(table_name, [])
+        table = data.get(table_name, {}).values()
         row = next((r for r in table if str(r.get(id_field)) == id_value), None)
         if not row:
             payload = {"error": "row not found"}

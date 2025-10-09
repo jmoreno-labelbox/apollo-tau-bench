@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -32,21 +32,21 @@ class ListDevices(Tool):
         data: dict[str, Any], type: str | None = None, location: str | None = None
     ) -> str:
         _locationL = location or ''.lower()
-        devices = data.get("devices", [])
+        devices = data.get("devices", {}).values()
         if type:
-            devices = [d for d in devices if d["type"] == type]
+            devices = [d for d in devices.values() if d["type"] == type]
         if location:
-            devices = [d for d in devices if d["location"].lower() == location.lower()]
+            devices = [d for d in devices.values() if d["location"].lower() == location.lower()]
         payload = {"devices": devices}
         out = json.dumps(payload, indent=2)
         return out
         _locationL = location or ''.lower()
         pass
-        devices = data.get("devices", [])
+        devices = data.get("devices", {}).values()
         if type:
-            devices = [d for d in devices if d["type"] == type]
+            devices = [d for d in devices.values() if d["type"] == type]
         if location:
-            devices = [d for d in devices if d["location"].lower() == location.lower()]
+            devices = [d for d in devices.values() if d["location"].lower() == location.lower()]
         payload = {"devices": devices}
         out = json.dumps(payload, indent=2)
         return out
@@ -87,8 +87,8 @@ class GetDevice(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], device_id: str) -> str:
-        devices: list[dict[str, Any]] = data.get("devices", [])
-        dev = next((d for d in devices if d.get("id") == device_id), None)
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
+        dev = next((d for d in devices.values() if d.get("id") == device_id), None)
         if not dev:
             payload = {"error": f"Device '{device_id}' not found"}
             out = json.dumps(payload, indent=2)
@@ -132,18 +132,18 @@ class UpdateDeviceState(Tool):
         device_id: str,
         update: dict[str, Any]
     ) -> str:
-        devices: list[dict[str, Any]] = data.get("devices", [])
-        for dev in devices:
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
+        for dev in devices.values():
             if dev.get("id") == device_id:
                 allowed = set(dev.get("state_params", []))
-                bad_keys = [k for k in update if k not in allowed]
+                bad_keys = [k for k in update.values() if k not in allowed]
                 if bad_keys:
                     payload = {"error": f"Invalid state param(s): {bad_keys}"}
                     out = json.dumps(
                         payload, indent=2
                     )
                     return out
-                dev.setdefault("state", {}).update(update)
+                dev.setdefault("state", {}).values().update(update)
                 dev["state"]["last_updated"] = _now_iso()
                 payload = {"success": True, "device_id": device_id}
                 out = json.dumps(
@@ -151,18 +151,18 @@ class UpdateDeviceState(Tool):
                 )
                 return out
         #attempt to check sensors if devices are not found
-        sensors: list[dict[str, Any]] = data.get("sensors", [])
+        sensors: list[dict[str, Any]] = data.get("sensors", {}).values()
         for sensor in sensors:
             if sensor.get("id") == device_id:
                 allowed = set(sensor.get("state_params", []))
-                bad_keys = [k for k in update if k not in allowed]
+                bad_keys = [k for k in update.values() if k not in allowed]
                 if bad_keys:
                     payload = {"error": f"Invalid state param(s): {bad_keys}"}
                     out = json.dumps(
                         payload, indent=2
                     )
                     return out
-                sensor.setdefault("state", {}).update(update)
+                sensor.setdefault("state", {}).values().update(update)
                 sensor["state"]["last_updated"] = _now_iso()
                 payload = {"success": True, "sensor_id": device_id}
                 out = json.dumps(
@@ -173,18 +173,18 @@ class UpdateDeviceState(Tool):
         out = json.dumps(payload, indent=2)
         return out
         pass
-        devices: list[dict[str, Any]] = data.get("devices", [])
-        for dev in devices:
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
+        for dev in devices.values():
             if dev.get("id") == device_id:
                 allowed = set(dev.get("state_params", []))
-                bad_keys = [k for k in update if k not in allowed]
+                bad_keys = [k for k in update.values() if k not in allowed]
                 if bad_keys:
                     payload = {"error": f"Invalid state param(s): {bad_keys}"}
                     out = json.dumps(
                         payload, indent=2
                     )
                     return out
-                dev.setdefault("state", {}).update(update)
+                dev.setdefault("state", {}).values().update(update)
                 dev["state"]["last_updated"] = _now_iso()
                 payload = {"success": True, "device_id": device_id}
                 out = json.dumps(
@@ -192,18 +192,18 @@ class UpdateDeviceState(Tool):
                 )
                 return out
         #attempt to check sensors if devices are not found
-        sensors: list[dict[str, Any]] = data.get("sensors", [])
+        sensors: list[dict[str, Any]] = data.get("sensors", {}).values()
         for sensor in sensors:
             if sensor.get("id") == device_id:
                 allowed = set(sensor.get("state_params", []))
-                bad_keys = [k for k in update if k not in allowed]
+                bad_keys = [k for k in update.values() if k not in allowed]
                 if bad_keys:
                     payload = {"error": f"Invalid state param(s): {bad_keys}"}
                     out = json.dumps(
                         payload, indent=2
                     )
                     return out
-                sensor.setdefault("state", {}).update(update)
+                sensor.setdefault("state", {}).values().update(update)
                 sensor["state"]["last_updated"] = _now_iso()
                 payload = {"success": True, "sensor_id": device_id}
                 out = json.dumps(
@@ -254,18 +254,18 @@ class UpdateDeviceStateTimer(Tool):
         update: dict[str, Any],
         rrule: str | None = None
     ) -> str:
-        devices: list[dict[str, Any]] = data.get("devices", [])
-        for dev in devices:
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
+        for dev in devices.values():
             if dev.get("id") == device_id:
                 allowed = set(dev.get("state_params", []))
-                bad_keys = [k for k in update if k not in allowed]
+                bad_keys = [k for k in update.values() if k not in allowed]
                 if bad_keys:
                     payload = {"error": f"Invalid state param(s): {bad_keys}"}
                     out = json.dumps(
                         payload, indent=2
                     )
                     return out
-                dev.setdefault("state", {}).update(update)
+                dev.setdefault("state", {}).values().update(update)
                 dev["state"]["last_updated"] = _now_iso()
                 ScheduleDeviceUpdate.invoke(
                     data, device_id, timestamp_end, {"power": "off"}, None, rrule
@@ -276,18 +276,18 @@ class UpdateDeviceStateTimer(Tool):
                 )
                 return out
         #attempt to check sensors if devices are not found
-        sensors: list[dict[str, Any]] = data.get("sensors", [])
+        sensors: list[dict[str, Any]] = data.get("sensors", {}).values()
         for sensor in sensors:
             if sensor.get("id") == device_id:
                 allowed = set(sensor.get("state_params", []))
-                bad_keys = [k for k in update if k not in allowed]
+                bad_keys = [k for k in update.values() if k not in allowed]
                 if bad_keys:
                     payload = {"error": f"Invalid state param(s): {bad_keys}"}
                     out = json.dumps(
                         payload, indent=2
                     )
                     return out
-                sensor.setdefault("state", {}).update(update)
+                sensor.setdefault("state", {}).values().update(update)
                 sensor["state"]["last_updated"] = _now_iso()
                 ScheduleDeviceUpdate.invoke(
                     data, device_id, timestamp_end, {"power": "off"}, None, rrule
@@ -301,18 +301,18 @@ class UpdateDeviceStateTimer(Tool):
         out = json.dumps(payload, indent=2)
         return out
         pass
-        devices: list[dict[str, Any]] = data.get("devices", [])
-        for dev in devices:
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
+        for dev in devices.values():
             if dev.get("id") == device_id:
                 allowed = set(dev.get("state_params", []))
-                bad_keys = [k for k in update if k not in allowed]
+                bad_keys = [k for k in update.values() if k not in allowed]
                 if bad_keys:
                     payload = {"error": f"Invalid state param(s): {bad_keys}"}
                     out = json.dumps(
                         payload, indent=2
                     )
                     return out
-                dev.setdefault("state", {}).update(update)
+                dev.setdefault("state", {}).values().update(update)
                 dev["state"]["last_updated"] = _now_iso()
                 ScheduleDeviceUpdate.invoke(
                     data, device_id, timestamp_end, {"power": "off"}, None, rrule
@@ -323,18 +323,18 @@ class UpdateDeviceStateTimer(Tool):
                 )
                 return out
         #attempt to check sensors if devices are not found
-        sensors: list[dict[str, Any]] = data.get("sensors", [])
+        sensors: list[dict[str, Any]] = data.get("sensors", {}).values()
         for sensor in sensors:
             if sensor.get("id") == device_id:
                 allowed = set(sensor.get("state_params", []))
-                bad_keys = [k for k in update if k not in allowed]
+                bad_keys = [k for k in update.values() if k not in allowed]
                 if bad_keys:
                     payload = {"error": f"Invalid state param(s): {bad_keys}"}
                     out = json.dumps(
                         payload, indent=2
                     )
                     return out
-                sensor.setdefault("state", {}).update(update)
+                sensor.setdefault("state", {}).values().update(update)
                 sensor["state"]["last_updated"] = _now_iso()
                 ScheduleDeviceUpdate.invoke(
                     data, device_id, timestamp_end, {"power": "off"}, None, rrule
@@ -400,12 +400,12 @@ class ScheduleDeviceUpdate(Tool):
         replace: bool = False,
         rrule: str | None = None
     ) -> str:
-        devices: list[dict[str, Any]] = data.get("devices", [])
-        for dev in devices:
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
+        for dev in devices.values():
             if dev.get("id") == device_id:
                 sched: list[dict[str, Any]] = dev.setdefault("scheduled_updates", [])
                 if replace:
-                    sched[:] = [s for s in sched if s.get("timestamp") != timestamp]
+                    sched[:] = [s for s in sched.values() if s.get("timestamp") != timestamp]
                 if rrule:
                     sched.append(
                         {"timestamp": timestamp, "update": update, "rrule": rrule}
@@ -422,12 +422,12 @@ class ScheduleDeviceUpdate(Tool):
         out = json.dumps(payload, indent=2)
         return out
         pass
-        devices: list[dict[str, Any]] = data.get("devices", [])
-        for dev in devices:
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
+        for dev in devices.values():
             if dev.get("id") == device_id:
                 sched: list[dict[str, Any]] = dev.setdefault("scheduled_updates", [])
                 if replace:
-                    sched[:] = [s for s in sched if s.get("timestamp") != timestamp]
+                    sched[:] = [s for s in sched.values() if s.get("timestamp") != timestamp]
                 if rrule:
                     sched.append(
                         {"timestamp": timestamp, "update": update, "rrule": rrule}
@@ -505,8 +505,8 @@ class CreateDevice(Tool):
         firmware_version: str = None,
         scheduled_updates: list = None) -> str:
         pass
-        devices: list[dict[str, Any]] = data.get("devices", [])
-        if any(d.get("id") == id for d in devices):
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
+        if any(d.get("id") == id for d in devices.values()):
             payload = {"error": "Duplicate device id"}
             out = json.dumps(payload, indent=2)
             return out
@@ -519,13 +519,13 @@ class CreateDevice(Tool):
             "state": state,
             "scheduled_updates": scheduled_updates or [],
         }
-        devices.append(device_obj)
+        data["devices"][device_id] = device_obj
         payload = {"success": True, "device_id": id}
         out = json.dumps(payload, indent=2)
         return out
         pass
-        devices: list[dict[str, Any]] = data.get("devices", [])
-        if any(d.get("id") == id for d in devices):
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
+        if any(d.get("id") == id for d in devices.values()):
             payload = {"error": "Duplicate device id"}
             out = json.dumps(payload, indent=2)
             return out
@@ -539,7 +539,7 @@ class CreateDevice(Tool):
             **extra_fields,
             "scheduled_updates": [],
         }
-        devices.append(device_obj)
+        data["devices"][device_id] = device_obj
         payload = {"success": True, "device_id": id}
         out = json.dumps(payload, indent=2)
         return out
@@ -596,10 +596,10 @@ class DeleteDevice(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], device_id: str) -> str:
-        devices = data.get("devices", [])
-        rooms = data.get("rooms", {})
+        devices = data.get("devices", {}).values()
+        rooms = data.get("rooms", {}).values()
         original_len = len(devices)
-        devices[:] = [d for d in devices if d.get("id") != device_id]
+        devices[:] = [d for d in devices.values() if d.get("id") != device_id]
         if len(devices) == original_len:
             payload = {"error": "Device not found"}
             out = json.dumps(payload, indent=2)
@@ -609,10 +609,10 @@ class DeleteDevice(Tool):
         data["devices"] = devices
         
         # Detach from any room associations
-        for room in rooms.get("rooms", []):
+        for room in rooms.values().get("rooms", []):
             room_devices = room.get("devices", [])
             if device_id in room_devices:
-                room["devices"] = [d for d in room_devices if d != device_id]
+                room["devices"] = [d for d in room_devices.values() if d != device_id]
         payload = {"success": True}
         out = json.dumps(payload, indent=2)
         return out
@@ -650,7 +650,7 @@ class AddDeviceToRoom(Tool):
     def invoke(data: dict[str, Any], room_id: str, device_id: str,
     new_device: Any = None,
     ) -> str:
-        rooms_doc: list[dict[str, Any]] = data.get("rooms", [])
+        rooms_doc: list[dict[str, Any]] = data.get("rooms", {}).values()
         target_room = next(
             (room for room in rooms_doc if room["id"] == room_id),
             None,
@@ -703,7 +703,7 @@ class RemoveDeviceFromRoom(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], room_id: str, device_id: str) -> str:
-        rooms_doc: list[dict[str, Any]] = data.get("rooms", [])
+        rooms_doc: list[dict[str, Any]] = data.get("rooms", {}).values()
         for room in rooms_doc:
             if room["id"] == room_id:
                 room_devices = room.get("devices", [])
@@ -711,7 +711,7 @@ class RemoveDeviceFromRoom(Tool):
                     payload = {"error": "Device not present in room"}
                     out = json.dumps(payload, indent=2)
                     return out
-                room["devices"] = [d for d in room_devices if d != device_id]
+                room["devices"] = [d for d in room_devices.values() if d != device_id]
                 payload = {"success": True}
                 out = json.dumps(payload, indent=2)
                 return out
@@ -819,7 +819,7 @@ class UpsertScene(Tool):
         name: str = None,
         description: str = None
     ) -> str:
-        scenes_doc: list[dict[str, Any]] = data.get("scenes", [])
+        scenes_doc: list[dict[str, Any]] = data.get("scenes", {}).values()
         scenes = scenes_doc
         for scene in scenes:
             if scene.get("id") == id:
@@ -836,7 +836,7 @@ class UpsertScene(Tool):
         out = json.dumps(payload, indent=2)
         return out
         pass
-        scenes_doc: list[dict[str, Any]] = data.get("scenes", [])
+        scenes_doc: list[dict[str, Any]] = data.get("scenes", {}).values()
         scenes = scenes_doc
         for scene in scenes:
             if scene.get("id") == id:
@@ -904,10 +904,10 @@ class DeleteScene(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], scene_id: str) -> str:
-        scenes_doc: list[dict[str, Any]] = data.get("scenes", [])
+        scenes_doc: list[dict[str, Any]] = data.get("scenes", {}).values()
         scenes = scenes_doc
         original_len = len(scenes)
-        scenes_doc = [s for s in scenes if s.get("id") != scene_id]
+        scenes_doc = [s for s in scenes.values() if s.get("id") != scene_id]
         if len(scenes_doc) == original_len:
             payload = {"error": "Scene not found"}
             out = json.dumps(payload, indent=2)
@@ -942,7 +942,7 @@ class ScheduleSceneRun(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], scene_id: str, timestamp: str) -> str:
-        scenes_doc: list[dict[str, Any]] = data.get("scenes", [])
+        scenes_doc: list[dict[str, Any]] = data.get("scenes", {}).values()
         scenes = scenes_doc
         for scene in scenes:
             if scene.get("id") == scene_id:
@@ -988,7 +988,7 @@ class ListMembers(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], members: list = None) -> str:
-        payload = members if members is not None else data.get("members", [])
+        payload = members if members is not None else data.get("members", {}).values()
         out = json.dumps(payload, indent=2)
         return out
     @staticmethod
@@ -1017,15 +1017,15 @@ class UpsertMember(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], id: str, profile: dict[str, Any]) -> str:
-        members = data.get("members", [])
-        for m in members:
+        members = data.get("members", {}).values()
+        for m in members.values():
             if m["id"] == id:
                 m.update(profile)
                 payload = {"success": "updated"}
                 out = json.dumps(payload, indent=2)
                 return out
         profile["id"] = id
-        members.append(profile)
+        data["members"][member_id] = profile
         payload = {"success": "created"}
         out = json.dumps(payload, indent=2)
         return out
@@ -1061,8 +1061,8 @@ class DeleteMember(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], member_id: str) -> str:
-        members = data.get("members", [])
-        new_members = [m for m in members if m["id"] != member_id]
+        members = data.get("members", {}).values()
+        new_members = [m for m in members.values() if m["id"] != member_id]
         if len(new_members) == len(members):
             payload = {"error": "Member not found"}
             out = json.dumps(payload, indent=2)
@@ -1104,7 +1104,7 @@ class ListSensorNamesIds(Tool):
     def invoke(data: dict[str, Any]) -> str:
         payload = [
             {"name": s["name"], "sensor_id": s["id"]}
-            for s in data.get("sensors", [])
+            for s in data.get("sensors", {}).values()
         ]
         out = json.dumps(
             payload, indent=2,
@@ -1136,7 +1136,7 @@ class GetSensorState(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], sensor_id: str) -> str:
-        for sen in data.get("sensors", []):
+        for sen in data.get("sensors", {}).values():
             if sen["id"] == sensor_id:
                 payload = {"state": sen["state"]}
                 out = json.dumps(payload, indent=2)
@@ -1181,7 +1181,7 @@ class ManageCustomList(Tool):
         tags: list[str],
         name: str = None
     ) -> str:
-        lists_doc: list[dict[str, Any]] = data.get("custom_lists", [])
+        lists_doc: list[dict[str, Any]] = data.get("custom_lists", {}).values()
         if action == "list_all_names_ids":
             payload = {
                 "lists": [
@@ -1200,7 +1200,7 @@ class ManageCustomList(Tool):
             )
             return out
         if action == "delete":
-            new_doc = [l for l in lists_doc if l["list_id"] != list_id]
+            new_doc = [l for l in lists_doc.values() if l["list_id"] != list_id]
             if len(new_doc) == len(lists_doc):
                 payload = {"error": "List not found"}
                 out = json.dumps(payload, indent=2)
@@ -1214,7 +1214,7 @@ class ManageCustomList(Tool):
                 payload = {"error": "name and list_id required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            if any(l["list_id"] == list_id for l in lists_doc):
+            if any(l["list_id"] == list_id for l in lists_doc.values()):
                 payload = {"error": "Duplicate list_id"}
                 out = json.dumps(payload, indent=2)
                 return out
@@ -1236,7 +1236,7 @@ class ManageCustomList(Tool):
         out = json.dumps(payload, indent=2)
         return out
         pass
-        lists_doc: list[dict[str, Any]] = data.get("custom_lists", [])
+        lists_doc: list[dict[str, Any]] = data.get("custom_lists", {}).values()
         if action == "list_all_names_ids":
             payload = {
                     "lists": [
@@ -1255,7 +1255,7 @@ class ManageCustomList(Tool):
             )
             return out
         if action == "delete":
-            new_doc = [l for l in lists_doc if l["list_id"] != list_id]
+            new_doc = [l for l in lists_doc.values() if l["list_id"] != list_id]
             if len(new_doc) == len(lists_doc):
                 payload = {"error": "List not found"}
                 out = json.dumps(payload, indent=2)
@@ -1269,7 +1269,7 @@ class ManageCustomList(Tool):
                 payload = {"error": "name and list_id required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            if any(l["list_id"] == list_id for l in lists_doc):
+            if any(l["list_id"] == list_id for l in lists_doc.values()):
                 payload = {"error": "Duplicate list_id"}
                 out = json.dumps(payload, indent=2)
                 return out
@@ -1343,7 +1343,7 @@ class ManageListItems(Tool):
         quantities: dict[str, int]
     ) -> str:
         target = next(
-            (l for l in data.get("custom_lists", []) if l["list_id"] == list_id), None
+            (l for l in data.get("custom_lists", {}).values() if l["list_id"] == list_id), None
         )
         if not target:
             payload = {"error": "List not found"}
@@ -1382,7 +1382,7 @@ class ManageListItems(Tool):
         return out
         pass
         target = next(
-            (l for l in data.get("custom_lists", []) if l["list_id"] == list_id), None
+            (l for l in data.get("custom_lists", {}).values() if l["list_id"] == list_id), None
         )
         if not target:
             payload = {"error": "List not found"}
@@ -1475,12 +1475,12 @@ class ManageReminders(Tool):
         reminder: dict[str, Any] | None = None,
         updates: dict[str, Any] | None = None
     ) -> str:
-        reminders = data.get("reminders", [])
+        reminders = data.get("reminders", {}).values()
         if action == "list_all_names_ids":
             payload = {
                 "reminders": [
                     {"name": r["name"], "reminder_id": r["reminder_id"]}
-                    for r in reminders
+                    for r in reminders.values()
                 ]
             }
             out = json.dumps(
@@ -1488,14 +1488,14 @@ class ManageReminders(Tool):
             )
             return out
         if action == "get":
-            r = next((r for r in reminders if r["reminder_id"] == reminder_id), None)
+            r = next((r for r in reminders.values() if r["reminder_id"] == reminder_id), None)
             payload = {"reminder": r} if r else {"error": "not found"}
             out = json.dumps(
                 payload, indent=2
             )
             return out
         if action == "delete":
-            new_doc = [r for r in reminders if r["reminder_id"] != reminder_id]
+            new_doc = [r for r in reminders.values() if r["reminder_id"] != reminder_id]
             if len(new_doc) == len(reminders):
                 payload = {"error": "not found"}
                 out = json.dumps(payload, indent=2)
@@ -1511,18 +1511,18 @@ class ManageReminders(Tool):
                     payload, indent=2
                 )
                 return out
-            if any(r["reminder_id"] == reminder["reminder_id"] for r in reminders):
+            if any(r["reminder_id"] == reminder["reminder_id"] for r in reminders.values()):
                 payload = {"error": "Duplicate id"}
                 out = json.dumps(payload, indent=2)
                 return out
-            reminders.append(reminder)
+            data["reminders"][reminder_id] = reminder
             data["reminders"] = reminders
             payload = {"success": True}
             out = json.dumps(payload, indent=2)
             return out
         if action == "update":
             modified = False
-            for r in reminders:
+            for r in reminders.values():
                 if r["reminder_id"] == reminder_id:
                     r.update(updates)
                     modified = True
@@ -1539,12 +1539,12 @@ class ManageReminders(Tool):
         out = json.dumps(payload, indent=2)
         return out
         pass
-        reminders = data.get("reminders", [])
+        reminders = data.get("reminders", {}).values()
         if action == "list_all_names_ids":
             payload = {
                     "reminders": [
                         {"name": r["name"], "reminder_id": r["reminder_id"]}
-                        for r in reminders
+                        for r in reminders.values()
                     ]
                 }
             out = json.dumps(
@@ -1552,14 +1552,14 @@ class ManageReminders(Tool):
             )
             return out
         if action == "get":
-            r = next((r for r in reminders if r["reminder_id"] == reminder_id), None)
+            r = next((r for r in reminders.values() if r["reminder_id"] == reminder_id), None)
             payload = {"reminder": r} if r else {"error": "not found"}
             out = json.dumps(
                 payload, indent=2
             )
             return out
         if action == "delete":
-            new_doc = [r for r in reminders if r["reminder_id"] != reminder_id]
+            new_doc = [r for r in reminders.values() if r["reminder_id"] != reminder_id]
             if len(new_doc) == len(reminders):
                 payload = {"error": "not found"}
                 out = json.dumps(payload, indent=2)
@@ -1575,18 +1575,18 @@ class ManageReminders(Tool):
                     payload, indent=2
                 )
                 return out
-            if any(r["reminder_id"] == reminder["reminder_id"] for r in reminders):
+            if any(r["reminder_id"] == reminder["reminder_id"] for r in reminders.values()):
                 payload = {"error": "Duplicate id"}
                 out = json.dumps(payload, indent=2)
                 return out
-            reminders.append(reminder)
+            data["reminders"][reminder_id] = reminder
             data["reminders"] = reminders
             payload = {"success": True}
             out = json.dumps(payload, indent=2)
             return out
         if action == "update":
             modified = False
-            for r in reminders:
+            for r in reminders.values():
                 if r["reminder_id"] == reminder_id:
                     r.update(updates)
                     modified = True
@@ -1661,8 +1661,8 @@ class ScheduleDeviceTimerUpdate(Tool):
         replace: bool = False,
         rrule: str | None = None
     ) -> str:
-        devices: list[dict[str, Any]] = data.get("devices", [])
-        for dev in devices:
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
+        for dev in devices.values():
             if dev.get("id") == device_id:
                 if timestamp_end is None:
                     payload = {"error": "End time is needed"}
@@ -1672,7 +1672,7 @@ class ScheduleDeviceTimerUpdate(Tool):
                 # Configure Device as required
                 sched: list[dict[str, Any]] = dev.setdefault("scheduled_updates", [])
                 if replace:
-                    sched[:] = [s for s in sched if s.get("timestamp") != timestamp]
+                    sched[:] = [s for s in sched.values() if s.get("timestamp") != timestamp]
                 if rrule:
                     sched.append(
                         {"timestamp": timestamp, "update": update, "rrule": rrule}
@@ -1689,8 +1689,8 @@ class ScheduleDeviceTimerUpdate(Tool):
         out = json.dumps(payload, indent=2)
         return out
         pass
-        devices: list[dict[str, Any]] = data.get("devices", [])
-        for dev in devices:
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
+        for dev in devices.values():
             if dev.get("id") == device_id:
                 if timestamp_end == None:
                     payload = {"error": "End time is needed"}
@@ -1700,7 +1700,7 @@ class ScheduleDeviceTimerUpdate(Tool):
                 #Configure Device as required
                 sched: list[dict[str, Any]] = dev.setdefault("scheduled_updates", [])
                 if replace:
-                    sched[:] = [s for s in sched if s.get("timestamp") != timestamp]
+                    sched[:] = [s for s in sched.values() if s.get("timestamp") != timestamp]
                 if rrule:
                     sched.append(
                         {"timestamp": timestamp, "update": update, "rrule": rrule}

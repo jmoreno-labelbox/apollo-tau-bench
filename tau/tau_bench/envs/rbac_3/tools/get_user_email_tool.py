@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUserEmailTool(Tool):
@@ -22,7 +22,7 @@ class GetUserEmailTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        users: list[dict[str, Any]] = data.get("users", [])
+        users: list[dict[str, Any]] = data.get("users", {}).values()
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:

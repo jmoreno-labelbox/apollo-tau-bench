@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SendEmailTool(Tool):
@@ -39,7 +39,7 @@ class SendEmailTool(Tool):
             # Automatically create property_id if absent
             comp_reports = [
                 r
-                for r in data.get("comp_reports", [])
+                for r in data.get("comp_reports", {}).values()
                 if _as_int(r.get("client_id")) == int(client_id)
             ]
             if comp_reports:
@@ -56,7 +56,7 @@ class SendEmailTool(Tool):
         if not subject or not body_uri:
             comp_reports = [
                 r
-                for r in data.get("comp_reports", [])
+                for r in data.get("comp_reports", {}).values()
                 if _as_int(r.get("client_id")) == int(client_id)
             ]
             if comp_reports:
@@ -147,7 +147,7 @@ class SendEmailTool(Tool):
             "sent_at": HARD_TS,
             "campaign_id": campaign_id,
         }
-        email_rows.append(email_rec)
+        data["emails"][email_rec["email_id"]] = email_rec
 
         audit_rows = data.setdefault("audit_events", [])
         audit_event_id = _next_int_id(audit_rows, "event_id")
@@ -160,7 +160,7 @@ class SendEmailTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"client_id": int(client_id), "template": template_code},
         }
-        audit_rows.append(audit_rec)
+        data["audit_events"][audit_rec["audit_event_id"]] = audit_rec
         payload = {"email": email_rec, "audit_event": audit_rec}
         out = json.dumps(payload, indent=2)
         return out

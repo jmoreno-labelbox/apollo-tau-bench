@@ -8,13 +8,13 @@ from typing import Any, Dict, List
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateLoanApplicationStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], application_id: str = None, new_status: str = None) -> str:
-        application = next((app for app in data.get('loan_applications', []) if app['application_id'] == application_id), None)
+        application = next((app for app in data.get('loan_applications', {}).values() if app['application_id'] == application_id), None)
         if not application:
             return json.dumps({"error": "Loan application not found."})
 

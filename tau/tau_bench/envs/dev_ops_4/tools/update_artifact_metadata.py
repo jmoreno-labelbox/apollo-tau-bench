@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateArtifactMetadata(Tool):
@@ -15,14 +15,14 @@ class UpdateArtifactMetadata(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], artifact_id: str = None, metadata_patch: dict[str, Any] = {}) -> str:
-        rows = data.get("artifacts", [])
+        rows = data.get("artifacts", {}).values()
         idx = _idx_by_id(rows, artifact_id)
         if idx is None:
             payload = {"artifact": None}
             out = json.dumps(payload, indent=2)
             return out
         art = rows[idx]
-        art.setdefault("metadata", {})
+        art.setdefault("metadata", {}).values()
         art["metadata"].update(metadata_patch)
         rows[idx] = art
         payload = {"artifact": art}

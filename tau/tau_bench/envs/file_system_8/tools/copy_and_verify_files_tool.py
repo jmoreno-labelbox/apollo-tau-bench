@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CopyAndVerifyFilesTool(Tool):
@@ -34,7 +34,7 @@ class CopyAndVerifyFilesTool(Tool):
         if "moved_files" not in data:
             data["moved_files"] = []
 
-        for file in data.get("file_list", []):
+        for file in data.get("file_list", {}).values():
             # Emulate checksum computation if absent
             if "checksum" not in file:
                 file["checksum"] = hashlib.sha256(file["path"].encode()).hexdigest()

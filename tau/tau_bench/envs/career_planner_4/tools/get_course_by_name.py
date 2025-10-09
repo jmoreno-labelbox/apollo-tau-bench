@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCourseByName(Tool):
@@ -17,11 +17,11 @@ class GetCourseByName(Tool):
     def invoke(data: dict[str, Any], course_name: str) -> str:
         _course_nameL = course_name or ''.lower()
         pass
-        courses = data.get("course_catalog", [])
+        courses = data.get("course_catalog", {}).values()
 
         # Attempt an exact match initially
         course = next(
-            (c for c in courses if c.get("name", "").lower() == course_name.lower()),
+            (c for c in courses.values() if c.get("name", "").lower() == course_name.lower()),
             None,
         )
 
@@ -30,8 +30,7 @@ class GetCourseByName(Tool):
             course = next(
                 (
                     c
-                    for c in courses
-                    if course_name.lower() in c.get("name", "").lower()
+                    for c in courses.values() if course_name.lower() in c.get("name", "").lower()
                 ),
                 None,
             )

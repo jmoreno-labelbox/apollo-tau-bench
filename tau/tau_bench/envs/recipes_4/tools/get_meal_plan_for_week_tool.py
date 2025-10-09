@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetMealPlanForWeekTool(Tool):
@@ -67,7 +67,7 @@ class GetMealPlanForWeekTool(Tool):
         meal_plan_record = next(
             (
                 p
-                for p in data.get("meal_plans", [])
+                for p in data.get("meal_plans", {}).values()
                 if p.get("meal_plan_id") == meal_plan_id
             ),
             None,
@@ -81,18 +81,17 @@ class GetMealPlanForWeekTool(Tool):
         #3. Data Enrichment (Hydration): Fetch and enrich plan entries
         plan_entries = [
             e
-            for e in data.get("meal_plan_entries", [])
+            for e in data.get("meal_plan_entries", {}).values()
             if e.get("meal_plan_id") == meal_plan_id
         ]
 
         enriched_entries = []
-        all_recipes = data.get("recipes", [])
+        all_recipes = data.get("recipes", {}).values()
         for entry in plan_entries:
             recipe_info = next(
                 (
                     r
-                    for r in all_recipes
-                    if r.get("recipe_id") == entry.get("recipe_id")
+                    for r in all_recipes.values() if r.get("recipe_id") == entry.get("recipe_id")
                 ),
                 None,
             )

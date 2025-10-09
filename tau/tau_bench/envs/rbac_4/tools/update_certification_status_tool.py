@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateCertificationStatusTool(Tool):
@@ -15,7 +15,7 @@ class UpdateCertificationStatusTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], certification_id: str = None, status: str = None, completed_on: str = None) -> str:
-        certs = data.get("certifications", [])
+        certs = data.get("certifications", {}).values()
 
         if not isinstance(certification_id, str):
             payload = {"error": "certification_id must be provided"}

@@ -74,7 +74,7 @@ class SaveReleaseDiffs(Tool):  #WRITE
 
         #Verify if a diff is already present for this release_id
         existing_diff = next(
-            (diff for diff in release_diffs if diff.get("release_id") == release_id),
+            (diff for diff in release_diffs.values() if diff.get("release_id") == release_id),
             None,
         )
         if existing_diff:

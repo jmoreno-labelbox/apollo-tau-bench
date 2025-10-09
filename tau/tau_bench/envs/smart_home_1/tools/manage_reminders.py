@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ManageReminders(Tool):
@@ -20,12 +20,12 @@ class ManageReminders(Tool):
         reminder: dict[str, Any] | None = None,
         updates: dict[str, Any] | None = None
     ) -> str:
-        reminders = data.get("reminders", [])
+        reminders = data.get("reminders", {}).values()
         if action == "list_all_names_ids":
             payload = {
                 "reminders": [
                     {"name": r["name"], "reminder_id": r["reminder_id"]}
-                    for r in reminders
+                    for r in reminders.values()
                 ]
             }
             out = json.dumps(
@@ -33,14 +33,14 @@ class ManageReminders(Tool):
             )
             return out
         if action == "get":
-            r = next((r for r in reminders if r["reminder_id"] == reminder_id), None)
+            r = next((r for r in reminders.values() if r["reminder_id"] == reminder_id), None)
             payload = {"reminder": r} if r else {"error": "not found"}
             out = json.dumps(
                 payload, indent=2
             )
             return out
         if action == "delete":
-            new_doc = [r for r in reminders if r["reminder_id"] != reminder_id]
+            new_doc = [r for r in reminders.values() if r["reminder_id"] != reminder_id]
             if len(new_doc) == len(reminders):
                 payload = {"error": "not found"}
                 out = json.dumps(payload, indent=2)
@@ -56,18 +56,18 @@ class ManageReminders(Tool):
                     payload, indent=2
                 )
                 return out
-            if any(r["reminder_id"] == reminder["reminder_id"] for r in reminders):
+            if any(r["reminder_id"] == reminder["reminder_id"] for r in reminders.values()):
                 payload = {"error": "Duplicate id"}
                 out = json.dumps(payload, indent=2)
                 return out
-            reminders.append(reminder)
+            data["reminders"][reminder_id] = reminder
             data["reminders"] = reminders
             payload = {"success": True}
             out = json.dumps(payload, indent=2)
             return out
         if action == "update":
             modified = False
-            for r in reminders:
+            for r in reminders.values():
                 if r["reminder_id"] == reminder_id:
                     r.update(updates)
                     modified = True
@@ -84,12 +84,12 @@ class ManageReminders(Tool):
         out = json.dumps(payload, indent=2)
         return out
         pass
-        reminders = data.get("reminders", [])
+        reminders = data.get("reminders", {}).values()
         if action == "list_all_names_ids":
             payload = {
                     "reminders": [
                         {"name": r["name"], "reminder_id": r["reminder_id"]}
-                        for r in reminders
+                        for r in reminders.values()
                     ]
                 }
             out = json.dumps(
@@ -97,14 +97,14 @@ class ManageReminders(Tool):
             )
             return out
         if action == "get":
-            r = next((r for r in reminders if r["reminder_id"] == reminder_id), None)
+            r = next((r for r in reminders.values() if r["reminder_id"] == reminder_id), None)
             payload = {"reminder": r} if r else {"error": "not found"}
             out = json.dumps(
                 payload, indent=2
             )
             return out
         if action == "delete":
-            new_doc = [r for r in reminders if r["reminder_id"] != reminder_id]
+            new_doc = [r for r in reminders.values() if r["reminder_id"] != reminder_id]
             if len(new_doc) == len(reminders):
                 payload = {"error": "not found"}
                 out = json.dumps(payload, indent=2)
@@ -120,18 +120,18 @@ class ManageReminders(Tool):
                     payload, indent=2
                 )
                 return out
-            if any(r["reminder_id"] == reminder["reminder_id"] for r in reminders):
+            if any(r["reminder_id"] == reminder["reminder_id"] for r in reminders.values()):
                 payload = {"error": "Duplicate id"}
                 out = json.dumps(payload, indent=2)
                 return out
-            reminders.append(reminder)
+            data["reminders"][reminder_id] = reminder
             data["reminders"] = reminders
             payload = {"success": True}
             out = json.dumps(payload, indent=2)
             return out
         if action == "update":
             modified = False
-            for r in reminders:
+            for r in reminders.values():
                 if r["reminder_id"] == reminder_id:
                     r.update(updates)
                     modified = True

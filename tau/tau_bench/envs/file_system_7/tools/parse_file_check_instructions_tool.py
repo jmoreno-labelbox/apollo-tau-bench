@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ParseFileCheckInstructionsTool(Tool):
@@ -38,7 +38,7 @@ class ParseFileCheckInstructionsTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str) -> str:
         task_details = next(
-            (t for t in data.get("file_check_db", []) if t["task_id"] == task_id), None
+            (t for t in data.get("file_check_db", {}).values() if t["task_id"] == task_id), None
         )
         if not task_details:
             payload = {"error": f"Task ID {task_id} not found."}
@@ -46,7 +46,7 @@ class ParseFileCheckInstructionsTool(Tool):
             return out
 
         # The parsed_instructions field is pre-structured, allowing for direct usage.
-        instructions = task_details.get("parsed_instructions", {})
+        instructions = task_details.get("parsed_instructions", {}).values()
         if "task_instructions" not in data:
             data["task_instructions"] = []
 
@@ -54,8 +54,8 @@ class ParseFileCheckInstructionsTool(Tool):
         parsed_instruction = {
             "task_id": task_id,
             "remote_address": task_details.get("remote_server"),
-            "max_size": instructions.get("size_filter", {}).get("max_bytes"),
-            "last_access_days": instructions.get("time_filter", {}).get("days"),
+            "max_size": instructions.get("size_filter", {}).values().get("max_bytes"),
+            "last_access_days": instructions.get("time_filter", {}).values().get("days"),
             "users": instructions.get("user_filter", []),
         }
         data["task_instructions"].append(parsed_instruction)

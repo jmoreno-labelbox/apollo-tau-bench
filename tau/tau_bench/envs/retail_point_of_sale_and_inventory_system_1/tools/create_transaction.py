@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateTransaction(Tool):
@@ -27,10 +27,10 @@ class CreateTransaction(Tool):
 ,
     status: Any = None,
     ) -> str:
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
 
         max_transaction_id_num = 0
-        for transaction in transactions:
+        for transaction in transactions.values():
             txn_id = transaction.get("transaction_id")
             if isinstance(txn_id, str):
                 match = re.match(r"TXN-(\d+)", txn_id)
@@ -56,7 +56,7 @@ class CreateTransaction(Tool):
             "line_items": line_items,
         }
 
-        transactions.append(new_transaction)
+        data["transactions"][transaction_id] = new_transaction
         data["transactions"] = transactions
         payload = {"transaction_id": new_transaction_id}
         out = json.dumps(payload)

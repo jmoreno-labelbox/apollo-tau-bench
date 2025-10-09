@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateScene(Tool):
@@ -15,12 +15,12 @@ class CreateScene(Tool):
     def invoke(data: dict[str, Any], new_scene_id: str = None, new_scene_name: str = None,
     new_scene: Any = None,
     ) -> str:
-        scenes = data.get("scenes", [])
+        scenes = data.get("scenes", {}).values()
         if not new_scene_id:
             payload = {"error": "New scene must have an 'id'."}
             out = json.dumps(payload, indent=2)
             return out
-        if any(s.get("id") == new_scene_id for s in scenes):
+        if any(s.get("id") == new_scene_id for s in scenes.values()):
             payload = {"error": f"Scene with ID '{new_scene_id}' already exists."}
             out = json.dumps(
                 payload, indent=2,
@@ -28,7 +28,7 @@ class CreateScene(Tool):
             return out
 
         new_scene = {"id": new_scene_id, "name": new_scene_name} if new_scene_name else {"id": new_scene_id}
-        scenes.append(new_scene)
+        data["scenes"][scene_id] = new_scene
         payload = {"success": f"Scene '{new_scene.get('name', new_scene_id)}' created."}
         out = json.dumps(
             payload, indent=2,

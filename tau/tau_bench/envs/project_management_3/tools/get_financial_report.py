@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetFinancialReport(Tool):
@@ -20,16 +20,15 @@ class GetFinancialReport(Tool):
             out = json.dumps(payload)
             return out
 
-        budgets = data.get("budgets", [])
-        expenses = data.get("expenses", [])
-        purchase_orders = data.get("purchase_orders", [])
+        budgets = data.get("budgets", {}).values()
+        expenses = data.get("expenses", {}).values()
+        purchase_orders = data.get("purchase_orders", {}).values()
 
         if report_type == "project":
             budget = next(
                 (
                     b
-                    for b in budgets
-                    if b.get("project_id") == entity_id
+                    for b in budgets.values() if b.get("project_id") == entity_id
                     and b.get("fiscal_year") == fiscal_year
                 ),
                 None,
@@ -42,8 +41,7 @@ class GetFinancialReport(Tool):
 
             project_expenses = [
                 e
-                for e in expenses
-                if e.get("project_id") == entity_id
+                for e in expenses.values() if e.get("project_id") == entity_id
                 and e.get("fiscal_year") == fiscal_year
                 and e.get("status") == "approved"
             ]
@@ -77,16 +75,14 @@ class GetFinancialReport(Tool):
                     "pending": len(
                         [
                             po
-                            for po in purchase_orders
-                            if po.get("project_id") == entity_id
+                            for po in purchase_orders.values() if po.get("project_id") == entity_id
                             and po.get("status") == "pending_approval"
                         ]
                     ),
                     "approved": len(
                         [
                             po
-                            for po in purchase_orders
-                            if po.get("project_id") == entity_id
+                            for po in purchase_orders.values() if po.get("project_id") == entity_id
                             and po.get("status") == "approved"
                         ]
                     ),

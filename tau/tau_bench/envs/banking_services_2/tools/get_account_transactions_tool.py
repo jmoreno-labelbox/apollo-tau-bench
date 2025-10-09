@@ -7,16 +7,16 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAccountTransactionsTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str, limit: int = 10) -> str:
-        transactions = data.get('transactions', [])
+        transactions = data.get('transactions', {}).values()
 
         account_transactions = []
-        for transaction in transactions:
+        for transaction in transactions.values():
             if transaction['account_id'] == account_id:
                 account_transactions.append({
                     'transaction_id': transaction['transaction_id'],

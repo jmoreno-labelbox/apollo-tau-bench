@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCandidateWithFullContextTool(Tool):
@@ -20,9 +20,9 @@ class GetCandidateWithFullContextTool(Tool):
         if not candidate_id:
             return _err("candidate_id is required")
 
-        candidates = data.get("candidates", [])
+        candidates = data.get("candidates", {}).values()
         candidate = next(
-            (c for c in candidates if str(c.get("candidate_id")) == str(candidate_id)),
+            (c for c in candidates.values() if str(c.get("candidate_id")) == str(candidate_id)),
             None,
         )
 
@@ -35,22 +35,22 @@ class GetCandidateWithFullContextTool(Tool):
             "candidate": candidate,
             "emails": [
                 e
-                for e in data.get("emails", [])
+                for e in data.get("emails", {}).values()
                 if str(e.get("candidate_id_nullable")) == str(candidate_id)
             ],
             "asset_requests": [
                 ar
-                for ar in data.get("asset_requests", [])
+                for ar in data.get("asset_requests", {}).values()
                 if str(ar.get("candidate_id")) == str(candidate_id)
             ],
             "checklist_items": [
                 ci
-                for ci in data.get("checklist_items", [])
+                for ci in data.get("checklist_items", {}).values()
                 if str(ci.get("candidate_id")) == str(candidate_id)
             ],
             "access_checks": [
                 ac
-                for ac in data.get("access_checks", [])
+                for ac in data.get("access_checks", {}).values()
                 if str(ac.get("candidate_id")) == str(candidate_id)
             ],
         }

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ValidateExpenseSubmission(Tool):
@@ -29,12 +29,12 @@ class ValidateExpenseSubmission(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
-        projects = data.get("projects", [])
-        sprints = data.get("sprints", [])
-        tasks = data.get("tasks", [])
+        allocations = data.get("allocations", {}).values()
+        projects = data.get("projects", {}).values()
+        sprints = data.get("sprints", {}).values()
+        tasks = data.get("tasks", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
@@ -48,8 +48,7 @@ class ValidateExpenseSubmission(Tool):
         employee_allocation = next(
             (
                 a
-                for a in allocations
-                if a.get("employee_id") == employee_id
+                for a in allocations.values() if a.get("employee_id") == employee_id
                 and a.get("project_id") == project_id
                 and a.get("status") == "active"
             ),
@@ -77,7 +76,7 @@ class ValidateExpenseSubmission(Tool):
         }
 
         if sprint_id:
-            sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+            sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
             if sprint:
                 if sprint.get("status") != "active":
                     validation_result["warnings"].append(
@@ -105,7 +104,7 @@ class ValidateExpenseSubmission(Tool):
                         )
 
         if task_id:
-            task = next((t for t in tasks if t.get("task_id") == task_id), None)
+            task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
             if task:
                 if task.get("assignee_id") != employee_id:
                     validation_result["valid"] = False

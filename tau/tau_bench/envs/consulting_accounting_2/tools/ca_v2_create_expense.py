@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2CreateExpense(Tool):
@@ -36,8 +36,8 @@ class CaV2CreateExpense(Tool):
             )
 
         # Retrieve category to determine permissible amount
-        expense_categories = data.get("expense_categories", [])
-        category = _find_one(expense_categories, "category_code", category_code)
+        expense_categories = data.get("expense_categories", {}).values()
+        category = _find_one(list(expense_categories.values()), "category_code", category_code)
 
         if not category:
             return _error(f"Expense category '{category_code}' not found.")

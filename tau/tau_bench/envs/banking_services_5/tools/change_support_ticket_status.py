@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ChangeSupportTicketStatus(Tool):
@@ -21,8 +21,8 @@ class ChangeSupportTicketStatus(Tool):
         if not all([customer_id, ticket_id, new_status]):
             return json.dumps({"error": "customer_id, ticket_id and new_status are required."}, indent=2)
 
-        tickets = data.get("support_tickets", [])
-        for ticket in tickets:
+        tickets = data.get("support_tickets", {}).values()
+        for ticket in tickets.values():
             if (ticket.get("ticket_id") == ticket_id and
                 ticket.get("customer_id") == customer_id):
                 ticket["status"] = new_status

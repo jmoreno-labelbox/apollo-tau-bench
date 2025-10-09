@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCrashEventById(Tool):
@@ -19,7 +19,7 @@ class GetCrashEventById(Tool):
         crash_id: str = None,
         id: Any = None
     ) -> str:
-        crashes = data.get("crash_events", [])
+        crashes = data.get("crash_events", {}).values()
         for crash in crashes:
             if crash.get("id") == crash_id:
                 payload = crash

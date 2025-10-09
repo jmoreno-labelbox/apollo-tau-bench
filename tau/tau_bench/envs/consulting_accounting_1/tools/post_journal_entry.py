@@ -17,7 +17,7 @@ class PostJournalEntry(Tool):
             "amount": round(amount, 2),
             "memo": memo,
         }
-        journals.append(rec)
+        data["journals"][rec["journal_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out

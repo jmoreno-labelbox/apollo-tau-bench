@@ -7,19 +7,18 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetPriceForProduct(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], pricebook_id: str, product_id: str) -> str:
         pricebook_id, product_id = _sid(pricebook_id), _sid(product_id)
-        pbes = data.get("pricebook_entries", [])
+        pbes = data.get("pricebook_entries", {}).values()
         pbe = next(
             (
                 p
-                for p in pbes
-                if p.get("pricebook_id") == pricebook_id
+                for p in pbes.values() if p.get("pricebook_id") == pricebook_id
                 and p.get("product_id") == product_id
             ),
             None,

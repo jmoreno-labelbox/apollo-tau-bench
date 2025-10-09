@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateResourceConflict(Tool):
@@ -20,7 +20,7 @@ class CreateResourceConflict(Tool):
             out = json.dumps(payload)
             return out
 
-        resource_conflicts = data.get("resource_conflicts", [])
+        resource_conflicts = data.get("resource_conflicts", {}).values()
 
         conflict_id = f"conflict_{uuid.uuid4().hex[:8]}"
 
@@ -34,7 +34,7 @@ class CreateResourceConflict(Tool):
             "status": "resolved" if resolution else "pending",
         }
 
-        resource_conflicts.append(new_conflict)
+        data["resource_conflicts"][new_conflict["resource_conflict_id"]] = new_conflict
         payload = {"success": True, "conflict": new_conflict}
         out = json.dumps(payload)
         return out

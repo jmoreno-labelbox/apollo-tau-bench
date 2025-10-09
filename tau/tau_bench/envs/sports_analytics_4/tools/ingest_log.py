@@ -7,17 +7,17 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class IngestLog(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], ingestion_log: dict = None, source_name: str = None, status_code: int = None, logs_ingested: int = None) -> str:
-        logs = data.get("ingestion_logs", [])
+        logs = data.get("ingestion_logs", {}).values()
         # Support both dict and individual parameters
         if ingestion_log is not None:
-            logs.append(ingestion_log)
+            data["ingestion_logs"][ingestion_log["ingestion_log_id"]] = ingestion_log
         else:
             log_entry = {}
             if source_name is not None:
@@ -26,7 +26,7 @@ class IngestLog(Tool):
                 log_entry['status_code'] = status_code
             if logs_ingested is not None:
                 log_entry['logs_ingested'] = logs_ingested
-            logs.append(log_entry)
+            data["ingestion_logs"][log_entry["ingestion_log_id"]] = log_entry
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out

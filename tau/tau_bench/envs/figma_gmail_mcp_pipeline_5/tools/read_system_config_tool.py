@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReadSystemConfigTool(Tool):
@@ -22,8 +22,8 @@ class ReadSystemConfigTool(Tool):
             out = json.dumps(payload)
             return out
 
-        rows = data.get("system_config", [])
-        for r in rows:
+        rows = data.get("system_config", {}).values()
+        for r in rows.values():
             if r.get("config_key") == config_key:
                 payload = {
                     "config_key": r.get("config_key"),

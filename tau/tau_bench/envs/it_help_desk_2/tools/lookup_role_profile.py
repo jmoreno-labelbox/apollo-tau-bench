@@ -7,18 +7,17 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LookupRoleProfile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], department: str = None, job_title: str = None) -> str:
-        profiles = data.get("rbac_group_map", [])
+        profiles = data.get("rbac_group_map", {}).values()
         profile = next(
             (
                 p
-                for p in profiles
-                if p.get("department") == department and p.get("job_title") == job_title
+                for p in profiles.values() if p.get("department") == department and p.get("job_title") == job_title
             ),
             None,
         )

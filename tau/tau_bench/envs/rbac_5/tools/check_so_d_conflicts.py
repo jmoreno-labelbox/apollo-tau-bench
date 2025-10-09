@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckSoDConflicts(Tool):
@@ -44,7 +44,7 @@ class CheckSoDConflicts(Tool):
             return out
 
         # Confirm the user is present
-        if not _find_by_id(data.get("users", []), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
@@ -59,7 +59,7 @@ class CheckSoDConflicts(Tool):
         # Retrieve the user's current role assignments
         assignments = [
             ur
-            for ur in data.get("user_roles", [])
+            for ur in data.get("user_roles", {}).values()
             if ur.get("user_id") == user_id and is_active(ur)
         ]
 
@@ -170,12 +170,12 @@ class CheckSoDConflicts(Tool):
 
         # Verify for conflicts
         detected_conflicts = []
-        role_map = {r.get("role_id"): r for r in data.get("roles", [])}
+        role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
 
         for conflict in sod_conflicts:
             conflicting_role_ids = conflict["conflicting_roles"]
             # Determine if the user possesses ALL roles in the conflicting group
-            if all(role_id in active_role_ids for role_id in conflicting_role_ids):
+            if all(role_id in active_role_ids for role_id in conflicting_role_ids.values()):
                 conflict_entry = {
                     "conflict_id": conflict["conflict_id"],
                     "name": conflict["name"],
@@ -187,7 +187,7 @@ class CheckSoDConflicts(Tool):
                 if include_role_details:
                     conflict_entry["conflicting_roles"] = []
                     for role_id in conflicting_role_ids:
-                        role = role_map.get(role_id, {})
+                        role = role_map.get(role_id, {}).values()
                         conflict_entry["conflicting_roles"].append(
                             {
                                 "role_id": role_id,

@@ -11,7 +11,7 @@ class AddPaymentMethodToUser(Tool):
             out = json.dumps(payload)
             return out
 
-        user = next((u for u in data["users"] if u["user_id"] == user_id), None)
+        user = next((u for u in data["users"].values() if u["user_id"] == user_id), None)
         if not user:
             payload = {"error": "User not found"}
             out = json.dumps(payload)

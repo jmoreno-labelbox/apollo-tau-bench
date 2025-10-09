@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCourierByName(Tool):
@@ -27,10 +27,10 @@ class GetCourierByName(Tool):
         courier_name = courier_name.strip()
 
         # Find courier by name (case-insensitive search)
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         matching_couriers = []
 
-        for courier in couriers:
+        for courier in couriers.values():
             stored_name = courier.get("name", "")
 
             # Exact match (case-insensitive)
@@ -38,7 +38,7 @@ class GetCourierByName(Tool):
                 matching_couriers.insert(0, courier)  # Put exact matches first
             # Partial match (case-insensitive)
             elif courier_name.lower() in stored_name.lower():
-                matching_couriers.append(courier)
+                matching_data["couriers"][courier_id] = courier
 
         if not matching_couriers:
             payload = {
@@ -60,7 +60,7 @@ class GetCourierByName(Tool):
         service_capabilities = {
             "domestic_delivery": "USA" in coverage_area,
             "international_delivery": len(
-                [country for country in coverage_area if country != "USA"]
+                [country for country in coverage_area.values() if country != "USA"]
             )
             > 0,
             "total_coverage_countries": len(coverage_area),
@@ -74,7 +74,7 @@ class GetCourierByName(Tool):
             "courier_details": {
                 "courier_id": best_match.get("courier_id"),
                 "name": best_match.get("name"),
-                "contact_info": best_match.get("contact_info", {}),
+                "contact_info": best_match.get("contact_info", {}).values()),
                 "coverage_area": coverage_area,
                 "service_types": best_match.get("service_types", ["standard"]),
                 "base_cost": best_match.get("base_cost", 0),

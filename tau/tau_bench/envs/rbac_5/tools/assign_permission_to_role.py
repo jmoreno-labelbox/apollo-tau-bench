@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AssignPermissionToRole(Tool):
@@ -31,18 +31,18 @@ class AssignPermissionToRole(Tool):
             return out
 
         # Confirm presence
-        if not _find_by_id(data.get("roles", []), "role_id", role_id):
+        if not _find_by_id(data.get("roles", {}).values()), "role_id", role_id):
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload)
             return out
-        if not _find_by_id(data.get("permissions", []), "permission_id", permission_id):
+        if not _find_by_id(data.get("permissions", {}).values()), "permission_id", permission_id):
             payload = {"error": f"permission_id {permission_id} not found"}
             out = json.dumps(payload)
             return out
 
         # Verify if the mapping is present
-        mappings = data.get("role_permissions", [])
-        for rp in mappings:
+        mappings = data.get("role_permissions", {}).values()
+        for rp in mappings.values()):
             if (
                 rp.get("role_id") == role_id
                 and rp.get("permission_id") == permission_id

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ScheduleChangeReview(Tool):
@@ -30,15 +30,14 @@ class ScheduleChangeReview(Tool):
             out = json.dumps(payload)
             return out
 
-        change_reviews = data.get("change_reviews", [])
-        change_requests = data.get("change_requests", [])
-        emergency_logs = data.get("emergency_logs", [])
+        change_reviews = data.get("change_reviews", {}).values()
+        change_requests = data.get("change_requests", {}).values()
+        emergency_logs = data.get("emergency_logs", {}).values()
 
         existing = next(
             (
                 r
-                for r in change_reviews
-                if r.get("project_id") == project_id
+                for r in change_reviews.values() if r.get("project_id") == project_id
                 and r.get("review_date") == review_date
             ),
             None,
@@ -50,24 +49,22 @@ class ScheduleChangeReview(Tool):
 
         pending_changes = [
             cr
-            for cr in change_requests
-            if cr.get("project_id") == project_id
+            for cr in change_requests.values() if cr.get("project_id") == project_id
             and cr.get("status") in ["pending_approval", "in_review"]
         ]
 
         approved_changes = [
             cr
-            for cr in change_requests
-            if cr.get("project_id") == project_id and cr.get("status") == "approved"
+            for cr in change_requests.values() if cr.get("project_id") == project_id and cr.get("status") == "approved"
         ]
 
         emergency_changes_pending = []
-        for cr in change_requests:
+        for cr in change_requests.values()):
             if cr.get("project_id") == project_id and cr.get(
                 "requires_emergency_approval"
             ):
                 log = next(
-                    (e for e in emergency_logs if e.get("cr_id") == cr.get("cr_id")),
+                    (e for e in emergency_logs.values() if e.get("cr_id") == cr.get("cr_id")),
                     None,
                 )
                 if log and log.get("retroactive_status") == "pending":
@@ -143,7 +140,7 @@ class ScheduleChangeReview(Tool):
             t for t in new_review["agenda"]["topics"] if t
         ]
 
-        change_reviews.append(new_review)
+        change_data["reviews"][review_id] = new_review
         payload = {"success": True, "review": new_review}
         out = json.dumps(payload)
         return out

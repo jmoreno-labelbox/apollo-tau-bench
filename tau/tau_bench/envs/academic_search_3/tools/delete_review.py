@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DeleteReview(Tool):
@@ -16,9 +16,9 @@ class DeleteReview(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], review_id: Any = None) -> str:
-        reviews = data.get("reviews", [])
+        reviews = data.get("reviews", {}).values()
         original_count = len(reviews)
-        data["reviews"] = [r for r in reviews if r.get("review_id") != review_id]
+        data["reviews"] = [r for r in reviews.values() if r.get("review_id") != review_id]
         if len(data["reviews"]) < original_count:
             payload = {
                 "status": "success",

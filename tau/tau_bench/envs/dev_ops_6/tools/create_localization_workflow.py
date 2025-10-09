@@ -26,7 +26,7 @@ class CreateLocalizationWorkflow(Tool):
         if not wid:
             wid = f"loc_workflow_{len(table) + 1:04d}"
 
-        if any(w.get("id") == wid for w in table):
+        if any(w.get("id") == wid for w in table.values()):
             return _err(f"localization_workflow id {wid} already exists")
         record = {
             "id": wid,

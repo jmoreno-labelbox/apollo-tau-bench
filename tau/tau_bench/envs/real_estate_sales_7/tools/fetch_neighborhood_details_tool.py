@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchNeighborhoodDetailsTool(Tool):
@@ -25,7 +25,7 @@ class FetchNeighborhoodDetailsTool(Tool):
             rec = next(
                 (
                     n
-                    for n in data.get("neighborhoods", [])
+                    for n in data.get("neighborhoods", {}).values()
                     if _as_int(n.get("neighborhood_id")) == neighborhood_id
                 ),
                 None,
@@ -34,7 +34,7 @@ class FetchNeighborhoodDetailsTool(Tool):
             # Conduct a case-insensitive partial name search
             name_lower = name.lower()
             rec = None
-            for n in data.get("neighborhoods", []):
+            for n in data.get("neighborhoods", {}).values():
                 n_name = n.get("name", "").lower()
                 # Verify if the search name exists within the neighborhood name or the other way around
                 # This accommodates scenarios such as "Heights" corresponding to "The Hills"

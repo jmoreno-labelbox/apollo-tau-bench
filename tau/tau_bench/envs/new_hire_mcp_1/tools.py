@@ -14,7 +14,7 @@ HARD_TS = "2024-08-15T12:00:00Z"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -94,11 +94,11 @@ def _get_email_template(
 ) -> dict[str, str] | None:
     """Fetches and interprets an email template from onboarding_files."""
     pass
-    files = data.get("onboarding_files", [])
+    files = data.get("onboarding_files", {}).values()
     #Presume a standard for template paths, such as /templates/emails/welcome.json
     template_path = f"/templates/emails/{template_name}.json"
     template_file = next(
-        (f for f in files if f.get("file_path") == template_path), None
+        (f for f in files.values() if f.get("file_path") == template_path), None
     )
 
     if not template_file:
@@ -149,11 +149,11 @@ def _get_markdown_template(
 ) -> dict[str, str] | None:
     """Fetches and interprets a markdown email template from onboarding_files."""
     pass
-    files = data.get("onboarding_files", [])
+    files = data.get("onboarding_files", {}).values()
     #Fix the path for markdown templates
     template_path = f"/onboarding/templates/{template_name}.md"
     template_file = next(
-        (f for f in files if f.get("file_path") == template_path), None
+        (f for f in files.values() if f.get("file_path") == template_path), None
     )
 
     if not template_file:
@@ -174,7 +174,7 @@ def _generate_new_thread_id(emails: list[dict[str, Any]]) -> str:
     """Creates a new sequential identifier for threads."""
     pass
     max_id = 0
-    for email in emails:
+    for email in emails.values():
         thread_id = email.get("thread_id_nullable")
         if thread_id and thread_id.startswith("thread_"):
             try:
@@ -347,9 +347,9 @@ class GetCandidateWithFullContextTool(Tool):
         if not candidate_id:
             return _err("candidate_id is required")
 
-        candidates = data.get("candidates", [])
+        candidates = data.get("candidates", {}).values()
         candidate = next(
-            (c for c in candidates if str(c.get("candidate_id")) == str(candidate_id)),
+            (c for c in candidates.values() if str(c.get("candidate_id")) == str(candidate_id)),
             None,
         )
 
@@ -362,22 +362,22 @@ class GetCandidateWithFullContextTool(Tool):
             "candidate": candidate,
             "emails": [
                 e
-                for e in data.get("emails", [])
+                for e in data.get("emails", {}).values()
                 if str(e.get("candidate_id_nullable")) == str(candidate_id)
             ],
             "asset_requests": [
                 ar
-                for ar in data.get("asset_requests", [])
+                for ar in data.get("asset_requests", {}).values()
                 if str(ar.get("candidate_id")) == str(candidate_id)
             ],
             "checklist_items": [
                 ci
-                for ci in data.get("checklist_items", [])
+                for ci in data.get("checklist_items", {}).values()
                 if str(ci.get("candidate_id")) == str(candidate_id)
             ],
             "access_checks": [
                 ac
-                for ac in data.get("access_checks", [])
+                for ac in data.get("access_checks", {}).values()
                 if str(ac.get("candidate_id")) == str(candidate_id)
             ],
         }
@@ -433,11 +433,11 @@ class FindCandidatesByOnboardingStatusTool(Tool):
                 f"Invalid onboarding_status '{onboarding_status}'. Valid statuses are: {sorted(list(valid_statuses))}"
             )
 
-        candidates = data.get("candidates", [])
+        candidates = data.get("candidates", {}).values()
 
         # Filter based on status
         filtered_candidates = [
-            c for c in candidates if c.get("onboarding_status") == onboarding_status
+            c for c in candidates.values() if c.get("onboarding_status") == onboarding_status
         ]
 
         # Filter according to start date
@@ -466,28 +466,28 @@ class FindCandidatesByOnboardingStatusTool(Tool):
                     "emails": len(
                         [
                             e
-                            for e in data.get("emails", [])
+                            for e in data.get("emails", {}).values()
                             if str(e.get("candidate_id_nullable")) == cid_str
                         ]
                     ),
                     "asset_requests": len(
                         [
                             ar
-                            for ar in data.get("asset_requests", [])
+                            for ar in data.get("asset_requests", {}).values()
                             if str(ar.get("candidate_id")) == cid_str
                         ]
                     ),
                     "checklist_items": len(
                         [
                             ci
-                            for ci in data.get("checklist_items", [])
+                            for ci in data.get("checklist_items", {}).values()
                             if str(ci.get("candidate_id")) == cid_str
                         ]
                     ),
                     "access_checks": len(
                         [
                             ac
-                            for ac in data.get("access_checks", [])
+                            for ac in data.get("access_checks", {}).values()
                             if str(ac.get("candidate_id")) == cid_str
                         ]
                     ),
@@ -536,10 +536,10 @@ class GetOverdueChecklistItemsTool(Tool):
         if days_overdue_threshold is None:
             return _err("days_overdue_threshold must be an integer.")
 
-        checklist_items = data.get("checklist_items", [])
+        checklist_items = data.get("checklist_items", {}).values()
 
         overdue_items = []
-        for item in checklist_items:
+        for item in checklist_items.values():
             due_date = item.get("due_date")
             if not due_date or item.get("status") == "Completed":
                 continue
@@ -603,23 +603,23 @@ class CheckEmailCommunicationGapsTool(Tool):
             candidate = next(
                 (
                     c
-                    for c in data.get("candidates", [])
+                    for c in data.get("candidates", {}).values()
                     if str(c.get("candidate_id")) == str(candidate_id)
                 ),
                 None,
             )
             if not candidate:
                 return _err(f"Candidate '{candidate_id}' not found", code="not_found")
-            candidates_to_check.append(candidate)
+            data["candidates"][candidate_id] = candidate
         else:
-            candidates_to_check = data.get("candidates", [])
+            candidates_to_check = data.get("candidates", {}).values()
 
-        emails = data.get("emails", [])
+        emails = data.get("emails", {}).values()
         results = []
-        for candidate in candidates_to_check:
+        for candidate in candidates_to_check.values():
             cid = str(candidate.get("candidate_id"))
             candidate_emails = [
-                e for e in emails if str(e.get("candidate_id_nullable")) == cid
+                e for e in emails.values() if str(e.get("candidate_id_nullable")) == cid
             ]
 
             sent_email_subjects = [
@@ -690,12 +690,11 @@ class QueryAvailableAssetsByTypeTool(Tool):
                 f"Invalid status_filter. Valid statuses are: {sorted(list(valid_statuses))}"
             )
 
-        assets = data.get("inventory_assets", [])
+        assets = data.get("inventory_assets", {}).values()
 
         matching_assets = [
             asset
-            for asset in assets
-            if asset.get("asset_type") == asset_type
+            for asset in assets.values() if asset.get("asset_type") == asset_type
             and asset.get("status") == status_filter
         ]
         payload = matching_assets
@@ -736,7 +735,7 @@ class GetPendingAssetRequestsTool(Tool):
     def invoke(data: dict[str, Any], status_filter: str = None, role_filter: str = None,
     candidate_id: Any = None,
     ) -> str:
-        asset_requests = data.get("asset_requests", [])
+        asset_requests = data.get("asset_requests", {}).values()
 
         # Implement status filter
         if status_filter:
@@ -746,15 +745,15 @@ class GetPendingAssetRequestsTool(Tool):
                     f"Invalid status_filter. Valid statuses are: {sorted(list(valid_statuses))}"
                 )
             asset_requests = [
-                r for r in asset_requests if r.get("status") == status_filter
+                r for r in asset_requests.values() if r.get("status") == status_filter
             ]
 
         results = []
         candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", [])
+            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
         }
 
-        for request in asset_requests:
+        for request in asset_requests.values():
             candidate_id = str(request.get("candidate_id"))
             candidate = candidates_map.get(candidate_id)
 
@@ -809,9 +808,9 @@ class AnalyzeSystemAccessFailuresTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str = None, system_name: str = None) -> str:
-        access_checks = data.get("access_checks", [])
+        access_checks = data.get("access_checks", {}).values()
 
-        failures = [check for check in access_checks if check.get("status") == "Failed"]
+        failures = [check for check in access_checks.values() if check.get("status") == "Failed"]
 
         if candidate_id:
             failures = [
@@ -819,7 +818,7 @@ class AnalyzeSystemAccessFailuresTool(Tool):
             ]
 
         if system_name:
-            failures = [f for f in failures if f.get("system_name") == system_name]
+            failures = [f for f in failures.values() if f.get("system_name") == system_name]
 
         # Organize by system
         analysis = {}
@@ -887,8 +886,8 @@ class GetDraftEmailsRequiringActionTool(Tool):
         if draft_age_days is None:
             return _err("draft_age_days (integer) is required")
 
-        emails = data.get("emails", [])
-        drafts = [e for e in emails if e.get("draft_flag") == True]
+        emails = data.get("emails", {}).values()
+        drafts = [e for e in emails.values() if e.get("draft_flag") == True]
 
         results = []
         for draft in drafts:
@@ -943,17 +942,16 @@ class FindTemplateFilesByTypeTool(Tool):
         if not template_category:
             return _err("template_category is required")
 
-        files = data.get("onboarding_files", [])
+        files = data.get("onboarding_files", {}).values()
 
         # Templates are recognized by their path.
         templates = [
             f
-            for f in files
-            if f"/templates/{template_category}/" in f.get("file_path", "")
+            for f in files.values() if f"/templates/{template_category}/" in f.get("file_path", "")
         ]
 
         if mime_type:
-            templates = [t for t in templates if t.get("mime_type") == mime_type]
+            templates = [t for t in templates.values() if t.get("mime_type") == mime_type]
         payload = templates
         out = json.dumps(payload, indent=2)
         return out
@@ -993,12 +991,12 @@ class GetCandidatesNeedingOrientationSchedulingTool(Tool):
         if days_until_start is None:
             return _err("days_until_start (integer) is required")
 
-        candidates = data.get("candidates", [])
-        access_checks = data.get("access_checks", [])
-        emails = data.get("emails", [])
+        candidates = data.get("candidates", {}).values()
+        access_checks = data.get("access_checks", {}).values()
+        emails = data.get("emails", {}).values()
 
         ready_candidates = []
-        for candidate in candidates:
+        for candidate in candidates.values():
             start_date = candidate.get("start_date")
             cid = str(candidate.get("candidate_id"))
 
@@ -1019,7 +1017,7 @@ class GetCandidatesNeedingOrientationSchedulingTool(Tool):
 
             # Review access checks
             candidate_access_checks = [
-                ac for ac in access_checks if str(ac.get("candidate_id")) == cid
+                ac for ac in access_checks.values() if str(ac.get("candidate_id")) == cid
             ]
             if not candidate_access_checks or any(
                 ac.get("status") == "Failed" for ac in candidate_access_checks
@@ -1029,8 +1027,7 @@ class GetCandidatesNeedingOrientationSchedulingTool(Tool):
             # Look for an existing orientation invitation by examining the subject
             has_invitation = any(
                 "orientation invitation" in str(e.get("subject", "")).lower()
-                for e in emails
-                if str(e.get("candidate_id_nullable")) == cid
+                for e in emails.values() if str(e.get("candidate_id_nullable")) == cid
             )
             if has_invitation:
                 continue
@@ -1039,7 +1036,7 @@ class GetCandidatesNeedingOrientationSchedulingTool(Tool):
             # Basic priority scoring
             priority_score = 100 - _days_between(HARD_TS.split("T")[0], start_date)
             candidate_copy["scheduling_priority_score"] = priority_score
-            ready_candidates.append(candidate_copy)
+            ready_data["candidates"][candidate_id] = candidate_copy
 
         ready_candidates.sort(
             key=lambda x: x["scheduling_priority_score"], reverse=True
@@ -1076,39 +1073,38 @@ class AnalyzeAttachmentFileInventoryTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str = None, file_type_filter: str = None) -> str:
-        attachments = data.get("attachments", [])
-        emails = data.get("emails", [])
+        attachments = data.get("attachments", {}).values()
+        emails = data.get("emails", {}).values()
 
         # Generate a map for fast retrieval
         email_id_to_candidate_id = {
-            e.get("message_id"): e.get("candidate_id_nullable") for e in emails
+            e.get("message_id"): e.get("candidate_id_nullable") for e in emails.values()
         }
 
         # Filter based on candidate if specified
         if candidate_id:
             # Retrieve all attachment IDs associated with the candidate's emails
             candidate_attachment_ids = set()
-            for email in emails:
+            for email in emails.values():
                 if str(email.get("candidate_id_nullable")) == str(candidate_id):
                     for att_id in email.get("attachments_ids", []):
                         candidate_attachment_ids.add(att_id)
 
             attachments = [
                 att
-                for att in attachments
-                if att.get("attachment_id") in candidate_attachment_ids
+                for att in attachments.values() if att.get("attachment_id") in candidate_attachment_ids
             ]
 
         # Filter according to file type
         if file_type_filter:
             attachments = [
-                att for att in attachments if att.get("mime_type") == file_type_filter
+                att for att in attachments.values() if att.get("mime_type") == file_type_filter
             ]
 
         # Evaluation
-        total_size = sum(att.get("size_bytes", 0) for att in attachments)
+        total_size = sum(att.get("size_bytes", 0) for att in attachments.values()
         file_type_distribution = {}
-        for att in attachments:
+        for att in attachments.values()):
             mime_type = att.get("mime_type", "unknown")
             file_type_distribution[mime_type] = (
                 file_type_distribution.get(mime_type, 0) + 1
@@ -1159,16 +1155,15 @@ class GetEmailThreadConversationsTool(Tool):
         if not candidate_id:
             return _err("candidate_id is required")
 
-        emails = data.get("emails", [])
+        emails = data.get("emails", {}).values()
 
         candidate_emails = [
             e
-            for e in emails
-            if str(e.get("candidate_id_nullable")) == str(candidate_id)
+            for e in emails.values() if str(e.get("candidate_id_nullable")) == str(candidate_id)
         ]
 
         if not include_draft_responses:
-            candidate_emails = [e for e in candidate_emails if not e.get("draft_flag")]
+            candidate_emails = [e for e in candidate_emails.values() if not e.get("draft_flag")]
 
         # Organize by thread_id
         threads = {}
@@ -1221,13 +1216,13 @@ class QueryLabelUsagePatternsTool(Tool):
         pass
         label_category_filter = label_category  # This parameter remains but will not be utilized since the category is absent
 
-        labels_map = {l.get("label_id"): l for l in data.get("email_labels", [])}
-        emails = data.get("emails", [])
+        labels_map = {l.get("label_id"): l for l in data.get("email_labels", {}).values()}
+        emails = data.get("emails", {}).values()
 
         usage_stats = {}
         unlabeled_emails = 0
 
-        for email in emails:
+        for email in emails.values():
             label_ids = email.get("labels_ids", [])
             if not label_ids:
                 unlabeled_emails += 1
@@ -1277,17 +1272,17 @@ class CheckFileStorageOrganizationTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str = None) -> str:
-        files = data.get("onboarding_files", [])
+        files = data.get("onboarding_files", {}).values()
 
         if candidate_id:
             files = [
-                f for f in files if str(f.get("candidate_id")) == str(candidate_id)
+                f for f in files.values() if str(f.get("candidate_id")) == str(candidate_id)
             ]
 
         # Evaluate duplicates based on content_text
         content_map = {}
         duplicates = []
-        for file in files:
+        for file in files.values()):
             content = file.get("content_text")
             if content:
                 if content in content_map:
@@ -1303,8 +1298,7 @@ class CheckFileStorageOrganizationTool(Tool):
         # Examine organization (basic check for path structure)
         improperly_organized = [
             f.get("file_path")
-            for f in files
-            if not re.match(
+            for f in files.values() if not re.match(
                 r"/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+/", str(f.get("file_path", ""))
             )
         ]
@@ -1347,17 +1341,16 @@ class GetManagerCandidateAssignmentsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], manager_email: str = None) -> str:
-        candidates = data.get("candidates", [])
+        candidates = data.get("candidates", {}).values()
 
         if manager_email:
             candidates = [
                 c
-                for c in candidates
-                if c.get("manager_email_nullable") == manager_email
+                for c in candidates.values() if c.get("manager_email_nullable") == manager_email
             ]
 
         manager_workload = {}
-        for candidate in candidates:
+        for candidate in candidates.values()):
             manager = candidate.get("manager_email_nullable")
             if manager:
                 if manager not in manager_workload:
@@ -1417,7 +1410,7 @@ class CreateNewCandidateRecordTool(Tool):
         candidates = data.setdefault("candidates", [])
 
         # Check for duplicates
-        if any(c.get("candidate_email") == candidate_email for c in candidates):
+        if any(c.get("candidate_email") == candidate_email for c in candidates.values()):
             return _err(
                 f"Candidate with email '{candidate_email}' already exists.",
                 code="conflict",
@@ -1439,7 +1432,7 @@ class CreateNewCandidateRecordTool(Tool):
             "welcome_email_message_id_nullable": None,
         }
 
-        candidates.append(new_candidate)
+        data["candidates"][candidate_id] = new_candidate
         payload = new_candidate
         out = json.dumps(payload, indent=2)
         return out
@@ -1505,12 +1498,12 @@ class UpdateCandidateOnboardingStatusTool(Tool):
         if not ids_to_process:
             return _err("candidate_id or candidate_ids is required.")
 
-        candidates = data.get("candidates", [])
+        candidates = data.get("candidates", {}).values()
         updated_candidates = []
 
         for cid in ids_to_process:
             candidate = next(
-                (c for c in candidates if str(c.get("candidate_id")) == str(cid)), None
+                (c for c in candidates.values() if str(c.get("candidate_id")) == str(cid)), None
             )
 
             if not candidate:
@@ -1519,7 +1512,7 @@ class UpdateCandidateOnboardingStatusTool(Tool):
                 continue
 
             candidate["onboarding_status"] = new_status
-            updated_candidates.append(candidate)
+            updated_data["candidates"][candidate_id] = candidate
         payload = updated_candidates
         out = json.dumps(payload, indent=2)
         return out
@@ -1571,7 +1564,7 @@ class GeneratePersonalizedWelcomeFileTool(Tool):
             return _err("candidate_id or candidate_ids is required.")
 
         candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", [])
+            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
         }
         onboarding_files = data.setdefault("onboarding_files", [])
         created_files = []
@@ -1606,8 +1599,8 @@ class GeneratePersonalizedWelcomeFileTool(Tool):
                 "updated_ts": HARD_TS,
                 "candidate_id": cid,
             }
-            onboarding_files.append(new_file)
-            created_files.append(new_file)
+            data["onboarding_files"][new_file["onboarding_file_id"]] = new_file
+            created_data["onboarding_files"][new_file["onboarding_file_id"]] = new_file
         payload = created_files
         out = json.dumps(payload, indent=2)
         return out
@@ -1655,7 +1648,7 @@ class CreateRoleBasedChecklistTasksTool(Tool):
             return _err("candidate_id or candidate_ids is required.")
 
         candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", [])
+            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
         }
         checklist_items = data.setdefault("checklist_items", [])
         all_created_tasks = []
@@ -1706,7 +1699,7 @@ class CreateRoleBasedChecklistTasksTool(Tool):
                     "reminder_sent_flag": False,
                     "reminder_email_message_id_nullable": None,
                 }
-                checklist_items.append(new_task)
+                data["checklist_items"][new_task["checklist_item_id"]] = new_task
                 created_tasks.append(new_task)
             all_created_tasks.extend(created_tasks)
         payload = all_created_tasks
@@ -1752,7 +1745,7 @@ class AssignAssetToCandidateTool(Tool):
         asset = next(
             (
                 a
-                for a in data.get("inventory_assets", [])
+                for a in data.get("inventory_assets", {}).values()
                 if a.get("asset_tag") == asset_tag
             ),
             None,
@@ -1760,7 +1753,7 @@ class AssignAssetToCandidateTool(Tool):
         request = next(
             (
                 r
-                for r in data.get("asset_requests", [])
+                for r in data.get("asset_requests", {}).values()
                 if str(r.get("request_id")) == str(asset_request_id)
             ),
             None,
@@ -1849,7 +1842,7 @@ class SendEmailWithAttachmentsTool(Tool):
         candidate = next(
             (
                 c
-                for c in data.get("candidates", [])
+                for c in data.get("candidates", {}).values()
                 if str(c.get("candidate_id")) == str(candidate_id)
             ),
             None,
@@ -1896,7 +1889,7 @@ class SendEmailWithAttachmentsTool(Tool):
 
         emails = data.setdefault("emails", [])
         attachments = data.setdefault("attachments", [])
-        onboarding_files = data.get("onboarding_files", [])
+        onboarding_files = data.get("onboarding_files", {}).values()
 
         new_email = {
             "message_id": _next_str_id(emails, "message_id", "msg_"),
@@ -1917,12 +1910,12 @@ class SendEmailWithAttachmentsTool(Tool):
 
         if template_name == "welcome":
             welcome_packet_path = f"/onboarding/{candidate_id}/welcome_packet.md"
-            if any(f.get("file_path") == welcome_packet_path for f in onboarding_files):
+            if any(f.get("file_path") == welcome_packet_path for f in onboarding_files.values()):
                 attachment_file_paths.append(welcome_packet_path)
 
         for file_path in attachment_file_paths:
             source_file = next(
-                (f for f in onboarding_files if f.get("file_path") == file_path), None
+                (f for f in onboarding_files.values() if f.get("file_path") == file_path), None
             )
             if source_file:
                 new_attachment_id = _next_str_id(
@@ -1937,10 +1930,10 @@ class SendEmailWithAttachmentsTool(Tool):
                     "size_bytes": source_file.get("size_bytes", 1024),
                     "stored_ts": HARD_TS,
                 }
-                attachments.append(new_attachment)
+                data["attachments"][attachment_id] = new_attachment
                 new_email["attachments_ids"].append(new_attachment_id)
 
-        emails.append(new_email)
+        data["emails"][email_id] = new_email
 
         result = {
             "email": new_email,
@@ -2006,7 +1999,7 @@ class RunAndRecordSystemAccessChecksTool(Tool):
             return _err("candidate_id or candidate_ids is required.")
 
         candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", [])
+            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
         }
         access_checks = data.setdefault("access_checks", [])
         all_created_records = []
@@ -2027,7 +2020,7 @@ class RunAndRecordSystemAccessChecksTool(Tool):
             for system_name in systems_to_check:
                 status = "Success"
                 note_nullable = None
-                if (sum(ord(c) for c in cid) + len(system_name)) % 7 == 0:
+                if (sum(ord(c) for c in cid.values() + len(system_name)) % 7 == 0:
                     status = "Failed"
                     note_nullable = (
                         f"Automated check failed. Code: {sum(ord(c) for c in cid[:5])}."
@@ -2040,7 +2033,7 @@ class RunAndRecordSystemAccessChecksTool(Tool):
                     "note_nullable": note_nullable,
                     "checked_ts": HARD_TS,
                 }
-                access_checks.append(new_check)
+                data["access_checks"][new_check["access_check_id"]] = new_check
                 created_records.append(new_check)
             all_created_records.extend(created_records)
         payload = all_created_records
@@ -2084,12 +2077,12 @@ class UpdateTaskCompletionStatusTool(Tool):
         if not item_ids:
             return _err("item_ids array is required.")
 
-        checklist_items = data.get("checklist_items", [])
+        checklist_items = data.get("checklist_items", {}).values()
         updated_items = []
 
         for item_id in item_ids:
             item = next(
-                (i for i in checklist_items if i.get("item_id") == item_id), None
+                (i for i in checklist_items.values() if i.get("item_id") == item_id), None
             )
             if item:
                 item["status"] = "Completed"
@@ -2142,7 +2135,7 @@ class CreateAssetRequestWithNotificationTool(Tool):
             return _err("candidate_id or candidate_ids is required.")
 
         candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", [])
+            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
         }
         asset_requests = data.setdefault("asset_requests", [])
         emails = data.setdefault("emails", [])
@@ -2193,7 +2186,7 @@ class CreateAssetRequestWithNotificationTool(Tool):
                 "thread_id_nullable": None,
                 "in_reply_to_message_id_nullable": None,
             }
-            emails.append(new_email)
+            data["emails"][email_id] = new_email
 
             new_request = {
                 "request_id": _next_str_id(asset_requests, "request_id", "asset_req_"),
@@ -2206,7 +2199,7 @@ class CreateAssetRequestWithNotificationTool(Tool):
                 "requested_ts": HARD_TS,
                 "updated_ts": HARD_TS,
             }
-            asset_requests.append(new_request)
+            data["asset_requests"][asset_request_id] = new_request
 
             result = {
                 "asset_request": new_request,
@@ -2266,12 +2259,12 @@ class ApplyEmailLabelsAndThreadingTool(Tool):
         thread_assignments = thread_assignments or {}
         message_ids = set(label_assignments.keys()) | set(thread_assignments.keys())
 
-        emails = data.get("emails", [])
-        labels_map = {l.get("label_id") for l in data.get("email_labels", [])}
+        emails = data.get("emails", {}).values()
+        labels_map = {l.get("label_id") for l in data.get("email_labels", {}).values()}
         updated_emails = []
 
         for msg_id in message_ids:
-            email = next((e for e in emails if e.get("message_id") == msg_id), None)
+            email = next((e for e in emails.values() if e.get("message_id") == msg_id), None)
             if email:
                 if msg_id in label_assignments:
                     valid_labels = [
@@ -2280,7 +2273,7 @@ class ApplyEmailLabelsAndThreadingTool(Tool):
                     email["labels_ids"] = valid_labels
                 if msg_id in thread_assignments:
                     email["thread_id_nullable"] = thread_assignments[msg_id]
-                updated_emails.append(email)
+                updated_data["emails"][email_id] = email
         payload = updated_emails
         out = json.dumps(payload, indent=2)
         return out
@@ -2322,8 +2315,8 @@ class SendBatchReminderEmailsTool(Tool):
             return _err("days_overdue_threshold must be an integer.")
 
         emails = data.setdefault("emails", [])
-        candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", [])}
-        all_checklist_items = data.get("checklist_items", [])
+        candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", {}).values()}
+        all_checklist_items = data.get("checklist_items", {}).values()
 
         results = []
         for candidate_id in candidate_ids:
@@ -2332,7 +2325,7 @@ class SendBatchReminderEmailsTool(Tool):
                 continue
 
             overdue_tasks = []
-            for item in all_checklist_items:
+            for item in all_checklist_items.values():
                 if str(item.get("candidate_id")) != str(candidate_id):
                     continue
                 due_date = item.get("due_date")
@@ -2373,7 +2366,7 @@ class SendBatchReminderEmailsTool(Tool):
                 "thread_id_nullable": None,
                 "in_reply_to_message_id_nullable": None,
             }
-            emails.append(new_email)
+            data["emails"][email_id] = new_email
 
             # Refresh checklist items
             updated_items = []
@@ -2436,7 +2429,7 @@ class UpdateAssetRequestStatusTool(Tool):
         request = next(
             (
                 r
-                for r in data.get("asset_requests", [])
+                for r in data.get("asset_requests", {}).values()
                 if r.get("request_id") == request_id
             ),
             None,
@@ -2491,7 +2484,7 @@ class CreateOrientationInvitationEmailsTool(Tool):
         ready_candidate_ids: list[str] = None
     ) -> str:
         pass
-        candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", [])}
+        candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", {}).values()}
         emails = data.setdefault("emails", [])
         results = []
 
@@ -2530,7 +2523,7 @@ class CreateOrientationInvitationEmailsTool(Tool):
                 "thread_id_nullable": None,
                 "in_reply_to_message_id_nullable": None,
             }
-            emails.append(orient_email)
+            data["emails"][email_id] = orient_email
 
             #Manager Introduction Message
             rendered_intro = _get_hardcoded_template_and_render(
@@ -2553,7 +2546,7 @@ class CreateOrientationInvitationEmailsTool(Tool):
                 "thread_id_nullable": None,
                 "in_reply_to_message_id_nullable": None,
             }
-            emails.append(intro_email)
+            data["emails"][email_id] = intro_email
 
             candidate["orientation_invite_ts_nullable"] = HARD_TS
             candidate["manager_intro_invite_ts_nullable"] = HARD_TS
@@ -2620,12 +2613,12 @@ class ArchiveCompletedCandidateFilesTool(Tool):
 
         updated_files = []
         archived_paths = []
-        for file in files:
+        for file in files.values():
             if file.get("candidate_id") == candidate_id:
                 old_path = file["file_path"]
                 file["file_path"] = f"{archive_path_prefix}{old_path}"
                 file["updated_ts"] = HARD_TS
-                updated_files.append(file)
+                updated_data["onboarding_files"][file["onboarding_file_id"]] = file
                 archived_paths.append(old_path)
 
         summary_content = (
@@ -2640,7 +2633,7 @@ class ArchiveCompletedCandidateFilesTool(Tool):
             "updated_ts": HARD_TS,
             "candidate_id": candidate_id,
         }
-        files.append(summary_file)
+        data["onboarding_files"][summary_file["onboarding_file_id"]] = summary_file
         payload = updated_files + [summary_file]
         out = json.dumps(payload, indent=2)
         return out
@@ -2671,9 +2664,9 @@ class ConsolidateEmailThreadsAndCleanupTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str = None, draft_cleanup_age_days: int = 30) -> str:
-        all_emails = data.get("emails", [])
+        all_emails = data.get("emails", {}).values()
         candidate_emails = [
-            e for e in all_emails if e.get("candidate_id_nullable") == candidate_id
+            e for e in all_emails.values() if e.get("candidate_id_nullable") == candidate_id
         ]
         updated_emails = []
 
@@ -2693,7 +2686,7 @@ class ConsolidateEmailThreadsAndCleanupTool(Tool):
                 for email in group:
                     if not email.get("thread_id_nullable"):
                         email["thread_id_nullable"] = thread_id
-                        updated_emails.append(email)
+                        updated_data["emails"][email_id] = email
 
         # Remove outdated drafts
         for email in candidate_emails:
@@ -2704,7 +2697,7 @@ class ConsolidateEmailThreadsAndCleanupTool(Tool):
                 email["draft_flag"] = False
                 email["sent_flag"] = False  # It was not dispatched
                 if email not in updated_emails:
-                    updated_emails.append(email)
+                    updated_data["emails"][email_id] = email
         payload = updated_emails
         out = json.dumps(payload, indent=2)
         return out
@@ -2740,15 +2733,15 @@ class UpdateCandidatesRecordTool(Tool):
         if not fields_to_update or not isinstance(fields_to_update, dict):
             return _err("fields_to_update (object) is required")
 
-        candidates = data.get("candidates", [])
+        candidates = data.get("candidates", {}).values()
         updated_candidates = []
 
-        for candidate in candidates:
+        for candidate in candidates.values():
             if candidate.get("candidate_id") in candidate_ids:
                 for field, value in fields_to_update.items():
                     if field in candidate:
                         candidate[field] = value
-                updated_candidates.append(candidate)
+                updated_data["candidates"][candidate_id] = candidate
         payload = updated_candidates
         out = json.dumps(payload, indent=2)
         return out
@@ -2792,7 +2785,7 @@ class NotifyManagerTool(Tool):
         candidate = next(
             (
                 c
-                for c in data.get("candidates", [])
+                for c in data.get("candidates", {}).values()
                 if str(c.get("candidate_id")) == str(candidate_id)
             ),
             None,
@@ -2828,7 +2821,7 @@ class NotifyManagerTool(Tool):
             "thread_id_nullable": _generate_new_thread_id(emails),
             "in_reply_to_message_id_nullable": None,
         }
-        emails.append(new_email)
+        data["emails"][email_id] = new_email
         payload = new_email
         out = json.dumps(payload, indent=2)
         return out
@@ -2899,15 +2892,14 @@ class ResolveSSOAccessIssueTool(Tool):
         if not candidate_id:
             return _err("candidate_id is required.")
 
-        access_checks = data.get("access_checks", [])
+        access_checks = data.get("access_checks", {}).values()
         updated_checks = []
 
         # Locate and resolve the unsuccessful SSO verification
         sso_check = next(
             (
                 ac
-                for ac in access_checks
-                if ac.get("candidate_id") == candidate_id
+                for ac in access_checks.values() if ac.get("candidate_id") == candidate_id
                 and ac.get("system_name") == "SSO"
                 and ac.get("status") == "Failed"
             ),
@@ -2931,8 +2923,7 @@ class ResolveSSOAccessIssueTool(Tool):
             dependent_check = next(
                 (
                     ac
-                    for ac in access_checks
-                    if ac.get("candidate_id") == candidate_id
+                    for ac in access_checks.values() if ac.get("candidate_id") == candidate_id
                     and ac.get("system_name") == system
                 ),
                 None,
@@ -2980,7 +2971,7 @@ class UpdateAccessCheckStatusTool(Tool):
         access_check = next(
             (
                 ac
-                for ac in data.get("access_checks", [])
+                for ac in data.get("access_checks", {}).values()
                 if ac.get("candidate_id") == candidate_id
                 and ac.get("system_name") == system_name
             ),

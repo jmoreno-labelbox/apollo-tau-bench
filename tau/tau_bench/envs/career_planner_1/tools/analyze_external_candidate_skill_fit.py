@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AnalyzeExternalCandidateSkillFit(Tool):
@@ -18,7 +18,7 @@ class AnalyzeExternalCandidateSkillFit(Tool):
         cand = next(
             (
                 c
-                for c in data.get("talent_network", [])
+                for c in data.get("talent_network", {}).values()
                 if c.get("candidate_id") == candidate_id
             ),
             {},
@@ -56,7 +56,7 @@ class AnalyzeExternalCandidateSkillFit(Tool):
         role_rec = next(
             (
                 r
-                for r in data.get("role_skill_catalog", [])
+                for r in data.get("role_skill_catalog", {}).values()
                 if r.get("role") == target_role
             ),
             {},
@@ -88,7 +88,7 @@ class AnalyzeExternalCandidateSkillFit(Tool):
                 role_rec = next(
                     (
                         r
-                        for r in data.get("role_skill_catalog", [])
+                        for r in data.get("role_skill_catalog", {}).values()
                         if r.get("role") == target_role
                     ),
                     {},

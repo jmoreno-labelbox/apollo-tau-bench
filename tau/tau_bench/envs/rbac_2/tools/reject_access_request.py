@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RejectAccessRequest(Tool):
@@ -21,7 +21,7 @@ class RejectAccessRequest(Tool):
         request_id_to_find = request_id
 
         try:
-            access_requests = data.get("access_requests", [])
+            access_requests = data.get("access_requests", {}).values()
         except:
             access_requests = []
 

@@ -38,7 +38,7 @@ class GenerateAttachCompReportDocumentTool(Tool):
             "created_by": created_by,
             "created_at": HARD_TS,
         }
-        docs.append(doc_row)
+        data["documents"][doc_row["document_id"]] = doc_row
 
         #--- Generate Audit Event Entry ---
         audit_rows = data.setdefault("audit_events", [])
@@ -52,7 +52,7 @@ class GenerateAttachCompReportDocumentTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"new_uri": uri},
         }
-        audit_rows.append(audit_rec)
+        data["audit_events"][audit_rec["audit_event_id"]] = audit_rec
         payload = {
                 "document_uri": uri,
                 "report": {

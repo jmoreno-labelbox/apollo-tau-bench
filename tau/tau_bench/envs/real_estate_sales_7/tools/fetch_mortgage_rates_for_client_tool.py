@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchMortgageRatesForClientTool(Tool):
@@ -24,10 +24,10 @@ class FetchMortgageRatesForClientTool(Tool):
         rates = []
         # Establish a lender lookup map for effective name resolution
         lenders_map = {
-            l.get("lender_id"): l.get("name") for l in data.get("lenders", [])
+            l.get("lender_id"): l.get("name") for l in data.get("lenders", {}).values()
         }
 
-        for r in data.get("mortgage_rates", []):
+        for r in data.get("mortgage_rates", {}).values():
             if str(r.get("region")) != str(region):
                 continue
             qualifies = credit_score >= _as_int(r.get("min_credit_score") or 0)
@@ -48,7 +48,7 @@ class FetchMortgageRatesForClientTool(Tool):
         # Select best_available_rate from qualifying options, otherwise from all (with a higher penalty)
         best_rate = None
         best_term_years = None
-        qualifying = [x for x in rates if x["qualifies"]]
+        qualifying = [x for x in rates.values() if x["qualifies"]]
         pool = qualifying if qualifying else rates
         if pool:
             best_rate_entry = min(

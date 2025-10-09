@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SendBatchReminderEmailsTool(Tool):
@@ -28,8 +28,8 @@ class SendBatchReminderEmailsTool(Tool):
             return _err("days_overdue_threshold must be an integer.")
 
         emails = data.setdefault("emails", [])
-        candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", [])}
-        all_checklist_items = data.get("checklist_items", [])
+        candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", {}).values()}
+        all_checklist_items = data.get("checklist_items", {}).values()
 
         results = []
         for candidate_id in candidate_ids:
@@ -38,7 +38,7 @@ class SendBatchReminderEmailsTool(Tool):
                 continue
 
             overdue_tasks = []
-            for item in all_checklist_items:
+            for item in all_checklist_items.values():
                 if str(item.get("candidate_id")) != str(candidate_id):
                     continue
                 due_date = item.get("due_date")

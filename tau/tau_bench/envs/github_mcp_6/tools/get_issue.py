@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetIssue(Tool):
@@ -15,11 +15,11 @@ class GetIssue(Tool):
     def invoke(data: dict[str, Any], owner: str, repo: str, issue_number: int) -> str:
         """Get comprehensive issue information with metadata, relationships, and statistics."""
         pass
-        issues_data = data.get("issues", [])
-        commits_data = data.get("commits", [])
-        pull_requests_data = data.get("pull_requests", [])
+        issues_data = data.get("issues", {}).values()
+        commits_data = data.get("commits", {}).values()
+        pull_requests_data = data.get("pull_requests", {}).values()
 
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values():
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 try:
                     issue_idx = issue_entry["issue_numbers"].index(issue_number)
@@ -68,7 +68,7 @@ class GetIssue(Tool):
 
                     #Identify linked pull requests (simulated based on similar titles/labels)
                     linked_prs = []
-                    for pr_entry in pull_requests_data:
+                    for pr_entry in pull_requests_data.values():
                         if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                             for i, pr_title in enumerate(pr_entry.get("pr_titles", [])):
                                 if any(
@@ -80,7 +80,7 @@ class GetIssue(Tool):
 
                     #Locate referenced commits (simulated based on keywords in the title)
                     referenced_commits = []
-                    for commit_entry in commits_data:
+                    for commit_entry in commits_data.values():
                         if (
                             commit_entry["owner"] == owner
                             and commit_entry["repo_name"] == repo

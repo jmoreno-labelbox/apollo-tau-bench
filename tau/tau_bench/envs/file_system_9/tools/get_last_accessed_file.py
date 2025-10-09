@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetLastAccessedFile(Tool):
@@ -21,7 +21,7 @@ class GetLastAccessedFile(Tool):
         )
 
         server_found = False
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == server_hostname:
                 server_found = True
                 for directory in server.get("directories", []):

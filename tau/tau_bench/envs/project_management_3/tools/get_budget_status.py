@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetBudgetStatus(Tool):
@@ -20,15 +20,14 @@ class GetBudgetStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        budgets = data.get("budgets", [])
-        expenses = data.get("expenses", [])
-        purchase_orders = data.get("purchase_orders", [])
+        budgets = data.get("budgets", {}).values()
+        expenses = data.get("expenses", {}).values()
+        purchase_orders = data.get("purchase_orders", {}).values()
 
         budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -44,16 +43,14 @@ class GetBudgetStatus(Tool):
 
         pending_expenses = sum(
             e.get("amount", 0)
-            for e in expenses
-            if e.get("project_id") == project_id
+            for e in expenses.values() if e.get("project_id") == project_id
             and e.get("status") == "pending_approval"
             and e.get("fiscal_year") == fiscal_year
         )
 
         pending_pos = sum(
             po.get("total_amount", 0)
-            for po in purchase_orders
-            if po.get("project_id") == project_id
+            for po in purchase_orders.values() if po.get("project_id") == project_id
             and po.get("status") == "pending_approval"
         )
 

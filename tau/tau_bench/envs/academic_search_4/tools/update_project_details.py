@@ -11,7 +11,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateProjectDetails(Tool):
@@ -26,7 +26,7 @@ class UpdateProjectDetails(Tool):
             return out
 
         project = next(
-            (p for p in data.get("projects", []) if p.get("project_id") == project_id),
+            (p for p in data.get("projects", {}).values() if p.get("project_id") == project_id),
             None,
         )
         if not project:

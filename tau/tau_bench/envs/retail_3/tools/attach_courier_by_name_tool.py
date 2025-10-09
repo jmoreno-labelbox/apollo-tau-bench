@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AttachCourierByNameTool(Tool):
@@ -39,15 +39,15 @@ class AttachCourierByNameTool(Tool):
             )
             return out
 
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order_id '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
 
-        couriers = data.get("couriers", [])
-        courier = next((c for c in couriers if c.get("name") == courier_name), None)
+        couriers = data.get("couriers", {}).values()
+        courier = next((c for c in couriers.values() if c.get("name") == courier_name), None)
         if not courier:
             payload = {"error": f"courier '{courier_name}' not found"}
             out = json.dumps(
@@ -56,7 +56,7 @@ class AttachCourierByNameTool(Tool):
             return out
 
         used_ids = {
-            tid for t in data.get("tracking", []) for tid in t.get("tracking_id", [])
+            tid for t in data.get("tracking", {}).values() for tid in t.get("tracking_id", [])
         }
         candidate_ids = courier.get("tracking_ids", [])
         tid = next((tid for tid in candidate_ids if tid not in used_ids), None)

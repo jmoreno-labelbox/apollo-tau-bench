@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddReminder(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], new_reminder: dict[str, Any]) -> str:
-        reminders = data.get("reminders", [])
+        reminders = data.get("reminders", {}).values()
         if "reminder_id" not in new_reminder:
             payload = {"error": "New reminder must have a 'reminder_id'."}
             out = json.dumps(
@@ -21,7 +21,7 @@ class AddReminder(Tool):
             )
             return out
 
-        reminders.append(new_reminder)
+        data["reminders"][new_reminder["reminder_id"]] = new_reminder
         payload = {"success": "Reminder added."}
         out = json.dumps(payload, indent=2)
         return out

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetMealHistoryTool(Tool):
@@ -72,7 +72,7 @@ class GetMealHistoryTool(Tool):
         #2. Pre-condition Check: Ensure the household exists
         if not any(
             h
-            for h in data.get("households", [])
+            for h in data.get("households", {}).values()
             if h.get("household_id") == household_id
         ):
             return _build_error_response(
@@ -80,9 +80,9 @@ class GetMealHistoryTool(Tool):
             )
 
         #3. Data Retrieval & Filtering
-        all_history = data.get("meal_history", [])
+        all_history = data.get("meal_history", {}).values()
         household_history = [
-            h for h in all_history if h.get("household_id") == household_id
+            h for h in all_history.values() if h.get("household_id") == household_id
         ]
 
         if days_back is not None:

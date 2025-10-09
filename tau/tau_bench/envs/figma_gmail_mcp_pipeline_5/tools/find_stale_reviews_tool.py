@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindStaleReviewsTool(Tool):
@@ -22,14 +22,14 @@ class FindStaleReviewsTool(Tool):
             out = json.dumps(payload)
             return out
 
-        cycles = data.get("review_cycles", [])
+        cycles = data.get("review_cycles", {}).values()
         sla_hours = _get_config_json(data, "sla_deadlines").get("design_review", 72)
 
         def overdue(c: dict[str, Any]) -> bool:
             return c.get("status") != "APPROVED" and c.get("last_updated", "") < now_iso
 
         out = []
-        for c in cycles:
+        for c in cycles.values():
             if overdue(c):
                 out.append(
                     _small_fields(

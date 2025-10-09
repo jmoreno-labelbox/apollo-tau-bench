@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSlackMessageById(Tool):
@@ -18,7 +18,7 @@ class GetSlackMessageById(Tool):
     def invoke(data: dict[str, Any], message_id: str = None) -> str:
         message_id_to_find = message_id
         try:
-            slack_messages = data.get("slack_messages", [])
+            slack_messages = data.get("slack_messages", {}).values()
         except:
             slack_messages = []
 

@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListSecurityGroupRules(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], security_group_id: str) -> str:
         security_group_id = _sid(security_group_id)
-        rules = data.get("aws_security_group_rules", [])
-        result = [r for r in rules if r.get("security_group_id") == security_group_id]
+        rules = data.get("aws_security_group_rules", {}).values()
+        result = [r for r in rules.values() if r.get("security_group_id") == security_group_id]
         payload = result
         out = json.dumps(payload, indent=2)
         return out

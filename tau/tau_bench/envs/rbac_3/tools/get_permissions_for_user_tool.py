@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetPermissionsForUserTool(Tool):
@@ -19,15 +19,15 @@ class GetPermissionsForUserTool(Tool):
     def invoke(data: dict[str, Any], user_id: str) -> str:
         roles_active = [
             r.get("role_id")
-            for r in data.get("user_roles", [])
+            for r in data.get("user_roles", {}).values()
             if r.get("user_id") == user_id and not r.get("expires_on")
         ]
-        role_perms = data.get("role_permissions", [])
-        perms = data.get("permissions", [])
-        perm_map = {p.get("permission_id"): p for p in perms}
+        role_perms = data.get("role_permissions", {}).values()
+        perms = data.get("permissions", {}).values()
+        perm_map = {p.get("permission_id"): p for p in perms.values()}
         seen = set()
         result: list[dict[str, Any]] = []
-        for rp in role_perms:
+        for rp in role_perms.values():
             if rp.get("role_id") in roles_active:
                 p = perm_map.get(rp.get("permission_id"))
                 if p and p.get("permission_id") not in seen:

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateUserStatusTool(Tool):
@@ -22,12 +22,12 @@ class UpdateUserStatusTool(Tool):
         mfa_enabled: bool = None,
         updated_by: str = None
     ) -> str:
-        users = data.get("users", [])
-        audit_logs = data.get("audit_logs", [])
-        sessions = data.get("sessions", [])
+        users = data.get("users", {}).values()
+        audit_logs = data.get("audit_logs", {}).values()
+        sessions = data.get("sessions", {}).values()
 
         # Find user
-        user = next((u for u in users if u["user_id"] == user_id), None)
+        user = next((u for u in users.values() if u["user_id"] == user_id), None)
         if not user:
             payload = {"error": f"User {user_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -37,7 +37,7 @@ class UpdateUserStatusTool(Tool):
         if status:
             user["status"] = status
             if status in ["SUSPENDED", "DISABLED"]:
-                for s in sessions:
+                for s in sessions.values():
                     if s["user_id"] == user_id and s.get("end_time") is None:
                         s["end_time"] = "2025-08-11 13:00:00+00:00"
         if department:

@@ -6,7 +6,7 @@ class GetOrdersForHousehold(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int) -> str:
         orders = _get_table(data, "orders")
-        rows = [o for o in orders if o.get("household_id") == household_id]
+        rows = [o for o in orders.values() if o.get("household_id") == household_id]
         payload = {"orders": rows}
         out = json.dumps(payload, indent=2)
         return out

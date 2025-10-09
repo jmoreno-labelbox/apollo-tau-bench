@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReminderManager(Tool):
@@ -20,13 +20,12 @@ class ReminderManager(Tool):
         priority: str = None,
         reminder_data: dict = None
     ) -> str:
-        reminders = data.get("reminders", [])
+        reminders = data.get("reminders", {}).values()
 
         if action == "get":
             result = [
                 r
-                for r in reminders
-                if (not reminder_id or r["reminder_id"] == reminder_id)
+                for r in reminders.values() if (not reminder_id or r["reminder_id"] == reminder_id)
                 and (not status or r["status"] == status)
                 and (not priority or r["meta"].get("priority") == priority)
             ]
@@ -38,7 +37,7 @@ class ReminderManager(Tool):
                 payload = {"error": "reminder_data required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            reminders.append(reminder_data)
+            data["reminders"][reminder_id] = reminder_data
             payload = {"success": f"Created reminder {reminder_data.get('reminder_id')}"}
             out = json.dumps(
                 payload, indent=2,
@@ -77,7 +76,7 @@ class ReminderManager(Tool):
                 payload = {"error": "reminder_id required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            reminders[:] = [r for r in reminders if r["reminder_id"] != reminder_id]
+            reminders[:] = [r for r in reminders.values() if r["reminder_id"] != reminder_id]
             payload = {"success": f"Deleted reminder {reminder_id}"}
             out = json.dumps(payload, indent=2)
             return out

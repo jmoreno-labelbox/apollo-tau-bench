@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetItemInfoFromId(Tool):  #READ
     @staticmethod
     def invoke(data: dict[str, Any], item_id: str) -> str:
         pass
-        products = data.get("products", [])
-        for product in products:
+        products = data.get("products", {}).values()
+        for product in products.values():
             if item_id in product["variants"]:
                 payload = product["variants"][item_id]
                 out = json.dumps(payload)

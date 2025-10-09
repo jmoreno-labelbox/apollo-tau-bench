@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckTeamTrainingThreshold(Tool):
@@ -18,8 +18,8 @@ class CheckTeamTrainingThreshold(Tool):
         data: dict[str, Any], team_id: str, threshold: int, comparison: str
     ) -> str:
         # Simulated calculation of team training hours
-        training_data = data.get("team_training_log", [])
-        team_sessions = [t for t in training_data if t.get("team_id") == team_id]
+        training_data = data.get("team_training_log", {}).values()
+        team_sessions = [t for t in training_data.values() if t.get("team_id") == team_id]
 
         # Simulated calculation - in a real system, actual training hours would be totaled
         total_hours = len(team_sessions) * 25  # Presume 25 hours for each session

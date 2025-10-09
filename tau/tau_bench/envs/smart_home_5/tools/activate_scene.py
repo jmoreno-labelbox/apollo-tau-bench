@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ActivateScene(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], scenes: list = None, devices: list = None, scene_id: str = None) -> str:
-        scenes = scenes if scenes is not None else data.get("scenes", [])
-        devices = devices if devices is not None else data.get("devices", [])
+        scenes = scenes if scenes is not None else data.get("scenes", {}).values()
+        devices = devices if devices is not None else data.get("devices", {}).values()
         scene_found = False
         for scene in scenes:
             if scene.get("id") == scene_id:

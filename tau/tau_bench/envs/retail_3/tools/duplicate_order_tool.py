@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DuplicateOrderTool(Tool):
@@ -37,8 +37,8 @@ class DuplicateOrderTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        orders = data.get("orders", [])
-        src = next((o for o in orders if o.get("order_id") == src_id), None)
+        orders = data.get("orders", {}).values()
+        src = next((o for o in orders.values() if o.get("order_id") == src_id), None)
         if not src:
             payload = {"error": f"source_order_id '{src_id}' not found"}
             out = json.dumps(
@@ -56,7 +56,7 @@ class DuplicateOrderTool(Tool):
             "payment_history": [],
             "timestamp": _now_iso(),
         }
-        orders.append(new_order)
+        data["orders"][order_id] = new_order
         payload = {
                 "source_order_id": src_id,
                 "new_order_id": new_order["order_id"],

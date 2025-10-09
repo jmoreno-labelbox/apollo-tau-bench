@@ -8,7 +8,7 @@ class GetCustomerPurchaseCountsBySku(Tool):  #VIEW
         transactions = data["transactions"]
         purchase_counts = {}
 
-        for transaction in transactions:
+        for transaction in transactions.values():
             customer_id = transaction.get("customer_id")
             for item in transaction.get("line_items", []):
                 if item["sku"] == sku:

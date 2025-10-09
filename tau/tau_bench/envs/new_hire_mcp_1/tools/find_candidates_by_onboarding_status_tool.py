@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindCandidatesByOnboardingStatusTool(Tool):
@@ -37,11 +37,11 @@ class FindCandidatesByOnboardingStatusTool(Tool):
                 f"Invalid onboarding_status '{onboarding_status}'. Valid statuses are: {sorted(list(valid_statuses))}"
             )
 
-        candidates = data.get("candidates", [])
+        candidates = data.get("candidates", {}).values()
 
         # Filter based on status
         filtered_candidates = [
-            c for c in candidates if c.get("onboarding_status") == onboarding_status
+            c for c in candidates.values() if c.get("onboarding_status") == onboarding_status
         ]
 
         # Filter according to start date
@@ -70,28 +70,28 @@ class FindCandidatesByOnboardingStatusTool(Tool):
                     "emails": len(
                         [
                             e
-                            for e in data.get("emails", [])
+                            for e in data.get("emails", {}).values()
                             if str(e.get("candidate_id_nullable")) == cid_str
                         ]
                     ),
                     "asset_requests": len(
                         [
                             ar
-                            for ar in data.get("asset_requests", [])
+                            for ar in data.get("asset_requests", {}).values()
                             if str(ar.get("candidate_id")) == cid_str
                         ]
                     ),
                     "checklist_items": len(
                         [
                             ci
-                            for ci in data.get("checklist_items", [])
+                            for ci in data.get("checklist_items", {}).values()
                             if str(ci.get("candidate_id")) == cid_str
                         ]
                     ),
                     "access_checks": len(
                         [
                             ac
-                            for ac in data.get("access_checks", [])
+                            for ac in data.get("access_checks", {}).values()
                             if str(ac.get("candidate_id")) == cid_str
                         ]
                     ),

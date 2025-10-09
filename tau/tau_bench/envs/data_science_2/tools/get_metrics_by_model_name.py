@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetMetricsByModelName(Tool):
@@ -15,7 +15,7 @@ class GetMetricsByModelName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], model_name: str) -> str:
-        rows = data.get("metrics", [])
+        rows = data.get("metrics", {}).values()
         for row in rows:
             if row.get("model_name") == model_name:
                 payload = row

@@ -10,7 +10,7 @@ class UpdatePaymentBehavior(Tool):
         """
         Updates or inserts a payment behavior record for a publisher.
         """
-        record = next((pb for pb in data["payment_behavior"] if pb["publisher_id"] == publisher_id), None)
+        record = next((pb for pb in data["payment_behavior"].values() if pb["publisher_id"] == publisher_id), None)
 
         if record:
             if avg_days_to_pay is not None:

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RetrieveCitationData(Tool):
@@ -16,7 +16,7 @@ class RetrieveCitationData(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], citation_id: Any = None) -> str:
-        for citation in data.get("citations", []):
+        for citation in data.get("citations", {}).values():
             if citation.get("citation_id") == citation_id:
                 payload = citation
                 out = json.dumps(payload, indent=2)

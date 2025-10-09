@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateRole(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], role_name: str = None, description: str = None, is_temporary: bool = False) -> str:
-        roles = data.get("roles", [])
-        new_id_num = max((int(r["role_id"][4:]) for r in roles), default=0) + 1
+        roles = data.get("roles", {}).values()
+        new_id_num = max((int(r["role_id"][4:]) for r in roles.values()), default=0) + 1
         new_role_id = f"ROL-{new_id_num:03d}"
         new_role = {
             "role_id": new_role_id,
@@ -23,7 +23,7 @@ class CreateRole(Tool):
             "description": description,
             "is_temporary": is_temporary,
         }
-        roles.append(new_role)
+        data["roles"][role_id] = new_role
         data["roles"] = roles
         payload = new_role
         out = json.dumps(payload)

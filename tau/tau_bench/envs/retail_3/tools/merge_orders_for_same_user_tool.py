@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class MergeOrdersForSameUserTool(Tool):
@@ -43,9 +43,9 @@ class MergeOrdersForSameUserTool(Tool):
             )
             return out
 
-        orders = data.get("orders", [])
-        target = next((o for o in orders if o.get("order_id") == target_order_id), None)
-        source = next((o for o in orders if o.get("order_id") == source_order_id), None)
+        orders = data.get("orders", {}).values()
+        target = next((o for o in orders.values() if o.get("order_id") == target_order_id), None)
+        source = next((o for o in orders.values() if o.get("order_id") == source_order_id), None)
         if not target or not source:
             payload = {"error": "target or source order not found"}
             out = json.dumps(payload, indent=2)

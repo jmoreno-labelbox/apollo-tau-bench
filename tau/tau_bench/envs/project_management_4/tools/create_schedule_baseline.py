@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateScheduleBaseline(Tool):
@@ -31,16 +31,15 @@ class CreateScheduleBaseline(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        schedule_baselines = data.get("schedule_baselines", [])
+        milestones = data.get("milestones", {}).values()
+        schedule_baselines = data.get("schedule_baselines", {}).values()
 
         current_quarter = (datetime.now(timezone.utc).month - 1) // 3 + 1
         current_year = datetime.now(timezone.utc).year
 
         quarterly_baselines = [
             b
-            for b in schedule_baselines
-            if b.get("project_id") == project_id
+            for b in schedule_baselines.values() if b.get("project_id") == project_id
             and b.get("year") == current_year
             and b.get("quarter") == current_quarter
             and b.get("baseline_type") != "initial"
@@ -54,7 +53,7 @@ class CreateScheduleBaseline(Tool):
             return out
 
         project_milestones = [
-            m for m in milestones if m.get("project_id") == project_id
+            m for m in milestones.values() if m.get("project_id") == project_id
         ]
 
         if not project_milestones:
@@ -66,12 +65,11 @@ class CreateScheduleBaseline(Tool):
         create_date = create_date or datetime.now(timezone.utc).isoformat()
 
         downstream_impacts = []
-        for milestone in project_milestones:
-            deps = data.get("milestone_dependencies", [])
+        for milestone in project_milestones.values():
+            deps = data.get("milestone_dependencies", {}).values()
             successors = [
                 d.get("successor_id")
-                for d in deps
-                if d.get("predecessor_id") == milestone.get("milestone_id")
+                for d in deps.values() if d.get("predecessor_id") == milestone.get("milestone_id")
             ]
 
             if successors:
@@ -87,7 +85,7 @@ class CreateScheduleBaseline(Tool):
         milestone_snapshots = []
         max_variance = 0
 
-        for milestone in project_milestones:
+        for milestone in project_milestones.values():
             original_baseline_start = milestone.get(
                 "original_baseline_start",
                 milestone.get("baseline_start", milestone.get("start_date")),
@@ -155,9 +153,9 @@ class CreateScheduleBaseline(Tool):
             "quarter": (datetime.now(timezone.utc).month - 1) // 3 + 1,
         }
 
-        schedule_baselines.append(new_baseline)
+        data["schedule_baselines"][new_baseline["schedule_baseline_id"]] = new_baseline
 
-        for milestone in project_milestones:
+        for milestone in project_milestones.values():
             if "original_baseline_start" not in milestone:
                 milestone["original_baseline_start"] = milestone.get(
                     "baseline_start", milestone.get("start_date")

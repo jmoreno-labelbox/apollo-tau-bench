@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class EnableUserMFATool(Tool):
@@ -15,14 +15,14 @@ class EnableUserMFATool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
 
         if not isinstance(user_id, str):
             payload = {"error": "user_id must be provided"}
             out = json.dumps(payload, indent=2)
             return out
 
-        for u in users:
+        for u in users.values():
             if u.get("user_id") == user_id:
                 u["mfa_enabled"] = True
                 payload = {"success": f"MFA enabled for {user_id}", "user": u}

@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RegisterDeployEventTool(Tool):
@@ -47,7 +47,7 @@ class RegisterDeployEventTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        events = data.get("terminal", [])
+        events = data.get("terminal", {}).values()
 
         new_event = {
             "repo": repo_name,
@@ -58,7 +58,7 @@ class RegisterDeployEventTool(Tool):
         new_event["event_id"] = _safe_id(
             new_event, "event_id", "DEPLOY_", ["repo", "environment", "date"]
         )
-        events.append(new_event)
+        data["terminal"][new_event["terminal_id"]] = new_event
         return _response("ok", new_event)
     @staticmethod
     def get_info() -> dict[str, Any]:

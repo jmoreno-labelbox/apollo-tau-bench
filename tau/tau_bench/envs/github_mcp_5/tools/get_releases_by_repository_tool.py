@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetReleasesByRepositoryTool(Tool):
@@ -52,7 +52,7 @@ class GetReleasesByRepositoryTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        releases = data.get("releases", [])
+        releases = data.get("releases", {}).values()
         filtered = [
             {
                 "release_id": _safe_id(r, "release_id", "REL_", ["repo", "version"]),
@@ -62,8 +62,7 @@ class GetReleasesByRepositoryTool(Tool):
                 "created_at": r.get("created_at"),
                 "report_date": CURRENT_DATE,
             }
-            for r in releases
-            if r.get("repo") == repo_name
+            for r in releases.values() if r.get("repo") == repo_name
         ]
         return _response("ok", filtered)
     @staticmethod

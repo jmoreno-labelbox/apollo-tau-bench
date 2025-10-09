@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindNoaaStation(Tool):
@@ -18,7 +18,7 @@ class FindNoaaStation(Tool):
             "station_ids": station_id,
             "raw_json_path_nullable": f"/data/raw/noaa_station_{station_id}.json",
         }
-        data.get("noaa_station_searches", []).append(noaa_station_json)
+        data["noaa_station_searches"][noaa_station_json["noaa_station_searche_id"]] = noaa_station_json
         payload = noaa_station_json
         out = json.dumps(payload)
         return out

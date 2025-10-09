@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RegisterSymbol(Tool):
@@ -45,9 +45,9 @@ class RegisterSymbol(Tool):
 
     @staticmethod
     def invoke(data, build_id=None, module_name=None, platform=None, pdb_uri=None, status=None):
-        symbols = data.get("symbols", [])
+        symbols = data.get("symbols", {}).values()
         sym_id = f"AUTO::symbol::{build_id}::{module_name}"
-        existing = next((s for s in symbols if s.get("id") == sym_id), None)
+        existing = next((s for s in symbols.values() if s.get("id") == sym_id), None)
         if existing:
             existing.update(
                 {
@@ -70,7 +70,7 @@ class RegisterSymbol(Tool):
                 }
             )
         data["symbols"] = symbols
-        payload = {"symbol": next(s for s in symbols if s.get("id") == sym_id)}
+        payload = {"symbol": next(s for s in symbols.values() if s.get("id") == sym_id)}
         out = json.dumps(
             payload, indent=2
         )

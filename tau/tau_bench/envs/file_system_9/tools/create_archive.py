@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateArchive(Tool):
@@ -23,10 +23,10 @@ class CreateArchive(Tool):
         filepaths: list[str] = None
     ) -> str:
         # Step 1: Generate the instruction in archive_instructions.json
-        archive_instructions = data.get("archive_instructions", [])
+        archive_instructions = data.get("archive_instructions", {}).values()
         max_id = 0
         if archive_instructions:
-            for instruction in archive_instructions:
+            for instruction in archive_instructions.values():
                 try:
                     current_id_num = int(
                         instruction.get("archive_id", "arch_000").split("_")[1]
@@ -62,7 +62,7 @@ class CreateArchive(Tool):
         total_size = 0
         for path in filepaths:
             file_found = False
-            for server in data.get("file_system", []):
+            for server in data.get("file_system", {}).values():
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
                         if f"{directory.get('path')}/{file.get('filename')}" == path:

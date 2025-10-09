@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateGameEventStatus(Tool):
@@ -34,7 +34,7 @@ class UpdateGameEventStatus(Tool):
             return out
 
         #2) Retrieve DB
-        events: list[dict[str, Any]] = data.get("game_day_events", [])
+        events: list[dict[str, Any]] = data.get("game_day_events", {}).values()
 
         #3) Locate and modify
         for event in events:

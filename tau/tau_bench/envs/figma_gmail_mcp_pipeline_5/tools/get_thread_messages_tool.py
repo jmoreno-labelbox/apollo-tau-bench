@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetThreadMessagesTool(Tool):
@@ -22,9 +22,9 @@ class GetThreadMessagesTool(Tool):
             out = json.dumps(payload)
             return out
 
-        msgs = data.get("gmail_messages", [])
+        msgs = data.get("gmail_messages", {}).values()
         out = []
-        for m in msgs:
+        for m in msgs.values():
             if m.get("thread_id") == thread_id:
                 out.append(
                     _small_fields(

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateReservation(Tool):
@@ -106,11 +106,11 @@ class CreateReservation(Tool):
             return out
 
         #Locate user using their email
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         target_user = None
         user_index = None
 
-        for i, user in enumerate(users):
+        for i, user in enumerate(users.values():
             if user.get("email") == user_email:
                 target_user = user
                 user_index = i
@@ -200,7 +200,7 @@ class CreateReservation(Tool):
                 return out
 
         #Confirm the existence of a payment method for the user
-        payment_methods = target_user.get("payment_methods", {})
+        payment_methods = target_user.get("payment_methods", {}).values()
         if payment_method_id not in payment_methods:
             available_methods = list(payment_methods.keys())
             payload = {
@@ -215,7 +215,7 @@ class CreateReservation(Tool):
         payment_method = payment_methods[payment_method_id]
 
         #Compute the total amount
-        total_amount = sum(flight["price"] for flight in flights)
+        total_amount = sum(flight["price"] for flight in flights.values()
 
         #Ensure the payment method has adequate funds (for gift cards and certificates)
         if payment_method["source"] in ["gift_card", "certificate"]:
@@ -232,9 +232,9 @@ class CreateReservation(Tool):
                 return out
 
         #Confirm that the reservation ID is unique
-        existing_reservations = data.get("reservations", [])
+        existing_reservations = data.get("reservations", {}).values()
         if any(
-            res.get("reservation_id") == reservation_id for res in existing_reservations
+            res.get("reservation_id") == reservation_id for res in existing_reservations.values()
         ):
             payload = {
                     "error": "Reservation ID already exists",
@@ -266,7 +266,7 @@ class CreateReservation(Tool):
         #Include the reservation in the database
         if "reservations" not in data:
             data["reservations"] = []
-        data["reservations"].append(reservation)
+        data["reservations"][reservation_id] = reservation
 
         #Revise the user's list of reservations
         if "reservations" not in target_user:

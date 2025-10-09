@@ -27,7 +27,7 @@ class CreateMealPlan(Tool):
             "created_by_user_id": int(created_by_user_id),
             "created_at": "2025-01-01T00:00:00Z",
         }
-        tbl.append(row)
+        data["meal_plans"][row["meal_plan_id"]] = row
         return _json_dump({"meal_plan_id": next_id})
     @staticmethod
     def get_info() -> dict[str, Any]:

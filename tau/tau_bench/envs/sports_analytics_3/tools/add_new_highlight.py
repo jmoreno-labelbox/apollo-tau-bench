@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddNewHighlight(Tool):
@@ -43,7 +43,7 @@ class AddNewHighlight(Tool):
         full_name = f"Game Highlights - {name}"
 
         #2) Retrieve DB
-        playlists: list[dict[str, Any]] = data.get("video_playlists", [])
+        playlists: list[dict[str, Any]] = data.get("video_playlists", {}).values()
 
         #3) Attempt to locate existing
         target = None

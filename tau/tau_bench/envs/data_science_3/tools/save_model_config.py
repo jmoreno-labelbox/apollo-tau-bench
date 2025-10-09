@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SaveModelConfig(Tool):
@@ -15,12 +15,11 @@ class SaveModelConfig(Tool):
     def invoke(data: dict[str, Any], model_name: str = None, config_name: str = None, params: dict = None) -> str:
         if params is None:
             params = {}
-        cfgs = data.get("model_config", [])
+        cfgs = data.get("model_config", {}).values()
         row = next(
             (
                 c
-                for c in cfgs
-                if c.get("model_name") == model_name
+                for c in cfgs.values() if c.get("model_name") == model_name
                 and c.get("config_name") == config_name
             ),
             None,
@@ -35,7 +34,7 @@ class SaveModelConfig(Tool):
             }
         else:
             max_id = 0
-            for c in cfgs:
+            for c in cfgs.values():
                 try:
                     cid = int(c.get("config_id", 0))
                     if cid > max_id:
@@ -50,7 +49,7 @@ class SaveModelConfig(Tool):
                 "params": params,
                 "created_at": _fixed_now_iso(),
             }
-            cfgs.append(row)
+            data["model_config"][row["model_config_id"]] = row
             out = {
                 "config_id": new_id,
                 "model_name": model_name,

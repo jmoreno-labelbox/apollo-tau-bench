@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RecordSale(Tool):
@@ -19,17 +19,17 @@ class RecordSale(Tool):
         items: list[dict[str, Any]],
         payment_method: str
     ) -> str:
-        customers = data.get("customers", [])
+        customers = data.get("customers", {}).values()
         customer = next(
-            (c for c in customers if c.get("customer_id") == customer_id), None
+            (c for c in customers.values() if c.get("customer_id") == customer_id), None
         )
         if not customer:
             payload = {"error": f"Customer with ID {customer_id} not found."}
             out = json.dumps(payload)
             return out
 
-        products = data.get("products", [])
-        inventory = data.get("inventory", [])
+        products = data.get("products", {}).values()
+        inventory = data.get("inventory", {}).values()
         total_amount = 0.0
         validated_items = []
 
@@ -37,7 +37,7 @@ class RecordSale(Tool):
             sku = item.get("sku")
             quantity = item.get("quantity", 1)
 
-            product = next((p for p in products if p.get("sku") == sku), None)
+            product = next((p for p in products.values() if p.get("sku") == sku), None)
             if not product:
                 payload = {"error": f"Product with SKU {sku} not found."}
                 out = json.dumps(payload)
@@ -45,7 +45,7 @@ class RecordSale(Tool):
 
             # Verify stock availability
             total_available = 0
-            for inv in inventory:
+            for inv in inventory.values():
                 if inv.get("sku") == sku:
                     total_available += inv.get("quantity", 0) - inv.get(
                         "reserved_quantity", 0
@@ -60,7 +60,7 @@ class RecordSale(Tool):
 
             # Revise stock levels
             remaining_quantity = quantity
-            for inv in inventory:
+            for inv in inventory.values():
                 if inv.get("sku") == sku and remaining_quantity > 0:
                     available = inv.get("quantity", 0) - inv.get("reserved_quantity", 0)
                     if available > 0:
@@ -82,7 +82,7 @@ class RecordSale(Tool):
                 }
             )
 
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
         transaction_id = _get_next_transaction_id(transactions)
 
         # Calculate tax amount (assuming 8.25% tax rate)
@@ -117,23 +117,23 @@ class RecordSale(Tool):
             "line_items": line_items,
         }
 
-        transactions.append(transaction)
+        data["transactions"][transaction_id] = transaction
         data["transactions"] = transactions
         payload = transaction
         out = json.dumps(payload, indent=2)
         return out
         pass
-        customers = data.get("customers", [])
+        customers = data.get("customers", {}).values()
         customer = next(
-            (c for c in customers if c.get("customer_id") == customer_id), None
+            (c for c in customers.values() if c.get("customer_id") == customer_id), None
         )
         if not customer:
             payload = {"error": f"Customer with ID {customer_id} not found."}
             out = json.dumps(payload)
             return out
 
-        products = data.get("products", [])
-        inventory = data.get("inventory", [])
+        products = data.get("products", {}).values()
+        inventory = data.get("inventory", {}).values()
         total_amount = 0.0
         validated_items = []
 
@@ -141,7 +141,7 @@ class RecordSale(Tool):
             sku = item.get("sku")
             quantity = item.get("quantity", 1)
 
-            product = next((p for p in products if p.get("sku") == sku), None)
+            product = next((p for p in products.values() if p.get("sku") == sku), None)
             if not product:
                 payload = {"error": f"Product with SKU {sku} not found."}
                 out = json.dumps(payload)
@@ -149,7 +149,7 @@ class RecordSale(Tool):
 
             #Verify stock availability
             total_available = 0
-            for inv in inventory:
+            for inv in inventory.values():
                 if inv.get("sku") == sku:
                     total_available += inv.get("quantity", 0) - inv.get(
                         "reserved_quantity", 0
@@ -165,7 +165,7 @@ class RecordSale(Tool):
 
             #Revise stock levels
             remaining_quantity = quantity
-            for inv in inventory:
+            for inv in inventory.values():
                 if inv.get("sku") == sku and remaining_quantity > 0:
                     available = inv.get("quantity", 0) - inv.get("reserved_quantity", 0)
                     if available > 0:
@@ -187,7 +187,7 @@ class RecordSale(Tool):
                 }
             )
 
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
         transaction_id = _get_next_transaction_id(transactions)
 
         # Calculate tax amount (assuming 8.25% tax rate)
@@ -222,7 +222,7 @@ class RecordSale(Tool):
             "line_items": line_items,
         }
 
-        transactions.append(transaction)
+        data["transactions"][transaction_id] = transaction
         data["transactions"] = transactions
         payload = transaction
         out = json.dumps(payload, indent=2)

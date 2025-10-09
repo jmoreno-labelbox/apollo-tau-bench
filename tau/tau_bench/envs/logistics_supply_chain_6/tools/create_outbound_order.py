@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateOutboundOrder(Tool):
@@ -24,14 +24,14 @@ class CreateOutboundOrder(Tool):
     ) -> str:
         """Run the tool with the provided parameters."""
         pass
-        outbound_orders = data.get("outbound_orders", [])
-        inventory = data.get("inventory", [])
+        outbound_orders = data.get("outbound_orders", {}).values()
+        inventory = data.get("inventory", {}).values()
 
         # Verify stock for all items initially
         for order_item in items:
             sku = order_item["sku"]
             quantity = order_item["quantity"]
-            for inv_item in inventory:
+            for inv_item in inventory.values():
                 if inv_item["warehouse_id"] == warehouse_id and inv_item["sku"] == sku:
                     if inv_item["quantity_available"] < quantity:
                         payload = {
@@ -50,7 +50,7 @@ class CreateOutboundOrder(Tool):
         for order_item in items:
             sku = order_item["sku"]
             quantity = order_item["quantity"]
-            for inv_item in inventory:
+            for inv_item in inventory.values():
                 if inv_item["warehouse_id"] == warehouse_id and inv_item["sku"] == sku:
                     inv_item["quantity_allocated"] += quantity
                     inv_item["quantity_available"] -= quantity
@@ -74,20 +74,20 @@ class CreateOutboundOrder(Tool):
             "carrier_id": None,
             "tracking_number": None,
         }
-        outbound_orders.append(new_order)
+        outbound_data["orders"][order_id] = new_order
         payload = new_order
         out = json.dumps(payload, indent=2)
         return out
         """Run the tool with the provided parameters."""
         pass
-        outbound_orders = data.get("outbound_orders", [])
-        inventory = data.get("inventory", [])
+        outbound_orders = data.get("outbound_orders", {}).values()
+        inventory = data.get("inventory", {}).values()
 
         #Verify stock for all items initially
         for order_item in items:
             sku = order_item["sku"]
             quantity = order_item["quantity"]
-            for inv_item in inventory:
+            for inv_item in inventory.values():
                 if inv_item["warehouse_id"] == warehouse_id and inv_item["sku"] == sku:
                     if inv_item["quantity_available"] < quantity:
                         payload = {
@@ -106,7 +106,7 @@ class CreateOutboundOrder(Tool):
         for order_item in items:
             sku = order_item["sku"]
             quantity = order_item["quantity"]
-            for inv_item in inventory:
+            for inv_item in inventory.values():
                 if inv_item["warehouse_id"] == warehouse_id and inv_item["sku"] == sku:
                     inv_item["quantity_allocated"] += quantity
                     inv_item["quantity_available"] -= quantity
@@ -130,7 +130,7 @@ class CreateOutboundOrder(Tool):
             "carrier_id": None,
             "tracking_number": None,
         }
-        outbound_orders.append(new_order)
+        outbound_data["orders"][order_id] = new_order
         payload = new_order
         out = json.dumps(payload, indent=2)
         return out

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetConnectedAppSecurity(Tool):
@@ -18,8 +18,8 @@ class GetConnectedAppSecurity(Tool):
         app_id = _idstr(app_id)
         if not app_id:
             return _error("app_id is required.")
-        apps = data.get("connected_apps", [])
-        app = _find_one(apps, "app_id", app_id)
+        apps = data.get("connected_apps", {}).values()
+        app = _find_one(list(apps.values()), "app_id", app_id)
         if not app:
             return _error(f"Connected app '{app_id}' not found.")
         payload = app

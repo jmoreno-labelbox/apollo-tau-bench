@@ -32,7 +32,7 @@ class CreateAd(Tool):
             "start_date": start_date,
             "end_date": end_date,
         }
-        ads.append(rec)
+        data["ads"][ad_id] = rec
         payload = rec
         out = json.dumps(payload)
         return out

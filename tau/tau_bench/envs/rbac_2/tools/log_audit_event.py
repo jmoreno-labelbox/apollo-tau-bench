@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LogAuditEvent(Tool):
@@ -24,13 +24,12 @@ class LogAuditEvent(Tool):
         details: str = None
     ) -> str:
         try:
-            audit_logs = data.get("audit_logs", [])
+            audit_logs = data.get("audit_logs", {}).values()
         except (KeyError, json.JSONDecodeError):
             audit_logs = []
         existing_ids = [
             int(log["log_id"].replace("L-", ""))
-            for log in audit_logs
-            if log.get("log_id", "").startswith("L-")
+            for log in audit_logs.values() if log.get("log_id", "").startswith("L-")
         ]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         log_id = f"L-{next_id_num:03d}"
@@ -44,7 +43,7 @@ class LogAuditEvent(Tool):
             "details": details,
         }
 
-        audit_logs.append(new_log)
+        data["audit_logs"][new_log["audit_log_id"]] = new_log
         data["audit_logs.json"] = json.dumps(audit_logs, indent=4)
         payload = {"message": "Audit event logged successfully.", "log_details": new_log}
         out = json.dumps(payload)

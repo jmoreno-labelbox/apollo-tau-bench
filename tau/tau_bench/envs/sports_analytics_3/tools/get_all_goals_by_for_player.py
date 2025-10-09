@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAllGoalsByForPlayer(Tool):
@@ -22,10 +22,10 @@ class GetAllGoalsByForPlayer(Tool):
             return out
 
         #2) Retrieve DB
-        goals: list[dict[str, Any]] = data.get("player_dev_goals", [])
+        goals: list[dict[str, Any]] = data.get("player_dev_goals", {}).values()
 
         #3) Filter goals related to player
-        matching = [g for g in goals if g.get("player_id") == player_id]
+        matching = [g for g in goals.values() if g.get("player_id") == player_id]
 
         if not matching:
             payload = {"error": f"No goals found for player_id {player_id}"}

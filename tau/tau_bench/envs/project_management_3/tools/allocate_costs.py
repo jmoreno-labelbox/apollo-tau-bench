@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AllocateCosts(Tool):
@@ -23,11 +23,11 @@ class AllocateCosts(Tool):
                 payload)
             return out
 
-        expenses = data.get("expenses", [])
-        cost_allocations = data.get("cost_allocations", [])
-        budgets = data.get("budgets", [])
+        expenses = data.get("expenses", {}).values()
+        cost_allocations = data.get("cost_allocations", {}).values()
+        budgets = data.get("budgets", {}).values()
 
-        expense = next((e for e in expenses if e.get("expense_id") == expense_id), None)
+        expense = next((e for e in expenses.values() if e.get("expense_id") == expense_id), None)
         if not expense:
             payload = {"error": f"Expense {expense_id} not found"}
             out = json.dumps(payload)
@@ -44,7 +44,7 @@ class AllocateCosts(Tool):
                 payload)
             return out
 
-        total_allocated = sum(split.get("amount", 0) for split in allocation_splits)
+        total_allocated = sum(split.get("amount", 0) for split in allocation_splits.values()
         if abs(total_allocated - expense["amount"]) > 0.01:
             payload = {
                     "error": f"Allocated amounts must match expense total ${expense['amount']}"
@@ -65,14 +65,13 @@ class AllocateCosts(Tool):
             "status": "completed",
         }
 
-        cost_allocations.append(new_allocation)
+        data["cost_allocations"][new_allocation["cost_allocation_id"]] = new_allocation
 
         for split in allocation_splits:
             budget = next(
                 (
                     b
-                    for b in budgets
-                    if b.get("project_id") == split["project_id"]
+                    for b in budgets.values() if b.get("project_id") == split["project_id"]
                     and b.get("fiscal_year") == fiscal_year
                 ),
                 None,
@@ -83,9 +82,8 @@ class AllocateCosts(Tool):
 
         unallocated = [
             e
-            for e in expenses
-            if e.get("expense_id")
-            not in [a.get("expense_id") for a in cost_allocations]
+            for e in expenses.values() if e.get("expense_id")
+            not in [a.get("expense_id") for a in cost_allocations.values()]
             and e.get("amount", 0) > 10000
         ]
 

@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListHubspotTicketsTool(Tool):
@@ -28,7 +28,7 @@ class ListHubspotTicketsTool(Tool):
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        tickets: list[dict[str, Any]] = data.get("hubspot_tickets", [])
+        tickets: list[dict[str, Any]] = data.get("hubspot_tickets", {}).values()
         out: list[dict[str, Any]] = []
         for t in tickets:
             if ticket_id and not _eq(t.get("ticket_id"), ticket_id):

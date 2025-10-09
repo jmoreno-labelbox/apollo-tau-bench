@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class TicketStatistics(Tool):
@@ -54,7 +54,7 @@ class TicketStatistics(Tool):
         daily_metrics = data.get("daily_metrics")
 
         pulled_data = []
-        for metrics in daily_metrics:
+        for metrics in daily_metrics.values():
             pulled_data.append(metrics[field])
 
         if stat_type == "sum":

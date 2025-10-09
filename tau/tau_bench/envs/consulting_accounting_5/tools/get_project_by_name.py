@@ -11,7 +11,7 @@ class GetProjectByName(Tool):
         Returns project_id for a given project_title.
         """
         project_title = project_name
-        project = next((p for p in data["projects"] if p["project_title"] == project_title), None)
+        project = next((p for p in data["projects"].values() if p["project_title"] == project_title), None)
         return json.dumps(project["project_id"] if project else None)
     @staticmethod
     def get_info() -> Dict[str, Any]:

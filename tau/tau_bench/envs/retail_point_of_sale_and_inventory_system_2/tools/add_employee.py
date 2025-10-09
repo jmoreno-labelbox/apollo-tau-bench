@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddEmployee(Tool):
@@ -21,9 +21,9 @@ class AddEmployee(Tool):
         email: str,
         phone_number: str
     ) -> str:
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
 
-        if any(e.get("email") == email for e in employees):
+        if any(e.get("email") == email for e in employees.values()):
             payload = {"error": f"Employee with email {email} already exists."}
             out = json.dumps(payload)
             return out
@@ -41,15 +41,15 @@ class AddEmployee(Tool):
             "status": "active",
         }
 
-        employees.append(new_employee)
+        data["employees"][employee_id] = new_employee
         data["employees"] = employees
         payload = new_employee
         out = json.dumps(payload, indent=2)
         return out
         pass
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
 
-        if any(e.get("email") == email for e in employees):
+        if any(e.get("email") == email for e in employees.values()):
             payload = {"error": f"Employee with email {email} already exists."}
             out = json.dumps(payload)
             return out
@@ -67,7 +67,7 @@ class AddEmployee(Tool):
             "status": "active",
         }
 
-        employees.append(new_employee)
+        data["employees"][employee_id] = new_employee
         data["employees"] = employees
         payload = new_employee
         out = json.dumps(payload, indent=2)

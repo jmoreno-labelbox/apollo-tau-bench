@@ -7,16 +7,16 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ArchiveMailbox(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str) -> str:
-        mailboxes = data.get("mailboxes", [])
+        mailboxes = data.get("mailboxes", {}).values()
         archives = data.setdefault("data_archives", [])
         mailbox = next(
-            (m for m in mailboxes if m.get("employee_id") == employee_id), None
+            (m for m in mailboxes.values() if m.get("employee_id") == employee_id), None
         )
         if not mailbox:
             payload = {"error": f"Mailbox for employee {employee_id} not found."}
@@ -34,7 +34,7 @@ class ArchiveMailbox(Tool):
             "retention_policy": mailbox["retention_policy"],
             "created_at": FIXED_NOW,
         }
-        archives.append(new_archive)
+        data["archives"][archive_id] = new_archive
         payload = new_archive
         out = json.dumps(payload, indent=2)
         return out

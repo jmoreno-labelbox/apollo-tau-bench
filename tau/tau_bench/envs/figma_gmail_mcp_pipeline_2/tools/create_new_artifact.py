@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateNewArtifact(Tool):
@@ -35,7 +35,7 @@ class CreateNewArtifact(Tool):
         ]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -50,7 +50,7 @@ class CreateNewArtifact(Tool):
             )
             return out
 
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = data.get("figma_artifacts", {}).values()
         artifact_id = get_next_art_id(data)
         created_ts = get_now_timestamp()
         current_tags = current_tags or []
@@ -70,7 +70,7 @@ class CreateNewArtifact(Tool):
             "current_tags": current_tags,
         }
 
-        artifacts.append(new_row)
+        data["figma_artifacts"][new_row["figma_artifact_id"]] = new_row
         data["figma_artifacts"] = artifacts
         payload = new_row
         out = json.dumps(payload, indent=2)

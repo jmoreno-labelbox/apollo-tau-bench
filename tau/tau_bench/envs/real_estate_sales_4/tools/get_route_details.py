@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetRouteDetails(Tool):
@@ -18,8 +18,8 @@ class GetRouteDetails(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        routes = data.get("routes", [])
-        route = next((r for r in routes if r.get("route_id") == route_id), None)
+        routes = data.get("routes", {}).values()
+        route = next((r for r in routes.values() if r.get("route_id") == route_id), None)
 
         if not route:
             mock_route = {

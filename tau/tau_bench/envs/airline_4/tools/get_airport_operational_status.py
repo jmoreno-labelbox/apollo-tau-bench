@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAirportOperationalStatus(Tool):
@@ -32,10 +32,10 @@ class GetAirportOperationalStatus(Tool):
             return out
 
         #Locate the airport
-        airports = data.get("airports", [])
+        airports = data.get("airports", {}).values()
         target_airport = None
 
-        for airport in airports:
+        for airport in airports.values():
             if (iata_code and airport.get("iata_code") == iata_code) or (
                 airport_id and airport.get("airport_id") == airport_id
             ):
@@ -57,7 +57,7 @@ class GetAirportOperationalStatus(Tool):
             "iata_code": target_airport.get("iata_code"),
             "icao_code": target_airport.get("icao_code"),
             "airport_name": target_airport.get("airport_name"),
-            "location": target_airport.get("location", {}),
+            "location": target_airport.get("location", {}).values()),
             "timezone": target_airport.get("timezone"),
             "operational_status": target_airport.get("operational_status"),
         }
@@ -98,10 +98,10 @@ class GetAirportOperationalStatus(Tool):
                 }
 
         #Locate current flights at this airport
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         current_flights = {"departures": [], "arrivals": []}
 
-        for flight in flights:
+        for flight in flights.values():
             flight_origin = flight.get("origin")
             flight_dest = flight.get("destination")
 
@@ -130,11 +130,11 @@ class GetAirportOperationalStatus(Tool):
                 )
 
         #Locate aircraft that are currently at this airport
-        aircraft_data = data.get("aircraft", [])
+        aircraft_data = data.get("aircraft", {}).values()
         aircraft_at_airport = []
 
-        for aircraft in aircraft_data:
-            location = aircraft.get("location", {})
+        for aircraft in aircraft_data.values():
+            location = aircraft.get("location", {}).values()
             if location.get("airport_id") == target_airport.get(
                 "airport_id"
             ) or location.get("iata_code") == target_airport.get("iata_code"):
@@ -142,17 +142,17 @@ class GetAirportOperationalStatus(Tool):
                     {
                         "aircraft_id": aircraft.get("aircraft_id"),
                         "tail_number": aircraft.get("tail_number"),
-                        "model": aircraft.get("model", {}),
+                        "model": aircraft.get("model", {}).values()),
                         "status": aircraft.get("status"),
                     }
                 )
 
         #Verify for operational events occurring at this airport
-        operational_events = data.get("operational_events", [])
+        operational_events = data.get("operational_events", {}).values()
         airport_events = []
 
-        for event in operational_events:
-            event_airport = event.get("airport", {})
+        for event in operational_events.values():
+            event_airport = event.get("airport", {}).values()
             if event_airport.get("airport_id") == target_airport.get(
                 "airport_id"
             ) or event_airport.get("iata_code") == target_airport.get("iata_code"):
@@ -177,7 +177,7 @@ class GetAirportOperationalStatus(Tool):
             "total_arrivals": len(current_flights["arrivals"]),
             "aircraft_on_ground": len(aircraft_at_airport),
             "active_events": len(
-                [e for e in airport_events if e.get("status") == "Active"]
+                [e for e in airport_events.values() if e.get("status") == "Active"]
             ),
             "recent_events": len(airport_events),
         }
@@ -192,7 +192,7 @@ class GetAirportOperationalStatus(Tool):
                 f"Airport status: {target_airport.get('operational_status')}"
             )
 
-        active_events = [e for e in airport_events if e.get("status") == "Active"]
+        active_events = [e for e in airport_events.values() if e.get("status") == "Active"]
         if active_events:
             operational_health = "Impacted"
             health_factors.append(f"{len(active_events)} active operational events")

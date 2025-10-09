@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class create_product(Tool):
@@ -33,7 +33,7 @@ class create_product(Tool):
         expiry_date: str = None,
         discount_rate: float = 0.0,
     ) -> str:
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
 
         # A timestamp must be included for database entries
 
@@ -84,7 +84,7 @@ class create_product(Tool):
         if any([required_values[k] is None for k in required_values.keys()]):
             payload = {
                 "error": "required values not sent: "
-                + ", ".join([k for k in required_values if required_values[k] is None])
+                + ", ".join([k for k in required_values.values() if required_values[k] is None])
             }
             out = json.dumps(
                 payload,

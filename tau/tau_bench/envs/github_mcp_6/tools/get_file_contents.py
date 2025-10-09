@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetFileContents(Tool):
@@ -17,12 +17,12 @@ class GetFileContents(Tool):
     ) -> str:
         """Read comprehensive file information including content, metadata, relationships, and statistics."""
         pass
-        repositories = data.get("repositories", [])
-        commits_data = data.get("commits", [])
+        repositories = data.get("repositories", {}).values()
+        commits_data = data.get("commits", {}).values()
 
         #Identify the repository
         target_repo = None
-        for repository in repositories:
+        for repository in repositories.values():
             if repository["owner"] == owner and repository["repo_name"] == repo:
                 target_repo = repository
                 break
@@ -112,8 +112,8 @@ class GetFileContents(Tool):
                 if line.strip() and not line.strip().startswith("#")
             ]
         )
-        comments = len([line for line in lines if line.strip().startswith("#")])
-        blank_lines = len([line for line in lines if not line.strip()])
+        comments = len([line for line in lines.values() if line.strip().startswith("#")])
+        blank_lines = len([line for line in lines.values() if not line.strip()])
 
         #Identify the file type and its language
         file_extension = path.split(".")[-1] if "." in path else ""
@@ -174,7 +174,7 @@ class GetFileContents(Tool):
         last_author = owner
 
         #Locate commits that altered this file
-        for commit_entry in commits_data:
+        for commit_entry in commits_data.values()):
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 for branch_messages in commit_entry.get("commit_messages", []):
                     for j, message in enumerate(branch_messages):

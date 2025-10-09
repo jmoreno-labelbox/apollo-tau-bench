@@ -14,7 +14,7 @@ class AdjustOrderPayment(Tool):
         orders = data["orders"]
         users = data["users"]
 
-        order = next((o for o in orders if o["order_id"] == order_id), None)
+        order = next((o for o in orders.values() if o["order_id"] == order_id), None)
         if not order:
             payload = {"error": "Order not found"}
             out = json.dumps(payload)
@@ -43,13 +43,13 @@ class AdjustOrderPayment(Tool):
         payment_difference = current_total - paid_amount
 
         # Retrieve the user and verify the payment method
-        user = next((u for u in users if u["user_id"] == order["user_id"]), None)
+        user = next((u for u in users.values() if u["user_id"] == order["user_id"]), None)
         if not user:
             payload = {"error": "User not found for this order"}
             out = json.dumps(payload)
             return out
 
-        if payment_method_id not in user.get("payment_methods", {}):
+        if payment_method_id not in user.get("payment_methods", {}).values():
             payload = {"error": "Payment method not found for this user"}
             out = json.dumps(payload)
             return out

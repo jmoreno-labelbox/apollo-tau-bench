@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateUserDepartment(Tool):
@@ -20,12 +20,12 @@ class UpdateUserDepartment(Tool):
         new_department = new_department
 
         try:
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
         except (KeyError, json.JSONDecodeError):
             users = []
 
         user_to_update = None
-        for user in users:
+        for user in users.values():
             if user.get("user_id") == user_id_to_update:
                 user["department"] = new_department
                 user_to_update = user

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ExtractTaskInstructionsTool(Tool):
@@ -41,7 +41,7 @@ class ExtractTaskInstructionsTool(Tool):
 
         # Fetch task from the database
         task_record = None
-        for record in data.get("file_check_db", []):
+        for record in data.get("file_check_db", {}).values():
             if record["task_id"] == target_task_id:
                 task_record = record
                 break
@@ -52,7 +52,7 @@ class ExtractTaskInstructionsTool(Tool):
             return out
 
         # Obtain pre-parsed instructions from the task record
-        instruction_data = task_record.get("parsed_instructions", {})
+        instruction_data = task_record.get("parsed_instructions", {}).values()
 
         # Set up storage if necessary
         if "task_instructions" not in data:
@@ -62,9 +62,9 @@ class ExtractTaskInstructionsTool(Tool):
         simplified_entry = {
             "task_id": target_task_id,
             "remote_address": task_record.get("remote_server"),
-            "max_size": instruction_data.get("size_filter", {}).get("max_bytes"),
-            "last_access_days": instruction_data.get("time_filter", {}).get("days"),
-            "users": instruction_data.get("user_filter", []),
+            "max_size": instruction_data.get("size_filter", {}).values().get("max_bytes"),
+            "last_access_days": instruction_data.get("time_filter", {}).values().get("days"),
+            "users": instruction_data.get("user_filter", {}).values()),
         }
 
         data["task_instructions"].append(simplified_entry)

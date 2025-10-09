@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateTeam(Tool):
@@ -29,11 +29,11 @@ class CreateTeam(Tool):
             out = json.dumps(payload)
             return out
 
-        teams = data.get("teams", [])
-        projects = data.get("projects", [])
-        allocations = data.get("allocations", [])
+        teams = data.get("teams", {}).values()
+        projects = data.get("projects", {}).values()
+        allocations = data.get("allocations", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
@@ -41,8 +41,7 @@ class CreateTeam(Tool):
 
         project_allocations = [
             alloc
-            for alloc in allocations
-            if alloc.get("project_id") == project_id and alloc.get("status") == "active"
+            for alloc in allocations.values() if alloc.get("project_id") == project_id and alloc.get("status") == "active"
         ]
 
         total_allocated_hours = sum(
@@ -82,7 +81,7 @@ class CreateTeam(Tool):
             "status": "active",
         }
 
-        teams.append(new_team)
+        data["teams"][team_id] = new_team
         payload = {
                 "success": True,
                 "team": new_team,

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchAttachmentsByFilename(Tool):
@@ -18,7 +18,7 @@ class SearchAttachmentsByFilename(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], filename: str) -> str:
         matches = [
-            a for a in data.get("attachments", []) if a.get("filename") == filename
+            a for a in data.get("attachments", {}).values() if a.get("filename") == filename
         ]
         payload = {"matches": matches}
         out = json.dumps(payload, indent=2)

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2GetPipelineOpportunities(Tool):
@@ -16,16 +16,15 @@ class CaV2GetPipelineOpportunities(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], stage: str = None, min_probability: float = None) -> str:
-        opportunities = data.get("pipeline_opportunities", [])
+        opportunities = data.get("pipeline_opportunities", {}).values()
 
         if stage:
-            opportunities = [opp for opp in opportunities if opp.get("stage") == stage]
+            opportunities = [opp for opp in opportunities.values() if opp.get("stage") == stage]
 
         if min_probability is not None:
             opportunities = [
                 opp
-                for opp in opportunities
-                if opp.get("probability", 0) >= min_probability
+                for opp in opportunities.values() if opp.get("probability", 0) >= min_probability
             ]
         payload = opportunities
         out = json.dumps(payload)

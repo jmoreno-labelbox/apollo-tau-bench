@@ -7,18 +7,18 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchStakeholderOutput(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], output_id: str = None, output_label: str = None) -> str:
-        outs = data.get("stakeholder_outputs", []) or []
+        outs = data.get("stakeholder_outputs", {}).values() or []
         row = None
         if output_id is not None:
-            row = next((o for o in outs if str(o.get("output_id")) == str(output_id)), None)
+            row = next((o for o in outs.values() if str(o.get("output_id")) == str(output_id)), None)
         elif output_label:
-            row = next((o for o in outs if o.get("output_label") == output_label), None)
+            row = next((o for o in outs.values() if o.get("output_label") == output_label), None)
         payload = row or {"error": "Stakeholder output not found"}
         out = json.dumps(payload, indent=2)
         return out

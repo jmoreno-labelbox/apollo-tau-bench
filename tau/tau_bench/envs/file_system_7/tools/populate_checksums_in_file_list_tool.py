@@ -26,7 +26,7 @@ class PopulateChecksumsInFileListTool(Tool):
             payload = {"error": "file_list not found."}
             out = json.dumps(payload)
             return out
-        for file in data["file_list"]:
+        for file in data["file_list"].values():
             file["checksum"] = hashlib.sha256(file["path"].encode()).hexdigest()
         payload = {"status": "success", "populated_count": len(data["file_list"])}
         out = json.dumps(payload)

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetPurchasedItems(Tool):
@@ -25,8 +25,8 @@ class GetPurchasedItems(Tool):
             return out
             
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -34,10 +34,10 @@ class GetPurchasedItems(Tool):
             return out
 
         # Find the specific order
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         target_order = None
 
-        for order in orders:
+        for order in orders.values():
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 target_order = order
                 break
@@ -63,7 +63,7 @@ class GetPurchasedItems(Tool):
             return out
 
         # Enrich item details with additional product information
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         detailed_items = []
         total_order_value = 0.0
 
@@ -72,19 +72,19 @@ class GetPurchasedItems(Tool):
             product_id = order_item.get("product_id")
             item_price = order_item.get("price", 0)
             item_name = order_item.get("name")
-            item_options = order_item.get("options", {})
+            item_options = order_item.get("options", {}).values()
 
             # Find additional product details from products.json
             additional_details = {}
-            for product in products:
+            for product in products.values():
                 if product.get("product_id") == product_id:
-                    variants = product.get("variants", {})
+                    variants = product.get("variants", {}).values()
                     if item_id in variants:
                         variant_info = variants[item_id]
                         additional_details = {
                             "current_availability": variant_info.get("available", False),
                             "current_price": variant_info.get("price", 0),
-                            "full_options": variant_info.get("options", {}),
+                            "full_options": variant_info.get("options", {}).values()),
                             "supplier_id": product.get("supplier_id"),
                         }
                     break
@@ -156,7 +156,7 @@ class GetPurchasedItems(Tool):
                 "user_id": user_id,
                 "order_status": order_status,
                 "order_date": order_timestamp,
-                "delivery_address": target_order.get("address", {}),
+                "delivery_address": target_order.get("address", {}).values()),
             },
             "financial_summary": {
                 "total_order_value": round(total_order_value, 2),

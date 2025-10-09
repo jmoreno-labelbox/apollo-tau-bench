@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAdsetsByCampaignID(Tool):
@@ -18,7 +18,7 @@ class GetAdsetsByCampaignID(Tool):
     def invoke(data: dict[str, Any], campaign_id: str = None) -> str:
         adsets = [
             adset
-            for adset in data.get("adsets", [])
+            for adset in data.get("adsets", {}).values()
             if adset.get("campaign_id") == campaign_id
         ]
         payload = {"adsets": adsets}

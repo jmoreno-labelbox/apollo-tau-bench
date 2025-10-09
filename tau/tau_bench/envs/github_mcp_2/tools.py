@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -100,8 +100,7 @@ def _resolve_pr_number(data: dict[str, Any], repo_name: str, pr_number: Any) -> 
         block = next(
             (
                 b
-                for b in prs
-                if b.get("owner") == me and b.get("repo_name") == repo_name
+                for b in prs.values() if b.get("owner") == me and b.get("repo_name") == repo_name
             ),
             None,
         )
@@ -122,7 +121,7 @@ def _find_repo_record(data: dict[str, Any], repo_name: str) -> dict[str, Any]:
     pass
     me = _auth(data)["username"]
     repos = data.get("repositories") or []
-    for r in repos:
+    for r in repos.values():
         if r.get("owner") == me and r.get("repo_name") == repo_name:
             return r
     #Reflect RULES: if not located, present a clear error (no alternatives)
@@ -460,7 +459,7 @@ class ListRepositoriesSortedByLastUpdated(Tool):
         )
         payload = [
             {"repo_name": r["repo_name"], "last_updated": r.get("last_updated")}
-            for r in repos
+            for r in repos.values()
         ]
         out = json.dumps(
             payload, indent=2,
@@ -484,7 +483,7 @@ class AggregateRepositoryActivity(Tool):
     def invoke(data: dict[str, Any]) -> str:
         me = _auth(data)["username"]
         repos = [r for r in _repos(data) if r.get("owner") == me]
-        repo_names = [r["repo_name"] for r in repos]
+        repo_names = [r["repo_name"] for r in repos.values()]
 
         prs = _prs(data)
         issues = _issues(data)
@@ -495,8 +494,7 @@ class AggregateRepositoryActivity(Tool):
         for repo_name in repo_names:
             pr_count = sum(
                 1
-                for pr in prs
-                if pr.get("owner") == me and pr.get("repo_name") == repo_name
+                for pr in prs.values() if pr.get("owner") == me and pr.get("repo_name") == repo_name
             )
             issue_count = sum(
                 1
@@ -611,8 +609,7 @@ class ListMergedPullRequestsWithFiles(Tool):
         prs = _prs(data)
         merged = [
             {"number": pr["number"], "title": pr["title"], "files": pr.get("files", [])}
-            for pr in prs
-            if pr.get("owner") == owner
+            for pr in prs.values() if pr.get("owner") == owner
             and pr.get("repo_name") == repo_name
             and pr.get("state") == "merged"
         ]
@@ -685,7 +682,7 @@ class GetAlertSeverityDistribution(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
         alerts = _alerts(data)
-        counter = Counter(a.get("severity", "Unknown") for a in alerts)
+        counter = Counter(a.get("severity", "Unknown") for a in alerts.values()
         payload = dict(counter)
         out = json.dumps(payload, indent=2)
         return out
@@ -893,7 +890,7 @@ class CountPublicPrivateRepos(Tool):
         repos = [r for r in _repos(data) if r.get("owner") == me]
 
         result = {"public": 0, "private": 0}
-        for r in repos:
+        for r in repos.values():
             vis = r.get("visibility")
             if vis == "public":
                 result["public"] += 1
@@ -927,7 +924,7 @@ class FindReposWithDocsFolder(Tool):
             if r.get("owner") != me:
                 continue
             for file_list in r.get("branch_files", []):
-                if any(f.startswith("docs/") for f in file_list):
+                if any(f.startswith("docs/") for f in file_list.values()):
                     matches.append(r["repo_name"])
                     break
         payload = matches
@@ -989,7 +986,7 @@ class FindReposWithKubernetesFolder(Tool):
             if r.get("owner") != me:
                 continue
             for file_list in r.get("branch_files", []):
-                if any(f.startswith("kubernetes/") for f in file_list):
+                if any(f.startswith("kubernetes/") for f in file_list.values()):
                     matched.append(r["repo_name"])
                     break
         payload = matched
@@ -1198,7 +1195,7 @@ class RenameRepository(Tool):
             return out
 
         repos = _repos(data)
-        for r in repos:
+        for r in repos.values():
             if r.get("owner") == me and r.get("repo_name") == old_name:
                 r["repo_name"] = new_name
                 payload = {"message": "Repository renamed", "new_name": new_name}
@@ -2307,7 +2304,7 @@ class GetBranchProtection(Tool):
             repo["branch_protection_rules"] = {}
 
         protection = repo.get("branch_protections", [{}])[idx]
-        rules = repo.get("branch_protection_rules", {})[idx]
+        rules = repo.get("branch_protection_rules", {}).values()[idx]
         payload = {"protected": protection if protection else "false", "rules": rules}
         out = json.dumps(
             payload, indent=2,
@@ -2600,7 +2597,7 @@ class CreateRepository(Tool):
         me = _auth(data)["username"]
 
         repos = _repos(data)
-        if any(r["owner"] == me and r["repo_name"] == repo_name for r in repos):
+        if any(r["owner"] == me and r["repo_name"] == repo_name for r in repos.values()):
             payload = {"error": "Repository already exists."}
             out = json.dumps(payload, indent=2)
             return out
@@ -2618,7 +2615,7 @@ class CreateRepository(Tool):
             "topics": [],
             "releases": [],
         }
-        repos.append(new_repo)
+        data["repositories"][new_repo["repositorie_id"]] = new_repo
         payload = {"message": "Repository created", "repo_name": repo_name}
         out = json.dumps(
             payload, indent=2
@@ -2860,7 +2857,7 @@ class GetMe(Tool):
 
         if username:
             auth_list = data.get("authentication") or []
-            match = next((a for a in auth_list if a.get("username") == username), None)
+            match = next((a for a in auth_list.values() if a.get("username") == username), None)
             if not match:
                 payload = {"error": f"Unknown username: {username}"}
                 out = json.dumps(payload, indent=2)
@@ -3093,7 +3090,7 @@ class ListPullRequestFiles(Tool):
         pr_number = _resolve_pr_number(data, repo_name, pr_number)
 
         prs = _prs(data)
-        pr_block = next((b for b in prs if b.get("repo_name") == repo_name), None)
+        pr_block = next((b for b in prs.values() if b.get("repo_name") == repo_name), None)
 
         if not pr_block:
             payload = {"error": "Pull request not found."}
@@ -3171,7 +3168,7 @@ class ListOpenPullRequests(Tool):
         me = _auth(data)["username"]
 
         prs = _prs(data)
-        for block in prs:
+        for block in prs.values():
             #print("block:::", block)
             if block["owner"] == me and block["repo_name"] == repo_name:
                 results = [

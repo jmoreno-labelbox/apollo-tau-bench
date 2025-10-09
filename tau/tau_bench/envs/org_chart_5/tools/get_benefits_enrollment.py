@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class get_benefits_enrollment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, department_id: str = None) -> str:
         if employee_id:
-            employee = find_employee(data.get("employees", []), employee_id)
+            employee = find_employee(data.get("employees", {}).values()), employee_id)
             if not employee:
                 payload = {"error": f"employee_id {employee_id} not found"}
                 out = json.dumps(
@@ -29,7 +29,7 @@ class get_benefits_enrollment(Tool):
         if department_id:
             dept_employees = [
                 e
-                for e in data.get("employees", [])
+                for e in data.get("employees", {}).values()
                 if e.get("department_id") == department_id
             ]
             all_benefits = {

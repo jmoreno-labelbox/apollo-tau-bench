@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSupplierDetails(Tool):
@@ -29,10 +29,10 @@ class GetSupplierDetails(Tool):
 
         Data Sources: suppliers.json (supplier_id, name, contact_info, products, item_stock)
         """
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         supplier_found = None
 
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             if supplier.get("supplier_id") == supplier_id:
                 supplier_found = supplier
                 break
@@ -43,7 +43,7 @@ class GetSupplierDetails(Tool):
             return out
 
         # Calculate stock metrics
-        item_stock = supplier_found.get("item_stock", {})
+        item_stock = supplier_found.get("item_stock", {}).values()
         total_items = len(item_stock)
         available_items = 0
         out_of_stock_items = 0
@@ -69,8 +69,8 @@ class GetSupplierDetails(Tool):
             "supplier_id": supplier_id,
             "supplier_info": {
                 "name": supplier_found.get("name"),
-                "contact_info": supplier_found.get("contact_info", {}),
-                "performance_metrics": supplier_found.get("performance_metrics", {}),
+                "contact_info": supplier_found.get("contact_info", {}).values()),
+                "performance_metrics": supplier_found.get("performance_metrics", {}).values()),
                 "notes": supplier_found.get("notes", ""),
             },
             "product_portfolio": {

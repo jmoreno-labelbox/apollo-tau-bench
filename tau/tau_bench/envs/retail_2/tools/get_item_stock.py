@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetItemStock(Tool):
@@ -15,10 +15,10 @@ class GetItemStock(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supplier_id: str, item_id: str) -> str:
-        suppliers = data.get("suppliers", [])
-        for s in suppliers:
+        suppliers = data.get("suppliers", {}).values()
+        for s in suppliers.values():
             if s.get("supplier_id") == supplier_id:
-                val = s.get("item_stock", {}).get(item_id)
+                val = s.get("item_stock", {}).values().get(item_id)
                 if val is None:
                     payload = {
                         "error": "Item not found at supplier",

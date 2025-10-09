@@ -9,14 +9,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindUnderperformingAdsets(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], roas_threshold: float, date: str) -> str:
         out = []
-        for i in data.get("f_insights", []):
+        for i in data.get("f_insights", {}).values():
             if i.get("date") == date:
                 spend = i.get("spend", 0)
                 revenue = i.get("revenue", 0)

@@ -10,7 +10,7 @@ class RecordInvoiceAudit(Tool):
         """
         Finds an invoice by number and logs an audit event for it.
         """
-        invoice = next((inv for inv in data["invoices"] if inv["invoice_number"] == invoice_number), None)
+        invoice = next((inv for inv in data["invoices"].values() if inv["invoice_number"] == invoice_number), None)
         if not invoice:
             return json.dumps({"error": "Invoice not found"})
 

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListExpensesByDateRangeAndCategory(Tool):
@@ -20,7 +20,7 @@ class ListExpensesByDateRangeAndCategory(Tool):
             )
             return out
         exp = []
-        for e in data.get("expenses", []):
+        for e in data.get("expenses", {}).values():
             d = str(e.get("expense_date", ""))
             if start_date <= d <= end_date and e.get("category_code") in categories:
                 exp.append(e)

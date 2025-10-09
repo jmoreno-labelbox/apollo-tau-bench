@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetDepartmentBudgetOverview(Tool):
@@ -20,12 +20,12 @@ class GetDepartmentBudgetOverview(Tool):
             out = json.dumps(payload)
             return out
 
-        departments = data.get("departments", [])
-        projects = data.get("projects", [])
-        budgets = data.get("budgets", [])
+        departments = data.get("departments", {}).values()
+        projects = data.get("projects", {}).values()
+        budgets = data.get("budgets", {}).values()
 
         department = next(
-            (d for d in departments if d.get("department_name") == department_name),
+            (d for d in departments.values() if d.get("department_name") == department_name),
             None,
         )
         if not department:
@@ -33,7 +33,7 @@ class GetDepartmentBudgetOverview(Tool):
             out = json.dumps(payload)
             return out
 
-        dept_projects = [p for p in projects if p.get("department") == department_name]
+        dept_projects = [p for p in projects.values() if p.get("department") == department_name]
 
         total_budget = 0
         total_spent = 0
@@ -43,8 +43,7 @@ class GetDepartmentBudgetOverview(Tool):
             project_budget = next(
                 (
                     b
-                    for b in budgets
-                    if b.get("project_id") == project["project_id"]
+                    for b in budgets.values() if b.get("project_id") == project["project_id"]
                     and b.get("fiscal_year") == fiscal_year
                 ),
                 None,

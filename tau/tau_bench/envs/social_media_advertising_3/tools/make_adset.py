@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class MakeAdset(Tool):
@@ -20,8 +20,8 @@ class MakeAdset(Tool):
     def invoke(data: dict[str, Any], campaign_id: str = None, name: str = None, budget: float = None, bid_type: str = None,
     status: Any = None,
     ) -> str:
-        all_adsets = data.get("adsets", [])
-        new_id = str(max((int(a["adset_id"]) for a in all_adsets), default=100) + 1)
+        all_adsets = data.get("adsets", {}).values()
+        new_id = str(max((int(a["adset_id"]) for a in all_adsets.values()), default=100) + 1)
         new = {
             "adset_id": new_id,
             "campaign_id": campaign_id,
@@ -30,7 +30,7 @@ class MakeAdset(Tool):
             "bid_type": bid_type,
             "status": "paused",
         }
-        all_adsets.append(new)
+        data["adsets"][new["adset_id"]] = new
         data["adsets"] = all_adsets
         payload = new
         out = json.dumps(payload)

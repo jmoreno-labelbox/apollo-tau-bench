@@ -12,7 +12,7 @@ class UpdateOrderItemPrice(Tool):
                 payload)
             return out
 
-        order = next((o for o in data["orders"] if o["order_id"] == order_id), None)
+        order = next((o for o in data["orders"].values() if o["order_id"] == order_id), None)
         if not order:
             payload = {"error": "Order not found"}
             out = json.dumps(payload)

@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -213,7 +213,7 @@ class FindSimilarIncidents(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], signature: str, top_k: int = 5) -> str:
         crashes = _get_table(data, "crash_events")
-        neighbors = [c for c in crashes if c.get("fingerprint") == signature][:top_k]
+        neighbors = [c for c in crashes.values() if c.get("fingerprint") == signature][:top_k]
         payload = {"neighbors": neighbors}
         out = json.dumps(payload, indent=2)
         return out
@@ -248,7 +248,7 @@ class EnumerateSuspects(Tool):
         candidate_refs = [failing_sha]
         if last_green_sha:
             candidate_refs.append(last_green_sha)
-        candidate = [c for c in source_changes if c.get("commit_sha") in candidate_refs]
+        candidate = [c for c in source_changes.values() if c.get("commit_sha") in candidate_refs]
         suspects = []
         for ch in candidate:
             files = ch.get("files_changed") or []
@@ -480,8 +480,8 @@ class OpenDraftPullRequest(Tool):
             if isinstance(val2, int) and val2 > current_max:
                 current_max = val2
         pr_number = current_max + 1
-        br = next((r for r in build_runs if r.get("run_id") == run_id), {})
-        art = next((a for a in artifacts if a.get("run_id") == run_id), {})
+        br = next((r for r in build_runs if r.get("run_id") == run_id), {}).values()
+        art = next((a for a in artifacts if a.get("run_id") == run_id), {}).values()
         links = {
             "run_id": run_id,
             "logs_uri": br.get("logs_uri") or art.get("logs_uri"),

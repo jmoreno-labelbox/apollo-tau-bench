@@ -9,7 +9,7 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AutoClassifySupportTicketPriorityTool(Tool):
@@ -35,8 +35,8 @@ class AutoClassifySupportTicketPriorityTool(Tool):
                 indent=2
             )
 
-        tickets = data.get("support_tickets", [])
-        for t in tickets:
+        tickets = data.get("support_tickets", {}).values()
+        for t in tickets.values():
             if t["ticket_id"] == ticket_id:
                 priority = (
                     "High"

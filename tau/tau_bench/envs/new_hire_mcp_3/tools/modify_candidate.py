@@ -8,17 +8,17 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ModifyCandidate(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], updates: dict = None, candidate_id: str = None) -> str:
         updates = updates or {}
-        candidates = data.get("candidates", [])
+        candidates = data.get("candidates", {}).values()
 
         # Locate the candidate within the list and modify
-        for c in candidates:
+        for c in candidates.values():
             if c.get("candidate_id") == candidate_id:
                 c.update(updates)
                 c["updated_at"] = _fixed_now_iso()

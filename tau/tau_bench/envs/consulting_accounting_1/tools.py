@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -20,8 +20,8 @@ class GetInvoiceDetails(Tool):
             payload = {"error": "invoice_id is required"}
             out = json.dumps(payload, indent=2)
             return out
-        invoices = data.get("invoices", [])
-        inv = next((i for i in invoices if i.get("invoice_id") == invoice_id), None)
+        invoices = data.get("invoices", {}).values()
+        inv = next((i for i in invoices.values() if i.get("invoice_id") == invoice_id), None)
         payload = inv or {"error": f"Invoice {invoice_id} not found"}
         out = json.dumps(payload, indent=2)
         return out
@@ -55,8 +55,8 @@ class ComputeInvoiceAging(Tool):
             payload = {"error": "invoice_id and today are required"}
             out = json.dumps(payload, indent=2)
             return out
-        invoices = data.get("invoices", [])
-        inv = next((i for i in invoices if i.get("invoice_id") == invoice_id), None)
+        invoices = data.get("invoices", {}).values()
+        inv = next((i for i in invoices.values() if i.get("invoice_id") == invoice_id), None)
         if not inv:
             payload = {"error": f"Invoice {invoice_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -160,8 +160,8 @@ class CreateAuditEntry(Tool):
 class GetDashboardSnapshot(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], snapshot_id: str = None) -> str:
-        snaps = data.get("dashboard_snapshots", [])
-        snap = next((s for s in snaps if s.get("snapshot_id") == snapshot_id), None)
+        snaps = data.get("dashboard_snapshots", {}).values()
+        snap = next((s for s in snaps.values() if s.get("snapshot_id") == snapshot_id), None)
         payload = snap or {"error": f"Snapshot {snapshot_id} not found"}
         out = json.dumps(payload, indent=2)
         return out
@@ -195,7 +195,7 @@ class ComputeTaxReserve(Tool):
         rate = next(
             (
                 t["rate_percent"]
-                for t in data.get("tax_rates", [])
+                for t in data.get("tax_rates", {}).values()
                 if t.get("tax_year") == year
             ),
             None,
@@ -253,7 +253,7 @@ class CreateDashboardSnapshot(Tool):
             "ytd_tax_reserve": ytd_tax_reserve,
             "pdf_path": pdf_path,
         }
-        snaps.append(record)
+        data["dashboard_snapshots"][record["dashboard_snapshot_id"]] = record
         payload = record
         out = json.dumps(payload, indent=2)
         return out
@@ -290,8 +290,8 @@ class GetExpenseDetails(Tool):
             payload = {"error": "expense_id is required"}
             out = json.dumps(payload, indent=2)
             return out
-        expenses = data.get("expenses", [])
-        exp = next((e for e in expenses if e.get("expense_id") == expense_id), None)
+        expenses = data.get("expenses", {}).values()
+        exp = next((e for e in expenses.values() if e.get("expense_id") == expense_id), None)
         payload = exp or {"error": f"Expense {expense_id} not found"}
         out = json.dumps(payload, indent=2)
         return out
@@ -319,7 +319,7 @@ class ApplyDeductibilityRules(Tool):
             out = json.dumps(payload, indent=2)
             return out
         exp = next(
-            (e for e in data.get("expenses", []) if e.get("expense_id") == expense_id),
+            (e for e in data.get("expenses", {}).values() if e.get("expense_id") == expense_id),
             None,
         )
         if not exp:
@@ -330,7 +330,7 @@ class ApplyDeductibilityRules(Tool):
         cat_obj = next(
             (
                 c
-                for c in data.get("expense_categories", [])
+                for c in data.get("expense_categories", {}).values()
                 if c.get("category_code") == cat
             ),
             None,
@@ -409,10 +409,10 @@ class GenerateExpenseDashboard(Tool):
 class GetBankBalances(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        accts = data.get("bank_accounts", [])
+        accts = data.get("bank_accounts", {}).values()
         total = 0.0
         details: list[dict[str, Any]] = []
-        for a in accts:
+        for a in accts.values():
             bal = float(a.get("current_balance", 0.0))
             total += bal
             details.append(
@@ -444,7 +444,7 @@ class ListRecurringSchedules(Tool):
     def invoke(data: dict[str, Any], horizon_months: int = 3) -> str:
         horizon = int(horizon_months)
         schedules = [
-            s for s in data.get("recurring_schedules", []) if s.get("is_active", False)
+            s for s in data.get("recurring_schedules", {}).values() if s.get("is_active", False)
         ]
         payload = {"horizon_months": horizon, "active_schedules": schedules}
         out = json.dumps(
@@ -476,7 +476,7 @@ class ComputePaymentBehavior(Tool):
         pb = next(
             (
                 p
-                for p in data.get("payment_behavior", [])
+                for p in data.get("payment_behavior", {}).values()
                 if p.get("publisher_id") == publisher_id
             ),
             None,
@@ -516,11 +516,11 @@ class ForecastInflows(Tool):
         import datetime as _dt
 
         today = _dt.datetime.fromisoformat("2024-11-30")
-        invoices = data.get("invoices", [])
+        invoices = data.get("invoices", {}).values()
         total_expected = 0.0
         breakdown = []
         for inv_id in invoices_ids:
-            inv = next((i for i in invoices if i.get("invoice_id") == inv_id), None)
+            inv = next((i for i in invoices.values() if i.get("invoice_id") == inv_id), None)
             if not inv or inv.get("paid_at"):
                 continue
             inv_date = _dt.datetime.fromisoformat(inv["invoice_date"])
@@ -574,7 +574,7 @@ class ForecastOutflows(Tool):
         total = 0.0
         lines: list[dict[str, Any]] = []
         if include_sched:
-            for s in data.get("recurring_schedules", []):
+            for s in data.get("recurring_schedules", {}).values():
                 if not s.get("is_active", False):
                     continue
                 freq = s.get("frequency")
@@ -602,7 +602,7 @@ class ForecastOutflows(Tool):
         if include_taxes:
             taxes = [
                 s
-                for s in data.get("recurring_schedules", [])
+                for s in data.get("recurring_schedules", {}).values()
                 if s.get("schedule_type") in ("tax_payment",)
             ]
             for t in taxes:
@@ -646,14 +646,14 @@ class BuildCashflowView(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], horizon_months: int = 3, granularity: str = "monthly") -> str:
         opening = 0.0
-        for a in data.get("bank_accounts", []):
+        for a in data.get("bank_accounts", {}).values():
             opening += float(a.get("current_balance", 0.0))
         import datetime as _dt
 
         today = _dt.datetime.fromisoformat("2024-11-30")
         inv_ids = [
             i.get("invoice_id")
-            for i in data.get("invoices", [])
+            for i in data.get("invoices", {}).values()
             if i.get("invoice_id") in ("INV008", "INV009", "INV010")
         ]
         inflows_tool = ForecastInflows()
@@ -710,7 +710,7 @@ class GetConsultantProfile(Tool):
     def invoke(data: dict[str, Any], consultant_id: str = None) -> str:
         cid = consultant_id
         cons = next(
-            (c for c in data.get("consultants", []) if c.get("consultant_id") == cid),
+            (c for c in data.get("consultants", {}).values() if c.get("consultant_id") == cid),
             None,
         )
         payload = cons or {"error": f"Consultant {cid} not found"}
@@ -737,7 +737,7 @@ class ListTimeEntries(Tool):
     def invoke(data: dict[str, Any], project_id: str = None, month: str = None) -> str:
         pid = project_id
         entries = [
-            t for t in data.get("time_entries", []) if t.get("project_id") == pid
+            t for t in data.get("time_entries", {}).values() if t.get("project_id") == pid
         ]
         if month:
             entries = [
@@ -771,7 +771,7 @@ class ResolveHourlyRate(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], project_id: str = None) -> str:
         proj = next(
-            (p for p in data.get("projects", []) if p.get("project_id") == project_id), None
+            (p for p in data.get("projects", {}).values() if p.get("project_id") == project_id), None
         )
         if not proj:
             payload = {"error": f"Project {project_id} not found"}
@@ -804,7 +804,7 @@ class BuildInvoiceLines(Tool):
     def invoke(data: dict[str, Any], time_entries: list = None, hourly_rate: float = 0.0) -> str:
         time_entries_ids = time_entries or []
         hourly_rate = float(hourly_rate)
-        entries_index = {t["time_entry_id"]: t for t in data.get("time_entries", [])}
+        entries_index = {t["time_entry_id"]: t for t in data.get("time_entries", {}).values()}
         lines = []
         subtotal = 0.0
         for idx, tid in enumerate(time_entries_ids, start=1):
@@ -857,7 +857,7 @@ class GenerateInvoiceNumber(Tool):
             return out
         existing = [
             i.get("invoice_number")
-            for i in data.get("invoices", [])
+            for i in data.get("invoices", {}).values()
             if str(i.get("invoice_number", "")).startswith(f"{year}-")
         ]
         seqs = []
@@ -897,11 +897,11 @@ class CalculateTotals(Tool):
             and invoice_lines
             and isinstance(invoice_lines[0], dict)
         ):
-            subtotal = sum(float(l.get("line_amount", 0.0)) for l in invoice_lines)
+            subtotal = sum(float(l.get("line_amount", 0.0)) for l in invoice_lines.values()
         else:
             subtotal = 0.0
             lines_index = {
-                l["invoice_line_id"]: l for l in data.get("invoice_lines", [])
+                l["invoice_line_id"]: l for l in data.get("invoice_lines", {}).values()
             }
             for lid in invoice_lines:
                 line = lines_index.get(lid)
@@ -1016,7 +1016,7 @@ class InsertInvoice(Tool):
             "paid_at": paid_at,
             "created_at": created_at,
         }
-        invs.append(record)
+        data["invoices"][record["invoice_id"]] = record
         payload = record
         out = json.dumps(payload, indent=2)
         return out
@@ -1063,11 +1063,10 @@ class ListPublisherOpenInvoices(Tool):
             payload = {"error": "publisher_id is required"}
             out = json.dumps(payload, indent=2)
             return out
-        invoices = data.get("invoices", [])
+        invoices = data.get("invoices", {}).values()
         open_invs = [
             i
-            for i in invoices
-            if i.get("publisher_id") == publisher_id and not i.get("paid_at")
+            for i in invoices.values() if i.get("publisher_id") == publisher_id and not i.get("paid_at")
         ]
         payload = {
                 "publisher_id": publisher_id,
@@ -1104,7 +1103,7 @@ class ComputeYtdFromMonthlyRevenue(Tool):
             return out
         rows = [
             r
-            for r in data.get("monthly_revenue", [])
+            for r in data.get("monthly_revenue", {}).values()
             if str(r.get("month_year", "")).startswith(f"{year}-")
         ]
         total = 0.0
@@ -1198,7 +1197,7 @@ class PostJournalEntry(Tool):
             "amount": round(amount, 2),
             "memo": memo,
         }
-        journals.append(rec)
+        data["journals"][rec["journal_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -1264,7 +1263,7 @@ class ListExpensesByDateRangeAndCategory(Tool):
             )
             return out
         exp = []
-        for e in data.get("expenses", []):
+        for e in data.get("expenses", {}).values():
             d = str(e.get("expense_date", ""))
             if start_date <= d <= end_date and e.get("category_code") in categories:
                 exp.append(e)

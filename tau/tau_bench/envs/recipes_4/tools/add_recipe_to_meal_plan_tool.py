@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddRecipeToMealPlanTool(Tool):
@@ -118,7 +118,7 @@ class AddRecipeToMealPlanTool(Tool):
         meal_plan_record = next(
             (
                 p
-                for p in data.get("meal_plans", [])
+                for p in data.get("meal_plans", {}).values()
                 if p.get("meal_plan_id") == meal_plan_id
             ),
             None,
@@ -127,7 +127,7 @@ class AddRecipeToMealPlanTool(Tool):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "MealPlan", "entity_id": meal_plan_id}
             )
-        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", [])):
+        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Recipe", "entity_id": recipe_id}
             )
@@ -155,7 +155,7 @@ class AddRecipeToMealPlanTool(Tool):
         #Business Rule: Prevent duplicate entries
         if any(
             e
-            for e in data.get("meal_plan_entries", [])
+            for e in data.get("meal_plan_entries", {}).values()
             if e.get("meal_plan_id") == meal_plan_id
             and e.get("plan_date") == plan_date
             and e.get("meal_type") == meal_type
@@ -171,7 +171,7 @@ class AddRecipeToMealPlanTool(Tool):
         #3. Data Creation
         entries_table = data.setdefault("meal_plan_entries", [])
         max_id = max(
-            (e.get("entry_id", 0) for e in entries_table),
+            (e.get("entry_id", 0) for e in entries_table.values()),
             default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["meal_plan_entries"],
         )
         new_entry_id = max_id + 1

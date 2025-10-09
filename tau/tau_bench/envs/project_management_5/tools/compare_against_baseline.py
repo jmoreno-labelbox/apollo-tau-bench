@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CompareAgainstBaseline(Tool):
@@ -24,16 +24,15 @@ class CompareAgainstBaseline(Tool):
             out = json.dumps(payload)
             return out
 
-        scope_baselines = data.get("scope_baselines", [])
-        change_requests = data.get("change_requests", [])
-        deliverables = data.get("deliverables", [])
+        scope_baselines = data.get("scope_baselines", {}).values()
+        change_requests = data.get("change_requests", {}).values()
+        deliverables = data.get("deliverables", {}).values()
 
         if baseline_version:
             baseline = next(
                 (
                     b
-                    for b in scope_baselines
-                    if b.get("project_id") == project_id
+                    for b in scope_baselines.values() if b.get("project_id") == project_id
                     and b.get("version") == baseline_version
                 ),
                 None,
@@ -42,8 +41,7 @@ class CompareAgainstBaseline(Tool):
             baseline = next(
                 (
                     b
-                    for b in scope_baselines
-                    if b.get("project_id") == project_id
+                    for b in scope_baselines.values() if b.get("project_id") == project_id
                     and b.get("status") == "approved"
                 ),
                 None,
@@ -57,8 +55,7 @@ class CompareAgainstBaseline(Tool):
         baseline_date = baseline.get("approved_date", baseline.get("created_date"))
         approved_changes = [
             cr
-            for cr in change_requests
-            if cr.get("project_id") == project_id
+            for cr in change_requests.values() if cr.get("project_id") == project_id
             and cr.get("status") == "approved"
             and cr.get("approval_date", "") > baseline_date
         ]
@@ -73,7 +70,7 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": cr.get("impact_assessment", {}),
+                        "impact": cr.get("impact_assessment", {}).values()),
                     }
                 )
             elif cr.get("change_type") == "scope_reduction":
@@ -81,7 +78,7 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": cr.get("impact_assessment", {}),
+                        "impact": cr.get("impact_assessment", {}).values()),
                     }
                 )
             elif cr.get("change_type") == "requirement_change":
@@ -89,16 +86,16 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": cr.get("impact_assessment", {}),
+                        "impact": cr.get("impact_assessment", {}).values()),
                     }
                 )
 
         total_budget_impact = sum(
-            cr.get("impact_assessment", {}).get("budget_impact", 0)
+            cr.get("impact_assessment", {}).values().get("budget_impact", 0)
             for cr in approved_changes
         )
         total_timeline_impact = sum(
-            cr.get("impact_assessment", {}).get("timeline_impact_weeks", 0)
+            cr.get("impact_assessment", {}).values().get("timeline_impact_weeks", 0)
             for cr in approved_changes
         )
 
@@ -107,8 +104,7 @@ class CompareAgainstBaseline(Tool):
         ]
         current_deliverable_ids = [
             d.get("deliverable_id")
-            for d in deliverables
-            if d.get("project_id") == project_id
+            for d in deliverables.values() if d.get("project_id") == project_id
         ]
 
         added_deliverables = list(

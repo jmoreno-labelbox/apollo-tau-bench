@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class NormalizeCustomSetting(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], setting_id: str) -> str:
-        settings = data.get("custom_settings", [])
-        st = next((s for s in settings if s.get("setting_id") == setting_id), None)
+        settings = data.get("custom_settings", {}).values()
+        st = next((s for s in settings.values() if s.get("setting_id") == setting_id), None)
         if not st:
             payload = {"error": f"setting {setting_id} not found"}
             out = json.dumps(payload, indent=2)

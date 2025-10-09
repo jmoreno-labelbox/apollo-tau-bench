@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class run_git_bisect(Tool):
@@ -16,8 +16,8 @@ class run_git_bisect(Tool):
         data: dict[str, Any], failing_commit_sha: str, last_known_good_commit_sha: str
     ) -> str:
         pass
-        bisect_results = data.get("bisect_results", [])
-        for result in bisect_results:
+        bisect_results = data.get("bisect_results", {}).values()
+        for result in bisect_results.values():
             if (
                 result.get("first_bad_commit") == failing_commit_sha
                 and result.get("last_good_commit") == last_known_good_commit_sha

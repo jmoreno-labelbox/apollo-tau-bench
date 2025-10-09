@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateBranch(Tool):
@@ -23,13 +23,13 @@ class CreateBranch(Tool):
         """Create a comprehensive branch with detailed information, relationships, and metadata."""
         _branchL = branch or ''.lower()
         pass
-        repositories = data.get("repositories", [])
-        commits_data = data.get("commits", [])
-        pull_requests_data = data.get("pull_requests", [])
+        repositories = data.get("repositories", {}).values()
+        commits_data = data.get("commits", {}).values()
+        pull_requests_data = data.get("pull_requests", {}).values()
 
         #Confirm the existence of the repository
         target_repo = None
-        for repository in repositories:
+        for repository in repositories.values():
             if repository["owner"] == owner and repository["repo_name"] == repo:
                 target_repo = repository
                 break
@@ -102,7 +102,7 @@ class CreateBranch(Tool):
         #If no SHA is given, apply fallback logic to retrieve the latest commit from the base branch
         if sha is None:
             fallback_sha = None
-            for commit_entry in commits_data:
+            for commit_entry in commits_data.values():
                 if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                     if base_branch in commit_entry.get("branch_names", []):
                         branch_idx = commit_entry["branch_names"].index(base_branch)
@@ -137,7 +137,7 @@ class CreateBranch(Tool):
         #Confirm that the SHA is present in the commit history
         sha_valid = False
         base_commit = None
-        for commit_entry in commits_data:
+        for commit_entry in commits_data.values():
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 for branch_commits in commit_entry.get("commit_shas", []):
                     if sha in branch_commits:
@@ -164,7 +164,7 @@ class CreateBranch(Tool):
         if not sha_valid:
             #Attempt to locate a valid SHA from the base branch as a backup
             fallback_sha = None
-            for commit_entry in commits_data:
+            for commit_entry in commits_data.values():
                 if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                     if base_branch in commit_entry.get("branch_names", []):
                         branch_idx = commit_entry["branch_names"].index(base_branch)
@@ -179,7 +179,7 @@ class CreateBranch(Tool):
                 sha = fallback_sha
                 sha_valid = True
                 #Retrieve commit details for the fallback SHA
-                for commit_entry in commits_data:
+                for commit_entry in commits_data.values():
                     if (
                         commit_entry["owner"] == owner
                         and commit_entry["repo_name"] == repo
@@ -251,7 +251,7 @@ class CreateBranch(Tool):
 
         #Locate pull requests utilizing this branch (should be empty for a new branch)
         pull_requests_using_branch = []
-        for pr_entry in pull_requests_data:
+        for pr_entry in pull_requests_data.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 for i, head_branch in enumerate(pr_entry.get("head_branches", [])):
                     if head_branch == branch:

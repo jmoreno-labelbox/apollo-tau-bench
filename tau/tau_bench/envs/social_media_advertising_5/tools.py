@@ -11,7 +11,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -28,7 +28,7 @@ class GetPlanForDate(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], date: str = None) -> str:
         d = date
-        for p in data.get("plans", []):
+        for p in data.get("plans", {}).values():
             if p.get("date") == d:
                 payload = p
                 out = json.dumps(payload)
@@ -55,7 +55,7 @@ class GetPlanForDate(Tool):
 class GetAdsetAllocationFromPlan(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], plan_id: str = None, adset_id: str = None) -> str:
-        for p in data.get("plans", []):
+        for p in data.get("plans", {}).values():
             if p.get("plan_id") == plan_id:
                 for a in p.get("allocations", []):
                     if a.get("adset_id") == adset_id:
@@ -88,7 +88,7 @@ class GetPolicyParameter(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], param_name: str = None) -> str:
         n = param_name
-        for r in data.get("policy_params", []):
+        for r in data.get("policy_params", {}).values():
             if r.get("param_name") == n:
                 payload = r
                 out = json.dumps(payload)
@@ -115,7 +115,7 @@ class GetPolicyParameter(Tool):
 class ListCanonicalBidStrategies(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        for r in data.get("policy_params", []):
+        for r in data.get("policy_params", {}).values():
             if r.get("param_name") == "canonical_bid_strategies":
                 payload = _as_list_literal(r.get("param_value", "[]"))
                 out = json.dumps(payload)
@@ -138,7 +138,7 @@ class ListCanonicalBidStrategies(Tool):
 class ListCanonicalCreativeTypes(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        for r in data.get("policy_params", []):
+        for r in data.get("policy_params", {}).values():
             if r.get("param_name") == "canonical_creative_types":
                 payload = _as_list_literal(r.get("param_value", "[]"))
                 out = json.dumps(payload)
@@ -164,7 +164,7 @@ class ValidateAllocationsAgainstPolicy(Tool):
         if allocations is None:
             allocations = []
         params = {
-            p["param_name"]: p["param_value"] for p in data.get("policy_params", [])
+            p["param_name"]: p["param_value"] for p in data.get("policy_params", {}).values()
         }
         min_alloc = float(params.get("min_budget_allocation", "0"))
         max_total = float(params.get("max_daily_budget_total", "1e15"))
@@ -241,7 +241,7 @@ class ValidateAllocationsAgainstPolicy(Tool):
 class GetCampaignByName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None) -> str:
-        for c in data.get("campaigns", []):
+        for c in data.get("campaigns", {}).values():
             if c.get("name") == name:
                 payload = c
                 out = json.dumps(payload)
@@ -268,8 +268,8 @@ class GetCampaignByName(Tool):
 class CreateCampaign(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None, objective: str = None, created_date: str = None) -> str:
-        campaigns = data.get("campaigns", [])
-        nid = max((int(c["campaign_id"]) for c in campaigns), default=0) + 1
+        campaigns = data.get("campaigns", {}).values()
+        nid = max((int(c["campaign_id"]) for c in campaigns.values()), default=0) + 1
         rec = {
             "campaign_id": str(nid),
             "name": name,
@@ -277,7 +277,7 @@ class CreateCampaign(Tool):
             "created_date": created_date,
             "status": "paused",
         }
-        campaigns.append(rec)
+        data["campaigns"][campaign_id] = rec
         data["campaigns"] = campaigns
         payload = rec
         out = json.dumps(payload)
@@ -307,7 +307,7 @@ class UpdateCampaignStatus(Tool):
     def invoke(data: dict[str, Any], campaign_id: str = None, status: str = None) -> str:
         cid = campaign_id
         st = status
-        for c in data.get("campaigns", []):
+        for c in data.get("campaigns", {}).values():
             if c.get("campaign_id") == cid:
                 c["status"] = st
                 payload = c
@@ -338,7 +338,7 @@ class UpdateCampaignStatus(Tool):
 class GetAdsetsByCampaignID(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], campaign_id: str = None) -> str:
-        rows = [r for r in data.get("adsets", []) if r.get("campaign_id") == campaign_id]
+        rows = [r for r in data.get("adsets", {}).values() if r.get("campaign_id") == campaign_id]
         payload = {"adsets": rows}
         out = json.dumps(payload)
         return out
@@ -362,7 +362,7 @@ class GetAdsetDetailsByID(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], adset_id: str = None) -> str:
         aid = adset_id
-        for a in data.get("adsets", []):
+        for a in data.get("adsets", {}).values():
             if a.get("adset_id") == aid:
                 payload = a
                 out = json.dumps(payload)
@@ -401,8 +401,8 @@ class CreateAdset(Tool):
     request_id: Any = None,
     status: Any = None,
     ) -> str:
-        adsets = data.get("adsets", [])
-        nid = max((int(a["adset_id"]) for a in adsets), default=100) + 1
+        adsets = data.get("adsets", {}).values()
+        nid = max((int(a["adset_id"]) for a in adsets.values()), default=100) + 1
         rec = {
             "adset_id": str(nid),
             "campaign_id": campaign_id,
@@ -414,7 +414,7 @@ class CreateAdset(Tool):
             "status": "paused",
             "updated_at": updated_at,
         }
-        adsets.append(rec)
+        data["adsets"][adset_id] = rec
         data["adsets"] = adsets
         payload = rec
         out = json.dumps(payload)
@@ -455,7 +455,7 @@ class UpdateAdsetBudget(Tool):
     def invoke(data: dict[str, Any], adset_id: str, new_budget: float, updated_at: str) -> str:
         aid = adset_id
         nb = float(new_budget)
-        for a in data.get("adsets", []):
+        for a in data.get("adsets", {}).values():
             if a.get("adset_id") == aid:
                 a["daily_budget"] = nb
                 a["updated_at"] = updated_at
@@ -491,7 +491,7 @@ class UpdateAdsetBidStrategy(Tool):
         aid = adset_id
         bs = bid_strategy
         ba = bid_amount
-        for a in data.get("adsets", []):
+        for a in data.get("adsets", {}).values():
             if a.get("adset_id") == aid:
                 a["bid_strategy"] = bs
                 a["bid_amount"] = ba
@@ -526,7 +526,7 @@ class UpdateAdsetBidStrategy(Tool):
 class GetAdsByAdsetID(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], adset_id: str = None) -> str:
-        rows = [r for r in data.get("ads", []) if r.get("adset_id") == adset_id]
+        rows = [r for r in data.get("ads", {}).values() if r.get("adset_id") == adset_id]
         payload = {"ads": rows}
         out = json.dumps(payload)
         return out
@@ -549,8 +549,8 @@ class GetAdsByAdsetID(Tool):
 class CreateAd(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], adset_id: str = None, name: str = None, creative_type: str = None, start_date: str = None) -> str:
-        ads = data.get("ads", [])
-        nid = max((int(a["ad_id"]) for a in ads), default=1100) + 1
+        ads = data.get("ads", {}).values()
+        nid = max((int(a["ad_id"]) for a in ads.values()), default=1100) + 1
         rec = {
             "ad_id": str(nid),
             "adset_id": adset_id,
@@ -560,7 +560,7 @@ class CreateAd(Tool):
             "start_date": start_date,
             "end_date": None,
         }
-        ads.append(rec)
+        data["ads"][ad_id] = rec
         data["ads"] = ads
         payload = rec
         out = json.dumps(payload)
@@ -591,7 +591,7 @@ class UpdateAdStatus(Tool):
     def invoke(data: dict[str, Any], ad_id: str = None, status: str = None, request_id: Any = None,
     timestamp: Any = None,
     ) -> str:
-        for ad in data.get("ads", []):
+        for ad in data.get("ads", {}).values():
             if ad.get("ad_id") == ad_id:
                 ad["status"] = status
                 payload = ad
@@ -626,7 +626,7 @@ class RotateAdCreative(Tool):
         to_pause = ad_id_to_pause
         ok_a = False
         ok_p = False
-        for ad in data.get("ads", []):
+        for ad in data.get("ads", {}).values():
             if ad.get("ad_id") == to_act:
                 ad["status"] = "active"
                 ok_a = True
@@ -662,7 +662,7 @@ class RotateAdCreative(Tool):
 class GetDailyInsightsForAdset(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], adset_id: str = None, date: str = None) -> str:
-        for i in data.get("f_insights", []):
+        for i in data.get("f_insights", {}).values():
             if i.get("adset_id") == adset_id and i.get("date") == date:
                 payload = i
                 out = json.dumps(payload)
@@ -694,7 +694,7 @@ class CalculateAdsetRoasForDay(Tool):
     def invoke(data: dict[str, Any], adset_id: str = None, date: str = None) -> str:
         aid = adset_id
         d = date
-        for i in data.get("f_insights", []):
+        for i in data.get("f_insights", {}).values():
             if i.get("adset_id") == aid and i.get("date") == d:
                 spend = i.get("spend", 0)
                 revenue = i.get("revenue", 0)
@@ -727,7 +727,7 @@ class CalculateAdsetRoasForDay(Tool):
 class ComputeCtrForAdsetDay(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], adset_id: str = None, date: str = None) -> str:
-        for i in data.get("f_insights", []):
+        for i in data.get("f_insights", {}).values():
             if i.get("adset_id") == adset_id and i.get("date") == date:
                 imp = i.get("impressions", 0)
                 clk = i.get("clicks", 0)
@@ -766,7 +766,7 @@ class GetAdsetSpendForDateRange(Tool):
         sd = datetime.strptime(s, "%Y-%m-%d").date()
         ed = datetime.strptime(e, "%Y-%m-%d").date()
         tot = 0.0
-        for i in data.get("f_insights", []):
+        for i in data.get("f_insights", {}).values():
             if i.get("adset_id") == aid:
                 idate = datetime.strptime(i.get("date"), "%Y-%m-%d").date()
                 if sd <= idate <= ed:
@@ -805,7 +805,7 @@ class GetWeeklySalesByCategory(Tool):
     def invoke(data: dict[str, Any], category: str = None, start_date: str = None) -> str:
         cat = category
         start = start_date
-        for r in data.get("f_sales", []):
+        for r in data.get("f_sales", {}).values():
             if r.get("category") == cat and r.get("start_date") == start:
                 payload = r
                 out = json.dumps(payload)
@@ -837,7 +837,7 @@ class GetViewershipForCategory(Tool):
     def invoke(data: dict[str, Any], category: str = None, date: str = None) -> str:
         cat = category
         d = date
-        for r in data.get("f_viewership", []):
+        for r in data.get("f_viewership", {}).values():
             if r.get("category") == cat and r.get("date") == d:
                 payload = r
                 out = json.dumps(payload)
@@ -869,7 +869,7 @@ class GetProductPriceOnDate(Tool):
     def invoke(data: dict[str, Any], product_id: str = None, date: str = None) -> str:
         pid = product_id
         d = date
-        for r in data.get("f_price", []):
+        for r in data.get("f_price", {}).values():
             if r.get("product_id") == pid and r.get("date") == d:
                 payload = r
                 out = json.dumps(payload)
@@ -900,7 +900,7 @@ class FindUnderperformingAdsets(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], roas_threshold: float, date: str) -> str:
         out = []
-        for i in data.get("f_insights", []):
+        for i in data.get("f_insights", {}).values():
             if i.get("date") == date:
                 spend = i.get("spend", 0)
                 revenue = i.get("revenue", 0)
@@ -989,16 +989,16 @@ class CreateAutomationRun(Tool):
 class GetAutomationRunHistory(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], run_type: str = None, status: str = None, limit: int = 10) -> str:
-        runs = data.get("automation_runs", [])
+        runs = data.get("automation_runs", {}).values()
         if run_type:
-            runs = [r for r in runs if r.get("run_type") == run_type]
+            runs = [r for r in runs.values() if r.get("run_type") == run_type]
         if status:
-            runs = [r for r in runs if r.get("status") == status]
+            runs = [r for r in runs.values() if r.get("status") == status]
         runs.sort(key=lambda x: x.get("started_at", ""), reverse=True)
         runs = runs[:limit]
         total = len(runs)
-        succ = len([r for r in runs if r.get("status") == "completed"])
-        fail = len([r for r in runs if r.get("status") == "failed"])
+        succ = len([r for r in runs.values() if r.get("status") == "completed"])
+        fail = len([r for r in runs.values() if r.get("status") == "failed"])
         rate = round((succ / total * 100), 2) if total > 0 else 0
         payload = {
                 "summary": {
@@ -1035,7 +1035,7 @@ class GetAutomationRunHistory(Tool):
 class UpdateAutomationRunEnd(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], run_id: str = None, status: str = None, ended_at: str = None) -> str:
-        for r in data.get("automation_runs", []):
+        for r in data.get("automation_runs", {}).values():
             if r.get("run_id") == run_id:
                 r["status"] = status
                 r["ended_at"] = ended_at
@@ -1070,7 +1070,7 @@ class GetLastSuccessfulRun(Tool):
     def invoke(data: dict[str, Any], run_type: str = None) -> str:
         runs = [
             r
-            for r in data.get("automation_runs", [])
+            for r in data.get("automation_runs", {}).values()
             if r.get("run_type") == run_type and r.get("status") == "completed"
         ]
         if not runs:
@@ -1107,8 +1107,8 @@ class LogBudgetChange(Tool):
         changed_at: str = None, 
         reason: str = None
     ) -> str:
-        rows = data.get("budget_changes", [])
-        nid = f"BC-{max((int(r['change_id'][3:]) for r in rows), default=0) + 1}"
+        rows = data.get("budget_changes", {}).values()
+        nid = f"BC-{max((int(r['change_id'][3:]) for r in rows.values()), default=0) + 1}"
         rec = {
             "change_id": nid,
             "adset_id": adset_id,
@@ -1117,7 +1117,7 @@ class LogBudgetChange(Tool):
             "changed_at": changed_at,
             "reason": reason,
         }
-        rows.append(rec)
+        data["creative_rotations"][rec["creative_rotation_id"]] = rec
         data["budget_changes"] = rows
         payload = rec
         out = json.dumps(payload)
@@ -1164,8 +1164,8 @@ class LogStrategyChange(Tool):
 ,
     change_id: Any = None,
     ) -> str:
-        rows = data.get("strategy_changes", [])
-        nid = f"SC-{max((int(r['change_id'][3:]) for r in rows), default=0) + 1}"
+        rows = data.get("strategy_changes", {}).values()
+        nid = f"SC-{max((int(r['change_id'][3:]) for r in rows.values()), default=0) + 1}"
         rec = {
             "change_id": nid,
             "adset_id": adset_id,
@@ -1176,7 +1176,7 @@ class LogStrategyChange(Tool):
             "changed_at": changed_at,
             "reason": reason,
         }
-        rows.append(rec)
+        data["creative_rotations"][rec["creative_rotation_id"]] = rec
         data["strategy_changes"] = rows
         payload = rec
         out = json.dumps(payload)
@@ -1222,8 +1222,8 @@ class LogCreativeRotation(Tool):
         new_ad_id: str = None,
         rotated_at: str = None,
         rationale: str = None, change_id: Any = None) -> str:
-        rows = data.get("creative_rotations", [])
-        nid = f"CR-{max((int(r['rotation_id'][3:]) for r in rows), default=0) + 1}"
+        rows = data.get("creative_rotations", {}).values()
+        nid = f"CR-{max((int(r['rotation_id'][3:]) for r in rows.values()), default=0) + 1}"
         rec = {
             "rotation_id": nid,
             "adset_id": adset_id,
@@ -1232,7 +1232,7 @@ class LogCreativeRotation(Tool):
             "rotated_at": rotated_at,
             "rationale": rationale,
         }
-        rows.append(rec)
+        data["creative_rotations"][rec["creative_rotation_id"]] = rec
         data["creative_rotations"] = rows
         payload = rec
         out = json.dumps(payload)
@@ -1269,7 +1269,7 @@ class GetProductByName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], product_name: str = None) -> str:
         n = product_name
-        for p in data.get("dim_product", []):
+        for p in data.get("dim_product", {}).values():
             if p.get("name") == n:
                 payload = p
                 out = json.dumps(payload)
@@ -1296,7 +1296,7 @@ class GetProductByName(Tool):
 class GetAdsetsByCategory(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], category: str = None) -> str:
-        rows = [r for r in data.get("adsets", []) if r.get("category") == category]
+        rows = [r for r in data.get("adsets", {}).values() if r.get("category") == category]
         payload = {"adsets": rows}
         out = json.dumps(payload)
         return out

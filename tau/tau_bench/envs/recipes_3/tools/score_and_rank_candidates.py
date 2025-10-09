@@ -9,7 +9,7 @@ class ScoreAndRankCandidates(Tool):
         pass
         # Deterministic ranking: prioritize higher protein, then lower calories, followed by ascending recipe_id
         recipes = _get_table(data, "recipes")
-        subset = [r for r in recipes if r.get("recipe_id") in (recipe_ids or [])]
+        subset = [r for r in recipes.values() if r.get("recipe_id") in (recipe_ids or [])]
         ranked = sorted(
             subset,
             key=lambda r: (
@@ -24,7 +24,7 @@ class ScoreAndRankCandidates(Tool):
         pass
         #Deterministic ranking: prioritize higher protein, then lower calories, followed by ascending recipe_id
         recipes = _get_table(data, "recipes")
-        subset = [r for r in recipes if r.get("recipe_id") in (recipe_ids or [])]
+        subset = [r for r in recipes.values() if r.get("recipe_id") in (recipe_ids or [])]
         ranked = sorted(
             subset,
             key=lambda r: (

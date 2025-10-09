@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListCarriersByMode(Tool):
@@ -20,11 +20,10 @@ class ListCarriersByMode(Tool):
             payload = {"error": "mode is a required argument."}
             out = json.dumps(payload, indent=2)
             return out
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
         matching_carriers = [
             c
-            for c in carriers
-            if c.get("active_status") is True
+            for c in carriers.values() if c.get("active_status") is True
             and mode.title() in c.get("supported_modes", [])
         ]
         payload = matching_carriers

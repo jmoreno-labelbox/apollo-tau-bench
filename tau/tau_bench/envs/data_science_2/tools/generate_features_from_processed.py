@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateFeaturesFromProcessed(Tool):
@@ -20,7 +20,7 @@ class GenerateFeaturesFromProcessed(Tool):
         features_csv_path: str,
         generated_ts: str,
     ) -> str:
-        rows = data.get("processed_timeseries", [])
+        rows = data.get("processed_timeseries", {}).values()
         target = None
         for row in rows:
             if row.get("csv_path") == processed_csv_path:

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DecidePolicyException(Tool):
@@ -33,7 +33,7 @@ class DecidePolicyException(Tool):
             return out
 
         # Retrieve the exception
-        exceptions = data.get("policy_exceptions", [])
+        exceptions = data.get("policy_exceptions", {}).values()
         exception = _find_by_id(exceptions, "exception_id", exception_id)
         if not exception:
             payload = {"error": f"exception_id {exception_id} not found"}
@@ -68,7 +68,7 @@ class DecidePolicyException(Tool):
             updated["expires_on"] = None
 
         # Save the update
-        for i, exc in enumerate(exceptions):
+        for i, exc in enumerate(exceptions.values():
             if exc.get("exception_id") == exception_id:
                 data["policy_exceptions"][i] = updated
                 break

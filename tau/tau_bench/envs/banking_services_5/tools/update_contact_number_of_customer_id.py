@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateContactNumberOfCustomerId(Tool):
@@ -23,10 +23,10 @@ class UpdateContactNumberOfCustomerId(Tool):
                 "error": "Both customer_id and new_phone_number are required."
             }, indent=2)
 
-        customers = data.get("customers", [])
-        for customer in customers:
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
-                contact_info = customer.setdefault("contact_info", {})
+                contact_info = customer.setdefault("contact_info", {}).values()
                 phone_numbers = contact_info.setdefault("phone_numbers", [])
 
                 if set_as_primary:

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddEntryToLog(Tool):
@@ -21,19 +21,19 @@ class AddEntryToLog(Tool):
         target_id_value = None
 
         if user_id is not None:
-            target_list = data.get("users", [])
+            target_list = data.get("users", {}).values()
             target_id_key = "user_id"
             target_id_value = user_id
         elif project_id is not None:
-            target_list = data.get("projects", [])
+            target_list = data.get("projects", {}).values()
             target_id_key = "project_id"
             target_id_value = project_id
         elif submission_id is not None:
-            target_list = data.get("submissions", [])
+            target_list = data.get("submissions", {}).values()
             target_id_key = "submission_id"
             target_id_value = submission_id
         elif article_id is not None:
-            target_list = data.get("articles", [])
+            target_list = data.get("articles", {}).values()
             target_id_key = "article_id"
             target_id_value = article_id
         else:

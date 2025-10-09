@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckEmailCommunicationGapsTool(Tool):
@@ -25,23 +25,23 @@ class CheckEmailCommunicationGapsTool(Tool):
             candidate = next(
                 (
                     c
-                    for c in data.get("candidates", [])
+                    for c in data.get("candidates", {}).values()
                     if str(c.get("candidate_id")) == str(candidate_id)
                 ),
                 None,
             )
             if not candidate:
                 return _err(f"Candidate '{candidate_id}' not found", code="not_found")
-            candidates_to_check.append(candidate)
+            data["candidates"][candidate_id] = candidate
         else:
-            candidates_to_check = data.get("candidates", [])
+            candidates_to_check = data.get("candidates", {}).values()
 
-        emails = data.get("emails", [])
+        emails = data.get("emails", {}).values()
         results = []
         for candidate in candidates_to_check:
             cid = str(candidate.get("candidate_id"))
             candidate_emails = [
-                e for e in emails if str(e.get("candidate_id_nullable")) == cid
+                e for e in emails.values() if str(e.get("candidate_id_nullable")) == cid
             ]
 
             sent_email_subjects = [

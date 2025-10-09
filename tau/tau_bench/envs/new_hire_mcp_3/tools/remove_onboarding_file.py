@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RemoveOnboardingFile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], file_path: str = None) -> str:
-        files = data.get("onboarding_files", [])
-        data["onboarding_files"] = [f for f in files if f.get("file_path") != file_path]
+        files = data.get("onboarding_files", {}).values()
+        data["onboarding_files"] = [f for f in files.values() if f.get("file_path") != file_path]
         payload = {"removed_file_path": file_path}
         out = json.dumps(payload, indent=2)
         return out

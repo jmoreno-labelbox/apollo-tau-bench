@@ -8,21 +8,21 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetInvoiceDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], invoice_id: str = None, invoice_number: str = None) -> str:
-        invs = data.get("invoices", [])
+        invs = data.get("invoices", {}).values()
         row = None
         if invoice_id is not None:
             row = next(
-                (i for i in invs if str(i.get("invoice_id")) == str(invoice_id)), None
+                (i for i in invs.values() if str(i.get("invoice_id")) == str(invoice_id)), None
             )
         elif invoice_number:
             row = next(
-                (i for i in invs if i.get("invoice_number") == invoice_number), None
+                (i for i in invs.values() if i.get("invoice_number") == invoice_number), None
             )
         if not row:
             payload = {"error": "Invoice not found"}

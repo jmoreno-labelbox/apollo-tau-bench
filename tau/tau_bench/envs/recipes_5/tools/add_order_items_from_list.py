@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddOrderItemsFromList(Tool):
@@ -20,7 +20,7 @@ class AddOrderItemsFromList(Tool):
             household_id = _default_household_id(data, _first_user_id(data))
             order_id = _latest_order_id(data, household_id)
         order = next(
-            (o for o in data.get("orders", []) if o.get("order_id") == order_id), None
+            (o for o in data.get("orders", {}).values() if o.get("order_id") == order_id), None
         )
         if not order:
             return _json_dump({"error": "no order available"})
@@ -28,9 +28,9 @@ class AddOrderItemsFromList(Tool):
             store_id = int(order.get("store_id"))
         list_id = order.get("list_id")
         items = [
-            i for i in data.get("grocery_list_items", []) if i.get("list_id") == list_id
+            i for i in data.get("grocery_list_items", {}).values() if i.get("list_id") == list_id
         ]
-        oi_tbl = data.get("order_items", [])
+        oi_tbl = data.get("order_items", {}).values()
         next_oi = _max_id(oi_tbl, "order_item_id", 10100)
         created_ids = []
         subtotal = 0
@@ -44,7 +44,7 @@ class AddOrderItemsFromList(Tool):
                 product = next(
                     (
                         p
-                        for p in data.get("store_products", [])
+                        for p in data.get("store_products", {}).values()
                         if p.get("product_id") == int(override_pid)
                     ),
                     None,
@@ -63,7 +63,7 @@ class AddOrderItemsFromList(Tool):
                 "fulfilled_qty": 1,
                 "substitute_product_id": None,
             }
-            oi_tbl.append(oi)
+            data["order_items"][oi["order_item_id"]] = oi
             created_ids.append(next_oi)
             subtotal += int(product.get("price_cents", 0))
         order["subtotal_cents"] = subtotal

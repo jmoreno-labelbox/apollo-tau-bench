@@ -7,18 +7,18 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetNextOrderId(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], orders: list = None) -> str:
         if orders is None:
-            orders = data.get("orders", [])
+            orders = data.get("orders", {}).values()
         if not orders:
             next_id = 9017
         else:
-            max_id = max(int(o.get("order_id", "0")) for o in orders)
+            max_id = max(int(o.get("order_id", "0")) for o in orders.values()
             next_id = max_id + 1
         payload = {"next_order_id": f"{next_id}"}
         out = json.dumps(payload, indent=2)

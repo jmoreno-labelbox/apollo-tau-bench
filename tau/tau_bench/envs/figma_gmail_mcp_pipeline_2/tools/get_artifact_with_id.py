@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetArtifactWithId(Tool):
@@ -22,8 +22,8 @@ class GetArtifactWithId(Tool):
             )
             return out
 
-        artifacts = data.get("figma_artifacts", [])
-        for row in artifacts:
+        artifacts = data.get("figma_artifacts", {}).values()
+        for row in artifacts.values():
             if row.get("artifact_id") == artifact_id:
                 payload = row
                 out = json.dumps(payload, indent=2)

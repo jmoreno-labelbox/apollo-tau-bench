@@ -12,7 +12,7 @@ class CreateCrewAssignment(Tool):
         assigned_role: str,
     ) -> str:
         assigns = data.setdefault("flight_crew_assignments", [])
-        new_id = _next_numeric_suffix("AS", assigns, "assignment_id")
+        new_id = _next_numeric_suffix("AS", list(assigns.values()), "assignment_id")
         rec = {
             "assignment_id": new_id,
             "flight": {"flight_number": flight_number},

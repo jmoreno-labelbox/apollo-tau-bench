@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindCarrierByService(Tool):
@@ -16,7 +16,7 @@ class FindCarrierByService(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], mode_of_transport: str = None, service_level: str = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
 
         if not mode_of_transport or not service_level:
             payload = {"error": "Mode of transport and service level are required"}
@@ -26,7 +26,7 @@ class FindCarrierByService(Tool):
         best_carrier = None
         max_rating = -1.0
 
-        for carrier in carriers:
+        for carrier in carriers.values():
             is_active = carrier.get("active_status", False)
             supported_modes = [
                 mode.lower() for mode in carrier.get("supported_modes", [])
@@ -40,7 +40,7 @@ class FindCarrierByService(Tool):
                 and mode_of_transport.lower() in supported_modes
                 and service_level.lower() in supported_services
             ):
-                current_rating = carrier.get("performance_metrics", {}).get(
+                current_rating = carrier.get("performance_metrics", {}).values().get(
                     "average_rating", 0.0
                 )
                 if current_rating > max_rating:

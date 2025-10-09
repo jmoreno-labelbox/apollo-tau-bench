@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetGmailMessageBySubject(Tool):
@@ -15,7 +15,7 @@ class GetGmailMessageBySubject(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], subject: str) -> str:
-        rows = data.get("gmail_messages", [])
+        rows = data.get("gmail_messages", {}).values()
         for row in rows:
             if row.get("subject") == subject:
                 payload = row

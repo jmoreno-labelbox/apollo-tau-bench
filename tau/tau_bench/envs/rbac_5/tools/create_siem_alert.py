@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateSiemAlert(Tool):
@@ -48,7 +48,7 @@ class CreateSiemAlert(Tool):
             return out
 
         # Confirm the user is present
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         user = _find_by_id(users, "user_id", user_id)
         if not user:
             payload = {"error": f"User {user_id} not found"}
@@ -56,7 +56,7 @@ class CreateSiemAlert(Tool):
             return out
 
         # Confirm the resource is present
-        resources = data.get("resources", [])
+        resources = data.get("resources", {}).values()
         resource = _find_by_id(resources, "resource_id", resource_id)
         if not resource:
             payload = {"error": f"Resource {resource_id} not found"}

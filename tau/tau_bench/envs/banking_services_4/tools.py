@@ -11,7 +11,7 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -31,7 +31,7 @@ class GetCustomerAccountsByType(Tool):
         if not customer_id or not account_type:
             return json.dumps({'error': 'customer_id and account_type are required'})
         accounts = load_json('accounts.json')
-        filtered = [a for a in accounts if a['customer_id'] == customer_id and a['account_type'].lower() == account_type.lower()]
+        filtered = [a for a in accounts.values() if a['customer_id'] == customer_id and a['account_type'].lower() == account_type.lower()]
         return json.dumps(filtered, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -62,7 +62,7 @@ class ListRecentTransactionsByCategory(Tool):
         if not account_ids:
             return json.dumps({'error': 'account_ids is required'})
         transactions = load_json('transactions.json')
-        filtered = [t for t in transactions if t['account_id'] in account_ids]
+        filtered = [t for t in transactions.values() if t['account_id'] in account_ids]
         filtered.sort(key=lambda t: t['transaction_date'], reverse=True)
         filtered = filtered[:limit]
         grouped = {}
@@ -127,13 +127,13 @@ class GetCustomerRiskProfileSummary(Tool):
         if not customer_id:
             return json.dumps({'error': 'customer_id is required'})
         customers = load_json('customers.json')
-        customer = next((c for c in customers if c['customer_id'] == customer_id), None)
+        customer = next((c for c in customers.values() if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({'error': 'Customer not found'})
         summary = {
-            'aml_risk_level': customer.get('compliance', {}).get('aml_risk_level'),
-            'credit_score': customer.get('financial_profile', {}).get('credit_score'),
-            'kyc_status': customer.get('compliance', {}).get('kyc_status')
+            'aml_risk_level': customer.get('compliance', {}).values().get('aml_risk_level'),
+            'credit_score': customer.get('financial_profile', {}).values().get('credit_score'),
+            'kyc_status': customer.get('compliance', {}).values().get('kyc_status')
         }
         return json.dumps(summary, indent=2)
     @staticmethod
@@ -159,11 +159,11 @@ class GetCustomerContactMethods(Tool):
         if not customer_id:
             return json.dumps({'error': 'customer_id is required'})
         customers = load_json('customers.json')
-        customer = next((c for c in customers if c['customer_id'] == customer_id), None)
+        customer = next((c for c in customers.values() if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({'error': 'Customer not found'})
-        contact_info = customer.get('contact_info', {})
-        preferences = customer.get('preferences', {})
+        contact_info = customer.get('contact_info', {}).values()
+        preferences = customer.get('preferences', {}).values()
         result = {
             'email_address': contact_info.get('email_address'),
             'phone_numbers': contact_info.get('phone_numbers'),
@@ -193,7 +193,7 @@ class ListActiveLoansWithBalances(Tool):
         if not customer_id:
             return json.dumps({'error': 'customer_id is required'})
         loans = load_json('loans.json')
-        filtered = [l for l in loans if l['customer_id'] == customer_id and l['status'] == 'Active']
+        filtered = [l for l in loans.values() if l['customer_id'] == customer_id and l['status'] == 'Active']
         result = [
             {
                 'loan_id': l['loan_id'],
@@ -227,7 +227,7 @@ class FetchBeneficiariesByRelationship(Tool):
         if not customer_id or not relationship:
             return json.dumps({'error': 'customer_id and relationship are required'})
         beneficiaries = load_json('beneficiaries.json')
-        filtered = [b for b in beneficiaries if b['customer_id'] == customer_id and b['relationship'].lower() == relationship.lower()]
+        filtered = [b for b in beneficiaries.values() if b['customer_id'] == customer_id and b['relationship'].lower() == relationship.lower()]
         return json.dumps(filtered, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -253,7 +253,7 @@ class GetPaymentScheduleForAccount(Tool):
         if not account_id:
             return json.dumps({'error': 'account_id is required'})
         payments = load_json('scheduled_payments.json')
-        filtered = [p for p in payments if p['source_account_id'] == account_id]
+        filtered = [p for p in payments.values() if p['source_account_id'] == account_id]
         return json.dumps(filtered, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -279,10 +279,10 @@ class FindRecentSupportTicketsByCategory(Tool):
             return json.dumps({'error': 'customer_id is required'})
 
         tickets = load_json('support_tickets.json')
-        filtered = [t for t in tickets if t['customer_id'] == customer_id]
+        filtered = [t for t in tickets.values() if t['customer_id'] == customer_id]
 
         if category:
-            filtered = [t for t in filtered if t.get('category') == category]
+            filtered = [t for t in filtered.values() if t.get('category') == category]
 
         # Sort by created_at or updated_at if available for "recent"
         filtered.sort(key=lambda x: x.get('created_at', ''), reverse=True)
@@ -345,7 +345,7 @@ class VerifyBeneficiaryExists(Tool):
         if not beneficiary_id:
             return json.dumps({'error': 'beneficiary_id is required'})
         beneficiaries = load_json('beneficiaries.json')
-        beneficiary = next((b for b in beneficiaries if b['beneficiary_id'] == beneficiary_id), None)
+        beneficiary = next((b for b in beneficiaries.values() if b['beneficiary_id'] == beneficiary_id), None)
         if not beneficiary:
             return json.dumps({'error': 'Beneficiary not found.'})
         return json.dumps(beneficiary, indent=2)
@@ -543,7 +543,7 @@ class MergeDuplicateCustomersBySSN(Tool):
         if not ssn_last_4:
             return json.dumps({'error': 'ssn_last_4 is required'})
         customers = load_json('customers.json')
-        matches = [c for c in customers if c.get('personal_info', {}).get('ssn_last_4') == ssn_last_4]
+        matches = [c for c in customers.values() if c.get('personal_info', {}).values().get('ssn_last_4') == ssn_last_4]
         if len(matches) < 2:
             return json.dumps({'error': 'Less than two customers with this SSN'})
         # Only merge if all fields to be merged exist
@@ -613,7 +613,7 @@ class GetAccountOverdraftLimit(Tool):
         if not account_id:
             return json.dumps({'error': 'account_id is required'})
         accounts = load_json('accounts.json')
-        account = next((a for a in accounts if a['account_id'] == account_id), None)
+        account = next((a for a in accounts.values() if a['account_id'] == account_id), None)
         if not account:
             return json.dumps({'error': 'Account not found.'})
         if account.get('account_type') != 'Checking':
@@ -681,12 +681,12 @@ class CheckFundsForNextScheduledPayment(Tool):
             return json.dumps({'error': 'payment_id is required'})
 
         payments = load_json('scheduled_payments.json')
-        payment = next((p for p in payments if p['payment_id'] == payment_id), None)
+        payment = next((p for p in payments.values() if p['payment_id'] == payment_id), None)
         if not payment:
             return json.dumps({'error': 'Scheduled payment not found.'})
 
         accounts = load_json('accounts.json')
-        source_account = next((a for a in accounts if a['account_id'] == payment['source_account_id']), None)
+        source_account = next((a for a in accounts.values() if a['account_id'] == payment['source_account_id']), None)
         if not source_account:
             return json.dumps({'error': 'Source account for payment not found.'})
 
@@ -727,11 +727,11 @@ class InitiateFundTransferToBeneficiary(Tool):
         beneficiaries = load_json('beneficiaries.json')
         transactions = load_json('transactions.json')
         # Find source account
-        src = next((a for a in accounts if a['account_id'] == source_account_id and a['status'] == 'Active'), None)
+        src = next((a for a in accounts.values() if a['account_id'] == source_account_id and a['status'] == 'Active'), None)
         if not src or 'balance' not in src:
             return json.dumps({'error': 'Source account not found or not active, or missing balance field.'})
         # Find beneficiary
-        bene = next((b for b in beneficiaries if b['beneficiary_id'] == beneficiary_id), None)
+        bene = next((b for b in beneficiaries.values() if b['beneficiary_id'] == beneficiary_id), None)
         if not bene or 'account_details' not in bene:
             return json.dumps({'error': 'Beneficiary not found or missing account_details.'})
         if src['balance'] < amount:
@@ -749,7 +749,7 @@ class InitiateFundTransferToBeneficiary(Tool):
             'status': 'Completed',
             'channel': 'Online'
         }
-        transactions.append(txn)
+        data["transactions"][transaction_id] = txn
         return json.dumps({'success': True, 'transaction': txn})
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -778,8 +778,8 @@ class MakeLoanOverpayment(Tool):
         loans = load_json('loans.json')
         accounts = load_json('accounts.json')
         transactions = load_json('transactions.json')
-        loan = next((l for l in loans if l['loan_id'] == loan_id), None)
-        acct = next((a for a in accounts if a['account_id'] == from_account_id and a['status'] == 'Active'), None)
+        loan = next((l for l in loans.values() if l['loan_id'] == loan_id), None)
+        acct = next((a for a in accounts.values() if a['account_id'] == from_account_id and a['status'] == 'Active'), None)
         if not loan or 'current_balance' not in loan:
             return json.dumps({'error': 'Loan not found or missing current_balance.'})
         if not acct or 'balance' not in acct:
@@ -800,7 +800,7 @@ class MakeLoanOverpayment(Tool):
             'status': 'Completed',
             'channel': 'Online'
         }
-        transactions.append(txn)
+        data["transactions"][transaction_id] = txn
         return json.dumps({'success': True, 'transaction': txn, 'loan_id': loan_id, 'new_balance': loan['current_balance']})
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -827,7 +827,7 @@ class AdjustLoanPaymentDueDate(Tool):
         if not loan_id or not new_due_date:
             return json.dumps({'error': 'loan_id and new_due_date are required'})
         loans = load_json('loans.json')
-        loan = next((l for l in loans if l['loan_id'] == loan_id), None)
+        loan = next((l for l in loans.values() if l['loan_id'] == loan_id), None)
         if not loan or 'maturity_date' not in loan:
             return json.dumps({'error': 'Loan not found or maturity_date not present.'})
         loan['maturity_date'] = new_due_date
@@ -857,12 +857,12 @@ class ApplyPartialRefundToTransaction(Tool):
             return json.dumps({'error': 'transaction_id and refund_amount are required'})
         transactions = load_json('transactions.json')
         accounts = load_json('accounts.json')
-        txn = next((t for t in transactions if t['transaction_id'] == transaction_id), None)
+        txn = next((t for t in transactions.values() if t['transaction_id'] == transaction_id), None)
         if not txn or 'account_id' not in txn or 'amount' not in txn or 'status' not in txn:
             return json.dumps({'error': 'Transaction not found or missing required fields.'})
         if txn['status'] != 'Completed' or txn['amount'] >= 0:
             return json.dumps({'error': 'Refund only allowed for completed debit transactions.'})
-        acct = next((a for a in accounts if a['account_id'] == txn['account_id'] and 'balance' in a), None)
+        acct = next((a for a in accounts.values() if a['account_id'] == txn['account_id'] and 'balance' in a), None)
         if not acct:
             return json.dumps({'error': 'Account not found or missing balance.'})
         if abs(refund_amount) > abs(txn['amount']):
@@ -880,7 +880,7 @@ class ApplyPartialRefundToTransaction(Tool):
             'status': 'Completed',
             'channel': 'Online'
         }
-        transactions.append(refund_txn)
+        data["transactions"][transaction_id] = refund_txn
         return json.dumps({'success': True, 'refund_transaction': refund_txn})
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -907,16 +907,16 @@ class SplitTransactionBetweenAccounts(Tool):
             return json.dumps({'error': 'transaction_id and splits (list of {account_id, amount}) are required'})
         transactions = load_json('transactions.json')
         accounts = load_json('accounts.json')
-        orig_txn = next((t for t in transactions if t['transaction_id'] == transaction_id), None)
+        orig_txn = next((t for t in transactions.values() if t['transaction_id'] == transaction_id), None)
         if not orig_txn or 'amount' not in orig_txn or 'account_id' not in orig_txn:
             return json.dumps({'error': 'Original transaction not found or missing fields.'})
-        if abs(sum(s['amount'] for s in splits)) != abs(orig_txn['amount']):
+        if abs(sum(s['amount'] for s in splits) != abs(orig_txn['amount']):
             return json.dumps({'error': 'Split amounts must sum to original transaction amount.'})
         # Remove original transaction (simulate split)
         transactions.remove(orig_txn)
         new_txns = []
         for s in splits:
-            acct = next((a for a in accounts if a['account_id'] == s['account_id'] and 'balance' in a), None)
+            acct = next((a for a in accounts.values() if a['account_id'] == s['account_id'] and 'balance' in a), None)
             if not acct:
                 return json.dumps({'error': f'Account {s["account_id"]} not found or missing balance.'})
             acct['balance'] += s['amount']
@@ -933,7 +933,7 @@ class SplitTransactionBetweenAccounts(Tool):
                 'channel': 'Online'
             }
             new_txns.append(new_txn)
-            transactions.append(new_txn)
+            data["transactions"][transaction_id] = new_txn
         return json.dumps({'success': True, 'split_transactions': new_txns})
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -960,12 +960,12 @@ class GetCustomerTotalBalance(Tool):
             return json.dumps({'error': 'customer_id is required'})
 
         accounts = load_json('accounts.json')
-        customer_accounts = [a for a in accounts if a['customer_id'] == customer_id]
+        customer_accounts = [a for a in accounts.values() if a['customer_id'] == customer_id]
 
         if not customer_accounts:
             return json.dumps({'error': 'No accounts found for this customer.'})
 
-        total_balance = sum(a.get('balance', 0) for a in customer_accounts)
+        total_balance = sum(a.get('balance', 0) for a in customer_accounts.values()
 
         return json.dumps({
             'customer_id': customer_id,
@@ -1001,7 +1001,7 @@ class EnforceKYCRefreshForCustomer(Tool):
         for c in customers:
             if c['customer_id'] == customer_id:
                 # Ensure 'compliance' dict exists
-                compliance = c.setdefault('compliance', {})
+                compliance = c.setdefault('compliance', {}).values()
                 # Always set 'kyc_status' to 'Refresh Required'
                 compliance['kyc_status'] = 'Refresh Required'
                 updated = True
@@ -1041,7 +1041,7 @@ class LockAccountManually(Tool):
         if not account_id:
             return json.dumps({'error': 'account_id is required'})
         accounts = load_json('accounts.json')
-        account = next((a for a in accounts if a['account_id'] == account_id), None)
+        account = next((a for a in accounts.values() if a['account_id'] == account_id), None)
         if not account or 'status' not in account:
             return json.dumps({'error': 'Account not found or missing status field.'})
         if account['status'] == 'Locked':
@@ -1071,7 +1071,7 @@ class ReviewOverdraftActivityAndAdjustLimit(Tool):
         if not account_id or new_limit is None:
             return json.dumps({'error': 'account_id and new_limit are required'})
         accounts = load_json('accounts.json')
-        account = next((a for a in accounts if a['account_id'] == account_id and a['account_type'] == 'Checking'), None)
+        account = next((a for a in accounts.values() if a['account_id'] == account_id and a['account_type'] == 'Checking'), None)
         if not account or 'overdraft_limit' not in account:
             return json.dumps({'error': 'Account not found or overdraft_limit field missing.'})
         account['overdraft_limit'] = new_limit
@@ -1101,12 +1101,12 @@ class UpdateCustomerCommunicationPreference(Tool):
             return json.dumps({'error': 'customer_id and new_channel are required'})
 
         customers = load_json('customers.json')
-        customer = next((c for c in customers if c['customer_id'] == customer_id), None)
+        customer = next((c for c in customers.values() if c['customer_id'] == customer_id), None)
 
         if not customer:
             return json.dumps({'error': 'Customer not found.'})
 
-        preferences = customer.get('preferences', {})
+        preferences = customer.get('preferences', {}).values()
         if 'communication_channel' not in preferences:
             return json.dumps({'error': 'Communication channel preference not found for this customer.'})
 
@@ -1172,7 +1172,7 @@ class GetAllAccountsForCustomer(Tool):
 
         accounts = load_json("accounts.json")
         customer_accounts = [
-            account for account in accounts if account.get("customer_id") == customer_id
+            account for account in accounts.values() if account.get("customer_id") == customer_id
         ]
 
         return json.dumps({
@@ -1264,7 +1264,7 @@ class GetAccountBalance(Tool):
             return json.dumps({'error': 'account_id is required'})
 
         accounts = load_json('accounts.json')
-        account = next((a for a in accounts if a['account_id'] == account_id), None)
+        account = next((a for a in accounts.values() if a['account_id'] == account_id), None)
 
         if not account or 'balance' not in account or 'currency' not in account:
             return json.dumps({'error': 'Account not found or missing balance/currency field.'})
@@ -1303,7 +1303,7 @@ class GetLoanDetails(Tool):
 
         loans = load_json("loans.json")
 
-        loan = next((l for l in loans if l["loan_id"] == loan_id), None)
+        loan = next((l for l in loans.values() if l["loan_id"] == loan_id), None)
         if not loan:
             return json.dumps({"error": f"Loan with ID '{loan_id}' not found"})
 
@@ -1386,8 +1386,8 @@ class TransferFundsBetweenAccounts(Tool):
 
         accounts = load_json("accounts.json")
 
-        from_account = next((acc for acc in accounts if acc["account_id"] == from_account_id), None)
-        to_account = next((acc for acc in accounts if acc["account_id"] == to_account_id), None)
+        from_account = next((acc for acc in accounts.values() if acc["account_id"] == from_account_id), None)
+        to_account = next((acc for acc in accounts.values() if acc["account_id"] == to_account_id), None)
 
         if from_account is None:
             return json.dumps({"error": f"from_account_id {from_account_id} not found"})

@@ -8,14 +8,14 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class VerifyStorageCompliance(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str, storage_type: str, compliant_flag: bool = True) -> str:
-        warehouses = data.get("warehouses", [])
-        warehouse = next((w for w in warehouses if w.get("warehouse_id") == warehouse_id), None)
+        warehouses = data.get("warehouses", {}).values()
+        warehouse = next((w for w in warehouses.values() if w.get("warehouse_id") == warehouse_id), None)
 
         if not warehouse:
             return json.dumps({"error": f"Warehouse {warehouse_id} not found"})

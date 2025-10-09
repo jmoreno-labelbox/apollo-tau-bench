@@ -10,7 +10,7 @@ class GetTimeEntryDetails(Tool):
         """
         Retrieves the full details for a given time_entry_id.
         """
-        entry = next((t for t in data["time_entries"] if t["time_entry_id"] == time_entry_id), None)
+        entry = next((t for t in data["time_entries"].values() if t["time_entry_id"] == time_entry_id), None)
         return json.dumps(entry)
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListCommits(Tool):
@@ -22,14 +22,14 @@ class ListCommits(Tool):
     ) -> str:
         """List comprehensive commit information with metadata, relationships, and statistics."""
         pass
-        commits = data.get("commits", [])
-        repositories = data.get("repositories", [])
-        pull_requests_data = data.get("pull_requests", [])
-        issues_data = data.get("issues", [])
+        commits = data.get("commits", {}).values()
+        repositories = data.get("repositories", {}).values()
+        pull_requests_data = data.get("pull_requests", {}).values()
+        issues_data = data.get("issues", {}).values()
 
         #Locate the repository to confirm its existence
         target_repo = None
-        for repository in repositories:
+        for repository in repositories.values():
             if repository["owner"] == owner and repository["repo_name"] == repo:
                 target_repo = repository
                 break
@@ -54,7 +54,7 @@ class ListCommits(Tool):
             return out
 
         #Identify commits for the specified repository and branch
-        for commit_entry in commits:
+        for commit_entry in commits.values():
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 try:
                     branch_idx = commit_entry["branch_names"].index(branch)
@@ -112,7 +112,7 @@ class ListCommits(Tool):
                                 ),
                             },
                         }
-                        all_commits.append(commit_data)
+                        all_data["commits"][commit_data["commit_id"]] = commit_data
 
                     #Implement pagination
                     start_idx = (page - 1) * per_page
@@ -123,7 +123,7 @@ class ListCommits(Tool):
                     related_prs = []
                     related_issues = []
 
-                    for pr_entry in pull_requests_data:
+                    for pr_entry in pull_requests_data.values():
                         if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                             for i, pr_title in enumerate(pr_entry.get("pr_titles", [])):
                                 if any(
@@ -132,7 +132,7 @@ class ListCommits(Tool):
                                 ):
                                     related_prs.append(pr_entry["pr_numbers"][i])
 
-                    for issue_entry in issues_data:
+                    for issue_entry in issues_data.values():
                         if (
                             issue_entry["owner"] == owner
                             and issue_entry["repo_name"] == repo

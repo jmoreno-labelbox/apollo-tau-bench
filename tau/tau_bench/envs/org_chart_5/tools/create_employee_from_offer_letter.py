@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class create_employee_from_offer_letter(Tool):
@@ -20,7 +20,7 @@ class create_employee_from_offer_letter(Tool):
                 payload, indent=2
             )
             return out
-        if find_employee(data.get("employees", []), employee_id):
+        if find_employee(data.get("employees", {}).values()), employee_id):
             payload = {"error": f"employee_id {employee_id} already exists"}
             out = json.dumps(
                 payload, indent=2
@@ -34,7 +34,7 @@ class create_employee_from_offer_letter(Tool):
             "status": "Active",
             "notes": f"Created from offer doc {offer_doc_id}",
         }
-        data.get("employees", []).append(new_employee)
+        data["employees"][new_employee["employee_id"]] = new_employee
         payload = {
                 "success": f"Employee {employee_id} created from offer letter {offer_doc_id}"
             }

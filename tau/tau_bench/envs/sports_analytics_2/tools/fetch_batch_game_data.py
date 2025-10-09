@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchBatchGameData(Tool):
@@ -18,9 +18,9 @@ class FetchBatchGameData(Tool):
         batch_results = {}
 
         #Retrieve actual data from JSON files
-        pitches = data.get("pitches", [])
-        games = data.get("games", [])
-        players = data.get("players", [])
+        pitches = data.get("pitches", {}).values()
+        games = data.get("games", {}).values()
+        players = data.get("players", {}).values()
 
         for window in windows:
             if "PA" in window:  #Window for plate appearances
@@ -35,7 +35,7 @@ class FetchBatchGameData(Tool):
                         if p.get("exit_velocity")
                     )
                     / max(
-                        len([p for p in filtered_pitches if p.get("exit_velocity")]), 1
+                        len([p for p in filtered_pitches.values() if p.get("exit_velocity")]), 1
                     ),
                     "pitch_types": list(
                         {

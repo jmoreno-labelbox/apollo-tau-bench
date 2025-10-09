@@ -12,7 +12,7 @@ class GetHubspotTicketsByAssigneeTool(Tool):
         pass
         #utilize the list tool again with a post-filter
         tickets = json.loads(ListHubspotTicketsTool.invoke(data))
-        payload = [t for t in tickets if t.get("assignee_id") == assignee_id]
+        payload = [t for t in tickets.values() if t.get("assignee_id") == assignee_id]
         out = json.dumps(
             payload, indent=2
         )

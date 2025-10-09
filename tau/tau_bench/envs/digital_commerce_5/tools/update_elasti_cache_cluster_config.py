@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateElastiCacheClusterConfig(Tool):
@@ -21,9 +21,9 @@ class UpdateElastiCacheClusterConfig(Tool):
         changed_at: Any,
     ) -> str:
         cluster_id = _as_id(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", [])
+        clusters = data.get("aws_elasticache_clusters", {}).values()
         c = next(
-            (x for x in clusters if _as_id(x.get("cluster_id")) == cluster_id), None
+            (x for x in clusters.values() if _as_id(x.get("cluster_id")) == cluster_id), None
         )
         if not c:
             return _err("Cluster not found.")

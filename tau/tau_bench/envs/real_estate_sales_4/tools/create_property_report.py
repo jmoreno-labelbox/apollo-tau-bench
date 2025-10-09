@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreatePropertyReport(Tool):
@@ -18,9 +18,9 @@ class CreatePropertyReport(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        listings = data.get("listings", [])
+        listings = data.get("listings", {}).values()
         listing = next(
-            (l for l in listings if l.get("property_id") == property_id), None
+            (l for l in listings.values() if l.get("property_id") == property_id), None
         )
 
         if not listing:
@@ -28,9 +28,9 @@ class CreatePropertyReport(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        comparables = data.get("comparables", [])
+        comparables = data.get("comparables", {}).values()
         property_comparables = [
-            c for c in comparables if c.get("property_id") == property_id
+            c for c in comparables.values() if c.get("property_id") == property_id
         ]
 
         all_prices = [c.get("comparable_price", 0) for c in property_comparables]

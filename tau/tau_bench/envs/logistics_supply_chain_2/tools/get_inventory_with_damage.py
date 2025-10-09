@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetInventoryWithDamage(Tool):
@@ -21,35 +21,31 @@ class GetInventoryWithDamage(Tool):
         less_than_threshold: str = "False",
         list_of_ids: list = None
     ) -> str:
-        inventories = data.get("inventory", [])
+        inventories = data.get("inventory", {}).values()
         if threshold:
             if less_than_threshold == "True":
                 damaged = [
                     [item["inventory_id"], item["quantity_damaged"]]
-                    for item in inventories
-                    if item["quantity_damaged"] < threshold
+                    for item in inventories.values() if item["quantity_damaged"] < threshold
                 ]
             else:
                 damaged = [
                     [item["inventory_id"], item["quantity_damaged"]]
-                    for item in inventories
-                    if item["quantity_damaged"] > threshold
+                    for item in inventories.values() if item["quantity_damaged"] > threshold
                 ]
         else:
             if less_than_threshold == "True":
                 damaged = [
                     [item["inventory_id"], item["quantity_damaged"]]
-                    for item in inventories
-                    if item["quantity_damaged"] < 0
+                    for item in inventories.values() if item["quantity_damaged"] < 0
                 ]
             else:
                 damaged = [
                     [item["inventory_id"], item["quantity_damaged"]]
-                    for item in inventories
-                    if item["quantity_damaged"] > 0
+                    for item in inventories.values() if item["quantity_damaged"] > 0
                 ]
         if list_of_ids:
-            damaged = [d for d in damaged if d[0] in list_of_ids]
+            damaged = [d for d in damaged.values() if d[0] in list_of_ids]
         payload = damaged
         out = json.dumps(payload, indent=2)
         return out

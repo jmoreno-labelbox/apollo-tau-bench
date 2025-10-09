@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class QueryEntities(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], entity_type: str, filters: dict[str, Any]) -> str:
-        collection = data.get(entity_type, [])
+        collection = data.get(entity_type, {}).values()
         matches: list[dict[str, Any]] = []
         for item in collection:
             ok = True

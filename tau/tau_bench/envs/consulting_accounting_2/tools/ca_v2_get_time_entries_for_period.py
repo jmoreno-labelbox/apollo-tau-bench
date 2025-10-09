@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2GetTimeEntriesForPeriod(Tool):
@@ -19,10 +19,10 @@ class CaV2GetTimeEntriesForPeriod(Tool):
         if not all([project_id, start_date, end_date]):
             return _error("project_id, start_date, and end_date are required.")
 
-        time_entries = data.get("time_entries", [])
+        time_entries = data.get("time_entries", {}).values()
         filtered_entries = []
 
-        for entry in time_entries:
+        for entry in time_entries.values():
             if (
                 entry.get("project_id") == project_id
                 and start_date <= entry.get("entry_date", "") <= end_date

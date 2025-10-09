@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindFailedTestResultsForTestRun(Tool):
@@ -15,12 +15,11 @@ class FindFailedTestResultsForTestRun(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], test_run_id: str = None) -> str:
-        test_results = data.get("test_results", [])
+        test_results = data.get("test_results", {}).values()
 
         failed_tests = [
             tr
-            for tr in test_results
-            if tr.get("test_run_id") == test_run_id and tr.get("status") == "failed"
+            for tr in test_results.values() if tr.get("test_run_id") == test_run_id and tr.get("status") == "failed"
         ]
 
         if not failed_tests:

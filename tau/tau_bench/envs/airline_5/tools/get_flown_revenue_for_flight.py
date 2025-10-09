@@ -12,7 +12,7 @@ from datetime import date as _date
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetFlownRevenueForFlight(Tool):
@@ -69,12 +69,12 @@ class GetFlownRevenueForFlight(Tool):
         if price_component not in ("base_fare", "total"):
             return _json({"error": "invalid_price_component"})
 
-        reservations = data.get("reservations", [])
-        flights = data.get("flights", [])
+        reservations = data.get("reservations", {}).values()
+        flights = data.get("flights", {}).values()
 
         flight_date_status = {}
         if require_available:
-            for f in flights if isinstance(flights, list) else []:
+            for f in flights.values() if isinstance(flights, list) else []:
                 if f.get("flight_number") == flight_number:
                     for d, rec in (f.get("dates") or {}).items():
                         flight_date_status[(flight_number, d)] = _norm_status(
@@ -93,7 +93,7 @@ class GetFlownRevenueForFlight(Tool):
         details: list[dict[str, Any]] = []
 
         if isinstance(reservations, list):
-            for res in reservations:
+            for res in reservations.values():
                 reservations_scanned += 1
                 legs = res.get("flights") or res.get("legs") or []
                 if not legs:
@@ -164,12 +164,12 @@ class GetFlownRevenueForFlight(Tool):
         if price_component not in ("base_fare", "total"):
             return _json({"error": "invalid_price_component"})
 
-        reservations = data.get("reservations", [])
-        flights = data.get("flights", [])
+        reservations = data.get("reservations", {}).values()
+        flights = data.get("flights", {}).values()
 
         flight_date_status = {}
         if require_available:
-            for f in flights if isinstance(flights, list) else []:
+            for f in flights.values() if isinstance(flights, list) else []:
                 if f.get("flight_number") == flight_number:
                     for d, rec in (f.get("dates") or {}).items():
                         flight_date_status[(flight_number, d)] = _norm_status(
@@ -188,7 +188,7 @@ class GetFlownRevenueForFlight(Tool):
         details: list[dict[str, Any]] = []
 
         if isinstance(reservations, list):
-            for res in reservations:
+            for res in reservations.values():
                 reservations_scanned += 1
                 legs = res.get("flights") or res.get("legs") or []
                 if not legs:

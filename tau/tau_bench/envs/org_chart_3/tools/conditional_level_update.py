@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class conditional_level_update(Tool):
@@ -16,8 +16,8 @@ class conditional_level_update(Tool):
         data: dict[str, Any], employee_id: str, required_rating: str, new_level: str
     ) -> str:
         # Retrieve performance reviews
-        reviews = data.get("performance_reviews", [])
-        employee_reviews = [r for r in reviews if r["employee_id"] == employee_id]
+        reviews = data.get("performance_reviews", {}).values()
+        employee_reviews = [r for r in reviews.values() if r["employee_id"] == employee_id]
         employee_reviews.sort(key=lambda r: r["period_end"], reverse=True)
 
         if not employee_reviews:
@@ -32,8 +32,8 @@ class conditional_level_update(Tool):
 
         if current_rating == required_rating:
             # Revise the level
-            employees = data.get("employees", [])
-            for e in employees:
+            employees = data.get("employees", {}).values()
+            for e in employees.values():
                 if e["employee_id"] == employee_id:
                     old_level = e.get("level_id", "")
                     e["level_id"] = new_level
@@ -60,8 +60,8 @@ class conditional_level_update(Tool):
             return out
         pass
         #Retrieve performance reviews
-        reviews = data.get("performance_reviews", [])
-        employee_reviews = [r for r in reviews if r["employee_id"] == employee_id]
+        reviews = data.get("performance_reviews", {}).values()
+        employee_reviews = [r for r in reviews.values() if r["employee_id"] == employee_id]
         employee_reviews.sort(key=lambda r: r["period_end"], reverse=True)
 
         if not employee_reviews:
@@ -76,8 +76,8 @@ class conditional_level_update(Tool):
 
         if current_rating == required_rating:
             #Revise the level
-            employees = data.get("employees", [])
-            for e in employees:
+            employees = data.get("employees", {}).values()
+            for e in employees.values():
                 if e["employee_id"] == employee_id:
                     old_level = e.get("level_id", "")
                     e["level_id"] = new_level

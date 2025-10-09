@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddToOrder(Tool):
@@ -63,11 +63,11 @@ class AddToOrder(Tool):
         formatted_order_id = order_id if order_id.startswith("#") else f"#{order_id}"
 
         # Find the order to update
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         order_to_update = None
         order_index = None
 
-        for i, order in enumerate(orders):
+        for i, order in enumerate(orders.values():
             if order.get("order_id") == formatted_order_id:
                 order_to_update = order
                 order_index = i
@@ -96,8 +96,8 @@ class AddToOrder(Tool):
             return out
 
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -105,7 +105,7 @@ class AddToOrder(Tool):
             return out
 
         # Validate payment method
-        payment_methods = user.get("payment_methods", {})
+        payment_methods = user.get("payment_methods", {}).values()
         selected_payment = None
 
         for method_id in payment_methods:
@@ -131,12 +131,12 @@ class AddToOrder(Tool):
             return out
 
         # Rule: Confirm item_id exists in product variants before including in orders
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         variant_found = None
         product_found = None
 
-        for product in products:
-            variants = product.get("variants", {})
+        for product in products.values():
+            variants = product.get("variants", {}).values()
             if item_id in variants:
                 variant_found = variants[item_id]
                 product_found = product
@@ -201,7 +201,7 @@ class AddToOrder(Tool):
                 "product_id": product_found.get("product_id"),
                 "item_id": item_id,
                 "price": unit_price,
-                "options": variant_found.get("options", {}),
+                "options": variant_found.get("options", {}).values()),
                 "quantity": quantity,
             }
             order_items.append(new_item)
@@ -294,7 +294,7 @@ class AddToOrder(Tool):
 
         # Calculate comprehensive metrics
         total_items_count = len(order_items)
-        total_quantity = sum(item.get("quantity", 1) for item in order_items)
+        total_quantity = sum(item.get("quantity", 1) for item in order_items.values()
         new_total_paid = current_total_paid + total_additional_amount
 
         result = {
@@ -308,7 +308,7 @@ class AddToOrder(Tool):
                 "quantity": added_quantity,
                 "unit_price": unit_price,
                 "line_total": line_total,
-                "options": variant_found.get("options", {}),
+                "options": variant_found.get("options", {}).values()),
             },
             "action_performed": result_message,
             "current_order_before_addition": {

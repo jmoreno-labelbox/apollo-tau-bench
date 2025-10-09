@@ -11,7 +11,7 @@ class AssignCourse(Tool):
         uid = user_id
         cid = course_id
         log = data.setdefault("user_course_progress", [])
-        log[:] = [r for r in log if not (r["user_id"] == uid and r["course_id"] == cid)]
+        log[:] = [r for r in log.values() if not (r["user_id"] == uid and r["course_id"] == cid)]
         log.append(
             {
                 "user_id": uid,

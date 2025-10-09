@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RecomputeOrderTotals(Tool):
@@ -15,32 +15,31 @@ class RecomputeOrderTotals(Tool):
     def invoke(data: dict[str, Any], order_id: str) -> str:
         pass
         order_id = _sid(order_id)
-        orders = data.get("orders", [])
-        items = data.get("order_items", [])
-        accounts = data.get("accounts", [])
-        pbes = data.get("pricebook_entries", [])
-        offers = data.get("offers", [])
-        data.get("products", [])
+        orders = data.get("orders", {}).values()
+        items = data.get("order_items", {}).values()
+        accounts = data.get("accounts", {}).values()
+        pbes = data.get("pricebook_entries", {}).values()
+        offers = data.get("offers", {}).values()
+        data.get("products", {}).values()
 
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order {order_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
 
         account = next(
-            (a for a in accounts if a.get("account_id") == order.get("account_id")),
+            (a for a in accounts.values() if a.get("account_id") == order.get("account_id")),
             None,
         )
         pricebook_id = account.get("default_pricebook_id") if account else None
-        line_items = [i for i in items if i.get("order_id") == order_id]
+        line_items = [i for i in items.values() if i.get("order_id") == order_id]
         subtotal = 0.0
         for li in line_items:
             pbe = next(
                 (
                     p
-                    for p in pbes
-                    if p.get("pricebook_id") == pricebook_id
+                    for p in pbes.values() if p.get("pricebook_id") == pricebook_id
                     and p.get("product_id") == li.get("product_id")
                 ),
                 None,
@@ -65,8 +64,8 @@ class RecomputeOrderTotals(Tool):
         order["subtotal"] = round(subtotal, 2)
         order["discount_amount"] = round(discount_amount, 2)
         order["total_amount"] = total_amount
-        _append_audit(data, "RECOMPUTE_TOTALS", order_id, {})
-        _ws_append(data, order_id, "RECOMPUTE_TOTALS", {})
+        _append_audit(data, "RECOMPUTE_TOTALS", order_id, {}).values()
+        _ws_append(data, order_id, "RECOMPUTE_TOTALS", {}).values()
         payload = order
         out = json.dumps(payload, indent=2)
         return out

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class get_leave_calendar(Tool):
@@ -21,24 +21,24 @@ class get_leave_calendar(Tool):
             )
             return out
 
-        results = data.get("leave_records", [])
+        results = data.get("leave_records", {}).values()
 
         if department_id:
             dept_employees = {
                 e["employee_id"]
-                for e in data.get("employees", [])
+                for e in data.get("employees", {}).values()
                 if e.get("department_id") == department_id
             }
-            results = [r for r in results if r.get("employee_id") in dept_employees]
+            results = [r for r in results.values() if r.get("employee_id") in dept_employees]
 
         if employee_id:
-            results = [r for r in results if r.get("employee_id") == employee_id]
+            results = [r for r in results.values() if r.get("employee_id") == employee_id]
 
         if start_date:
-            results = [r for r in results if r.get("end_date", "") >= start_date]
+            results = [r for r in results.values() if r.get("end_date", "") >= start_date]
 
         if end_date:
-            results = [r for r in results if r.get("start_date", "") <= end_date]
+            results = [r for r in results.values() if r.get("start_date", "") <= end_date]
         payload = results
         out = json.dumps(payload, indent=2)
         return out

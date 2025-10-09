@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class conditional_sabbatical_compensation(Tool):
@@ -19,8 +19,8 @@ class conditional_sabbatical_compensation(Tool):
         paid_leave_type: str,
         unpaid_leave_type: str
     ) -> str:
-        employees = data.get("employees", [])
-        employee = next((e for e in employees if e["employee_id"] == employee_id), None)
+        employees = data.get("employees", {}).values()
+        employee = next((e for e in employees.values() if e["employee_id"] == employee_id), None)
 
         if not employee:
             payload = {"error": f"Employee {employee_id} not found"}
@@ -62,8 +62,8 @@ class conditional_sabbatical_compensation(Tool):
         out = json.dumps(payload, indent=2)
         return out
         pass
-        employees = data.get("employees", [])
-        employee = next((e for e in employees if e["employee_id"] == employee_id), None)
+        employees = data.get("employees", {}).values()
+        employee = next((e for e in employees.values() if e["employee_id"] == employee_id), None)
 
         if not employee:
             payload = {"error": f"Employee {employee_id} not found"}

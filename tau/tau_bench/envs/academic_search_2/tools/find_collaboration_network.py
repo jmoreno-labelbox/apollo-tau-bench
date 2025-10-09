@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindCollaborationNetwork(Tool):
@@ -30,7 +30,7 @@ class FindCollaborationNetwork(Tool):
 
         # Retrieve all articles authored by the primary author
         articles = [
-            a for a in data.get("articles", []) if author_name in a.get("authors", [])
+            a for a in data.get("articles", {}).values() if author_name in a.get("authors", [])
         ]
 
         # Tally all collaborators associated with those articles

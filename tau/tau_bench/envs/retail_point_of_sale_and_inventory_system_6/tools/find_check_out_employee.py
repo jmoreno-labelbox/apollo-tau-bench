@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindCheckOutEmployee(Tool):
@@ -25,7 +25,7 @@ class FindCheckOutEmployee(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], store_id: str, ignore_ids: list[str] = None) -> str:
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
 
         if ignore_ids is None:
             ignore_ids = []
@@ -34,7 +34,7 @@ class FindCheckOutEmployee(Tool):
 
         # Inefficient nested loop, but it should work well given the small number of roles
         for role in FindCheckOutEmployee.priority:
-            for employee in employees:
+            for employee in employees.values():
                 if (
                     (employee["store_id"] == store_id)
                     and (employee["role"] == role)

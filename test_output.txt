@@ -1,0 +1,152 @@
+======================================================================
+DIRECT TOOL TESTING - ALL 122 ENVIRONMENTS
+======================================================================
+No LLM calls - just direct Python invocation
+Testing ALL tools in each environment
+======================================================================
+
+❌ 1 airline_5
+❌ 1 airline_4
+❌ 1 airline_2
+❌ 1 airline_3
+❌ 1 academic_search_5
+❌ 1 airline_1
+❌ 1 academic_search_2
+❌ 1 academic_search_4
+❌ 1 banking_services_5
+❌ 1 career_planner_1
+❌ 1 banking_services_1
+❌ 1 academic_search_3
+❌ 1 career_planner_2
+❌ 1 banking_services_2
+❌ 1 banking_services_4
+❌ 1 academic_search_1
+❌ 1 banking_services_6
+❌ 1 career_planner_3
+❌ 1 career_planner_5
+❌ 1 consulting_accounting_1
+❌ 1 career_planner_4
+❌ 1 consulting_accounting_5
+✅ data_science_1
+❌ 1 consulting_accounting_6
+❌ 1 consulting_accounting_4
+❌ 1 consulting_accounting_2
+❌ 1 data_science_2
+❌ 1 data_science_4
+❌ 1 data_science_5
+❌ 1 data_science_3
+❌ 1 data_science_6
+❌ 1 dev_ops_5
+❌ 1 digital_commerce_3
+❌ 1 dev_ops_4
+❌ 1 dev_ops_3
+❌ 1 dev_ops_1
+❌ 1 digital_commerce_4
+❌ 1 digital_commerce_5
+❌ 1 digital_commerce_2
+❌ 1 figma_gmail_mcp_pipeline_2
+❌ 1 figma_gmail_mcp_pipeline_1
+❌ 1 dev_ops_6
+❌ 35 dev_ops_2
+❌ 1 figma_gmail_mcp_pipeline_3
+❌ 25 digital_commerce_1
+❌ 1 figma_gmail_mcp_pipeline_5
+❌ 1 figma_gmail_mcp_pipeline_4
+❌ 1 file_system_7
+❌ 1 figma_gmail_mcp_pipeline_6
+❌ 1 github_mcp_2
+❌ 1 github_mcp_1
+❌ 1 file_system_1
+❌ 1 file_system_9
+❌ 1 github_mcp_6
+❌ 1 file_system_8
+❌ 1 github_mcp_7
+❌ 1 it_help_desk_4
+❌ 1 logistics_supply_chain_1
+❌ 1 github_mcp_5
+❌ 1 it_help_desk_2
+❌ 1 it_help_desk_5
+❌ 1 logistics_supply_chain_2
+❌ 1 logistics_supply_chain_5
+❌ 1 logistics_supply_chain_3
+✅ new_hire_mcp_2
+❌ 1 new_hire_mcp_1
+❌ 1 logistics_supply_chain_6
+❌ 1 org_chart_1
+❌ 1 new_hire_mcp_5
+❌ 1 new_hire_mcp_3
+❌ 33 it_help_desk_6
+❌ 1 org_chart_2
+❌ 1 new_hire_mcp_4
+❌ 1 org_chart_3
+❌ 1 org_chart_5
+❌ 1 project_management_1
+❌ 1 project_management_2
+❌ 1 org_chart_4
+❌ 1 rbac_1
+❌ 1 project_management_5
+❌ 1 rbac_2
+❌ 1 rbac_3
+❌ 1 rbac_4
+❌ 1 project_management_3
+❌ 1 project_management_4
+❌ 1 real_estate_sales_2
+❌ 1 rbac_5
+❌ 1 real_estate_sales_7
+❌ 1 real_estate_sales_3
+❌ 1 real_estate_sales_1
+❌ 1 real_estate_sales_4
+❌ 1 recipes_3
+❌ 1 recipes_2
+❌ 1 recipes_4
+❌ 1 retail_2
+❌ 1 recipes_1
+❌ 1 recipes_5
+❌ 1 retail_1
+❌ 1 retail_4
+❌ 1 retail_3
+❌ 1 retail_6
+❌ 1 retail_point_of_sale_and_inventory_system_2
+❌ 1 retail_point_of_sale_and_inventory_system_1
+❌ 1 retail_point_of_sale_and_inventory_system_6
+❌ 1 retail_point_of_sale_and_inventory_system_5
+❌ 1 retail_5
+❌ 1 smart_home_3
+❌ 1 smart_home_2
+❌ 1 retail_point_of_sale_and_inventory_system_4
+❌ 1 social_media_advertising_2
+❌ 1 smart_home_1
+❌ 1 smart_home_4
+❌ 1 social_media_advertising_1
+❌ 1 smart_home_5
+❌ 1 social_media_advertising_4
+❌ 1 social_media_advertising_6
+❌ 1 social_media_advertising_5
+❌ 1 sports_analytics_2
+❌ 1 sports_analytics_3
+❌ 1 social_media_advertising_3
+❌ 1 sports_analytics_4
+❌ 3 sports_analytics_5
+
+======================================================================
+SUMMARY
+======================================================================
+Environments: 122
+With errors: 120
+Total errors: 212
+
+Top 10 environments with most errors:
+  dev_ops_2: 35 errors
+  it_help_desk_6: 33 errors
+  digital_commerce_1: 25 errors
+  sports_analytics_5: 3 errors
+  airline_5: 1 errors
+  airline_4: 1 errors
+  airline_2: 1 errors
+  airline_3: 1 errors
+  academic_search_5: 1 errors
+  airline_1: 1 errors
+
+======================================================================
+✅ Saved to direct_tool_test_results.json
+======================================================================

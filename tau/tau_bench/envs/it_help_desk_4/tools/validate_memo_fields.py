@@ -12,7 +12,7 @@ class ValidateMemoFields(Tool):
             "manager_id",
             "start_date",
         ]
-        missing_fields = [field for field in required_fields if field not in memo]
+        missing_fields = [field for field in required_fields.values() if field not in memo]
         if missing_fields:
             payload = {"is_valid": False, "missing_fields": missing_fields}
             out = json.dumps(

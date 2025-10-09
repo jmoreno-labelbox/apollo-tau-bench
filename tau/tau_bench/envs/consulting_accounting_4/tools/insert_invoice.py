@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class InsertInvoice(Tool):
@@ -25,11 +25,11 @@ class InsertInvoice(Tool):
         total_due: float = None,
         pdf_path: str = None
     ) -> str:
-        invoices = data.get("invoices", [])
+        invoices = data.get("invoices", {}).values()
 
         prefix = "INV"
         max_num = 0
-        for inv in invoices:
+        for inv in invoices.values():
             inv_id_str = str(inv.get("invoice_id", ""))
             if inv_id_str.startswith(prefix):
                 numeric_part = inv_id_str[len(prefix) :]
@@ -57,7 +57,7 @@ class InsertInvoice(Tool):
             "paid_at": None,
             "created_at": _fixed_now_iso(),
         }
-        invoices.append(row)
+        data["invoices"][invoice_id] = row
         payload = {"invoice_id": new_id, "invoice_number": row["invoice_number"]}
         out = json.dumps(
             payload, indent=2

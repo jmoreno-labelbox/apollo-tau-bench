@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAllAccountsOfCustomerByCustomerId(Tool):
@@ -21,8 +21,8 @@ class GetAllAccountsOfCustomerByCustomerId(Tool):
         if not customer_id:
             return json.dumps({"error": "customer_id is required."}, indent=2)
 
-        customers = data.get("customers", [])
-        for customer in customers:
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
                 return json.dumps({
                     "account_ids": customer.get("account_ids", [])

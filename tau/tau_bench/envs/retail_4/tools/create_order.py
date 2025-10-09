@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateOrder(Tool):
@@ -39,8 +39,8 @@ class CreateOrder(Tool):
             return out
 
         #Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -50,9 +50,9 @@ class CreateOrder(Tool):
 
         #Validate return order exists if return_order_id is provided
         if return_order_id:
-            orders = data.get("orders", [])
+            orders = data.get("orders", {}).values()
             return_order_found = False
-            for order in orders:
+            for order in orders.values():
                 if (
                     order.get("order_id") == return_order_id
                     and order.get("user_id") == user_id
@@ -70,7 +70,7 @@ class CreateOrder(Tool):
                 return out
 
         #Validate payment methods and prepare payment breakdown
-        payment_methods = user.get("payment_methods", {})
+        payment_methods = user.get("payment_methods", {}).values()
         selected_payments = []
 
         for payment_method_source in payment_method_sources:
@@ -109,7 +109,7 @@ class CreateOrder(Tool):
             selected_payments.append(payment_info)
 
         #Validate and process items
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         order_items = []
         subtotal_amount = 0.0
 
@@ -122,8 +122,8 @@ class CreateOrder(Tool):
             variant_found = None
             product_found = None
 
-            for product in products:
-                variants = product.get("variants", {})
+            for product in products.values():
+                variants = product.get("variants", {}).values()
                 if item_id in variants:
                     variant_found = variants[item_id]
                     product_found = product
@@ -159,7 +159,7 @@ class CreateOrder(Tool):
                     "product_id": product_found.get("product_id"),
                     "item_id": item_id,
                     "price": unit_price,
-                    "options": variant_found.get("options", {}),
+                    "options": variant_found.get("options", {}).values()),
                     "quantity": quantity,
                 }
             )
@@ -301,7 +301,7 @@ class CreateOrder(Tool):
                 return out
 
         #Generate new order ID
-        existing_orders = data.get("orders", [])
+        existing_orders = data.get("orders", {}).values()
         order_number = len(existing_orders) + 1
         new_order_id = f"#W{str(order_number).zfill(7)}"
 
@@ -340,7 +340,7 @@ class CreateOrder(Tool):
         new_order = {
             "order_id": new_order_id,
             "user_id": user_id,
-            "address": user.get("address", {}),
+            "address": user.get("address", {}).values()),
             "items": order_items,
             "fulfillments": [],
             "status": "pending",
@@ -364,7 +364,7 @@ class CreateOrder(Tool):
         #WRITE OPERATION: Add new order to orders.json
         if "orders" not in data:
             data["orders"] = []
-        data["orders"].append(new_order)
+        data["orders"][order_id] = new_order
 
         #WRITE OPERATION: Update user's order list in users.json
         if "orders" not in user:
@@ -372,7 +372,7 @@ class CreateOrder(Tool):
         user["orders"].append(new_order_id)
 
         #Calculate final amounts for response
-        final_payment_amount = sum(p["allocated_amount"] for p in payment_breakdown)
+        final_payment_amount = sum(p["allocated_amount"] for p in payment_breakdown.values()
 
         result = {
             "status": "success",

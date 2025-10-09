@@ -7,7 +7,7 @@ from datetime import timedelta
 class GetProjectPublisher(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], name: str) -> str:
-        record = next((pr for pr in data["pipeline_opportunities"]
+        record = next((pr for pr in data["pipeline_opportunities"].values()
                        if pr["project_title"] == name),
                       None)
 

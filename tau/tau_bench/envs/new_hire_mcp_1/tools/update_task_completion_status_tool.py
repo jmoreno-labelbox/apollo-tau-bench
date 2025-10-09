@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateTaskCompletionStatusTool(Tool):
@@ -22,12 +22,12 @@ class UpdateTaskCompletionStatusTool(Tool):
         if not item_ids:
             return _err("item_ids array is required.")
 
-        checklist_items = data.get("checklist_items", [])
+        checklist_items = data.get("checklist_items", {}).values()
         updated_items = []
 
         for item_id in item_ids:
             item = next(
-                (i for i in checklist_items if i.get("item_id") == item_id), None
+                (i for i in checklist_items.values() if i.get("item_id") == item_id), None
             )
             if item:
                 item["status"] = "Completed"

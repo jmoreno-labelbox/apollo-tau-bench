@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class set_employee_benefits(Tool):
@@ -20,9 +20,9 @@ class set_employee_benefits(Tool):
     def invoke(
         data: dict[str, Any], employee_id: str, benefit_plan_ids: list[str]
     ) -> str:
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
 
-        for e in employees:
+        for e in employees.values():
             if e["employee_id"] == employee_id:
                 e["benefit_plan_ids"] = benefit_plan_ids
                 data["employees"] = employees

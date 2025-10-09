@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindCommonCollaborators(Tool):
@@ -23,7 +23,7 @@ class FindCommonCollaborators(Tool):
             out = json.dumps(payload)
             return out
         articles1 = [
-            a for a in data.get("articles", []) if author1_name in a.get("authors", [])
+            a for a in data.get("articles", {}).values() if author1_name in a.get("authors", [])
         ]
         collaborators1 = {
             author
@@ -32,7 +32,7 @@ class FindCommonCollaborators(Tool):
             if author != author1_name
         }
         articles2 = [
-            a for a in data.get("articles", []) if author2_name in a.get("authors", [])
+            a for a in data.get("articles", {}).values() if author2_name in a.get("authors", [])
         ]
         collaborators2 = {
             author

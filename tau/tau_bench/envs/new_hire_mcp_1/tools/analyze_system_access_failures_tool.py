@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AnalyzeSystemAccessFailuresTool(Tool):
@@ -17,9 +17,9 @@ class AnalyzeSystemAccessFailuresTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str = None, system_name: str = None) -> str:
-        access_checks = data.get("access_checks", [])
+        access_checks = data.get("access_checks", {}).values()
 
-        failures = [check for check in access_checks if check.get("status") == "Failed"]
+        failures = [check for check in access_checks.values() if check.get("status") == "Failed"]
 
         if candidate_id:
             failures = [
@@ -27,7 +27,7 @@ class AnalyzeSystemAccessFailuresTool(Tool):
             ]
 
         if system_name:
-            failures = [f for f in failures if f.get("system_name") == system_name]
+            failures = [f for f in failures.values() if f.get("system_name") == system_name]
 
         # Organize by system
         analysis = {}

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateTotal(Tool):
@@ -18,7 +18,7 @@ class CalculateTotal(Tool):
     def invoke(data: dict[str, Any], json: str = None, value: str = None, key: str = None, list_of_ids: list = None, json_name: str = None) -> str:
         # Support both 'json' and 'json_name' for backward compatibility
         data_key = json_name or json
-        dataset = data.get(data_key, [])
+        dataset = data.get(data_key, {}).values()
 
         total = 0
         if list_of_ids:

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SubmitReimbursement(Tool):
@@ -36,7 +36,7 @@ class SubmitReimbursement(Tool):
             out = json.dumps(payload)
             return out
 
-        reimbursements = data.get("reimbursements", [])
+        reimbursements = data.get("reimbursements", {}).values()
 
         expense_dt = datetime.fromisoformat(expense_date.replace("Z", "+00:00"))
 
@@ -66,7 +66,7 @@ class SubmitReimbursement(Tool):
             "days_to_submit": days_elapsed,
         }
 
-        reimbursements.append(new_reimbursement)
+        data["reimbursements"][reimbursement_id] = new_reimbursement
         payload = {"success": True, "reimbursement": new_reimbursement}
         out = json.dumps(payload)
         return out

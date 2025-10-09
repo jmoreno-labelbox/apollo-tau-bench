@@ -12,7 +12,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -22,14 +22,14 @@ class FindResearcherProfiles(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None, research_field: str = None, user_id: str = None, institution: str = None) -> str:
         if not any([name, research_field, user_id, institution]):
-            payload = data.get("users", [])
+            payload = data.get("users", {}).values()
             out = json.dumps(payload, indent=2)
             return out
 
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         results = [
             user
-            for user in users
+            for user in users.values()
             if (not name or name.lower() in user.get("name", "").lower())
             and (
                 not research_field
@@ -75,10 +75,10 @@ class RetrievePapers(Tool):
         publication_year: int = None,
         author_name: str = None
     ) -> str:
-        articles: list = data.get("articles", [])
+        articles: list = data.get("articles", {}).values()
 
         if article_id:
-            for article in articles:
+            for article in articles.values():
                 if article.get("article_id") == article_id:
                     payload = [article]
                     out = json.dumps(payload, indent=2)
@@ -92,7 +92,7 @@ class RetrievePapers(Tool):
         
         results = [
             a
-            for a in articles
+            for a in articles.values()
             if (not topic or topic.lower() in a.get("topic", "").lower())
             and (not title or title.lower() in a.get("title", "").lower())
             and (not search_year or search_year == a.get("publication_year"))
@@ -137,9 +137,9 @@ class SearchSubmissions(Tool):
     def invoke(data: dict[str, Any], submission_id: str = None, article_id: str = None, review_id: str = None) -> str:
         # Functionality derived from the previous SearchReviews tool
         if review_id:
-            reviews = data.get("reviews", [])
+            reviews = data.get("reviews", {}).values()
             target_review = next(
-                (r for r in reviews if r.get("review_id") == review_id), None
+                (r for r in reviews.values() if r.get("review_id") == review_id), None
             )
             if not target_review:
                 payload = []
@@ -148,10 +148,10 @@ class SearchSubmissions(Tool):
 
             # Utilize the submission_id from the review to locate the submission
             submission_id_from_review = target_review.get("submission_id")
-            submissions = data.get("submissions", [])
+            submissions = data.get("submissions", {}).values()
             results = [
                 s
-                for s in submissions
+                for s in submissions.values()
                 if s.get("submission_id") == submission_id_from_review
             ]
 
@@ -164,14 +164,14 @@ class SearchSubmissions(Tool):
             return out
 
         if not submission_id and not article_id:
-            payload = data.get("submissions", [])
+            payload = data.get("submissions", {}).values()
             out = json.dumps(payload, indent=2)
             return out
 
-        submissions = data.get("submissions", [])
+        submissions = data.get("submissions", {}).values()
         results = [
             s
-            for s in submissions
+            for s in submissions.values()
             if (not submission_id or s.get("submission_id") == submission_id)
             and (not article_id or s.get("article_id") == article_id)
         ]
@@ -211,13 +211,13 @@ class GetProjectDetails(Tool):
         project_id: str = None
     ) -> str:
         if not any([project_name, linked_article_id, project_id]):
-            payload = data.get("projects", [])
+            payload = data.get("projects", {}).values()
             out = json.dumps(payload, indent=2)
             return out
-        projects = data.get("projects", [])
+        projects = data.get("projects", {}).values()
         results = [
             p
-            for p in projects
+            for p in projects.values()
             if (
                 not project_name
                 or project_name.lower() in p.get("project_name", "").lower()
@@ -264,18 +264,18 @@ class GetCitationGraph(Tool):
             out = json.dumps(payload)
             return out
 
-        citations = data.get("citations", [])
+        citations = data.get("citations", {}).values()
 
         # Functionality taken from the previous FindCommonCitations tool
         if compare_with_article_id:
             cites1 = {
                 c["referenced_paper_id"]
-                for c in citations
+                for c in citations.values()
                 if c.get("origin_paper_id") == article_id
             }
             cites2 = {
                 c["referenced_paper_id"]
-                for c in citations
+                for c in citations.values()
                 if c.get("origin_paper_id") == compare_with_article_id
             }
             common_citations = list(cites1.intersection(cites2))
@@ -293,12 +293,12 @@ class GetCitationGraph(Tool):
         else:
             cited_by = [
                 c["origin_paper_id"]
-                for c in citations
+                for c in citations.values()
                 if c.get("referenced_paper_id") == article_id
             ]
             cites = [
                 c["referenced_paper_id"]
-                for c in citations
+                for c in citations.values()
                 if c.get("origin_paper_id") == article_id
             ]
             result = {"article_id": article_id, "cited_by": cited_by, "cites": cites}
@@ -344,12 +344,12 @@ class FindCollaborationNetwork(Tool):
 
         # Retrieve all articles authored by the primary author
         articles = [
-            a for a in data.get("articles", []) if author_name in a.get("authors", [])
+            a for a in data.get("articles", {}).values() if author_name in a.get("authors", [])
         ]
 
         # Tally all collaborators associated with those articles
         all_collaborators = Counter()
-        for article in articles:
+        for article in articles.values()):
             for author in article.get("authors", []):
                 if author != author_name:
                     all_collaborators[author] += 1
@@ -403,7 +403,7 @@ class AddCitation(Tool):
             "cited_article_id": cited_article_id,
             "citation_context": context,
         }
-        data.get("citations", []).append(new_citation)
+        data["citations"][new_citation["citation_id"]] = new_citation
         payload = {"success": True, "citation": new_citation}
         out = json.dumps(payload, indent=2)
         return out
@@ -449,7 +449,7 @@ class UpdateArticleMetadata(Tool):
             out = json.dumps(payload)
             return out
         article = next(
-            (a for a in data.get("articles", []) if a.get("article_id") == article_id),
+            (a for a in data.get("articles", {}).values() if a.get("article_id") == article_id),
             None,
         )
         if not article:
@@ -514,21 +514,21 @@ class GetAuthorMetrics(Tool):
             out = json.dumps(payload)
             return out
         articles = [
-            a for a in data.get("articles", []) if author_name in a.get("authors", [])
+            a for a in data.get("articles", {}).values() if author_name in a.get("authors", [])
         ]
         if not articles:
             payload = {"total_publications": 0, "total_citations": 0, "h_index": 0}
             out = json.dumps(
                 payload)
             return out
-        citations = data.get("citations", [])
+        citations = data.get("citations", {}).values()
         total_citations = 0
         citation_counts = []
-        for article in articles:
+        for article in articles.values():
             count = len(
                 [
                     c
-                    for c in citations
+                    for c in citations.values()
                     if c.get("referenced_paper_id") == article["paper_id"]
                 ]
             )
@@ -578,7 +578,7 @@ class SuggestReviewers(Tool):
             out = json.dumps(payload)
             return out
         article = next(
-            (a for a in data.get("articles", []) if a.get("article_id") == article_id),
+            (a for a in data.get("articles", {}).values() if a.get("article_id") == article_id),
             None,
         )
         if not article:
@@ -588,7 +588,7 @@ class SuggestReviewers(Tool):
         topic = article.get("topic")
         authors = [
             a.get("authors")
-            for a in data.get("articles", [])
+            for a in data.get("articles", {}).values()
             if a.get("topic") == topic and a.get("article_id") != article_id
         ]
         authors = [author for sublist in authors for author in sublist]
@@ -625,7 +625,7 @@ class GetMostCitedArticles(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], citations: list[dict[str, Any]] = []) -> str:
-        cited_ids = [c["referenced_paper_id"] for c in citations]
+        cited_ids = [c["referenced_paper_id"] for c in citations.values()]
         citation_counts = Counter(cited_ids)
         sorted_articles = sorted(
             citation_counts.items(), key=lambda item: item[1], reverse=True
@@ -659,7 +659,7 @@ class FindCommonCollaborators(Tool):
             out = json.dumps(payload)
             return out
         articles1 = [
-            a for a in data.get("articles", []) if author1_name in a.get("authors", [])
+            a for a in data.get("articles", {}).values() if author1_name in a.get("authors", [])
         ]
         collaborators1 = {
             author
@@ -668,7 +668,7 @@ class FindCommonCollaborators(Tool):
             if author != author1_name
         }
         articles2 = [
-            a for a in data.get("articles", []) if author2_name in a.get("authors", [])
+            a for a in data.get("articles", {}).values() if author2_name in a.get("authors", [])
         ]
         collaborators2 = {
             author
@@ -713,7 +713,7 @@ class UpdateSubmission(Tool):
         submission = next(
             (
                 s
-                for s in data.get("submissions", [])
+                for s in data.get("submissions", {}).values()
                 if s.get("proposal_id") == submission_id
             ),
             None,
@@ -725,15 +725,15 @@ class UpdateSubmission(Tool):
 
         if reviewers is not None:
             provided_reviewers = reviewers
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
 
             valid_reviewer_ids = []
             for reviewer_item in provided_reviewers:
-                if any(u.get("person_id") == reviewer_item for u in users):
+                if any(u.get("person_id") == reviewer_item for u in users.values()):
                     valid_reviewer_ids.append(reviewer_item)
                 else:
                     found_user = next(
-                        (u for u in users if u.get("label") == reviewer_item), None
+                        (u for u in users.values() if u.get("label") == reviewer_item), None
                     )
                     if found_user:
                         valid_reviewer_ids.append(found_user["person_id"])
@@ -797,7 +797,7 @@ class RegisterProject(Tool):
             "linked_articles": [linked_article_id],
             "funding_source_id": None,
         }
-        data.get("projects", []).append(new_project)
+        data["projects"][new_project["project_id"]] = new_project
         payload = {"success": True, "project": new_project}
         out = json.dumps(payload, indent=2)
         return out
@@ -847,7 +847,7 @@ class CreateSubmission(Tool):
             "status": "submitted",
             "assigned_reviewers": [],
         }
-        data.get("submissions", []).append(new_submission)
+        data["submissions"][new_submission["submission_id"]] = new_submission
         payload = {"success": True, "submission": new_submission}
         out = json.dumps(payload, indent=2)
         return out
@@ -890,7 +890,7 @@ class AddResearchNote(Tool):
             "notes": notes,
             "relevance": relevance,
         }
-        data.get("research_logs", []).append(new_log)
+        data["research_logs"][new_log["research_log_id"]] = new_log
         payload = {"success": True, "log_entry": new_log}
         out = json.dumps(payload, indent=2)
         return out
@@ -937,7 +937,7 @@ class UpdateProject(Tool):
             out = json.dumps(payload)
             return out
         project = next(
-            (p for p in data.get("projects", []) if p.get("project_id") == project_id),
+            (p for p in data.get("projects", {}).values() if p.get("project_id") == project_id),
             None,
         )
         if not project:
@@ -968,17 +968,17 @@ class UpdateProject(Tool):
                 project["collaborators"] = []
 
             provided_collaborators = add_collaborators
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
 
             valid_collaborator_ids = []
             for collab_item in provided_collaborators:
                 # Verify if the item is a valid user_id
-                if any(u["person_id"] == collab_item for u in users):
+                if any(u["person_id"] == collab_item for u in users.values()):
                     valid_collaborator_ids.append(collab_item)
                 # If not, attempt to search by name
                 else:
                     found_user = next(
-                        (u for u in users if u["name"] == collab_item), None
+                        (u for u in users.values() if u["name"] == collab_item), None
                     )
                     if found_user:
                         valid_collaborator_ids.append(found_user["user_id"])
@@ -1027,15 +1027,14 @@ class RetrieveFundingInfo(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], source_name: Any = None, funding_source_id: Any = None) -> str:
         if not source_name and not funding_source_id:
-            payload = data.get("funding_sources", [])
+            payload = data.get("funding_sources", {}).values()
             out = json.dumps(payload, indent=2)
             return out
 
-        funding_sources = data.get("funding_sources", [])
+        funding_sources = data.get("funding_sources", {}).values()
         results = [
             fs
-            for fs in funding_sources
-            if (
+            for fs in funding_sources.values() if (
                 not source_name
                 or source_name.lower() in fs.get("source_name", "").lower()
             )
@@ -1096,7 +1095,7 @@ class CreateReview(Tool):
             "recommendation": recommendation,
             "review_date": "2025-06-24",
         }
-        data.get("reviews", []).append(new_review)
+        data["reviews"][new_review["review_id"]] = new_review
         payload = {"success": True, "review": new_review}
         out = json.dumps(payload, indent=2)
         return out
@@ -1159,7 +1158,8 @@ class CreateArticle(Tool):
             "abstract": abstract,
             "status": "new",
         }
-        data.get("articles", []).append(new_article)
+        article_id = new_article["article_id"]
+        data["articles"][article_id] = new_article
         payload = {"success": True, "article": new_article}
         out = json.dumps(payload, indent=2)
         return out
@@ -1208,10 +1208,10 @@ class ConfigureProfileSettings(Tool):
                 payload)
             return out
 
-        preferences = data.get("user_preferences", [])
+        preferences = data.get("user_preferences", {}).values()
 
         user_pref = next(
-            (pref for pref in preferences if pref.get("user_id") == user_id), None
+            (pref for pref in preferences.values() if pref.get("user_id") == user_id), None
         )
 
         if user_pref:
@@ -1234,7 +1234,7 @@ class ConfigureProfileSettings(Tool):
             if not ui_theme:
                 del new_pref["ui_theme"]
 
-            preferences.append(new_pref)
+            data["user_preferences"][new_pref["user_preference_id"]] = new_pref
             data["user_preferences"] = (
                 preferences  #Ensures that the updated list is saved back to 'data'
             )
@@ -1280,12 +1280,12 @@ class UpdateTopicSubscription(Tool):
             out = json.dumps(payload)
             return out
 
-        subscriptions = data.get("subscriptions", [])
+        subscriptions = data.get("subscriptions", {}).values()
 
         if action.lower() == "add":
             if any(
                 sub.get("user_id") == user_id and sub.get("topic") == topic
-                for sub in subscriptions
+                for sub in subscriptions.values()
             ):
                 payload = {
                     "success": False,
@@ -1300,7 +1300,7 @@ class UpdateTopicSubscription(Tool):
                 "user_id": user_id,
                 "topic": topic,
             }
-            subscriptions.append(new_subscription)
+            data["subscriptions"][subscription_id] = new_subscription
             payload = {"success": True, "subscription": new_subscription}
             out = json.dumps(payload)
             return out
@@ -1309,8 +1309,7 @@ class UpdateTopicSubscription(Tool):
             initial_count = len(subscriptions)
             data["subscriptions"] = [
                 sub
-                for sub in subscriptions
-                if not (sub.get("user_id") == user_id and sub.get("topic") == topic)
+                for sub in subscriptions.values() if not (sub.get("user_id") == user_id and sub.get("topic") == topic)
             ]
 
             if len(data["subscriptions"]) < initial_count:
@@ -1374,7 +1373,7 @@ class DispatchUserAlert(Tool):
                 payload)
             return out
 
-        notifications = data.get("notifications", [])
+        notifications = data.get("notifications", {}).values()
         new_alert = {
             "notification_id": f"notif_{uuid.uuid4().hex[:6]}",
             "recipient_user_id": recipient_user_id,
@@ -1383,7 +1382,7 @@ class DispatchUserAlert(Tool):
             "timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
             "status": "unread",
         }
-        notifications.append(new_alert)
+        data["notifications"][notification_id] = new_alert
         payload = {"success": True, "alert": new_alert}
         out = json.dumps(payload)
         return out

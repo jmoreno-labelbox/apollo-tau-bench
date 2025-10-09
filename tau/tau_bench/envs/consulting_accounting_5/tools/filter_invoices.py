@@ -25,13 +25,13 @@ class FilterInvoices(Tool):
         results = invoices
 
         if publisher_id is not None:
-            results = [inv for inv in results if inv["publisher_id"] == publisher_id]
+            results = [inv for inv in results.values() if inv["publisher_id"] == publisher_id]
 
         if invoice_number is not None:
-            results = [inv for inv in results if inv["invoice_number"] == invoice_number]
+            results = [inv for inv in results.values() if inv["invoice_number"] == invoice_number]
 
         if invoice_date is not None:
-            results = [inv for inv in results if inv["invoice_date"] == invoice_date]
+            results = [inv for inv in results.values() if inv["invoice_date"] == invoice_date]
 
         if start_date is not None and end_date is not None:
             start = datetime.strptime(start_date, "%Y-%m-%d")
@@ -42,12 +42,12 @@ class FilterInvoices(Tool):
             ]
 
         if unpaid_only:
-            results = [inv for inv in results if inv.get("paid_at") is None]
+            results = [inv for inv in results.values() if inv.get("paid_at") is None]
 
         if min_amount is not None:
-            results = [inv for inv in results if float(inv["total_due"]) >= min_amount]
+            results = [inv for inv in results.values() if float(inv["total_due"]) >= min_amount]
         if max_amount is not None:
-            results = [inv for inv in results if float(inv["total_due"]) <= max_amount]
+            results = [inv for inv in results.values() if float(inv["total_due"]) <= max_amount]
 
         return json.dumps([inv["invoice_id"] for inv in results])
     @staticmethod

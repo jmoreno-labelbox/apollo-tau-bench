@@ -8,7 +8,7 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SelectOptimalCarrier(Tool):
@@ -24,16 +24,16 @@ class SelectOptimalCarrier(Tool):
         weight_kg: Any = None,
         max_transit_days: Any = None,
     ) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
 
         # Select only the active carriers
-        active_carriers = [c for c in carriers if c.get("active_status", False)]
+        active_carriers = [c for c in carriers.values() if c.get("active_status", False)]
 
         # Implement business guidelines for choosing carriers
         suitable_carriers = []
         for carrier in active_carriers:
             # Guideline: Carriers with less than 95% on-time delivery are not eligible for Critical priority
-            if priority_level == "Critical" and carrier.get("performance_metrics", {}).get("on_time_delivery_percentage", 0) < 95:
+            if priority_level == "Critical" and carrier.get("performance_metrics", {}).values().get("on_time_delivery_percentage", 0) < 95:
                 continue
 
             if carriers_list:
@@ -42,7 +42,7 @@ class SelectOptimalCarrier(Tool):
 
             # Guideline: Assess regional coverage and the ability to service cities
             coverage = carrier.get("regional_coverage", "")
-            carrier_address = carrier.get("contact_information", {}).get("address", {})
+            carrier_address = carrier.get("contact_information", {}).values().get("address", {}).values()
             carrier_country = carrier_address.get("country", "")
             carrier_city = carrier_address.get("city", "")
 
@@ -75,7 +75,7 @@ class SelectOptimalCarrier(Tool):
                     coverage_match = True
 
             if coverage_match:
-                suitable_carriers.append(carrier)
+                suitable_data["carriers"][carrier["carrier_id"]] = carrier
 
         if not suitable_carriers:
             return json.dumps({"error": "No suitable carriers found for the specified criteria"})
@@ -88,19 +88,19 @@ class SelectOptimalCarrier(Tool):
                 # For urgent shipments, give precedence to performance
                 best_carrier = max(suitable_carriers,
                                 key=lambda c: (
-                                    c.get("performance_metrics", {}).get("on_time_delivery_percentage", 0),
-                                    c.get("performance_metrics", {}).get("average_rating", 0)
+                                    c.get("performance_metrics", {}).values().get("on_time_delivery_percentage", 0),
+                                    c.get("performance_metrics", {}).values().get("average_rating", 0)
                                 ))
             else:
                 # For regular shipments, find a balance between performance and cost
                 best_carrier = max(suitable_carriers,
-                                key=lambda c: c.get("performance_metrics", {}).get("average_rating", 0))
+                                key=lambda c: c.get("performance_metrics", {}).values().get("average_rating", 0))
 
         return json.dumps({
             "selected_carrier": best_carrier.get("scac"),
             "carrier_name": best_carrier.get("carrier_name"),
-            "performance_rating": best_carrier.get("performance_metrics", {}).get("average_rating"),
-            "on_time_delivery": best_carrier.get("performance_metrics", {}).get("on_time_delivery_percentage"),
+            "performance_rating": best_carrier.get("performance_metrics", {}).values().get("average_rating"),
+            "on_time_delivery": best_carrier.get("performance_metrics", {}).values().get("on_time_delivery_percentage"),
             "coverage": best_carrier.get("regional_coverage")
         })
     @staticmethod

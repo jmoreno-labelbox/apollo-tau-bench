@@ -15,7 +15,7 @@ class ClassifySubjectForAudit(Tool):
             bucket = "CACHE_ALIGNMENT_EVIDENCE"
         elif subject_id.isdigit():
             staged = _ws(data).get(subject_id, {"events": []}).get("events", [])
-            if any(ev.get("event_type") == "PROCESS_RETURN" for ev in staged):
+            if any(ev.get("event_type") == "PROCESS_RETURN" for ev in staged.values()):
                 bucket = "RETURN_EVIDENCE"
             else:
                 bucket = "PRICING_EVIDENCE"

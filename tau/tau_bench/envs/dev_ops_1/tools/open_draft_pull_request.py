@@ -19,8 +19,8 @@ class OpenDraftPullRequest(Tool):
             if isinstance(val2, int) and val2 > current_max:
                 current_max = val2
         pr_number = current_max + 1
-        br = next((r for r in build_runs if r.get("run_id") == run_id), {})
-        art = next((a for a in artifacts if a.get("run_id") == run_id), {})
+        br = next((r for r in build_runs if r.get("run_id") == run_id), {}).values()
+        art = next((a for a in artifacts if a.get("run_id") == run_id), {}).values()
         links = {
             "run_id": run_id,
             "logs_uri": br.get("logs_uri") or art.get("logs_uri"),

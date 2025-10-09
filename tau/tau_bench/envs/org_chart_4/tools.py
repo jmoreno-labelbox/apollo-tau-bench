@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -17,8 +17,8 @@ def _convert_db_to_list(db):
 class get_employee(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str) -> str:
-        employees = data.get("employees", [])
-        for e in employees:
+        employees = data.get("employees", {}).values()
+        for e in employees.values():
             if e["employee_id"] == employee_id:
                 payload = e
                 out = json.dumps(payload, indent=2)
@@ -53,11 +53,10 @@ class get_all_employees(Tool):
     def invoke(
         data: dict[str, Any], department_id: str = None, level_id: str = None
     ) -> str:
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
         filtered = [
             e
-            for e in employees
-            if (not department_id or e.get("department_id") == department_id)
+            for e in employees.values() if (not department_id or e.get("department_id") == department_id)
             and (not level_id or e.get("level_id") == level_id)
         ]
         payload = filtered
@@ -94,8 +93,8 @@ class get_all_employees(Tool):
 class get_department(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], department_id: str) -> str:
-        departments = data.get("departments", [])
-        for d in departments:
+        departments = data.get("departments", {}).values()
+        for d in departments.values():
             if d["department_id"] == department_id:
                 payload = d
                 out = json.dumps(payload, indent=2)
@@ -155,8 +154,8 @@ class get_departments(Tool):
 class get_position(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], position_id: str) -> str:
-        positions = data.get("positions", [])
-        for p in positions:
+        positions = data.get("positions", {}).values()
+        for p in positions.values():
             if p["position_id"] == position_id:
                 payload = p
                 out = json.dumps(payload, indent=2)
@@ -189,11 +188,10 @@ class get_position(Tool):
 class get_positions(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], department_id: str = None) -> str:
-        positions = data.get("positions", [])
+        positions = data.get("positions", {}).values()
         filtered = [
             p
-            for p in positions
-            if (not department_id or p.get("department_id") == department_id)
+            for p in positions.values() if (not department_id or p.get("department_id") == department_id)
         ]
         payload = filtered
         out = json.dumps(payload, indent=2)
@@ -223,8 +221,8 @@ class get_positions(Tool):
 class get_compensation_records(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str) -> str:
-        records = data.get("compensation_records", [])
-        filtered = [r for r in records if r.get("employee_id") == employee_id]
+        records = data.get("compensation_records", {}).values()
+        filtered = [r for r in records.values() if r.get("employee_id") == employee_id]
         payload = filtered
         out = json.dumps(payload, indent=2)
         return out
@@ -253,8 +251,8 @@ class get_compensation_records(Tool):
 class get_performance_reviews(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str) -> str:
-        reviews = data.get("performance_reviews", [])
-        filtered = [r for r in reviews if r.get("employee_id") == employee_id]
+        reviews = data.get("performance_reviews", {}).values()
+        filtered = [r for r in reviews.values() if r.get("employee_id") == employee_id]
         payload = filtered
         out = json.dumps(payload, indent=2)
         return out
@@ -283,8 +281,8 @@ class get_performance_reviews(Tool):
 class get_leave_records(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str) -> str:
-        records = data.get("leave_records", [])
-        filtered = [r for r in records if r.get("employee_id") == employee_id]
+        records = data.get("leave_records", {}).values()
+        filtered = [r for r in records.values() if r.get("employee_id") == employee_id]
         payload = filtered
         out = json.dumps(payload, indent=2)
         return out
@@ -316,7 +314,7 @@ class add_employee(Tool):
     def invoke(data: dict[str, Any], employee_id: str) -> str:
         employees = data.setdefault("employees", [])
         employee = {"employee_id": employee_id}
-        employees.append(employee)
+        data["employees"][employee_id] = employee
         payload = {"success": True, "employee_id": employee_id}
         out = json.dumps(
             payload, indent=2
@@ -347,8 +345,8 @@ class add_employee(Tool):
 class update_employee(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str, updates: dict) -> str:
-        employees = data.get("employees", [])
-        for e in employees:
+        employees = data.get("employees", {}).values()
+        for e in employees.values():
             if e["employee_id"] == employee_id:
                 e.update(updates)
                 payload = {"success": True, "employee_id": employee_id}
@@ -388,7 +386,7 @@ class update_employee(Tool):
 class delete_employee(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str) -> str:
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
         for i, e in enumerate(employees):
             if e["employee_id"] == employee_id:
                 del employees[i]
@@ -427,7 +425,7 @@ class add_department(Tool):
     def invoke(data: dict[str, Any], department_id: str) -> str:
         departments = data.setdefault("departments", [])
         department = {"department_id": department_id}
-        departments.append(department)
+        data["departments"][department_id] = department
         payload = {"success": True, "department_id": department_id}
         out = json.dumps(
             payload, indent=2,
@@ -462,7 +460,7 @@ class add_position(Tool):
     ) -> str:
         positions = data.setdefault("positions", [])
         position = {"position_id": position_id}
-        positions.append(position)
+        data["positions"][position_id] = position
         payload = {"success": True, "position_id": position.get("position_id")}
         out = json.dumps(
             payload, indent=2
@@ -494,7 +492,7 @@ class add_compensation_record(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], compensation_record: dict, position: Any = None) -> str:
         records = data.setdefault("compensation_records", [])
-        records.append(compensation_record)
+        data["leave_records"][compensation_record["leave_record_id"]] = compensation_record
         payload = {
                 "success": True,
                 "compensation_id": compensation_record.get("compensation_id"),
@@ -529,7 +527,7 @@ class add_performance_review(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], performance_review: dict) -> str:
         reviews = data.setdefault("performance_reviews", [])
-        reviews.append(performance_review)
+        data["reviews"][review_id] = performance_review
         payload = {"success": True, "review_id": performance_review.get("review_id")}
         out = json.dumps(
             payload, indent=2,
@@ -561,7 +559,7 @@ class add_leave_record(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], leave_record: dict) -> str:
         records = data.setdefault("leave_records", [])
-        records.append(leave_record)
+        data["leave_records"][leave_record["leave_record_id"]] = leave_record
         payload = {"success": True, "leave_id": leave_record.get("leave_id")}
         out = json.dumps(
             payload, indent=2

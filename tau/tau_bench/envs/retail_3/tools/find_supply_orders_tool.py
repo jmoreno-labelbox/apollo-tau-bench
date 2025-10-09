@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindSupplyOrdersTool(Tool):
@@ -31,9 +31,9 @@ class FindSupplyOrdersTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supplier_id: str = None, status: str = None) -> str:
-        supply_orders = data.get("supply_orders", [])
+        supply_orders = data.get("supply_orders", {}).values()
         filtered = []
-        for so in supply_orders:
+        for so in supply_orders.values():
             if supplier_id and so.get("supplier_id") != supplier_id:
                 continue
             if status and so.get("status") != status:

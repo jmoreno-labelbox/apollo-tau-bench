@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SetDeviceState(Tool):
@@ -15,7 +15,7 @@ class SetDeviceState(Tool):
     def invoke(
         data: dict[str, Any], device_id: str, state_update: dict[str, Any]
     ) -> str:
-        devices = data.get("devices", [])
+        devices = data.get("devices", {}).values()
         device_found = False
         for device in devices:
             if device.get("id") == device_id:
@@ -26,9 +26,9 @@ class SetDeviceState(Tool):
 
         if not device_found:
             # attempt to use sensors if devices are not available
-            sensors = data.get("sensors", [])
+            sensors = data.get("sensors", {}).values()
             sensor_found = False
-            for sensor in sensors:
+            for sensor in sensors.values()):
                 if sensor.get("id") == device_id:
                     sensor["state"].update(state_update)
                     sensor["state"]["last_updated"] = _now_iso()

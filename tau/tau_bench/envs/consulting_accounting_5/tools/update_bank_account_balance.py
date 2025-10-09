@@ -10,7 +10,7 @@ class UpdateBankAccountBalance(Tool):
         """
         Updates or inserts balance for a given bank account.
         """
-        account = next((b for b in data["bank_accounts"] if b["account_id"] == account_id), None)
+        account = next((b for b in data["bank_accounts"].values() if b["account_id"] == account_id), None)
 
         if account:
             account["balance"] = balance

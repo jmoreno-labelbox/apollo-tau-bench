@@ -7,13 +7,13 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCustomerBeneficiariesTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        beneficiaries = data.get('beneficiaries', [])
+        beneficiaries = data.get('beneficiaries', {}).values()
 
         customer_beneficiaries = []
         for beneficiary in beneficiaries:

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateHubspotTicketTool(Tool):
@@ -25,7 +25,7 @@ class CreateHubspotTicketTool(Tool):
         created_at: str = None
     ) -> str:
         pass
-        tickets = data.get("hubspot_tickets", [])
+        tickets = data.get("hubspot_tickets", {}).values()
 
         # Predictable ticket ID
         new_id = f"TI-{len(tickets) + 1:03d}"

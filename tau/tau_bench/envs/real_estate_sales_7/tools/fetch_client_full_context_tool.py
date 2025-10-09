@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchClientFullContextTool(Tool):
@@ -39,7 +39,7 @@ class FetchClientFullContextTool(Tool):
         #--- Mortgage profile (accept mortage_profiles misspelling) ---
         msrc = data.get("mortgage_profiles") or data.get("mortage_profiles") or []
         m = (
-            next((r for r in msrc if _as_int(r.get("client_id")) == client_id), None)
+            next((r for r in msrc.values() if _as_int(r.get("client_id")) == client_id), None)
             or {}
         )
         mort_out = {
@@ -63,7 +63,7 @@ class FetchClientFullContextTool(Tool):
         #1) Latest comp_report for this client
         crs = [
             r
-            for r in data.get("comp_reports", [])
+            for r in data.get("comp_reports", {}).values()
             if _as_int(r.get("client_id")) == client_id
         ]
         if crs:
@@ -81,7 +81,7 @@ class FetchClientFullContextTool(Tool):
         if assigned_broker_id is None:
             evs = [
                 e
-                for e in data.get("calendar_events", [])
+                for e in data.get("calendar_events", {}).values()
                 if _as_int(e.get("client_id")) == client_id
             ]
             if evs:
@@ -106,17 +106,17 @@ class FetchClientFullContextTool(Tool):
         #--- Counts of recent activities ---
         emails_cnt = sum(
             1
-            for e in data.get("emails", [])
+            for e in data.get("emails", {}).values()
             if _as_int(e.get("client_id")) == client_id
         )
         reports_cnt = sum(
             1
-            for r in data.get("comp_reports", [])
+            for r in data.get("comp_reports", {}).values()
             if _as_int(r.get("client_id")) == client_id
         )
         events_cnt = sum(
             1
-            for e in data.get("calendar_events", [])
+            for e in data.get("calendar_events", {}).values()
             if _as_int(e.get("client_id")) == client_id
         )
 

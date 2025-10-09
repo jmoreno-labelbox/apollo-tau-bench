@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class list_employee_leaves(Tool):
@@ -15,7 +15,7 @@ class list_employee_leaves(Tool):
     def invoke(data: dict[str, Any], employee_id: str = None) -> str:
         lv = [
             leave_record
-            for leave_record in data.get("leave_records", [])
+            for leave_record in data.get("leave_records", {}).values()
             if leave_record["employee_id"] == employee_id
         ]
         payload = lv

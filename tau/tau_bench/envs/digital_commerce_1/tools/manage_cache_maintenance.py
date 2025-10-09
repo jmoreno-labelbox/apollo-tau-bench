@@ -38,7 +38,7 @@ class ManageCacheMaintenance(Tool):
         if action == "remove":
             for name in targets:
                 jid = _stable_id("job", name, environment)
-                jobs[:] = [r for r in jobs if r.get("job_id") != jid]
+                jobs[:] = [r for r in jobs.values() if r.get("job_id") != jid]
         last = _find_one(jobs, job_name=targets[0])
         return _json(
             {

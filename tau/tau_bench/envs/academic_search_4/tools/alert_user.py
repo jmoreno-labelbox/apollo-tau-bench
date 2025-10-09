@@ -24,7 +24,7 @@ class AlertUser(Tool):
         }
         if "notifications" not in data:
             data["notifications"] = []
-        data["notifications"].append(new_notification)
+        data["notifications"][notification_id] = new_notification
         payload = {"success": True, "notification": new_notification}
         out = json.dumps(payload)
         return out

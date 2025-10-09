@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class NormalizeConnectedAppScopes(Tool):
@@ -18,7 +18,7 @@ class NormalizeConnectedAppScopes(Tool):
         connected_apps: list = None
     ) -> str:
         app_id = _sid(app_id)
-        apps = connected_apps if connected_apps is not None else data.get("connected_apps", [])
+        apps = connected_apps if connected_apps is not None else data.get("connected_apps", {}).values()
         app = next((a for a in apps if a.get("app_id") == app_id), None)
         if not app:
             payload = {"error": f"app {app_id} not found"}
@@ -27,7 +27,7 @@ class NormalizeConnectedAppScopes(Tool):
         scopes = app.get("oauth_scopes")
         if isinstance(scopes, str):
             vals = [s.strip() for s in scopes.split(",")]
-            scopes_list = [v for v in vals if v]
+            scopes_list = [v for v in vals.values() if v]
         elif isinstance(scopes, list):
             scopes_list = scopes
         else:

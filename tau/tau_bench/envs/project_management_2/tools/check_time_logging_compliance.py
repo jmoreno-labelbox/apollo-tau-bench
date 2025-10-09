@@ -9,17 +9,17 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckTimeLoggingCompliance(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sprint_id: str = None, check_all: bool = False) -> str:
-        tasks = data.get("tasks", [])
-        time_logs = data.get("time_logs", [])
+        tasks = data.get("tasks", {}).values()
+        time_logs = data.get("time_logs", {}).values()
 
         if sprint_id:
-            tasks_to_check = [t for t in tasks if t.get("sprint_id") == sprint_id]
+            tasks_to_check = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
         elif check_all:
             tasks_to_check = tasks
         else:
@@ -66,10 +66,9 @@ class CheckTimeLoggingCompliance(Tool):
                 if task.get("status") == "done":
                     task_logs = [
                         log
-                        for log in time_logs
-                        if log.get("task_id") == task.get("task_id")
+                        for log in time_logs.values() if log.get("task_id") == task.get("task_id")
                     ]
-                    total_hours = sum(log.get("hours", 0) for log in task_logs)
+                    total_hours = sum(log.get("hours", 0) for log in task_logs.values()
                     required_hours = task.get("story_points", 0) * 2 * 0.5
 
                     if total_hours < required_hours:

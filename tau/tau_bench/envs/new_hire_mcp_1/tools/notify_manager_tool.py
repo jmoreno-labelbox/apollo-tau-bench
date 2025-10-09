@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class NotifyManagerTool(Tool):
@@ -23,7 +23,7 @@ class NotifyManagerTool(Tool):
         candidate = next(
             (
                 c
-                for c in data.get("candidates", [])
+                for c in data.get("candidates", {}).values()
                 if str(c.get("candidate_id")) == str(candidate_id)
             ),
             None,

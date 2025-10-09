@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RejectAccessRequestTool(Tool):
@@ -20,7 +20,7 @@ class RejectAccessRequestTool(Tool):
         rid = request_id
         reviewer = reviewer_id
         decision_at = decision_at
-        for req in data.get("access_requests", []):
+        for req in data.get("access_requests", {}).values():
             if req["request_id"] == rid:
                 req["status"] = "REJECTED"
                 req["reviewed_by"] = reviewer

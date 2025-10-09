@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -19,8 +19,8 @@ class GetBuildRunById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], id: str = None) -> str:
         build_run_id = id
-        build_runs = data.get("build_runs", [])
-        for run in build_runs:
+        build_runs = data.get("build_runs", {}).values()
+        for run in build_runs.values():
             if run.get("id") == build_run_id:
                 payload = run
                 out = json.dumps(payload)
@@ -54,8 +54,8 @@ class GetBisectResultForBuildRun(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], build_run_id: str = None) -> str:
-        bisect_results = data.get("bisect_results", [])
-        for result in bisect_results:
+        bisect_results = data.get("bisect_results", {}).values()
+        for result in bisect_results.values():
             if result.get("build_run_id") == build_run_id:
                 payload = result
                 out = json.dumps(payload)
@@ -98,8 +98,8 @@ class UpdateBuildRunTriageStatus(Tool):
         # Support 'triage_status' as an alternative to 'new_status'
         if triage_status is not None:
             new_status = triage_status
-        build_runs = data.get("build_runs", [])
-        for run in build_runs:
+        build_runs = data.get("build_runs", {}).values()
+        for run in build_runs.values():
             if run.get("id") == run_id:
                 run["triage_status"] = new_status
                 payload = {
@@ -135,11 +135,11 @@ class FindFileOwner(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], file_path: str) -> str:
-        ownership_map = data.get("ownership_map", [])
+        ownership_map = data.get("ownership_map", {}).values()
         most_specific_owner = None
         longest_match = -1
 
-        for ownership in ownership_map:
+        for ownership in ownership_map.values():
             owner_path = ownership.get("file_path")
             if file_path.startswith(owner_path):
                 if len(owner_path) > longest_match:
@@ -183,8 +183,8 @@ class GetUserById(Tool):
         id: Any = None,
         user_id: str = None
     ) -> str:
-        users = data.get("users", [])
-        for user in users:
+        users = data.get("users", {}).values()
+        for user in users.values():
             if user.get("id") == user_id:
                 payload = user
                 out = json.dumps(payload)
@@ -213,8 +213,8 @@ class GetUserByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None) -> str:
-        users = data.get("users", [])
-        for user in users:
+        users = data.get("users", {}).values()
+        for user in users.values():
             if user.get("name") == name:
                 payload = user
                 out = json.dumps(payload)
@@ -254,8 +254,8 @@ class CreateWorkItem(Tool):
         description: str = ""
     ) -> str:
         pass
-        work_items = data.get("work_items", [])
-        new_id_num = max([int(w["id"].split("_")[1]) for w in work_items]) + 1
+        work_items = data.get("work_items", {}).values()
+        new_id_num = max([int(w["id"].split("_")[1]) for w in work_items.values()]) + 1
         new_id = f"work_{new_id_num:03d}"
 
         new_item = {
@@ -271,7 +271,7 @@ class CreateWorkItem(Tool):
             "points": points,
             "metadata": {"description": description},
         }
-        work_items.append(new_item)
+        data["work_items"][work_item_id] = new_item
         payload = new_item
         out = json.dumps(payload)
         return out
@@ -311,9 +311,9 @@ class FindBugByCrashFingerprint(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], crash_fingerprint: str = None) -> str:
-        work_items = data.get("work_items", [])
-        for item in work_items:
-            if item.get("metadata", {}).get("crash_fingerprint") == crash_fingerprint:
+        work_items = data.get("work_items", {}).values()
+        for item in work_items.values():
+            if item.get("metadata", {}).values().get("crash_fingerprint") == crash_fingerprint:
                 payload = item
                 out = json.dumps(payload)
                 return out
@@ -341,7 +341,7 @@ class LinkWorkItems(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], parent_id: str = None, child_id: str = None, link_type: str = None) -> str:
-        links = data.get("work_item_links", [])
+        links = data.get("work_item_links", {}).values()
         max([int(w["parent_id"].split("_")[1]) for w in links]) + 1
 
         new_link = {
@@ -349,7 +349,7 @@ class LinkWorkItems(Tool):
             "child_id": child_id,
             "link_type": link_type,
         }
-        links.append(new_link)
+        data["work_item_labels"][new_link["work_item_label_id"]] = new_link
         payload = {
             "status": "success",
             "message": f"Linked {child_id} to {parent_id} as {link_type}.",
@@ -392,8 +392,8 @@ class AddCommentToWorkItem(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], id: str = None, comment: str = None) -> str:
         work_item_id = id
-        work_items = data.get("work_items", [])
-        for item in work_items:
+        work_items = data.get("work_items", {}).values()
+        for item in work_items.values():
             if item.get("id", "") == work_item_id:
                 break
         else:
@@ -443,8 +443,8 @@ class UpdateWorkItemState(Tool):
         item_id: str = None,
         new_state: str = None
     ) -> str:
-        work_items = data.get("work_items", [])
-        for item in work_items:
+        work_items = data.get("work_items", {}).values()
+        for item in work_items.values():
             if item.get("id") == item_id:
                 item["state"] = new_state
                 payload = {
@@ -481,8 +481,8 @@ class GetAssetByPath(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], asset_path: str = None) -> str:
         path = asset_path
-        assets = data.get("asset_catalog", [])
-        for asset in assets:
+        assets = data.get("asset_catalog", {}).values()
+        for asset in assets.values():
             if asset.get("asset_path") == path:
                 payload = asset
                 out = json.dumps(payload)
@@ -515,8 +515,8 @@ class UpdateAssetValidationStatus(Tool):
         id: Any = None,
         new_status: str = None
     ) -> str:
-        assets = data.get("asset_catalog", [])
-        for asset in assets:
+        assets = data.get("asset_catalog", {}).values()
+        for asset in assets.values():
             if asset.get("id") == asset_id:
                 asset["validation_status"] = new_status
                 payload = {
@@ -556,8 +556,8 @@ class GetCrashEventById(Tool):
         crash_id: str = None,
         id: Any = None
     ) -> str:
-        crashes = data.get("crash_events", [])
-        for crash in crashes:
+        crashes = data.get("crash_events", {}).values()
+        for crash in crashes.values():
             if crash.get("id") == crash_id:
                 payload = crash
                 out = json.dumps(payload)
@@ -595,8 +595,8 @@ class UpdateCrashEventStatus(Tool):
         # Support 'status' as an alternative to 'new_status'
         if status is not None:
             new_status = status
-        crashes = data.get("crash_events", [])
-        for crash in crashes:
+        crashes = data.get("crash_events", {}).values()
+        for crash in crashes.values():
             if crash.get("id") == crash_id:
                 crash["status"] = new_status
                 payload = {
@@ -633,8 +633,8 @@ class GetVulnerabilityById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], id: str = None) -> str:
         vuln_id = id
-        vulnerabilities = data.get("vulnerabilities", [])
-        for vuln in vulnerabilities:
+        vulnerabilities = data.get("vulnerabilities", {}).values()
+        for vuln in vulnerabilities.values():
             if vuln.get("id") == vuln_id:
                 payload = vuln
                 out = json.dumps(payload)
@@ -672,8 +672,8 @@ class UpdateVulnerabilityStatus(Tool):
         # Support 'status' as an alternative to 'new_status'
         if status is not None:
             new_status = status
-        vulnerabilities = data.get("vulnerabilities", [])
-        for vuln in vulnerabilities:
+        vulnerabilities = data.get("vulnerabilities", {}).values()
+        for vuln in vulnerabilities.values():
             if vuln.get("id") == vuln_id:
                 vuln["status"] = new_status
                 payload = {
@@ -714,8 +714,8 @@ class GetTranslationByKeyAndLocale(Tool):
     def invoke(data: dict[str, Any], string_key: str = None, locale: str = None) -> str:
         key = string_key
         locale = locale
-        translations = data.get("translations", [])
-        for t in translations:
+        translations = data.get("translations", {}).values()
+        for t in translations.values():
             if t.get("string_key") == key and t.get("locale") == locale:
                 payload = t
                 out = json.dumps(payload)
@@ -751,8 +751,8 @@ class UpdateTranslation(Tool):
         new_string: str = None,
         translation_id: str = None
     ) -> str:
-        translations = data.get("translations", [])
-        for t in translations:
+        translations = data.get("translations", {}).values()
+        for t in translations.values():
             if t.get("id") == translation_id:
                 t["target_string"] = new_string
                 payload = {
@@ -792,8 +792,8 @@ class UpdateTranslationValidationStatus(Tool):
         new_status: str = None,
         translation_id: str = None
     ) -> str:
-        translations = data.get("translations", [])
-        for t in translations:
+        translations = data.get("translations", {}).values()
+        for t in translations.values():
             if t.get("id") == translation_id:
                 t["validation_status"] = new_status
                 if new_status == "passed":
@@ -831,8 +831,8 @@ class AddRevisionHistoryEntry(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], translation_id: str = None, version: str = None, translation: str = None, translator: str = None, notes: str = None) -> str:
-        translations = data.get("translations", [])
-        for t in translations:
+        translations = data.get("translations", {}).values()
+        for t in translations.values():
             if t.get("id") == translation_id:
                 new_entry = {
                     "version": version,
@@ -890,7 +890,7 @@ class CreateFixProposal(Tool):
         title: str = None,
         description: str = None
     ) -> str:
-        fix_proposals = data.get("fix_proposals", [])
+        fix_proposals = data.get("fix_proposals", {}).values()
         new_id_num = (
             max([int(p["id"].split("_")[1]) for p in fix_proposals], default=0) + 1
         )
@@ -908,7 +908,7 @@ class CreateFixProposal(Tool):
             "title": title,
             "description": description,
         }
-        fix_proposals.append(new_proposal)
+        data["fix_proposals"][new_proposal["fix_proposal_id"]] = new_proposal
         payload = new_proposal
         out = json.dumps(payload)
         return out
@@ -950,8 +950,8 @@ class GetDeploymentById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], id: str = None) -> str:
         deployment_id = id
-        deployments = data.get("deployments", [])
-        for d in deployments:
+        deployments = data.get("deployments", {}).values()
+        for d in deployments.values():
             if d.get("id") == deployment_id:
                 payload = d
                 out = json.dumps(payload)
@@ -980,8 +980,8 @@ class GetRollbackByDeploymentId(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], deployment_id: str = None) -> str:
-        rollbacks = data.get("rollbacks", [])
-        for r in rollbacks:
+        rollbacks = data.get("rollbacks", {}).values()
+        for r in rollbacks.values():
             if r.get("deployment_id") == deployment_id:
                 payload = r
                 out = json.dumps(payload)
@@ -1011,8 +1011,8 @@ class CreateDeployment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], pipeline_id: str = None, environment_id: str = None, 
                deployed_by: str = None, version: str = None, status: str = None) -> str:
-        deployments = data.get("deployments", [])
-        new_id_num = max([int(d["id"].split("_")[1]) for d in deployments]) + 1
+        deployments = data.get("deployments", {}).values()
+        new_id_num = max([int(d["id"].split("_")[1]) for d in deployments.values()]) + 1
         new_id = f"deploy_{new_id_num:03d}"
 
         new_deployment = {
@@ -1025,7 +1025,7 @@ class CreateDeployment(Tool):
             "deployed_at": "2025-01-28T00:00:00Z",
             "duration_minutes": 0,
         }
-        deployments.append(new_deployment)
+        data["deployments"][deployment_id] = new_deployment
         payload = new_deployment
         out = json.dumps(payload)
         return out
@@ -1062,8 +1062,8 @@ class GetTeamByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None) -> str:
-        teams = data.get("teams", [])
-        for team in teams:
+        teams = data.get("teams", {}).values()
+        for team in teams.values():
             if team.get("name") == name:
                 payload = team
                 out = json.dumps(payload)
@@ -1092,8 +1092,8 @@ class GetTeamLead(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], team_id: str = None) -> str:
-        teams = data.get("teams", [])
-        for team in teams:
+        teams = data.get("teams", {}).values()
+        for team in teams.values():
             if team.get("id") == team_id:
                 lead_id = (
                     team.get("lead_engineer")
@@ -1107,8 +1107,8 @@ class GetTeamLead(Tool):
                     out = json.dumps(payload)
                     return out
 
-        teams = data.get("team_members", [])
-        for team in teams:
+        teams = data.get("team_members", {}).values()
+        for team in teams.values():
             if team.get("team_id") == team_id:
                 if team.get("role") == "team_lead":
                     payload = {"lead_id": team.get("user_id")}
@@ -1138,8 +1138,8 @@ class GetLabelByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None) -> str:
-        labels = data.get("labels", [])
-        for label in labels:
+        labels = data.get("labels", {}).values()
+        for label in labels.values():
             if label.get("name") == name:
                 payload = label
                 out = json.dumps(payload)
@@ -1168,12 +1168,12 @@ class AddLabelToWorkItem(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], work_item_id: str = None, label_id: str = None) -> str:
-        links = data.get("work_item_labels", [])
+        links = data.get("work_item_labels", {}).values()
         new_link = {
             "work_item_id": work_item_id,
             "label_id": label_id,
         }
-        links.append(new_link)
+        data["work_item_labels"][new_link["work_item_label_id"]] = new_link
         payload = {
                 "status": "success",
                 "message": f"Label '{label_id}' added to work item '{work_item_id}'.",
@@ -1205,8 +1205,8 @@ class GetPullRequestByNumber(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], repository_id: str = None, number: int = None) -> str:
-        prs = data.get("pull_requests", [])
-        for pr in prs:
+        prs = data.get("pull_requests", {}).values()
+        for pr in prs.values():
             if pr.get("repository_id") == repository_id and pr.get("number") == number:
                 payload = pr
                 out = json.dumps(payload)
@@ -1241,8 +1241,8 @@ class MergePullRequest(Tool):
         id: Any = None,
         pr_id: str = None
     ) -> str:
-        prs = data.get("pull_requests", [])
-        for pr in prs:
+        prs = data.get("pull_requests", {}).values()
+        for pr in prs.values():
             if pr.get("id") == pr_id:
                 pr["state"] = "merged"
                 pr["merged_at"] = "2025-01-28T00:00:00Z"
@@ -1275,8 +1275,8 @@ class GetBranchById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], id: str = None) -> str:
         branch_id = id
-        branches = data.get("branches", [])
-        for b in branches:
+        branches = data.get("branches", {}).values()
+        for b in branches.values():
             if b.get("id") == branch_id:
                 payload = b
                 out = json.dumps(payload)
@@ -1308,9 +1308,9 @@ class DeleteBranch(Tool):
         branch_id: str = None,
         id: Any = None
     ) -> str:
-        branches = data.get("branches", [])
+        branches = data.get("branches", {}).values()
         original_count = len(branches)
-        data["branches"] = [b for b in branches if b.get("id") != branch_id]
+        data["branches"] = [b for b in branches.values() if b.get("id") != branch_id]
         if len(data["branches"]) < original_count:
             payload = {"status": "success", "message": f"Branch '{branch_id}' deleted."}
             out = json.dumps(payload)
@@ -1342,11 +1342,11 @@ class FindWorkItemByPr(Tool):
         pass
         # This is a simulated implementation since there is no direct connection in the schema.
         # It will locate a work item that closely corresponds to the PR title.
-        prs = data.get("pull_requests", [])
-        work_items = data.get("work_items", [])
+        prs = data.get("pull_requests", {}).values()
+        work_items = data.get("work_items", {}).values()
 
         pr_title = ""
-        for pr in prs:
+        for pr in prs.values():
             if pr.get("repository_id") == repository_id and pr.get("number") == pr_number:
                 pr_title = pr.get("title", "").lower()
                 break
@@ -1356,7 +1356,7 @@ class FindWorkItemByPr(Tool):
             out = json.dumps(payload)
             return out
 
-        for item in work_items:
+        for item in work_items.values():
             if item.get("title", "").lower() in pr_title:
                 payload = item
                 out = json.dumps(payload)
@@ -1388,14 +1388,14 @@ class AddMemberToTeam(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], team_id: str = None, user_id: str = None, role: str = None) -> str:
-        members = data.get("team_members", [])
+        members = data.get("team_members", {}).values()
         new_member = {
             "team_id": team_id,
             "user_id": user_id,
             "role": role,
             "added_at": "2025-01-28T00:00:00Z",
         }
-        members.append(new_member)
+        data["team_members"][new_member["team_member_id"]] = new_member
         payload = {
             "status": "success",
             "message": f"User '{user_id}' added to team '{team_id}'.",
@@ -1428,8 +1428,8 @@ class GetAlertById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], id: str = None) -> str:
         alert_id = id
-        alerts = data.get("alerts", [])
-        for alert in alerts:
+        alerts = data.get("alerts", {}).values()
+        for alert in alerts.values():
             if alert.get("id") == alert_id:
                 payload = alert
                 out = json.dumps(payload)
@@ -1462,8 +1462,8 @@ class UpdateAlertState(Tool):
         id: Any = None,
         new_state: str = None
     ) -> str:
-        alerts = data.get("alerts", [])
-        for alert in alerts:
+        alerts = data.get("alerts", {}).values()
+        for alert in alerts.values():
             if alert.get("id") == alert_id:
                 alert["state"] = new_state
                 payload = {
@@ -1503,8 +1503,8 @@ class GetProjectById(Tool):
         id: Any = None,
         project_id: str = None
     ) -> str:
-        projects = data.get("projects", [])
-        for p in projects:
+        projects = data.get("projects", {}).values()
+        for p in projects.values():
             if p.get("id") == project_id:
                 payload = p
                 out = json.dumps(payload)
@@ -1533,11 +1533,11 @@ class FindProjectOwnerTeam(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], project_id: str = None) -> str:
-        repos = data.get("repositories", [])
-        teams = data.get("teams", [])
+        repos = data.get("repositories", {}).values()
+        teams = data.get("teams", {}).values()
 
         repo_id = None
-        for repo in repos:
+        for repo in repos.values():
             if repo.get("project_id") == project_id:
                 repo_id = repo.get("id")
                 break
@@ -1547,7 +1547,7 @@ class FindProjectOwnerTeam(Tool):
             out = json.dumps(payload)
             return out
 
-        for team in teams:
+        for team in teams.values():
             #"project_focus": ["proj_001", "proj_002", "proj_003"],
             if project_id in team["project_focus"]:
                 payload = {"team_id": team["id"]}
@@ -1581,8 +1581,8 @@ class UpdateProjectStatus(Tool):
         is_active: bool = None,
         project_id: str = None
     ) -> str:
-        projects = data.get("projects", [])
-        for p in projects:
+        projects = data.get("projects", {}).values()
+        for p in projects.values():
             if p.get("id") == project_id:
                 p["is_active"] = is_active
                 payload = {
@@ -1618,7 +1618,7 @@ class CreateRelease(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], project_id: str = None, version: str = None, notes: str = None, created_by: str = None) -> str:
-        releases = data.get("releases", [])
+        releases = data.get("releases", {}).values()
         new_id_num = max([int(r["id"].split("_")[1]) for r in releases]) + 1
         new_id = f"release_{new_id_num:03d}"
 
@@ -1630,7 +1630,7 @@ class CreateRelease(Tool):
             "created_at": "2025-01-28T00:00:00Z",
             "created_by": created_by,
         }
-        releases.append(new_release)
+        data["releases"][new_release["release_id"]] = new_release
         payload = new_release
         out = json.dumps(payload)
         return out
@@ -1660,8 +1660,8 @@ class GetRepositoriesForProject(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], project_id: str = None) -> str:
-        repos = data.get("repositories", [])
-        project_repos = [r for r in repos if r.get("project_id") == project_id]
+        repos = data.get("repositories", {}).values()
+        project_repos = [r for r in repos.values() if r.get("project_id") == project_id]
         payload = project_repos
         out = json.dumps(payload)
         return out
@@ -1687,8 +1687,8 @@ class GetTeamById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], id: str = None) -> str:
         team_id = id
-        teams = data.get("teams", [])
-        for team in teams:
+        teams = data.get("teams", {}).values()
+        for team in teams.values():
             if team.get("id") == team_id:
                 payload = team
                 out = json.dumps(payload)
@@ -1718,9 +1718,9 @@ class GetRepositoryByName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None) -> str:
         repo_name = name
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
 
-        for repo in repositories:
+        for repo in repositories.values():
             if repo.get("name") == repo_name:
                 payload = repo
                 out = json.dumps(payload)
@@ -1754,12 +1754,12 @@ class GetOwnerForBisect(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], bisect_id: str = None) -> str:
-        bisect_results = data.get("bisect_results", [])
-        ownership_map = data.get("ownership_map", [])
+        bisect_results = data.get("bisect_results", {}).values()
+        ownership_map = data.get("ownership_map", {}).values()
 
         #1. Locate the bisect result record
         bisect_record = None
-        for result in bisect_results:
+        for result in bisect_results.values():
             if result.get("id") == bisect_id:
                 bisect_record = result
                 break
@@ -1786,7 +1786,7 @@ class GetOwnerForBisect(Tool):
         #4. Identify the most specific owner for the primary suspect file using the ownership map
         most_specific_owner = None
         longest_match = -1
-        for ownership in ownership_map:
+        for ownership in ownership_map.values():
             owner_path = ownership.get("file_path")
             if primary_suspect_file.startswith(owner_path):
                 if len(owner_path) > longest_match:
@@ -1832,9 +1832,9 @@ class GetProjectIdForRepositoryName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], repository_name: str = None) -> str:
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
 
-        for repo in repositories:
+        for repo in repositories.values():
             if repo.get("name") == repository_name:
                 payload = {"project_id": repo.get("project_id")}
                 out = json.dumps(payload)
@@ -1870,10 +1870,10 @@ class SearchVulnerabilitiesByCVE(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cve: str = None) -> str:
         cve_id = cve
-        vulnerabilities = data.get("vulnerabilities", [])
+        vulnerabilities = data.get("vulnerabilities", {}).values()
 
         matching_vulnerabilities = [
-            vuln for vuln in vulnerabilities if vuln.get("cve") == cve_id
+            vuln for vuln in vulnerabilities.values() if vuln.get("cve") == cve_id
         ]
         payload = {"vulnerabilities": matching_vulnerabilities}
         out = json.dumps(payload)
@@ -1904,9 +1904,9 @@ class GetRepositoryByFullName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], repo_full_name: str = None) -> str:
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
 
-        for repo in repositories:
+        for repo in repositories.values():
             if repo.get("repo_full_name") == repo_full_name:
                 payload = repo
                 out = json.dumps(payload)
@@ -1940,10 +1940,10 @@ class SearchPullRequestsByRepositoryId(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], repository_id: str = None) -> str:
-        pull_requests = data.get("pull_requests", [])
+        pull_requests = data.get("pull_requests", {}).values()
 
         matching_prs = [
-            pr for pr in pull_requests if pr.get("repository_id") == repository_id
+            pr for pr in pull_requests.values() if pr.get("repository_id") == repository_id
         ]
         payload = {"pull_requests": matching_prs}
         out = json.dumps(payload)
@@ -1974,12 +1974,11 @@ class FindCrashesByCrashFingerprint(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], crash_fingerprint: str = None) -> str:
-        crash_events = data.get("crash_events", [])
+        crash_events = data.get("crash_events", {}).values()
 
         matching_crashes = [
             crash
-            for crash in crash_events
-            if crash.get("crash_fingerprint") == crash_fingerprint
+            for crash in crash_events.values() if crash.get("crash_fingerprint") == crash_fingerprint
         ]
         payload = {"crashes": matching_crashes}
         out = json.dumps(payload)
@@ -2011,9 +2010,9 @@ class GetProjectByName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None) -> str:
         project_name = name
-        projects = data.get("projects", [])
+        projects = data.get("projects", {}).values()
 
-        for project in projects:
+        for project in projects.values():
             if project.get("name") == project_name:
                 payload = project
                 out = json.dumps(payload)
@@ -2051,9 +2050,9 @@ class UpdatePullRequestState(Tool):
         new_state: str = None,
         pull_request_id: str = None
     ) -> str:
-        pull_requests = data.get("pull_requests", [])
+        pull_requests = data.get("pull_requests", {}).values()
 
-        for pr in pull_requests:
+        for pr in pull_requests.values():
             if pr.get("id") == pull_request_id:
                 pr["state"] = new_state
                 if new_state == "closed" and not pr.get("merged_at"):
@@ -2099,10 +2098,10 @@ class SearchPullRequestsByRepositoryId(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], repository_id: str = None) -> str:
-        pull_requests = data.get("pull_requests", [])
+        pull_requests = data.get("pull_requests", {}).values()
 
         matching_prs = [
-            pr for pr in pull_requests if pr.get("repository_id") == repository_id
+            pr for pr in pull_requests.values() if pr.get("repository_id") == repository_id
         ]
         payload = {"pull_requests": matching_prs}
         out = json.dumps(payload)
@@ -2138,8 +2137,8 @@ class CreateBranch(Tool):
         repository_id: str = None,
         source_branch_id: Any = None
     ) -> str:
-        branches = data.get("branches", [])
-        new_id_num = max([int(b["id"].split("_")[1]) for b in branches]) + 1
+        branches = data.get("branches", {}).values()
+        new_id_num = max([int(b["id"].split("_")[1]) for b in branches.values()]) + 1
         new_id = f"branch_{new_id_num:03d}"
 
         new_branch = {
@@ -2148,7 +2147,7 @@ class CreateBranch(Tool):
             "name": branch_name,
             "created_at": "2025-01-28T00:00:00Z",
         }
-        branches.append(new_branch)
+        data["branches"][new_branch["branche_id"]] = new_branch
         payload = new_branch
         out = json.dumps(payload)
         return out
@@ -2177,8 +2176,8 @@ class GetTmsJobByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], job_name: str = None) -> str:
-        jobs = data.get("tms_jobs", [])
-        for job in jobs:
+        jobs = data.get("tms_jobs", {}).values()
+        for job in jobs.values():
             if job.get("job_name") == job_name:
                 payload = job
                 out = json.dumps(payload)
@@ -2207,8 +2206,8 @@ class UpdateTmsJobStatus(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], job_id: str = None, status: str = None) -> str:
-        jobs = data.get("tms_jobs", [])
-        for job in jobs:
+        jobs = data.get("tms_jobs", {}).values()
+        for job in jobs.values():
             if job.get("id") == job_id:
                 job["status"] = status
                 payload = {
@@ -2247,7 +2246,7 @@ class FindPreviousSuccessfulDeployment(Tool):
         deployments = sorted(
             [
                 d
-                for d in data.get("deployments", [])
+                for d in data.get("deployments", {}).values()
                 if d.get("pipeline_id") == pipeline_id
                 and d.get("deployed_at") < before_timestamp
             ],
@@ -2255,7 +2254,7 @@ class FindPreviousSuccessfulDeployment(Tool):
             reverse=True,
         )
 
-        for d in deployments:
+        for d in deployments.values():
             if d.get("status") == "successful":
                 payload = d
                 out = json.dumps(payload)
@@ -2294,8 +2293,8 @@ class GetWorkItemAssignee(Tool):
         id: Any = None,
         item_id: str = None
     ) -> str:
-        work_items = data.get("work_items", [])
-        for item in work_items:
+        work_items = data.get("work_items", {}).values()
+        for item in work_items.values():
             if item.get("id") == item_id:
                 payload = {"assignee_id": item.get("assignee_id")}
                 out = json.dumps(payload)
@@ -2325,8 +2324,8 @@ class FindWorkItemByTitle(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], title: str = None) -> str:
         title_query = title
-        work_items = data.get("work_items", [])
-        for item in work_items:
+        work_items = data.get("work_items", {}).values()
+        for item in work_items.values():
             if title_query in item.get("title", ""):
                 payload = item
                 out = json.dumps(payload)
@@ -2375,8 +2374,8 @@ class GetTestResultById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], id: str = None) -> str:
         test_result_id = id
-        test_results = data.get("test_results", [])
-        for result in test_results:
+        test_results = data.get("test_results", {}).values()
+        for result in test_results.values():
             if result.get("id") == test_result_id:
                 payload = result
                 out = json.dumps(payload)
@@ -2410,10 +2409,10 @@ class GenerateFingerprintForTestResult(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], test_result_id: str = None) -> str:
-        test_results = data.get("test_results", [])
+        test_results = data.get("test_results", {}).values()
 
         test_result = None
-        for result in test_results:
+        for result in test_results.values():
             if result.get("id") == test_result_id:
                 test_result = result
                 break
@@ -2471,18 +2470,18 @@ class FindTestRunForBuildRun(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], build_run_id: str = None) -> str:
-        build_runs = data.get("build_runs", [])
-        test_runs = data.get("test_runs", [])
-        pipelines = data.get("pipelines", [])
+        build_runs = data.get("build_runs", {}).values()
+        test_runs = data.get("test_runs", {}).values()
+        pipelines = data.get("pipelines", {}).values()
 
-        build_run = next((b for b in build_runs if b.get("id") == build_run_id), None)
+        build_run = next((b for b in build_runs.values() if b.get("id") == build_run_id), None)
         if not build_run:
             payload = {"error": f"Build run with ID '{build_run_id}' not found."}
             out = json.dumps(payload)
             return out
 
         pipeline = next(
-            (p for p in pipelines if p.get("name") == build_run.get("pipeline_name")),
+            (p for p in pipelines.values() if p.get("name") == build_run.get("pipeline_name")),
             None,
         )
         if not pipeline:
@@ -2495,7 +2494,7 @@ class FindTestRunForBuildRun(Tool):
         build_start = build_run.get("started_at")
         build_end = build_run.get("ended_at")
 
-        for test_run in test_runs:
+        for test_run in test_runs.values():
             if test_run.get("pipeline_id") == pipeline.get("id"):
                 test_time = test_run.get("created_at")
                 if build_start <= test_time <= build_end:
@@ -2531,12 +2530,11 @@ class FindFailedTestResultsForTestRun(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], test_run_id: str = None) -> str:
-        test_results = data.get("test_results", [])
+        test_results = data.get("test_results", {}).values()
 
         failed_tests = [
             tr
-            for tr in test_results
-            if tr.get("test_run_id") == test_run_id and tr.get("status") == "failed"
+            for tr in test_results.values() if tr.get("test_run_id") == test_run_id and tr.get("status") == "failed"
         ]
 
         if not failed_tests:
@@ -2572,8 +2570,8 @@ class GetBranchByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], repository_id: str = None, branch_name: str = None) -> str:
-        branches = data.get("branches", [])
-        for branch in branches:
+        branches = data.get("branches", {}).values()
+        for branch in branches.values():
             if (
                 branch.get("repository_id") == repository_id
                 and branch.get("name") == branch_name
@@ -2622,13 +2620,13 @@ class SendNotification(Tool):
         recipient_id: str = None,
         channel: str = "slack"
     ) -> str:
-        notifications = data.get("notifications", [])
+        notifications = data.get("notifications", {}).values()
 
         # Create a new distinct ID
         if not notifications:
             new_id_num = 1
         else:
-            new_id_num = max(int(n["id"].split("_")[1]) for n in notifications) + 1
+            new_id_num = max(int(n["id"].split("_")[1]) for n in notifications.values() + 1
         new_id = f"notification_{new_id_num:03d}"
 
         # Construct the new notification object
@@ -2644,7 +2642,7 @@ class SendNotification(Tool):
             "read_at": None,
         }
 
-        notifications.append(new_notification)
+        data["notifications"][notification_id] = new_notification
         payload = {
             "status": "success",
             "message": f"Notification '{new_id}' sent successfully.",
@@ -2700,10 +2698,10 @@ class FindFullPathForFileName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], file_name: str = None) -> str:
-        ownership_map = data.get("ownership_map", [])
+        ownership_map = data.get("ownership_map", {}).values()
 
         # Look for a file path that concludes with the specified file name.
-        for ownership in ownership_map:
+        for ownership in ownership_map.values():
             if ownership.get("file_path", "").endswith(file_name):
                 payload = {"file_path": ownership.get("file_path")}
                 out = json.dumps(payload)
@@ -2738,8 +2736,8 @@ class GetPipelineById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], id: str = None) -> str:
         pipeline_id = id
-        pipelines = data.get("pipelines", [])
-        for p in pipelines:
+        pipelines = data.get("pipelines", {}).values()
+        for p in pipelines.values():
             if p.get("id") == pipeline_id:
                 payload = p
                 out = json.dumps(payload)

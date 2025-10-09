@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAllPitchesByHitterIds(Tool):
@@ -26,11 +26,11 @@ class GetAllPitchesByHitterIds(Tool):
             return out
 
         #2) Retrieve DB
-        pitches: list[dict[str, Any]] = data.get("pitches", [])
+        pitches: list[dict[str, Any]] = data.get("pitches", {}).values()
 
         #3) Apply filter
         id_set = set(hitter_ids)
-        matches = [p for p in pitches if p.get("hitter_id") in id_set]
+        matches = [p for p in pitches.values() if p.get("hitter_id") in id_set]
         if not matches:
             payload = {"error": f"No pitches found for hitter_ids {hitter_ids}"}
             out = json.dumps(

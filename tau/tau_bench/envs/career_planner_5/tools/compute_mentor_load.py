@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ComputeMentorLoad(Tool):
@@ -16,7 +16,7 @@ class ComputeMentorLoad(Tool):
         """Calculate the number of active mentees for a mentor."""
         count = sum(
             1
-            for rel in data.get("user_mentorship_relationships", [])
+            for rel in data.get("user_mentorship_relationships", {}).values()
             if rel["mentor_id"] == mentor_id and rel["status"] == "Active"
         )
         payload = {"current_mentees": count}

@@ -13,7 +13,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -22,7 +22,7 @@ def _find_aircraft(
     data: dict[str, Any], aircraft_id: str | None, tail_number: str | None
 ) -> dict[str, Any] | None:
     pass
-    for a in data.get("aircraft", []):
+    for a in data.get("aircraft", {}).values():
         if aircraft_id and a.get("aircraft_id") == aircraft_id:
             return a
         if tail_number and a.get("tail_number") == tail_number:
@@ -42,7 +42,7 @@ def _get_aircraft_model_by_id(
 ) -> dict[str, Any] | None:
     pass
     mid = (model_id or "").upper()
-    for m in data.get("aircraft_models", []):
+    for m in data.get("aircraft_models", {}).values():
         if (m.get("model_id") or "").upper() == mid:
             return m
     return None
@@ -50,7 +50,7 @@ def _get_aircraft_model_by_id(
 
 def _get_flight(data: dict[str, Any], flight_number: str) -> dict[str, Any] | None:
     pass
-    for f in data.get("flights", []):
+    for f in data.get("flights", {}).values():
         if f.get("flight_number") == flight_number:
             return f
     return None
@@ -63,13 +63,13 @@ def _round2(x) -> float:
 
 def _load_flights(data: dict[str, Any]) -> list[dict[str, Any]]:
     pass
-    return data.get("flights", [])
+    return data.get("flights", {}).values()
 
 
 def _get_airport_by_iata(data: dict[str, Any], iata_code: str) -> dict[str, Any] | None:
     pass
     iata = (iata_code or "").upper()
-    for a in data.get("airports", []):
+    for a in data.get("airports", {}).values():
         if a.get("iata_code") == iata:
             return a
     return None
@@ -77,14 +77,14 @@ def _get_airport_by_iata(data: dict[str, Any], iata_code: str) -> dict[str, Any]
 
 def _next_change_id(data: dict[str, Any], prefix: str = "PC") -> str:
     pass
-    seq = data.setdefault("_seq", {}).get("price_change_id", 0) + 1
+    seq = data.setdefault("_seq", []).get("price_change_id", 0) + 1
     data["_seq"]["price_change_id"] = seq
     return f"{prefix}{seq:06d}"
 
 
 def _get_date_record(flight: dict[str, Any], day: str) -> dict[str, Any] | None:
     pass
-    return (flight or {}).get("dates", {}).get(day)
+    return (flight or {}).get("dates", {}).values().get(day)
 
 
 def _get_reservation(data, reservation_id):
@@ -105,7 +105,7 @@ def _get_reservation(data, reservation_id):
                 return r
         return None
     #fallback in list format
-    for r in res or []:
+    for r in res.values() or []:
         if isinstance(r, dict) and r.get("reservation_id") == reservation_id:
             return r
     return None
@@ -117,7 +117,7 @@ import re
 def _get_cert_by_id(data: dict[str, Any], cert_id: str) -> dict[str, Any] | None:
     pass
     target = _norm(cert_id)
-    for c in data.get("certifications", []):
+    for c in data.get("certifications", {}).values():
         if _norm(c.get("certification_id")) == target:
             return c
     return None
@@ -136,7 +136,7 @@ def _find_crew_member(
 ) -> dict[str, Any] | None:
     pass
     target = _norm(crew_member_id)
-    for cm in data.get("crew_members", []):
+    for cm in data.get("crew_members", {}).values():
         if _norm(cm.get("crew_member_id")) == target:
             return cm
     return None
@@ -145,12 +145,12 @@ def _find_crew_member(
 def _get_cert_by_code(data: dict[str, Any], code: str) -> dict[str, Any] | None:
     pass
     target = _norm(code)
-    for c in data.get("certifications", []):
+    for c in data.get("certifications", {}).values():
         c_code = _norm(c.get("certification_code"))
         if c_code == target:
             return c
     #fallback: attempt to use common alias field names if they exist (no operation if they do not)
-    for c in data.get("certifications", []):
+    for c in data.get("certifications", {}).values():
         #occasionally datasets include 'model_id' or 'code'
         for alt_key in ("model_id", "code", "name", "model"):
             if _norm(c.get(alt_key)) == target:
@@ -340,7 +340,7 @@ class ListAllFaresByRoute(Tool):
 
         flights = _load_flights(data)
         rows: list[dict[str, Any]] = []
-        for f in flights:
+        for f in flights.values():
             if f.get("origin") == origin and f.get("destination") == destination:
                 for d, info in (f.get("dates") or {}).items():
                     if (
@@ -404,7 +404,7 @@ class ListAllFaresByRoute(Tool):
 
         flights = _load_flights(data)
         rows: list[dict[str, Any]] = []
-        for f in flights:
+        for f in flights.values():
             if f.get("origin") == origin and f.get("destination") == destination:
                 for d, info in (f.get("dates") or {}).items():
                     if (
@@ -505,16 +505,16 @@ class ComputeCheapestByDateForRoute(Tool):
             )
 
         CABINS = ["basic_economy", "economy", "business"]
-        req_cabins = [c for c in cabins if c in CABINS]
+        req_cabins = [c for c in cabins.values() if c in CABINS]
         if not req_cabins:
             return _json({"error": "fare_class_not_found"})
         if price_component != "base_fare":
             return _json({"error": "invalid_price_component"})
 
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         agg: dict[str, dict[str, tuple[float, str]]] = {}
 
-        for f in flights:
+        for f in flights.values():
             if not isinstance(f, dict):
                 continue
             if (f.get("origin") or "").upper() != origin:
@@ -545,7 +545,7 @@ class ComputeCheapestByDateForRoute(Tool):
 
                 prices = rec.get("prices") or {}
                 seat_map = rec.get("available_seats") or {}
-                bucket = agg.setdefault(d, {})
+                bucket = agg.setdefault(d, {}).values()
 
                 for cab in req_cabins:
                     if require_available:
@@ -627,16 +627,16 @@ class ComputeCheapestByDateForRoute(Tool):
             )
 
         CABINS = ["basic_economy", "economy", "business"]
-        req_cabins = [c for c in cabins if c in CABINS]
+        req_cabins = [c for c in cabins.values() if c in CABINS]
         if not req_cabins:
             return _json({"error": "fare_class_not_found"})
         if price_component != "base_fare":
             return _json({"error": "invalid_price_component"})
 
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         agg: dict[str, dict[str, tuple[float, str]]] = {}
 
-        for f in flights:
+        for f in flights.values():
             if not isinstance(f, dict):
                 continue
             if (f.get("origin") or "").upper() != origin:
@@ -667,7 +667,7 @@ class ComputeCheapestByDateForRoute(Tool):
 
                 prices = rec.get("prices") or {}
                 seat_map = rec.get("available_seats") or {}
-                bucket = agg.setdefault(d, {})
+                bucket = agg.setdefault(d, {}).values()
 
                 for cab in req_cabins:
                     if require_available:
@@ -1247,7 +1247,7 @@ class GetAverageTicketPrice(Tool):
         q1, q3 = q(25), q(75)
         iqr = q3 - q1
         lo, hi = q1 - k * iqr, q3 + k * iqr
-        return [v for v in vals if lo <= v <= hi]
+        return [v for v in vals.values() if lo <= v <= hi]
 
     @staticmethod
     def _collect_prices(flight, fare_class, start_date, end_date, exclude_dates):
@@ -1431,9 +1431,9 @@ class GetOperationalEvents(Tool):
     ) -> str:
         types = {_norm_status(t) for t in (types or [])}
 
-        events_src = data.get("operational_events", [])
+        events_src = data.get("operational_events", {}).values()
         out: list[dict[str, Any]] = []
-        for ev in events_src:
+        for ev in events_src.values():
             # be accommodating to schema: date / event_date / timestamp
             raw = ev.get("date") or ev.get("event_date") or ev.get("timestamp")
             if not raw:
@@ -1456,9 +1456,9 @@ class GetOperationalEvents(Tool):
         pass
         types = {_norm_status(t) for t in (types or [])}
 
-        events_src = data.get("operational_events", [])
+        events_src = data.get("operational_events", {}).values()
         out: list[dict[str, Any]] = []
-        for ev in events_src:
+        for ev in events_src.values():
             #be accommodating to schema: date / event_date / timestamp
             raw = ev.get("date") or ev.get("event_date") or ev.get("timestamp")
             if not raw:
@@ -1555,12 +1555,12 @@ class GetFlownRevenueForFlight(Tool):
         if price_component not in ("base_fare", "total"):
             return _json({"error": "invalid_price_component"})
 
-        reservations = data.get("reservations", [])
-        flights = data.get("flights", [])
+        reservations = data.get("reservations", {}).values()
+        flights = data.get("flights", {}).values()
 
         flight_date_status = {}
         if require_available:
-            for f in flights if isinstance(flights, list) else []:
+            for f in flights.values() if isinstance(flights, list) else []:
                 if f.get("flight_number") == flight_number:
                     for d, rec in (f.get("dates") or {}).items():
                         flight_date_status[(flight_number, d)] = _norm_status(
@@ -1579,7 +1579,7 @@ class GetFlownRevenueForFlight(Tool):
         details: list[dict[str, Any]] = []
 
         if isinstance(reservations, list):
-            for res in reservations:
+            for res in reservations.values():
                 reservations_scanned += 1
                 legs = res.get("flights") or res.get("legs") or []
                 if not legs:
@@ -1650,12 +1650,12 @@ class GetFlownRevenueForFlight(Tool):
         if price_component not in ("base_fare", "total"):
             return _json({"error": "invalid_price_component"})
 
-        reservations = data.get("reservations", [])
-        flights = data.get("flights", [])
+        reservations = data.get("reservations", {}).values()
+        flights = data.get("flights", {}).values()
 
         flight_date_status = {}
         if require_available:
-            for f in flights if isinstance(flights, list) else []:
+            for f in flights.values() if isinstance(flights, list) else []:
                 if f.get("flight_number") == flight_number:
                     for d, rec in (f.get("dates") or {}).items():
                         flight_date_status[(flight_number, d)] = _norm_status(
@@ -1674,7 +1674,7 @@ class GetFlownRevenueForFlight(Tool):
         details: list[dict[str, Any]] = []
 
         if isinstance(reservations, list):
-            for res in reservations:
+            for res in reservations.values():
                 reservations_scanned += 1
                 legs = res.get("flights") or res.get("legs") or []
                 if not legs:
@@ -1861,8 +1861,8 @@ class GetFlightStatusByDate(Tool):
 class GetAircraftByTailNumber(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], tail_number: str) -> str:
-        aircraft_list = data.get("aircraft", [])
-        for aircraft in aircraft_list:
+        aircraft_list = data.get("aircraft", {}).values()
+        for aircraft in aircraft_list.values():
             if aircraft.get("tail_number") == tail_number:
                 #standardize status casing prior to returning
                 out = dict(aircraft)
@@ -2255,12 +2255,12 @@ class SetTicketPrice(Tool):
         price: float,
         require_available: bool = False
     ) -> str:
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         if isinstance(flights, dict):
             f = flights.get(flight_number)
         elif isinstance(flights, list):
             f = next(
-                (row for row in flights if row.get("flight_number") == flight_number),
+                (row for row in flights.values() if row.get("flight_number") == flight_number),
                 None,
             )
         else:
@@ -2269,7 +2269,7 @@ class SetTicketPrice(Tool):
         if not f:
             return _json({"error": "flight_not_found", "flight_number": flight_number})
 
-        d = f.get("dates", {}).get(date) if isinstance(f.get("dates"), dict) else None
+        d = f.get("dates", {}).values().get(date) if isinstance(f.get("dates"), dict) else None
         if not d:
             return _json({"error": "date_not_found", "date": date})
 
@@ -2284,7 +2284,7 @@ class SetTicketPrice(Tool):
                 }
             )
 
-        inv = d.setdefault("inventory", {}).setdefault(fare_class, {})
+        inv = d.setdefault("inventory", {}).values().setdefault(fare_class, {}).values()
         inv["price"] = float(price)
 
         return _json(
@@ -2298,12 +2298,12 @@ class SetTicketPrice(Tool):
             }
         )
         pass
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         if isinstance(flights, dict):
             f = flights.get(flight_number)
         elif isinstance(flights, list):
             f = next(
-                (row for row in flights if row.get("flight_number") == flight_number),
+                (row for row in flights.values() if row.get("flight_number") == flight_number),
                 None,
             )
         else:
@@ -2312,7 +2312,7 @@ class SetTicketPrice(Tool):
         if not f:
             return _json({"error": "flight_not_found", "flight_number": flight_number})
 
-        d = f.get("dates", {}).get(date) if isinstance(f.get("dates"), dict) else None
+        d = f.get("dates", {}).values().get(date) if isinstance(f.get("dates"), dict) else None
         if not d:
             return _json({"error": "date_not_found", "date": date})
 
@@ -2327,7 +2327,7 @@ class SetTicketPrice(Tool):
                 }
             )
 
-        inv = d.setdefault("inventory", {}).setdefault(fare_class, {})
+        inv = d.setdefault("inventory", {}).values().setdefault(fare_class, {}).values()
         inv["price"] = float(price)
 
         return _json(
@@ -2577,7 +2577,7 @@ class RemoveDiscountFromFlight(Tool):
         #--- Approach 1: revert based on audit ---
         audits = [
             a
-            for a in data.get("price_changes", [])
+            for a in data.get("price_changes", {}).values()
             if isinstance(a, dict) and a.get("type") == "discount"
         ]
 
@@ -2605,7 +2605,7 @@ class RemoveDiscountFromFlight(Tool):
                 a
                 for a in audits
                 if match_base(a) and a.get("fare_class") == resolved_cabin
-            ] or [a for a in audits if match_base(a)]
+            ] or [a for a in audits.values() if match_base(a)]
             candidates.sort(key=lambda x: id_seq(x.get("id")), reverse=True)
             audit_row = candidates[0] if candidates else None
 
@@ -2790,7 +2790,7 @@ class RemoveDiscountFromFlight(Tool):
         #--- Approach 1: revert based on audit ---
         audits = [
             a
-            for a in data.get("price_changes", [])
+            for a in data.get("price_changes", {}).values()
             if isinstance(a, dict) and a.get("type") == "discount"
         ]
 
@@ -2818,7 +2818,7 @@ class RemoveDiscountFromFlight(Tool):
                 a
                 for a in audits
                 if match_base(a) and a.get("fare_class") == resolved_cabin
-            ] or [a for a in audits if match_base(a)]
+            ] or [a for a in audits.values() if match_base(a)]
             candidates.sort(key=lambda x: id_seq(x.get("id")), reverse=True)
             audit_row = candidates[0] if candidates else None
 
@@ -3432,10 +3432,10 @@ class UpdateFlightSchedule(Tool):
 
         changed = 0
         preview = []
-        f.setdefault("dates", {})
+        f.setdefault("dates", {}).values()
 
         for d in sorted(targets):
-            rec = f["dates"].setdefault(d, {})
+            rec = f["dates"].setdefault(d, {}).values()
             before = {
                 "status": _norm_status(rec.get("status")),
                 "aircraft": rec.get("aircraft"),
@@ -3534,10 +3534,10 @@ class UpdateFlightSchedule(Tool):
 
         changed = 0
         preview = []
-        f.setdefault("dates", {})
+        f.setdefault("dates", {}).values()
 
         for d in sorted(targets):
-            rec = f["dates"].setdefault(d, {})
+            rec = f["dates"].setdefault(d, {}).values()
             before = {
                 "status": _norm_status(rec.get("status")),
                 "aircraft": rec.get("aircraft"),
@@ -4106,7 +4106,7 @@ class GetAircraftProfile(Tool):
 
         # locate aircraft
         ac = None
-        for a in data.get("aircraft", []):
+        for a in data.get("aircraft", {}).values():
             if aircraft_id and a.get("aircraft_id") == aircraft_id:
                 ac = a
                 break
@@ -4195,7 +4195,7 @@ class ListAircraftAtAirport(Tool):
         airport = _get_airport_by_iata(data, iata)
 
         rows: list[dict[str, Any]] = []
-        for a in data.get("aircraft", []):
+        for a in data.get("aircraft", {}).values():
             loc = (a.get("location") or {}).get("iata_code")
             if (loc or "").upper() != iata:
                 continue
@@ -4307,7 +4307,7 @@ class RepositionAircraft(Tool):
                 }
             )
 
-        ac.setdefault("location", {})
+        ac.setdefault("location", {}).values()
         ac["location"]["iata_code"] = to_iata
 
         audit_id = _next_change_id(data, prefix="AM")
@@ -4368,7 +4368,7 @@ class RepositionAircraft(Tool):
                 }
             )
 
-        ac.setdefault("location", {})
+        ac.setdefault("location", {}).values()
         ac["location"]["iata_code"] = to_iata
 
         audit_id = _next_change_id(data, prefix="AM")
@@ -4616,7 +4616,7 @@ class GetCrewCertifications(Tool):
 
         # Gather and filter
         rows = []
-        for cc in data.get("crew_certifications", []):
+        for cc in data.get("crew_certifications", {}).values():
             cm = (cc.get("crew_member") or {}).get("crew_member_id")
             cert = cc.get("certification") or {}
             code = cert.get("certification_code")
@@ -4898,7 +4898,7 @@ class UpsertCrewCertification(Tool):
                 action = "created"
 
         #predictable audit (prevent duplicate audits with the same id)
-        if not any(a.get("id") == audit_id for a in audits):
+        if not any(a.get("id") == audit_id for a in audits.values()):
             audits.append(
                 {
                     "id": audit_id,
@@ -4987,7 +4987,7 @@ class UpdateFlightInventoryAndPrices(Tool):
     def _existing_cabins(route: dict[str, Any], date: str) -> set[str]:
         pass
         cabins: set[str] = set()
-        dates = route.get("dates", {})
+        dates = route.get("dates", {}).values()
         if date in dates:
             di = dates[date] or {}
             cabins |= set((di.get("available_seats") or {}).keys())
@@ -5017,7 +5017,7 @@ class UpdateFlightInventoryAndPrices(Tool):
         if not route:
             return _json({"error": "flight_not_found", "flight_number": flight_number})
 
-        dates = route.setdefault("dates", {})
+        dates = route.setdefault("dates", {}).values()
         date_info = dates.setdefault(
             date, {"status": "available", "available_seats": {}, "prices": {}}
         )
@@ -5043,7 +5043,7 @@ class UpdateFlightInventoryAndPrices(Tool):
         if available_seats is not None:
             if not isinstance(available_seats, dict):
                 return _json({"error": "invalid_available_seats_type"})
-            seat_map = date_info.setdefault("available_seats", {})
+            seat_map = date_info.setdefault("available_seats", {}).values()
             for k, v in available_seats.items():
                 try:
                     iv = int(v)
@@ -5059,7 +5059,7 @@ class UpdateFlightInventoryAndPrices(Tool):
         if prices is not None:
             if not isinstance(prices, dict):
                 return _json({"error": "invalid_prices_type"})
-            price_map = date_info.setdefault("prices", {})
+            price_map = date_info.setdefault("prices", {}).values()
             for k, v in prices.items():
                 try:
                     fv = float(v)
@@ -5086,8 +5086,8 @@ class UpdateFlightInventoryAndPrices(Tool):
                 "flight_number": flight_number,
                 "date": date,
                 "status": _norm_status(date_info.get("status")),
-                "available_seats": date_info.get("available_seats", {}),
-                "prices": date_info.get("prices", {}),
+                "available_seats": date_info.get("available_seats", {}).values()),
+                "prices": date_info.get("prices", {}).values()),
                 "updated": updated,
                 # "existing_cabins": sorted(list(_cabins_existing))  # uncomment if beneficial
             }
@@ -5138,10 +5138,10 @@ class AssignAircraftToFlight(Tool):
     def invoke(
         data: dict[str, Any], flight_number: str, date: str, new_aircraft_id: str
     ) -> str:
-        flights_data = data.get("flights", [])
-        for flight in flights_data:
+        flights_data = data.get("flights", {}).values()
+        for flight in flights_data.values():
             if flight.get("flight_number") == flight_number:
-                if date in flight.get("dates", {}):
+                if date in flight.get("dates", {}).values():
                     flight["dates"][date][
                         "notes"
                     ] = f"Aircraft reassigned to {new_aircraft_id}"

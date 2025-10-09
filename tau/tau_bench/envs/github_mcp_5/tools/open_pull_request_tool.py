@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class OpenPullRequestTool(Tool):
@@ -63,7 +63,7 @@ class OpenPullRequestTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", [])
+        prs = data.get("pull_requests", {}).values()
         new_number = len(prs) + 1
         new_pr = {
             "repo": repo_name,
@@ -78,7 +78,7 @@ class OpenPullRequestTool(Tool):
         new_pr["pr_id"] = _safe_id(
             new_pr, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"]
         )
-        prs.append(new_pr)
+        data["pull_requests"][new_pr["pull_request_id"]] = new_pr
         return _response("ok", new_pr)
     @staticmethod
     def get_info() -> dict[str, Any]:

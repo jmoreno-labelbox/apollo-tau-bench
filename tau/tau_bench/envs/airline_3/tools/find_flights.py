@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindFlights(Tool):
@@ -61,10 +61,10 @@ class FindFlights(Tool):
             return out
 
         # Look for flights
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         matching_flights = []
 
-        for flight in flights:
+        for flight in flights.values():
             # Verify route compatibility
             if (
                 flight.get("origin") == origin
@@ -72,7 +72,7 @@ class FindFlights(Tool):
             ):
 
                 # Determine if the flight is operational on the given date
-                flight_dates = flight.get("dates", {})
+                flight_dates = flight.get("dates", {}).values()
                 if date in flight_dates:
                     date_info = flight_dates[date]
 
@@ -90,7 +90,7 @@ class FindFlights(Tool):
                                 "scheduled_arrival_time_est"
                             ),
                             "available_seats": date_info.get("available_seats", 0),
-                            "prices": date_info.get("prices", {}),
+                            "prices": date_info.get("prices", {}).values()),
                             "aircraft_id": flight.get("aircraft_id"),
                         }
 
@@ -100,27 +100,27 @@ class FindFlights(Tool):
                                 flight_result["selected_cabin_price"] = flight_result[
                                     "prices"
                                 ][cabin_class]
-                                matching_flights.append(flight_result)
+                                matching_data["flights"][flight_result["flight_id"]] = flight_result
                         else:
                             # Incorporate all accessible cabin classes
-                            matching_flights.append(flight_result)
+                            matching_data["flights"][flight_result["flight_id"]] = flight_result
 
         # Implement price filtering
         if max_price is not None:
             filtered_flights = []
             for flight in matching_flights:
-                prices = flight.get("prices", {})
+                prices = flight.get("prices", {}).values()
                 if any(price <= max_price for price in prices.values()):
-                    filtered_flights.append(flight)
+                    filtered_data["flights"][flight["flight_id"]] = flight
             matching_flights = filtered_flights
 
         # Arrange flights by price (starting with the lowest)
         if matching_flights:
             # Retrieve the minimum price for each flight for sorting purposes
             for flight in matching_flights:
-                prices = flight.get("prices", {})
+                prices = flight.get("prices", {}).values()
                 if prices:
-                    flight["lowest_price"] = min(prices.values())
+                    flight["lowest_price"] = min(prices.values()
                 else:
                     flight["lowest_price"] = float("inf")
 
@@ -143,7 +143,7 @@ class FindFlights(Tool):
         if matching_flights:
             all_prices = []
             for flight in matching_flights:
-                prices = flight.get("prices", {})
+                prices = flight.get("prices", {}).values()
                 for cabin, price in prices.items():
                     all_prices.append(
                         {

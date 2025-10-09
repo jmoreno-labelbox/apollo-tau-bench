@@ -11,7 +11,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -27,10 +27,10 @@ class FindUsers(Tool):
         name = name
         research_field = research_field
 
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
 
         if user_id:
-            for user in users:
+            for user in users.values():
                 if user.get("person_id") == user_id:
                     payload = user
                     out = json.dumps(payload, indent=2)
@@ -49,8 +49,7 @@ class FindUsers(Tool):
 
         results = [
             user
-            for user in users
-            if (not name or name.lower() in user.get("name", "").lower())
+            for user in users.values() if (not name or name.lower() in user.get("name", "").lower())
             and (
                 not research_field
                 or research_field.lower() in user.get("research_field", "").lower()
@@ -111,7 +110,7 @@ class LaunchProject(Tool):
             "linked_articles": [],
             "funding_source_id": funding_source_id,
         }
-        data["projects"].append(new_project)
+        data["projects"][project_id] = new_project
         payload = {"success": True, "project": new_project}
         out = json.dumps(payload)
         return out
@@ -162,8 +161,8 @@ class ModifySubmissionStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        submissions = data.get("submissions", [])
-        for submission in submissions:
+        submissions = data.get("submissions", {}).values()
+        for submission in submissions.values():
             if submission.get("submission_id") == submission_id:
                 submission["status"] = new_status
                 payload = {
@@ -211,8 +210,8 @@ class AppointReviewer(Tool):
             out = json.dumps(payload)
             return out
 
-        submissions = data.get("submissions", [])
-        for submission in submissions:
+        submissions = data.get("submissions", {}).values()
+        for submission in submissions.values():
             if submission.get("submission_id") == submission_id:
                 if "assigned_reviewers" not in submission:
                     submission["assigned_reviewers"] = []
@@ -277,7 +276,7 @@ class SubmitReview(Tool):
             "recommendation": recommendation,
             "review_date": datetime.now().strftime("%Y-%m-%d"),
         }
-        data["reviews"].append(new_review)
+        data["reviews"][review_id] = new_review
         payload = {"success": True, "review": new_review}
         out = json.dumps(payload)
         return out
@@ -329,9 +328,9 @@ class GetReviewsForSubmission(Tool):
             out = json.dumps(payload)
             return out
 
-        reviews = data.get("reviews", [])
+        reviews = data.get("reviews", {}).values()
         submission_reviews = [
-            review for review in reviews if review.get("submission_id") == submission_id
+            review for review in reviews.values() if review.get("submission_id") == submission_id
         ]
         payload = submission_reviews
         out = json.dumps(payload, indent=2)
@@ -371,8 +370,8 @@ class ModifyProjectStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
-        for project in projects:
+        projects = data.get("projects", {}).values()
+        for project in projects.values():
             if project.get("project_id") == project_id:
                 if new_status:
                     project["status"] = new_status
@@ -435,8 +434,8 @@ class LinkArticleToProject(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
-        for project in projects:
+        projects = data.get("projects", {}).values()
+        for project in projects.values():
             if project.get("project_id") == project_id:
                 if "linked_articles" not in project:
                     project["linked_articles"] = []
@@ -495,10 +494,10 @@ class FindGrants(Tool):
         status = status
         min_grant_amount = min_grant_amount
 
-        sources = data.get("funding_sources", [])
+        sources = data.get("funding_sources", {}).values()
 
         if funding_source_id:
-            for source in sources:
+            for source in sources.values():
                 if source.get("funding_source_id") == funding_source_id:
                     payload = source
                     out = json.dumps(payload, indent=2)
@@ -509,7 +508,7 @@ class FindGrants(Tool):
             return out
 
         results = []
-        for source in sources:
+        for source in sources.values():
             area_match = (
                 not focus_area
                 or focus_area.lower() in source.get("focus_area", "").lower()
@@ -568,8 +567,8 @@ class AssignFundingToProject(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
-        for project in projects:
+        projects = data.get("projects", {}).values()
+        for project in projects.values():
             if project.get("project_id") == project_id:
                 project["funding_source_id"] = funding_source_id
                 payload = {
@@ -619,8 +618,8 @@ class AddResearcherToProjectTeam(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
-        for project in projects:
+        projects = data.get("projects", {}).values()
+        for project in projects.values():
             if project.get("project_id") == project_id:
                 # This presumes the data model can be enhanced with a 'team_members' list.
                 if "team_members" not in project:
@@ -691,7 +690,7 @@ class CreateResearchLog(Tool):
             "notes": notes,
             "relevance": relevance,
         }
-        data["research_logs"].append(new_log)
+        data["research_logs"][research_log_id] = new_log
         payload = {"success": True, "log_entry": new_log}
         out = json.dumps(payload)
         return out
@@ -746,11 +745,10 @@ class SearchResearchLogs(Tool):
                 payload)
             return out
 
-        logs = data.get("research_logs", [])
+        logs = data.get("research_logs", {}).values()
         results = [
             log
-            for log in logs
-            if (not researcher_id or log.get("researcher_id") == researcher_id)
+            for log in logs.values() if (not researcher_id or log.get("researcher_id") == researcher_id)
             and (not article_id or log.get("article_id") == article_id)
         ]
         payload = results
@@ -790,8 +788,8 @@ class GetUserSubscriptions(Tool):
             out = json.dumps(payload)
             return out
 
-        subscriptions = data.get("subscriptions", [])
-        user_subs = [sub for sub in subscriptions if sub.get("user_id") == user_id]
+        subscriptions = data.get("subscriptions", {}).values()
+        user_subs = [sub for sub in subscriptions.values() if sub.get("user_id") == user_id]
         payload = user_subs
         out = json.dumps(payload, indent=2)
         return out
@@ -829,10 +827,10 @@ class UpdateUserSubscriptions(Tool):
             out = json.dumps(payload)
             return out
 
-        subscriptions = data.get("subscriptions", [])
+        subscriptions = data.get("subscriptions", {}).values()
         if action.lower() == "add":
             # Verify if the subscription is already present
-            for sub in subscriptions:
+            for sub in subscriptions.values()):
                 if (
                     sub.get("user_id") == user_id
                     and sub.get("topic", "").lower() == topic.lower()
@@ -848,7 +846,7 @@ class UpdateUserSubscriptions(Tool):
                 "user_id": user_id,
                 "topic": topic,
             }
-            subscriptions.append(new_sub)
+            data["subscriptions"][subscription_id] = new_sub
             payload = {"success": True, "subscription": new_sub}
             out = json.dumps(payload)
             return out
@@ -856,8 +854,7 @@ class UpdateUserSubscriptions(Tool):
             initial_len = len(subscriptions)
             data["subscriptions"] = [
                 sub
-                for sub in subscriptions
-                if not (
+                for sub in subscriptions.values() if not (
                     sub.get("user_id") == user_id
                     and sub.get("topic", "").lower() == topic.lower()
                 )
@@ -919,8 +916,8 @@ class UpdateUserPreferences(Tool):
             out = json.dumps(payload)
             return out
 
-        preferences = data.get("user_preferences", [])
-        for pref in preferences:
+        preferences = data.get("user_preferences", {}).values()
+        for pref in preferences.values():
             if pref.get("user_id") == user_id:
                 if notification_channel:
                     pref["notification_channel"] = notification_channel
@@ -936,7 +933,7 @@ class UpdateUserPreferences(Tool):
             new_pref["notification_channel"] = notification_channel
         if ui_theme:
             new_pref["ui_theme"] = ui_theme
-        preferences.append(new_pref)
+        data["user_preferences"][new_pref["user_preference_id"]] = new_pref
         payload = {"success": True, "created_preferences": new_pref}
         out = json.dumps(payload)
         return out
@@ -987,7 +984,7 @@ class NotifyUser(Tool):
             "timestamp": datetime.now().isoformat() + "Z",
             "status": "unread",
         }
-        data["notifications"].append(new_notification)
+        data["notifications"][notification_id] = new_notification
         payload = {"success": True, "notification": new_notification}
         out = json.dumps(payload)
         return out
@@ -1030,9 +1027,9 @@ class FindPublications(Tool):
             out = json.dumps(payload)
             return out
 
-        articles = data.get("articles", [])
+        articles = data.get("articles", {}).values()
         results = []
-        for article in articles:
+        for article in articles.values():
             title_match = not title or title.lower() in article.get("title", "").lower()
             author_match = not author_name or any(
                 author_name.lower() in author.lower()
@@ -1095,8 +1092,8 @@ class SummarizeArticleText(Tool):
             out = json.dumps(payload)
             return out
 
-        articles = data.get("articles", [])
-        for article in articles:
+        articles = data.get("articles", {}).values()
+        for article in articles.values():
             if article.get("article_id") == article_id:
                 # This serves as a mock summary tool. In an actual system, it would utilize NLP.
                 # In this case, we return only the abstract or a shortened version of the complete text.
@@ -1142,14 +1139,14 @@ class FindReferences(Tool):
             out = json.dumps(payload)
             return out
 
-        citations = data.get("citations", [])
+        citations = data.get("citations", {}).values()
         results = []
         if direction.lower() == "to":
             #Locate articles that have CITED the specified article_id
-            results = [c for c in citations if c.get("referenced_paper_id") == article_id]
+            results = [c for c in citations.values() if c.get("referenced_paper_id") == article_id]
         elif direction.lower() == "from":
             #Identify articles that are CITED BY the specified article_id
-            results = [c for c in citations if c.get("source_article_id") == article_id]
+            results = [c for c in citations.values() if c.get("source_article_id") == article_id]
         else:
             payload = {"error": "Invalid direction. Must be 'to' or 'from'."}
             out = json.dumps(payload)
@@ -1194,7 +1191,7 @@ class FindProjects(Tool):
     ) -> str:
         project_id = project_id
         if project_id:
-            for project in data.get("projects", []):
+            for project in data.get("projects", {}).values():
                 if project.get("project_id") == project_id:
                     payload = project
                     out = json.dumps(payload, indent=2)
@@ -1216,9 +1213,9 @@ class FindProjects(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
+        projects = data.get("projects", {}).values()
         results = []
-        for project in projects:
+        for project in projects.values():
             name_match = (
                 not project_name
                 or project_name.lower() in project.get("project_name", "").lower()
@@ -1290,8 +1287,8 @@ class GetUserPreferences(Tool):
             out = json.dumps(payload)
             return out
 
-        preferences = data.get("user_preferences", [])
-        for pref in preferences:
+        preferences = data.get("user_preferences", {}).values()
+        for pref in preferences.values():
             if pref.get("user_id") == user_id:
                 payload = pref
                 out = json.dumps(payload, indent=2)
@@ -1327,10 +1324,10 @@ class LookupSubmissions(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], *, submission_id: Any = None, article_id: Any = None, author_user_id: Any = None, status: Any = None) -> str:
-        submissions = data.get("submissions", [])
+        submissions = data.get("submissions", {}).values()
 
         if submission_id:
-            for sub in submissions:
+            for sub in submissions.values():
                 if sub.get("submission_id") == submission_id:
                     payload = sub
                     out = json.dumps(payload, indent=2)
@@ -1340,7 +1337,7 @@ class LookupSubmissions(Tool):
             return out
 
         if article_id:
-            for sub in submissions:
+            for sub in submissions.values():
                 if sub.get("article_id") == article_id:
                     payload = sub
                     out = json.dumps(payload, indent=2)
@@ -1355,7 +1352,7 @@ class LookupSubmissions(Tool):
             return out
 
         results = []
-        for sub in submissions:
+        for sub in submissions.values():
             author_match = not author_user_id or author_user_id == sub.get("author_user_id")
             status_match = not status or status.lower() == sub.get("status", "").lower()
 

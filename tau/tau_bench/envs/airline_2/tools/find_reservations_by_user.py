@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindReservationsByUser(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str) -> str:
-        res = [r for r in data.get("reservations", []) if r.get("user_id") == user_id]
+        res = [r for r in data.get("reservations", {}).values() if r.get("user_id") == user_id]
         return _j(res)
     @staticmethod
     def get_info() -> dict[str, Any]:

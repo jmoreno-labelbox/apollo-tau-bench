@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateDeployment(Tool):
@@ -16,7 +16,7 @@ class CreateDeployment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], pipeline_id: str = None, environment_id: str = None, 
                deployed_by: str = None, version: str = None, status: str = None) -> str:
-        deployments = data.get("deployments", [])
+        deployments = data.get("deployments", {}).values()
         new_id_num = max([int(d["id"].split("_")[1]) for d in deployments]) + 1
         new_id = f"deploy_{new_id_num:03d}"
 
@@ -30,7 +30,7 @@ class CreateDeployment(Tool):
             "deployed_at": "2025-01-28T00:00:00Z",
             "duration_minutes": 0,
         }
-        deployments.append(new_deployment)
+        data["deployments"][new_deployment["deployment_id"]] = new_deployment
         payload = new_deployment
         out = json.dumps(payload)
         return out

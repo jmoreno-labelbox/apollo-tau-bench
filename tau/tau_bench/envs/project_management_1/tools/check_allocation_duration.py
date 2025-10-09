@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckAllocationDuration(Tool):
@@ -20,9 +20,9 @@ class CheckAllocationDuration(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
+        allocations = data.get("allocations", {}).values()
 
-        for allocation in allocations:
+        for allocation in allocations.values():
             if (
                 allocation.get("employee_id") == employee_id
                 and allocation.get("project_id") == project_id

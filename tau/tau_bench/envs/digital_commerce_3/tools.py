@@ -21,7 +21,7 @@ ID_KEYS = {
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -60,7 +60,7 @@ class FindContactByName(Tool):
     def invoke(data: dict[str, Any], first_name: Any, last_name: Any) -> str:
         matches = [
             c
-            for c in data.get("contacts", [])
+            for c in data.get("contacts", {}).values()
             if c.get("first_name") == first_name and c.get("last_name") == last_name
         ]
         payload = matches[0] if matches else {}
@@ -91,7 +91,7 @@ class FindAccountByName(Tool):
         match = next(
             (
                 a
-                for a in data.get("accounts", [])
+                for a in data.get("accounts", {}).values()
                 if a.get("account_name") == account_name
             ),
             {},
@@ -118,7 +118,7 @@ class FindAccountByName(Tool):
 class FindProductByName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: Any) -> str:
-        match = next((p for p in data.get("products", []) if p.get("name") == name), {})
+        match = next((p for p in data.get("products", {}).values() if p.get("name") == name), {}).values()
         payload = match
         out = json.dumps(payload, indent=2)
         return out
@@ -146,7 +146,7 @@ class GetOrCreateCartForContact(Tool):
     ) -> str:
         contact_id = _idstr(contact_id)
         cart = next(
-            (c for c in carts if f"{c.get('contact_id')}" == f"{contact_id}"), None
+            (c for c in carts.values() if f"{c.get('contact_id')}" == f"{contact_id}"), None
         )
         if not cart:
             new_id = _next_numeric_id(carts, "cart_id")
@@ -155,7 +155,7 @@ class GetOrCreateCartForContact(Tool):
                 "contact_id": contact_id,
                 "last_updated_at": "FIXED-TIME",
             }
-            carts.append(cart)
+            data["carts"][cart_id] = cart
         payload = {"cart_id": cart["cart_id"]}
         out = json.dumps(payload, indent=2)
         return out
@@ -186,7 +186,7 @@ class AddCartItem(Tool):
         product = next(
             (
                 p
-                for p in data.get("products", [])
+                for p in data.get("products", {}).values()
                 if f"{p.get('product_id')}" == f"{product_id}"
             ),
             None,
@@ -195,7 +195,7 @@ class AddCartItem(Tool):
             payload = {"error": "Product out of stock or not found."}
             out = json.dumps(payload, indent=2)
             return out
-        items = data.get("cart_items", [])
+        items = data.get("cart_items", {}).values()
         new_id = _next_numeric_id(items, "cart_item_id")
         items.append(
             {
@@ -215,7 +215,7 @@ class AddCartItem(Tool):
         product = next(
             (
                 p
-                for p in data.get("products", [])
+                for p in data.get("products", {}).values()
                 if f"{p.get('product_id')}" == f"{product_id}"
             ),
             None,
@@ -224,7 +224,7 @@ class AddCartItem(Tool):
             payload = {"error": "Product out of stock or not found."}
             out = json.dumps(payload, indent=2)
             return out
-        items = data.get("cart_items", [])
+        items = data.get("cart_items", {}).values()
         new_id = _next_numeric_id(items, "cart_item_id")
         items.append(
             {
@@ -272,12 +272,11 @@ class CreateOrderFromCart(Tool):
         account_id = _idstr(account_id)
         offer_id = _idstr(offer_id) if offer_id is not None else None
 
-        carts = data.get("carts", [])
+        carts = data.get("carts", {}).values()
         cart = next(
             (
                 c
-                for c in carts
-                if f"{c.get('cart_id')}" == f"{cart_id}"
+                for c in carts.values() if f"{c.get('cart_id')}" == f"{cart_id}"
                 and f"{c.get('contact_id')}" == f"{contact_id}"
             ),
             None,
@@ -287,18 +286,18 @@ class CreateOrderFromCart(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        orders = data.get("orders", [])
-        order_items = data.get("order_items", [])
+        orders = data.get("orders", {}).values()
+        order_items = data.get("order_items", {}).values()
         cart_items = [
             ci
-            for ci in data.get("cart_items", [])
+            for ci in data.get("cart_items", {}).values()
             if f"{ci.get('cart_id')}" == f"{cart_id}"
         ]
 
         account = next(
             (
                 a
-                for a in data.get("accounts", [])
+                for a in data.get("accounts", {}).values()
                 if f"{a.get('account_id')}" == f"{account_id}"
             ),
             None,
@@ -306,12 +305,12 @@ class CreateOrderFromCart(Tool):
         pricebook_id = account.get("default_pricebook_id") if account else "1"
         prices = [
             e
-            for e in data.get("pricebook_entries", [])
+            for e in data.get("pricebook_entries", {}).values()
             if f"{e.get('pricebook_id')}" == f"{pricebook_id}"
         ]
 
         subtotal = 0.0
-        for item in cart_items:
+        for item in cart_items.values()):
             entry = next(
                 (
                     e
@@ -331,7 +330,7 @@ class CreateOrderFromCart(Tool):
             offer = next(
                 (
                     o
-                    for o in data.get("offers", [])
+                    for o in data.get("offers", {}).values()
                     if f"{o.get('offer_id')}" == f"{offer_id}"
                     and o.get("is_active") is True
                 ),
@@ -362,9 +361,9 @@ class CreateOrderFromCart(Tool):
                 account.get("shipping_street") if account else None
             ),
         }
-        orders.append(order)
+        data["orders"][order_id] = order
 
-        for item in cart_items:
+        for item in cart_items.values()):
             entry = next(
                 (
                     e
@@ -393,12 +392,11 @@ class CreateOrderFromCart(Tool):
         account_id = _idstr(account_id)
         offer_id = _idstr(offer_id) if offer_id is not None else None
 
-        carts = data.get("carts", [])
+        carts = data.get("carts", {}).values()
         cart = next(
             (
                 c
-                for c in carts
-                if f"{c.get('cart_id')}" == f"{cart_id}"
+                for c in carts.values() if f"{c.get('cart_id')}" == f"{cart_id}"
                 and f"{c.get('contact_id')}" == f"{contact_id}"
             ),
             None,
@@ -408,18 +406,18 @@ class CreateOrderFromCart(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        orders = data.get("orders", [])
-        order_items = data.get("order_items", [])
+        orders = data.get("orders", {}).values()
+        order_items = data.get("order_items", {}).values()
         cart_items = [
             ci
-            for ci in data.get("cart_items", [])
+            for ci in data.get("cart_items", {}).values()
             if f"{ci.get('cart_id')}" == f"{cart_id}"
         ]
 
         account = next(
             (
                 a
-                for a in data.get("accounts", [])
+                for a in data.get("accounts", {}).values()
                 if f"{a.get('account_id')}" == f"{account_id}"
             ),
             None,
@@ -427,12 +425,12 @@ class CreateOrderFromCart(Tool):
         pricebook_id = account.get("default_pricebook_id") if account else "1"
         prices = [
             e
-            for e in data.get("pricebook_entries", [])
+            for e in data.get("pricebook_entries", {}).values()
             if f"{e.get('pricebook_id')}" == f"{pricebook_id}"
         ]
 
         subtotal = 0.0
-        for item in cart_items:
+        for item in cart_items.values()):
             entry = next(
                 (
                     e
@@ -452,7 +450,7 @@ class CreateOrderFromCart(Tool):
             offer = next(
                 (
                     o
-                    for o in data.get("offers", [])
+                    for o in data.get("offers", {}).values()
                     if f"{o.get('offer_id')}" == f"{offer_id}"
                     and o.get("is_active") is True
                 ),
@@ -483,9 +481,9 @@ class CreateOrderFromCart(Tool):
                 account.get("shipping_street") if account else None
             ),
         }
-        orders.append(order)
+        data["orders"][order_id] = order
 
-        for item in cart_items:
+        for item in cart_items.values()):
             entry = next(
                 (
                     e
@@ -538,7 +536,7 @@ class UpdateOrderStatus(Tool):
         order = next(
             (
                 o
-                for o in data.get("orders", [])
+                for o in data.get("orders", {}).values()
                 if f"{o.get('order_id')}" == f"{order_id}"
             ),
             None,
@@ -577,7 +575,7 @@ class GetOrderDetails(Tool):
         order = next(
             (
                 o
-                for o in (orders or data.get("orders", []))
+                for o in (orders or data.get("orders", {}))
                 if f"{o.get('order_id')}" == f"{order_id}"
             ),
             None,
@@ -612,7 +610,7 @@ class ToggleTraceFlag(Tool):
         flag = next(
             (
                 f
-                for f in data.get("trace_flags", [])
+                for f in data.get("trace_flags", {}).values()
                 if f.get("org_id") == org_id and f.get("flag_name") == flag_name
             ),
             None,
@@ -632,7 +630,7 @@ class ToggleTraceFlag(Tool):
         flag = next(
             (
                 f
-                for f in data.get("trace_flags", [])
+                for f in data.get("trace_flags", {}).values()
                 if f.get("org_id") == org_id and f.get("flag_name") == flag_name
             ),
             None,
@@ -679,7 +677,7 @@ class AddSecurityGroupRule(Tool):
         port = int(port)
         protocol = f"{protocol}"
         source_ip = f"{source_ip}"
-        rules = data.get("aws_security_group_rules", [])
+        rules = data.get("aws_security_group_rules", {}).values()
         new_id = f"sgr-{_next_numeric_id(rules, 'rule_seq')}"
         rules.append(
             {
@@ -700,7 +698,7 @@ class AddSecurityGroupRule(Tool):
         port = int(port)
         protocol = f"{protocol}"
         source_ip = f"{source_ip}"
-        rules = data.get("aws_security_group_rules", [])
+        rules = data.get("aws_security_group_rules", {}).values()
         new_id = f"sgr-{_next_numeric_id(rules, 'rule_seq')}"
         rules.append(
             {
@@ -757,7 +755,7 @@ class UpdateCacheClusterStatus(Tool):
         cluster = next(
             (
                 c
-                for c in data.get("aws_elasticache_clusters", [])
+                for c in data.get("aws_elasticache_clusters", {}).values()
                 if f"{c.get('cluster_id')}" == f"{cluster_id}"
             ),
             None,
@@ -786,7 +784,7 @@ class UpdateCacheClusterStatus(Tool):
         cluster = next(
             (
                 c
-                for c in data.get("aws_elasticache_clusters", [])
+                for c in data.get("aws_elasticache_clusters", {}).values()
                 if f"{c.get('cluster_id')}" == f"{cluster_id}"
             ),
             None,
@@ -874,17 +872,17 @@ class GetCustomerProfile(Tool):
         if not email and not contact_id:
             return _error("email or contact_id is required.")
 
-        contacts = data.get("contacts", [])
+        contacts = data.get("contacts", {}).values()
         contact = (
-            _find_one(contacts, "email", email)
+            _find_one(list(contacts.values()), "email", email)
             if email
-            else _find_one(contacts, "contact_id", contact_id)
+            else _find_one(list(contacts.values()), "contact_id", contact_id)
         )
         if not contact:
             return _error("Contact not found.")
 
-        accounts = data.get("accounts", [])
-        account = _find_one(accounts, "account_id", contact.get("account_id"))
+        accounts = data.get("accounts", {}).values()
+        account = _find_one(list(accounts.values()), "account_id", contact.get("account_id"))
         payload = {"contact": contact, "account": account}
         out = json.dumps(payload, indent=2)
         return out
@@ -929,28 +927,28 @@ class SearchProductsByCategory(Tool):
         if not cat_id and not cat_name:
             return _error("category_id or category_name is required.")
 
-        categories = categories or data.get("categories", [])
+        categories = categories or data.get("categories", {}).values()
         category = None
         if cat_id:
-            category = _find_one(categories, "category_id", cat_id)
+            category = _find_one(list(categories.values()), "category_id", cat_id)
         elif cat_name:
-            category = _find_one(categories, "category_name", cat_name)
+            category = _find_one(list(categories.values()), "category_name", cat_name)
 
         if not category:
             return _error(f"Category '{cat_id or cat_name}' not found.")
 
-        products = products or data.get("products", [])
+        products = products or data.get("products", {}).values()
         resolved_cid = f"{category.get('category_id')}"
         category_products = [
-            p for p in products if f"{p.get('category_id')}" == resolved_cid
+            p for p in products.values() if f"{p.get('category_id')}" == resolved_cid
         ]
 
         if account_id:
-            accounts = accounts or data.get("accounts", [])
-            account = _find_one(accounts, "account_id", account_id)
+            accounts = accounts or data.get("accounts", {}).values()
+            account = _find_one(list(accounts.values()), "account_id", account_id)
             if account:
                 pricebook_id = _idstr(account.get("default_pricebook_id"))
-                pricebook_entries = pricebook_entries or data.get("pricebook_entries", [])
+                pricebook_entries = pricebook_entries or data.get("pricebook_entries", {}).values()
                 for product in category_products:
                     pbe = _find_one(
                         pricebook_entries, "product_id", product.get("product_id")
@@ -968,28 +966,28 @@ class SearchProductsByCategory(Tool):
         if not cat_id and not cat_name:
             return _error("category_id or category_name is required.")
 
-        categories = data.get("categories", [])
+        categories = data.get("categories", {}).values()
         category = None
         if cat_id:
-            category = _find_one(categories, "category_id", cat_id)
+            category = _find_one(list(categories.values()), "category_id", cat_id)
         elif cat_name:
-            category = _find_one(categories, "category_name", cat_name)
+            category = _find_one(list(categories.values()), "category_name", cat_name)
 
         if not category:
             return _error(f"Category '{cat_id or cat_name}' not found.")
 
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         resolved_cid = f"{category.get('category_id')}"
         category_products = [
-            p for p in products if f"{p.get('category_id')}" == resolved_cid
+            p for p in products.values() if f"{p.get('category_id')}" == resolved_cid
         ]
 
         if account_id:
-            accounts = data.get("accounts", [])
-            account = _find_one(accounts, "account_id", account_id)
+            accounts = data.get("accounts", {}).values()
+            account = _find_one(list(accounts.values()), "account_id", account_id)
             if account:
                 pricebook_id = _idstr(account.get("default_pricebook_id"))
-                pricebook_entries = data.get("pricebook_entries", [])
+                pricebook_entries = data.get("pricebook_entries", {}).values()
                 for product in category_products:
                     pbe = _find_one(
                         pricebook_entries, "product_id", product.get("product_id")
@@ -1034,31 +1032,31 @@ class CreateShoppingCart(Tool):
         if not cart_id or not contact_id:
             return _error("cart_id and contact_id are required.")
 
-        contacts = data.get("contacts", [])
-        if not _find_one(contacts, "contact_id", contact_id):
+        contacts = data.get("contacts", {}).values()
+        if not _find_one(list(contacts.values()), "contact_id", contact_id):
             return _error(f"Contact '{contact_id}' not found.")
 
         carts = data.setdefault("carts", [])
-        if _find_one(carts, "cart_id", cart_id):
+        if _find_one(list(carts.values()), "cart_id", cart_id):
             return _error(f"Cart '{cart_id}' already exists.")
 
         cart = {
             "cart_id": cart_id,
             "contact_id": contact_id,
             "last_updated_at": FIXED_NOW,
-            "account_id": _find_one(contacts, "contact_id", contact_id).get(
+            "account_id": _find_one(list(contacts.values()), "contact_id", contact_id).get(
                 "account_id"
             ),
             "applied_offer_id": None,
         }
-        carts.append(cart)
+        data["carts"][cart_id] = cart
 
         cart_items = data.setdefault("cart_items", [])
-        products = data.get("products", [])
-        for item in items:
+        products = data.get("products", {}).values()
+        for item in items.values():
             product_id = item.get("product_id")
             quantity = int(item.get("quantity", 1))
-            if not _find_one(products, "product_id", product_id):
+            if not _find_one(list(products.values()), "product_id", product_id):
                 return _error(f"Product '{product_id}' not found.")
             cart_item_id = f"{cart_id}:{product_id}"
             cart_items.append(
@@ -1088,31 +1086,31 @@ class CreateShoppingCart(Tool):
         if not cart_id or not contact_id:
             return _error("cart_id and contact_id are required.")
 
-        contacts = data.get("contacts", [])
-        if not _find_one(contacts, "contact_id", contact_id):
+        contacts = data.get("contacts", {}).values()
+        if not _find_one(list(contacts.values()), "contact_id", contact_id):
             return _error(f"Contact '{contact_id}' not found.")
 
         carts = data.setdefault("carts", [])
-        if _find_one(carts, "cart_id", cart_id):
+        if _find_one(list(carts.values()), "cart_id", cart_id):
             return _error(f"Cart '{cart_id}' already exists.")
 
         cart = {
             "cart_id": cart_id,
             "contact_id": contact_id,
             "last_updated_at": FIXED_NOW,
-            "account_id": _find_one(contacts, "contact_id", contact_id).get(
+            "account_id": _find_one(list(contacts.values()), "contact_id", contact_id).get(
                 "account_id"
             ),
             "applied_offer_id": None,
         }
-        carts.append(cart)
+        data["carts"][cart_id] = cart
 
         cart_items = data.setdefault("cart_items", [])
-        products = data.get("products", [])
-        for item in items:
+        products = data.get("products", {}).values()
+        for item in items.values():
             product_id = item.get("product_id")
             quantity = int(item.get("quantity", 1))
-            if not _find_one(products, "product_id", product_id):
+            if not _find_one(list(products.values()), "product_id", product_id):
                 return _error(f"Product '{product_id}' not found.")
             cart_item_id = f"{cart_id}:{product_id}"
             cart_items.append(
@@ -1184,24 +1182,24 @@ class ApplyDiscountBundle(Tool):
         if not cart_id or not offer_code:
             return _error("cart_id and offer_code are required.")
 
-        carts = carts if carts is not None else data.get("carts", [])
-        cart = _find_one(carts, "cart_id", cart_id)
+        carts = carts if carts is not None else data.get("carts", {}).values()
+        cart = _find_one(list(carts.values()), "cart_id", cart_id)
         if not cart:
             return _error(f"Cart '{cart_id}' not found.")
 
-        offers = offers if offers is not None else data.get("offers", [])
-        offer = _find_one(offers, "offer_code", offer_code)
+        offers = offers if offers is not None else data.get("offers", {}).values()
+        offer = _find_one(list(offers.values()), "offer_code", offer_code)
         if not offer or not offer.get("is_active"):
             return _error(f"Offer '{offer_code}' not found or inactive.")
 
-        cart_items = cart_items if cart_items is not None else data.get("cart_items", [])
-        pricebook_entries = pricebook_entries if pricebook_entries is not None else data.get("pricebook_entries", [])
-        accounts = accounts if accounts is not None else data.get("accounts", [])
+        cart_items = cart_items if cart_items is not None else data.get("cart_items", {}).values()
+        pricebook_entries = pricebook_entries if pricebook_entries is not None else data.get("pricebook_entries", {}).values()
+        accounts = accounts if accounts is not None else data.get("accounts", {}).values()
 
         cart_line_items = [
-            ci for ci in cart_items if f"{ci.get('cart_id')}" == f"{cart_id}"
+            ci for ci in cart_items.values() if f"{ci.get('cart_id')}" == f"{cart_id}"
         ]
-        account = _find_one(accounts, "account_id", cart.get("account_id"))
+        account = _find_one(list(accounts.values()), "account_id", cart.get("account_id"))
         pricebook_id = account.get("default_pricebook_id") if account else "1"
 
         subtotal = 0.0
@@ -1209,8 +1207,7 @@ class ApplyDiscountBundle(Tool):
             pbe = next(
                 (
                     p
-                    for p in pricebook_entries
-                    if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
+                    for p in pricebook_entries.values() if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
                     and f"{p.get('pricebook_id')}" == f"{pricebook_id}"
                 ),
                 None,
@@ -1308,20 +1305,20 @@ class ProcessOrderWithFulfillment(Tool):
             return _error("order_id and cart_id are required.")
 
         orders = orders or []
-        existing = _find_one(orders, "order_id", order_id)
+        existing = _find_one(list(orders.values()), "order_id", order_id)
         if existing:
             payload = existing
             out = json.dumps(payload, indent=2)
             return out
 
         carts = carts or []
-        cart = _find_one(carts, "cart_id", cart_id)
+        cart = _find_one(list(carts.values()), "cart_id", cart_id)
         if not cart:
             return _error(f"Cart '{cart_id}' not found.")
 
         cart_items = cart_items or []
         cart_line_items = [
-            ci for ci in cart_items if f"{ci.get('cart_id')}" == f"{cart_id}"
+            ci for ci in cart_items.values() if f"{ci.get('cart_id')}" == f"{cart_id}"
         ]
         if not cart_line_items:
             return _error("Cart has no items.")
@@ -1331,7 +1328,7 @@ class ProcessOrderWithFulfillment(Tool):
         offers = offers or []
         products = products or []
 
-        account = _find_one(accounts, "account_id", cart.get("account_id"))
+        account = _find_one(list(accounts.values()), "account_id", cart.get("account_id"))
         pricebook_id = account.get("default_pricebook_id") if account else "1"
 
         subtotal = 0.0
@@ -1339,8 +1336,7 @@ class ProcessOrderWithFulfillment(Tool):
             pbe = next(
                 (
                     p
-                    for p in pricebook_entries
-                    if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
+                    for p in pricebook_entries.values() if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
                     and f"{p.get('pricebook_id')}" == f"{pricebook_id}"
                 ),
                 None,
@@ -1349,7 +1345,7 @@ class ProcessOrderWithFulfillment(Tool):
                 price = float(pbe.get("price", 0.0))
                 qty = int(ci.get("quantity", 0))
                 subtotal += price * qty
-                product = _find_one(products, "product_id", ci.get("product_id"))
+                product = _find_one(list(products.values()), "product_id", ci.get("product_id"))
                 if product:
                     current_stock = int(product.get("stock_quantity", 0))
                     if current_stock < qty:
@@ -1361,7 +1357,7 @@ class ProcessOrderWithFulfillment(Tool):
         discount_amount = 0.0
         applied_offer_id = cart.get("applied_offer_id")
         if applied_offer_id:
-            offer = _find_one(offers, "offer_id", applied_offer_id)
+            offer = _find_one(list(offers.values()), "offer_id", applied_offer_id)
             if offer and offer.get("is_active"):
                 if offer.get("discount_type") == "PERCENTAGE":
                     discount_amount = round(
@@ -1385,15 +1381,14 @@ class ProcessOrderWithFulfillment(Tool):
             "total_amount": total,
             "shipping_method": shipping_method,
         }
-        orders.append(new_order)
+        data["orders"][order_id] = new_order
 
         order_items = data.setdefault("order_items", [])
         for idx, ci in enumerate(cart_line_items, start=1):
             pbe = next(
                 (
                     p
-                    for p in pricebook_entries
-                    if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
+                    for p in pricebook_entries.values() if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
                     and f"{p.get('pricebook_id')}" == f"{pricebook_id}"
                 ),
                 None,
@@ -1439,7 +1434,7 @@ class ProcessOrderWithFulfillment(Tool):
             shipping_method = "US-Std"
 
         if not shipping_method:
-            rules = data.get("shipping_rules", [])
+            rules = data.get("shipping_rules", {}).values()
             rule = rules[-1] if rules else None
             if rule:
                 shipping_method = rule.get("rule_name") or "US-Std"
@@ -1448,31 +1443,31 @@ class ProcessOrderWithFulfillment(Tool):
         if not order_id or not cart_id:
             return _error("order_id and cart_id are required.")
 
-        orders = data.get("orders", [])
-        existing = _find_one(orders, "order_id", order_id)
+        orders = data.get("orders", {}).values()
+        existing = _find_one(list(orders.values()), "order_id", order_id)
         if existing:
             payload = existing
             out = json.dumps(payload, indent=2)
             return out
 
-        carts = data.get("carts", [])
-        cart = _find_one(carts, "cart_id", cart_id)
+        carts = data.get("carts", {}).values()
+        cart = _find_one(list(carts.values()), "cart_id", cart_id)
         if not cart:
             return _error(f"Cart '{cart_id}' not found.")
 
-        cart_items = data.get("cart_items", [])
+        cart_items = data.get("cart_items", {}).values()
         cart_line_items = [
-            ci for ci in cart_items if f"{ci.get('cart_id')}" == f"{cart_id}"
+            ci for ci in cart_items.values() if f"{ci.get('cart_id')}" == f"{cart_id}"
         ]
         if not cart_line_items:
             return _error("Cart has no items.")
 
-        pricebook_entries = data.get("pricebook_entries", [])
-        accounts = data.get("accounts", [])
-        offers = data.get("offers", [])
-        products = data.get("products", [])
+        pricebook_entries = data.get("pricebook_entries", {}).values()
+        accounts = data.get("accounts", {}).values()
+        offers = data.get("offers", {}).values()
+        products = data.get("products", {}).values()
 
-        account = _find_one(accounts, "account_id", cart.get("account_id"))
+        account = _find_one(list(accounts.values()), "account_id", cart.get("account_id"))
         pricebook_id = account.get("default_pricebook_id") if account else "1"
 
         subtotal = 0.0
@@ -1480,8 +1475,7 @@ class ProcessOrderWithFulfillment(Tool):
             pbe = next(
                 (
                     p
-                    for p in pricebook_entries
-                    if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
+                    for p in pricebook_entries.values() if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
                     and f"{p.get('pricebook_id')}" == f"{pricebook_id}"
                 ),
                 None,
@@ -1490,7 +1484,7 @@ class ProcessOrderWithFulfillment(Tool):
                 price = float(pbe.get("price", 0.0))
                 qty = int(ci.get("quantity", 0))
                 subtotal += price * qty
-                product = _find_one(products, "product_id", ci.get("product_id"))
+                product = _find_one(list(products.values()), "product_id", ci.get("product_id"))
                 if product:
                     current_stock = int(product.get("stock_quantity", 0))
                     if current_stock < qty:
@@ -1502,7 +1496,7 @@ class ProcessOrderWithFulfillment(Tool):
         discount_amount = 0.0
         applied_offer_id = cart.get("applied_offer_id")
         if applied_offer_id:
-            offer = _find_one(offers, "offer_id", applied_offer_id)
+            offer = _find_one(list(offers.values()), "offer_id", applied_offer_id)
             if offer and offer.get("is_active"):
                 if offer.get("discount_type") == "PERCENTAGE":
                     discount_amount = round(
@@ -1526,15 +1520,14 @@ class ProcessOrderWithFulfillment(Tool):
             "total_amount": total,
             "shipping_method": shipping_method,
         }
-        orders.append(new_order)
+        data["orders"][order_id] = new_order
 
         order_items = data.setdefault("order_items", [])
         for idx, ci in enumerate(cart_line_items, start=1):
             pbe = next(
                 (
                     p
-                    for p in pricebook_entries
-                    if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
+                    for p in pricebook_entries.values() if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
                     and f"{p.get('pricebook_id')}" == f"{pricebook_id}"
                 ),
                 None,
@@ -1600,8 +1593,8 @@ class ProcessReturnWithRefund(Tool):
         if not order_id or not case_id:
             return _error("order_id and case_id are required.")
 
-        orders = data.get("orders", [])
-        order = _find_one(orders, "order_id", order_id)
+        orders = data.get("orders", {}).values()
+        order = _find_one(list(orders.values()), "order_id", order_id)
         if not order:
             return _error(f"Order '{order_id}' not found.")
         if order.get("status") not in ["Delivered", "Shipped", "Cancelled"]:
@@ -1623,20 +1616,19 @@ class ProcessReturnWithRefund(Tool):
                 }
             )
 
-        order_items = data.get("order_items", [])
-        products = data.get("products", [])
+        order_items = data.get("order_items", {}).values()
+        products = data.get("products", {}).values()
 
         total_refund = 0.0
         items_processed = []
-        for it in items:
+        for it in items.values():
             pid = it.get("product_id")
             ret_qty = int(it.get("quantity", 1))
             reason = it.get("reason", "customer_request")
             oi = next(
                 (
                     oi
-                    for oi in order_items
-                    if f"{oi.get('order_id')}" == f"{order_id}"
+                    for oi in order_items.values() if f"{oi.get('order_id')}" == f"{order_id}"
                     and f"{oi.get('product_id')}" == f"{pid}"
                 ),
                 None,
@@ -1646,7 +1638,7 @@ class ProcessReturnWithRefund(Tool):
             item_refund = float(oi.get("price", 0.0)) * ret_qty
             total_refund += item_refund
 
-            product = _find_one(products, "product_id", pid)
+            product = _find_one(list(products.values()), "product_id", pid)
             if product:
                 product["stock_quantity"] = (
                     int(product.get("stock_quantity", 0)) + ret_qty
@@ -1695,8 +1687,8 @@ class ProcessReturnWithRefund(Tool):
         if not order_id or not case_id:
             return _error("order_id and case_id are required.")
 
-        orders = data.get("orders", [])
-        order = _find_one(orders, "order_id", order_id)
+        orders = data.get("orders", {}).values()
+        order = _find_one(list(orders.values()), "order_id", order_id)
         if not order:
             return _error(f"Order '{order_id}' not found.")
         if order.get("status") not in ["Delivered", "Shipped", "Cancelled"]:
@@ -1718,20 +1710,19 @@ class ProcessReturnWithRefund(Tool):
                 }
             )
 
-        order_items = data.get("order_items", [])
-        products = data.get("products", [])
+        order_items = data.get("order_items", {}).values()
+        products = data.get("products", {}).values()
 
         total_refund = 0.0
         items_processed = []
-        for it in items:
+        for it in items.values():
             pid = it.get("product_id")
             ret_qty = int(it.get("quantity", 1))
             reason = it.get("reason", "customer_request")
             oi = next(
                 (
                     oi
-                    for oi in order_items
-                    if f"{oi.get('order_id')}" == f"{order_id}"
+                    for oi in order_items.values() if f"{oi.get('order_id')}" == f"{order_id}"
                     and f"{oi.get('product_id')}" == f"{pid}"
                 ),
                 None,
@@ -1741,7 +1732,7 @@ class ProcessReturnWithRefund(Tool):
             item_refund = float(oi.get("price", 0.0)) * ret_qty
             total_refund += item_refund
 
-            product = _find_one(products, "product_id", pid)
+            product = _find_one(list(products.values()), "product_id", pid)
             if product:
                 product["stock_quantity"] = (
                     int(product.get("stock_quantity", 0)) + ret_qty
@@ -1831,7 +1822,7 @@ class ConfigureCacheIntegration(Tool):
 
         cluster_id = _idstr(cluster_id)
         clusters = data.setdefault("aws_elasticache_clusters", [])
-        cluster = _find_one(clusters, "cluster_id", cluster_id)
+        cluster = _find_one(list(clusters.values()), "cluster_id", cluster_id)
 
         if not cluster:
             cluster = {
@@ -1842,7 +1833,7 @@ class ConfigureCacheIntegration(Tool):
                 "status": "available",
                 "endpoint_url": f"redis://{cluster_id}.cache.amazonaws.com:6379",
             }
-            clusters.append(cluster)
+            data["aws_elasticache_clusters"][cluster["aws_elasticache_cluster_id"]] = cluster
         else:
             cluster.update(
                 {
@@ -1921,7 +1912,7 @@ class ManageConnectedAppSecurity(Tool):
             return _error("app_id is required.")
 
         apps = data.setdefault("connected_apps", [])
-        app = _find_one(apps, "app_id", app_id)
+        app = _find_one(list(apps.values()), "app_id", app_id)
         if not app:
             app = {
                 "app_id": app_id,
@@ -1931,7 +1922,7 @@ class ManageConnectedAppSecurity(Tool):
                 "oauth_scopes": [],
                 "permissions": [],
             }
-            apps.append(app)
+            data["connected_apps"][app["connected_app_id"]] = app
 
         app["permissions"] = permissions
         app["oauth_scopes"] = oauth_scopes
@@ -1964,7 +1955,7 @@ class ManageConnectedAppSecurity(Tool):
             return _error("app_id is required.")
 
         apps = data.setdefault("connected_apps", [])
-        app = _find_one(apps, "app_id", app_id)
+        app = _find_one(list(apps.values()), "app_id", app_id)
         if not app:
             app = {
                 "app_id": app_id,
@@ -1974,7 +1965,7 @@ class ManageConnectedAppSecurity(Tool):
                 "oauth_scopes": [],
                 "permissions": [],
             }
-            apps.append(app)
+            data["connected_apps"][app["connected_app_id"]] = app
 
         app["permissions"] = permissions
         app["oauth_scopes"] = oauth_scopes
@@ -2043,7 +2034,7 @@ class OptimizeSecurityGroupRules(Tool):
         changes = []
 
         rules_to_remove = []
-        for rule in rules:
+        for rule in rules.values()):
             if (
                 f"{rule.get('security_group_id')}" == f"{security_group_id}"
                 and int(rule.get("port")) == target_port
@@ -2058,8 +2049,7 @@ class OptimizeSecurityGroupRules(Tool):
 
         existing_cidrs = {
             r.get("source_ip")
-            for r in rules
-            if f"{r.get('security_group_id')}" == f"{security_group_id}"
+            for r in rules.values() if f"{r.get('security_group_id')}" == f"{security_group_id}"
             and int(r.get("port")) == target_port
         }
 
@@ -2104,11 +2094,11 @@ class OptimizeSecurityGroupRules(Tool):
             return _error("security_group_id is required.")
 
         allowed_cidrs = [allowed_cidr] if allowed_cidr else []
-        rules = data.get("aws_security_group_rules", [])
+        rules = data.get("aws_security_group_rules", {}).values()
         changes = []
 
         rules_to_remove = []
-        for rule in rules:
+        for rule in rules.values()):
             if (
                 f"{rule.get('security_group_id')}" == f"{security_group_id}"
                 and int(rule.get("port")) == target_port
@@ -2123,8 +2113,7 @@ class OptimizeSecurityGroupRules(Tool):
 
         existing_cidrs = {
             r.get("source_ip")
-            for r in rules
-            if f"{r.get('security_group_id')}" == f"{security_group_id}"
+            for r in rules.values() if f"{r.get('security_group_id')}" == f"{security_group_id}"
             and int(r.get("port")) == target_port
         }
 
@@ -2195,10 +2184,10 @@ class GetAuditLog(Tool):
         resource_id = f"{resource_id}" if resource_id is not None else None
         time_range = f"{time_range}" if time_range is not None else None
 
-        audit_log = data.get("audit_log", [])
+        audit_log = data.get("audit_log", {}).values()
         filtered = audit_log
         if action_type:
-            filtered = [e for e in filtered if e.get("event_type") == action_type]
+            filtered = [e for e in filtered.values() if e.get("event_type") == action_type]
         if resource_id:
             filtered = [
                 e for e in filtered if f"{e.get('subject_id')}" == f"{resource_id}"
@@ -2217,10 +2206,10 @@ class GetAuditLog(Tool):
         resource_id = f"{resource_id}" if resource_id is not None else None
         time_range = f"{time_range}" if time_range is not None else None
 
-        audit_log = data.get("audit_log", [])
+        audit_log = data.get("audit_log", {}).values()
         filtered = audit_log
         if action_type:
-            filtered = [e for e in filtered if e.get("event_type") == action_type]
+            filtered = [e for e in filtered.values() if e.get("event_type") == action_type]
         if resource_id:
             filtered = [
                 e for e in filtered if f"{e.get('subject_id')}" == f"{resource_id}"
@@ -2272,8 +2261,8 @@ class ManageInventoryLevels(Tool):
         if not product_id:
             return _error("product_id is required.")
 
-        products = data.get("products", [])
-        product = _find_one(products, "product_id", product_id)
+        products = data.get("products", {}).values()
+        product = _find_one(list(products.values()), "product_id", product_id)
         if not product:
             return _error(f"Product '{product_id}' not found.")
 
@@ -2327,8 +2316,8 @@ class ManageInventoryLevels(Tool):
         if not product_id:
             return _error("product_id is required.")
 
-        products = data.get("products", [])
-        product = _find_one(products, "product_id", product_id)
+        products = data.get("products", {}).values()
+        product = _find_one(list(products.values()), "product_id", product_id)
         if not product:
             return _error(f"Product '{product_id}' not found.")
 
@@ -2438,7 +2427,7 @@ class GeneratePromotionalCampaign(Tool):
             "start_date": FIXED_NOW,
             "status": "active",
         }
-        promotions.append(promotion)
+        data["promotions"][promotion["promotion_id"]] = promotion
 
         result = {
             "promotion_id": promotion_id,
@@ -2490,7 +2479,7 @@ class GeneratePromotionalCampaign(Tool):
             "start_date": FIXED_NOW,
             "status": "active",
         }
-        promotions.append(promotion)
+        data["promotions"][promotion["promotion_id"]] = promotion
 
         result = {
             "promotion_id": promotion_id,
@@ -2713,12 +2702,12 @@ class ProcessBulkProductUpdate(Tool):
         if not update_type or not product_ids:
             return _error("update_type and product_ids are required.")
 
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         bulk_updates = data.setdefault("bulk_updates", [])
         updated_count = 0
 
         for pid in product_ids:
-            product = _find_one(products, "product_id", pid)
+            product = _find_one(list(products.values()), "product_id", pid)
             if product:
                 if update_type == "price" and "list_price" in update_data:
                     product["list_price"] = update_data["list_price"]
@@ -2760,12 +2749,12 @@ class ProcessBulkProductUpdate(Tool):
         if not update_type or not product_ids:
             return _error("update_type and product_ids are required.")
 
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         bulk_updates = data.setdefault("bulk_updates", [])
         updated_count = 0
 
         for pid in product_ids:
-            product = _find_one(products, "product_id", pid)
+            product = _find_one(list(products.values()), "product_id", pid)
             if product:
                 if update_type == "price" and "list_price" in update_data:
                     product["list_price"] = update_data["list_price"]
@@ -2832,18 +2821,18 @@ class AnalyzeCustomerBehavior(Tool):
         if not contact_id:
             return _error("contact_id is required.")
 
-        contacts = data.get("contacts", [])
-        contact = _find_one(contacts, "contact_id", contact_id)
+        contacts = data.get("contacts", {}).values()
+        contact = _find_one(list(contacts.values()), "contact_id", contact_id)
         if not contact:
             return _error(f"Contact '{contact_id}' not found.")
 
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         customer_orders = [
-            o for o in orders if f"{o.get('contact_id')}" == f"{contact_id}"
+            o for o in orders.values() if f"{o.get('contact_id')}" == f"{contact_id}"
         ]
 
         total_orders = len(customer_orders)
-        total_value = sum(float(o.get("total_amount", 0.0)) for o in customer_orders)
+        total_value = sum(float(o.get("total_amount", 0.0)) for o in customer_orders.values()
         avg_order_value = (
             round(total_value / total_orders, 2) if total_orders > 0 else 0.0
         )
@@ -2873,18 +2862,18 @@ class AnalyzeCustomerBehavior(Tool):
         if not contact_id:
             return _error("contact_id is required.")
 
-        contacts = data.get("contacts", [])
-        contact = _find_one(contacts, "contact_id", contact_id)
+        contacts = data.get("contacts", {}).values()
+        contact = _find_one(list(contacts.values()), "contact_id", contact_id)
         if not contact:
             return _error(f"Contact '{contact_id}' not found.")
 
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         customer_orders = [
-            o for o in orders if f"{o.get('contact_id')}" == f"{contact_id}"
+            o for o in orders.values() if f"{o.get('contact_id')}" == f"{contact_id}"
         ]
 
         total_orders = len(customer_orders)
-        total_value = sum(float(o.get("total_amount", 0.0)) for o in customer_orders)
+        total_value = sum(float(o.get("total_amount", 0.0)) for o in customer_orders.values()
         avg_order_value = (
             round(total_value / total_orders, 2) if total_orders > 0 else 0.0
         )
@@ -2954,7 +2943,7 @@ class ManageSupplierRelationships(Tool):
                 "status": "active",
                 "added_at": FIXED_NOW,
             }
-            suppliers.append(supplier)
+            data["suppliers"][supplier_id] = supplier
 
         result = {
             "supplier_name": supplier_name,
@@ -2985,7 +2974,7 @@ class ManageSupplierRelationships(Tool):
                 "status": "active",
                 "added_at": FIXED_NOW,
             }
-            suppliers.append(supplier)
+            data["suppliers"][supplier_id] = supplier
 
         result = {
             "supplier_name": supplier_name,
@@ -3032,8 +3021,8 @@ class ProcessCustomerFeedback(Tool):
         if not contact_id or not feedback_text:
             return _error("contact_id and feedback_text are required.")
 
-        contacts = data.get("contacts", [])
-        contact = _find_one(contacts, "contact_id", contact_id)
+        contacts = data.get("contacts", {}).values()
+        contact = _find_one(list(contacts.values()), "contact_id", contact_id)
         if not contact:
             return _error(f"Contact '{contact_id}' not found.")
 
@@ -3073,8 +3062,8 @@ class ProcessCustomerFeedback(Tool):
         if not contact_id or not feedback_text:
             return _error("contact_id and feedback_text are required.")
 
-        contacts = data.get("contacts", [])
-        contact = _find_one(contacts, "contact_id", contact_id)
+        contacts = data.get("contacts", {}).values()
+        contact = _find_one(list(contacts.values()), "contact_id", contact_id)
         if not contact:
             return _error(f"Contact '{contact_id}' not found.")
 
@@ -3167,7 +3156,7 @@ class ConfigureShippingRules(Tool):
             "created_at": FIXED_NOW,
             "status": "active",
         }
-        shipping_rules.append(rule)
+        shipping_data["aws_security_group_rules"][rule["aws_security_group_rule_id"]] = rule
 
         result = {
             "rule_id": rule_id,
@@ -3212,7 +3201,7 @@ class ConfigureShippingRules(Tool):
             "created_at": FIXED_NOW,
             "status": "active",
         }
-        shipping_rules.append(rule)
+        shipping_data["aws_security_group_rules"][rule["aws_security_group_rule_id"]] = rule
 
         result = {
             "rule_id": rule_id,
@@ -3266,12 +3255,12 @@ class ManageProductRecommendations(Tool):
         if not contact_id:
             return _error("contact_id is required.")
 
-        contacts = contacts if contacts is not None else data.get("contacts", [])
-        contact = _find_one(contacts, "contact_id", contact_id)
+        contacts = contacts if contacts is not None else data.get("contacts", {}).values()
+        contact = _find_one(list(contacts.values()), "contact_id", contact_id)
         if not contact:
             return _error(f"Contact '{contact_id}' not found.")
 
-        products = products if products is not None else data.get("products", [])
+        products = products if products is not None else data.get("products", {}).values()
         recommendations = products[:3]
 
         recommendation_list = [
@@ -3304,12 +3293,12 @@ class ManageProductRecommendations(Tool):
         if not contact_id:
             return _error("contact_id is required.")
 
-        contacts = data.get("contacts", [])
-        contact = _find_one(contacts, "contact_id", contact_id)
+        contacts = data.get("contacts", {}).values()
+        contact = _find_one(list(contacts.values()), "contact_id", contact_id)
         if not contact:
             return _error(f"Contact '{contact_id}' not found.")
 
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         recommendations = products[:3]
 
         recommendation_list = [
@@ -3373,8 +3362,8 @@ class ProcessLoyaltyProgram(Tool):
         if not contact_id or not action:
             return _error("contact_id and action are required.")
 
-        contacts = data.get("contacts", [])
-        contact = _find_one(contacts, "contact_id", contact_id)
+        contacts = data.get("contacts", {}).values()
+        contact = _find_one(list(contacts.values()), "contact_id", contact_id)
         if not contact:
             return _error(f"Contact '{contact_id}' not found.")
 
@@ -3433,8 +3422,8 @@ class ProcessLoyaltyProgram(Tool):
         if not contact_id or not action:
             return _error("contact_id and action are required.")
 
-        contacts = data.get("contacts", [])
-        contact = _find_one(contacts, "contact_id", contact_id)
+        contacts = data.get("contacts", {}).values()
+        contact = _find_one(list(contacts.values()), "contact_id", contact_id)
         if not contact:
             return _error(f"Contact '{contact_id}' not found.")
 
@@ -3606,7 +3595,7 @@ class ManageApiRateLimits(Tool):
             "configured_at": FIXED_NOW,
             "status": "active",
         }
-        rate_limits.append(rate_limit_config)
+        data["api_rate_limits"][rate_limit_config["api_rate_limit_id"]] = rate_limit_config
 
         result = {
             "limit_id": limit_id,
@@ -3660,7 +3649,7 @@ class ProcessDataBackup(Tool):
             "started_at": FIXED_NOW,
             "status": "completed",
         }
-        backups.append(backup)
+        data["data_backups"][backup["data_backup_id"]] = backup
 
         result = {
             "backup_id": backup_id,
@@ -3688,7 +3677,7 @@ class ProcessDataBackup(Tool):
             "started_at": FIXED_NOW,
             "status": "completed",
         }
-        backups.append(backup)
+        data["data_backups"][backup["data_backup_id"]] = backup
 
         result = {
             "backup_id": backup_id,
@@ -3726,11 +3715,11 @@ class GetDataBackupInfo(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], backup_id: Any = None) -> str:
-        backups = data.get("data_backups", [])
+        backups = data.get("data_backups", {}).values()
         if not backups:
             return _error("No backups found.")
         if backup_id:
-            match = _find_one(backups, "backup_id", backup_id)
+            match = _find_one(list(backups.values()), "backup_id", backup_id)
             if not match:
                 return _error(f"Backup '{backup_id}' not found.")
             payload = match
@@ -3763,7 +3752,7 @@ class GetNextCartId(Tool):
         if not carts:
             next_id = 706
         else:
-            max_id = max(int(c.get("cart_id", "0")) for c in carts)
+            max_id = max(int(c.get("cart_id", "0")) for c in carts.values()
             next_id = max_id + 1
         payload = {"next_cart_id": f"{next_id}"}
         out = json.dumps(payload, indent=2)
@@ -3784,11 +3773,11 @@ class GetNextOrderId(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], orders: list = None) -> str:
         if orders is None:
-            orders = data.get("orders", [])
+            orders = data.get("orders", {}).values()
         if not orders:
             next_id = 9017
         else:
-            max_id = max(int(o.get("order_id", "0")) for o in orders)
+            max_id = max(int(o.get("order_id", "0")) for o in orders.values()
             next_id = max_id + 1
         payload = {"next_order_id": f"{next_id}"}
         out = json.dumps(payload, indent=2)
@@ -3813,8 +3802,8 @@ class GetCacheClusterInfo(Tool):
         cluster_id = _idstr(cluster_id)
         if not cluster_id:
             return _error("cluster_id is required.")
-        clusters = data.get("aws_elasticache_clusters", [])
-        cluster = _find_one(clusters, "cluster_id", cluster_id)
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        cluster = _find_one(list(clusters.values()), "cluster_id", cluster_id)
         if not cluster:
             return _error(f"Cluster '{cluster_id}' not found.")
         payload = cluster
@@ -3844,8 +3833,8 @@ class GetApiRateLimitConfig(Tool):
         if not api_endpoint:
             return _error("api_endpoint is required.")
 
-        rate_limits = data.get("api_rate_limits", [])
-        configs = [rl for rl in rate_limits if rl.get("api_endpoint") == api_endpoint]
+        rate_limits = data.get("api_rate_limits", {}).values()
+        configs = [rl for rl in rate_limits.values() if rl.get("api_endpoint") == api_endpoint]
         if not configs:
             return _error(f"Rate limit for '{api_endpoint}' not found.")
         latest = configs[-1]
@@ -3876,8 +3865,8 @@ class GetConnectedAppSecurity(Tool):
         app_id = _idstr(app_id)
         if not app_id:
             return _error("app_id is required.")
-        apps = data.get("connected_apps", [])
-        app = _find_one(apps, "app_id", app_id)
+        apps = data.get("connected_apps", {}).values()
+        app = _find_one(list(apps.values()), "app_id", app_id)
         if not app:
             return _error(f"Connected app '{app_id}' not found.")
         payload = app

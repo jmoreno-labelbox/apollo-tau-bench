@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateOutboundOrderItems(Tool):
@@ -21,10 +21,10 @@ class UpdateOutboundOrderItems(Tool):
         items_to_remove: list[dict[str, Any]] | None = None
     ) -> str:
         """Run the tool with the provided parameters."""
-        orders = data.get("outbound_orders", [])
-        inventory = data.get("inventory", [])
+        orders = data.get("outbound_orders", {}).values()
+        inventory = data.get("inventory", {}).values()
         order_found = False
-        for order in orders:
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 order_found = True
                 if order["status"] != "Pending":
@@ -45,7 +45,7 @@ class UpdateOutboundOrderItems(Tool):
                         quantity = item_to_add["quantity"]
                         # Verify stock
                         stock_found = False
-                        for inv_item in inventory:
+                        for inv_item in inventory.values():
                             if (
                                 inv_item["warehouse_id"] == warehouse_id
                                 and inv_item["sku"] == sku
@@ -70,7 +70,7 @@ class UpdateOutboundOrderItems(Tool):
                             return out
 
                         # Distribute stock and include item
-                        for inv_item in inventory:
+                        for inv_item in inventory.values():
                             if (
                                 inv_item["warehouse_id"] == warehouse_id
                                 and inv_item["sku"] == sku
@@ -102,7 +102,7 @@ class UpdateOutboundOrderItems(Tool):
                                     return out
 
                                 # Release stock allocation
-                                for inv_item in inventory:
+                                for inv_item in inventory.values():
                                     if (
                                         inv_item["warehouse_id"] == warehouse_id
                                         and inv_item["sku"] == sku_to_remove
@@ -153,10 +153,10 @@ class UpdateOutboundOrderItems(Tool):
         return ""
         """Run the tool with the provided parameters."""
         pass
-        orders = data.get("outbound_orders", [])
-        inventory = data.get("inventory", [])
+        orders = data.get("outbound_orders", {}).values()
+        inventory = data.get("inventory", {}).values()
         order_found = False
-        for order in orders:
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 order_found = True
                 if order["status"] != "Pending":
@@ -177,7 +177,7 @@ class UpdateOutboundOrderItems(Tool):
                         quantity = item_to_add["quantity"]
                         #Verify stock
                         stock_found = False
-                        for inv_item in inventory:
+                        for inv_item in inventory.values():
                             if (
                                 inv_item["warehouse_id"] == warehouse_id
                                 and inv_item["sku"] == sku
@@ -202,7 +202,7 @@ class UpdateOutboundOrderItems(Tool):
                             return out
 
                         #Distribute stock and include item
-                        for inv_item in inventory:
+                        for inv_item in inventory.values():
                             if (
                                 inv_item["warehouse_id"] == warehouse_id
                                 and inv_item["sku"] == sku
@@ -234,7 +234,7 @@ class UpdateOutboundOrderItems(Tool):
                                     return out
 
                                 #Release stock allocation
-                                for inv_item in inventory:
+                                for inv_item in inventory.values():
                                     if (
                                         inv_item["warehouse_id"] == warehouse_id
                                         and inv_item["sku"] == sku_to_remove

@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CancelPaymentByScheduledPaymentId(Tool):
@@ -34,8 +34,8 @@ class CancelPaymentByScheduledPaymentId(Tool):
             )
 
         # Find and cancel the payment
-        scheduled_payments = data.get("scheduled_payments", [])
-        for payment in scheduled_payments:
+        scheduled_payments = data.get("scheduled_payments", {}).values()
+        for payment in scheduled_payments.values():
             if (payment.get("payment_id") == scheduled_payment_id and
                     payment.get("customer_id") == customer_id):
                 payment["status"] = "Cancelled"

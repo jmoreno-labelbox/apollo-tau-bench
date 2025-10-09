@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GuardAttachmentPolicyOnDraftTool(Tool):
@@ -22,9 +22,9 @@ class GuardAttachmentPolicyOnDraftTool(Tool):
             out = json.dumps(payload)
             return out
 
-        messages = data.get("gmail_messages", [])
+        messages = data.get("gmail_messages", {}).values()
         target = None
-        for m in messages:
+        for m in messages.values():
             if m.get("message_id") == message_id:
                 target = m
                 break

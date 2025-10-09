@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetOrderFinancialsTool(Tool):
@@ -18,9 +18,9 @@ class GetOrderFinancialsTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str = None) -> str:
         # Fetches the 'orders' object from the in-memory state, which could have been altered.
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
 
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"Order '{order_id}' not found in the current state"}
             out = json.dumps(

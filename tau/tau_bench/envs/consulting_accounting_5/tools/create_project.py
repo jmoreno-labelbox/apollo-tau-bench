@@ -20,7 +20,7 @@ class CreateProject(Tool):
             "created_at": datetime.now().isoformat(),
             "updated_at": datetime.now().isoformat()
         }
-        data["projects"].append(new_project)
+        data["projects"][project_id] = new_project
         return json.dumps(new_project["project_id"])
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -21,12 +21,12 @@ class GetDeviceByIdOrFilter(Tool):
     def invoke(
         data: dict[str, Any], devices: str = "", filters: dict[str, Any] | None = None
     ) -> str:
-        device_list = data.get("devices", [])
+        device_list = data.get("devices", {}).values()
         if devices:
-            result = [d for d in device_list if d.get("id") == devices]
+            result = [d for d in device_list.values() if d.get("id") == devices]
         elif filters:
             result = [
-                d for d in device_list if all(d.get(k) == v for k, v in filters.items())
+                d for d in device_list.values() if all(d.get(k) == v for k, v in filters.items())
             ]
         else:
             payload = {"error": "Either 'devices' (id) or 'filters' must be provided"}
@@ -72,12 +72,12 @@ class GetSensorByIdOrFilter(Tool):
     def invoke(
         data: dict[str, Any], sensor: str = "", filters: dict[str, Any] | None = None
     ) -> str:
-        sensor_list = data.get("sensors", [])
+        sensor_list = data.get("sensors", {}).values()
         if sensor:
-            result = [d for d in sensor_list if d.get("id") == sensor]
+            result = [d for d in sensor_list.values() if d.get("id") == sensor]
         elif filters:
             result = [
-                d for d in sensor_list if all(d.get(k) == v for k, v in filters.items())
+                d for d in sensor_list.values() if all(d.get(k) == v for k, v in filters.items())
             ]
         else:
             payload = {"error": "Either 'devices' (id) or 'filters' must be provided"}
@@ -127,12 +127,12 @@ class AddDeviceToDatabase(Tool):
             payload = {"error": "'device' parameter is required"}
             out = json.dumps(payload, indent=2)
             return out
-        device_list = data.get("devices", [])
-        if any(d["id"] == device.get("id") for d in device_list):
+        device_list = data.get("devices", {}).values()
+        if any(d["id"] == device.get("id") for d in device_list.values()):
             payload = {"error": "Device with this id already exists"}
             out = json.dumps(payload, indent=2)
             return out
-        device_list.append(device)
+        data["devices"][device_id] = device
         payload = {"success": "Device added", "device": device, "devices": device_list}
         out = json.dumps(
             payload, indent=2,
@@ -171,12 +171,12 @@ class AddSensorToDatabase(Tool):
             payload = {"error": "'sensor' parameter is required"}
             out = json.dumps(payload, indent=2)
             return out
-        sensors_list = data.get("sensors", [])
-        if any(d["id"] == sensor.get("id") for d in sensors_list):
+        sensors_list = data.get("sensors", {}).values()
+        if any(d["id"] == sensor.get("id") for d in sensors_list.values()):
             payload = {"error": "Sensor with this id already exists"}
             out = json.dumps(payload, indent=2)
             return out
-        sensors_list.append(sensor)
+        data["sensors"][sensor["sensor_id"]] = sensor
         payload = {"success": "Sensor added", "sensor": sensor, "sensors": sensors_list}
         out = json.dumps(
             payload, indent=2,
@@ -219,14 +219,14 @@ class UpdateDeviceInDatabase(Tool):
                 payload, indent=2
             )
             return out
-        device_list = data.get("devices", [])
+        device_list = data.get("devices", {}).values()
         found = False
-        for d in device_list:
+        for d in device_list.values():
             if d["id"] == device_id:
                 for k, v in updates.items():
                     if k in d:
                         d[k] = v
-                    elif k in d.get("state", {}):
+                    elif k in d.get("state", {}).values():
                         d["state"][k] = v
                     else:
                         d[k] = v
@@ -283,8 +283,8 @@ class DeleteDeviceFromDatabase(Tool):
             payload = {"error": "'device_id' parameter is required"}
             out = json.dumps(payload, indent=2)
             return out
-        device_list = data.get("devices", [])
-        new_list = [d for d in device_list if d["id"] != device_id]
+        device_list = data.get("devices", {}).values()
+        new_list = [d for d in device_list.values() if d["id"] != device_id]
         if len(new_list) == len(device_list):
             payload = {"error": "Device not found"}
             out = json.dumps(payload, indent=2)
@@ -322,10 +322,10 @@ class ListDevicesInDatabase(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], filters: dict[str, Any] | None = None) -> str:
-        device_list = data.get("devices", [])
+        device_list = data.get("devices", {}).values()
         if filters:
             result = [
-                d for d in device_list if all(d.get(k) == v for k, v in filters.items())
+                d for d in device_list.values() if all(d.get(k) == v for k, v in filters.items())
             ]
         else:
             result = device_list
@@ -369,13 +369,13 @@ class ManageRoomInDatabase(Tool):
         device_settings: dict[str, Any] | None = None,
         filters: dict[str, Any] | None = None
     ) -> str:
-        rooms = data.get("rooms", [])
+        rooms = data.get("rooms", {}).values()
         if action == "get":
             if room_id:
-                result = [r for r in rooms if r.get("id") == room_id]
+                result = [r for r in rooms.values() if r.get("id") == room_id]
             elif filters:
                 result = [
-                    r for r in rooms if all(r.get(k) == v for k, v in filters.items())
+                    r for r in rooms.values() if all(r.get(k) == v for k, v in filters.items())
                 ]
             else:
                 result = rooms
@@ -390,7 +390,7 @@ class ManageRoomInDatabase(Tool):
                 )
                 return out
             found = False
-            for r in rooms:
+            for r in rooms.values():
                 if r["id"] == room_id:
                     if device_id not in r["devices"]:
                         r["devices"].append(device_id)
@@ -420,7 +420,7 @@ class ManageRoomInDatabase(Tool):
                 )
                 return out
             found = False
-            for r in rooms:
+            for r in rooms.values():
                 if r["id"] == room_id:
                     if device_id in r["devices"]:
                         r["devices"].remove(device_id)
@@ -450,7 +450,7 @@ class ManageRoomInDatabase(Tool):
                 )
                 return out
             found = False
-            for r in rooms:
+            for r in rooms.values():
                 if r["id"] == room_id:
                     if device_id in r["devices"]:
                         # This serves as a placeholder; real device configurations for each room will require a schema
@@ -529,12 +529,12 @@ class GetSceneByIdOrFilter(Tool):
     def invoke(
         data: dict[str, Any], scene_id: str = "", filters: dict[str, Any] | None = None
     ) -> str:
-        scenes = data.get("scenes", [])
+        scenes = data.get("scenes", {}).values()
         if scene_id:
-            result = [s for s in scenes if s.get("id") == scene_id]
+            result = [s for s in scenes.values() if s.get("id") == scene_id]
         elif filters:
             result = [
-                s for s in scenes if all(s.get(k) == v for k, v in filters.items())
+                s for s in scenes.values() if all(s.get(k) == v for k, v in filters.items())
             ]
         else:
             payload = {"error": "Either 'scene_id' or 'filters' must be provided"}
@@ -586,15 +586,15 @@ class AddSceneToDatabase(Tool):
             payload = {"error": "'scene' parameter is required"}
             out = json.dumps(payload, indent=2)
             return out
-        scenes = data.get("scenes", [])
-        if any(s["id"] == scene.get("id") for s in scenes):
+        scenes = data.get("scenes", {}).values()
+        if any(s["id"] == scene.get("id") for s in scenes.values()):
             payload = {"error": "Scene with this id already exists"}
             out = json.dumps(payload, indent=2)
             return out
         if not threshold:
-            scenes.append(scene)
+            data["scenes"][scene_id] = scene
         else:
-            for sensor in data.get("sensors", []):
+            for sensor in data.get("sensors", {}).values():
                 if sensor.get("id") == threshold.get("sensor_id"):
                     for param, limit in threshold.items():
                         current_value = sensor["state"].get(param)
@@ -605,7 +605,7 @@ class AddSceneToDatabase(Tool):
                             limit.get("operator") == "lt"
                             and current_value < limit.get("value")
                         ):
-                            scenes.append(scene)
+                            data["scenes"][scene_id] = scene
         payload = {"success": "Scene added", "scene": scene, "scenes": scenes}
         out = json.dumps(
             payload, indent=2
@@ -648,9 +648,9 @@ class UpdateSceneInDatabase(Tool):
                 payload, indent=2
             )
             return out
-        scenes = data.get("scenes", [])
+        scenes = data.get("scenes", {}).values()
         found = False
-        for s in scenes:
+        for s in scenes.values():
             if s["id"] == scene_id:
                 for k, v in updates.items():
                     if k == "actions":
@@ -710,8 +710,8 @@ class DeleteSceneFromDatabase(Tool):
             payload = {"error": "'scene_id' parameter is required"}
             out = json.dumps(payload, indent=2)
             return out
-        scenes = data.get("scenes", [])
-        new_list = [s for s in scenes if s["id"] != scene_id]
+        scenes = data.get("scenes", {}).values()
+        new_list = [s for s in scenes.values() if s["id"] != scene_id]
         if len(new_list) == len(scenes):
             payload = {"error": "Scene not found"}
             out = json.dumps(payload, indent=2)
@@ -749,10 +749,10 @@ class ListScenesInDatabase(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], filters: dict[str, Any] | None = None) -> str:
-        scenes = data.get("scenes", [])
+        scenes = data.get("scenes", {}).values()
         if filters:
             result = [
-                s for s in scenes if all(s.get(k) == v for k, v in filters.items())
+                s for s in scenes.values() if all(s.get(k) == v for k, v in filters.items())
             ]
         else:
             result = scenes
@@ -794,16 +794,15 @@ class GetCustomListByIdOrFilter(Tool):
         name: str = "",
         filters: dict[str, Any] | None = None
     ) -> str:
-        custom_lists = data.get("custom_lists", [])
+        custom_lists = data.get("custom_lists", {}).values()
         if list_id:
-            result = [l for l in custom_lists if l.get("list_id") == list_id]
+            result = [l for l in custom_lists.values() if l.get("list_id") == list_id]
         elif name:
-            result = [l for l in custom_lists if l.get("name") == name]
+            result = [l for l in custom_lists.values() if l.get("name") == name]
         elif filters:
             result = [
                 l
-                for l in custom_lists
-                if all(l.get(k) == v for k, v in filters.items())
+                for l in custom_lists.values() if all(l.get(k) == v for k, v in filters.items())
             ]
         else:
             payload = {"error": "Either 'list_id', 'name', or 'filters' must be provided"}
@@ -857,14 +856,14 @@ class AddCustomListToDatabase(Tool):
                 payload, indent=2
             )
             return out
-        custom_lists = data.get("custom_lists", [])
-        if any(l["list_id"] == custom_list.get("list_id") for l in custom_lists):
+        custom_lists = data.get("custom_lists", {}).values()
+        if any(l["list_id"] == custom_list.get("list_id") for l in custom_lists.values()):
             payload = {"error": "Custom list with this id already exists"}
             out = json.dumps(
                 payload, indent=2
             )
             return out
-        custom_lists.append(custom_list)
+        data["custom_lists"][custom_list["custom_list_id"]] = custom_list
         payload = {
                 "success": "Custom list added",
                 "custom_list": custom_list,
@@ -911,9 +910,9 @@ class UpdateCustomListInDatabase(Tool):
                 payload, indent=2
             )
             return out
-        custom_lists = data.get("custom_lists", [])
+        custom_lists = data.get("custom_lists", {}).values()
         found = False
-        for l in custom_lists:
+        for l in custom_lists.values():
             if l["list_id"] == list_id:
                 for k, v in updates.items():
                     l[k] = v
@@ -970,8 +969,8 @@ class DeleteCustomListFromDatabase(Tool):
             payload = {"error": "'list_id' parameter is required"}
             out = json.dumps(payload, indent=2)
             return out
-        custom_lists = data.get("custom_lists", [])
-        new_list = [l for l in custom_lists if l["list_id"] != list_id]
+        custom_lists = data.get("custom_lists", {}).values()
+        new_list = [l for l in custom_lists.values() if l["list_id"] != list_id]
         if len(new_list) == len(custom_lists):
             payload = {"error": "Custom list not found"}
             out = json.dumps(payload, indent=2)
@@ -1018,12 +1017,12 @@ class GetReminderByIdOrFilter(Tool):
         reminder_id: str = "",
         filters: dict[str, Any] | None = None
     ) -> str:
-        reminders = data.get("reminders", [])
+        reminders = data.get("reminders", {}).values()
         if reminder_id:
-            result = [r for r in reminders if r.get("reminder_id") == reminder_id]
+            result = [r for r in reminders.values() if r.get("reminder_id") == reminder_id]
         elif filters:
             result = [
-                r for r in reminders if all(r.get(k) == v for k, v in filters.items())
+                r for r in reminders.values() if all(r.get(k) == v for k, v in filters.items())
             ]
         else:
             payload = {"error": "Either 'reminder_id' or 'filters' must be provided"}
@@ -1075,14 +1074,14 @@ class AddReminderToDatabase(Tool):
             payload = {"error": "'reminder' parameter is required"}
             out = json.dumps(payload, indent=2)
             return out
-        reminders = data.get("reminders", [])
-        if any(r["reminder_id"] == reminder.get("reminder_id") for r in reminders):
+        reminders = data.get("reminders", {}).values()
+        if any(r["reminder_id"] == reminder.get("reminder_id") for r in reminders.values()):
             payload = {"error": "Reminder with this id already exists"}
             out = json.dumps(
                 payload, indent=2
             )
             return out
-        reminders.append(reminder)
+        data["reminders"][reminder_id] = reminder
         payload = {"success": "Reminder added", "reminder": reminder, "reminders": reminders}
         out = json.dumps(
             payload, indent=2,
@@ -1127,9 +1126,9 @@ class UpdateReminderInDatabase(Tool):
                 payload, indent=2,
             )
             return out
-        reminders = data.get("reminders", [])
+        reminders = data.get("reminders", {}).values()
         found = False
-        for r in reminders:
+        for r in reminders.values():
             if r["reminder_id"] == reminder_id:
                 for k, v in updates.items():
                     r[k] = v
@@ -1188,8 +1187,8 @@ class DeleteReminderFromDatabase(Tool):
                 payload, indent=2
             )
             return out
-        reminders = data.get("reminders", [])
-        new_list = [r for r in reminders if r["reminder_id"] != reminder_id]
+        reminders = data.get("reminders", {}).values()
+        new_list = [r for r in reminders.values() if r["reminder_id"] != reminder_id]
         if len(new_list) == len(reminders):
             payload = {"error": "Reminder not found"}
             out = json.dumps(payload, indent=2)
@@ -1239,13 +1238,13 @@ class ManageMemberInDatabase(Tool):
         updates: dict[str, Any] | None = None,
         filters: dict[str, Any] | None = None
     ) -> str:
-        members = data.get("members", [])
+        members = data.get("members", {}).values()
         if action == "get":
             if member_id:
-                result = [m for m in members if m.get("id") == member_id]
+                result = [m for m in members.values() if m.get("id") == member_id]
             elif filters:
                 result = [
-                    m for m in members if all(m.get(k) == v for k, v in filters.items())
+                    m for m in members.values() if all(m.get(k) == v for k, v in filters.items())
                 ]
             else:
                 result = members
@@ -1259,13 +1258,13 @@ class ManageMemberInDatabase(Tool):
                     payload, indent=2
                 )
                 return out
-            if any(m["id"] == member.get("id") for m in members):
+            if any(m["id"] == member.get("id") for m in members.values()):
                 payload = {"error": "Member with this id already exists"}
                 out = json.dumps(
                     payload, indent=2
                 )
                 return out
-            members.append(member)
+            data["members"][member_id] = member
             payload = {"success": "Member added", "member": member, "members": members}
             out = json.dumps(
                 payload, indent=2,
@@ -1281,7 +1280,7 @@ class ManageMemberInDatabase(Tool):
                 )
                 return out
             found = False
-            for m in members:
+            for m in members.values():
                 if m["id"] == member_id:
                     for k, v in updates.items():
                         m[k] = v
@@ -1308,7 +1307,7 @@ class ManageMemberInDatabase(Tool):
                     payload, indent=2
                 )
                 return out
-            new_list = [m for m in members if m["id"] != member_id]
+            new_list = [m for m in members.values() if m["id"] != member_id]
             if len(new_list) == len(members):
                 payload = {"error": "Member not found"}
                 out = json.dumps(payload, indent=2)

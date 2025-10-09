@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AppendProjectRevenueRows(Tool):
@@ -16,7 +16,7 @@ class AppendProjectRevenueRows(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], snapshot_id: str = None, items: list = None) -> str:
-        rows_tbl = data.get("project_revenue", [])
+        rows_tbl = data.get("project_revenue", {}).values()
         items = items or []
         inserted = []
 

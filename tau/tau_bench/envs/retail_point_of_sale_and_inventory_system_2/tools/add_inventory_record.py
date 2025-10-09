@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddInventoryRecord(Tool):
@@ -22,11 +22,11 @@ class AddInventoryRecord(Tool):
         reorder_level: int,
         safety_stock: int
     ) -> str:
-        inventory = data.get("inventory", [])
-        products = data.get("products", [])
+        inventory = data.get("inventory", {}).values()
+        products = data.get("products", {}).values()
 
         # Verify the existence of the product
-        product = next((p for p in products if p.get("sku") == sku), None)
+        product = next((p for p in products.values() if p.get("sku") == sku), None)
         if not product:
             payload = {"error": f"Product with SKU {sku} not found."}
             out = json.dumps(payload)
@@ -36,8 +36,7 @@ class AddInventoryRecord(Tool):
         existing_record = next(
             (
                 inv
-                for inv in inventory
-                if inv.get("sku") == sku and inv.get("store_id") == store_id
+                for inv in inventory.values() if inv.get("sku") == sku and inv.get("store_id") == store_id
             ),
             None,
         )
@@ -63,17 +62,17 @@ class AddInventoryRecord(Tool):
             "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         }
 
-        inventory.append(new_inventory_record)
+        data["inventory"][inventory_id] = new_inventory_record
         data["inventory"] = inventory
         payload = new_inventory_record
         out = json.dumps(payload, indent=2)
         return out
         pass
-        inventory = data.get("inventory", [])
-        products = data.get("products", [])
+        inventory = data.get("inventory", {}).values()
+        products = data.get("products", {}).values()
 
         #Verify the existence of the product
-        product = next((p for p in products if p.get("sku") == sku), None)
+        product = next((p for p in products.values() if p.get("sku") == sku), None)
         if not product:
             payload = {"error": f"Product with SKU {sku} not found."}
             out = json.dumps(payload)
@@ -83,8 +82,7 @@ class AddInventoryRecord(Tool):
         existing_record = next(
             (
                 inv
-                for inv in inventory
-                if inv.get("sku") == sku and inv.get("store_id") == store_id
+                for inv in inventory.values() if inv.get("sku") == sku and inv.get("store_id") == store_id
             ),
             None,
         )
@@ -111,7 +109,7 @@ class AddInventoryRecord(Tool):
             "updated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         }
 
-        inventory.append(new_inventory_record)
+        data["inventory"][inventory_id] = new_inventory_record
         data["inventory"] = inventory
         payload = new_inventory_record
         out = json.dumps(payload, indent=2)

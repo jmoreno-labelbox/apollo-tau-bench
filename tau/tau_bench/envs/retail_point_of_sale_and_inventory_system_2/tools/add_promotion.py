@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddPromotion(Tool):
@@ -23,9 +23,9 @@ class AddPromotion(Tool):
         start_date: str,
         end_date: str
     ) -> str:
-        promotions = data.get("promotions", [])
+        promotions = data.get("promotions", {}).values()
 
-        if any(p.get("promotion_id") == promotion_id for p in promotions):
+        if any(p.get("promotion_id") == promotion_id for p in promotions.values()):
             payload = {"error": f"Promotion with ID {promotion_id} already exists."}
             out = json.dumps(payload)
             return out
@@ -42,15 +42,15 @@ class AddPromotion(Tool):
             "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         }
 
-        promotions.append(new_promotion)
+        data["promotions"][promotion_id] = new_promotion
         data["promotions"] = promotions
         payload = new_promotion
         out = json.dumps(payload, indent=2)
         return out
         pass
-        promotions = data.get("promotions", [])
+        promotions = data.get("promotions", {}).values()
 
-        if any(p.get("promotion_id") == promotion_id for p in promotions):
+        if any(p.get("promotion_id") == promotion_id for p in promotions.values()):
             payload = {"error": f"Promotion with ID {promotion_id} already exists."}
             out = json.dumps(
                 payload)
@@ -68,7 +68,7 @@ class AddPromotion(Tool):
             "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         }
 
-        promotions.append(new_promotion)
+        data["promotions"][promotion_id] = new_promotion
         data["promotions"] = promotions
         payload = new_promotion
         out = json.dumps(payload, indent=2)

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreatePolicyException(Tool):
@@ -34,19 +34,19 @@ class CreatePolicyException(Tool):
             return out
 
         #Confirm the user is present
-        if not _find_by_id(data.get("users", []), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
 
         #Confirm the permission is present
-        if not _find_by_id(data.get("permissions", []), "permission_id", permission_id):
+        if not _find_by_id(data.get("permissions", {}).values()), "permission_id", permission_id):
             payload = {"error": f"permission_id {permission_id} not found"}
             out = json.dumps(payload)
             return out
 
         #Confirm the reviewer is present
-        if not _find_by_id(data.get("users", []), "user_id", reviewed_by):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", reviewed_by):
             payload = {"error": f"reviewed_by {reviewed_by} not found"}
             out = json.dumps(payload)
             return out

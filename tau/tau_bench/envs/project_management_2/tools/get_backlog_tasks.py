@@ -9,20 +9,20 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetBacklogTasks(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], priority: str = None, max_story_points: int = None) -> str:
-        tasks = data.get("tasks", [])
+        tasks = data.get("tasks", {}).values()
 
         backlog_tasks = [
-            t for t in tasks if not t.get("sprint_id") and t.get("status") != "done"
+            t for t in tasks.values() if not t.get("sprint_id") and t.get("status") != "done"
         ]
 
         if priority:
-            backlog_tasks = [t for t in backlog_tasks if t.get("priority") == priority]
+            backlog_tasks = [t for t in backlog_tasks.values() if t.get("priority") == priority]
 
         if max_story_points:
             backlog_tasks = [

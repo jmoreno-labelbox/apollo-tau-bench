@@ -8,7 +8,7 @@ from decimal import ROUND_HALF_UP, Decimal
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ApplyClusterPlanStep(Tool):
@@ -20,7 +20,7 @@ class ApplyClusterPlanStep(Tool):
         step_index = int(step_index)
         # retrieve the plan
         plan = None
-        for p in data.get("aws_plans", []):
+        for p in data.get("aws_plans", {}).values():
             if p.get("plan_id") == plan_id and p.get("type") == "cluster":
                 plan = p
                 break
@@ -36,7 +36,7 @@ class ApplyClusterPlanStep(Tool):
 
         # find the cluster
         cl = None
-        for c in data.get("aws_elasticache_clusters", []):
+        for c in data.get("aws_elasticache_clusters", {}).values():
             if c.get("cluster_id") == plan["cluster_id"]:
                 cl = c
                 break
@@ -81,14 +81,14 @@ class ApplyClusterPlanStep(Tool):
         if step == "standardize_env_on_sg" or step == "consolidate_redis_on_sg":
             # manage rules for this Security Group
             sg_id = plan["security_group_id"]
-            rules = data.get("aws_security_group_rules", [])
+            rules = data.get("aws_security_group_rules", {}).values()
             if step == "standardize_env_on_sg":
                 tag = plan["env_tag"]
                 changed = []
                 tag_norm = (
                     tag if tag.startswith("[") and tag.endswith("]") else f"[{tag}]"
                 )
-                for r in rules:
+                for r in rules.values()):
                     if r.get("security_group_id") == sg_id and r.get("port") == 6379:
                         d = r.get("description", "")
                         if tag_norm not in d:
@@ -102,7 +102,7 @@ class ApplyClusterPlanStep(Tool):
                 keep = None
                 removed = []
                 remain = []
-                for r in rules:
+                for r in rules.values():
                     if r.get("security_group_id") == sg_id and r.get("port") == 6379:
                         if keep is None:
                             keep = r

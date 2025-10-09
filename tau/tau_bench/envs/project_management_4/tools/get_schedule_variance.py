@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetScheduleVariance(Tool):
@@ -20,21 +20,21 @@ class GetScheduleVariance(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        schedule_baselines = data.get("schedule_baselines", [])
+        milestones = data.get("milestones", {}).values()
+        schedule_baselines = data.get("schedule_baselines", {}).values()
 
         project_milestones = [
-            m for m in milestones if m.get("project_id") == project_id
+            m for m in milestones.values() if m.get("project_id") == project_id
         ]
 
         if baseline_id:
             baseline = next(
-                (b for b in schedule_baselines if b.get("baseline_id") == baseline_id),
+                (b for b in schedule_baselines.values() if b.get("baseline_id") == baseline_id),
                 None,
             )
         else:
             project_baselines = [
-                b for b in schedule_baselines if b.get("project_id") == project_id
+                b for b in schedule_baselines.values() if b.get("project_id") == project_id
             ]
             baseline = (
                 max(project_baselines, key=lambda x: x.get("created_date"))
@@ -125,7 +125,7 @@ class GetScheduleVariance(Tool):
         ]
         payload = {
                 "delayed_milestones": len(
-                    [v for v in variance_analysis if v["variance_days"] > 0]
+                    [v for v in variance_analysis.values() if v["variance_days"] > 0]
                 ),
                 "project_id": project_id,
                 "baseline_id": baseline.get("baseline_id"),
@@ -135,17 +135,17 @@ class GetScheduleVariance(Tool):
                 "summary": {
                     "total_milestones": len(variance_analysis),
                     "delayed_milestones": len(
-                        [v for v in variance_analysis if v["variance_days"] > 0]
+                        [v for v in variance_analysis.values() if v["variance_days"] > 0]
                     ),
                     "ahead_milestones": len(
-                        [v for v in variance_analysis if v["variance_days"] < 0]
+                        [v for v in variance_analysis.values() if v["variance_days"] < 0]
                     ),
                     "on_track_milestones": len(
-                        [v for v in variance_analysis if v["variance_days"] == 0]
+                        [v for v in variance_analysis.values() if v["variance_days"] == 0]
                     ),
                     "average_variance_days": round(avg_variance, 1),
                     "max_delay_days": max(
-                        (v["variance_days"] for v in variance_analysis), default=0
+                        (v["variance_days"] for v in variance_analysis.values()), default=0
                     ),
                     "milestones_requiring_executive_approval": len(requiring_approval),
                 },

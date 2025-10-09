@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetProductItemsPerSupplier:
@@ -31,10 +31,10 @@ class GetProductItemsPerSupplier:
             return out
             
         # Find the specified supplier
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         target_supplier = None
 
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             if supplier.get("supplier_id") == supplier_id:
                 target_supplier = supplier
                 break
@@ -45,7 +45,7 @@ class GetProductItemsPerSupplier:
             return out
 
         # Get product information for mapping items to products
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         product_details_map = {}
         item_to_product_map = {}
 
@@ -69,7 +69,7 @@ class GetProductItemsPerSupplier:
         if product_type_list:
             product_type_lower = [ptype.lower() for ptype in product_type_list]
 
-        for product in products:
+        for product in products.values():
             product_id = product.get("product_id")
             product_name = product.get("name", "").lower()
 
@@ -86,16 +86,16 @@ class GetProductItemsPerSupplier:
                     "product_id": product_id,
                     "name": product.get("name"),
                     "category": product.get("category"),
-                    "variants": product.get("variants", {}),
+                    "variants": product.get("variants", {}).values()),
                 }
 
                 # Map each item to its product
-                variants = product.get("variants", {})
+                variants = product.get("variants", {}).values()
                 for item_id in variants.keys():
                     item_to_product_map[item_id] = product_id
 
         # Get supplier information
-        supplier_item_stock = target_supplier.get("item_stock", {})
+        supplier_item_stock = target_supplier.get("item_stock", {}).values()
 
         # Process items based on stock_available filter and product type filter
         filtered_items = {}
@@ -143,9 +143,9 @@ class GetProductItemsPerSupplier:
                             filtered_items[product_id] = []
 
                         # Get item details from product variants
-                        product_info = product_details_map.get(product_id, {})
-                        variants = product_info.get("variants", {})
-                        item_variant_info = variants.get(item_id, {})
+                        product_info = product_details_map.get(product_id, {}).values()
+                        variants = product_info.get("variants", {}).values()
+                        item_variant_info = variants.get(item_id, {}).values()
 
                         filtered_items[product_id].append(
                             {
@@ -169,7 +169,7 @@ class GetProductItemsPerSupplier:
                                     "available": item_variant_info.get(
                                         "available", False
                                     ),
-                                    "options": item_variant_info.get("options", {}),
+                                    "options": item_variant_info.get("options", {}).values()),
                                 },
                             }
                         )

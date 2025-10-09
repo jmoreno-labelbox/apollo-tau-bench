@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ManageCustomListItems(Tool):
@@ -15,7 +15,7 @@ class ManageCustomListItems(Tool):
     def invoke(
         data: dict[str, Any], list_id: str, item: dict[str, Any], action: str
     ) -> str:
-        custom_lists = data.get("custom_lists", [])
+        custom_lists = data.get("custom_lists", {}).values()
         list_found = False
         for l in custom_lists:
             if l.get("list_id") == list_id:
@@ -30,7 +30,7 @@ class ManageCustomListItems(Tool):
                     return out
                 elif action == "remove":
                     initial_len = len(items)
-                    items[:] = [i for i in items if i.get("item") != item.get("item")]
+                    items[:] = [i for i in items.values() if i.get("item") != item.get("item")]
                     if len(items) < initial_len:
                         payload = {"success": f"Item removed from list '{list_id}'."}
                         out = json.dumps(

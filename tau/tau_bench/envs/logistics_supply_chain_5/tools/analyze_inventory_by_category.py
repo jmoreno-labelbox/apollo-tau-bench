@@ -8,16 +8,16 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AnalyzeInventoryByCategory(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str, inventory: list = None, product_master: list = None) -> str:
-        inventory = inventory if inventory is not None else data.get("inventory", [])
-        product_master = product_master if product_master is not None else data.get("product_master", [])
+        inventory = inventory if inventory is not None else data.get("inventory", {}).values()
+        product_master = product_master if product_master is not None else data.get("product_master", {}).values()
 
-        warehouse_inventory = [item for item in inventory if item.get("warehouse_id") == warehouse_id]
+        warehouse_inventory = [item for item in inventory.values() if item.get("warehouse_id") == warehouse_id]
 
         category_analysis = {}
         for item in warehouse_inventory:

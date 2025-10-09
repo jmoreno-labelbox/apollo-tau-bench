@@ -40,7 +40,7 @@ class GetAverageTicketPrice(Tool):
         q1, q3 = q(25), q(75)
         iqr = q3 - q1
         lo, hi = q1 - k * iqr, q3 + k * iqr
-        return [v for v in vals if lo <= v <= hi]
+        return [v for v in vals.values() if lo <= v <= hi]
 
     @staticmethod
     def _collect_prices(flight, fare_class, start_date, end_date, exclude_dates):

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchRouteDetailsTool(Tool):
@@ -22,14 +22,14 @@ class FetchRouteDetailsTool(Tool):
         if route_id is None and client_id is None:
             return _err("route_id WA client_id is required")
 
-        routes = data.get("routes", [])
+        routes = data.get("routes", {}).values()
         route = None
         if route_id is not None:
             route = next(
-                (r for r in routes if _as_int(r.get("route_id")) == route_id), None
+                (r for r in routes.values() if _as_int(r.get("route_id")) == route_id), None
             )
         else:
-            croutes = [r for r in routes if _as_int(r.get("client_id")) == client_id]
+            croutes = [r for r in routes.values() if _as_int(r.get("client_id")) == client_id]
             if croutes:
                 croutes.sort(
                     key=lambda r: r.get("created_at") or r.get("date") or "",

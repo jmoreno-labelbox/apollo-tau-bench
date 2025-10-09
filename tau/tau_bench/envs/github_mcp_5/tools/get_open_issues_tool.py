@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetOpenIssuesTool(Tool):
@@ -51,7 +51,7 @@ class GetOpenIssuesTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", [])
+        issues = data.get("issues", {}).values()
         open_issues = [
             {
                 "issue_id": _safe_id(
@@ -64,8 +64,7 @@ class GetOpenIssuesTool(Tool):
                 "created_at": i.get("created_at"),
                 "report_date": CURRENT_DATE,
             }
-            for i in issues
-            if i.get("repo") == repo_name and i.get("state") == "open"
+            for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "open"
         ]
         return _response("ok", open_issues)
     @staticmethod

@@ -26,7 +26,7 @@ class PostNewReview(Tool):
         }
         if "reviews" not in data:
             data["reviews"] = []
-        data["reviews"].append(new_review)
+        data["reviews"][review_id] = new_review
         payload = {"success": True, "review": new_review}
         out = json.dumps(payload)
         return out

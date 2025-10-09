@@ -12,8 +12,8 @@ class MakeLoanOverpayment(Tool):
         loans = load_json('loans.json')
         accounts = load_json('accounts.json')
         transactions = load_json('transactions.json')
-        loan = next((l for l in loans if l['loan_id'] == loan_id), None)
-        acct = next((a for a in accounts if a['account_id'] == from_account_id and a['status'] == 'Active'), None)
+        loan = next((l for l in loans.values() if l['loan_id'] == loan_id), None)
+        acct = next((a for a in accounts.values() if a['account_id'] == from_account_id and a['status'] == 'Active'), None)
         if not loan or 'current_balance' not in loan:
             return json.dumps({'error': 'Loan not found or missing current_balance.'})
         if not acct or 'balance' not in acct:

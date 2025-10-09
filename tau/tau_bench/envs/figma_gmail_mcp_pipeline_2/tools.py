@@ -13,76 +13,76 @@ _VALID_TYPES = {"FILE", "PAGE", "FRAME"}
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
 def get_next_diff_id(data):
     pass
-    ncom = len(data.get("release_diffs", []))
+    ncom = len(data.get("release_diffs", {}))
     next_num = ncom + 1
     return f"diff_0{next_num}"
 
 
 def get_next_message_id(data):
     pass
-    nmsgs = len(data.get("gmail_messages", []))
+    nmsgs = len(data.get("gmail_messages", {}))
     next_num = nmsgs + 1
     return f"msg_0{next_num}"
 
 
 def get_next_approve_id(data):
     pass
-    ncom = len(data.get("review_approvals", []))
+    ncom = len(data.get("review_approvals", {}))
     next_num = ncom + 1
     return f"approval_0{next_num}"
 
 
 def get_next_audit_id(data):
     pass
-    ncom = len(data.get("audits", []))
+    ncom = len(data.get("audits", {}))
     next_num = ncom + 1
     return f"audit_0{next_num}"
 
 
 def get_next_comment_id(data):
     pass
-    ncom = len(data.get("figma_comments", []))
+    ncom = len(data.get("figma_comments", {}))
     next_num = ncom + 1
     return f"comment_0{next_num}"
 
 
 def get_next_cycle_id(data):
     pass
-    ncylcles = len(data.get("review_cycles", []))
+    ncylcles = len(data.get("review_cycles", {}))
     next_num = ncylcles + 1
     return f"cycle_0{next_num}"
 
 
 def get_next_release_id(data):
     pass
-    ncom = len(data.get("releases", []))
+    ncom = len(data.get("releases", {}))
     next_num = ncom + 1
     return f"release_0{next_num}"
 
 
 def get_next_finding_ds_id(data):
     pass
-    ncom = len(data.get("audit_findings_ds", []))
+    ncom = len(data.get("audit_findings_ds", {}))
     next_num = ncom + 1
     return f"finding_ds_0{next_num}"
 
 
 def get_next_finding_a11y_id(data):
     pass
-    ncom = len(data.get("audit_findings_a11y", []))
+    ncom = len(data.get("audit_findings_a11y", {}))
     next_num = ncom + 1
     return f"finding_a11y_0{next_num}"
 
 
 def get_next_asset_id(data):
     pass
-    nasset = len(data.get("assets", []))
+    nasset = len(data.get("assets", {}))
     next_num = nasset + 1
     return f"asset_0{next_num}"
 
@@ -94,14 +94,14 @@ def get_now_timestamp() -> str:
 
 def get_next_art_id(data):
     pass
-    narts = len(data.get("figma_artifacts", []))
+    narts = len(data.get("figma_artifacts", {}))
     next_num = narts + 1
     return f"art_0{next_num}"
 
 
 def get_next_thread_id(data):
     pass
-    nthreads = len(data.get("gmail_threads", []))
+    nthreads = len(data.get("gmail_threads", {}))
     next_num = nthreads + 1
     return f"thread_0{next_num}"
 
@@ -116,8 +116,8 @@ class GetArtifactWithId(Tool):
             )
             return out
 
-        artifacts = data.get("figma_artifacts", [])
-        for row in artifacts:
+        artifacts = data.get("figma_artifacts", {}).values()
+        for row in artifacts.values():
             if row.get("artifact_id") == artifact_id:
                 payload = row
                 out = json.dumps(payload, indent=2)
@@ -151,9 +151,9 @@ class GetAllArtifactsOfTypeWithTagsAndEmail(Tool):
             )
             return out
 
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = data.get("figma_artifacts", {}).values()
         results = []
-        for row in artifacts:
+        for row in artifacts.values():
             if row.get("artifact_type") != artifact_type:
                 continue
             if tags:
@@ -211,7 +211,7 @@ class CreateNewArtifact(Tool):
         ]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -226,7 +226,7 @@ class CreateNewArtifact(Tool):
             )
             return out
 
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = data.get("figma_artifacts", {}).values()
         artifact_id = get_next_art_id(data)
         created_ts = get_now_timestamp()
         current_tags = current_tags or []
@@ -246,7 +246,7 @@ class CreateNewArtifact(Tool):
             "current_tags": current_tags,
         }
 
-        artifacts.append(new_row)
+        data["figma_artifacts"][new_row["figma_artifact_id"]] = new_row
         data["figma_artifacts"] = artifacts
         payload = new_row
         out = json.dumps(payload, indent=2)
@@ -305,9 +305,9 @@ class GetArtifactsWithFileId(Tool):
             )
             return out
 
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = data.get("figma_artifacts", {}).values()
         results = []
-        for row in artifacts:
+        for row in artifacts.values():
             if row.get("figma_file_id") != figma_file_id:
                 continue
             if artifact_type and row.get("artifact_type") != artifact_type:
@@ -362,8 +362,8 @@ class GetAssetById(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        assets = data.get("assets", [])
-        for row in assets:
+        assets = data.get("assets", {}).values()
+        for row in assets.values():
             if row.get("asset_id") == asset_id:
                 payload = row
                 out = json.dumps(payload, indent=2)
@@ -397,10 +397,10 @@ class GetAssetsByArtifactId(Tool):
             )
             return out
 
-        assets = data.get("assets", [])
+        assets = data.get("assets", {}).values()
 
         results = [
-            row for row in assets if row.get("artifact_id_nullable") == artifact_id
+            row for row in assets.values() if row.get("artifact_id_nullable") == artifact_id
         ]
 
         if not results:
@@ -436,7 +436,7 @@ class CreateNewAsset(Tool):
         required = ["artifact_id", "export_profile", "file_size_bytes", "storage_ref"]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -444,7 +444,7 @@ class CreateNewAsset(Tool):
             )
             return out
 
-        assets = data.get("assets", [])
+        assets = data.get("assets", {}).values()
         asset_id = get_next_asset_id(data)
         created_ts = get_now_timestamp()
 
@@ -459,7 +459,7 @@ class CreateNewAsset(Tool):
             "dlp_scan_details_nullable": None,
         }
 
-        assets.append(new_asset)
+        data["assets"][asset_id] = new_asset
         data["assets"] = assets
         payload = new_asset
         out = json.dumps(payload, indent=2)
@@ -505,7 +505,7 @@ class CreateNewCycle(Tool):
             )
             return out
 
-        cycles: list[dict[str, Any]] = data.get("review_cycles", [])
+        cycles: list[dict[str, Any]] = data.get("review_cycles", {}).values()
         cycle_id = get_next_cycle_id(data)
         created_ts = get_now_timestamp()
 
@@ -557,7 +557,7 @@ class UpdateCycleStatus(Tool):
         required = ["cycle_id", "new_status"]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -565,7 +565,7 @@ class UpdateCycleStatus(Tool):
             )
             return out
 
-        cycles: list[dict[str, Any]] = data.get("review_cycles", [])
+        cycles: list[dict[str, Any]] = data.get("review_cycles", {}).values()
         for row in cycles:
             if row.get("cycle_id") == cycle_id:
                 row["status"] = new_status
@@ -610,7 +610,7 @@ class GetCycleByArtifactAndThread(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        cycles: list[dict[str, Any]] = data.get("review_cycles", [])
+        cycles: list[dict[str, Any]] = data.get("review_cycles", {}).values()
         results: list[dict[str, Any]] = []
         for row in cycles:
             if row.get("thread_id_nullable") != thread_id:
@@ -664,7 +664,7 @@ class GetCycleById(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        cycles: list[dict[str, Any]] = data.get("review_cycles", [])
+        cycles: list[dict[str, Any]] = data.get("review_cycles", {}).values()
         for row in cycles:
             if row.get("cycle_id") == cycle_id:
                 payload = row
@@ -710,7 +710,7 @@ class StartEmailThread(Tool):
         ]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -718,8 +718,8 @@ class StartEmailThread(Tool):
             )
             return out
 
-        threads: list[dict[str, Any]] = data.get("gmail_threads", [])
-        messages: list[dict[str, Any]] = data.get("gmail_messages", [])
+        threads: list[dict[str, Any]] = data.get("gmail_threads", {}).values()
+        messages: list[dict[str, Any]] = data.get("gmail_messages", {}).values()
 
         thread_id = get_next_thread_id(data)
         message_id = get_next_message_id(data)
@@ -753,7 +753,7 @@ class StartEmailThread(Tool):
             "attachments_asset_ids": attachments_asset_ids,
         }
 
-        threads.append(new_thread)
+        thredata["ads"][ad_id] = new_thread
         messages.append(new_message)
         data["gmail_threads"] = threads
         data["gmail_messages"] = messages
@@ -809,7 +809,7 @@ class SendEmailInThread(Tool):
         required = ["thread_id", "sender_id", "body_html"]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -819,8 +819,8 @@ class SendEmailInThread(Tool):
 
         attachments_asset_ids = attachments_asset_ids or []
 
-        threads: list[dict[str, Any]] = data.get("gmail_threads", [])
-        messages: list[dict[str, Any]] = data.get("gmail_messages", [])
+        threads: list[dict[str, Any]] = data.get("gmail_threads", {}).values()
+        messages: list[dict[str, Any]] = data.get("gmail_messages", {}).values()
 
         thread = None
         for row in threads:
@@ -900,8 +900,8 @@ class GetCompleteEmailThread(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        threads: list[dict[str, Any]] = data.get("gmail_threads", [])
-        messages: list[dict[str, Any]] = data.get("gmail_messages", [])
+        threads: list[dict[str, Any]] = data.get("gmail_threads", {}).values()
+        messages: list[dict[str, Any]] = data.get("gmail_messages", {}).values()
 
         thread = None
         for row in threads:
@@ -913,7 +913,7 @@ class GetCompleteEmailThread(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        msgs = [m for m in messages if m.get("thread_id") == thread_id]
+        msgs = [m for m in messages.values() if m.get("thread_id") == thread_id]
         msgs.sort(key=lambda r: (str(r.get("sent_ts")), str(r.get("message_id"))))
         payload = {"thread": thread, "messages": msgs, "count": len(msgs)}
         out = json.dumps(
@@ -944,7 +944,7 @@ class GetThreadBySubject(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        threads: list[dict[str, Any]] = data.get("gmail_threads", [])
+        threads: list[dict[str, Any]] = data.get("gmail_threads", {}).values()
         results: list[dict[str, Any]] = []
         for row in threads:
             if row.get("subject") != subject:
@@ -998,7 +998,7 @@ class AddComment(Tool):
         required = ["artifact_id", "author_email", "content", "resolved_flag"]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -1006,7 +1006,7 @@ class AddComment(Tool):
             )
             return out
 
-        comments: list[dict[str, Any]] = data.get("figma_comments", [])
+        comments: list[dict[str, Any]] = data.get("figma_comments", {}).values()
         comment_id = get_next_comment_id(data)
         created_ts = get_now_timestamp()
 
@@ -1058,7 +1058,7 @@ class ApproveReview(Tool):
         required = ["cycle_id", "approver_email"]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -1066,8 +1066,8 @@ class ApproveReview(Tool):
             )
             return out
 
-        approvals: list[dict[str, Any]] = data.get("review_approvals", [])
-        cycles: list[dict[str, Any]] = data.get("review_cycles", [])
+        approvals: list[dict[str, Any]] = data.get("review_approvals", {}).values()
+        cycles: list[dict[str, Any]] = data.get("review_cycles", {}).values()
 
         cycle = None
         for row in cycles:
@@ -1137,7 +1137,7 @@ class GetReleaseDetailsByName(Tool):
             )
             return out
 
-        releases: list[dict[str, Any]] = data.get("releases", [])
+        releases: list[dict[str, Any]] = data.get("releases", {}).values()
 
         results: list[dict[str, Any]] = [
             r for r in releases if r.get("release_name") == release_name
@@ -1189,7 +1189,7 @@ class CreateNewRelease(Tool):
         ]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -1197,7 +1197,7 @@ class CreateNewRelease(Tool):
             )
             return out
 
-        releases: list[dict[str, Any]] = data.get("releases", [])
+        releases: list[dict[str, Any]] = data.get("releases", {}).values()
         release_id = get_next_release_id(data)
         created_ts = get_now_timestamp()
 
@@ -1212,7 +1212,7 @@ class CreateNewRelease(Tool):
             "thread_id_nullable": thread_id,
         }
 
-        releases.append(new_release)
+        data["releases"][release_id] = new_release
         data["releases"] = releases
         payload = new_release
         out = json.dumps(payload, indent=2)
@@ -1254,7 +1254,7 @@ class GetReleaseById(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        releases: list[dict[str, Any]] = data.get("releases", [])
+        releases: list[dict[str, Any]] = data.get("releases", {}).values()
         for row in releases:
             if row.get("release_id") == release_id:
                 payload = row
@@ -1300,7 +1300,7 @@ class CreateReleaseDiff(Tool):
         required = ["release_id"]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -1308,7 +1308,7 @@ class CreateReleaseDiff(Tool):
             )
             return out
 
-        release_diffs: list[dict[str, Any]] = data.get("release_diffs", [])
+        release_diffs: list[dict[str, Any]] = data.get("release_diffs", {}).values()
         diff_id = get_next_diff_id(data)
         created_ts = get_now_timestamp()
 
@@ -1373,7 +1373,7 @@ class GetReleaseDiffByReleaseId(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        release_diffs: list[dict[str, Any]] = data.get("release_diffs", [])
+        release_diffs: list[dict[str, Any]] = data.get("release_diffs", {}).values()
         for row in release_diffs:
             if row.get("release_id") == release_id:
                 payload = row
@@ -1415,7 +1415,7 @@ class CompareBeforeAfterVisuals(Tool):
             )
             return out
 
-        release_diffs: list[dict[str, Any]] = data.get("release_diffs", [])
+        release_diffs: list[dict[str, Any]] = data.get("release_diffs", {}).values()
         diff_by_id = {d.get("release_id"): d for d in release_diffs}
 
         def lineage(rid: str) -> list[str]:
@@ -1434,7 +1434,7 @@ class CompareBeforeAfterVisuals(Tool):
                 return []
             s = set()
             for lr in lineage(rid):
-                d = diff_by_id.get(lr, {})
+                d = diff_by_id.get(lr, {}).values()
                 for a in d.get("frames_added") or []:
                     s.add(a)
                 for u in d.get("frames_updated") or []:
@@ -1503,7 +1503,7 @@ class NotifyStakeholders(Tool):
         required = ["thread_id", "body_html", "attachments_asset_ids"]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -1511,8 +1511,8 @@ class NotifyStakeholders(Tool):
             )
             return out
 
-        threads: list[dict[str, Any]] = data.get("gmail_threads", [])
-        messages: list[dict[str, Any]] = data.get("gmail_messages", [])
+        threads: list[dict[str, Any]] = data.get("gmail_threads", {}).values()
+        messages: list[dict[str, Any]] = data.get("gmail_messages", {}).values()
 
         thread = None
         for row in threads:
@@ -1583,7 +1583,7 @@ class CreateNewAudit(Tool):
         required = ["artifact_id", "audit_type"]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -1591,7 +1591,7 @@ class CreateNewAudit(Tool):
             )
             return out
 
-        audits: list[dict[str, Any]] = data.get("audits", [])
+        audits: list[dict[str, Any]] = data.get("audits", {}).values()
         audit_id = get_next_audit_id(data)
         created_ts = get_now_timestamp()
 
@@ -1653,8 +1653,8 @@ class RecordAuditFindings(Tool):
         ds_findings_in: list[dict[str, Any]] = ds_findings or []
         a11y_findings_in: list[dict[str, Any]] = a11y_findings or []
 
-        ds_table: list[dict[str, Any]] = data.get("audit_findings_ds", [])
-        a11y_table: list[dict[str, Any]] = data.get("audit_findings_a11y", [])
+        ds_table: list[dict[str, Any]] = data.get("audit_findings_ds", {}).values()
+        a11y_table: list[dict[str, Any]] = data.get("audit_findings_a11y", {}).values()
 
         ds_ids: list[str] = []
         for item in ds_findings_in:
@@ -1778,7 +1778,7 @@ class GenerateAuditReportAsset(Tool):
         required = ["audit_id", "report_storage_ref", "file_size_bytes"]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -1786,7 +1786,7 @@ class GenerateAuditReportAsset(Tool):
             )
             return out
 
-        assets: list[dict[str, Any]] = data.get("assets", [])
+        assets: list[dict[str, Any]] = data.get("assets", {}).values()
         asset_id = get_next_asset_id(data)
         created_ts = get_now_timestamp()
 
@@ -1801,7 +1801,7 @@ class GenerateAuditReportAsset(Tool):
             "dlp_scan_details_nullable": None,
         }
 
-        assets.append(new_asset)
+        data["assets"][asset_id] = new_asset
         data["assets"] = assets
         payload = new_asset
         out = json.dumps(payload, indent=2)
@@ -1832,7 +1832,7 @@ class CompleteAudit(Tool):
         required = ["audit_id", "report_asset_id"]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -1840,7 +1840,7 @@ class CompleteAudit(Tool):
             )
             return out
 
-        audits: list[dict[str, Any]] = data.get("audits", [])
+        audits: list[dict[str, Any]] = data.get("audits", {}).values()
         for row in audits:
             if row.get("audit_id") == audit_id:
                 row["status"] = "COMPLETED"

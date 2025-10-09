@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DeleteProduct(Tool):
@@ -21,11 +21,11 @@ class DeleteProduct(Tool):
             out = json.dumps(payload)
             return out
 
-        products = data.get("dim_product", [])
-        for product in products:
+        products = data.get("dim_product", {}).values()
+        for product in products.values():
             if product.get("product_id") == product_id:
                 data["dim_product"] = [
-                    d for d in data["dim_product"] if d["product_id"] != product_id
+                    d for d in data["dim_product"].values() if d["product_id"] != product_id
                 ]
                 payload = {
                     "status": "success",

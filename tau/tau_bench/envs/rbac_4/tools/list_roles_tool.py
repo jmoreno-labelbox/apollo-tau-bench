@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListRolesTool(Tool):
@@ -15,12 +15,12 @@ class ListRolesTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], is_temporary: bool = None) -> str:
-        roles = data.get("roles", [])
+        roles = data.get("roles", {}).values()
         if is_temporary is None:
             payload = roles
             out = json.dumps(payload, indent=2)
             return out
-        payload = [r for r in roles if r["is_temporary"] == is_temporary]
+        payload = [r for r in roles.values() if r["is_temporary"] == is_temporary]
         out = json.dumps(
             payload, indent=2
         )

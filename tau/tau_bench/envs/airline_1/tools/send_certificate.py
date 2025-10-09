@@ -9,23 +9,23 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SendCertificate(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_email: str, amount: float) -> str:
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         user = next(
-            (u for u in users if u.get("email", "").startswith(user_email)), None
+            (u for u in users.values() if u.get("email", "").startswith(user_email)), None
         )
         if not user:
             payload = {"error": "User not found", "user_email": user_email}
             out = json.dumps(payload)
             return out
 
-        payment_methods = user.get("payment_methods", {})
+        payment_methods = user.get("payment_methods", {}).values()
         cert_ids = [
             int(k.split("_")[-1])
             for k in payment_methods

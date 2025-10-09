@@ -24,7 +24,7 @@ class ListLinkedBeneficiariesTool(Tool):
         if not customer_id:
             return json.dumps({"error": "customer_id is required"}, indent=2)
         beneficiaries = load_json("beneficiaries.json")
-        linked = [b for b in beneficiaries if b["customer_id"] == customer_id]
+        linked = [b for b in beneficiaries.values() if b["customer_id"] == customer_id]
         return json.dumps({"beneficiaries": linked}, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:

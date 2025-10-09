@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetRepository(Tool):
@@ -15,11 +15,11 @@ class GetRepository(Tool):
     def invoke(data: dict[str, Any], owner: str, repo: str, body: Any = None) -> str:
         """Get detailed information about a specific repository."""
         pass
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
 
         #Locate the repository
         target_repo = None
-        for repository in repositories:
+        for repository in repositories.values():
             repo_name = repository.get("repo_name") or repository.get("name")
             if repository.get("owner") == owner and repo_name == repo:
                 target_repo = repository
@@ -35,7 +35,7 @@ class GetRepository(Tool):
                         "searched_repo": repo,
                         "available_repos": [
                             f"{r.get('owner')}/{r.get('repo_name') or r.get('name')}"
-                            for r in repositories
+                            for r in repositories.values()
                         ],
                     },
                 }

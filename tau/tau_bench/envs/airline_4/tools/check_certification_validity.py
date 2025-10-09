@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckCertificationValidity(Tool):
@@ -63,17 +63,17 @@ class CheckCertificationValidity(Tool):
             check_date = check_date_obj.strftime("%Y-%m-%d")
 
         #Locate the certification record
-        crew_certifications = data.get("crew_certifications", [])
+        crew_certifications = data.get("crew_certifications", {}).values()
         target_certification = None
 
-        for cert in crew_certifications:
+        for cert in crew_certifications.values():
             if search_method == "certification_id":
                 if cert.get("crew_certification_id") == crew_certification_id:
                     target_certification = cert
                     break
             elif search_method == "crew_and_cert":
-                crew_info = cert.get("crew_member", {})
-                cert_info = cert.get("certification", {})
+                crew_info = cert.get("crew_member", {}).values()
+                cert_info = cert.get("certification", {}).values()
                 if (
                     crew_info.get("crew_member_id") == crew_member_id
                     and cert_info.get("certification_id") == certification_id
@@ -93,8 +93,8 @@ class CheckCertificationValidity(Tool):
         #Obtain details of the certification
         issue_date_str = target_certification.get("issue_date")
         expiry_date_str = target_certification.get("expiry_date")
-        crew_info = target_certification.get("crew_member", {})
-        cert_info = target_certification.get("certification", {})
+        crew_info = target_certification.get("crew_member", {}).values()
+        cert_info = target_certification.get("certification", {}).values()
 
         #Analyze dates
         try:
@@ -146,9 +146,9 @@ class CheckCertificationValidity(Tool):
             days_info = "No expiry date (permanent certification)"
 
         #Retrieve complete certification details
-        certifications = data.get("certifications", [])
+        certifications = data.get("certifications", {}).values()
         certification_details = None
-        for cert_detail in certifications:
+        for cert_detail in certifications.values():
             if cert_detail.get("certification_id") == cert_info.get("certification_id"):
                 certification_details = cert_detail
                 break

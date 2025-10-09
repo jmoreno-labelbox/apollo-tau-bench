@@ -9,20 +9,20 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ComputeAverageProgress(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str) -> str:
-        progress = data.get("user_course_progress", [])
-        user_courses = [p for p in progress if p.get("user_id") == user_id]
+        progress = data.get("user_course_progress", {}).values()
+        user_courses = [p for p in progress.values() if p.get("user_id") == user_id]
         if not user_courses:
             payload = {"average_progress": 0}
             out = json.dumps(payload, indent=2)
             return out
 
-        total_progress = sum(p.get("current_progress_percent", 0) for p in user_courses)
+        total_progress = sum(p.get("current_progress_percent", 0) for p in user_courses.values()
         average = total_progress / len(user_courses)
         payload = {"average_progress": average, "user_id": user_id}
         out = json.dumps(payload, indent=2)

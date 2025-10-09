@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetViewershipForCategory(Tool):
@@ -18,7 +18,7 @@ class GetViewershipForCategory(Tool):
     def invoke(data: dict[str, Any], category: str = None, report_date: str = None,
     date: Any = None,
     ) -> str:
-        for record in data.get("f_viewership", []):
+        for record in data.get("f_viewership", {}).values():
             if record.get("category") == category and record.get("date") == report_date:
                 payload = record
                 out = json.dumps(payload)

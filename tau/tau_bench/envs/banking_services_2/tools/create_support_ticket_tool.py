@@ -7,13 +7,13 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateSupportTicketTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str, subject: str, description: str, priority: str = 'Medium') -> str:
-        support_tickets = data.get('support_tickets', [])
+        support_tickets = data.get('support_tickets', {}).values()
 
         ticket_id = f"ticket_{generate_unique_id()}"
         new_ticket = {
@@ -28,7 +28,7 @@ class CreateSupportTicketTool(Tool):
             "resolution": None
         }
 
-        support_tickets.append(new_ticket)
+        support_data["tickets"][ticket_id] = new_ticket
 
         return json.dumps({
             "ticket_id": ticket_id,

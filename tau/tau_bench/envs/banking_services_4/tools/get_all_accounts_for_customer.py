@@ -12,7 +12,7 @@ class GetAllAccountsForCustomer(Tool):
 
         accounts = load_json("accounts.json")
         customer_accounts = [
-            account for account in accounts if account.get("customer_id") == customer_id
+            account for account in accounts.values() if account.get("customer_id") == customer_id
         ]
 
         return json.dumps({

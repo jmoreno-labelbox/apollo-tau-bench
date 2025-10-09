@@ -11,12 +11,12 @@ class GetCustomerTotalBalance(Tool):
             return json.dumps({'error': 'customer_id is required'})
 
         accounts = load_json('accounts.json')
-        customer_accounts = [a for a in accounts if a['customer_id'] == customer_id]
+        customer_accounts = [a for a in accounts.values() if a['customer_id'] == customer_id]
 
         if not customer_accounts:
             return json.dumps({'error': 'No accounts found for this customer.'})
 
-        total_balance = sum(a.get('balance', 0) for a in customer_accounts)
+        total_balance = sum(a.get('balance', 0) for a in customer_accounts.values()
 
         return json.dumps({
             'customer_id': customer_id,

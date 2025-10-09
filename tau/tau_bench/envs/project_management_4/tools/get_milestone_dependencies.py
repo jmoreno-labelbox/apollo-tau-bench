@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetMilestoneDependencies(Tool):
@@ -20,19 +20,18 @@ class GetMilestoneDependencies(Tool):
             out = json.dumps(payload)
             return out
 
-        milestone_dependencies = data.get("milestone_dependencies", [])
-        milestones = data.get("milestones", [])
+        milestone_dependencies = data.get("milestone_dependencies", {}).values()
+        milestones = data.get("milestones", {}).values()
 
         predecessors = []
         successors = []
 
-        for dep in milestone_dependencies:
+        for dep in milestone_dependencies.values():
             if dep.get("successor_id") == milestone_id:
                 pred_milestone = next(
                     (
                         m
-                        for m in milestones
-                        if m.get("milestone_id") == dep.get("predecessor_id")
+                        for m in milestones.values() if m.get("milestone_id") == dep.get("predecessor_id")
                     ),
                     None,
                 )
@@ -55,8 +54,7 @@ class GetMilestoneDependencies(Tool):
                 succ_milestone = next(
                     (
                         m
-                        for m in milestones
-                        if m.get("milestone_id") == dep.get("successor_id")
+                        for m in milestones.values() if m.get("milestone_id") == dep.get("successor_id")
                     ),
                     None,
                 )

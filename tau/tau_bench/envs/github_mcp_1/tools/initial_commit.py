@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class InitialCommit(Tool):
@@ -49,7 +49,7 @@ class InitialCommit(Tool):
             return out
 
         # Load commits DB (supports either {"commits": [...]} or a top-level list)
-        commits_db = _convert_db_to_list(data.get("commits", {}))
+        commits_db = _convert_db_to_list(data.get("commits", {}).values()
         if isinstance(commits_db, list):
             pass
         elif isinstance(data, list):

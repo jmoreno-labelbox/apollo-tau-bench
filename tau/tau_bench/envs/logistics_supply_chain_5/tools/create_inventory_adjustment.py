@@ -8,7 +8,7 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateInventoryAdjustment(Tool):
@@ -17,11 +17,10 @@ class CreateInventoryAdjustment(Tool):
     variance_percentage: Any = None,
     unit_cost: Any = None,
     ) -> str:
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
 
         inventory_item = next(
-            (item for item in inventory
-             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
+            (item for item in inventory.values() if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
             None
         )
 
@@ -55,8 +54,8 @@ class CreateInventoryAdjustment(Tool):
         data["inventory_adjustments"].append(adjustment_record)
 
         # Compute the overall adjustment value
-        product_master = data.get("inventory", [])
-        product = next((p for p in product_master if p.get("sku") == sku), None)
+        product_master = data.get("inventory", {}).values()
+        product = next((p for p in product_master.values() if p.get("sku") == sku), None)
         unit_price = product.get("unit_cost", 0) if product else 0
 
         total_adjustment_value = abs(adjustment_quantity) * unit_price

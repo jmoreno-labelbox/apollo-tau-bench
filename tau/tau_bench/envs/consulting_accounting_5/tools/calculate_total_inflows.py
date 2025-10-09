@@ -18,7 +18,7 @@ class CalculateTotalInflows(Tool):
         invoices_to_consider_list = []
 
         for id in invoices_to_consider:
-            invoices_to_consider_list.append(next((inv for inv in data["invoices"] if inv["invoice_id"] == id), None))
+            invoices_to_consider_list.append(next((inv for inv in data["invoices"].values() if inv["invoice_id"] == id), None))
 
         total_inflow = sum(
             inv["total_due"] for inv in invoices_to_consider_list

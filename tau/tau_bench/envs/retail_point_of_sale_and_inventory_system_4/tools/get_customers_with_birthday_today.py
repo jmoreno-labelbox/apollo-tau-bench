@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCustomersWithBirthdayToday(Tool):  #VIEW
     @staticmethod
     def invoke(data: dict[str, Any], current_day: str) -> str:
-        db = _convert_db_to_list(data.get("customers", {}))
+        db = _convert_db_to_list(data.get("customers", {}).values()
         # current_day must follow the "MM-DD" format
         result = []
         for row in db:

@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListRepositoriesTool(Tool):
@@ -40,8 +40,8 @@ class ListRepositoriesTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        repos = data.get("repositories", [])
-        result = [{**r, "report_date": CURRENT_DATE} for r in repos]
+        repos = data.get("repositories", {}).values()
+        result = [{**r, "report_date": CURRENT_DATE} for r in repos.values()]
         return _response("ok", result)
     @staticmethod
     def get_info() -> dict[str, Any]:

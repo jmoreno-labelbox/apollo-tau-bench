@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateTerminalLogLevel(Tool):
@@ -39,7 +39,7 @@ class UpdateTerminalLogLevel(Tool):
             out = json.dumps(payload)
             return out
 
-        terminal_logs = data.get("terminal_logs", [])
+        terminal_logs = data.get("terminal_logs", {}).values()
 
         # Generate a new log entry
         new_log_entry = {
@@ -51,7 +51,7 @@ class UpdateTerminalLogLevel(Tool):
         }
 
         # Include entry in logs
-        terminal_logs.append(new_log_entry)
+        data["terminal_logs"][new_log_entry["terminal_log_id"]] = new_log_entry
 
         # Enforce log retention by retaining only the latest entries
         if len(terminal_logs) > max_log_entries:

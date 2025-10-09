@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCrewCertifications(Tool):
@@ -27,12 +27,12 @@ class GetCrewCertifications(Tool):
                 payload)
             return out
 
-        crew_certifications = data.get("crew_certifications", [])
-        crew_members = data.get("crew_members", [])
+        crew_certifications = data.get("crew_certifications", {}).values()
+        crew_members = data.get("crew_members", {}).values()
 
         #Confirm the crew member's existence and retrieve their information
         target_crew_member = None
-        for crew_member in crew_members:
+        for crew_member in crew_members.values():
             if (
                 crew_member_id and crew_member.get("crew_member_id") == crew_member_id
             ) or (employee_code and crew_member.get("employee_code") == employee_code):
@@ -51,8 +51,8 @@ class GetCrewCertifications(Tool):
         crew_member_id_to_search = target_crew_member.get("crew_member_id")
         matching_certifications = []
 
-        for cert_record in crew_certifications:
-            cert_crew_member = cert_record.get("crew_member", {})
+        for cert_record in crew_certifications.values():
+            cert_crew_member = cert_record.get("crew_member", {}).values()
             if cert_crew_member.get("crew_member_id") == crew_member_id_to_search:
                 matching_certifications.append(cert_record)
 

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class MarkCourseCompleted(Tool):
@@ -17,12 +17,11 @@ class MarkCourseCompleted(Tool):
     def invoke(
         data: dict[str, Any], user_id: str, course_id: str, completion_date: str
     ) -> str:
-        progress = data.get("user_course_progress", [])
+        progress = data.get("user_course_progress", {}).values()
         user_progress = next(
             (
                 p
-                for p in progress
-                if p.get("user_id") == user_id and p.get("course_id") == course_id
+                for p in progress.values() if p.get("user_id") == user_id and p.get("course_id") == course_id
             ),
             None,
         )
@@ -38,7 +37,7 @@ class MarkCourseCompleted(Tool):
                 "completion_date": completion_date,
                 "current_progress_percent": 100,
             }
-            progress.append(new_progress)
+            data["user_course_progress"][new_progress["user_course_progres_id"]] = new_progress
         payload = {"success": f"Course {course_id} marked completed for user {user_id}"}
         out = json.dumps(
             payload, indent=2,

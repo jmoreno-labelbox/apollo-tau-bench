@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSplitSummaryDefaults(Tool):
@@ -18,15 +18,15 @@ class GetSplitSummaryDefaults(Tool):
             payload = {"error": "Missing path"}
             out = json.dumps(payload)
             return out
-        items = data.get("file_store", [])
-        for blob in items:
+        items = data.get("file_store", {}).values()
+        for blob in items.values():
             if blob.get("paths") and path in blob.get("paths"):
                 # This path would necessitate searching through arrays; not utilized here.
                 break
 
         # Immediate retrieval from parsed data (processed file registry)
-        texts = data.get("file_store", [])
-        for rec in texts:
+        texts = data.get("file_store", {}).values()
+        for rec in texts.values():
             if rec.get("paths") and path in rec.get("paths"):
                 try:
                     payload = json.loads(rec.get("file_contents_text")[0])

@@ -150,7 +150,7 @@ INGREDIENT_SUBSTITUTE_MAP = {
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -177,7 +177,7 @@ def _log_audit_event(data: dict[str, Any], **kwargs: Any) -> None:
     base_id = DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["audit_logs"]
     max_id = base_id
     if audit_logs_table:
-        max_id = max(int(log.get("audit_id", 0)) for log in audit_logs_table)
+        max_id = max(int(log.get("audit_id", 0)) for log in audit_logs_table.values()
     next_id = max_id + 1
 
     #2. Get the current timestamp in ISO 8601 format (UTC)
@@ -191,7 +191,7 @@ def _log_audit_event(data: dict[str, Any], **kwargs: Any) -> None:
         "entity_type": kwargs.get("entity_type"),
         "entity_id": kwargs.get("entity_id"),
         "action_enum": kwargs.get("action_enum", "custom_action"),
-        "payload_json": kwargs.get("payload_json", {}),
+        "payload_json": kwargs.get("payload_json", {}).values()),
         "created_at": timestamp,
     }
 
@@ -445,7 +445,7 @@ class GetHouseholdProfileTool(Tool):
 
         #2. Business Logic: Determine target household if not provided
         if not household_id:
-            first_user = data.get("users", [])[0] if data.get("users") else None
+            first_user = data.get("users", {}).values()[0] if data.get("users") else None
             if not first_user:
                 return _build_error_response("NO_DATA_FOUND", {"entity": "Users"})
 
@@ -453,7 +453,7 @@ class GetHouseholdProfileTool(Tool):
             household = next(
                 (
                     h
-                    for h in data.get("households", [])
+                    for h in data.get("households", {}).values()
                     if h.get("primary_user_id") == first_user_id
                 ),
                 None,
@@ -469,7 +469,7 @@ class GetHouseholdProfileTool(Tool):
         target_household = next(
             (
                 h
-                for h in data.get("households", [])
+                for h in data.get("households", {}).values()
                 if h.get("household_id") == household_id
             ),
             None,
@@ -482,7 +482,7 @@ class GetHouseholdProfileTool(Tool):
 
         #4. Data Enrichment (Hydration): Fetch associated members
         household_members = [
-            m for m in data.get("members", []) if m.get("household_id") == household_id
+            m for m in data.get("members", {}).values() if m.get("household_id") == household_id
         ]
 
         #5. Build the final profile object
@@ -553,11 +553,11 @@ class ListHouseholdMembersTool(Tool):
 
         #2. Business Logic: Determine target household if not provided
         if not household_id:
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
             if not users:
                 return _build_error_response("NO_DATA_FOUND", {"entity": "Users"})
 
-            first_user = data.get("users", [])[0] if data.get("users") else None
+            first_user = data.get("users", {}).values()[0] if data.get("users") else None
             if not first_user:
                 return _build_error_response("NO_DATA_FOUND", {"entity": "Users"})
 
@@ -565,7 +565,7 @@ class ListHouseholdMembersTool(Tool):
             household = next(
                 (
                     h
-                    for h in data.get("households", [])
+                    for h in data.get("households", {}).values()
                     if h.get("primary_user_id") == first_user_id
                 ),
                 None,
@@ -581,7 +581,7 @@ class ListHouseholdMembersTool(Tool):
         target_household = next(
             (
                 h
-                for h in data.get("households", [])
+                for h in data.get("households", {}).values()
                 if h.get("household_id") == household_id
             ),
             None,
@@ -593,7 +593,7 @@ class ListHouseholdMembersTool(Tool):
 
         #4. Data Retrieval: Filter members by the determined household_id
         household_members = [
-            m for m in data.get("members", []) if m.get("household_id") == household_id
+            m for m in data.get("members", {}).values() if m.get("household_id") == household_id
         ]
 
         #5. Return a standardized success response
@@ -654,7 +654,7 @@ class GetMemberDetailsTool(Tool):
 
         #2. Data Retrieval: Find the specific member in the dataset.
         member_profile = next(
-            (m for m in data.get("members", []) if m.get("member_id") == member_id),
+            (m for m in data.get("members", {}).values() if m.get("member_id") == member_id),
             None,
         )
 
@@ -748,7 +748,7 @@ class UpdateMemberPreferencesTool(Tool):
 
         #2. Find the member record
         member_record = next(
-            (m for m in data.get("members", []) if m.get("member_id") == member_id),
+            (m for m in data.get("members", {}).values() if m.get("member_id") == member_id),
             None,
         )
 
@@ -867,7 +867,7 @@ class AddHouseholdMemberTool(Tool):
         #2. Pre-condition Check: Ensure the household exists before adding to it.
         if not any(
             h
-            for h in data.get("households", [])
+            for h in data.get("households", {}).values()
             if h.get("household_id") == household_id
         ):
             return _build_error_response(
@@ -878,7 +878,7 @@ class AddHouseholdMemberTool(Tool):
         members_table = data.setdefault("members", [])
 
         #Generate a new unique ID
-        max_id = max((m.get("member_id", 0) for m in members_table), default=300)
+        max_id = max((m.get("member_id", 0) for m in members_table.values()), default=300)
         new_member_id = max_id + 1
 
         #Construct the new member record safely
@@ -889,7 +889,7 @@ class AddHouseholdMemberTool(Tool):
         for field in AddHouseholdMemberTool.EXPECTED_FIELDS:
             new_member_record[field] = new_member_data.get(field)
 
-        members_table.append(new_member_record)
+        data["members"][new_member_record["member_id"]] = new_member_record
 
         #4. Log the audit event for traceability
         _log_audit_event(
@@ -1003,37 +1003,35 @@ class SearchRecipesTool(Tool):
             )
 
         #2. Start with the full list of recipes
-        results = data.get("recipes", [])
+        results = data.get("recipes", {}).values()
 
         #3. Apply filters sequentially
         if cuisine is not None:
             cuisine = cuisine.lower()
-            results = [r for r in results if r.get("cuisine", "").lower() == cuisine]
+            results = [r for r in results.values() if r.get("cuisine", "").lower() == cuisine]
 
         if meal_type is not None:
             meal_type = meal_type.lower()
             results = [
-                r for r in results if r.get("meal_type", "").lower() == meal_type
+                r for r in results.values() if r.get("meal_type", "").lower() == meal_type
             ]
 
         if max_calories is not None:
             results = [
                 r
-                for r in results
-                if (calories := r.get("calories_per_serving")) is not None
+                for r in results.values() if (calories := r.get("calories_per_serving")) is not None
                 and calories <= max_calories
             ]
 
         if min_protein_g is not None:
             results = [
                 r
-                for r in results
-                if (protein := r.get("protein_g_per_serving")) is not None
+                for r in results.values() if (protein := r.get("protein_g_per_serving")) is not None
                 and protein >= min_protein_g
             ]
 
         if is_peanut_free is True:
-            results = [r for r in results if r.get("is_peanut_free") is True]
+            results = [r for r in results.values() if r.get("is_peanut_free") is True]
 
         #4. Return the filtered list in a standard success response
         return _build_success_response(results)
@@ -1095,7 +1093,7 @@ class GetRecipeDetailsTool(Tool):
 
         #2. Data Retrieval: Find the base recipe object
         recipe_record = next(
-            (r for r in data.get("recipes", []) if r.get("recipe_id") == recipe_id),
+            (r for r in data.get("recipes", {}).values() if r.get("recipe_id") == recipe_id),
             None,
         )
 
@@ -1107,18 +1105,17 @@ class GetRecipeDetailsTool(Tool):
         #3. Data Enrichment (Hydration): Fetch and enrich ingredients
         recipe_ingredients_links = [
             ri
-            for ri in data.get("recipe_ingredients", [])
+            for ri in data.get("recipe_ingredients", {}).values()
             if ri.get("recipe_id") == recipe_id
         ]
 
         enriched_ingredients = []
-        all_ingredients_meta = data.get("ingredients", [])
+        all_ingredients_meta = data.get("ingredients", {}).values()
         for link in recipe_ingredients_links:
             ingredient_meta = next(
                 (
                     i
-                    for i in all_ingredients_meta
-                    if i.get("ingredient_id") == link.get("ingredient_id")
+                    for i in all_ingredients_meta.values() if i.get("ingredient_id") == link.get("ingredient_id")
                 ),
                 None,
             )
@@ -1220,12 +1217,12 @@ class FindRecipesByIngredientsTool(Tool):
 
         #2. Pre-process recipe requirements for efficient lookup
         recipe_requirements = collections.defaultdict(set)
-        for ri in data.get("recipe_ingredients", []):
+        for ri in data.get("recipe_ingredients", {}).values():
             recipe_requirements[ri["recipe_id"]].add(ri["ingredient_id"])
 
         #3. Find matching recipes
         matching_recipes = []
-        for recipe in data.get("recipes", []):
+        for recipe in data.get("recipes", {}).values():
             recipe_id = recipe["recipe_id"]
             required_ids = recipe_requirements[recipe_id]
 
@@ -1237,7 +1234,7 @@ class FindRecipesByIngredientsTool(Tool):
                     "missing_ingredient_count": len(missing_ids),
                     "missing_ingredient_ids": sorted(list(missing_ids)),
                 }
-                matching_recipes.append(match_details)
+                matching_data["recipes"][recipe_id] = match_details
 
         #4. Sort results to show the best matches first
         matching_recipes.sort(key=lambda x: x["missing_ingredient_count"])
@@ -1297,7 +1294,7 @@ class GetIngredientInfoTool(Tool):
         ingredient_record = next(
             (
                 i
-                for i in data.get("ingredients", [])
+                for i in data.get("ingredients", {}).values()
                 if i.get("ingredient_id") == ingredient_id
             ),
             None,
@@ -1376,14 +1373,14 @@ class GetRecipeSubstitutionsTool(Tool):
             )
 
         #2. Pre-condition Checks
-        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", [])):
+        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Recipe", "entity_id": recipe_id}
             )
 
         if not any(
             i.get("ingredient_id") == ingredient_id_to_replace
-            for i in data.get("ingredients", [])
+            for i in data.get("ingredients", {}).values()
         ):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Ingredient", "entity_id": ingredient_id_to_replace}
@@ -1391,7 +1388,7 @@ class GetRecipeSubstitutionsTool(Tool):
 
         recipe_ingredients = {
             ri["ingredient_id"]
-            for ri in data.get("recipe_ingredients", [])
+            for ri in data.get("recipe_ingredients", {}).values()
             if ri["recipe_id"] == recipe_id
         }
         if ingredient_id_to_replace not in recipe_ingredients:
@@ -1408,11 +1405,11 @@ class GetRecipeSubstitutionsTool(Tool):
 
         #4. Enrich suggestions with ingredient names
         enriched_suggestions = []
-        all_ingredients_meta = data.get("ingredients", [])
+        all_ingredients_meta = data.get("ingredients", {}).values()
         for suggestion in suggestions:
             sub_id = suggestion["substitute_ingredient_id"]
             sub_meta = next(
-                (i for i in all_ingredients_meta if i["ingredient_id"] == sub_id), None
+                (i for i in all_ingredients_meta.values() if i["ingredient_id"] == sub_id), None
             )
 
             if sub_meta:
@@ -1532,7 +1529,7 @@ class AddNewRecipeTool(Tool):
                 {"param": "ingredients_list", "expected_type": "non-empty list"},
             )
 
-        all_ingredient_ids = {i["ingredient_id"] for i in data.get("ingredients", [])}
+        all_ingredient_ids = {i["ingredient_id"] for i in data.get("ingredients", {}).values()}
         for item in ingredients_list:
             if not isinstance(item, dict) or not all(
                 k in item for k in ["ingredient_id", "quantity", "unit"]
@@ -1552,7 +1549,7 @@ class AddNewRecipeTool(Tool):
 
         #3. Create Recipe Record
         recipes_table = data.setdefault("recipes", [])
-        max_recipe_id = max((r.get("recipe_id", 0) for r in recipes_table), default=400)
+        max_recipe_id = max((r.get("recipe_id", 0) for r in recipes_table.values()), default=400)
         new_recipe_id = max_recipe_id + 1
 
         new_recipe_record = {"recipe_id": new_recipe_id}
@@ -1562,11 +1559,11 @@ class AddNewRecipeTool(Tool):
                 for key in AddNewRecipeTool.EXPECTED_RECIPE_FIELDS
             }
         )
-        recipes_table.append(new_recipe_record)
+        data["recipes"][new_recipe_record["recipe_id"]] = new_recipe_record
 
         #4. Create Recipe-Ingredient Links
         ri_table = data.setdefault("recipe_ingredients", [])
-        max_ri_id = max((ri.get("ri_id", 0) for ri in ri_table), default=5000)
+        max_ri_id = max((ri.get("ri_id", 0) for ri in ri_table.values()), default=5000)
 
         for ingredient in ingredients_list:
             max_ri_id += 1
@@ -1583,7 +1580,7 @@ class AddNewRecipeTool(Tool):
         user_household = next(
             (
                 h
-                for h in data.get("households", [])
+                for h in data.get("households", {}).values()
                 if h.get("primary_user_id") == user_id
             ),
             None,
@@ -1665,7 +1662,7 @@ class GetMealHistoryTool(Tool):
         #2. Pre-condition Check: Ensure the household exists
         if not any(
             h
-            for h in data.get("households", [])
+            for h in data.get("households", {}).values()
             if h.get("household_id") == household_id
         ):
             return _build_error_response(
@@ -1673,9 +1670,9 @@ class GetMealHistoryTool(Tool):
             )
 
         #3. Data Retrieval & Filtering
-        all_history = data.get("meal_history", [])
+        all_history = data.get("meal_history", {}).values()
         household_history = [
-            h for h in all_history if h.get("household_id") == household_id
+            h for h in all_history.values() if h.get("household_id") == household_id
         ]
 
         if days_back is not None:
@@ -1784,12 +1781,12 @@ class LogMealAsPreparedTool(Tool):
 
         #2. Pre-condition Checks: Ensure related entities exist
         if not any(
-            h.get("household_id") == household_id for h in data.get("households", [])
+            h.get("household_id") == household_id for h in data.get("households", {}).values()
         ):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Household", "entity_id": household_id}
             )
-        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", [])):
+        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Recipe", "entity_id": recipe_id}
             )
@@ -1798,7 +1795,7 @@ class LogMealAsPreparedTool(Tool):
         history_table = data.setdefault("meal_history", [])
 
         #Generate a new unique ID
-        max_id = max((h.get("history_id", 0) for h in history_table), default=6000)
+        max_id = max((h.get("history_id", 0) for h in history_table.values()), default=6000)
         new_history_id = max_id + 1
 
         #Build the new record
@@ -1901,12 +1898,12 @@ class CreateMealPlanTool(Tool):
 
         #2. Pre-condition Checks
         if not any(
-            h.get("household_id") == household_id for h in data.get("households", [])
+            h.get("household_id") == household_id for h in data.get("households", {}).values()
         ):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Household", "entity_id": household_id}
             )
-        if not any(u.get("user_id") == user_id for u in data.get("users", [])):
+        if not any(u.get("user_id") == user_id for u in data.get("users", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "User", "entity_id": user_id}
             )
@@ -1914,7 +1911,7 @@ class CreateMealPlanTool(Tool):
         #Business Rule: Prevent duplicate plans for the same week
         existing_plan = any(
             p
-            for p in data.get("meal_plans", [])
+            for p in data.get("meal_plans", {}).values()
             if p.get("household_id") == household_id
             and p.get("week_start_date") == week_start_date
         )
@@ -1932,7 +1929,7 @@ class CreateMealPlanTool(Tool):
 
         #Generate a new unique ID
         max_id = max(
-            (p.get("meal_plan_id", 0) for p in meal_plans_table),
+            (p.get("meal_plan_id", 0) for p in meal_plans_table.values()),
             default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["meal_plans"],
         )
         new_plan_id = max_id + 1
@@ -1947,7 +1944,7 @@ class CreateMealPlanTool(Tool):
             "created_at": timestamp,
         }
 
-        meal_plans_table.append(new_plan_record)
+        data["meal_plans"][new_plan_record["meal_plan_id"]] = new_plan_record
 
         #4. Auditing
         _log_audit_event(
@@ -2068,7 +2065,7 @@ class AddRecipeToMealPlanTool(Tool):
         meal_plan_record = next(
             (
                 p
-                for p in data.get("meal_plans", [])
+                for p in data.get("meal_plans", {}).values()
                 if p.get("meal_plan_id") == meal_plan_id
             ),
             None,
@@ -2077,7 +2074,7 @@ class AddRecipeToMealPlanTool(Tool):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "MealPlan", "entity_id": meal_plan_id}
             )
-        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", [])):
+        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Recipe", "entity_id": recipe_id}
             )
@@ -2105,7 +2102,7 @@ class AddRecipeToMealPlanTool(Tool):
         #Business Rule: Prevent duplicate entries
         if any(
             e
-            for e in data.get("meal_plan_entries", [])
+            for e in data.get("meal_plan_entries", {}).values()
             if e.get("meal_plan_id") == meal_plan_id
             and e.get("plan_date") == plan_date
             and e.get("meal_type") == meal_type
@@ -2121,7 +2118,7 @@ class AddRecipeToMealPlanTool(Tool):
         #3. Data Creation
         entries_table = data.setdefault("meal_plan_entries", [])
         max_id = max(
-            (e.get("entry_id", 0) for e in entries_table),
+            (e.get("entry_id", 0) for e in entries_table.values()),
             default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["meal_plan_entries"],
         )
         new_entry_id = max_id + 1
@@ -2136,7 +2133,7 @@ class AddRecipeToMealPlanTool(Tool):
             "servings_child": servings_child,
             "notes": notes,
         }
-        entries_table.append(new_entry_record)
+        data["meal_plan_entries"][new_entry_record["meal_plan_entrie_id"]] = new_entry_record
 
         #4. Auditing
         _log_audit_event(
@@ -2206,7 +2203,7 @@ class GetMealPlanForWeekTool(Tool):
         meal_plan_record = next(
             (
                 p
-                for p in data.get("meal_plans", [])
+                for p in data.get("meal_plans", {}).values()
                 if p.get("meal_plan_id") == meal_plan_id
             ),
             None,
@@ -2220,18 +2217,17 @@ class GetMealPlanForWeekTool(Tool):
         #3. Data Enrichment (Hydration): Fetch and enrich plan entries
         plan_entries = [
             e
-            for e in data.get("meal_plan_entries", [])
+            for e in data.get("meal_plan_entries", {}).values()
             if e.get("meal_plan_id") == meal_plan_id
         ]
 
         enriched_entries = []
-        all_recipes = data.get("recipes", [])
+        all_recipes = data.get("recipes", {}).values()
         for entry in plan_entries:
             recipe_info = next(
                 (
                     r
-                    for r in all_recipes
-                    if r.get("recipe_id") == entry.get("recipe_id")
+                    for r in all_recipes.values() if r.get("recipe_id") == entry.get("recipe_id")
                 ),
                 None,
             )
@@ -2319,7 +2315,7 @@ class UpdateMealPlanEntryTool(Tool):
         if "recipe_id" in updates:
             new_recipe_id = updates["recipe_id"]
             if not any(
-                r.get("recipe_id") == new_recipe_id for r in data.get("recipes", [])
+                r.get("recipe_id") == new_recipe_id for r in data.get("recipes", {}).values()
             ):
                 return _build_error_response(
                     "NOT_FOUND", {"entity": "Recipe", "entity_id": new_recipe_id}
@@ -2329,7 +2325,7 @@ class UpdateMealPlanEntryTool(Tool):
         entry_record = next(
             (
                 e
-                for e in data.get("meal_plan_entries", [])
+                for e in data.get("meal_plan_entries", {}).values()
                 if e.get("entry_id") == entry_id
             ),
             None,
@@ -2348,7 +2344,7 @@ class UpdateMealPlanEntryTool(Tool):
         meal_plan = next(
             (
                 p
-                for p in data.get("meal_plans", [])
+                for p in data.get("meal_plans", {}).values()
                 if p.get("meal_plan_id") == entry_record["meal_plan_id"]
             ),
             None,
@@ -2423,11 +2419,11 @@ class RemoveRecipeFromMealPlanTool(Tool):
                 validation_error["error_code"], validation_error["details"]
             )
 
-        entries_table = data.get("meal_plan_entries", [])
+        entries_table = data.get("meal_plan_entries", {}).values()
 
         #2. Find the entry to remove
         entry_to_remove = next(
-            (e for e in entries_table if e.get("entry_id") == entry_id), None
+            (e for e in entries_table.values() if e.get("entry_id") == entry_id), None
         )
 
         if not entry_to_remove:
@@ -2439,7 +2435,7 @@ class RemoveRecipeFromMealPlanTool(Tool):
         meal_plan = next(
             (
                 p
-                for p in data.get("meal_plans", [])
+                for p in data.get("meal_plans", {}).values()
                 if p.get("meal_plan_id") == entry_to_remove["meal_plan_id"]
             ),
             None,
@@ -2458,7 +2454,7 @@ class RemoveRecipeFromMealPlanTool(Tool):
 
         #4. Perform the removal
         data["meal_plan_entries"] = [
-            e for e in entries_table if e.get("entry_id") != entry_id
+            e for e in entries_table.values() if e.get("entry_id") != entry_id
         ]
 
         #5. Response
@@ -2515,7 +2511,7 @@ class GetHouseholdInventoryTool(Tool):
 
         #2. Pre-condition Check: Ensure the household exists
         if not any(
-            h.get("household_id") == household_id for h in data.get("households", [])
+            h.get("household_id") == household_id for h in data.get("households", {}).values()
         ):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Household", "entity_id": household_id}
@@ -2524,18 +2520,17 @@ class GetHouseholdInventoryTool(Tool):
         #3. Data Retrieval and Enrichment (Hydration)
         inventory_items = [
             i
-            for i in data.get("inventory_items", [])
+            for i in data.get("inventory_items", {}).values()
             if i.get("household_id") == household_id
         ]
 
         enriched_items = []
-        all_ingredients_meta = data.get("ingredients", [])
+        all_ingredients_meta = data.get("ingredients", {}).values()
         for item in inventory_items:
             ingredient_meta = next(
                 (
                     i
-                    for i in all_ingredients_meta
-                    if i.get("ingredient_id") == item.get("ingredient_id")
+                    for i in all_ingredients_meta.values() if i.get("ingredient_id") == item.get("ingredient_id")
                 ),
                 None,
             )
@@ -2647,13 +2642,13 @@ class AddItemToInventoryTool(Tool):
 
         #2. Pre-condition Checks
         if not any(
-            h.get("household_id") == household_id for h in data.get("households", [])
+            h.get("household_id") == household_id for h in data.get("households", {}).values()
         ):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Household", "entity_id": household_id}
             )
         if not any(
-            i.get("ingredient_id") == ingredient_id for i in data.get("ingredients", [])
+            i.get("ingredient_id") == ingredient_id for i in data.get("ingredients", {}).values()
         ):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Ingredient", "entity_id": ingredient_id}
@@ -2664,14 +2659,13 @@ class AddItemToInventoryTool(Tool):
         existing_item = next(
             (
                 item
-                for item in inventory_table
-                if item.get("household_id") == household_id
+                for item in inventory_table.values() if item.get("household_id") == household_id
                 and item.get("ingredient_id") == ingredient_id
             ),
             None,
         )
 
-        context = {"ingredients": data.get("ingredients", [])}
+        context = {"ingredients": data.get("ingredients", {}).values()}
 
         if existing_item:
             action = "update"
@@ -2707,7 +2701,7 @@ class AddItemToInventoryTool(Tool):
             )
 
             max_id = max(
-                (i.get("inv_item_id", 0) for i in inventory_table), default=7000
+                (i.get("inv_item_id", 0) for i in inventory_table.values()), default=7000
             )
             new_item_id = max_id + 1
 
@@ -2720,7 +2714,7 @@ class AddItemToInventoryTool(Tool):
                 "location_enum": "pantry",  #Default location
                 "best_by_date": None,
             }
-            inventory_table.append(new_record)
+            data["inventory_items"][new_record["inventory_item_id"]] = new_record
             final_record = new_record
             entity_id = new_item_id
 
@@ -2826,14 +2820,13 @@ class UseItemFromInventoryTool(Tool):
                 validation_error["error_code"], validation_error["details"]
             )
 
-        inventory_table = data.get("inventory_items", [])
+        inventory_table = data.get("inventory_items", {}).values()
 
         #2. Find the item in inventory
         item_to_use = next(
             (
                 item
-                for item in inventory_table
-                if item.get("household_id") == household_id
+                for item in inventory_table.values() if item.get("household_id") == household_id
                 and item.get("ingredient_id") == ingredient_id
             ),
             None,
@@ -2869,7 +2862,7 @@ class UseItemFromInventoryTool(Tool):
             )
             #Rebuild the list without the removed item
             data["inventory_items"] = [
-                item for item in inventory_table if item.get("inv_item_id") != item_id
+                item for item in inventory_table.values() if item.get("inv_item_id") != item_id
             ]
             response_data = {"status": "item_removed", "removed_item": item_to_use}
         else:
@@ -2983,14 +2976,13 @@ class RemoveItemFromInventoryTool(Tool):
             )
 
         #3. Find the item to remove
-        inventory_table = data.get("inventory_items", [])
+        inventory_table = data.get("inventory_items", {}).values()
         item_to_remove = None
         if inv_item_id:
             item_to_remove = next(
                 (
                     item
-                    for item in inventory_table
-                    if item.get("inv_item_id") == inv_item_id
+                    for item in inventory_table.values() if item.get("inv_item_id") == inv_item_id
                 ),
                 None,
             )
@@ -2998,8 +2990,7 @@ class RemoveItemFromInventoryTool(Tool):
             item_to_remove = next(
                 (
                     item
-                    for item in inventory_table
-                    if item.get("household_id") == household_id
+                    for item in inventory_table.values() if item.get("household_id") == household_id
                     and item.get("ingredient_id") == ingredient_id
                 ),
                 None,
@@ -3029,8 +3020,7 @@ class RemoveItemFromInventoryTool(Tool):
         #5. Perform the removal
         data["inventory_items"] = [
             item
-            for item in inventory_table
-            if item.get("inv_item_id") != item_id_to_remove
+            for item in inventory_table.values() if item.get("inv_item_id") != item_id_to_remove
         ]
 
         #6. Response
@@ -3107,7 +3097,7 @@ class GenerateGroceryListFromMealPlanTool(Tool):
         meal_plan = next(
             (
                 p
-                for p in data.get("meal_plans", [])
+                for p in data.get("meal_plans", {}).values()
                 if p.get("meal_plan_id") == meal_plan_id
             ),
             None,
@@ -3126,19 +3116,19 @@ class GenerateGroceryListFromMealPlanTool(Tool):
             )
 
         #3. Core Logic: Calculate Net Needs
-        all_ingredients_meta = data.get("ingredients", [])
+        all_ingredients_meta = data.get("ingredients", {}).values()
         context = {"ingredients": all_ingredients_meta}
 
         #3a. Aggregate all required ingredients for the plan, normalizing units
         plan_entries = [
             e
-            for e in data.get("meal_plan_entries", [])
+            for e in data.get("meal_plan_entries", {}).values()
             if e.get("meal_plan_id") == meal_plan_id
         ]
         recipe_ids = {e["recipe_id"] for e in plan_entries}
         required_ingredients_list = [
             ri
-            for ri in data.get("recipe_ingredients", [])
+            for ri in data.get("recipe_ingredients", {}).values()
             if ri["recipe_id"] in recipe_ids
         ]
 
@@ -3152,7 +3142,7 @@ class GenerateGroceryListFromMealPlanTool(Tool):
         #3b. Get available inventory, normalizing units
         inventory_items = [
             i
-            for i in data.get("inventory_items", [])
+            for i in data.get("inventory_items", {}).values()
             if i.get("household_id") == household_id
         ]
         available_totals = collections.defaultdict(float)
@@ -3170,8 +3160,7 @@ class GenerateGroceryListFromMealPlanTool(Tool):
                 ingredient_meta = next(
                     (
                         i
-                        for i in all_ingredients_meta
-                        if i["ingredient_id"] == ingredient_id
+                        for i in all_ingredients_meta.values() if i["ingredient_id"] == ingredient_id
                     ),
                     {},
                 )
@@ -3192,7 +3181,7 @@ class GenerateGroceryListFromMealPlanTool(Tool):
         #4. Create Grocery List and Items
         gl_table = data.setdefault("grocery_lists", [])
         max_list_id = max(
-            (g.get("list_id", 0) for g in gl_table),
+            (g.get("list_id", 0) for g in gl_table.values()),
             default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["grocery_lists"],
         )
         new_list_id = max_list_id + 1
@@ -3210,7 +3199,7 @@ class GenerateGroceryListFromMealPlanTool(Tool):
 
         gli_table = data.setdefault("grocery_list_items", [])
         max_item_id = max(
-            (i.get("item_id", 0) for i in gli_table),
+            (i.get("item_id", 0) for i in gli_table.values()),
             default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["grocery_list_items"],
         )
         created_item_ids = []
@@ -3295,7 +3284,7 @@ class GetGroceryListDetailsTool(Tool):
 
         #2. Data Retrieval: Find the base grocery list object
         list_record = next(
-            (g for g in data.get("grocery_lists", []) if g.get("list_id") == list_id),
+            (g for g in data.get("grocery_lists", {}).values() if g.get("list_id") == list_id),
             None,
         )
 
@@ -3307,18 +3296,17 @@ class GetGroceryListDetailsTool(Tool):
         #3. Data Enrichment (Hydration): Fetch and enrich list items
         list_items = [
             item
-            for item in data.get("grocery_list_items", [])
+            for item in data.get("grocery_list_items", {}).values()
             if item.get("list_id") == list_id
         ]
 
         enriched_items = []
-        all_ingredients_meta = data.get("ingredients", [])
+        all_ingredients_meta = data.get("ingredients", {}).values()
         for item in list_items:
             ingredient_meta = next(
                 (
                     i
-                    for i in all_ingredients_meta
-                    if i.get("ingredient_id") == item.get("ingredient_id")
+                    for i in all_ingredients_meta.values() if i.get("ingredient_id") == item.get("ingredient_id")
                 ),
                 None,
             )
@@ -3436,14 +3424,14 @@ class AddItemToGroceryListTool(Tool):
             )
 
         #2. Pre-condition Checks
-        if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", [])):
+        if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "GroceryList", "entity_id": list_id}
             )
         ingredient_meta = next(
             (
                 i
-                for i in data.get("ingredients", [])
+                for i in data.get("ingredients", {}).values()
                 if i.get("ingredient_id") == ingredient_id
             ),
             None,
@@ -3466,7 +3454,7 @@ class AddItemToGroceryListTool(Tool):
         )
 
         list_record = next(
-            g for g in data.get("grocery_lists", []) if g.get("list_id") == list_id
+            g for g in data.get("grocery_lists", {}).values() if g.get("list_id") == list_id
         )
         household_id = list_record.get("household_id")
 
@@ -3482,7 +3470,7 @@ class AddItemToGroceryListTool(Tool):
             #Create new item
             action = "create"
             max_id = max(
-                (i.get("item_id", 0) for i in gli_table),
+                (i.get("item_id", 0) for i in gli_table.values()),
                 default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"][
                     "grocery_list_items"
                 ],
@@ -3580,11 +3568,11 @@ class CheckProductAvailabilityAtStoreTool(Tool):
             )
 
         #2. Pre-condition Checks
-        if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", [])):
+        if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "GroceryList", "entity_id": list_id}
             )
-        if not any(s.get("store_id") == store_id for s in data.get("stores", [])):
+        if not any(s.get("store_id") == store_id for s in data.get("stores", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Store", "entity_id": store_id}
             )
@@ -3592,11 +3580,11 @@ class CheckProductAvailabilityAtStoreTool(Tool):
         #3. Core Logic
         list_items = [
             item
-            for item in data.get("grocery_list_items", [])
+            for item in data.get("grocery_list_items", {}).values()
             if item.get("list_id") == list_id
         ]
-        all_store_products = data.get("store_products", [])
-        all_ingredients_meta = data.get("ingredients", [])
+        all_store_products = data.get("store_products", {}).values()
+        all_ingredients_meta = data.get("ingredients", {}).values()
 
         problem_items = []
         for item in list_items:
@@ -3605,8 +3593,7 @@ class CheckProductAvailabilityAtStoreTool(Tool):
             #Find all products at the store for this ingredient
             candidate_products = [
                 p
-                for p in all_store_products
-                if p.get("store_id") == store_id
+                for p in all_store_products.values() if p.get("store_id") == store_id
                 and p.get("ingredient_id") == ingredient_id
             ]
 
@@ -3633,8 +3620,7 @@ class CheckProductAvailabilityAtStoreTool(Tool):
                 ingredient_meta = next(
                     (
                         i
-                        for i in all_ingredients_meta
-                        if i["ingredient_id"] == ingredient_id
+                        for i in all_ingredients_meta.values() if i["ingredient_id"] == ingredient_id
                     ),
                     {},
                 )
@@ -3711,14 +3697,14 @@ class FindSubstituteProductsTool(Tool):
             )
 
         #2. Pre-condition Check
-        if not any(s.get("store_id") == store_id for s in data.get("stores", [])):
+        if not any(s.get("store_id") == store_id for s in data.get("stores", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Store", "entity_id": store_id}
             )
 
         #3. Core Logic
         suggestions = []
-        all_store_products = data.get("store_products", [])
+        all_store_products = data.get("store_products", {}).values()
 
         for item in problem_items:
             original_ingredient_id = item.get("ingredient_id")
@@ -3732,8 +3718,7 @@ class FindSubstituteProductsTool(Tool):
                 #Find all products for the substitute ingredient at the store
                 candidate_products = [
                     p
-                    for p in all_store_products
-                    if p.get("store_id") == store_id
+                    for p in all_store_products.values() if p.get("store_id") == store_id
                     and p.get("ingredient_id") == sub_ingredient_id
                 ]
 
@@ -3860,7 +3845,7 @@ class PlaceGroceryOrderTool(Tool):
 
         #2. Pre-condition Checks
         list_record = next(
-            (g for g in data.get("grocery_lists", []) if g.get("list_id") == list_id),
+            (g for g in data.get("grocery_lists", {}).values() if g.get("list_id") == list_id),
             None,
         )
         if not list_record:
@@ -3880,7 +3865,7 @@ class PlaceGroceryOrderTool(Tool):
         #3a. Create the main Order record
         orders_table = data.setdefault("orders", [])
         max_order_id = max(
-            (o.get("order_id", 0) for o in orders_table),
+            (o.get("order_id", 0) for o in orders_table.values()),
             default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["orders"],
         )
         new_order_id = max_order_id + 1
@@ -3920,12 +3905,12 @@ class PlaceGroceryOrderTool(Tool):
         }
         list_items = [
             item
-            for item in data.get("grocery_list_items", [])
+            for item in data.get("grocery_list_items", {}).values()
             if item.get("list_id") == list_id
         ]
         oi_table = data.setdefault("order_items", [])
         max_oi_id = max(
-            (oi.get("order_item_id", 0) for oi in oi_table),
+            (oi.get("order_item_id", 0) for oi in oi_table.values()),
             default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["order_items"],
         )
 
@@ -3941,7 +3926,7 @@ class PlaceGroceryOrderTool(Tool):
                 #Find the best in-stock product if no substitution was provided
                 candidate_products = [
                     p
-                    for p in data.get("store_products", [])
+                    for p in data.get("store_products", {}).values()
                     if p.get("store_id") == store_id
                     and p.get("ingredient_id") == ingredient_id
                     and p.get("stock_status_enum") in ("in_stock", "low")
@@ -3955,7 +3940,7 @@ class PlaceGroceryOrderTool(Tool):
             product_record = next(
                 (
                     p
-                    for p in data.get("store_products", [])
+                    for p in data.get("store_products", {}).values()
                     if p.get("product_id") == product_id_to_add
                 ),
                 None,
@@ -4047,7 +4032,7 @@ class GetOrderStatusTool(Tool):
 
         #2. Data Retrieval
         order_record = next(
-            (o for o in data.get("orders", []) if o.get("order_id") == order_id), None
+            (o for o in data.get("orders", {}).values() if o.get("order_id") == order_id), None
         )
 
         if not order_record:
@@ -4058,10 +4043,10 @@ class GetOrderStatusTool(Tool):
         #3. Data Enrichment (Hydration)
         order_items = [
             item
-            for item in data.get("order_items", [])
+            for item in data.get("order_items", {}).values()
             if item.get("order_id") == order_id
         ]
-        all_products = data.get("store_products", [])
+        all_products = data.get("store_products", {}).values()
 
         enriched_items = []
         for item in order_items:
@@ -4071,8 +4056,7 @@ class GetOrderStatusTool(Tool):
             product_info = next(
                 (
                     p
-                    for p in all_products
-                    if p.get("product_id") == item.get("product_id")
+                    for p in all_products.values() if p.get("product_id") == item.get("product_id")
                 ),
                 None,
             )
@@ -4084,7 +4068,7 @@ class GetOrderStatusTool(Tool):
             sub_id = item.get("substitute_product_id")
             if sub_id:
                 sub_info = next(
-                    (p for p in all_products if p.get("product_id") == sub_id), None
+                    (p for p in all_products.values() if p.get("product_id") == sub_id), None
                 )
                 enriched_item["substitute_product_name"] = (
                     sub_info.get("product_name") if sub_info else "Unknown Substitute"

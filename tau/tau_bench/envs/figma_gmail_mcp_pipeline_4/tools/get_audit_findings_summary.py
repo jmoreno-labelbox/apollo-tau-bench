@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAuditFindingsSummary(Tool):
@@ -25,14 +25,14 @@ class GetAuditFindingsSummary(Tool):
         """
         Obtains a detailed summary of audit findings, including violations from the design system and accessibility.
         """
-        audits = data.get("audits", [])
-        audit_findings_ds = data.get("audit_findings_ds", [])
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audits = data.get("audits", {}).values()
+        audit_findings_ds = data.get("audit_findings_ds", {}).values()
+        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
 
         # Return specific audit findings if audit_id is supplied
         if audit_id:
             audit_info = None
-            for audit in audits:
+            for audit in audits.values():
                 if audit.get("audit_id") == audit_id:
                     audit_info = audit
                     break
@@ -44,10 +44,10 @@ class GetAuditFindingsSummary(Tool):
 
             # Retrieve findings related to this audit
             ds_findings = [
-                f for f in audit_findings_ds if f.get("audit_id") == audit_id
+                f for f in audit_findings_ds.values() if f.get("audit_id") == audit_id
             ]
             a11y_findings = [
-                f for f in audit_findings_a11y if f.get("audit_id") == audit_id
+                f for f in audit_findings_a11y.values() if f.get("audit_id") == audit_id
             ]
 
             summary = {
@@ -55,7 +55,7 @@ class GetAuditFindingsSummary(Tool):
                 "design_system_findings": {
                     "total": len(ds_findings),
                     "unmapped": len(
-                        [f for f in ds_findings if f.get("finding_type") == "UNMAPPED"]
+                        [f for f in ds_findings.values() if f.get("finding_type") == "UNMAPPED"]
                     ),
                     "substitute_recommended": len(
                         [
@@ -65,7 +65,7 @@ class GetAuditFindingsSummary(Tool):
                         ]
                     ),
                     "ambiguous": len(
-                        [f for f in ds_findings if f.get("finding_type") == "AMBIGUOUS"]
+                        [f for f in ds_findings.values() if f.get("finding_type") == "AMBIGUOUS"]
                     ),
                 },
                 "accessibility_findings": {
@@ -92,7 +92,7 @@ class GetAuditFindingsSummary(Tool):
                         ]
                     ),
                     "rtl": len(
-                        [f for f in a11y_findings if f.get("violation_type") == "RTL"]
+                        [f for f in a11y_findings.values() if f.get("violation_type") == "RTL"]
                     ),
                 },
                 "findings": {

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateInboundShipment(Tool):
@@ -25,7 +25,7 @@ class CreateInboundShipment(Tool):
     supplier_name: Any = None,
     ) -> str:
         """Run the tool with the provided parameters."""
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
 
         new_shipment_id = f"SHIP-{len(inbound_shipments) + 1:04d}"
 
@@ -39,16 +39,16 @@ class CreateInboundShipment(Tool):
             "estimated_arrival_date": estimated_arrival_date,
             "actual_arrival_date": None,
             "customs_status": "Cleared",
-            "hazmat": any(item.get("hazmat", False) for item in items),
+            "hazmat": any(item.get("hazmat", False) for item in items.values()),
         }
 
-        inbound_shipments.append(new_shipment)
+        inbound_data["shipments"][shipment_id] = new_shipment
         payload = new_shipment
         out = json.dumps(payload, indent=2)
         return out
         """Run the tool with the provided parameters."""
         pass
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
 
         new_shipment_id = f"SHIP-{len(inbound_shipments) + 1:04d}"
 
@@ -62,10 +62,10 @@ class CreateInboundShipment(Tool):
             "estimated_arrival_date": estimated_arrival_date,
             "actual_arrival_date": None,
             "customs_status": "Cleared",
-            "hazmat": any(item.get("hazmat", False) for item in items),
+            "hazmat": any(item.get("hazmat", False) for item in items.values()),
         }
 
-        inbound_shipments.append(new_shipment)
+        inbound_data["shipments"][shipment_id] = new_shipment
         payload = new_shipment
         out = json.dumps(payload, indent=2)
         return out

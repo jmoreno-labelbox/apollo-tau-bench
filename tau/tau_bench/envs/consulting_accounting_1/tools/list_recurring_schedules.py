@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListRecurringSchedules(Tool):
@@ -15,7 +15,7 @@ class ListRecurringSchedules(Tool):
     def invoke(data: dict[str, Any], horizon_months: int = 3) -> str:
         horizon = int(horizon_months)
         schedules = [
-            s for s in data.get("recurring_schedules", []) if s.get("is_active", False)
+            s for s in data.get("recurring_schedules", {}).values() if s.get("is_active", False)
         ]
         payload = {"horizon_months": horizon, "active_schedules": schedules}
         out = json.dumps(

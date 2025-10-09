@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ComputeMortgageEstimate(Tool):
@@ -16,7 +16,7 @@ class ComputeMortgageEstimate(Tool):
     region: Any = None,
     ) -> str:
         profiles = data.get("mortgage_profiles") or data.get("mortage_profiles") or []
-        profile = next((m for m in profiles if m.get("client_id") == client_id), {})
+        profile = next((m for m in profiles.values() if m.get("client_id") == client_id), {}).values()
         credit_score = profile.get("credit_score", 720)
         down_payment = profile.get("down_payment", int(0.2 * (list_price or 0)))
         loan_amount = profile.get(
@@ -25,7 +25,7 @@ class ComputeMortgageEstimate(Tool):
         region = region_override or profile.get("region")
 
         best = None
-        for r in data.get("mortgage_rates", []) or []:
+        for r in data.get("mortgage_rates", {}).values() or []:
             if region and r.get("region") != region:
                 continue
             if r.get("term_years") != term_years:

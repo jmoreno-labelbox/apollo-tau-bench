@@ -8,7 +8,7 @@ from decimal import ROUND_HALF_UP, Decimal
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SetClusterInstanceTypeNote(Tool):
@@ -16,8 +16,8 @@ class SetClusterInstanceTypeNote(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cluster_id: Any, note: Any) -> str:
         cluster_id = _idstr(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", [])
-        for c in clusters:
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        for c in clusters.values():
             if c.get("cluster_id") == cluster_id:
                 c["instance_type_note"] = note
                 payload = c

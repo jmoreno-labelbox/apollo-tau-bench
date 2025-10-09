@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LinkCitedArticle(Tool):
@@ -21,7 +21,7 @@ class LinkCitedArticle(Tool):
         cited_article_id: str = None,
         citation_context: str = "Citation added for reference."
     ) -> str:
-        citations = data.get("citations", [])
+        citations = data.get("citations", {}).values()
         new_citation_id = f"cit_{len(citations) + 1:02d}"
         new_citation = {
             "reference_id": new_citation_id,
@@ -29,7 +29,7 @@ class LinkCitedArticle(Tool):
             "referenced_paper_id": cited_article_id,
             "reference_context": citation_context,
         }
-        citations.append(new_citation)
+        data["citations"][citation_id] = new_citation
         payload = new_citation
         out = json.dumps(payload, indent=2)
         return out

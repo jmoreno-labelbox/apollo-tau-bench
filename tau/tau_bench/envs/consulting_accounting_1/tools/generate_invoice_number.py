@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateInvoiceNumber(Tool):
@@ -19,7 +19,7 @@ class GenerateInvoiceNumber(Tool):
             return out
         existing = [
             i.get("invoice_number")
-            for i in data.get("invoices", [])
+            for i in data.get("invoices", {}).values()
             if str(i.get("invoice_number", "")).startswith(f"{year}-")
         ]
         seqs = []

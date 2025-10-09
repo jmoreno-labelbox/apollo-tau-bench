@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalcPlanChecksum(Tool):
@@ -23,7 +23,7 @@ class CalcPlanChecksum(Tool):
 
         if envelope is None and date is not None:
             plan = next(
-                (p for p in data.get("plans", []) if p.get("date") == date), None
+                (p for p in data.get("plans", {}).values() if p.get("date") == date), None
             )
             if not plan:
                 empty_sig = hashlib.sha256(f"{date}|empty".encode()).hexdigest()

@@ -8,7 +8,7 @@ from decimal import ROUND_HALF_UP, Decimal
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateClusterChangePlan(Tool):
@@ -32,7 +32,7 @@ class CreateClusterChangePlan(Tool):
         subnet_group_id = _idstr(subnet_group_id)
         # does the cluster exist?
         cluster = None
-        for c in data.get("aws_elasticache_clusters", []):
+        for c in data.get("aws_elasticache_clusters", {}).values():
             if c.get("cluster_id") == cluster_id:
                 cluster = c
                 break
@@ -46,7 +46,7 @@ class CreateClusterChangePlan(Tool):
         sg_id = None
         proto = None
         port = None
-        for r in data.get("aws_security_group_rules", []):
+        for r in data.get("aws_security_group_rules", {}).values():
             if r.get("rule_id") == reference_rule_id:
                 sg_id = r.get("security_group_id")
                 proto = r.get("protocol")
@@ -60,7 +60,7 @@ class CreateClusterChangePlan(Tool):
             return out
         # is the subnet group present?
         ok = False
-        for g in data.get("aws_subnet_groups", []):
+        for g in data.get("aws_subnet_groups", {}).values():
             if g.get("subnet_group_id") == subnet_group_id:
                 ok = True
                 break

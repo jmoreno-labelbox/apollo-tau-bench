@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateInventoryRecord(Tool):
@@ -21,8 +21,8 @@ class CreateInventoryRecord(Tool):
             out = json.dumps(payload)
             return out
 
-        inventory_items = data.get("inventory", [])
-        for item in inventory_items:
+        inventory_items = data.get("inventory", {}).values()
+        for item in inventory_items.values():
             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id:
                 payload = {
                     "error": f"Inventory record for SKU {sku} at warehouse {warehouse_id} already exists."
@@ -31,16 +31,16 @@ class CreateInventoryRecord(Tool):
                 return out
 
         product_details = {}
-        products = data.get("product_master", [])
-        for p in products:
+        products = data.get("product_master", {}).values()
+        for p in products.values():
             if p.get("sku") == sku:
                 product_details = p
                 break
 
         warehouse_details = {}
-        warehouses = data.get("warehouses", [])
+        warehouses = data.get("warehouses", {}).values()
         warehouse_details = next(
-            (wh for wh in warehouses if wh.get("warehouse_id") == warehouse_id), {}
+            (wh for wh in warehouses.values() if wh.get("warehouse_id") == warehouse_id), {}
         )
 
         if not product_details or not warehouse_details:
@@ -51,7 +51,7 @@ class CreateInventoryRecord(Tool):
             return out
 
         max_inv_num = 0
-        for item in inventory_items:
+        for item in inventory_items.values():
             inv_id = item.get("inventory_id", "INV-0000")
             inv_num_str = inv_id.split("-")[-1]
             if inv_num_str.isdigit():
@@ -85,7 +85,7 @@ class CreateInventoryRecord(Tool):
             "storage_requirements": product_details.get("storage_requirements"),
         }
 
-        inventory_items.append(new_record)
+        data["inventory"][inventory_id] = new_record
         payload = {
             "status": "success",
             "inventory_id": new_inventory_id,

@@ -11,9 +11,9 @@ class GetBankAccountDetails(Tool):
         Returns bank_account_id(s). Optionally filter by account_type (chequing/savings).
         """
         if account_type:
-            ids = [b["account_id"] for b in data["bank_accounts"] if b["account_type"] == account_type]
+            ids = [b["account_id"] for b in data["bank_accounts"].values() if b["account_type"] == account_type]
         else:
-            ids = [b["account_id"] for b in data["bank_accounts"]]
+            ids = [b["account_id"] for b in data["bank_accounts"].values()]
         return json.dumps(ids)
     @staticmethod
     def get_info() -> Dict[str, Any]:

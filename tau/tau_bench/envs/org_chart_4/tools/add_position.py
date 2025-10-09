@@ -9,7 +9,7 @@ class add_position(Tool):
     ) -> str:
         positions = data.setdefault("positions", [])
         position = {"position_id": position_id}
-        positions.append(position)
+        data["positions"][position_id] = position
         payload = {"success": True, "position_id": position.get("position_id")}
         out = json.dumps(
             payload, indent=2

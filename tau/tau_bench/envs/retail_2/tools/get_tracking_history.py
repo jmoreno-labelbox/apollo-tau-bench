@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTrackingHistory(Tool):
@@ -15,7 +15,7 @@ class GetTrackingHistory(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str) -> str:
-        tracking_records = data.get("tracking", [])
+        tracking_records = data.get("tracking", {}).values()
         # Entries in tracking.json are expected to include: order_id, tracking_history, tracking_id[], address, etc.
         for rec in tracking_records:
             if rec.get("order_id") == order_id:
@@ -23,7 +23,7 @@ class GetTrackingHistory(Tool):
                     "order_id": order_id,
                     "tracking_id": rec.get("tracking_id"),
                     "delivery_carrier": rec.get("delivery_carrier"),
-                    "tracking_history": rec.get("tracking_history", {}),
+                    "tracking_history": rec.get("tracking_history", {}).values()),
                 }
                 out = json.dumps(payload)
                 return out

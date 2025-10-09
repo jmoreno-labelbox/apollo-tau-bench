@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetPlayerInsightsByPlayeridAndType(Tool):
@@ -38,10 +38,10 @@ class GetPlayerInsightsByPlayeridAndType(Tool):
             return out
 
         #2) Retrieve DB
-        insights: list[dict[str, Any]] = data.get("curated_insights", [])
+        insights: list[dict[str, Any]] = data.get("curated_insights", {}).values()
 
         #3) Filter based on player_id
-        player_insights = [i for i in insights if i.get("player_id") == player_id]
+        player_insights = [i for i in insights.values() if i.get("player_id") == player_id]
 
         if not player_insights:
             payload = {"error": f"No insights found for player_id {player_id}"}

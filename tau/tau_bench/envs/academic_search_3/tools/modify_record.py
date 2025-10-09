@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ModifyRecord(Tool):
@@ -37,13 +37,13 @@ class ModifyRecord(Tool):
             return out
 
         table_map = {
-            "article": (data.get("articles", []), "article_id"),
-            "project": (data.get("projects", []), "project_id"),
-            "user": (data.get("users", []), "user_id"),
-            "submission": (data.get("submissions", []), "submission_id"),
-            "funding_source": (data.get("funding_sources", []), "funding_source_id"),
-            "user_preference": (data.get("user_preferences", []), "preference_id"),
-            "subscription": (data.get("subscriptions", []), "subscription_id"),
+            "article": (data.get("articles", {}).values()), "article_id"),
+            "project": (data.get("projects", {}).values()), "project_id"),
+            "user": (data.get("users", {}).values()), "user_id"),
+            "submission": (data.get("submissions", {}).values()), "submission_id"),
+            "funding_source": (data.get("funding_sources", {}).values()), "funding_source_id"),
+            "user_preference": (data.get("user_preferences", {}).values()), "preference_id"),
+            "subscription": (data.get("subscriptions", {}).values()), "subscription_id"),
         }
 
         if record_type not in table_map:

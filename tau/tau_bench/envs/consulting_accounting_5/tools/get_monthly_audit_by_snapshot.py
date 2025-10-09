@@ -9,7 +9,7 @@ from datetime import timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetMonthlyAuditBySnapshot(Tool):
@@ -18,7 +18,7 @@ class GetMonthlyAuditBySnapshot(Tool):
         """
         Returns row_ids of monthly expenses for a given snapshot_id.
         """
-        records = [me["row_id"] for me in data.get("monthly_expenses", []) if me["snapshot_id"] == snapshot_id]
+        records = [me["row_id"] for me in data.get("monthly_expenses", {}).values() if me["snapshot_id"] == snapshot_id]
         return json.dumps(records)
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -9,7 +9,7 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SchedulePaymentWithValidationTool(Tool):
@@ -39,8 +39,8 @@ class SchedulePaymentWithValidationTool(Tool):
         if not all([from_account, to_account, amount, currency, date]):
             return json.dumps({"error": "Missing required fields"}, indent=2)
 
-        accounts = data.get("accounts", [])
-        from_acc = next((a for a in accounts if a["account_id"] == from_account), None)
+        accounts = data.get("accounts", {}).values()
+        from_acc = next((a for a in accounts.values() if a["account_id"] == from_account), None)
         if not from_acc or from_acc["balance"] < amount:
             return json.dumps(
                 {"error": "Insufficient balance or account not found"}, indent=2
@@ -62,8 +62,8 @@ class SchedulePaymentWithValidationTool(Tool):
         if not all([from_account, to_account, amount, currency, date]):
             return json.dumps({"error": "Missing required fields"}, indent=2)
 
-        accounts = data.get("accounts", [])
-        from_acc = next((a for a in accounts if a["account_id"] == from_account), None)
+        accounts = data.get("accounts", {}).values()
+        from_acc = next((a for a in accounts.values() if a["account_id"] == from_account), None)
         if not from_acc or from_acc["balance"] < amount:
             return json.dumps(
                 {"error": "Insufficient balance or account not found"}, indent=2

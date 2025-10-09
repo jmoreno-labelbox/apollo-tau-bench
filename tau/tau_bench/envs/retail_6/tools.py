@@ -9,14 +9,14 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
 def _find_product_by_item(data, item_id):
     pass
-    for p in data.get("products", []):
-        variants = p.get("variants", {})
+    for p in data.get("products", {}).values():
+        variants = p.get("variants", {}).values()
         if item_id in variants:
             return p, variants[item_id]
     return None, None
@@ -25,7 +25,7 @@ def _find_product_by_item(data, item_id):
 def _find_courier(data, courier_id):
     pass
     return next(
-        (c for c in data.get("couriers", []) if c.get("courier_id") == courier_id), None
+        (c for c in data.get("couriers", {}).values() if c.get("courier_id") == courier_id), None
     )
 
 
@@ -39,7 +39,7 @@ def _ensure_list(dct, key):
 def _find_order(data, order_id):
     pass
     return next(
-        (o for o in data.get("orders", []) if o.get("order_id") == order_id), None
+        (o for o in data.get("orders", {}).values() if o.get("order_id") == order_id), None
     )
 
 
@@ -48,7 +48,7 @@ def _find_tracking(data, tracking_id):
     return next(
         (
             t
-            for t in data.get("tracking", [])
+            for t in data.get("tracking", {}).values()
             if tracking_id in t.get("tracking_id", [])
         ),
         None,
@@ -57,7 +57,7 @@ def _find_tracking(data, tracking_id):
 
 def _find_user(data, user_id):
     pass
-    return next((u for u in data.get("users", []) if u.get("user_id") == user_id), None)
+    return next((u for u in data.get("users", {}).values() if u.get("user_id") == user_id), None)
 
 
 class GetUserById(Tool):
@@ -98,8 +98,8 @@ class FindUsersByCity(Tool):
             payload = {"error": "city is required"}
             out = json.dumps(payload, indent=2)
             return out
-        users = data.get("users", [])
-        out = [u for u in users if u.get("address", {}).get("city") == city]
+        users = data.get("users", {}).values()
+        out = [u for u in users.values() if u.get("address", {}).values().get("city") == city]
         payload = out
         out = json.dumps(payload, indent=2)
         return out
@@ -176,7 +176,7 @@ class AddPaymentMethod(Tool):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
-        pm = user.setdefault("payment_methods", {})
+        pm = user.setdefault("payment_methods", {}).values()
         pm[payment_method["id"]] = payment_method
         payload = {"success": True, "user_id": user_id, "payment_method_id": payment_method["id"]}
         out = json.dumps(
@@ -213,7 +213,7 @@ class GetProductById(Tool):
             out = json.dumps(payload, indent=2)
             return out
         prod = next(
-            (p for p in data.get("products", []) if p.get("product_id") == product_id),
+            (p for p in data.get("products", {}).values() if p.get("product_id") == product_id),
             None,
         )
         payload = prod or {"error": f"product_id {product_id} not found"}
@@ -360,7 +360,7 @@ class SearchProductsByName(Tool):
     @staticmethod
     def invoke(data, query: str = "") -> str:
         q = query.lower()
-        out = [p for p in data.get("products", []) if q in p.get("name", "").lower()]
+        out = [p for p in data.get("products", {}).values() if q in p.get("name", "").lower()]
         payload = out
         out = json.dumps(payload, indent=2)
         return out
@@ -648,7 +648,7 @@ class UpdateItemOption(Tool):
                 payload, indent=2
             )
             return out
-        opts = it.setdefault("options", {})
+        opts = it.setdefault("options", {}).values()
         opts[option_key] = option_value
         payload = {
                 "success": True,
@@ -810,7 +810,7 @@ class AppendTrackingEvent(Tool):
                 payload, indent=2
             )
             return out
-        history = t.setdefault("tracking_history", {})
+        history = t.setdefault("tracking_history", {}).values()
         history[event] = timestamp
         payload = {
                 "success": True,
@@ -933,7 +933,7 @@ class SplitOrderFulfillment(Tool):
                 "order_id": order_id,
                 "tracking_history": {},
             }
-            tr_list.append(tr)
+            data["tracking"][tr["tracking_id"]] = tr
         else:
             tr["item_ids"] = item_ids
             tr["delivery_carrier"] = courier_id
@@ -992,7 +992,7 @@ class GetSupplierDetails(Tool):
         sup = next(
             (
                 s
-                for s in data.get("suppliers", [])
+                for s in data.get("suppliers", {}).values()
                 if s.get("supplier_id") == supplier_id
             ),
             None,
@@ -1063,7 +1063,7 @@ class PlaceSupplyOrder(Tool):
         if existing:
             existing.update(record)
         else:
-            so_list.append(record)
+            data["supply_orders"][record["supply_order_id"]] = record
         payload = {"success": True, "supply_order_id": supply_order_id}
         out = json.dumps(
             payload, indent=2
@@ -1115,7 +1115,7 @@ class UpdateSupplyOrderStatus(Tool):
         so = next(
             (
                 s
-                for s in data.get("supply_orders", [])
+                for s in data.get("supply_orders", {}).values()
                 if s.get("supply_order_id") == supply_order_id
             ),
             None,
@@ -1276,7 +1276,7 @@ class ScheduleDelivery(Tool):
                 payload, indent=2
             )
             return out
-        hist = tr.setdefault("tracking_history", {})
+        hist = tr.setdefault("tracking_history", {}).values()
         hist["scheduled"] = scheduled
         payload = {"success": True, "tracking_id": tracking_id, "scheduled": scheduled}
         out = json.dumps(
@@ -1355,15 +1355,15 @@ class ComputeUserFillRate(Tool):
             payload = {"error": "user_id is required"}
             out = json.dumps(payload, indent=2)
             return out
-        user_orders = [o for o in data.get("orders", []) if o.get("user_id") == user_id]
-        total = sum(len(o.get("items", [])) for o in user_orders)
+        user_orders = [o for o in data.get("orders", {}).values() if o.get("user_id") == user_id]
+        total = sum(len(o.get("items", [])) for o in user_orders.values()
         delivered = 0
         for o in user_orders:
             #tally items in fulfillments that tracking indicates as delivered
             for f in o.get("fulfillments", []):
                 for tid in f.get("tracking_id", []):
                     tr = _find_tracking(data, tid)
-                    if tr and tr.get("tracking_history", {}).get("delivered"):
+                    if tr and tr.get("tracking_history", {}).values().get("delivered"):
                         delivered += len(f.get("item_ids", []))
         rate = (delivered / total) if total else 0.0
         payload = {"user_id": user_id, "fill_rate": round(rate, 4)}

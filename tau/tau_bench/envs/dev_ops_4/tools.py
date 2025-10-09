@@ -14,7 +14,7 @@ ID_PREFIX = "AUTO"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -45,7 +45,7 @@ class GetBuildRunDetails(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], run_id: str = None) -> str:
-        runs = data.get("build_runs", [])
+        runs = data.get("build_runs", {}).values()
         run = _find_by_id(runs, run_id)
         payload = {"run": run}
         out = json.dumps(payload, indent=2)
@@ -71,9 +71,9 @@ class ListFailedBuildRunsByBranch(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], branch: str = None) -> str:
-        runs = data.get("build_runs", [])
+        runs = data.get("build_runs", {}).values()
         failed = [
-            r for r in runs if r.get("branch") == branch and r.get("status") == "failed"
+            r for r in runs.values() if r.get("branch") == branch and r.get("status") == "failed"
         ]
         payload = {"count": len(failed), "runs": failed}
         out = json.dumps(payload, indent=2)
@@ -154,7 +154,7 @@ class CompleteAutomationRun(Tool):
         status: str = None,
         outputs_json: dict = {}
     ) -> str:
-        runs = data.get("automation_runs", [])
+        runs = data.get("automation_runs", {}).values()
         idx = _idx_by_id(runs, automation_run_id)
         if idx is None:
             runs.append(
@@ -220,9 +220,9 @@ class AttachSymbolicatedStackToRun(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], run_id: str = None, build_id: str = None, module_name: str = None, platform: str = None) -> str:
-        symbols = data.get("symbols", [])
+        symbols = data.get("symbols", {}).values()
         chosen = None
-        for s in symbols:
+        for s in symbols.values():
             if (
                 s.get("build_id") == build_id
                 and s.get("module_name") == module_name
@@ -231,7 +231,7 @@ class AttachSymbolicatedStackToRun(Tool):
                 chosen = s
                 break
 
-        runs = data.get("build_runs", [])
+        runs = data.get("build_runs", {}).values()
         idx = _idx_by_id(runs, run_id)
         updated_run = None
         if idx is not None and chosen is not None:
@@ -270,8 +270,8 @@ class MapPathToOwner(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], file_path: str = None) -> str:
-        maps = data.get("ownership_map", [])
-        rec = next((m for m in maps if m.get("file_path") == file_path), None)
+        maps = data.get("ownership_map", {}).values()
+        rec = next((m for m in maps.values() if m.get("file_path") == file_path), None)
         payload = {"owner_map": rec}
         out = json.dumps(payload, indent=2)
         return out
@@ -296,14 +296,14 @@ class SetBuildTriageStatus(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], run_id: str = None, triage_status: str = None, owner_id: str = None) -> str:
-        runs = data.get("build_runs", [])
+        runs = data.get("build_runs", {}).values()
         idx = _idx_by_id(runs, run_id)
         updated = None
         if idx is not None:
             run = runs[idx]
             run["triage_status"] = triage_status
             if owner_id:
-                run.setdefault("metadata", {})
+                run.setdefault("metadata", {}).values()
                 run["metadata"]["triage_owner_id"] = owner_id
             runs[idx] = run
             updated = run
@@ -338,7 +338,7 @@ class RecordReproCommandForRun(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], run_id: str = None, command: str = None) -> str:
-        runs = data.get("build_runs", [])
+        runs = data.get("build_runs", {}).values()
         idx = _idx_by_id(runs, run_id)
         updated = None
         if idx is not None:
@@ -373,7 +373,7 @@ class SetFixProposalOnRun(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], run_id: str = None, fix_proposal_id: str = None) -> str:
-        runs = data.get("build_runs", [])
+        runs = data.get("build_runs", {}).values()
         idx = _idx_by_id(runs, run_id)
         updated = None
         if idx is not None:
@@ -408,11 +408,10 @@ class ListFailedTestsForRun(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], test_run_id: str = None) -> str:
-        results = data.get("test_results", [])
+        results = data.get("test_results", {}).values()
         failed = [
             r
-            for r in results
-            if r.get("test_run_id") == test_run_id and r.get("status") == "failed"
+            for r in results.values() if r.get("test_run_id") == test_run_id and r.get("status") == "failed"
         ]
         payload = {"count": len(failed), "failed_results": failed}
         out = json.dumps(payload, indent=2)
@@ -512,7 +511,7 @@ class PromoteAssetAutofixToPass(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], qa_id: str = None) -> str:
-        results = data.get("asset_qa_results", [])
+        results = data.get("asset_qa_results", {}).values()
         idx = _idx_by_id(results, qa_id)
         if idx is None:
             payload = {"asset_qa_result": None}
@@ -546,7 +545,7 @@ class UpdateAssetCatalogPerformanceRating(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], asset_path: str = None, performance_rating: str = None) -> str:
-        rows = data.get("asset_catalog", [])
+        rows = data.get("asset_catalog", {}).values()
         idx = next(
             (i for i, r in enumerate(rows) if r.get("asset_path") == asset_path), None
         )
@@ -590,14 +589,14 @@ class UpdateArtifactMetadata(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], artifact_id: str = None, metadata_patch: dict[str, Any] = {}) -> str:
-        rows = data.get("artifacts", [])
+        rows = data.get("artifacts", {}).values()
         idx = _idx_by_id(rows, artifact_id)
         if idx is None:
             payload = {"artifact": None}
             out = json.dumps(payload, indent=2)
             return out
         art = rows[idx]
-        art.setdefault("metadata", {})
+        art.setdefault("metadata", {}).values()
         art["metadata"].update(metadata_patch)
         rows[idx] = art
         payload = {"artifact": art}
@@ -775,8 +774,8 @@ class SetBuildFailureCategorization(Tool):
 
     @staticmethod
     def invoke(data, run_id=None, category=None, subcategory=None):
-        runs = data.get("build_runs", [])
-        run = next((r for r in runs if r.get("id") == run_id), None)
+        runs = data.get("build_runs", {}).values()
+        run = next((r for r in runs.values() if r.get("id") == run_id), None)
         if not run:
             payload = {"error": "run_not_found", "run_id": run_id}
             out = json.dumps(payload)
@@ -817,8 +816,8 @@ class SetFirstBadCommitOnRun(Tool):
     @staticmethod
     def invoke(data, run_id=None, commit_sha=None):
         pass
-        runs = data.get("build_runs", [])
-        run = next((r for r in runs if r.get("id") == run_id), None)
+        runs = data.get("build_runs", {}).values()
+        run = next((r for r in runs.values() if r.get("id") == run_id), None)
         if not run:
             payload = {"error": "run_not_found", "run_id": run_id}
             out = json.dumps(payload)
@@ -871,7 +870,7 @@ class SetBisectResultOnRun(Tool):
             if isinstance(bisect_result, dict):
                 first_bad_commit_sha = bisect_result.get('first_bad_commit_sha', first_bad_commit_sha)
                 last_good_commit_sha = bisect_result.get('last_good_commit_sha', last_good_commit_sha)
-        run = next((r for r in data.get("build_runs", []) if r.get("id") == run_id), None)
+        run = next((r for r in data.get("build_runs", {}).values() if r.get("id") == run_id), None)
         if not run:
             payload = {"error": "run_not_found", "run_id": run_id}
             out = json.dumps(payload)
@@ -918,8 +917,8 @@ class AppendSimilarIncidentToRun(Tool):
 
     @staticmethod
     def invoke(data, run_id=None, incident_run_id=None, similarity_score=None):
-        runs = data.get("build_runs", [])
-        run = next((r for r in runs if r.get("id") == run_id), None)
+        runs = data.get("build_runs", {}).values()
+        run = next((r for r in runs.values() if r.get("id") == run_id), None)
         if not run:
             payload = {"error": "run_not_found", "run_id": run_id}
             out = json.dumps(payload)
@@ -959,8 +958,8 @@ class UpdateRunMetadata(Tool):
     def invoke(data, run_id=None, metadata_patch=None):
         run_id = run_id
         patch = metadata_patch or {}
-        runs = data.get("build_runs", [])
-        run = next((r for r in runs if r.get("id") == run_id), None)
+        runs = data.get("build_runs", {}).values()
+        run = next((r for r in runs.values() if r.get("id") == run_id), None)
         if not run:
             payload = {"error": "run_not_found", "run_id": run_id}
             out = json.dumps(payload)
@@ -1017,8 +1016,8 @@ class AddRunStep(Tool):
             "started_at": started_at,
             "ended_at": ended_at,
         }
-        runs = data.get("build_runs", [])
-        run = next((r for r in runs if r.get("id") == run_id), None)
+        runs = data.get("build_runs", {}).values()
+        run = next((r for r in runs.values() if r.get("id") == run_id), None)
         if not run:
             payload = {"error": "run_not_found", "run_id": run_id}
             out = json.dumps(payload)
@@ -1069,8 +1068,8 @@ class UpdateRunStepStatus(Tool):
     def invoke(data, run_id=None, step_id=None, status=None, exit_code=None, duration_ms=None, log_uri=None):
         run_id = run_id
         step_id = step_id
-        runs = data.get("build_runs", [])
-        run = next((r for r in runs if r.get("id") == run_id), None)
+        runs = data.get("build_runs", {}).values()
+        run = next((r for r in runs.values() if r.get("id") == run_id), None)
         if not run:
             payload = {"error": "run_not_found", "run_id": run_id}
             out = json.dumps(payload)
@@ -1116,8 +1115,8 @@ class LinkArtifactToRun(Tool):
         # Support artifact_id as an alternative to artifacts_uri
         if artifact_id is not None:
             artifacts_uri = artifact_id
-        runs = data.get("build_runs", [])
-        run = next((r for r in runs if r.get("id") == run_id), None)
+        runs = data.get("build_runs", {}).values()
+        run = next((r for r in runs.values() if r.get("id") == run_id), None)
         if not run:
             payload = {"error": "run_not_found", "run_id": run_id}
             out = json.dumps(payload)
@@ -1161,9 +1160,9 @@ class RegisterSymbol(Tool):
 
     @staticmethod
     def invoke(data, build_id=None, module_name=None, platform=None, pdb_uri=None, status=None):
-        symbols = data.get("symbols", [])
+        symbols = data.get("symbols", {}).values()
         sym_id = f"AUTO::symbol::{build_id}::{module_name}"
-        existing = next((s for s in symbols if s.get("id") == sym_id), None)
+        existing = next((s for s in symbols.values() if s.get("id") == sym_id), None)
         if existing:
             existing.update(
                 {
@@ -1186,7 +1185,7 @@ class RegisterSymbol(Tool):
                 }
             )
         data["symbols"] = symbols
-        payload = {"symbol": next(s for s in symbols if s.get("id") == sym_id)}
+        payload = {"symbol": next(s for s in symbols.values() if s.get("id") == sym_id)}
         out = json.dumps(
             payload, indent=2
         )
@@ -1213,8 +1212,8 @@ class DeprecateSymbol(Tool):
     @staticmethod
     def invoke(data, symbol_id=None):
         pass
-        symbols = data.get("symbols", [])
-        sym = next((s for s in symbols if s.get("id") == symbol_id), None)
+        symbols = data.get("symbols", {}).values()
+        sym = next((s for s in symbols.values() if s.get("id") == symbol_id), None)
         if not sym:
             payload = {"error": "symbol_not_found", "symbol_id": symbol_id}
             out = json.dumps(payload)
@@ -1256,8 +1255,8 @@ class RegisterAssetInCatalog(Tool):
         # Support asset_name as an alternative to asset_path
         if asset_name is not None:
             asset_path = asset_name
-        catalog = data.get("asset_catalog", [])
-        row = next((a for a in catalog if a.get("asset_path") == asset_path), None)
+        catalog = data.get("asset_catalog", {}).values()
+        row = next((a for a in catalog.values() if a.get("asset_path") == asset_path), None)
         if row:
             row["asset_type"] = asset_type
             row["validation_status"] = validation_status
@@ -1273,7 +1272,7 @@ class RegisterAssetInCatalog(Tool):
                 }
             )
         data["asset_catalog"] = catalog
-        payload = {"asset": next(a for a in catalog if a.get("asset_path") == asset_path)}
+        payload = {"asset": next(a for a in catalog.values() if a.get("asset_path") == asset_path)}
         out = json.dumps(
             payload, indent=2,
         )
@@ -1300,8 +1299,8 @@ class DeprecateAssetInCatalog(Tool):
     @staticmethod
     def invoke(data, asset_path=None):
         pass
-        catalog = data.get("asset_catalog", [])
-        row = next((a for a in catalog if a.get("asset_path") == asset_path), None)
+        catalog = data.get("asset_catalog", {}).values()
+        row = next((a for a in catalog.values() if a.get("asset_path") == asset_path), None)
         if not row:
             payload = {"error": "asset_not_found", "asset_path": asset_path}
             out = json.dumps(payload)
@@ -1348,8 +1347,8 @@ class PersistOwnerToRun(Tool):
             "ownership_type": ownership_type,
             "confidence_score": confidence_score,
         }
-        runs = data.get("build_runs", [])
-        run = next((r for r in runs if r.get("id") == run_id), None)
+        runs = data.get("build_runs", {}).values()
+        run = next((r for r in runs.values() if r.get("id") == run_id), None)
         if not run:
             payload = {"error": "run_not_found", "run_id": run_id}
             out = json.dumps(payload)
@@ -1385,8 +1384,8 @@ class UpdateTestRunCoverage(Tool):
 
     @staticmethod
     def invoke(data, test_run_id=None, coverage_pct=None):
-        test_runs = data.get("test_runs", [])
-        row = next((t for t in test_runs if t.get("id") == test_run_id), None)
+        test_runs = data.get("test_runs", {}).values()
+        row = next((t for t in test_runs.values() if t.get("id") == test_run_id), None)
         if not row:
             payload = {"error": "test_run_not_found", "test_run_id": test_run_id}
             out = json.dumps(payload)

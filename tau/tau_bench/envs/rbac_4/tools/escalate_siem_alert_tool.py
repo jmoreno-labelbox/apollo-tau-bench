@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class EscalateSiemAlertTool(Tool):
@@ -15,9 +15,9 @@ class EscalateSiemAlertTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], alert_id: str = None, severity: str = None, reason: str = None) -> str:
-        alerts = data.get("siem_alerts", [])
+        alerts = data.get("siem_alerts", {}).values()
 
-        alert = next((a for a in alerts if a["alert_id"] == alert_id), None)
+        alert = next((a for a in alerts.values() if a["alert_id"] == alert_id), None)
         if not alert:
             payload = {"error": f"Alert {alert_id} not found"}
             out = json.dumps(payload, indent=2)

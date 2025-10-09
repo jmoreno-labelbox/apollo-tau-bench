@@ -12,7 +12,7 @@ class GetRecurringExpenses(Tool):
         """
         recs = data["recurring_schedules"]
         if category_code:
-            recs = [r for r in recs if r["category_code"] == category_code]
+            recs = [r for r in recs.values() if r["category_code"] == category_code]
         recurring_ids = [r["recurring_id"] for r in recs]
         return json.dumps(recurring_ids)
     @staticmethod

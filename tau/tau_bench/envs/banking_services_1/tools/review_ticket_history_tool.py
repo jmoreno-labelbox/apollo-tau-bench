@@ -25,7 +25,7 @@ class ReviewTicketHistoryTool(Tool):
             return json.dumps({"error": "customer_id is required"})
 
         tickets = load_json("support_tickets.json")
-        customer_tickets = [t for t in tickets if t["customer_id"] == customer_id]
+        customer_tickets = [t for t in tickets.values() if t["customer_id"] == customer_id]
         open_tickets = sum(1 for t in customer_tickets if t["status"] != "Resolved")
         summary = (
             f"Total tickets: {len(customer_tickets)}. Open tickets: {open_tickets}."

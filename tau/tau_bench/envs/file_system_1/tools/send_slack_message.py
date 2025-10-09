@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SendSlackMessage(Tool):
@@ -15,8 +15,8 @@ class SendSlackMessage(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], channel_name: str = None, message: str = None) -> str:
-        messages = data.get("slack_messages", [])
-        new_id = f"msg_{max((int(m['message_id'].split('_')[-1]) for m in messages), default=0) + 1:03d}"
+        messages = data.get("slack_messages", {}).values()
+        new_id = f"msg_{max((int(m['message_id'].split('_')[-1]) for m in messages.values()), default=0) + 1:03d}"
 
         # Automatically create a relevant message based on the channel name
         if channel_name == "System Alerts":
@@ -35,7 +35,7 @@ class SendSlackMessage(Tool):
             )
 
         channel_id = ""
-        for channel in data.get("slack_channels", []):
+        for channel in data.get("slack_channels", {}).values():
             if channel.get("name") == channel_name:
                 channel_id = channel.get("channel_id")
                 break
@@ -53,7 +53,7 @@ class SendSlackMessage(Tool):
             "timestamp": "2024-01-20T14:00:00Z",
             "type": "notification",
         }
-        messages.append(new_message)
+        data["slack_messages"][new_message["slack_message_id"]] = new_message
         data["slack_messages"] = messages
         payload = new_message
         out = json.dumps(payload)

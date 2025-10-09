@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DecideAccessRequest(Tool):
@@ -50,7 +50,7 @@ class DecideAccessRequest(Tool):
             return out
 
         # Retrieve the request
-        requests = data.get("access_requests", [])
+        requests = data.get("access_requests", {}).values()
         req = _find_by_id(requests, "request_id", request_id)
         if not req:
             payload = {"error": f"request_id {request_id} not found"}
@@ -61,10 +61,10 @@ class DecideAccessRequest(Tool):
         if enforce_admin:
             # Locate the role_id for Administrator
             admin_roles = []
-            for r in data.get("roles", []):
+            for r in data.get("roles", {}).values():
                 role_name = str(r.get("role_name", "")).strip().lower()
                 if role_name.endswith("admin") or role_name.endswith("lead"):
-                    admin_roles.append(r)
+                    admin_data["roles"][role_id] = r
             if not admin_roles:
                 payload = {"error": "Administrator role not defined in roles.json"}
                 out = json.dumps(payload)
@@ -73,7 +73,7 @@ class DecideAccessRequest(Tool):
             has_admin = any(
                 ur.get("user_id") == reviewer_id
                 and ur.get("role_id") in [r.get("role_id") for r in admin_roles]
-                for ur in data.get("user_roles", [])
+                for ur in data.get("user_roles", {}).values()
             )
             if not has_admin:
                 payload = {"error": f"reviewer_id {reviewer_id} lacks Administrator role"}
@@ -87,9 +87,9 @@ class DecideAccessRequest(Tool):
             return out
 
         # Ensure the target user and role are present
-        user = _find_by_id(data.get("users", []), "user_id", req.get("user_id") or "")
+        user = _find_by_id(data.get("users", {}).values()), "user_id", req.get("user_id") or "")
         role = _find_by_id(
-            data.get("roles", []), "role_id", req.get("requested_role_id") or ""
+            data.get("roles", {}).values()), "role_id", req.get("requested_role_id") or ""
         )
         if not user or not role:
             payload = {"error": "target user or requested role does not exist"}
@@ -126,7 +126,7 @@ class DecideAccessRequest(Tool):
         )
 
         # Save the update
-        for i, r in enumerate(requests):
+        for i, r in enumerate(requests.values():
             if r.get("request_id") == request_id:
                 data["access_requests"][i] = updated
                 break

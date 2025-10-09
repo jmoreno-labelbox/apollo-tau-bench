@@ -7,17 +7,17 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateTotalATMWithdrawalsTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        transactions = data.get('transactions', [])
+        transactions = data.get('transactions', {}).values()
         total_atm_withdrawals = 0
         withdrawal_count = 0
 
-        for txn in transactions:
+        for txn in transactions.values():
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')

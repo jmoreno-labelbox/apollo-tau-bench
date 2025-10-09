@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetRoleNameTool(Tool):
@@ -24,7 +24,7 @@ class GetRoleNameTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        roles: list[dict[str, Any]] = data.get("roles", [])
+        roles: list[dict[str, Any]] = data.get("roles", {}).values()
         rec = next((r for r in roles if r.get("role_id") == role_id), None)
         if not rec:
             payload = {"error": f"Role {role_id} not found"}

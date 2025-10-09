@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class BuildInvoiceLines(Tool):
@@ -15,7 +15,7 @@ class BuildInvoiceLines(Tool):
     def invoke(data: dict[str, Any], time_entries: list = None, hourly_rate: float = 0.0) -> str:
         time_entries_ids = time_entries or []
         hourly_rate = float(hourly_rate)
-        entries_index = {t["time_entry_id"]: t for t in data.get("time_entries", [])}
+        entries_index = {t["time_entry_id"]: t for t in data.get("time_entries", {}).values()}
         lines = []
         subtotal = 0.0
         for idx, tid in enumerate(time_entries_ids, start=1):

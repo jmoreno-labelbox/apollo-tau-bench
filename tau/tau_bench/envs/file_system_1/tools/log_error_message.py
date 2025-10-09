@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LogErrorMessage(Tool):
@@ -23,8 +23,8 @@ class LogErrorMessage(Tool):
         severity: str = None,
         details_json: str = None
     ) -> str:
-        error_logs = data.get("error_messages", [])
-        new_id = f"err_msg_{max((int(e['msg_id'].split('_')[-1]) for e in error_logs), default=0) + 1:03d}"
+        error_logs = data.get("error_messages", {}).values()
+        new_id = f"err_msg_{max((int(e['msg_id'].split('_')[-1]) for e in error_logs.values()), default=0) + 1:03d}"
 
         # Automatically create a message according to the error type and task specifics
         # Create a suitable message depending on the error type
@@ -52,7 +52,7 @@ class LogErrorMessage(Tool):
             "severity": severity,
             "details": details_json,
         }
-        error_logs.append(new_log)
+        data["error_messages"][new_log["error_message_id"]] = new_log
         data["error_messages"] = error_logs
         payload = new_log
         out = json.dumps(payload)

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetDepartmentCapacity(Tool):
@@ -20,11 +20,11 @@ class GetDepartmentCapacity(Tool):
             out = json.dumps(payload)
             return out
 
-        employees = data.get("employees", [])
-        allocations = data.get("allocations", [])
+        employees = data.get("employees", {}).values()
+        allocations = data.get("allocations", {}).values()
 
         dept_employees = [
-            emp for emp in employees if emp.get("department") == department
+            emp for emp in employees.values() if emp.get("department") == department
         ]
 
         total_capacity = len(dept_employees) * 40
@@ -33,8 +33,7 @@ class GetDepartmentCapacity(Tool):
         for employee in dept_employees:
             emp_allocations = [
                 alloc
-                for alloc in allocations
-                if alloc.get("employee_id") == employee.get("employee_id")
+                for alloc in allocations.values() if alloc.get("employee_id") == employee.get("employee_id")
                 and alloc.get("status") == "active"
             ]
             total_allocated += sum(

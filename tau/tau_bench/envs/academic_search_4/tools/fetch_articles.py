@@ -11,16 +11,16 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchArticles(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], *, article_id: Any = None, topic: Any = None, title: Any = None, year: Any = None, author_name: Any = None) -> str:
-        articles: list = data.get("articles", [])
+        articles: list = data.get("articles", {}).values()
 
         if article_id:
-            for article in articles:
+            for article in articles.values():
                 if article.get("article_id") == article_id:
                     payload = [article]
                     out = json.dumps(
@@ -32,7 +32,7 @@ class FetchArticles(Tool):
             return out
 
         results = []
-        for article in articles:
+        for article in articles.values():
             match = True
             if topic and topic.lower() not in article.get("topic", "").lower():
                 match = False

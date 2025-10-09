@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListReleasesTool(Tool):
@@ -16,9 +16,9 @@ class ListReleasesTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], version_prefix: str = "release/", artifact_id: str = None) -> str:
-        releases = data.get("releases", [])
+        releases = data.get("releases", {}).values()
         out = []
-        for r in releases:
+        for r in releases.values():
             if version_prefix and not str(r.get("version_tag", "")).startswith(version_prefix):
                 continue
             if artifact_id and r.get("artifact_id") != artifact_id:

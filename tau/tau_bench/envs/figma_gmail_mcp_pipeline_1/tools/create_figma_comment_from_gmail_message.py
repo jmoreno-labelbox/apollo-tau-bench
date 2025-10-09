@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateFigmaCommentFromGmailMessage(Tool):  #WRITE
@@ -27,11 +27,11 @@ class CreateFigmaCommentFromGmailMessage(Tool):  #WRITE
             payload = {"error": "gmail_message_id must be a non-empty string"}
             out = json.dumps(payload)
             return out
-        gmail_messages = data.get("gmail_messages", [])
-        figma_comments = data.get("figma_comments", [])
+        gmail_messages = data.get("gmail_messages", {}).values()
+        figma_comments = data.get("figma_comments", {}).values()
         #Locate the Gmail message
         gmail_msg = next(
-            (m for m in gmail_messages if m.get("message_id") == gmail_message_id), None
+            (m for m in gmail_messages.values() if m.get("message_id") == gmail_message_id), None
         )
         if not gmail_msg:
             payload = {"error": "gmail_message_id not found in gmail_messages"}
@@ -50,7 +50,7 @@ class CreateFigmaCommentFromGmailMessage(Tool):  #WRITE
             "comment_text": comment_text,
             "created_ts": created_ts,
         }
-        figma_comments.append(new_comment)
+        data["figma_comments"][new_comment["figma_comment_id"]] = new_comment
         payload = {"new_comment": new_comment}
         out = json.dumps(payload)
         return out

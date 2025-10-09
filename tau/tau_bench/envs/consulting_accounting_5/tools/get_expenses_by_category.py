@@ -10,7 +10,7 @@ class GetExpensesByCategory(Tool):
         """
         Returns expense_ids for all expenses under a given category_code.
         """
-        expense_ids = [exp["expense_id"] for exp in data["expenses"] if exp["category_code"] == category_code]
+        expense_ids = [exp["expense_id"] for exp in data["expenses"].values() if exp["category_code"] == category_code]
         return json.dumps(expense_ids)
     @staticmethod
     def get_info() -> Dict[str, Any]:

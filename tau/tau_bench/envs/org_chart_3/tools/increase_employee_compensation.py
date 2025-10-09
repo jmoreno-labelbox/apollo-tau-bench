@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class increase_employee_compensation(Tool):
@@ -22,8 +22,8 @@ class increase_employee_compensation(Tool):
         equity_increase_amount: float | None = None
     ) -> str:
         # Retrieve the current compensation
-        comp = data.get("compensation_records", [])
-        current = [c for c in comp if c["employee_id"] == employee_id]
+        comp = data.get("compensation_records", {}).values()
+        current = [c for c in comp.values() if c["employee_id"] == employee_id]
         current.sort(key=lambda c: c["effective_date"], reverse=True)
 
         if not current:
@@ -61,8 +61,8 @@ class increase_employee_compensation(Tool):
         }
 
         # Delete the old record with the same ID if it exists and insert the new one
-        comp = [c for c in comp if c["compensation_id"] != compensation_id]
-        comp.append(new_comp)
+        comp = [c for c in comp.values() if c["compensation_id"] != compensation_id]
+        data["compensation_records"][new_comp["compensation_record_id"]] = new_comp
         data["compensation_records"] = comp
         payload = {
             "success": f"Compensation increased for {employee_id}",
@@ -74,8 +74,8 @@ class increase_employee_compensation(Tool):
         return out
         pass
         #Retrieve the current compensation
-        comp = data.get("compensation_records", [])
-        current = [c for c in comp if c["employee_id"] == employee_id]
+        comp = data.get("compensation_records", {}).values()
+        current = [c for c in comp.values() if c["employee_id"] == employee_id]
         current.sort(key=lambda c: c["effective_date"], reverse=True)
 
         if not current:
@@ -113,8 +113,8 @@ class increase_employee_compensation(Tool):
         }
 
         #Delete the old record with the same ID if it exists and insert the new one
-        comp = [c for c in comp if c["compensation_id"] != compensation_id]
-        comp.append(new_comp)
+        comp = [c for c in comp.values() if c["compensation_id"] != compensation_id]
+        data["compensation_records"][new_comp["compensation_record_id"]] = new_comp
         data["compensation_records"] = comp
         payload = {
                 "success": f"Compensation increased for {employee_id}",

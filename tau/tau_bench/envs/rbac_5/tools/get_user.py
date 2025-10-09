@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUser(Tool):
@@ -39,7 +39,7 @@ class GetUser(Tool):
 
         # If user_id is given, perform a search using user_id
         if user_id:
-            user = _find_by_id(data.get("users", []), "user_id", user_id)
+            user = _find_by_id(data.get("users", {}).values()), "user_id", user_id)
             return (
                 json.dumps(user) if user else _not_found(f"user_id {user_id} not found")
             )
@@ -47,7 +47,7 @@ class GetUser(Tool):
         # If a username is supplied, conduct a search using the username
         if username:
             username_lower = username.strip().lower()
-            for u in data.get("users", []):
+            for u in data.get("users", {}).values():
                 if u.get("username", "").lower() == username_lower:
                     payload = u
                     out = json.dumps(payload)
@@ -59,7 +59,7 @@ class GetUser(Tool):
             first_name_clean = first_name.strip().lower()
             last_name_clean = last_name.strip().lower()
             username_to_search = first_name_clean[0] + last_name_clean
-            for u in data.get("users", []):
+            for u in data.get("users", {}).values():
                 if u.get("username", "").lower() == username_to_search:
                     payload = u
                     out = json.dumps(payload)
@@ -68,9 +68,9 @@ class GetUser(Tool):
 
         # If department or status is supplied (without a specific identifier), return a filtered list
         if department or status or mfa_enabled is not None:
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
             filtered: list[dict[str, Any]] = []
-            for u in users:
+            for u in users.values():
                 if department and u.get("department") != department:
                     continue
                 if status and u.get("status") != status:
@@ -79,11 +79,10 @@ class GetUser(Tool):
                     continue
                 filtered.append(u)
             if role_id:
-                user_roles = data.get("user_roles", [])
+                user_roles = data.get("user_roles", {}).values()
                 user_ids_with_role = {
                     ur.get("user_id")
-                    for ur in user_roles
-                    if ur.get("role_id") == role_id
+                    for ur in user_roles.values() if ur.get("role_id") == role_id
                 }
                 filtered = [
                     u for u in filtered if u.get("user_id") in user_ids_with_role
@@ -92,13 +91,13 @@ class GetUser(Tool):
             out = json.dumps(payload)
             return out
         if role_id:
-            user_roles = data.get("user_roles", [])
+            user_roles = data.get("user_roles", {}).values()
             user_ids_with_role = {
-                ur.get("user_id") for ur in user_roles if ur.get("role_id") == role_id
+                ur.get("user_id") for ur in user_roles.values() if ur.get("role_id") == role_id
             }
             users = [
                 u
-                for u in data.get("users", [])
+                for u in data.get("users", {}).values()
                 if u.get("user_id") in user_ids_with_role
             ]
             payload = {"ok": True, "users": users}

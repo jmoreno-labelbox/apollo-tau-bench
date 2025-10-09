@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateShippingCost(Tool):
@@ -30,13 +30,13 @@ class CalculateShippingCost(Tool):
         """
         pass
         #Rule: Assign couriers only if destination country matches their coverage areas
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         eligible_couriers = []
 
-        for courier in couriers:
+        for courier in couriers.values()):
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
-                eligible_couriers.append(courier)
+                eligible_data["couriers"][courier_id] = courier
 
         if not eligible_couriers:
             payload = {
@@ -261,10 +261,10 @@ class CalculateShippingCost(Tool):
         return out
         eligible_couriers = []
 
-        for courier in couriers:
+        for courier in couriers.values():
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
-                eligible_couriers.append(courier)
+                eligible_data["couriers"][courier_id] = courier
 
         if not eligible_couriers:
             payload = {

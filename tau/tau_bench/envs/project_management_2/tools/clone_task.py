@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CloneTask(Tool):
@@ -27,12 +27,12 @@ class CloneTask(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        employees = data.get("employees", [])
-        sprints = data.get("sprints", [])
+        tasks = data.get("tasks", {}).values()
+        employees = data.get("employees", {}).values()
+        sprints = data.get("sprints", {}).values()
 
         source_task = next(
-            (t for t in tasks if t.get("task_id") == source_task_id), None
+            (t for t in tasks.values() if t.get("task_id") == source_task_id), None
         )
         if not source_task:
             payload = {"error": f"Source task '{source_task_id}' not found"}
@@ -42,7 +42,7 @@ class CloneTask(Tool):
         assignee_id = new_assignee_id or source_task.get("assignee_id")
 
         assignee = next(
-            (emp for emp in employees if emp.get("employee_id") == assignee_id), None
+            (emp for emp in employees.values() if emp.get("employee_id") == assignee_id), None
         )
         if not assignee:
             payload = {"error": f"Assignee '{assignee_id}' not found"}
@@ -56,8 +56,7 @@ class CloneTask(Tool):
             if not is_senior:
                 senior_members = [
                     emp
-                    for emp in employees
-                    if any(
+                    for emp in employees.values() if any(
                         skill.get("proficiency", 0) >= 4
                         for skill in emp.get("skills", [])
                     )
@@ -76,16 +75,15 @@ class CloneTask(Tool):
 
         story_points = source_task.get("story_points", 3)
         if sprint_id:
-            sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+            sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
             if sprint and sprint.get("status") == "active":
                 assignee_tasks = [
                     t
-                    for t in tasks
-                    if t.get("assignee_id") == assignee_id
+                    for t in tasks.values() if t.get("assignee_id") == assignee_id
                     and t.get("sprint_id") == sprint_id
                     and t.get("status") != "done"
                 ]
-                current_points = sum(t.get("story_points", 0) for t in assignee_tasks)
+                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values()
 
                 if current_points + story_points > 25:
                     payload = {
@@ -100,7 +98,7 @@ class CloneTask(Tool):
         task_id = f"task_{uuid.uuid4().hex[:8]}"
 
         if new_task_id:
-            for t in tasks:
+            for t in tasks.values():
                 if t.get("task_id") == new_task_id:
                     payload = {
                             "error": f"new_task_id {new_task_id} exists. Please enter a unique task_id."
@@ -128,7 +126,7 @@ class CloneTask(Tool):
             "cloned_from": source_task_id,
         }
 
-        tasks.append(new_task)
+        data["tasks"][task_id] = new_task
         payload = {"success": True, "new_task": new_task, "source_task_id": source_task_id}
         out = json.dumps(
             payload)

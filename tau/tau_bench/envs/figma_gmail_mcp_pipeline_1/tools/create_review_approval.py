@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateReviewApproval(Tool):  #WRITE
@@ -29,18 +29,17 @@ class CreateReviewApproval(Tool):  #WRITE
             out = json.dumps(
                 payload)
             return out
-        review_approvals = data.get("review_approvals", [])
+        review_approvals = data.get("review_approvals", {}).values()
         next_num = len(review_approvals) + 1
         approval_id = f"approval_{next_num:03d}"
         approved_ts = "2025-08-26T12:00:00Z"  #Utilize the current date/time in production
         #If a comment is given, attempt to retrieve approver_email from figma_comments
         if approval_comment_id:
-            figma_comments = data.get("figma_comments", [])
+            figma_comments = data.get("figma_comments", {}).values()
             comment = next(
                 (
                     c
-                    for c in figma_comments
-                    if c.get("comment_id") == approval_comment_id
+                    for c in figma_comments.values() if c.get("comment_id") == approval_comment_id
                 ),
                 None,
             )
@@ -53,7 +52,7 @@ class CreateReviewApproval(Tool):  #WRITE
             "approved_ts": approved_ts,
             "approval_comment_ref_nullable": approval_comment_id,
         }
-        review_approvals.append(new_approval)
+        data["review_approvals"][new_approval["review_approval_id"]] = new_approval
         payload = {"new_approval": new_approval}
         out = json.dumps(payload)
         return out

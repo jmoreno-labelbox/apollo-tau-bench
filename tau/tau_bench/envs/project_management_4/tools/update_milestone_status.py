@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateMilestoneStatus(Tool):
@@ -31,10 +31,10 @@ class UpdateMilestoneStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        milestone_updates = data.get("milestone_updates", [])
+        milestones = data.get("milestones", {}).values()
+        milestone_updates = data.get("milestone_updates", {}).values()
 
-        for milestone in milestones:
+        for milestone in milestones.values():
             if milestone.get("milestone_id") == milestone_id:
                 milestone.get("status")
                 old_health = milestone.get("health")
@@ -84,7 +84,7 @@ class UpdateMilestoneStatus(Tool):
                     "health_change": f"{old_health} -> {milestone['health']}",
                     "updated_date": datetime.now(timezone.utc).isoformat(),
                 }
-                milestone_updates.append(update_record)
+                data["milestone_updates"][update_record["milestone_update_id"]] = update_record
                 payload = {"success": True, "milestone": milestone, "update": update_record}
                 out = json.dumps(payload)
                 return out

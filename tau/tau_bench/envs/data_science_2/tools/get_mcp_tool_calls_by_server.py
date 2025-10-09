@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetMcpToolCallsByServer(Tool):
@@ -15,7 +15,7 @@ class GetMcpToolCallsByServer(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], server_name: str) -> str:
-        rows = data.get("mcp_tool_calls", [])
+        rows = data.get("mcp_tool_calls", {}).values()
         out: list[dict[str, Any]] = []
         for row in rows:
             servers = row.get("server_names", [])

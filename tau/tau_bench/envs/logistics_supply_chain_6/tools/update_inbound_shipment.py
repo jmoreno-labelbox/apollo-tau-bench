@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateInboundShipment(Tool):
@@ -28,8 +28,8 @@ class UpdateInboundShipment(Tool):
         carrier_scac: str | None = None
     ) -> str:
         """Run the tool using the specified parameters."""
-        shipments = data.get("inbound_shipments", [])
-        for shipment in shipments:
+        shipments = data.get("inbound_shipments", {}).values()
+        for shipment in shipments.values():
             if shipment.get("shipment_id") == shipment_id:
                 # if shipment["status"] is not among ["In Transit", "Delayed"]:
                 # return json.dumps({"error": f"Shipment {shipment_id} cannot be modified due to status '{shipment['status']}'"}, indent=2)
@@ -63,8 +63,8 @@ class UpdateInboundShipment(Tool):
         return out
         """Run the tool using the specified parameters."""
         pass
-        shipments = data.get("inbound_shipments", [])
-        for shipment in shipments:
+        shipments = data.get("inbound_shipments", {}).values()
+        for shipment in shipments.values():
             if shipment.get("shipment_id") == shipment_id:
                 #if shipment["status"] is not among ["In Transit", "Delayed"]:
                 #return json.dumps({"error": f"Shipment {shipment_id} cannot be modified due to status '{shipment['status']}'"}, indent=2)

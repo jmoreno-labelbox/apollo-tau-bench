@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ComputePaymentBehavior(Tool):
@@ -20,7 +20,7 @@ class ComputePaymentBehavior(Tool):
         pb = next(
             (
                 p
-                for p in data.get("payment_behavior", [])
+                for p in data.get("payment_behavior", {}).values()
                 if p.get("publisher_id") == publisher_id
             ),
             None,

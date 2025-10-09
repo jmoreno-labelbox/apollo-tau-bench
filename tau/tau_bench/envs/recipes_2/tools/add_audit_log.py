@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddAuditLog(Tool):
@@ -16,9 +16,9 @@ class AddAuditLog(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int, user_id: int, entity_type: str, entity_id: int, action_enum: str, payload_json: dict = {}) -> str:
-        logs = data.get("audit_logs", [])
+        logs = data.get("audit_logs", {}).values()
         # Automatically create the next audit_id
-        new_id = max([log.get("audit_id", 0) for log in logs]) + 1 if logs else 12001
+        new_id = max([log.get("audit_id", 0) for log in logs.values()]) + 1 if logs else 12001
 
         new_log = {
             "audit_id": new_id,

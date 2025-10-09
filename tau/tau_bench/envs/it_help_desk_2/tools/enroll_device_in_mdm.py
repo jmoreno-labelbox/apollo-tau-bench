@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class EnrollDeviceInMDM(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], asset_id: str = None) -> str:
         asset = next(
-            (a for a in data.get("it_assets", []) if a.get("asset_id") == asset_id),
+            (a for a in data.get("it_assets", {}).values() if a.get("asset_id") == asset_id),
             None,
         )
         if asset:

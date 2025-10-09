@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LogLifecycle(Tool):
@@ -38,7 +38,7 @@ class LogLifecycle(Tool):
             "created_at": FIXED_NOW,
         }
 
-        lifecycle_items.append(lifecycle)
+        data["lifecycle_queue"][lifecycle["lifecycle_queue_id"]] = lifecycle
         payload = {
                 "status": "ok",
                 "description": "Successfully added log to lifecycle_queue",

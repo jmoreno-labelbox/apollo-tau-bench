@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetPermissionsByResource(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], resource_id: str = None) -> str:
-        for res in data.get("resources", []):
+        for res in data.get("resources", {}).values():
             if res.get("resource_id") == resource_id:
                 resource_id = res.get("resource_id")
                 break
@@ -24,7 +24,7 @@ class GetPermissionsByResource(Tool):
             return out
 
         perms = []
-        for perm in data.get("permissions", []):
+        for perm in data.get("permissions", {}).values():
             if perm.get("resource_id") == resource_id:
                 perms.append(perm)
         payload = perms

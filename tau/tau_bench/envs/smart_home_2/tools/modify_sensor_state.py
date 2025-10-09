@@ -7,26 +7,26 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ModifySensorState(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sensor_id: str, update: dict[str, Any]) -> str:
-        sensors = data.get("sensors", [])
+        sensors = data.get("sensors", {}).values()
         _, sensor = _find(sensors, sensor_id)
         if not sensor:
             payload = {"error": f"sensor '{sensor_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
         allowed = set(sensor.get("state_params", []))
-        if any(k not in allowed for k in update):
+        if any(k not in allowed for k in update.values()):
             payload = {"error": "one or more params not allowed for this sensor"}
             out = json.dumps(
                 payload, indent=2
             )
             return out
-        sensor_state = sensor.get("state", {})
+        sensor_state = sensor.get("state", {}).values()
         sensor_state.update(update)
         sensor_state["last_updated"] = _now_iso()
         payload = {"success": "state updated", "state": sensor_state}

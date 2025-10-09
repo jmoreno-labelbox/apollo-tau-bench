@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class WritePlayerDevReports(Tool):
@@ -18,7 +18,7 @@ class WritePlayerDevReports(Tool):
         report_count = kwargs.get("report_count")
         data.setdefault("player_dev_reports", []).append(
             {
-                "dev_report_id": f"dev_{len(data.get('player_dev_reports', []))+1}",
+                "dev_report_id": f"dev_{len(data.get('player_dev_reports', {}))+1}",
                 "week_of": week_of,
                 "report_count": report_count,
             }

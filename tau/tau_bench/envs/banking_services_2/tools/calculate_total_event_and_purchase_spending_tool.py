@@ -7,20 +7,20 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateTotalEventAndPurchaseSpendingTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        transactions = data.get('transactions', [])
+        transactions = data.get('transactions', {}).values()
         total_spending = 0
         event_spending = 0
         purchase_spending = 0
         event_count = 0
         purchase_count = 0
 
-        for txn in transactions:
+        for txn in transactions.values():
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetResource(Tool):
@@ -25,7 +25,7 @@ class GetResource(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], resource_id: str = None, name: str = None, owner_id: str = None, criticality: str = None, compliance_scope: str = None) -> str:
-        resources = data.get("resources", [])
+        resources = data.get("resources", {}).values()
 
         # If resource_id is given, return the specific resource
         if resource_id:
@@ -55,7 +55,7 @@ class GetResource(Tool):
                 resource_scope = resource.get("compliance_scope")
                 if resource_scope != compliance_scope:
                     continue
-            filtered_resources.append(resource)
+            filtered_data["resources"][resource_id] = resource
         payload = {"ok": True, "resources": filtered_resources}
         out = json.dumps(payload)
         return out

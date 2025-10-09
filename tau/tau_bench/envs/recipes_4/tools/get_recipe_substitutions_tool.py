@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetRecipeSubstitutionsTool(Tool):
@@ -77,14 +77,14 @@ class GetRecipeSubstitutionsTool(Tool):
             )
 
         #2. Pre-condition Checks
-        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", [])):
+        if not any(r.get("recipe_id") == recipe_id for r in data.get("recipes", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Recipe", "entity_id": recipe_id}
             )
 
         if not any(
             i.get("ingredient_id") == ingredient_id_to_replace
-            for i in data.get("ingredients", [])
+            for i in data.get("ingredients", {}).values()
         ):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Ingredient", "entity_id": ingredient_id_to_replace}
@@ -92,7 +92,7 @@ class GetRecipeSubstitutionsTool(Tool):
 
         recipe_ingredients = {
             ri["ingredient_id"]
-            for ri in data.get("recipe_ingredients", [])
+            for ri in data.get("recipe_ingredients", {}).values()
             if ri["recipe_id"] == recipe_id
         }
         if ingredient_id_to_replace not in recipe_ingredients:
@@ -109,11 +109,11 @@ class GetRecipeSubstitutionsTool(Tool):
 
         #4. Enrich suggestions with ingredient names
         enriched_suggestions = []
-        all_ingredients_meta = data.get("ingredients", [])
+        all_ingredients_meta = data.get("ingredients", {}).values()
         for suggestion in suggestions:
             sub_id = suggestion["substitute_ingredient_id"]
             sub_meta = next(
-                (i for i in all_ingredients_meta if i["ingredient_id"] == sub_id), None
+                (i for i in all_ingredients_meta.values() if i["ingredient_id"] == sub_id), None
             )
 
             if sub_meta:

@@ -12,7 +12,7 @@ from datetime import date as _date
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCrewCertifications(Tool):
@@ -99,7 +99,7 @@ class GetCrewCertifications(Tool):
 
         # Gather and filter
         rows = []
-        for cc in data.get("crew_certifications", []):
+        for cc in data.get("crew_certifications", {}).values():
             cm = (cc.get("crew_member") or {}).get("crew_member_id")
             cert = cc.get("certification") or {}
             code = cert.get("certification_code")
@@ -193,7 +193,7 @@ class GetCrewCertifications(Tool):
 
         #Gather and filter
         rows = []
-        for cc in data.get("crew_certifications", []):
+        for cc in data.get("crew_certifications", {}).values():
             cm = (cc.get("crew_member") or {}).get("crew_member_id")
             cert = cc.get("certification") or {}
             code = cert.get("certification_code")

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2GetExpenseCategories(Tool):
@@ -16,7 +16,7 @@ class CaV2GetExpenseCategories(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        expense_categories = data.get("expense_categories", [])
+        expense_categories = data.get("expense_categories", {}).values()
         payload = expense_categories
         out = json.dumps(payload)
         return out

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class update_fix_item_status(Tool):
@@ -15,7 +15,7 @@ class update_fix_item_status(Tool):
     def invoke(
         data: dict[str, Any], item_id: str, status: str, timestamp: str, request_id: str
     ) -> str:
-        items = data.get("fix_items", [])
+        items = data.get("fix_items", {}).values()
         if not isinstance(items, list):
             payload = {"error": "fix_items table missing or invalid"}
             out = json.dumps(payload, indent=2)
@@ -24,8 +24,7 @@ class update_fix_item_status(Tool):
         row = next(
             (
                 it
-                for it in items
-                if isinstance(it, dict) and it.get("item_id") == item_id
+                for it in items.values() if isinstance(it, dict) and it.get("item_id") == item_id
             ),
             None,
         )
@@ -42,7 +41,7 @@ class update_fix_item_status(Tool):
         run_id = _id_from_request("run", request_id) or _get_next_id(
             "run", [r.get("run_id", "") for r in trail if isinstance(r, dict)]
         )
-        if not any(isinstance(r, dict) and r.get("run_id") == run_id for r in trail):
+        if not any(isinstance(r, dict) and r.get("run_id") == run_id for r in trail.values()):
             trail.append(
                 {
                     "run_id": run_id,

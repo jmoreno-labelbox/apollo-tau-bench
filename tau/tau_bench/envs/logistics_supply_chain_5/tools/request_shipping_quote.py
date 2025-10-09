@@ -8,15 +8,15 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RequestShippingQuote(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], carrier_scac: str = None, weight_kg: float = None, destination: str = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
 
-        carrier = next((c for c in carriers if c.get("scac") == carrier_scac), None)
+        carrier = next((c for c in carriers.values() if c.get("scac") == carrier_scac), None)
         if not carrier:
             return json.dumps({"error": f"Carrier {carrier_scac} not found"})
 

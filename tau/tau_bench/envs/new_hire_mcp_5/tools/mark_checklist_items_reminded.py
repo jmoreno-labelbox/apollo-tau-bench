@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class MarkChecklistItemsReminded(Tool):
@@ -20,7 +20,7 @@ class MarkChecklistItemsReminded(Tool):
         updated_ts = _fixed_ts(updated_ts)
 
         updated = 0
-        for it in data.get("checklist_items", []):
+        for it in data.get("checklist_items", {}).values():
             if it.get("item_id") in item_ids:
                 it["status"] = "Reminder Sent"
                 it["reminder_sent_flag"] = True

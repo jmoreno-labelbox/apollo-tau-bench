@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateUser(Tool):
@@ -48,9 +48,9 @@ class UpdateUser(Tool):
             return out
 
         # Locate the user
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         user_index = None
-        for i, user in enumerate(users):
+        for i, user in enumerate(users.values():
             if user.get("user_id") == user_id:
                 user_index = i
                 break
@@ -121,7 +121,7 @@ class UpdateUser(Tool):
             new_email = f"{new_email_local}@sigmatech.com"
 
             # Guarantee username uniqueness (excluding the current user)
-            for u in users:
+            for u in users.values():
                 if u.get("user_id") == user_id:
                     continue
                 if str(u.get("username", "")).strip().lower() == new_username:

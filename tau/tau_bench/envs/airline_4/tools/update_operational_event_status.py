@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateOperationalEventStatus(Tool):
@@ -42,11 +42,11 @@ class UpdateOperationalEventStatus(Tool):
             return out
 
         #Locate the operational event
-        operational_events = data.get("operational_events", [])
+        operational_events = data.get("operational_events", {}).values()
         target_event = None
         event_index = None
 
-        for i, event in enumerate(operational_events):
+        for i, event in enumerate(operational_events.values():
             if event.get("event_id") == event_id:
                 target_event = event
                 event_index = i

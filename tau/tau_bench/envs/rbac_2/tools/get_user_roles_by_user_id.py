@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUserRolesByUserId(Tool):
@@ -17,11 +17,11 @@ class GetUserRolesByUserId(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
         try:
-            user_roles = data.get("user_roles", [])
+            user_roles = data.get("user_roles", {}).values()
         except:
             user_roles = []
 
-        assigned_roles = [role for role in user_roles if role.get("user_id") == user_id]
+        assigned_roles = [role for role in user_roles.values() if role.get("user_id") == user_id]
         payload = assigned_roles
         out = json.dumps(payload)
         return out

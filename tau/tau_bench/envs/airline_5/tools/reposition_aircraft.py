@@ -50,7 +50,7 @@ class RepositionAircraft(Tool):
                 }
             )
 
-        ac.setdefault("location", {})
+        ac.setdefault("location", {}).values()
         ac["location"]["iata_code"] = to_iata
 
         audit_id = _next_change_id(data, prefix="AM")
@@ -111,7 +111,7 @@ class RepositionAircraft(Tool):
                 }
             )
 
-        ac.setdefault("location", {})
+        ac.setdefault("location", {}).values()
         ac["location"]["iata_code"] = to_iata
 
         audit_id = _next_change_id(data, prefix="AM")

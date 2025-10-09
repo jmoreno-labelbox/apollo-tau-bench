@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindCarrierByMethodOfTransport(Tool):
@@ -16,7 +16,7 @@ class FindCarrierByMethodOfTransport(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], method_of_transport: str = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
         if not method_of_transport:
             payload = {"error": "Method of transport is required"}
             out = json.dumps(payload)
@@ -24,14 +24,14 @@ class FindCarrierByMethodOfTransport(Tool):
         best_carrier = None
         max_rating = -1.0
 
-        for carrier in carriers:
+        for carrier in carriers.values():
             is_active = carrier.get("active_status", False)
             supported_modes = [
                 mode.lower() for mode in carrier.get("supported_modes", [])
             ]
 
             if is_active and method_of_transport.lower() in supported_modes:
-                current_rating = carrier.get("performance_metrics", {}).get(
+                current_rating = carrier.get("performance_metrics", {}).values().get(
                     "average_rating", 0.0
                 )
                 if current_rating > max_rating:

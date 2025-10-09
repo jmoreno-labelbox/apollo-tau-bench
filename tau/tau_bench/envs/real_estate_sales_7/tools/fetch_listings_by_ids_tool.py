@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchListingsByIdsTool(Tool):
@@ -21,7 +21,7 @@ class FetchListingsByIdsTool(Tool):
         if not isinstance(ids, list) or not ids:
             return _err("property_ids must be a non-empty array")
 
-        listings_map = {str(l.get("property_id")): l for l in data.get("listings", [])}
+        listings_map = {str(l.get("property_id")): l for l in data.get("listings", {}).values()}
         out_items: list[dict[str, Any]] = []
         for pid in [str(x) for x in ids]:
             l = listings_map.get(pid)

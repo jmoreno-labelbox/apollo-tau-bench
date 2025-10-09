@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateGateReview(Tool):
@@ -31,11 +31,11 @@ class CreateGateReview(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        gate_reviews = data.get("gate_reviews", [])
+        milestones = data.get("milestones", {}).values()
+        gate_reviews = data.get("gate_reviews", {}).values()
 
         milestone = next(
-            (m for m in milestones if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
         )
         if not milestone:
             payload = {"error": f"Milestone '{milestone_id}' not found"}
@@ -66,7 +66,7 @@ class CreateGateReview(Tool):
         review_id = f"gate_{uuid.uuid4().hex[:8]}"
 
         previous_reviews = [
-            r for r in gate_reviews if r.get("milestone_id") == milestone_id
+            r for r in gate_reviews.values() if r.get("milestone_id") == milestone_id
         ]
         consecutive_failures = 0
 
@@ -93,7 +93,7 @@ class CreateGateReview(Tool):
             "created_date": datetime.now(timezone.utc).isoformat(),
         }
 
-        gate_reviews.append(new_review)
+        gate_data["reviews"][review_id] = new_review
 
         if overall_decision == "pass":
             milestone["gate_passed"] = True
@@ -109,7 +109,7 @@ class CreateGateReview(Tool):
             milestone["remediation_period"] = True
 
             if new_review["consecutive_failures"] >= 3:
-                escalations = data.get("escalations", [])
+                escalations = data.get("escalations", {}).values()
                 escalation_id = f"esc_{uuid.uuid4().hex[:8]}"
                 escalations.append(
                     {

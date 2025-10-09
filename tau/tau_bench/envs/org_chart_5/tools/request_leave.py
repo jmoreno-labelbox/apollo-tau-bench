@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class request_leave(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, leave_data: dict = None) -> str:
-        if not find_employee(data.get("employees", []), employee_id):
+        if not find_employee(data.get("employees", {}).values()), employee_id):
             payload = {"error": f"employee_id {employee_id} not found"}
             out = json.dumps(
                 payload, indent=2
@@ -24,9 +24,9 @@ class request_leave(Tool):
         new_leave = leave_data.copy()
         new_leave["employee_id"] = employee_id
         if "leave_id" not in new_leave:
-            new_leave["leave_id"] = f"LV_NEW_{len(data.get('leave_records', [])) + 1}"
+            new_leave["leave_id"] = f"LV_NEW_{len(data.get('leave_records', {})) + 1}"
 
-        data.get("leave_records", []).append(new_leave)
+        data["leave_records"][new_leave["leave_record_id"]] = new_leave
         payload = {"success": f"Leave {new_leave['leave_id']} requested for {employee_id}"}
         out = json.dumps(
             payload, indent=2,

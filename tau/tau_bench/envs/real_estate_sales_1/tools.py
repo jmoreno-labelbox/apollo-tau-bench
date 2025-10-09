@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -19,11 +19,11 @@ class SearchListings(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], status: str = None, min_price: float = 0, max_price: float = float("inf"), property_id: str = None) -> str:
-        listings = data.get("listings", [])
+        listings = data.get("listings", {}).values()
         results = []
 
         # Retrieve search parameters
-        for listing in listings:
+        for listing in listings.values():
             # Apply filtering based on criteria
             if property_id and listing.get("property_id") != property_id:
                 continue
@@ -81,8 +81,8 @@ class GetListingDetails(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        listings = data.get("listings", [])
-        listing = next((l for l in listings if l.get("listing_id") == listing_id), None)
+        listings = data.get("listings", {}).values()
+        listing = next((l for l in listings.values() if l.get("listing_id") == listing_id), None)
 
         if not listing:
             payload = {"error": f"Listing {listing_id} not found"}
@@ -117,7 +117,7 @@ class SearchClients(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], name: str = "", client_id: Any = None) -> str:
-        clients = data.get("client_preferences", [])
+        clients = data.get("client_preferences", {}).values()
         if not clients:
             payload = {"error": "No client data available"}
             out = json.dumps(payload, indent=2)
@@ -126,7 +126,7 @@ class SearchClients(Tool):
         results = []
         name_query = name.lower()
 
-        for client in clients:
+        for client in clients.values():
             if client_id and client.get("client_id") != client_id:
                 continue
             if name_query and name_query not in client.get("name", "").lower():
@@ -241,8 +241,8 @@ class ScheduleOpenHouse(Tool):
             return out
 
         # Verify if the property is listed
-        listings = data.get("listings", [])
-        property_exists = any(l.get("property_id") == property_id for l in listings)
+        listings = data.get("listings", {}).values()
+        property_exists = any(l.get("property_id") == property_id for l in listings.values()
 
         if not property_exists:
             payload = {"error": f"Property {property_id} not found in listings"}
@@ -313,9 +313,9 @@ class GeneratePropertyReport(Tool):
             return out
 
         # Fetch the property listing
-        listings = data.get("listings", [])
+        listings = data.get("listings", {}).values()
         listing = next(
-            (l for l in listings if l.get("property_id") == property_id), None
+            (l for l in listings.values() if l.get("property_id") == property_id), None
         )
 
         if not listing:
@@ -324,9 +324,9 @@ class GeneratePropertyReport(Tool):
             return out
 
         # Retrieve comparable properties
-        comparables = data.get("comparables", [])
+        comparables = data.get("comparables", {}).values()
         property_comparables = [
-            c for c in comparables if c.get("property_id") == property_id
+            c for c in comparables.values() if c.get("property_id") == property_id
         ]
 
         # Perform market analysis
@@ -529,8 +529,8 @@ class GetEmailsForClient(Tool):
             return out
 
         # Retrieve client emails (from database or simulated data)
-        emails = data.get("emails", [])
-        client_emails = [e for e in emails if e.get("client_id") == client_id]
+        emails = data.get("emails", {}).values()
+        client_emails = [e for e in emails.values() if e.get("client_id") == client_id]
         payload = {
             "client_id": client_id,
             "email_count": len(client_emails),
@@ -670,8 +670,8 @@ class GetCalendarEventsForClient(Tool):
             return out
 
         # Fetch calendar events for the client
-        events = data.get("calendar_events", [])
-        client_events = [e for e in events if e.get("client_id") == client_id]
+        events = data.get("calendar_events", {}).values()
+        client_events = [e for e in events.values() if e.get("client_id") == client_id]
         payload = {
             "client_id": client_id,
             "event_count": len(client_events),
@@ -713,9 +713,9 @@ class GetCampaignDetails(Tool):
             return out
 
         # Retrieve details of the campaign
-        campaigns = data.get("campaigns", [])
+        campaigns = data.get("campaigns", {}).values()
         campaign = next(
-            (c for c in campaigns if c.get("campaign_id") == campaign_id), None
+            (c for c in campaigns.values() if c.get("campaign_id") == campaign_id), None
         )
 
         if not campaign:
@@ -843,8 +843,8 @@ class GetRouteDetails(Tool):
             return out
 
         # Fetch details of the route
-        routes = data.get("routes", [])
-        route = next((r for r in routes if r.get("route_id") == route_id), None)
+        routes = data.get("routes", {}).values()
+        route = next((r for r in routes.values() if r.get("route_id") == route_id), None)
 
         if not route:
             # Return a mock route for testing if the route is not found
@@ -1022,15 +1022,15 @@ class ListListingsByIds(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        listings = data.get("listings", [])
+        listings = data.get("listings", {}).values()
         found_listings = []
 
         for listing_id in listing_ids:
             listing = next(
-                (l for l in listings if l.get("listing_id") == listing_id), None
+                (l for l in listings.values() if l.get("listing_id") == listing_id), None
             )
             if listing:
-                found_listings.append(listing)
+                found_data["listings"][listing_id] = listing
         payload = {
                 "requested_ids": listing_ids,
                 "found_count": len(found_listings),
@@ -1241,15 +1241,15 @@ class GetMortgageRates(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], loan_type: str = "conventional", term_years: int = 30, document_id: Any = None) -> str:
         # Retrieve mortgage rates from the database
-        rates = data.get("mortgage_rates", [])
+        rates = data.get("mortgage_rates", {}).values()
         filtered_rates = []
 
-        for rate in rates:
+        for rate in rates.values():
             if (
                 rate.get("loan_type") == loan_type
                 and rate.get("term_years") == term_years
             ):
-                filtered_rates.append(rate)
+                filtered_data["mortgage_rates"][rate["mortgage_rate_id"]] = rate
         payload = {
                 "loan_type": loan_type,
                 "term_years": term_years,
@@ -1292,10 +1292,10 @@ class SearchNeighborhoods(Tool):
     def invoke(data: dict[str, Any], city: str = None, min_avg_price: float = 0, max_avg_price: float = float("inf"),
     neighborhood_name: Any = None,
     ) -> str:
-        neighborhoods = data.get("neighborhoods", [])
+        neighborhoods = data.get("neighborhoods", {}).values()
         results = []
 
-        for neighborhood in neighborhoods:
+        for neighborhood in neighborhoods.values():
             avg_price = neighborhood.get("avg_home_price", 0)
             if city and city.lower() not in neighborhood.get("city", "").lower():
                 continue
@@ -1417,8 +1417,8 @@ class GetComparableProperties(Tool):
             return out
 
         #Retrieve comparable properties for the specific property
-        comparables = data.get("comparables", [])
-        property_comps = [c for c in comparables if c.get("property_id") == property_id]
+        comparables = data.get("comparables", {}).values()
+        property_comps = [c for c in comparables.values() if c.get("property_id") == property_id]
         payload = {
                 "property_id": property_id,
                 "comparable_count": len(property_comps),

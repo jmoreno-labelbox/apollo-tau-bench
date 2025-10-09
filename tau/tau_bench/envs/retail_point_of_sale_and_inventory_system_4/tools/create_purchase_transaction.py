@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreatePurchaseTransaction(Tool):  #CREATE
@@ -21,9 +21,9 @@ class CreatePurchaseTransaction(Tool):  #CREATE
         current_time: str,
         payment_method: str
     ) -> str:
-        products = {p["sku"]: p for p in data.get("products", [])}
-        inventory = data.get("inventory", [])
-        transactions = data.get("transactions", [])
+        products = {p["sku"]: p for p in data.get("products", {}).values()}
+        inventory = data.get("inventory", {}).values()
+        transactions = data.get("transactions", {}).values()
 
         line_items = []
         total_amount = 0.0
@@ -38,7 +38,7 @@ class CreatePurchaseTransaction(Tool):  #CREATE
 
             # Verify stock availability in inventory
             inv_item = next(
-                (i for i in inventory if i["sku"] == sku and i["store_id"] == store_id),
+                (i for i in inventory.values() if i["sku"] == sku and i["store_id"] == store_id),
                 None,
             )
             if not inv_item or inv_item.get("quantity", 0) < quantity:
@@ -87,14 +87,14 @@ class CreatePurchaseTransaction(Tool):  #CREATE
             "customer_id": customer_id,
             "line_items": line_items,
         }
-        transactions.append(transaction)
+        data["transactions"][transaction_id] = transaction
         payload = transaction
         out = json.dumps(payload)
         return out
         pass
-        products = {p["sku"]: p for p in data.get("products", [])}
-        inventory = data.get("inventory", [])
-        transactions = data.get("transactions", [])
+        products = {p["sku"]: p for p in data.get("products", {}).values()}
+        inventory = data.get("inventory", {}).values()
+        transactions = data.get("transactions", {}).values()
 
         line_items = []
         total_amount = 0.0
@@ -109,7 +109,7 @@ class CreatePurchaseTransaction(Tool):  #CREATE
 
             #Verify stock availability in inventory
             inv_item = next(
-                (i for i in inventory if i["sku"] == sku and i["store_id"] == store_id),
+                (i for i in inventory.values() if i["sku"] == sku and i["store_id"] == store_id),
                 None,
             )
             if not inv_item or inv_item.get("quantity", 0) < quantity:
@@ -159,7 +159,7 @@ class CreatePurchaseTransaction(Tool):  #CREATE
             "customer_id": customer_id,
             "line_items": line_items,
         }
-        transactions.append(transaction)
+        data["transactions"][transaction_id] = transaction
         payload = transaction
         out = json.dumps(payload)
         return out

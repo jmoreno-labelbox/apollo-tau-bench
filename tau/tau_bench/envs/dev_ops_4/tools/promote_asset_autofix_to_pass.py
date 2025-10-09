@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class PromoteAssetAutofixToPass(Tool):
@@ -15,7 +15,7 @@ class PromoteAssetAutofixToPass(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], qa_id: str = None) -> str:
-        results = data.get("asset_qa_results", [])
+        results = data.get("asset_qa_results", {}).values()
         idx = _idx_by_id(results, qa_id)
         if idx is None:
             payload = {"asset_qa_result": None}

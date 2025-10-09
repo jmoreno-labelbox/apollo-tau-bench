@@ -9,18 +9,18 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateDepartmentsUtilization(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        departments = data.get("departments", [])
-        employees = data.get("employees", [])
-        allocations = data.get("allocations", [])
+        departments = data.get("departments", {}).values()
+        employees = data.get("employees", {}).values()
+        allocations = data.get("allocations", {}).values()
         employee_info = {}
         department_info = {}
-        for employee in employees:
+        for employee in employees.values():
             department = employee["department"]
             employee_info[employee["employee_id"]] = department
             if department in department_info:
@@ -34,7 +34,7 @@ class UpdateDepartmentsUtilization(Tool):
                     "employee_count": 1,
                 }
 
-        for allocation in allocations:
+        for allocation in allocations.values():
             employee_id = allocation["employee_id"]
             department = employee_info.get(employee_id)
             if department in department_info:
@@ -51,7 +51,7 @@ class UpdateDepartmentsUtilization(Tool):
                     "allocated_hours": allocation["hours_per_week"]
                 }
 
-        for department in departments:
+        for department in departments.values():
             department_name = department["department_name"]
             if department_name in department_info:
                 department["total_capacity_hours"] = department_info.get(

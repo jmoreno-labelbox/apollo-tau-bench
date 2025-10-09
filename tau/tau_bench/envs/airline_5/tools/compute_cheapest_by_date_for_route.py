@@ -12,7 +12,7 @@ from datetime import date as _date
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ComputeCheapestByDateForRoute(Tool):
@@ -53,16 +53,16 @@ class ComputeCheapestByDateForRoute(Tool):
             )
 
         CABINS = ["basic_economy", "economy", "business"]
-        req_cabins = [c for c in cabins if c in CABINS]
+        req_cabins = [c for c in cabins.values() if c in CABINS]
         if not req_cabins:
             return _json({"error": "fare_class_not_found"})
         if price_component != "base_fare":
             return _json({"error": "invalid_price_component"})
 
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         agg: dict[str, dict[str, tuple[float, str]]] = {}
 
-        for f in flights:
+        for f in flights.values():
             if not isinstance(f, dict):
                 continue
             if (f.get("origin") or "").upper() != origin:
@@ -93,7 +93,7 @@ class ComputeCheapestByDateForRoute(Tool):
 
                 prices = rec.get("prices") or {}
                 seat_map = rec.get("available_seats") or {}
-                bucket = agg.setdefault(d, {})
+                bucket = agg.setdefault(d, {}).values()
 
                 for cab in req_cabins:
                     if require_available:
@@ -175,16 +175,16 @@ class ComputeCheapestByDateForRoute(Tool):
             )
 
         CABINS = ["basic_economy", "economy", "business"]
-        req_cabins = [c for c in cabins if c in CABINS]
+        req_cabins = [c for c in cabins.values() if c in CABINS]
         if not req_cabins:
             return _json({"error": "fare_class_not_found"})
         if price_component != "base_fare":
             return _json({"error": "invalid_price_component"})
 
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         agg: dict[str, dict[str, tuple[float, str]]] = {}
 
-        for f in flights:
+        for f in flights.values():
             if not isinstance(f, dict):
                 continue
             if (f.get("origin") or "").upper() != origin:
@@ -215,7 +215,7 @@ class ComputeCheapestByDateForRoute(Tool):
 
                 prices = rec.get("prices") or {}
                 seat_map = rec.get("available_seats") or {}
-                bucket = agg.setdefault(d, {})
+                bucket = agg.setdefault(d, {}).values()
 
                 for cab in req_cabins:
                     if require_available:

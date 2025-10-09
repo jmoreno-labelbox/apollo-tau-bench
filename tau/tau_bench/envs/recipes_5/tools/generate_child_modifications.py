@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateChildModifications(Tool):
@@ -21,7 +21,7 @@ class GenerateChildModifications(Tool):
             if mp:
                 ids = [
                     int(e.get("recipe_id"))
-                    for e in data.get("meal_plan_entries", [])
+                    for e in data.get("meal_plan_entries", {}).values()
                     if e.get("meal_plan_id") == mp.get("meal_plan_id")
                 ]
         notes = {}

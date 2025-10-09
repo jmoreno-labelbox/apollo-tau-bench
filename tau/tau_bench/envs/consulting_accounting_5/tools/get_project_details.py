@@ -10,7 +10,7 @@ class GetProjectDetails(Tool):
         """
         Retrieves the full details for a given project_id.
         """
-        project = next((p for p in data["projects"] if p["project_id"] == project_id), None)
+        project = next((p for p in data["projects"].values() if p["project_id"] == project_id), None)
         return json.dumps(project)
     @staticmethod
     def get_info() -> Dict[str, Any]:

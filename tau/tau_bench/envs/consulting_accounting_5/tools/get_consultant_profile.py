@@ -10,7 +10,7 @@ class GetConsultantProfile(Tool):
         """
         Returns consultant_id(s) (usually only one profile exists).
         """
-        for c in data["consultants"]:
+        for c in data["consultants"].values():
             if c["name"] == name:
                 return json.dumps(c['consultant_id'])
         return json.dumps(None)

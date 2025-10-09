@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListTerminalLogsTool(Tool):
@@ -39,8 +39,8 @@ class ListTerminalLogsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        events = data.get("terminal", [])
-        deterministic_events = [{**e, "report_date": CURRENT_DATE} for e in events]
+        events = data.get("terminal", {}).values()
+        deterministic_events = [{**e, "report_date": CURRENT_DATE} for e in events.values()]
         return _response("ok", deterministic_events)
     @staticmethod
     def get_info() -> dict[str, Any]:

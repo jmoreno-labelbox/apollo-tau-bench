@@ -24,7 +24,7 @@ TEMPLATE_WELCOME_PATH = "/onboarding/templates/Welcome-Email-Template.md"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -89,7 +89,7 @@ class ListCandidateEmails(Tool):
         cand_id = candidate_id
         rows = [
             e
-            for e in data.get("emails", [])
+            for e in data.get("emails", {}).values()
             if e.get("candidate_id_nullable") == cand_id
         ]
         payload = {"emails": rows}
@@ -117,7 +117,7 @@ class MarkChecklistItemsReminded(Tool):
         updated_ts = _fixed_ts(updated_ts)
 
         updated = 0
-        for it in data.get("checklist_items", []):
+        for it in data.get("checklist_items", {}).values():
             if it.get("item_id") in item_ids:
                 it["status"] = "Reminder Sent"
                 it["reminder_sent_flag"] = True
@@ -174,7 +174,7 @@ class SearchAttachmentsByFilename(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], filename: str) -> str:
         matches = [
-            a for a in data.get("attachments", []) if a.get("filename") == filename
+            a for a in data.get("attachments", {}).values() if a.get("filename") == filename
         ]
         payload = {"matches": matches}
         out = json.dumps(payload, indent=2)
@@ -199,7 +199,7 @@ class FindCandidateByEmail(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], candidate_email: str, start_date: str) -> str:
         row = {}
-        for _row in data.get("candidates", []):
+        for _row in data.get("candidates", {}).values():
             if _row.get("candidate_email") == candidate_email and _row.get("start_date") == start_date:
                 row = _row
 
@@ -402,7 +402,7 @@ class AllocateFirstAvailableAsset(Tool):
             )
 
         free = sorted(
-            [r for r in inv if is_free(r)], key=lambda r: (r.get("asset_tag") or "")
+            [r for r in inv.values() if is_free(r)], key=lambda r: (r.get("asset_tag") or "")
         )
         if not free:
             payload = {
@@ -523,7 +523,7 @@ class UpdateCandidateStatusFields(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str, fields: dict[str, Any] = {}, payload: Any = None) -> str:
         cand_id = candidate_id
-        for row in data.get("candidates", []):
+        for row in data.get("candidates", {}).values():
             if row.get("candidate_id") == cand_id:
                 for k, v in fields.items():
                     if v is None:
@@ -561,7 +561,7 @@ class GetCandidateDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str) -> str:
         cand_id = candidate_id
-        for row in data.get("candidates", []):
+        for row in data.get("candidates", {}).values():
             if row.get("candidate_id") == cand_id:
                 payload = {"candidate": row}
                 out = json.dumps(payload, indent=2)
@@ -858,7 +858,7 @@ class ReadAssetRequest(Tool):
     @staticmethod
     def invoke(data, request_id: str) -> str:
         row = next(
-            (r for r in data.get("asset_requests", []) if r.get("request_id") == request_id),
+            (r for r in data.get("asset_requests", {}).values() if r.get("request_id") == request_id),
             None,
         )
         payload = {"asset_request": row} if row else {"error": f"request_id {request_id} not found"}
@@ -885,8 +885,8 @@ class ReadAssetRequest(Tool):
 class AssignAssetToCandidate(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], asset_tag: str, candidate_id: str) -> str:
-        inv = data.get("inventory_assets", [])
-        row = next((a for a in inv if a.get("asset_tag") == asset_tag), None)
+        inv = data.get("inventory_assets", {}).values()
+        row = next((a for a in inv.values() if a.get("asset_tag") == asset_tag), None)
         if not row:
             payload = {"error": f"asset_tag {asset_tag} not found"}
             out = json.dumps(payload, indent=2)
@@ -894,7 +894,7 @@ class AssignAssetToCandidate(Tool):
 
         row["assigned_candidate_id_nullable"] = candidate_id
         row["status"] = "allocated"
-        for c in data.get("candidates", []):
+        for c in data.get("candidates", {}).values():
             if c.get("candidate_id") == candidate_id:
                 c["allocated_asset_tag_nullable"] = asset_tag
         payload = {"asset_tag": asset_tag, "assigned_to": candidate_id}
@@ -934,7 +934,7 @@ class RecordAccessChecks(Tool):
                 "note_nullable": chk.get("note"),
                 "checked_ts": _fixed_ts(chk.get("checked_ts")),
             }
-            rows.append(payload)
+            data["access_checks"][payload["access_check_id"]] = payload
             ids.append(payload["access_check_id"])
         payload = {"inserted": len(ids), "access_check_ids": ids}
         out = json.dumps(payload, indent=2)
@@ -974,12 +974,12 @@ class RenderOnboardingWelcome(Tool):
     @staticmethod
     def _candidate_exists(data: dict[str, Any], cand_id: str) -> bool:
         pass
-        return any(r.get("candidate_id") == cand_id for r in data.get("candidates", []))
+        return any(r.get("candidate_id") == cand_id for r in data.get("candidates", {}).values()
 
     @staticmethod
     def _get_template_text(data: dict[str, Any]) -> str:
         pass
-        for f in data.get("onboarding_files", []):
+        for f in data.get("onboarding_files", {}).values():
             if f.get("file_path") == TEMPLATE_WELCOME_PATH:
                 return f.get("content_text", "")
         return ""
@@ -1189,7 +1189,7 @@ class UpsertCandidateRecord(Tool):
 
         candidates = data.setdefault("candidates", [])
         row = {}
-        for _row in data.get("candidates", []):
+        for _row in data.get("candidates", {}).values():
             if _row.get("candidate_email") == email and _row.get("start_date") == start:
                 row = _row
         if row:
@@ -1223,7 +1223,7 @@ class UpsertCandidateRecord(Tool):
             "manager_intro_invite_ts_nullable": None,
             "welcome_email_message_id_nullable": None,
         }
-        candidates.append(new_row)
+        data["candidates"][candidate_id] = new_row
         payload = {"candidate_id": candidate_id, "status": "created"}
         out = json.dumps(payload, indent=2)
         return out
@@ -1351,7 +1351,7 @@ class UpdateAssetRequestStatus(Tool):
 class ReadOnboardingFile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], file_path: str) -> str:
-        for f in data.get("onboarding_files", []):
+        for f in data.get("onboarding_files", {}).values():
             if f.get("file_path") == file_path:
                 payload = {"file": f}
                 out = json.dumps(payload, indent=2)
@@ -1379,7 +1379,7 @@ class SearchChecklistItems(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str, status: str = None, due_date_lte: str = None) -> str:
         rows = []
-        for it in data.get("checklist_items", []):
+        for it in data.get("checklist_items", {}).values():
             if it.get("candidate_id") != candidate_id:
                 continue
             if status and it.get("status") != status:
@@ -1673,7 +1673,7 @@ class SummarizeAccessChecks(Tool):
         for r in checks:
             sysn = r.get("system_name") or ""
             st = r.get("status") or ""
-            by_sys.setdefault(sysn, {}).setdefault(st, 0)
+            by_sys.setdefault(sysn, {}).values().setdefault(st, 0)
             by_sys[sysn][st] += 1
         summary = {"candidate_id": cand_id, "counts": by_sys, "total": len(checks)}
         file_path = (
@@ -1745,7 +1745,7 @@ class CreateCandidate(Tool):
                 payload = updated
                 out = json.dumps(payload, indent=2)
                 return out
-        data["candidates"].append(c)
+        data["candidates"][candidate_id] = c
         payload = c
         out = json.dumps(payload, indent=2)
         return out

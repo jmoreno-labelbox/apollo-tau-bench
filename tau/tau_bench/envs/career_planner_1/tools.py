@@ -10,15 +10,15 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
 class GetJobPosting(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], job_id: str = None) -> str:
-        postings = data.get("job_postings", [])
-        for post in postings:
+        postings = data.get("job_postings", {}).values()
+        for post in postings.values():
             if post.get("job_id") == job_id:
                 return str(post)
         return f"Job posting with ID {job_id} not found."
@@ -46,7 +46,7 @@ class GetJobPosting(Tool):
 class GetRoleSkills(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], role: str = None) -> str:
-        catalog = data.get("role_skill_catalog", [])
+        catalog = data.get("role_skill_catalog", {}).values()
 
         # Debug: Verify if the catalog is loaded
         if not catalog:
@@ -55,7 +55,7 @@ class GetRoleSkills(Tool):
             return out
 
         # Attempt an exact match initially
-        for entry in catalog:
+        for entry in catalog.values():
             if entry.get("role") == role:
                 skills = entry.get("required_skills", [])
                 if not skills:
@@ -90,7 +90,7 @@ class GetRoleSkills(Tool):
 
         mapped_role = role_mapping.get(role)
         if mapped_role:
-            for entry in catalog:
+            for entry in catalog.values():
                 if entry.get("role") == mapped_role:
                     skills = entry.get("required_skills", [])
                     if not skills:
@@ -112,7 +112,7 @@ class GetRoleSkills(Tool):
                     return out
 
         # Display available roles for debugging purposes
-        available_roles = [entry.get("role") for entry in catalog]
+        available_roles = [entry.get("role") for entry in catalog.values()]
         payload = {"error": f"Role '{role}' not found", "available_roles": available_roles}
         out = json.dumps(payload, indent=2)
         return out
@@ -150,7 +150,7 @@ class SearchExternalCandidatesBySkills(Tool):
             elif isinstance(skill_item, dict) and skill_item.get("skill"):
                 required.add(skill_item.get("skill"))
 
-        talent_network = data.get("talent_network", [])
+        talent_network = data.get("talent_network", {}).values()
 
         # Debug: Confirm if the talent network is loaded
         if not talent_network:
@@ -161,7 +161,7 @@ class SearchExternalCandidatesBySkills(Tool):
             return out
 
         matches = []
-        for c in talent_network:
+        for c in talent_network.values():
             # Retrieve skill names from candidate skills - accommodate both formats
             candidate_skills = set()
             cand_skills = c.get("skills", [])
@@ -185,7 +185,7 @@ class SearchExternalCandidatesBySkills(Tool):
                 for req_skill in required:
                     expanded_required.add(req_skill)
                     # Locate this skill in the role catalog to obtain specific skills
-                    for role_entry in data.get("role_skill_catalog", []):
+                    for role_entry in data.get("role_skill_catalog", {}).values():
                         for skill_category in role_entry.get("required_skills", []):
                             if (
                                 isinstance(skill_category, dict)
@@ -280,7 +280,7 @@ class GetJobApplications(Tool):
     def invoke(data: dict[str, Any], job_id: str = None) -> str:
         apps = [
             app
-            for app in data.get("job_applications", [])
+            for app in data.get("job_applications", {}).values()
             if app.get("job_id") == job_id
         ]
         payload = apps
@@ -314,7 +314,7 @@ class AnalyzeApplicantSkillFit(Tool):
         user_skill_names = set()
 
         # Locate the user within the users data
-        user = next((u for u in data.get("users", []) if u.get("user_id") == applicant_id), {})
+        user = next((u for u in data.get("users", {}).values() if u.get("user_id") == applicant_id), {}).values()
         if user:
             # Examine the skills_current field (actual data structure)
             user_skills = user.get("skills_current", [])
@@ -336,7 +336,7 @@ class AnalyzeApplicantSkillFit(Tool):
         # Attempt to use the user_skills table as a backup
         if not user_skill_names:
             user_skills_entry = next(
-                (u for u in data.get("user_skills", []) if u.get("user_id") == applicant_id), {}
+                (u for u in data.get("user_skills", {}).values() if u.get("user_id") == applicant_id), {}
             )
             if user_skills_entry:
                 skills = user_skills_entry.get("skills", [])
@@ -369,7 +369,7 @@ class AnalyzeApplicantSkillFit(Tool):
         role_rec = next(
             (
                 r
-                for r in data.get("role_skill_catalog", [])
+                for r in data.get("role_skill_catalog", {}).values()
                 if r.get("role") == target_role
             ),
             {},
@@ -401,7 +401,7 @@ class AnalyzeApplicantSkillFit(Tool):
                 role_rec = next(
                     (
                         r
-                        for r in data.get("role_skill_catalog", [])
+                        for r in data.get("role_skill_catalog", {}).values()
                         if r.get("role") == target_role
                     ),
                     {},
@@ -458,7 +458,7 @@ class AnalyzeApplicantSkillFit(Tool):
 class UpdateApplicationStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], application_id: str = None, new_status: str = None) -> str:
-        for app in data.get("job_applications", []):
+        for app in data.get("job_applications", {}).values():
             if app["application_id"] == application_id:
                 app["status"] = new_status
                 app["last_updated"] = datetime.now().isoformat()
@@ -531,7 +531,7 @@ class AnalyzeExternalCandidateSkillFit(Tool):
         cand = next(
             (
                 c
-                for c in data.get("talent_network", [])
+                for c in data.get("talent_network", {}).values()
                 if c.get("candidate_id") == candidate_id
             ),
             {},
@@ -569,7 +569,7 @@ class AnalyzeExternalCandidateSkillFit(Tool):
         role_rec = next(
             (
                 r
-                for r in data.get("role_skill_catalog", [])
+                for r in data.get("role_skill_catalog", {}).values()
                 if r.get("role") == target_role
             ),
             {},
@@ -601,7 +601,7 @@ class AnalyzeExternalCandidateSkillFit(Tool):
                 role_rec = next(
                     (
                         r
-                        for r in data.get("role_skill_catalog", [])
+                        for r in data.get("role_skill_catalog", {}).values()
                         if r.get("role") == target_role
                     ),
                     {},
@@ -663,7 +663,7 @@ class RecommendSkillTraining(Tool):
     def invoke(data: dict[str, Any], user_id: str = None, skill: str = None) -> str:
         # Confirm that the skill is pertinent to available roles
         valid_skills = set()
-        for role_entry in data.get("role_skill_catalog", []):
+        for role_entry in data.get("role_skill_catalog", {}).values():
             skills = role_entry.get("required_skills", [])
             if isinstance(skills, list):
                 for skill_item in skills:
@@ -709,9 +709,9 @@ class RecommendSkillTraining(Tool):
 class GetUserIdFromName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], first_name: str, last_name: str) -> str:
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         full_name = f"{first_name} {last_name}"
-        for user in users:
+        for user in users.values():
             if user.get("name") == full_name:
                 payload = {"user_id": user["user_id"]}
                 out = json.dumps(payload, indent=2)
@@ -744,10 +744,10 @@ class GetCourseIdByName(Tool):
     def invoke(data: dict[str, Any], course_name: str) -> str:
         _course_nameL = course_name or ''.lower()
         pass
-        courses = data.get("course_catalog", [])
+        courses = data.get("course_catalog", {}).values()
         # Locate a course whose name includes the provided string (case-insensitive)
         course = next(
-            (c for c in courses if course_name.lower() in c.get("name", "").lower()),
+            (c for c in courses.values() if course_name.lower() in c.get("name", "").lower()),
             None,
         )
         if course:
@@ -803,8 +803,8 @@ class GetTodayDate(Tool):
 class ListUserGoals(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str) -> str:
-        goals_data = data.get("goals", [])
-        user_goals = next((g for g in goals_data if g.get("user_id") == user_id), {})
+        goals_data = data.get("goals", {}).values()
+        user_goals = next((g for g in goals_data.values() if g.get("user_id") == user_id), {}).values()
         goals = user_goals.get("goals", [])
         payload = {"user_id": user_id, "goals": goals}
         out = json.dumps(payload, indent=2)
@@ -837,9 +837,9 @@ class UpdateGoal(Tool):
         progress_percent: int = None,
         notes_to_append: str = None,
     ) -> str:
-        goals_data = data.get("goals", [])
+        goals_data = data.get("goals", {}).values()
         user_goals_obj = next(
-            (g for g in goals_data if g.get("user_id") == user_id), None
+            (g for g in goals_data.values() if g.get("user_id") == user_id), None
         )
         if not user_goals_obj:
             payload = {"error": f"User {user_id} not found in goals data"}
@@ -926,8 +926,8 @@ class UpdateGoal(Tool):
 class GetTeam(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], team_id: str) -> str:
-        teams = data.get("teams", [])
-        team = next((t for t in teams if t.get("team_id") == team_id), None)
+        teams = data.get("teams", {}).values()
+        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
         return (
             json.dumps(team, indent=2)
             if team
@@ -953,8 +953,8 @@ class GetTeam(Tool):
 class AddTeamMember(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], team_id: str, user_id: str) -> str:
-        teams = data.get("teams", [])
-        team = next((t for t in teams if t.get("team_id") == team_id), None)
+        teams = data.get("teams", {}).values()
+        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
         if team:
             team_members = team.setdefault("team_members", [])
             if user_id not in team_members:
@@ -1040,7 +1040,7 @@ class ListUserCourses(Tool):
     def invoke(data: dict[str, Any], user_id: str) -> str:
         courses = [
             c
-            for c in data.get("user_course_progress", [])
+            for c in data.get("user_course_progress", {}).values()
             if c.get("user_id") == user_id
         ]
         payload = {"courses": courses}
@@ -1071,7 +1071,7 @@ class UpdateUserCourseProgress(Tool):
         rec = next(
             (
                 r
-                for r in data.get("user_course_progress", [])
+                for r in data.get("user_course_progress", {}).values()
                 if r["user_id"] == user_id and r["course_id"] == course_id
             ),
             None,
@@ -1193,7 +1193,7 @@ class UpdateMentorshipRelationship(Tool):
         rel = next(
             (
                 r
-                for r in data.get("user_mentorship_relationships", [])
+                for r in data.get("user_mentorship_relationships", {}).values()
                 if r["relationship_id"] == relationship_id
             ),
             None,
@@ -1242,11 +1242,10 @@ class ListUserMentorships(Tool):
     @staticmethod
     def invoke(data, user_id: str, user_mentorship_relationships: list = None) -> str:
         if user_mentorship_relationships is None:
-            user_mentorship_relationships = data.get("user_mentorship_relationships", [])
+            user_mentorship_relationships = data.get("user_mentorship_relationships", {}).values()
         rels = [
             rel
-            for rel in user_mentorship_relationships
-            if rel.get("mentee_id") == user_id
+            for rel in user_mentorship_relationships.values() if rel.get("mentee_id") == user_id
         ]
         payload = {"mentorships": rels}
         out = json.dumps(payload, indent=2)
@@ -1307,10 +1306,10 @@ class GetJobIdByTitle(Tool):
     def invoke(data: dict[str, Any], job_title: str) -> str:
         _job_titleL = job_title or ''.lower()
         pass
-        postings = data.get("job_postings", [])
+        postings = data.get("job_postings", {}).values()
         # Utilize a case-insensitive partial match for reliability
         posting = next(
-            (p for p in postings if job_title.lower() in p.get("title", "").lower()),
+            (p for p in postings.values() if job_title.lower() in p.get("title", "").lower()),
             None,
         )
         if posting:
@@ -1348,7 +1347,7 @@ class AddGoal(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str, goal: dict[str, Any]) -> str:
         """Add a new goal to a user's record."""
-        for entry in data.get("goals", []):
+        for entry in data.get("goals", {}).values():
             if entry["user_id"] == user_id:
                 entry["goals"].append(goal)
                 break
@@ -1380,7 +1379,7 @@ class FindMentors(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], mentee_id: str, focus_areas: list[str]) -> str:
         pass
-        mentors = data.get("user_mentorship", [])
+        mentors = data.get("user_mentorship", {}).values()
 
         # Adopt a wider definition of expertise, encompassing roles and general knowledge
         def get_mentor_expertise_set(mentor):
@@ -1393,7 +1392,7 @@ class FindMentors(Tool):
         # and who are clearly suitable for the mentee.
         matches = []
         focus_set = set(focus_areas)
-        for mentor in mentors:
+        for mentor in mentors.values():
             if mentor.get("availability") == "Full":
                 continue
 
@@ -1445,8 +1444,8 @@ class GetUserProfile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str) -> str:
         """Fetch the complete profile for a specified user ID."""
-        users = data.get("users", [])
-        user_profile = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user_profile = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if user_profile:
             payload = user_profile

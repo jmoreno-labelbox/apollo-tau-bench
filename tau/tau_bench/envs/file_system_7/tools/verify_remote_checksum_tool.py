@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class VerifyRemoteChecksumTool(Tool):
@@ -42,7 +42,7 @@ class VerifyRemoteChecksumTool(Tool):
         remote_file = next(
             (
                 f
-                for f in data.get("remote_storage", [])
+                for f in data.get("remote_storage", {}).values()
                 if f["path"] == remote_path
             ),
             None,

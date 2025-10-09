@@ -12,7 +12,7 @@ class SetElastiCacheSubnetGroup(Tool):
 
         # Check if the subnet group is present
         groups = aws_subnet_groups or []
-        if not any(g.get("subnet_group_id") == subnet_group_id for g in groups):
+        if not any(g.get("subnet_group_id") == subnet_group_id for g in groups.values()):
             payload = {"error": f"No subnet group found with ID '{subnet_group_id}'"}
             out = json.dumps(
                 payload, indent=2,

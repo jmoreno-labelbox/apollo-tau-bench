@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListOfPRForRepo(Tool):
@@ -15,7 +15,7 @@ class ListOfPRForRepo(Tool):
     Lists pull requests for a repository.
     - Inputs: owner, repo_name, (optional) state in {'open','closed','merged'}
     - Returns an array of PR summaries (number, title, state, branches, head_sha, timestamps, files).
-    - Reads from data.get('pull_requests', []) or top-level list.
+    - Reads from data.get('pull_requests', {}).values() or top-level list.
     """
 
     @staticmethod
@@ -39,7 +39,7 @@ class ListOfPRForRepo(Tool):
             return out
 
         # Load PR DB (supports dict with 'pull_requests' or a top-level list)
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values()
 
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}

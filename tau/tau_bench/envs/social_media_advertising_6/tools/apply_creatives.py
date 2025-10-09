@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ApplyCreatives(Tool):
@@ -48,7 +48,7 @@ class ApplyCreatives(Tool):
         targets_list: list[dict[str, Any]] = []
         if plan_id is not None:
             plan = next(
-                (p for p in data["plans"] if str(p.get("plan_id")) == str(plan_id)), None
+                (p for p in data["plans"].values() if str(p.get("plan_id")) == str(plan_id)), None
             )
             if not plan:
                 payload = {"error": f"missing_plan:{plan_id}"}
@@ -80,7 +80,7 @@ class ApplyCreatives(Tool):
                     "creative_type": t["creative_type"],
                     "ad_name": t.get("ad_name"),
                 }
-            targets_list = list(by_id.values())
+            targets_list = list(by_id)
 
         if not targets_list:
             payload = {
@@ -94,7 +94,7 @@ class ApplyCreatives(Tool):
 
         # ---- Assistance Functions ------------------------------------------
         ads_by_adset: dict[str, list[dict[str, Any]]] = {}
-        for a in data["ads"]:
+        for a in data["ads"].values():
             ads_by_adset.setdefault(str(a.get("adset_id")), []).append(a)
 
         def _worst_active(adset_id: str) -> str | None:
@@ -106,7 +106,7 @@ class ApplyCreatives(Tool):
                 return None
             # Calculate naive CPA = spend / purchases from f_insights (if accessible)
             cpa_by_ad: dict[str, float] = {}
-            for row in data.get("f_insights", []):
+            for row in data.get("f_insights", {}).values():
                 if str(row.get("adset_id")) == adset_id:
                     ad_id = str(row.get("ad_id"))
                     spend = float(row.get("spend", 0.0) or 0.0)
@@ -123,7 +123,7 @@ class ApplyCreatives(Tool):
         def _next_ad_id() -> str:
             pass
             mx = 0
-            for a in data["ads"]:
+            for a in data["ads"].values():
                 try:
                     mx = max(mx, int(str(a.get("ad_id"))))
                 except Exception:
@@ -133,7 +133,7 @@ class ApplyCreatives(Tool):
         def _next_rotation_id() -> str:
             pass
             mx = 0
-            for r in data["creative_rotations"]:
+            for r in data["creative_rotations"].values():
                 rid = str(r.get("rotation_id", "")).replace("CR-", "")
                 if rid.isdigit():
                     mx = max(mx, int(rid))
@@ -171,17 +171,17 @@ class ApplyCreatives(Tool):
                 "start_date": timestamp.split("T")[0],
                 "end_date": None,
             }
-            data["ads"].append(new_ad)
+            data["ads"][ad_id] = new_ad
             ads_by_adset.setdefault(adset_id, []).append(new_ad)
 
             # Suspend previous least effective active (if any)
             if old_active_id:
-                for a in data["ads"]:
+                for a in data["ads"].values():
                     if str(a.get("ad_id")) == old_active_id:
                         a["status"] = "paused"
 
             # Update adset metadata in a deterministic manner
-            for aset in data["adsets"]:
+            for aset in data["adsets"].values():
                 if str(aset.get("adset_id")) == adset_id:
                     aset["updated_at"] = timestamp
                     aset["rev"] = _i(aset.get("rev"), 0) + 1

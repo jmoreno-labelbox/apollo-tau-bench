@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class cancel_promotion(Tool):
@@ -19,16 +19,16 @@ class cancel_promotion(Tool):
             out = json.dumps(payload)
             return out
 
-        promotions = data.get("promotions", [])
-        products = data.get("products", [])
+        promotions = data.get("promotions", {}).values()
+        products = data.get("products", {}).values()
 
-        for promotion in promotions:
+        for promotion in promotions.values():
             # Narrow down to the appropriate promotion
             if promotion["promotion_id"] == promotion_id:
                 # Eliminate discounts from the products
                 # TODO: investigate the possibility of multiple promotions for each product
                 applicable_skus = promotion["applicable_skus"]
-                for product in products:
+                for product in products.values():
                     if product["sku"] in applicable_skus:
                         product["is_discountable"] = False
 

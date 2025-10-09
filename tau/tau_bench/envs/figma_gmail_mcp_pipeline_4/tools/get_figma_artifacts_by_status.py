@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetFigmaArtifactsByStatus(Tool):
@@ -28,16 +28,16 @@ class GetFigmaArtifactsByStatus(Tool):
         if tags is None:
             tags = []
 
-        figma_artifacts = data.get("figma_artifacts", [])
-        review_cycles = data.get("review_cycles", [])
+        figma_artifacts = data.get("figma_artifacts", {}).values()
+        review_cycles = data.get("review_cycles", {}).values()
 
         # Return the specific artifact if artifact_id is given
         if artifact_id:
-            for artifact in figma_artifacts:
+            for artifact in figma_artifacts.values():
                 if artifact.get("artifact_id") == artifact_id:
                     # Enhance with details from the review cycle
                     artifact_copy = artifact.copy()
-                    for cycle in review_cycles:
+                    for cycle in review_cycles.values():
                         if cycle.get("artifact_id") == artifact_id:
                             artifact_copy["review_cycle"] = cycle
                             break
@@ -50,7 +50,7 @@ class GetFigmaArtifactsByStatus(Tool):
 
         # Sort artifacts based on specified criteria
         results = []
-        for artifact in figma_artifacts:
+        for artifact in figma_artifacts.values():
             # Implement filters
             if status and artifact.get("status") != status:
                 continue
@@ -60,12 +60,12 @@ class GetFigmaArtifactsByStatus(Tool):
 
             if tags:
                 artifact_tags = artifact.get("current_tags", [])
-                if not any(tag in artifact_tags for tag in tags):
+                if not any(tag in artifact_tags for tag in tags.values()):
                     continue
 
             # Augment with review cycle details
             artifact_copy = artifact.copy()
-            for cycle in review_cycles:
+            for cycle in review_cycles.values():
                 if cycle.get("artifact_id") == artifact.get("artifact_id"):
                     artifact_copy["review_cycle"] = cycle
                     break

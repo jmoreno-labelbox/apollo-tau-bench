@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateInboundReturnShipment(Tool):
@@ -31,11 +31,11 @@ class CreateInboundReturnShipment(Tool):
             )
             return out
 
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
         max_ship_id = max(
             (
                 int(s.get("shipment_id", "SHIP-0").split("-")[1])
-                for s in inbound_shipments
+                for s in inbound_shipments.values()
             ),
             default=0,
         )
@@ -44,7 +44,7 @@ class CreateInboundReturnShipment(Tool):
         customer = next(
             (
                 o
-                for o in data.get("outbound_orders", [])
+                for o in data.get("outbound_orders", {}).values()
                 if o.get("customer_id") == from_customer_id
             ),
             {},
@@ -52,7 +52,7 @@ class CreateInboundReturnShipment(Tool):
         warehouse = next(
             (
                 w
-                for w in data.get("warehouses", [])
+                for w in data.get("warehouses", {}).values()
                 if w.get("warehouse_id") == to_warehouse_id
             ),
             {},
@@ -71,7 +71,7 @@ class CreateInboundReturnShipment(Tool):
             "carrier_name": next(
                 (
                     c.get("carrier_name")
-                    for c in data.get("carriers", [])
+                    for c in data.get("carriers", {}).values()
                     if c.get("scac") == carrier_scac
                 ),
                 "Unknown",
@@ -80,7 +80,7 @@ class CreateInboundReturnShipment(Tool):
             "status": "Planned",
             "priority_level": "Medium",
         }
-        inbound_shipments.append(new_shipment)
+        inbound_data["shipments"][shipment_id] = new_shipment
         payload = new_shipment
         out = json.dumps(payload, indent=2)
         return out

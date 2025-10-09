@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateCustomerMembershipLevel(Tool):
@@ -18,7 +18,7 @@ class UpdateCustomerMembershipLevel(Tool):
     ) -> str:
         _new_membership_levelL = new_membership_level or ''.lower()
         pass
-        customers = data.get("customers", [])
+        customers = data.get("customers", {}).values()
         valid_levels = ["bronze", "silver", "gold", "platinum", "vip"]
 
         if new_membership_level.lower() not in valid_levels:
@@ -29,7 +29,7 @@ class UpdateCustomerMembershipLevel(Tool):
                 payload)
             return out
 
-        for i, customer in enumerate(customers):
+        for i, customer in enumerate(customers.values():
             if customer.get("customer_id") == customer_id:
                 customers[i]["membership_level"] = new_membership_level.lower()
                 data["customers"] = customers
@@ -41,7 +41,7 @@ class UpdateCustomerMembershipLevel(Tool):
         return out
         _new_membership_levelL = new_membership_level or ''.lower()
         pass
-        customers = data.get("customers", [])
+        customers = data.get("customers", {}).values()
         valid_levels = ["bronze", "silver", "gold", "platinum", "vip"]
 
         if new_membership_level.lower() not in valid_levels:
@@ -52,7 +52,7 @@ class UpdateCustomerMembershipLevel(Tool):
                 payload)
             return out
 
-        for i, customer in enumerate(customers):
+        for i, customer in enumerate(customers.values():
             if customer.get("customer_id") == customer_id:
                 customers[i]["membership_level"] = new_membership_level.lower()
                 data["customers"] = customers

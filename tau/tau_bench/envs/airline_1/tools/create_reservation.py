@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateReservation(Tool):
@@ -22,14 +22,14 @@ class CreateReservation(Tool):
         passengers: list[dict[str, str]],
         cabin: str,
     ) -> str:
-        users = data.get("users", [])
-        reservations = data.get("reservations", [])
+        users = data.get("users", {}).values()
+        reservations = data.get("reservations", {}).values()
 
         target_user = None
-        for user in users:
+        for user in users.values():
             if user.get("email") == user_email:
-                first_name = user.get("name", {}).get("first_name", "").lower()
-                last_name = user.get("name", {}).get("last_name", "").lower()
+                first_name = user.get("name", {}).values().get("first_name", "").lower()
+                last_name = user.get("name", {}).values().get("last_name", "").lower()
                 user_id = f"{first_name}_{last_name}_1234"
                 target_user = {"email": user_email, "id": user_id}
                 break
@@ -43,8 +43,7 @@ class CreateReservation(Tool):
         if reservations:
             numeric_ids = [
                 int(r["reservation_id"][3:])
-                for r in reservations
-                if r.get("reservation_id", "").startswith("RES")
+                for r in reservations.values() if r.get("reservation_id", "").startswith("RES")
                 and r["reservation_id"][3:].isdigit()
             ]
             if numeric_ids:
@@ -72,9 +71,9 @@ class CreateReservation(Tool):
             "status": "CONFIRMED",
         }
 
-        reservations.append(new_reservation)
+        data["reservations"][reservation_id] = new_reservation
 
-        for user in users:
+        for user in users.values():
             if user.get("email") == user_email:
                 if "reservations" not in user:
                     user["reservations"] = []

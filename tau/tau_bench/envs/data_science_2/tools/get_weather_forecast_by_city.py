@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetWeatherForecastByCity(Tool):
@@ -15,7 +15,7 @@ class GetWeatherForecastByCity(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], city: str, horizon_days: int) -> str:
-        rows = data.get("weather_forecasts", [])
+        rows = data.get("weather_forecasts", {}).values()
         for row in rows:
             if row.get("city") == city and row.get("horizon_days") == horizon_days:
                 payload = row

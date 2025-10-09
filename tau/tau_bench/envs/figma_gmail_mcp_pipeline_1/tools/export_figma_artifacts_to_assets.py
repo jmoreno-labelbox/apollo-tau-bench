@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ExportFigmaArtifactsToAssets(Tool):  #WRITE
@@ -25,8 +25,8 @@ class ExportFigmaArtifactsToAssets(Tool):  #WRITE
             payload = {"error": "artifact_ids must be a list of strings"}
             out = json.dumps(payload)
             return out
-        artifacts = data.get("figma_artifacts", [])
-        assets = data.get("assets", [])
+        artifacts = data.get("figma_artifacts", {}).values()
+        assets = data.get("assets", {}).values()
         #Standard export profile
         default_profile = {"format": "PNG", "scale": "2x"}
         profile = export_profile if export_profile else default_profile
@@ -52,7 +52,7 @@ class ExportFigmaArtifactsToAssets(Tool):  #WRITE
             return out
         exported = []
         for aid in artifact_ids:
-            artifact = next((a for a in artifacts if a.get("artifact_id") == aid), None)
+            artifact = next((a for a in artifacts.values() if a.get("artifact_id") == aid), None)
             if not artifact:
                 continue
             #Construct the export_profile string similar to assets.json
@@ -71,7 +71,7 @@ class ExportFigmaArtifactsToAssets(Tool):  #WRITE
                 "dlp_scan_status": "CLEAN",
                 "dlp_scan_details_nullable": None,
             }
-            assets.append(asset)
+            data["assets"][asset_id] = asset
             exported.append(asset["asset_id"])
         payload = {"exported_asset_ids": exported, "profile": profile}
         out = json.dumps(payload)

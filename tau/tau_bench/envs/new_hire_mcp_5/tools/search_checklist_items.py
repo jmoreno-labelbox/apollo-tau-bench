@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchChecklistItems(Tool):
@@ -18,7 +18,7 @@ class SearchChecklistItems(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str, status: str = None, due_date_lte: str = None, message_id: Any = None) -> str:
         rows = []
-        for it in data.get("checklist_items", []):
+        for it in data.get("checklist_items", {}).values():
             if it.get("candidate_id") != candidate_id:
                 continue
             if status and it.get("status") != status:

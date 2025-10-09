@@ -14,7 +14,7 @@ class SearchUsers(Tool):
         users = data["users"]
 
         if user_id:
-            user = next((u for u in users if u["user_id"] == user_id), None)
+            user = next((u for u in users.values() if u["user_id"] == user_id), None)
             if not user:
                 payload = {"error": "User not found"}
                 out = json.dumps(payload)
@@ -24,15 +24,15 @@ class SearchUsers(Tool):
             return out
 
         matching_users = []
-        for user in users:
+        for user in users.values():
             if email and email.lower() in user["email"].lower():
-                matching_users.append(user)
+                matching_data["users"][user_id] = user
             elif name:
                 full_name = (
                     f"{user['name']['first_name']} {user['name']['last_name']}".lower()
                 )
                 if name.lower() in full_name:
-                    matching_users.append(user)
+                    matching_data["users"][user_id] = user
         payload = matching_users
         out = json.dumps(payload, indent=2)
         return out

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RevokeRoleFromUserTool(Tool):
@@ -17,9 +17,9 @@ class RevokeRoleFromUserTool(Tool):
     def invoke(data: dict[str, Any], user_id: str = None, role_id: str = None) -> str:
         uid = user_id
         rid = role_id
-        user_roles = data.get("user_roles", [])
+        user_roles = data.get("user_roles", {}).values()
         to_remove = [
-            ur for ur in user_roles if ur["user_id"] == uid and ur["role_id"] == rid
+            ur for ur in user_roles.values() if ur["user_id"] == uid and ur["role_id"] == rid
         ]
         if not to_remove:
             payload = {"error": "Role not found for user"}

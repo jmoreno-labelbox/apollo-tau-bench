@@ -12,7 +12,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -21,8 +21,8 @@ class FindProductByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], product_name: str = None) -> str:
-        products = data.get("product_master", [])
-        for product in products:
+        products = data.get("product_master", {}).values()
+        for product in products.values():
             if product.get("product_name") == product_name:
                 payload = {
                     "sku": product.get("sku"),
@@ -63,8 +63,8 @@ class GetProductDetails(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], sku: str = None) -> str:
-        products = data.get("product_master", [])
-        for product in products:
+        products = data.get("product_master", {}).values()
+        for product in products.values():
             if product.get("sku") == sku:
                 payload = product
                 out = json.dumps(payload)
@@ -99,8 +99,8 @@ class FindWarehouseByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], warehouse_name: str = None) -> str:
-        warehouses = data.get("warehouses", [])
-        for warehouse in warehouses:
+        warehouses = data.get("warehouses", {}).values()
+        for warehouse in warehouses.values():
             if warehouse.get("warehouse_name") == warehouse_name:
                 payload = {"warehouse_id": warehouse.get("warehouse_id")}
                 out = json.dumps(payload)
@@ -135,8 +135,8 @@ class GetWarehouseDetails(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], warehouse_id: str = None) -> str:
-        warehouses = data.get("warehouses", [])
-        for warehouse in warehouses:
+        warehouses = data.get("warehouses", {}).values()
+        for warehouse in warehouses.values():
             if warehouse.get("warehouse_id") == warehouse_id:
                 payload = warehouse
                 out = json.dumps(payload)
@@ -171,7 +171,7 @@ class GetAllWarehouses(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], filters: dict[str, Any] = None) -> str:
-        warehouses = data.get("warehouses", [])
+        warehouses = data.get("warehouses", {}).values()
 
         if not warehouses:
             payload = {"message": "No warehouses found."}
@@ -184,7 +184,7 @@ class GetAllWarehouses(Tool):
             return out
 
         filtered_warehouses = []
-        for warehouse in warehouses:
+        for warehouse in warehouses.values():
             match = True
             for key, value in filters.items():
                 warehouse_value = warehouse.get(key)
@@ -201,7 +201,7 @@ class GetAllWarehouses(Tool):
                     match = False
                     break
             if match:
-                filtered_warehouses.append(warehouse)
+                filtered_data["warehouses"][warehouse_id] = warehouse
 
         if filtered_warehouses:
             payload = filtered_warehouses
@@ -238,8 +238,8 @@ class GetInventoryDetails(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], sku: str = None, warehouse_id: str = None) -> str:
-        inventory_items = data.get("inventory", [])
-        for item in inventory_items:
+        inventory_items = data.get("inventory", {}).values()
+        for item in inventory_items.values():
             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id:
                 payload = {
                     "inventory_id": item.get("inventory_id"),
@@ -289,7 +289,7 @@ class FindCarrierByMethodOfTransport(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], method_of_transport: str = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
         if not method_of_transport:
             payload = {"error": "Method of transport is required"}
             out = json.dumps(payload)
@@ -297,14 +297,14 @@ class FindCarrierByMethodOfTransport(Tool):
         best_carrier = None
         max_rating = -1.0
 
-        for carrier in carriers:
+        for carrier in carriers.values():
             is_active = carrier.get("active_status", False)
             supported_modes = [
                 mode.lower() for mode in carrier.get("supported_modes", [])
             ]
 
             if is_active and method_of_transport.lower() in supported_modes:
-                current_rating = carrier.get("performance_metrics", {}).get(
+                current_rating = carrier.get("performance_metrics", {}).values().get(
                     "average_rating", 0.0
                 )
                 if current_rating > max_rating:
@@ -352,7 +352,7 @@ class FindCarrierByService(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], mode_of_transport: str = None, service_level: str = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
 
         if not mode_of_transport or not service_level:
             payload = {"error": "Mode of transport and service level are required"}
@@ -362,7 +362,7 @@ class FindCarrierByService(Tool):
         best_carrier = None
         max_rating = -1.0
 
-        for carrier in carriers:
+        for carrier in carriers.values():
             is_active = carrier.get("active_status", False)
             supported_modes = [
                 mode.lower() for mode in carrier.get("supported_modes", [])
@@ -376,7 +376,7 @@ class FindCarrierByService(Tool):
                 and mode_of_transport.lower() in supported_modes
                 and service_level.lower() in supported_services
             ):
-                current_rating = carrier.get("performance_metrics", {}).get(
+                current_rating = carrier.get("performance_metrics", {}).values().get(
                     "average_rating", 0.0
                 )
                 if current_rating > max_rating:
@@ -428,10 +428,10 @@ class CalculateExpectedArrivalDate(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supplier_id: str = None, current_date: str = None) -> str:
-        suppliers = data.get("supplier_master", [])
+        suppliers = data.get("supplier_master", {}).values()
 
         supplier_details = next(
-            (s for s in suppliers if s.get("supplier_id") == supplier_id), {}
+            (s for s in suppliers.values() if s.get("supplier_id") == supplier_id), {}
         )
         if not supplier_details:
             payload = {"error": f"Supplier with ID '{supplier_id}' not found."}
@@ -493,8 +493,8 @@ class FindSupplierByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supplier_name: str = None) -> str:
-        suppliers = data.get("supplier_master", [])
-        for supplier in suppliers:
+        suppliers = data.get("supplier_master", {}).values()
+        for supplier in suppliers.values():
             if supplier.get("supplier_name") == supplier_name:
                 payload = {
                     "supplier_id": supplier.get("supplier_id"),
@@ -532,9 +532,9 @@ class FindInventoryBySku(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], sku: str = None) -> str:
-        inventory_items = data.get("inventory", [])
+        inventory_items = data.get("inventory", {}).values()
         found_records = []
-        for item in inventory_items:
+        for item in inventory_items.values():
             if item.get("sku") == sku:
                 found_records.append(
                     {
@@ -585,14 +585,14 @@ class FindInboundShipmentsByWarehouse(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], warehouse_id: str = None) -> str:
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
         found_shipments = []
-        for shipment in inbound_shipments:
+        for shipment in inbound_shipments.values():
             dest_id = shipment.get("destination_warehouse_id") or shipment.get(
                 "destination_warehouse_id"
             )
             if dest_id == warehouse_id:
-                found_shipments.append(shipment)
+                found_data["shipments"][shipment_id] = shipment
         if found_shipments:
             payload = found_shipments
             out = json.dumps(payload)
@@ -627,8 +627,8 @@ class GetSupplierDetails(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supplier_id: str = None) -> str:
-        suppliers = data.get("supplier_master", [])
-        for supplier in suppliers:
+        suppliers = data.get("supplier_master", {}).values()
+        for supplier in suppliers.values():
             if supplier.get("supplier_id") == supplier_id:
                 payload = supplier
                 out = json.dumps(payload)
@@ -663,11 +663,11 @@ class FindInboundShipmentsBySupplier(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supplier_id: str = None) -> str:
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
         found_shipments = []
-        for shipment in inbound_shipments:
+        for shipment in inbound_shipments.values():
             if shipment.get("supplier_id") == supplier_id:
-                found_shipments.append(shipment)
+                found_data["shipments"][shipment_id] = shipment
         if found_shipments:
             payload = found_shipments
             out = json.dumps(payload)
@@ -702,7 +702,7 @@ class FindCheapestCarrierByService(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], mode_of_transport: str = None, service_level: str = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
 
         if not mode_of_transport or not service_level:
             payload = {"error": "Mode of transport and service level are required"}
@@ -712,7 +712,7 @@ class FindCheapestCarrierByService(Tool):
         cheapest_carrier = None
         min_cost = float("inf")
 
-        for carrier in carriers:
+        for carrier in carriers.values():
             is_active = carrier.get("active_status", False)
             supported_modes = [
                 mode.lower() for mode in carrier.get("supported_modes", [])
@@ -776,8 +776,8 @@ class FindOutboundOrderBySO(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], sales_order_number: str = None, outbound_orders: list = None) -> str:
-        outbound_orders = outbound_orders if outbound_orders is not None else data.get("outbound_orders", [])
-        for order in outbound_orders:
+        outbound_orders = outbound_orders if outbound_orders is not None else data.get("outbound_orders", {}).values()
+        for order in outbound_orders.values()):
             if order.get("sales_order_number") == sales_order_number:
                 payload = order
                 out = json.dumps(payload)
@@ -812,7 +812,7 @@ class GetAllOutboundOrders(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], filters: dict[str, Any] = None) -> str:
-        outbound_orders = data.get("outbound_orders", [])
+        outbound_orders = data.get("outbound_orders", {}).values()
 
         if not outbound_orders:
             payload = {"message": "No outbound orders found."}
@@ -825,7 +825,7 @@ class GetAllOutboundOrders(Tool):
             return out
 
         filtered_orders = []
-        for order in outbound_orders:
+        for order in outbound_orders.values():
             match = True
             for key, value in filters.items():
                 order_value = order.get(key)
@@ -841,7 +841,7 @@ class GetAllOutboundOrders(Tool):
                     match = False
                     break
             if match:
-                filtered_orders.append(order)
+                filtered_data["orders"][order_id] = order
 
         if filtered_orders:
             payload = filtered_orders
@@ -878,8 +878,8 @@ class GetCarrierDetailsByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], carrier_name: str = None) -> str:
-        carriers = data.get("carriers", [])
-        for carrier in carriers:
+        carriers = data.get("carriers", {}).values()
+        for carrier in carriers.values():
             if carrier.get("carrier_name") == carrier_name:
                 payload = carrier
                 out = json.dumps(payload)
@@ -970,10 +970,10 @@ class CreateInboundShipment(Tool):
             out = json.dumps(payload)
             return out
 
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
 
         max_ship_num = 0
-        for shipment in inbound_shipments:
+        for shipment in inbound_shipments.values():
             ship_id = shipment.get("shipment_id", "SHIP-0000")
             ship_num_str = ship_id.split("-")[-1]
             if ship_num_str.isdigit():
@@ -981,7 +981,7 @@ class CreateInboundShipment(Tool):
         new_shipment_id = f"SHIP-{max_ship_num + 1:04d}"
 
         max_po_num = 0
-        for shipment in inbound_shipments:
+        for shipment in inbound_shipments.values():
             po_num_str = shipment.get("purchase_order_number", "PO-2024-0000").split(
                 "-"
             )[-1]
@@ -989,22 +989,21 @@ class CreateInboundShipment(Tool):
                 max_po_num = max(max_po_num, int(po_num_str))
         new_po_number = f"PO-2024-{max_po_num + 1:04d}"
 
-        warehouses = data.get("warehouses", [])
+        warehouses = data.get("warehouses", {}).values()
         destination_warehouse_details = next(
             (
                 wh
-                for wh in warehouses
-                if wh.get("warehouse_id") == destination_warehouse_id
+                for wh in warehouses.values() if wh.get("warehouse_id") == destination_warehouse_id
             ),
             {},
         )
 
-        suppliers = data.get("supplier_master", [])
+        suppliers = data.get("supplier_master", {}).values()
         supplier_details = next(
-            (sup for sup in suppliers if sup.get("supplier_id") == supplier_id), {}
+            (sup for sup in suppliers.values() if sup.get("supplier_id") == supplier_id), {}
         )
-        supplier_contact_info = supplier_details.get("contact_information", {})
-        supplier_address = supplier_contact_info.get("address", {})
+        supplier_contact_info = supplier_details.get("contact_information", {}).values()
+        supplier_address = supplier_contact_info.get("address", {}).values()
 
         new_shipment = {
             "shipment_id": new_shipment_id,
@@ -1052,7 +1051,7 @@ class CreateInboundShipment(Tool):
             "priority_level": priority_level,
             "notes": notes,
         }
-        inbound_shipments.append(new_shipment)
+        inbound_data["shipments"][shipment_id] = new_shipment
         payload = {
             "status": "success",
             "shipment_id": new_shipment_id,
@@ -1230,8 +1229,8 @@ class UpdateInventoryInboundQuantity(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], sku: str = None, warehouse_id: str = None, quantity_to_add: int = None) -> str:
-        inventory_items = data.get("inventory", [])
-        for item in inventory_items:
+        inventory_items = data.get("inventory", {}).values()
+        for item in inventory_items.values():
             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id:
                 original_inbound = item.get("quantity_inbound", 0)
                 item["quantity_inbound"] = original_inbound + quantity_to_add
@@ -1280,14 +1279,14 @@ class UpdateInventoryAllocatedQuantity(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], sku: str = None, warehouse_id: str = None, quantity_to_allocate: int = None) -> str:
-        inventory_items = data.get("inventory", [])
+        inventory_items = data.get("inventory", {}).values()
 
         if not all([sku, warehouse_id, quantity_to_allocate]):
             payload = {"error": "SKU, warehouse ID, and quantity to allocate are required."}
             out = json.dumps(payload)
             return out
 
-        for item in inventory_items:
+        for item in inventory_items.values():
             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id:
                 available = item.get("quantity_available", 0)
                 if available < quantity_to_allocate:
@@ -1382,11 +1381,11 @@ class CreateOutboundOrder(Tool):
         priority_level: str = "Medium",
         notes: str = None
     ) -> str:
-        outbound_orders = data.get("outbound_orders", [])
-        warehouses = data.get("warehouses", [])
+        outbound_orders = data.get("outbound_orders", {}).values()
+        warehouses = data.get("warehouses", {}).values()
 
         max_order_num = 0
-        for order in outbound_orders:
+        for order in outbound_orders.values():
             order_id = order.get("order_id", "ORD-0000")
             order_num_str = order_id.split("-")[-1]
             if order_num_str.isdigit():
@@ -1394,7 +1393,7 @@ class CreateOutboundOrder(Tool):
         new_order_id = f"ORD-{max_order_num + 1:04d}"
 
         warehouse_details = next(
-            (wh for wh in warehouses if wh.get("warehouse_id") == warehouse_id), {}
+            (wh for wh in warehouses.values() if wh.get("warehouse_id") == warehouse_id), {}
         )
         warehouse_name = warehouse_details.get("warehouse_name", "")
         warehouse_address = warehouse_details.get("address", "")
@@ -1449,7 +1448,7 @@ class CreateOutboundOrder(Tool):
             "return_status": "None",
             "notes": notes,
         }
-        outbound_orders.append(new_order)
+        outbound_data["orders"][order_id] = new_order
         payload = {
             "status": "success",
             "order_id": new_order_id,
@@ -1509,9 +1508,9 @@ class UpdateShipmentNotes(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], shipment_id: str = None, new_note: str = None) -> str:
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
 
-        for shipment in inbound_shipments:
+        for shipment in inbound_shipments.values():
             if shipment.get("shipment_id") == shipment_id:
                 original_note = shipment.get("notes")
                 if original_note:
@@ -1559,14 +1558,14 @@ class UpdateInventoryStatus(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], inventory_id: str = None, new_status: str = None) -> str:
-        inventory_items = data.get("inventory", [])
+        inventory_items = data.get("inventory", {}).values()
 
         if not inventory_id or not new_status:
             payload = {"error": "Inventory ID and new status are required."}
             out = json.dumps(payload)
             return out
 
-        for item in inventory_items:
+        for item in inventory_items.values():
             if item.get("inventory_id") == inventory_id:
                 item["stock_status"] = new_status
                 if new_status.lower() == "quarantined":
@@ -1624,7 +1623,7 @@ class PerformInventoryAdjustment(Tool):
 ,
     current_allocated_quantity: Any = None,
     ) -> str:
-        inventory_items = data.get("inventory", [])
+        inventory_items = data.get("inventory", {}).values()
 
         if not all(
             [
@@ -1638,7 +1637,7 @@ class PerformInventoryAdjustment(Tool):
             out = json.dumps(payload)
             return out
 
-        for item in inventory_items:
+        for item in inventory_items.values():
             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id:
                 original_on_hand = item.get("quantity_on_hand", 0)
                 discrepancy = new_physical_count - original_on_hand
@@ -1727,9 +1726,9 @@ class UpdateOutboundOrderDetails(Tool):
             out = json.dumps(payload)
             return out
 
-        outbound_orders = data.get("outbound_orders", [])
+        outbound_orders = data.get("outbound_orders", {}).values()
         order_to_update = next(
-            (o for o in outbound_orders if o.get("order_id") == order_id), None
+            (o for o in outbound_orders.values() if o.get("order_id") == order_id), None
         )
 
         if not order_to_update:
@@ -1810,8 +1809,8 @@ class CreateInventoryRecord(Tool):
             out = json.dumps(payload)
             return out
 
-        inventory_items = data.get("inventory", [])
-        for item in inventory_items:
+        inventory_items = data.get("inventory", {}).values()
+        for item in inventory_items.values():
             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id:
                 payload = {
                     "error": f"Inventory record for SKU {sku} at warehouse {warehouse_id} already exists."
@@ -1820,16 +1819,16 @@ class CreateInventoryRecord(Tool):
                 return out
 
         product_details = {}
-        products = data.get("product_master", [])
-        for p in products:
+        products = data.get("product_master", {}).values()
+        for p in products.values():
             if p.get("sku") == sku:
                 product_details = p
                 break
 
         warehouse_details = {}
-        warehouses = data.get("warehouses", [])
+        warehouses = data.get("warehouses", {}).values()
         warehouse_details = next(
-            (wh for wh in warehouses if wh.get("warehouse_id") == warehouse_id), {}
+            (wh for wh in warehouses.values() if wh.get("warehouse_id") == warehouse_id), {}
         )
 
         if not product_details or not warehouse_details:
@@ -1840,7 +1839,7 @@ class CreateInventoryRecord(Tool):
             return out
 
         max_inv_num = 0
-        for item in inventory_items:
+        for item in inventory_items.values():
             inv_id = item.get("inventory_id", "INV-0000")
             inv_num_str = inv_id.split("-")[-1]
             if inv_num_str.isdigit():
@@ -1874,7 +1873,7 @@ class CreateInventoryRecord(Tool):
             "storage_requirements": product_details.get("storage_requirements"),
         }
 
-        inventory_items.append(new_record)
+        data["inventory"][inventory_id] = new_record
         payload = {
             "status": "success",
             "inventory_id": new_inventory_id,

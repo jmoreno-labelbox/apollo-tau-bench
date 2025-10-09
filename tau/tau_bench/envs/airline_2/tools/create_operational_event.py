@@ -15,7 +15,7 @@ class CreateOperationalEvent(Tool):
         aircraft_id: str | None = None,
     ) -> str:
         events = data.setdefault("operational_events", [])
-        new_id = _next_numeric_suffix("OE", events, "event_id")
+        new_id = _next_numeric_suffix("OE", list(events.values()), "event_id")
         rec = {
             "event_id": new_id,
             "flight": {"flight_id": flight_id} if flight_id else None,

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateChangeROI(Tool):
@@ -25,15 +25,15 @@ class CalculateChangeROI(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
+        change_requests = data.get("change_requests", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
             return out
 
-        impact = cr.get("impact_assessment", {})
+        impact = cr.get("impact_assessment", {}).values()
         total_cost = impact.get("budget_impact", 0)
 
         for resource in impact.get("resource_requirements", []):

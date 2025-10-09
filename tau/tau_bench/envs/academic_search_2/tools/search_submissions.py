@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchSubmissions(Tool):
@@ -20,9 +20,9 @@ class SearchSubmissions(Tool):
     def invoke(data: dict[str, Any], submission_id: str = None, article_id: str = None, review_id: str = None) -> str:
         # Functionality derived from the previous SearchReviews tool
         if review_id:
-            reviews = data.get("reviews", [])
+            reviews = data.get("reviews", {}).values()
             target_review = next(
-                (r for r in reviews if r.get("review_id") == review_id), None
+                (r for r in reviews.values() if r.get("review_id") == review_id), None
             )
             if not target_review:
                 payload = []
@@ -31,11 +31,10 @@ class SearchSubmissions(Tool):
 
             # Utilize the submission_id from the review to locate the submission
             submission_id_from_review = target_review.get("submission_id")
-            submissions = data.get("submissions", [])
+            submissions = data.get("submissions", {}).values()
             results = [
                 s
-                for s in submissions
-                if s.get("submission_id") == submission_id_from_review
+                for s in submissions.values() if s.get("submission_id") == submission_id_from_review
             ]
 
             if results:
@@ -47,15 +46,14 @@ class SearchSubmissions(Tool):
             return out
 
         if not submission_id and not article_id:
-            payload = data.get("submissions", [])
+            payload = data.get("submissions", {}).values()
             out = json.dumps(payload, indent=2)
             return out
 
-        submissions = data.get("submissions", [])
+        submissions = data.get("submissions", {}).values()
         results = [
             s
-            for s in submissions
-            if (not submission_id or s.get("submission_id") == submission_id)
+            for s in submissions.values() if (not submission_id or s.get("submission_id") == submission_id)
             and (not article_id or s.get("article_id") == article_id)
         ]
         payload = results

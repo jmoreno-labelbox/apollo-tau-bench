@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ModifyEnvironment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], updates: dict[str, Any] = None) -> str:
         updates = updates or {}
-        env = data.get("environment", {})
+        env = data.get("environment", {}).values()
         if env is None or isinstance(env, list):
             env = {}
             data["environment"] = env

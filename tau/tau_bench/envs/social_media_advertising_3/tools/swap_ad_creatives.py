@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SwapAdCreatives(Tool):
@@ -20,7 +20,7 @@ class SwapAdCreatives(Tool):
     def invoke(data: dict[str, Any], activate_id: str = None, pause_id: str = None) -> str:
         to_on, to_off = activate_id, pause_id
         changed = []
-        for ad in data.get("ads", []):
+        for ad in data.get("ads", {}).values():
             if ad.get("ad_id") == to_on:
                 ad["status"] = "active"
                 changed.append(ad)

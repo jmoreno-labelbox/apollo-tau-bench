@@ -9,13 +9,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListCanonicalBidStrategies(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        for r in data.get("policy_params", []):
+        for r in data.get("policy_params", {}).values():
             if r.get("param_name") == "canonical_bid_strategies":
                 payload = _as_list_literal(r.get("param_value", "[]"))
                 out = json.dumps(payload)

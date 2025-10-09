@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUmpireRotation(Tool):
@@ -17,7 +17,7 @@ class GetUmpireRotation(Tool):
         game_pk = kwargs.get("game_pk")
         rotation = [
             u
-            for u in data.get("umpire_game_models", [])
+            for u in data.get("umpire_game_models", {}).values()
             if u.get("game_pk") == int(game_pk)
         ]
         payload = rotation

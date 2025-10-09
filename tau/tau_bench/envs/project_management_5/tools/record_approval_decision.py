@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RecordApprovalDecision(Tool):
@@ -35,11 +35,11 @@ class RecordApprovalDecision(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        approval_workflows = data.get("approval_workflows", [])
-        change_approvals = data.get("change_approvals", [])
+        change_requests = data.get("change_requests", {}).values()
+        approval_workflows = data.get("approval_workflows", {}).values()
+        change_approvals = data.get("change_approvals", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
@@ -48,8 +48,7 @@ class RecordApprovalDecision(Tool):
         workflow = next(
             (
                 w
-                for w in approval_workflows
-                if w.get("cr_id") == cr_id and w.get("status") == "active"
+                for w in approval_workflows.values() if w.get("cr_id") == cr_id and w.get("status") == "active"
             ),
             None,
         )
@@ -88,7 +87,7 @@ class RecordApprovalDecision(Tool):
             "action_date": datetime.now().isoformat(),
         }
 
-        change_approvals.append(approval_record)
+        data["change_approvals"][approval_record["change_approval_id"]] = approval_record
 
         current_step["status"] = "approved" if decision != "reject" else "rejected"
         current_step["action_date"] = datetime.now().isoformat()

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreatePurchaseOrder(Tool):
@@ -26,7 +26,7 @@ class CreatePurchaseOrder(Tool):
         supplier = next(
             (
                 s
-                for s in data.get("supplier_master", [])
+                for s in data.get("supplier_master", {}).values()
                 if s.get("supplier_id") == supplier_id
             ),
             None,
@@ -38,15 +38,14 @@ class CreatePurchaseOrder(Tool):
             )
             return out
 
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
 
         current_year_str = str(get_current_year())
 
         #Select POs exclusively for the current year
         pos_this_year = [
             s
-            for s in inbound_shipments
-            if s.get("purchase_order_number", "").startswith(f"PO-{current_year_str}")
+            for s in inbound_shipments.values() if s.get("purchase_order_number", "").startswith(f"PO-{current_year_str}")
         ]
 
         #Identify the highest sequence number for the current year
@@ -67,7 +66,7 @@ class CreatePurchaseOrder(Tool):
         max_ship_id = max(
             (
                 int(s.get("shipment_id", "SHIP-0").split("-")[1])
-                for s in inbound_shipments
+                for s in inbound_shipments.values()
             ),
             default=0,
         )
@@ -75,7 +74,7 @@ class CreatePurchaseOrder(Tool):
 
         first_sku = line_items[0]["sku"]
         dest_warehouse = next(
-            (i for i in data.get("inventory", []) if i.get("sku") == first_sku), {}
+            (i for i in data.get("inventory", {}).values() if i.get("sku") == first_sku), {}
         )
 
         new_shipment = {
@@ -83,14 +82,14 @@ class CreatePurchaseOrder(Tool):
             "purchase_order_number": new_po_number,
             "supplier_id": supplier_id,
             "supplier_name": supplier.get("supplier_name"),
-            "origin_address": supplier.get("contact_information", {})
-            .get("address", {})
+            "origin_address": supplier.get("contact_information", {}).values()
+            .get("address", {}).values()
             .get("street"),
-            "origin_city": supplier.get("contact_information", {})
-            .get("address", {})
+            "origin_city": supplier.get("contact_information", {}).values()
+            .get("address", {}).values()
             .get("city"),
-            "origin_country": supplier.get("contact_information", {})
-            .get("address", {})
+            "origin_country": supplier.get("contact_information", {}).values()
+            .get("address", {}).values()
             .get("country"),
             "destination_warehouse_id": dest_warehouse.get("warehouse_id"),
             "destination_warehouse_name": dest_warehouse.get("warehouse_name"),
@@ -98,7 +97,7 @@ class CreatePurchaseOrder(Tool):
             "priority_level": priority,
         }
 
-        inbound_shipments.append(new_shipment)
+        inbound_data["shipments"][shipment_id] = new_shipment
         payload = {"status": "success", "purchase_order_number": new_po_number}
         out = json.dumps(
             payload, indent=2

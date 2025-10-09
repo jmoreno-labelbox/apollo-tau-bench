@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ProcessEmergencyChange(Tool):
@@ -29,19 +29,19 @@ class ProcessEmergencyChange(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        emergency_logs = data.get("emergency_logs", [])
-        approval_workflows = data.get("approval_workflows", [])
-        stakeholders = data.get("stakeholders", [])
+        change_requests = data.get("change_requests", {}).values()
+        emergency_logs = data.get("emergency_logs", {}).values()
+        approval_workflows = data.get("approval_workflows", {}).values()
+        stakeholders = data.get("stakeholders", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
             return out
 
         authorizer = next(
-            (s for s in stakeholders if s.get("stakeholder_id") == authorized_by), None
+            (s for s in stakeholders.values() if s.get("stakeholder_id") == authorized_by), None
         )
         if not authorizer or "emergency" not in str(
             authorizer.get("approval_authority", [])
@@ -74,7 +74,7 @@ class ProcessEmergencyChange(Tool):
             "requires_automatic_rollback": True,
         }
 
-        emergency_logs.append(emergency_log)
+        data["emergency_logs"][emergency_log["emergency_log_id"]] = emergency_log
 
         cr["status"] = "approved"
         cr["approval_date"] = current_time.isoformat()
@@ -107,7 +107,7 @@ class ProcessEmergencyChange(Tool):
             "retroactive_deadline": retroactive_approval_deadline,
         }
 
-        approval_workflows.append(emergency_workflow)
+        data["approval_workflows"][emergency_workflow["approval_workflow_id"]] = emergency_workflow
         payload = {
             "success": True,
             "emergency_approval": {

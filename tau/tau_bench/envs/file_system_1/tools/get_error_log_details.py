@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetErrorLogDetails(Tool):
@@ -15,7 +15,7 @@ class GetErrorLogDetails(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str = None) -> str:
-        for log in data.get("error_logs", []):
+        for log in data.get("error_logs", {}).values():
             if log.get("task_id") == task_id:
                 payload = log
                 out = json.dumps(payload)

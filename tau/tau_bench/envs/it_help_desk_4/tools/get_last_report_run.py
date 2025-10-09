@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetLastReportRun(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        report_runs = data.get("report_runs", [])
+        report_runs = data.get("report_runs", {}).values()
         if not report_runs:
             payload = {"error": "No previous report runs found."}
             out = json.dumps(payload, indent=2)

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateBranch(Tool):
@@ -20,7 +20,7 @@ class CreateBranch(Tool):
         repository_id: str = None,
         source_branch_id: Any = None
     ) -> str:
-        branches = data.get("branches", [])
+        branches = data.get("branches", {}).values()
         new_id_num = max([int(b["id"].split("_")[1]) for b in branches]) + 1
         new_id = f"branch_{new_id_num:03d}"
 
@@ -30,7 +30,7 @@ class CreateBranch(Tool):
             "name": branch_name,
             "created_at": "2025-01-28T00:00:00Z",
         }
-        branches.append(new_branch)
+        data["branches"][new_branch["branche_id"]] = new_branch
         payload = new_branch
         out = json.dumps(payload)
         return out

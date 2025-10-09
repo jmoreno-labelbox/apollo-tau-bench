@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetRepoInfoForOwner(Tool):
@@ -26,13 +26,12 @@ class GetRepoInfoForOwner(Tool):
             return out
 
         # DB may be { "repositories": [...] } or a direct list
-        repos = data.get("repositories", [])
+        repos = data.get("repositories", {}).values()
 
         repo = next(
             (
                 r
-                for r in repos
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
+                for r in repos.values() if r.get("owner") == owner and r.get("repo_name") == repo_name
             ),
             None,
         )

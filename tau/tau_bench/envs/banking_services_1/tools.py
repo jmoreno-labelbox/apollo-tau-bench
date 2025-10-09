@@ -60,7 +60,7 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -101,7 +101,7 @@ class CreateCustomerAccountTool(Tool):
         if not all([customer_id, account_type, currency]):
             return json.dumps({"error": "Missing required fields"}, indent=2)
 
-        accounts = data.get("accounts", [])
+        accounts = data.get("accounts", {}).values()
         account_id = f"acc_{generate_unique_id()}"
         new_account = {
             "account_id": account_id,
@@ -112,7 +112,7 @@ class CreateCustomerAccountTool(Tool):
             "status": "Active",
             "created_at": get_current_timestamp(),
         }
-        accounts.append(new_account)
+        data["accounts"][account_id] = new_account
 
         return json.dumps(
             {"message": "Account created", "account_id": account_id}, indent=2
@@ -120,7 +120,7 @@ class CreateCustomerAccountTool(Tool):
         if not all([customer_id, account_type, currency]):
             return json.dumps({"error": "Missing required fields"}, indent=2)
 
-        accounts = data.get("accounts", [])
+        accounts = data.get("accounts", {}).values()
         account_id = f"acc_{generate_unique_id()}"
         new_account = {
             "account_id": account_id,
@@ -131,7 +131,7 @@ class CreateCustomerAccountTool(Tool):
             "status": "Active",
             "created_at": get_current_timestamp(),
         }
-        accounts.append(new_account)
+        data["accounts"][account_id] = new_account
 
         return json.dumps(
             {"message": "Account created", "account_id": account_id}, indent=2
@@ -255,8 +255,8 @@ class SchedulePaymentWithValidationTool(Tool):
         if not all([from_account, to_account, amount, currency, date]):
             return json.dumps({"error": "Missing required fields"}, indent=2)
 
-        accounts = data.get("accounts", [])
-        from_acc = next((a for a in accounts if a["account_id"] == from_account), None)
+        accounts = data.get("accounts", {}).values()
+        from_acc = next((a for a in accounts.values() if a["account_id"] == from_account), None)
         if not from_acc or from_acc["balance"] < amount:
             return json.dumps(
                 {"error": "Insufficient balance or account not found"}, indent=2
@@ -278,8 +278,8 @@ class SchedulePaymentWithValidationTool(Tool):
         if not all([from_account, to_account, amount, currency, date]):
             return json.dumps({"error": "Missing required fields"}, indent=2)
 
-        accounts = data.get("accounts", [])
-        from_acc = next((a for a in accounts if a["account_id"] == from_account), None)
+        accounts = data.get("accounts", {}).values()
+        from_acc = next((a for a in accounts.values() if a["account_id"] == from_account), None)
         if not from_acc or from_acc["balance"] < amount:
             return json.dumps(
                 {"error": "Insufficient balance or account not found"}, indent=2
@@ -351,8 +351,8 @@ class FreezeAccountOnFraudAlertTool(Tool):
                 {"error": "account_id and alert_reason are required"}, indent=2
             )
 
-        accounts = data.get("accounts", [])
-        account = next((a for a in accounts if a["account_id"] == account_id), None)
+        accounts = data.get("accounts", {}).values()
+        account = next((a for a in accounts.values() if a["account_id"] == account_id), None)
         if not account:
             return json.dumps({"error": "Account not found"}, indent=2)
 
@@ -582,7 +582,7 @@ class UpdateAccountPreferencesTool(Tool):
         updated = False
         updated_prefs = {}
 
-        for acc in accounts:
+        for acc in accounts.values():
             if acc["customer_id"] == customer_id:
                 acc["preferences"] = preferences
                 updated_prefs = acc["preferences"]
@@ -639,7 +639,7 @@ class GetAccountBalanceTool(Tool):
             return json.dumps({"error": "account_id is required"}, indent=2)
 
         accounts = load_json("accounts.json")
-        for acc in accounts:
+        for acc in accounts.values():
             if acc["account_id"] == account_id:
                 return json.dumps(
                     {
@@ -747,9 +747,9 @@ class UpdateCustomerEmailTool(Tool):
 
         accounts = load_json("accounts.json")
         updated = False
-        for acc in accounts:
+        for acc in accounts.values():
             if acc["customer_id"] == customer_id:
-                acc.setdefault("contact_info", {})["email_address"] = new_email
+                acc.setdefault("contact_info", {}).values()["email_address"] = new_email
                 acc["contact_info"]["phone_numbers"] = [
                     {"number": new_phone, "is_primary": True}
                 ]
@@ -826,7 +826,7 @@ class CloseAccountRequestTool(Tool):
             return json.dumps({"error": "account_id is required"})
 
         accounts = load_json("accounts.json")
-        for acc in accounts:
+        for acc in accounts.values():
             if acc["account_id"] == account_id:
                 if acc.get("status") == "Closed":
                     return json.dumps(
@@ -910,7 +910,7 @@ class SubmitSupportTicketTool(Tool):
             "status": "Open",
             "created_at": get_current_timestamp(),
         }
-        tickets.append(new_ticket)
+        data["tickets"][ticket_id] = new_ticket
 
         return json.dumps({"ticket_id": ticket_id, "status": "Open"}, indent=2)
         if ticket_id is None:
@@ -936,7 +936,7 @@ class SubmitSupportTicketTool(Tool):
             "status": "Open",
             "created_at": get_current_timestamp(),
         }
-        tickets.append(new_ticket)
+        data["tickets"][ticket_id] = new_ticket
 
         return json.dumps({"ticket_id": ticket_id, "status": "Open"}, indent=2)
     @staticmethod
@@ -1024,7 +1024,7 @@ class ReviewTicketHistoryTool(Tool):
             return json.dumps({"error": "customer_id is required"})
 
         tickets = load_json("support_tickets.json")
-        customer_tickets = [t for t in tickets if t["customer_id"] == customer_id]
+        customer_tickets = [t for t in tickets.values() if t["customer_id"] == customer_id]
         open_tickets = sum(1 for t in customer_tickets if t["status"] != "Resolved")
         summary = (
             f"Total tickets: {len(customer_tickets)}. Open tickets: {open_tickets}."
@@ -1070,7 +1070,7 @@ class UnlockAccountBySecurityCheckTool(Tool):
             return json.dumps({"error": "customer_id and security_code are required"})
 
         accounts = load_json("accounts.json")
-        for acc in accounts:
+        for acc in accounts.values():
             if acc["customer_id"] == customer_id:
                 acc["status"] = "Active"
                 acc["unlocked_at"] = get_current_timestamp()
@@ -1121,7 +1121,7 @@ class AddJointAccountHolderTool(Tool):
             return json.dumps({"error": "account_id and holder_id are required"})
 
         accounts = load_json("accounts_joint_holders.json")
-        for acc in accounts:
+        for acc in accounts.values():
             if acc["account_id"] == account_id:
                 acc.setdefault("joint_holders", []).append(holder_id)
                 return json.dumps(
@@ -1173,7 +1173,7 @@ class RemoveJointAccountHolderTool(Tool):
             return json.dumps({"error": "Missing required parameters"}, indent=2)
         accounts = load_json("accounts_joint_holders.json")
         updated = False
-        for acc in accounts:
+        for acc in accounts.values():
             if acc["account_id"] == account_id and "joint_holders" in acc:
                 if holder_id in acc["joint_holders"]:
                     acc["joint_holders"].remove(holder_id)
@@ -1237,7 +1237,7 @@ class VerifyCustomerIdentityTool(Tool):
             )
 
         customers = load_json("customers_documents.json")
-        customer = next((c for c in customers if c["customer_id"] == customer_id), None)
+        customer = next((c for c in customers.values() if c["customer_id"] == customer_id), None)
 
         if not customer:
             return json.dumps(
@@ -1340,7 +1340,7 @@ class ListLinkedBeneficiariesTool(Tool):
         if not customer_id:
             return json.dumps({"error": "customer_id is required"}, indent=2)
         beneficiaries = load_json("beneficiaries.json")
-        linked = [b for b in beneficiaries if b["customer_id"] == customer_id]
+        linked = [b for b in beneficiaries.values() if b["customer_id"] == customer_id]
         return json.dumps({"beneficiaries": linked}, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1509,8 +1509,8 @@ class AutoClassifySupportTicketPriorityTool(Tool):
                 indent=2
             )
 
-        tickets = data.get("support_tickets", [])
-        for t in tickets:
+        tickets = data.get("support_tickets", {}).values()
+        for t in tickets.values():
             if t["ticket_id"] == ticket_id:
                 priority = (
                     "High"
@@ -1703,7 +1703,7 @@ class SummarizeLoanApplicationsByStatusTool(Tool):
             return json.dumps({"error": "customer_id is required"}, indent=2)
 
         applications = load_json("loan_applications.json")
-        filtered = [a for a in applications if a["customer_id"] == customer_id]
+        filtered = [a for a in applications.values() if a["customer_id"] == customer_id]
         summary = {"approved": 0, "pending": 0, "rejected": 0}
         for a in filtered:
             status = a.get("status", "pending").lower()

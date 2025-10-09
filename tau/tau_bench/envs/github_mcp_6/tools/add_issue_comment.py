@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddIssueComment(Tool):
@@ -17,9 +17,9 @@ class AddIssueComment(Tool):
     ) -> str:
         """Add a comment to an issue."""
         pass
-        issues_data = data.get("issues", [])
+        issues_data = data.get("issues", {}).values()
 
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values():
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 try:
                     issue_idx = issue_entry["issue_numbers"].index(issue_number)

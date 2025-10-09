@@ -6,7 +6,7 @@ class FindSimilarIncidents(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], signature: str, top_k: int = 5) -> str:
         crashes = _get_table(data, "crash_events")
-        neighbors = [c for c in crashes if c.get("fingerprint") == signature][:top_k]
+        neighbors = [c for c in crashes.values() if c.get("fingerprint") == signature][:top_k]
         payload = {"neighbors": neighbors}
         out = json.dumps(payload, indent=2)
         return out

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateReservationFlights(Tool):
@@ -22,11 +22,11 @@ class UpdateReservationFlights(Tool):
         flights: list[dict[str, Any]],
         payment_id: str,
     ) -> str:
-        reservations = data.get("reservations", [])
-        flights_data = data.get("flights", [])
+        reservations = data.get("reservations", {}).values()
+        flights_data = data.get("flights", {}).values()
 
         reservation = next(
-            (r for r in reservations if r.get("reservation_id") == reservation_id), None
+            (r for r in reservations.values() if r.get("reservation_id") == reservation_id), None
         )
         if not reservation:
             payload = {"error": "Reservation not found", "reservation_id": reservation_id}
@@ -43,7 +43,7 @@ class UpdateReservationFlights(Tool):
             date = flight_info.get("date")
 
             flight_route = next(
-                (f for f in flights_data if f.get("flight_number") == flight_number),
+                (f for f in flights_data.values() if f.get("flight_number") == flight_number),
                 None,
             )
             if not flight_route:
@@ -51,14 +51,14 @@ class UpdateReservationFlights(Tool):
                 out = json.dumps(payload)
                 return out
 
-            date_details = flight_route.get("dates", {}).get(date)
+            date_details = flight_route.get("dates", {}).values().get(date)
             if not date_details:
                 payload = {"error": f"Flight {flight_number} on date {date} not found"}
                 out = json.dumps(payload)
                 return out
 
             new_total_cost += (
-                date_details.get("prices", {}).get(cabin, 0) * num_passengers
+                date_details.get("prices", {}).values().get(cabin, 0) * num_passengers
             )
 
         price_difference = original_total_cost - new_total_cost

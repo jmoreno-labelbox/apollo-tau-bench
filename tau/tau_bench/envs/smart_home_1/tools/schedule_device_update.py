@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ScheduleDeviceUpdate(Tool):
@@ -22,12 +22,12 @@ class ScheduleDeviceUpdate(Tool):
         replace: bool = False,
         rrule: str | None = None
     ) -> str:
-        devices: list[dict[str, Any]] = data.get("devices", [])
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
         for dev in devices:
             if dev.get("id") == device_id:
                 sched: list[dict[str, Any]] = dev.setdefault("scheduled_updates", [])
                 if replace:
-                    sched[:] = [s for s in sched if s.get("timestamp") != timestamp]
+                    sched[:] = [s for s in sched.values() if s.get("timestamp") != timestamp]
                 if rrule:
                     sched.append(
                         {"timestamp": timestamp, "update": update, "rrule": rrule}
@@ -44,12 +44,12 @@ class ScheduleDeviceUpdate(Tool):
         out = json.dumps(payload, indent=2)
         return out
         pass
-        devices: list[dict[str, Any]] = data.get("devices", [])
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
         for dev in devices:
             if dev.get("id") == device_id:
                 sched: list[dict[str, Any]] = dev.setdefault("scheduled_updates", [])
                 if replace:
-                    sched[:] = [s for s in sched if s.get("timestamp") != timestamp]
+                    sched[:] = [s for s in sched.values() if s.get("timestamp") != timestamp]
                 if rrule:
                     sched.append(
                         {"timestamp": timestamp, "update": update, "rrule": rrule}

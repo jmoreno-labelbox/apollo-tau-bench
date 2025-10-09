@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class BulkUpdateTeamGoals(Tool):
@@ -19,20 +19,20 @@ class BulkUpdateTeamGoals(Tool):
     ) -> str:
         _goal_typeL = goal_type or ''.lower()
         pass
-        teams = data.get("teams", [])
-        team = next((t for t in teams if t.get("team_id") == team_id), None)
+        teams = data.get("teams", {}).values()
+        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
         if not team:
             payload = {"error": "Team not found"}
             out = json.dumps(payload, indent=2)
             return out
 
         members = team.get("team_members", [])
-        goals_data = data.get("goals", [])
+        goals_data = data.get("goals", {}).values()
         updated_goals = []
 
         for member_id in members:
             user_goals = next(
-                (g for g in goals_data if g.get("user_id") == member_id), None
+                (g for g in goals_data.values() if g.get("user_id") == member_id), None
             )
             if user_goals:
                 goals = user_goals.get("goals", [])

@@ -13,7 +13,7 @@ random.seed(42)
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -78,7 +78,7 @@ class AddNewCustomer(Tool):
         ]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
@@ -297,8 +297,8 @@ class CreateNewAccountForCustomer(Tool):
         data.setdefault("accounts", []).append(new_account)
 
         # add to customer's account_ids
-        customers = data.get("customers", [])
-        for customer in customers:
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
                 ids = customer.setdefault("account_ids", [])
                 if account_id not in ids:
@@ -353,16 +353,16 @@ class CreateNewLoanApplication(Tool):
             return json.dumps({"error": "All loan-related fields and customer_id are required."}, indent=2)
 
         # Look up customer in the database
-        customers = data.get("customers", [])
-        customer = next((c for c in customers if c.get("customer_id") == customer_id), None)
+        customers = data.get("customers", {}).values()
+        customer = next((c for c in customers.values() if c.get("customer_id") == customer_id), None)
 
         if not customer:
             return json.dumps({"error": f"Customer with ID '{customer_id}' not found."}, indent=2)
 
         # Extract data from customer profile
-        personal_info = customer.get("personal_info", {})
-        contact_info = customer.get("contact_info", {})
-        financial_profile = customer.get("financial_profile", {})
+        personal_info = customer.get("personal_info", {}).values()
+        contact_info = customer.get("contact_info", {}).values()
+        financial_profile = customer.get("financial_profile", {}).values()
 
         first_name = personal_info.get("first_name")
         last_name = personal_info.get("last_name")
@@ -478,7 +478,7 @@ class CreateNewSchedulePayment(Tool):
                 return json.dumps({"error": "end_date must be YYYY-MM-DD."}, indent=2)
 
         # validate source account and balance
-        account = next((a for a in data.get("accounts", []) if a["account_id"] == source_account_id), None)
+        account = next((a for a in data.get("accounts", {}).values() if a["account_id"] == source_account_id), None)
         if not account:
             return json.dumps({"error": "Source account not found."}, indent=2)
         if account.get("currency") != currency:
@@ -580,21 +580,21 @@ class AddNewLoanForCustomer(Tool):
                 "error": "customer_id, application_id, collateral_type, and collateral_info are required."
             }, indent=2)
 
-        customers = data.get("customers", [])
-        loan_applications = data.get("loan_applications", [])
+        customers = data.get("customers", {}).values()
+        loan_applications = data.get("loan_applications", {}).values()
 
         # Get customer object
-        customer = next((c for c in customers if c["customer_id"] == customer_id), None)
+        customer = next((c for c in customers.values() if c["customer_id"] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found."}, indent=2)
 
         # Get loan application
-        application = next((a for a in loan_applications if a["application_id"] == loan_application_id), None)
+        application = next((a for a in loan_applications.values() if a["application_id"] == loan_application_id), None)
         if not application:
             return json.dumps({"error": "Loan application not found."}, indent=2)
 
-        loan_details = application.get("loan_details", {})
-        decision = application.get("decision", {})
+        loan_details = application.get("loan_details", {}).values()
+        decision = application.get("decision", {}).values()
         loan_type = loan_details.get("loan_type")
 
         # Generate IDs
@@ -707,7 +707,7 @@ class AddSupportTicketForCustomerId(Tool):
             "category", "target_id", "target_entity",
             "operation"
         ]
-        missing = [f for f in required_fields if not locals().get(f)]
+        missing = [f for f in required_fields.values() if not locals().get(f)]
         if missing:
             return json.dumps(
                 {"error": f"Missing required fields: {', '.join(missing)}"},
@@ -811,8 +811,8 @@ class CreateNewTransaction(Tool):
         if not all([account_id, transaction_date, amount, currency, purchase_type, description, merchant_name, channel]):
             return json.dumps({"error": "All fields are required."}, indent=2)
 
-        accounts = data.get("accounts", [])
-        account = next((acc for acc in accounts if acc.get("account_id") == account_id), None)
+        accounts = data.get("accounts", {}).values()
+        account = next((acc for acc in accounts.values() if acc.get("account_id") == account_id), None)
 
         if not account:
             return json.dumps({"error": "Account not found."}, indent=2)
@@ -907,9 +907,8 @@ class BlockAccountForCustomerId(Tool):
             )
 
         # Find the account and verify ownership
-        accounts = data.get("accounts", [])
-        account = next((a for a in accounts
-                        if a["account_id"] == account_id
+        accounts = data.get("accounts", {}).values()
+        account = next((a for a in accounts.values() if a["account_id"] == account_id
                         and a["customer_id"] == customer_id), None)
         if not account:
             return json.dumps(
@@ -958,9 +957,9 @@ class GetCustomerDetailsByName(Tool):
                 "error": "first_name and last_name are required."
             }, indent=2)
 
-        customers = data.get("customers", [])
-        for customer in customers:
-            pi = customer.get("personal_info", {})
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
+            pi = customer.get("personal_info", {}).values()
             if (
                 pi.get("first_name", "").strip().lower() == first_name and
                 pi.get("last_name", "").strip().lower() == last_name
@@ -1000,8 +999,8 @@ class GetAllAccountsOfCustomerByCustomerId(Tool):
         if not customer_id:
             return json.dumps({"error": "customer_id is required."}, indent=2)
 
-        customers = data.get("customers", [])
-        for customer in customers:
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
                 return json.dumps({
                     "account_ids": customer.get("account_ids", [])
@@ -1041,10 +1040,10 @@ class UpdateAddressForCustomerId(Tool):
                 "error": "At least one of mailing_address or residential_address must be provided."
             }, indent=2)
 
-        customers = data.get("customers", [])
-        for customer in customers:
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
-                contact_info = customer.setdefault("contact_info", {})
+                contact_info = customer.setdefault("contact_info", {}).values()
                 if mailing_address:
                     contact_info["mailing_address"] = mailing_address
                 if residential_address:
@@ -1092,8 +1091,8 @@ class GetCustomerAccountDetailsByCustomerIdAndAccountType(Tool):
                 "error": "customer_id and account_type are required."
             }, indent=2)
 
-        accounts = data.get("accounts", [])
-        for account in accounts:
+        accounts = data.get("accounts", {}).values()
+        for account in accounts.values():
             if (account.get("customer_id") == customer_id and
                 account.get("account_type", "").strip().lower() == account_type):
                 return json.dumps(account, indent=2)
@@ -1139,10 +1138,10 @@ class UpdateEmailForOfCustomerId(Tool):
                 "error": "Both customer_id and new_email are required."
             }, indent=2)
 
-        customers = data.get("customers", [])
-        for customer in customers:
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
-                contact_info = customer.setdefault("contact_info", {})
+                contact_info = customer.setdefault("contact_info", {}).values()
                 contact_info["email_address"] = new_email
                 return json.dumps({"status": "Email updated successfully."}, indent=2)
 
@@ -1181,10 +1180,10 @@ class UpdateContactNumberOfCustomerId(Tool):
                 "error": "Both customer_id and new_phone_number are required."
             }, indent=2)
 
-        customers = data.get("customers", [])
-        for customer in customers:
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
-                contact_info = customer.setdefault("contact_info", {})
+                contact_info = customer.setdefault("contact_info", {}).values()
                 phone_numbers = contact_info.setdefault("phone_numbers", [])
 
                 if set_as_primary:
@@ -1300,7 +1299,7 @@ class PayToBeneficiary(Tool):
             )
 
         # find beneficiary
-        bene = next((b for b in data.get("beneficiaries", [])
+        bene = next((b for b in data.get("beneficiaries", {}).values()
                      if b["beneficiary_id"] == beneficiary_id), None)
         if not bene:
             return json.dumps(
@@ -1309,7 +1308,7 @@ class PayToBeneficiary(Tool):
             )
 
         # find source account
-        acct = next((a for a in data.get("accounts", [])
+        acct = next((a for a in data.get("accounts", {}).values()
                      if a["account_id"] == source_account_id), None)
         if not acct:
             return json.dumps(
@@ -1388,13 +1387,13 @@ class CalculateTotalBalance(Tool):
                 indent=2
             )
 
-        customers = data.get("customers", [])
-        if not any(c.get("customer_id") == customer_id for c in customers):
+        customers = data.get("customers", {}).values()
+        if not any(c.get("customer_id") == customer_id for c in customers.values()):
             return json.dumps({"error": "Customer not found."}, indent=2)
 
-        accounts = data.get("accounts", [])
+        accounts = data.get("accounts", {}).values()
         total = 0.0
-        for acc in accounts:
+        for acc in accounts.values():
             if acc.get("account_id") in account_ids and acc.get("customer_id") == customer_id:
                 total += acc.get("balance", 0.0)
 
@@ -1434,8 +1433,8 @@ class GetCustomerAccountDetailsByCustomerId(Tool):
                 "error": "customer_id is required."
             }, indent=2)
 
-        accounts = data.get("accounts", [])
-        for account in accounts:
+        accounts = data.get("accounts", {}).values()
+        for account in accounts.values():
             if account.get("customer_id") == customer_id:
                 return json.dumps(account, indent=2)
 
@@ -1473,10 +1472,10 @@ class GetContactDetailsOfCustomer(Tool):
         if not customer_id:
             return json.dumps({"error": "customer_id is required."}, indent=2)
 
-        customers = data.get("customers", [])
-        for customer in customers:
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
-                contact_info = customer.get("contact_info", {})
+                contact_info = customer.get("contact_info", {}).values()
                 email = contact_info.get("email_address")
                 phone_list = contact_info.get("phone_numbers", [])
                 primary_phone = next((p["number"] for p in phone_list if p.get("is_primary")), None)
@@ -1517,7 +1516,7 @@ class GetAllBeneficiariesForCustomerId(Tool):
             return json.dumps({"error": "customer_id is required."}, indent=2)
 
         all_benes = [
-            bene for bene in data.get("beneficiaries", [])
+            bene for bene in data.get("beneficiaries", {}).values()
             if bene.get("customer_id") == customer_id
         ]
 
@@ -1554,8 +1553,8 @@ class GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName(Tool):
                 "error": "Both customer_id and beneficiary_name are required."
             }, indent=2)
 
-        beneficiaries = data.get("beneficiaries", [])
-        for beneficiary in beneficiaries:
+        beneficiaries = data.get("beneficiaries", {}).values()
+        for beneficiary in beneficiaries.values():
             if (beneficiary.get("customer_id") == customer_id and
                 beneficiary.get("beneficiary_name", "").strip().lower() == beneficiary_name):
                 return json.dumps(beneficiary, indent=2)
@@ -1593,8 +1592,8 @@ class RemoveBeneficiaryByBeneficiaryId(Tool):
         if not customer_id or not beneficiary_id:
             return json.dumps({"error": "customer_id and beneficiary_id are required."}, indent=2)
 
-        beneficiaries = data.get("beneficiaries", [])
-        for i, beneficiary in enumerate(beneficiaries):
+        beneficiaries = data.get("beneficiaries", {}).values()
+        for i, beneficiary in enumerate(beneficiaries.values():
             if (beneficiary.get("beneficiary_id") == beneficiary_id
                     and beneficiary.get("customer_id") == customer_id):
                 del beneficiaries[i]
@@ -1641,9 +1640,9 @@ class GetLoanApplicationStatusByCustomerIdAndType(Tool):
         if not customer_id or not loan_type:
             return json.dumps({"error": "customer_id and loan_type are required."}, indent=2)
 
-        for app in data.get("loan_applications", []):
+        for app in data.get("loan_applications", {}).values():
             if (app.get("customer_id") == customer_id and
-                app.get("loan_details", {}).get("loan_type", "").strip().lower() == loan_type):
+                app.get("loan_details", {}).values().get("loan_type", "").strip().lower() == loan_type):
 
                 status = app.get("application_status", "")
                 # return json.dumps(status, indent=2)
@@ -1712,17 +1711,16 @@ class ProcessLoanApplicationId(Tool):
         if not customer_id or not application_id:
             return json.dumps({"error": "customer_id and application_id are required."}, indent=2)
 
-        loan_applications = data.get("loan_applications", [])
-        customers = data.get("customers", [])
+        loan_applications = data.get("loan_applications", {}).values()
+        customers = data.get("customers", {}).values()
 
         # verify customer exists
-        if not any(c.get("customer_id") == customer_id for c in customers):
+        if not any(c.get("customer_id") == customer_id for c in customers.values()):
             return json.dumps({"error": "Customer not found."}, indent=2)
 
         # Find loan application
         loan_application = next(
-            (l for l in loan_applications
-             if l.get("application_id") == application_id
+            (l for l in loan_applications.values() if l.get("application_id") == application_id
              and l.get("customer_id") == customer_id),
             None
         )
@@ -1730,8 +1728,8 @@ class ProcessLoanApplicationId(Tool):
             return json.dumps({"error": "Loan application not found for this customer."}, indent=2)
 
         # Extract loan and customer financial info
-        loan_details = loan_application.get("loan_details", {})
-        financials = loan_application.get("financial_snapshot", {})
+        loan_details = loan_application.get("loan_details", {}).values()
+        financials = loan_application.get("financial_snapshot", {}).values()
         annual_income = financials.get("annual_income", 0)
         monthly_debt = financials.get("monthly_debt_payments", 0)
         employment_status = financials.get("employment_status", "").strip().lower()
@@ -1834,10 +1832,9 @@ class GetLoanInformationByLoanId(Tool):
             return json.dumps({"error": "customer_id and loan_id are required."}, indent=2)
 
         # Verify and fetch the loan
-        loans = data.get("loans", [])
+        loans = data.get("loans", {}).values()
         loan = next(
-            (ln for ln in loans
-             if ln.get("loan_id") == loan_id and ln.get("customer_id") == customer_id),
+            (ln for ln in loans.values() if ln.get("loan_id") == loan_id and ln.get("customer_id") == customer_id),
             None
         )
         if not loan:
@@ -1880,10 +1877,9 @@ class GetLoanDetailsByCustomerIdAndType(Tool):
                 "error": "Both customer_id and loan_type are required."
             }, indent=2)
 
-        loans = data.get("loans", [])
+        loans = data.get("loans", {}).values()
         matched_loan = next(
-            (loan for loan in loans
-             if loan.get("customer_id") == customer_id and
+            (loan for loan in loans.values() if loan.get("customer_id") == customer_id and
                 loan.get("loan_type", "").strip().lower() == loan_type),
             None
         )
@@ -1940,8 +1936,8 @@ class GetScheduledPaymentDetailsByCustomerIdAndBeneficiaryId(Tool):
                 "error": "customer_id and beneficiary_id are required."
             }, indent=2)
 
-        scheduled_payments = data.get("scheduled_payments", [])
-        for payment in scheduled_payments:
+        scheduled_payments = data.get("scheduled_payments", {}).values()
+        for payment in scheduled_payments.values():
             if payment.get("customer_id") == customer_id and payment.get("beneficiary_id") == beneficiary_id:
                 return json.dumps(payment, indent=2)
 
@@ -1993,8 +1989,8 @@ class CancelPaymentByScheduledPaymentId(Tool):
             )
 
         # Find and cancel the payment
-        scheduled_payments = data.get("scheduled_payments", [])
-        for payment in scheduled_payments:
+        scheduled_payments = data.get("scheduled_payments", {}).values()
+        for payment in scheduled_payments.values():
             if (payment.get("payment_id") == scheduled_payment_id and
                     payment.get("customer_id") == customer_id):
                 payment["status"] = "Cancelled"
@@ -2054,10 +2050,9 @@ class GetTransactionDetailsByAccountIdForTimeDuration(Tool):
                 "error": "Invalid date format. Use ISO format (YYYY-MM-DD)."
             }, indent=2)
 
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
         filtered_transactions = [
-            txn for txn in transactions
-            if txn.get("account_id") == account_id and
+            txn for txn in transactions.values() if txn.get("account_id") == account_id and
                start_date <= datetime.fromisoformat(txn.get("transaction_date", "")) <= end_date
         ]
 
@@ -2109,10 +2104,9 @@ class GetTransactionDetailsByAccountIdAndMerchantName(Tool):
                 indent=2
             )
 
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
         matched = [
-            txn for txn in transactions
-            if txn.get("account_id") == account_id
+            txn for txn in transactions.values() if txn.get("account_id") == account_id
             and (txn.get("merchant_name") or "").strip().lower() == merchant_name
         ]
 
@@ -2156,10 +2150,9 @@ class GetSupportTicketInformationByCustomerId(Tool):
         if not customer_id:
             return json.dumps({"error": "customer_id is required."}, indent=2)
 
-        support_tickets = data.get("support_tickets", [])
+        support_tickets = data.get("support_tickets", {}).values()
         matched_tickets = [
-            ticket for ticket in support_tickets
-            if ticket.get("customer_id") == customer_id
+            ticket for ticket in support_tickets.values() if ticket.get("customer_id") == customer_id
         ]
 
         if not matched_tickets:
@@ -2200,9 +2193,9 @@ class TransferMoneySameCurrency(Tool):
                 indent=2
             )
 
-        accounts = data.get("accounts", [])
-        src = next((a for a in accounts if a["account_id"] == source_account_id and a.get("customer_id") == customer_id), None)
-        tgt = next((a for a in accounts if a["account_id"] == target_account_id), None)
+        accounts = data.get("accounts", {}).values()
+        src = next((a for a in accounts.values() if a["account_id"] == source_account_id and a.get("customer_id") == customer_id), None)
+        tgt = next((a for a in accounts.values() if a["account_id"] == target_account_id), None)
 
         if not src:
             return json.dumps({"error": f"Source account '{source_account_id}' not found for customer '{customer_id}'."}, indent=2)
@@ -2269,13 +2262,13 @@ class TransferMoneyWithConversion(Tool):
                 indent=2
             )
 
-        accounts = data.get("accounts", [])
+        accounts = data.get("accounts", {}).values()
         src = next(
-            (a for a in accounts if a.get("account_id") == source_account_id and a.get("customer_id") == customer_id),
+            (a for a in accounts.values() if a.get("account_id") == source_account_id and a.get("customer_id") == customer_id),
             None
         )
         tgt = next(
-            (a for a in accounts if a.get("account_id") == target_account_id),
+            (a for a in accounts.values() if a.get("account_id") == target_account_id),
             None
         )
 
@@ -2418,8 +2411,8 @@ class ChangeSupportTicketStatus(Tool):
         if not all([customer_id, ticket_id, new_status]):
             return json.dumps({"error": "customer_id, ticket_id and new_status are required."}, indent=2)
 
-        tickets = data.get("support_tickets", [])
-        for ticket in tickets:
+        tickets = data.get("support_tickets", {}).values()
+        for ticket in tickets.values():
             if (ticket.get("ticket_id") == ticket_id and
                 ticket.get("customer_id") == customer_id):
                 ticket["status"] = new_status
@@ -2467,7 +2460,7 @@ class PayToBeneficiarySameCurrency(Tool):
 
         # Lookup beneficiary and verify ownership
         ben = next(
-            (b for b in data.get("beneficiaries", [])
+            (b for b in data.get("beneficiaries", {}).values()
              if b.get("beneficiary_id") == beneficiary_id and b.get("customer_id") == customer_id),
             None
         )
@@ -2476,7 +2469,7 @@ class PayToBeneficiarySameCurrency(Tool):
 
         # Lookup source account and verify ownership
         acct = next(
-            (a for a in data.get("accounts", [])
+            (a for a in data.get("accounts", {}).values()
              if a.get("account_id") == source_account_id and a.get("customer_id") == customer_id),
             None
         )
@@ -2564,7 +2557,7 @@ class PayToBeneficiaryWithConversion(Tool):
 
         # lookup beneficiary and verify ownership
         ben = next(
-            (b for b in data.get("beneficiaries", [])
+            (b for b in data.get("beneficiaries", {}).values()
              if b.get("beneficiary_id") == beneficiary_id and b.get("customer_id") == customer_id),
             None
         )
@@ -2576,7 +2569,7 @@ class PayToBeneficiaryWithConversion(Tool):
 
         # lookup source account and verify ownership
         acct = next(
-            (a for a in data.get("accounts", [])
+            (a for a in data.get("accounts", {}).values()
              if a.get("account_id") == source_account_id and a.get("customer_id") == customer_id),
             None
         )
@@ -2667,7 +2660,7 @@ class CheckAccountBalance(Tool):
 
         # find the account and verify ownership
         acct = next(
-            (a for a in data.get("accounts", [])
+            (a for a in data.get("accounts", {}).values()
              if a.get("account_id") == account_id
              and a.get("customer_id") == customer_id),
             None
@@ -2734,7 +2727,7 @@ class ReceivePayment(Tool):
 
         # Find account and verify ownership
         account = next(
-            (a for a in data.get("accounts", [])
+            (a for a in data.get("accounts", {}).values()
              if a.get("account_id") == account_id and a.get("customer_id") == customer_id),
             None
         )
@@ -2793,7 +2786,7 @@ class GetCustomerDetailsByCustomerId(Tool):
             )
 
         customer = next(
-            (c for c in data.get("customers", [])
+            (c for c in data.get("customers", {}).values()
              if c.get("customer_id") == customer_id),
             None
         )
@@ -2838,7 +2831,7 @@ class GetAccountDetailsByCustomerIdAndAccountId(Tool):
 
         # Look up the account
         acct = next(
-            (a for a in data.get("accounts", [])
+            (a for a in data.get("accounts", {}).values()
              if a.get("customer_id") == customer_id and a.get("account_id") == account_id),
             None
         )

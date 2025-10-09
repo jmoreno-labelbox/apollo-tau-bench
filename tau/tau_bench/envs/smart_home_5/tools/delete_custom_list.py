@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DeleteCustomList(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], list_id: str) -> str:
-        custom_lists = data.get("custom_lists", [])
+        custom_lists = data.get("custom_lists", {}).values()
         initial_len = len(custom_lists)
-        custom_lists[:] = [l for l in custom_lists if l.get("list_id") != list_id]
+        custom_lists[:] = [l for l in custom_lists.values() if l.get("list_id") != list_id]
 
         if len(custom_lists) == initial_len:
             payload = {"error": f"Custom list with ID '{list_id}' not found."}

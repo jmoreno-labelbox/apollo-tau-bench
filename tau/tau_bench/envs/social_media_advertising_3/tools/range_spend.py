@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RangeSpend(Tool):
@@ -27,7 +27,7 @@ class RangeSpend(Tool):
         )
         total = sum(
             i.get("spend", 0)
-            for i in data.get("insights", [])
+            for i in data.get("insights", {}).values()
             if i.get("adset_id") == aid
             and s <= datetime.strptime(i["date"], "%Y-%m-%d").date() <= e
         )

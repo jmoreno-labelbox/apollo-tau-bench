@@ -13,17 +13,17 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
 class FetchArticles(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], *, article_id: Any = None, topic: Any = None, title: Any = None, year: Any = None, author_name: Any = None) -> str:
-        articles: list = data.get("articles", [])
+        articles: list = data.get("articles", {}).values()
 
         if article_id:
-            for article in articles:
+            for article in articles.values():
                 if article.get("article_id") == article_id:
                     payload = [article]
                     out = json.dumps(
@@ -35,7 +35,7 @@ class FetchArticles(Tool):
             return out
 
         results = []
-        for article in articles:
+        for article in articles.values():
             match = True
             if topic and topic.lower() not in article.get("topic", "").lower():
                 match = False
@@ -95,10 +95,10 @@ class FetchUsers(Tool):
         name = name
         research_field = research_field
 
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
 
         if user_id:
-            for user in users:
+            for user in users.values():
                 if user.get("person_id") == user_id:
                     payload = [user]
                     out = json.dumps(payload, indent=2)
@@ -114,7 +114,7 @@ class FetchUsers(Tool):
             return out
 
         results = []
-        for user in users:
+        for user in users.values():
             match = True
             if name and name.lower() not in user.get("name", "").lower():
                 match = False
@@ -162,11 +162,11 @@ class CreateReviewSubmission(Tool):
             payload = {"error": "author_user_id and article_id are required."}
             out = json.dumps(payload)
             return out
-        if not any(u["person_id"] == author_user_id for u in data.get("users", [])):
+        if not any(u["person_id"] == author_user_id for u in data.get("users", {}).values():
             payload = {"error": f"Author with ID '{author_user_id}' not found."}
             out = json.dumps(payload)
             return out
-        if not any(a.get("article_id") == article_id or a.get("paper_id") == article_id for a in data.get("articles", [])):
+        if not any(a.get("article_id") == article_id or a.get("paper_id") == article_id for a in data.get("articles", {}).values():
             payload = {"error": f"Article with ID '{article_id}' not found."}
             out = json.dumps(payload)
             return out
@@ -187,7 +187,7 @@ class CreateReviewSubmission(Tool):
         }
         if "submissions" not in data:
             data["submissions"] = []
-        data["submissions"].append(new_submission)
+        data["submissions"][submission_id] = new_submission
         payload = {"success": True, "submission": new_submission}
         out = json.dumps(payload)
         return out
@@ -223,8 +223,8 @@ class CreateReviewSubmission(Tool):
 class AssignReviewer(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], submission_id: Any = None, reviewer_user_id: Any = None, overwrite: Any = None) -> str:
-        submissions = data.get("submissions", [])
-        for sub in submissions:
+        submissions = data.get("submissions", {}).values()
+        for sub in submissions.values():
             if sub.get("submission_id") == submission_id or sub.get("proposal_id") == submission_id:
                 if overwrite:
                     sub["allocated_evaluators"] = [reviewer_user_id]
@@ -280,8 +280,8 @@ class FetchSubmissionInfo(Tool):
             out = json.dumps(payload)
             return out
 
-        submissions = data.get("submissions", [])
-        for sub in submissions:
+        submissions = data.get("submissions", {}).values()
+        for sub in submissions.values():
             if (article_id and sub.get("article_id") == article_id) or (
                 submission_id and sub.get("submission_id") == submission_id
             ):
@@ -329,9 +329,9 @@ class IdentifyPotentialReviewers(Tool):
             out = json.dumps(payload)
             return out
 
-        articles = data.get("articles", [])
+        articles = data.get("articles", {}).values()
         target_article = next(
-            (a for a in articles if a.get("article_id") == article_id), None
+            (a for a in articles.values() if a.get("article_id") == article_id), None
         )
         if not target_article:
             payload = {"error": f"Article with ID '{article_id}' not found."}
@@ -344,11 +344,10 @@ class IdentifyPotentialReviewers(Tool):
             out = json.dumps(payload)
             return out
 
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         potential_reviewers = [
             user
-            for user in users
-            if user.get("research_field") == article_topic
+            for user in users.values() if user.get("research_field") == article_topic
             and user.get("person_id") not in exclude_user_ids
         ]
         payload = potential_reviewers
@@ -400,7 +399,7 @@ class PostNewReview(Tool):
         }
         if "reviews" not in data:
             data["reviews"] = []
-        data["reviews"].append(new_review)
+        data["reviews"][review_id] = new_review
         payload = {"success": True, "review": new_review}
         out = json.dumps(payload)
         return out
@@ -450,8 +449,8 @@ class SetSubmissionOutcome(Tool):
             out = json.dumps(payload)
             return out
 
-        submissions = data.get("submissions", [])
-        for sub in submissions:
+        submissions = data.get("submissions", {}).values()
+        for sub in submissions.values():
             if sub.get("submission_id") == submission_id:
                 sub["status"] = new_status
                 payload = {"success": True, "submission": sub}
@@ -493,8 +492,8 @@ class ConnectRevisedVersion(Tool):
             out = json.dumps(payload)
             return out
 
-        submissions = data.get("submissions", [])
-        for sub in submissions:
+        submissions = data.get("submissions", {}).values()
+        for sub in submissions.values():
             if sub.get("submission_id") == submission_id:
                 sub["revised_version_article_id"] = revised_article_id
                 payload = {"success": True, "submission": sub}
@@ -546,7 +545,7 @@ class AlertUser(Tool):
         }
         if "notifications" not in data:
             data["notifications"] = []
-        data["notifications"].append(new_notification)
+        data["notifications"][notification_id] = new_notification
         payload = {"success": True, "notification": new_notification}
         out = json.dumps(payload)
         return out
@@ -600,10 +599,10 @@ class AdjustUserSettings(Tool):
                 payload)
             return out
 
-        preferences = data.get("user_preferences", [])
+        preferences = data.get("user_preferences", {}).values()
 
         pref_found = False
-        for pref in preferences:
+        for pref in preferences.values():
             if pref.get("person_id") == user_id:
                 if notification_channel:
                     pref["notification_channel"] = notification_channel
@@ -624,12 +623,12 @@ class AdjustUserSettings(Tool):
             }
             if "user_preferences" not in data:
                 data["user_preferences"] = []
-            data["user_preferences"].append(new_pref)
+            data["user_preferences"][user_preference_id] = new_pref
             pref = new_pref
             pref_found = True
 
         user_obj = None
-        for user in data.get("users", []):
+        for user in data.get("users", {}).values():
             if user.get("person_id") == user_id:
                 if research_field:
                     user["research_field"] = research_field
@@ -696,11 +695,11 @@ class SetTopicInterest(Tool):
             out = json.dumps(payload)
             return out
 
-        subscriptions = data.get("subscriptions", [])
+        subscriptions = data.get("subscriptions", {}).values()
         if action.lower() == "add":
             if any(
                 s.get("person_id") == user_id and s.get("topic") == topic
-                for s in subscriptions
+                for s in subscriptions.values()
             ):
                 payload = {
                         "success": False,
@@ -714,7 +713,7 @@ class SetTopicInterest(Tool):
                 "user_id": user_id,
                 "topic": topic,
             }
-            subscriptions.append(new_sub)
+            data["subscriptions"][subscription_id] = new_sub
             payload = {"success": True, "subscription": new_sub}
             out = json.dumps(payload)
             return out
@@ -722,8 +721,7 @@ class SetTopicInterest(Tool):
             initial_count = len(subscriptions)
             data["subscriptions"] = [
                 s
-                for s in subscriptions
-                if not (s.get("person_id") == user_id and s.get("topic") == topic)
+                for s in subscriptions.values() if not (s.get("person_id") == user_id and s.get("topic") == topic)
             ]
             if len(data["subscriptions"]) < initial_count:
                 payload = {
@@ -811,7 +809,7 @@ class RegisterNewArticle(Tool):
         }
         if "articles" not in data:
             data["articles"] = []
-        data["articles"].append(new_article)
+        data["articles"][article_id] = new_article
         payload = {"success": True, "article": new_article}
         out = json.dumps(payload)
         return out
@@ -851,7 +849,7 @@ class ReviseArticleDetails(Tool):
             return out
 
         article = next(
-            (a for a in data.get("articles", []) if a.get("article_id") == article_id),
+            (a for a in data.get("articles", {}).values() if a.get("article_id") == article_id),
             None,
         )
         if not article:
@@ -912,9 +910,9 @@ class ListReviewsForSubmission(Tool):
             out = json.dumps(payload)
             return out
 
-        reviews = data.get("reviews", [])
+        reviews = data.get("reviews", {}).values()
         submission_reviews = [
-            r for r in reviews if r.get("submission_id") == submission_id
+            r for r in reviews.values() if r.get("submission_id") == submission_id
         ]
         payload = submission_reviews
         out = json.dumps(payload, indent=2)
@@ -972,7 +970,7 @@ class CreateNewProject(Tool):
         }
         if "projects" not in data:
             data["projects"] = []
-        data["projects"].append(new_project)
+        data["projects"][project_id] = new_project
         payload = {"success": True, "project": new_project}
         out = json.dumps(payload)
         return out
@@ -1012,7 +1010,7 @@ class GetArticleKeywords(Tool):
             return out
 
         article = next(
-            (a for a in data.get("articles", []) if a.get("article_id") == article_id),
+            (a for a in data.get("articles", {}).values() if a.get("article_id") == article_id),
             None,
         )
         if not article or not article.get("abstract"):
@@ -1123,7 +1121,7 @@ class UpdateProjectDetails(Tool):
             return out
 
         project = next(
-            (p for p in data.get("projects", []) if p.get("project_id") == project_id),
+            (p for p in data.get("projects", {}).values() if p.get("project_id") == project_id),
             None,
         )
         if not project:
@@ -1188,10 +1186,10 @@ class RemoveReview(Tool):
             out = json.dumps(payload)
             return out
 
-        reviews = data.get("reviews", [])
+        reviews = data.get("reviews", {}).values()
         original_count = len(reviews)
         # Reminder: In an actual database, this would perform a direct deletion. Here, we filter the array.
-        data["reviews"] = [r for r in reviews if r.get("review_id") != review_id]
+        data["reviews"] = [r for r in reviews.values() if r.get("review_id") != review_id]
 
         if len(data["reviews"]) < original_count:
             payload = {"success": True, "message": f"Review {review_id} has been deleted."}

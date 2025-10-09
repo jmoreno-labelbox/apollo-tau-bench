@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchExternalCandidatesBySkills(Tool):
@@ -24,7 +24,7 @@ class SearchExternalCandidatesBySkills(Tool):
             elif isinstance(skill_item, dict) and skill_item.get("skill"):
                 required.add(skill_item.get("skill"))
 
-        talent_network = data.get("talent_network", [])
+        talent_network = data.get("talent_network", {}).values()
 
         # Debug: Confirm if the talent network is loaded
         if not talent_network:
@@ -35,7 +35,7 @@ class SearchExternalCandidatesBySkills(Tool):
             return out
 
         matches = []
-        for c in talent_network:
+        for c in talent_network.values():
             # Retrieve skill names from candidate skills - accommodate both formats
             candidate_skills = set()
             cand_skills = c.get("skills", [])
@@ -59,7 +59,7 @@ class SearchExternalCandidatesBySkills(Tool):
                 for req_skill in required:
                     expanded_required.add(req_skill)
                     # Locate this skill in the role catalog to obtain specific skills
-                    for role_entry in data.get("role_skill_catalog", []):
+                    for role_entry in data.get("role_skill_catalog", {}).values():
                         for skill_category in role_entry.get("required_skills", []):
                             if (
                                 isinstance(skill_category, dict)

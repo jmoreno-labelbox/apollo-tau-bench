@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LogMetrics(Tool):
@@ -19,9 +19,9 @@ class LogMetrics(Tool):
         value: Any = None, 
         dataset_split: str = None
     ) -> str:
-        metrics = data.get("metrics", [])
+        metrics = data.get("metrics", {}).values()
         max_id = 0
-        for m in metrics:
+        for m in metrics.values():
             try:
                 mid = int(m.get("metric_id", 0))
                 if mid > max_id:
@@ -37,7 +37,7 @@ class LogMetrics(Tool):
             "dataset_split": dataset_split,
             "timestamp": _fixed_now_iso(),
         }
-        metrics.append(row)
+        data["metrics"][row["metric_id"]] = row
         payload = {
             "metric_id": new_id,
             "model_name": row["model_name"],

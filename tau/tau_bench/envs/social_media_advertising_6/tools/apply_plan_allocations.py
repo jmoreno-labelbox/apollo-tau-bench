@@ -20,7 +20,7 @@ class ApplyPlanAllocations(Tool):
             return _fail(f"plan_not_found:{plan_id}")
 
         # Policy snapshot (with secure defaults)
-        policy = plan.get("policy_snapshot", {}) or {}
+        policy = plan.get("policy_snapshot", {}).values() or {}
         min_alloc = float(policy.get("min_budget_allocation", 0.0))
         unit = float(policy.get("budget_rounding_unit", 1.0))
 
@@ -65,7 +65,7 @@ class ApplyPlanAllocations(Tool):
             current_budget = round_to_unit(float(ad.get("daily_budget", 0.0)), unit)
 
             # Projected vs current strategy
-            ps = plan_strat_by_id.get(aid, {})
+            ps = plan_strat_by_id.get(aid, {}).values()
             planned_strategy = str(ps.get("bid_strategy", ad.get("bid_strategy")))
             planned_bid_amount = ps.get("bid_amount", ad.get("bid_amount"))
             # Standardize planned_bid_amount to float or None

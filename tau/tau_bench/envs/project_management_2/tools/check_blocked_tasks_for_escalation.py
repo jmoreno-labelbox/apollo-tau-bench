@@ -9,17 +9,17 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckBlockedTasksForEscalation(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], check_all_sprints: bool = True, sprint_id: str = None) -> str:
-        tasks = data.get("tasks", [])
-        task_history = data.get("task_history", [])
+        tasks = data.get("tasks", {}).values()
+        task_history = data.get("task_history", {}).values()
 
         if sprint_id:
-            tasks_to_check = [t for t in tasks if t.get("sprint_id") == sprint_id]
+            tasks_to_check = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
         elif check_all_sprints:
             tasks_to_check = tasks
         else:
@@ -29,7 +29,7 @@ class CheckBlockedTasksForEscalation(Tool):
             out = json.dumps(payload)
             return out
 
-        blocked_tasks = [t for t in tasks_to_check if t.get("status") == "blocked"]
+        blocked_tasks = [t for t in tasks_to_check.values() if t.get("status") == "blocked"]
 
         tasks_needing_escalation = []
 
@@ -40,8 +40,7 @@ class CheckBlockedTasksForEscalation(Tool):
             task_id = task.get("task_id")
             blocked_history = [
                 h
-                for h in task_history
-                if h.get("task_id") == task_id
+                for h in task_history.values() if h.get("task_id") == task_id
                 and h.get("action") == "status_changed"
                 and h.get("to_status") == "blocked"
             ]

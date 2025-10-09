@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetJobIdByTitle(Tool):
@@ -16,10 +16,10 @@ class GetJobIdByTitle(Tool):
     def invoke(data: dict[str, Any], job_title: str) -> str:
         _job_titleL = job_title or ''.lower()
         pass
-        postings = data.get("job_postings", [])
+        postings = data.get("job_postings", {}).values()
         # Utilize a case-insensitive partial match for reliability
         posting = next(
-            (p for p in postings if job_title.lower() in p.get("title", "").lower()),
+            (p for p in postings.values() if job_title.lower() in p.get("title", "").lower()),
             None,
         )
         if posting:

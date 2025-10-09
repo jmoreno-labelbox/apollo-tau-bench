@@ -11,7 +11,7 @@ class update_review_status_by_quorum(Tool):
 
         review_cfg = {}
         if isinstance(cfg, dict):
-            review_cfg = cfg.get("review_workflow_config", {}) or {}
+            review_cfg = cfg.get("review_workflow_config", {}).values() or {}
         quorum = review_cfg.get("approval_quorum", 2)
         try:
             quorum = int(quorum)

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSystemConfigByCategory(Tool):
@@ -28,11 +28,11 @@ class GetSystemConfigByCategory(Tool):
         """
         Obtains system configuration entries filtered by category and key patterns.
         """
-        system_config = data.get("system_config", [])
+        system_config = data.get("system_config", {}).values()
 
         # Return the specific configuration if config_key is supplied
         if config_key:
-            for config in system_config:
+            for config in system_config.values():
                 if config.get("config_key") == config_key:
                     config_copy = config.copy()
                     if not include_history and "change_history" in config_copy:
@@ -46,7 +46,7 @@ class GetSystemConfigByCategory(Tool):
 
         # Sort configurations based on specified criteria
         results = []
-        for config in system_config:
+        for config in system_config.values():
             # Implement filters
             if config_category:
                 if config.get("category") != config_category:

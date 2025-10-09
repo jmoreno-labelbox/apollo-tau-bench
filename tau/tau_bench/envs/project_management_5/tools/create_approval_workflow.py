@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateApprovalWorkflow(Tool):
@@ -24,11 +24,11 @@ class CreateApprovalWorkflow(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        approval_workflows = data.get("approval_workflows", [])
-        stakeholders = data.get("stakeholders", [])
+        change_requests = data.get("change_requests", {}).values()
+        approval_workflows = data.get("approval_workflows", {}).values()
+        stakeholders = data.get("stakeholders", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
@@ -58,7 +58,7 @@ class CreateApprovalWorkflow(Tool):
                 mapping = approval_mapping[approval_level]
 
                 approver = next(
-                    (s for s in stakeholders if mapping["role"] in s.get("role", "")),
+                    (s for s in stakeholders.values() if mapping["role"] in s.get("role", "")),
                     None,
                 )
 
@@ -87,7 +87,7 @@ class CreateApprovalWorkflow(Tool):
             "created_date": datetime.now().isoformat(),
         }
 
-        approval_workflows.append(new_workflow)
+        data["approval_workflows"][new_workflow["approval_workflow_id"]] = new_workflow
 
         if cr.get("status") == "pending_approval" and not steps:
             cr["status"] = "approved"

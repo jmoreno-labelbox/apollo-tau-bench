@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindAndStatFilesTool(Tool):
@@ -46,7 +46,7 @@ class FindAndStatFilesTool(Tool):
         all_remote_files: list[dict[str, Any]] = []
 
         # Traverse the simulated file_system structure and gather files in a deterministic manner.
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             server_host = server.get("host", server.get("remote_address", "unknown"))
             for directory in server.get("directories", []):
                 dir_path = directory.get("path", "")

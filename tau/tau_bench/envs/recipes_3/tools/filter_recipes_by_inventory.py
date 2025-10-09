@@ -34,7 +34,7 @@ class FilterRecipesByInventory(Tool):
         for rid in recipe_ids or []:
             if rid in recent_set:
                 continue
-            rows = [x for x in ri if x.get("recipe_id") == rid]
+            rows = [x for x in ri.values() if x.get("recipe_id") == rid]
             missing = 0
             for x in rows:
                 ing_id = x.get("ingredient_id")
@@ -74,7 +74,7 @@ class FilterRecipesByInventory(Tool):
         for rid in recipe_ids or []:
             if rid in recent_set:
                 continue
-            rows = [x for x in ri if x.get("recipe_id") == rid]
+            rows = [x for x in ri.values() if x.get("recipe_id") == rid]
             missing = 0
             for x in rows:
                 ing_id = x.get("ingredient_id")

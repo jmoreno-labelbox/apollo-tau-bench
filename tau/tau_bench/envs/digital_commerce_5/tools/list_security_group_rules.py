@@ -8,7 +8,7 @@ class ListSecurityGroupRules(Tool):
     def invoke(data: dict[str, Any], group_id: Any, aws_security_group_rules: list = None) -> str:
         group_id = _as_id(group_id)
         rules = aws_security_group_rules if aws_security_group_rules is not None else []
-        rows = [r for r in rules if _as_id(r.get("group_id")) == group_id]
+        rows = [r for r in rules.values() if _as_id(r.get("group_id")) == group_id]
         payload = {"group_id": group_id, "rules": rows}
         out = json.dumps(payload, indent=2)
         return out

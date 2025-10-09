@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LookupSubmissions(Tool):
@@ -19,10 +19,10 @@ class LookupSubmissions(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], *, submission_id: Any = None, article_id: Any = None, author_user_id: Any = None, status: Any = None) -> str:
-        submissions = data.get("submissions", [])
+        submissions = data.get("submissions", {}).values()
 
         if submission_id:
-            for sub in submissions:
+            for sub in submissions.values():
                 if sub.get("submission_id") == submission_id:
                     payload = sub
                     out = json.dumps(payload, indent=2)
@@ -32,7 +32,7 @@ class LookupSubmissions(Tool):
             return out
 
         if article_id:
-            for sub in submissions:
+            for sub in submissions.values():
                 if sub.get("article_id") == article_id:
                     payload = sub
                     out = json.dumps(payload, indent=2)
@@ -47,7 +47,7 @@ class LookupSubmissions(Tool):
             return out
 
         results = []
-        for sub in submissions:
+        for sub in submissions.values():
             author_match = not author_user_id or author_user_id == sub.get("author_user_id")
             status_match = not status or status.lower() == sub.get("status", "").lower()
 

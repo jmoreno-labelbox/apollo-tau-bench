@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ValidateSupplierCapacity(Tool):
@@ -19,9 +19,9 @@ class ValidateSupplierCapacity(Tool):
 
         Data Sources: supply_orders.json (supplier_id, status, quantity, total_cost, order_date)
         """
-        supply_orders = data.get("supply_orders", [])
+        supply_orders = data.get("supply_orders", {}).values()
         supplier_orders = [
-            order for order in supply_orders if order.get("supplier_id") == supplier_id
+            order for order in supply_orders.values() if order.get("supplier_id") == supplier_id
         ]
 
         if not supplier_orders:
@@ -48,12 +48,12 @@ class ValidateSupplierCapacity(Tool):
                 cancelled_orders.append(order)
 
         # Calculate capacity metrics
-        total_pending_quantity = sum(order.get("quantity", 0) for order in pending_orders)
-        total_fulfilled_quantity = sum(order.get("quantity", 0) for order in fulfilled_orders)
-        total_cancelled_quantity = sum(order.get("quantity", 0) for order in cancelled_orders)
+        total_pending_quantity = sum(order.get("quantity", 0) for order in pending_orders.values()
+        total_fulfilled_quantity = sum(order.get("quantity", 0) for order in fulfilled_orders.values()
+        total_cancelled_quantity = sum(order.get("quantity", 0) for order in cancelled_orders.values()
 
-        total_pending_cost = sum(order.get("total_cost", 0) for order in pending_orders)
-        total_fulfilled_cost = sum(order.get("total_cost", 0) for order in fulfilled_orders)
+        total_pending_cost = sum(order.get("total_cost", 0) for order in pending_orders.values()
+        total_fulfilled_cost = sum(order.get("total_cost", 0) for order in fulfilled_orders.values()
 
         # Calculate reliability metrics
         total_completed_orders = len(fulfilled_orders) + len(cancelled_orders)

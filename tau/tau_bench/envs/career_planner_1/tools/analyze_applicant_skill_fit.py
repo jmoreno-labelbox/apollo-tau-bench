@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AnalyzeApplicantSkillFit(Tool):
@@ -18,7 +18,7 @@ class AnalyzeApplicantSkillFit(Tool):
         user_skill_names = set()
 
         # Locate the user within the users data
-        user = next((u for u in data.get("users", []) if u.get("user_id") == applicant_id), {})
+        user = next((u for u in data.get("users", {}).values() if u.get("user_id") == applicant_id), {}).values()
         if user:
             # Examine the skills_current field (actual data structure)
             user_skills = user.get("skills_current", [])
@@ -40,7 +40,7 @@ class AnalyzeApplicantSkillFit(Tool):
         # Attempt to use the user_skills table as a backup
         if not user_skill_names:
             user_skills_entry = next(
-                (u for u in data.get("user_skills", []) if u.get("user_id") == applicant_id), {}
+                (u for u in data.get("user_skills", {}).values() if u.get("user_id") == applicant_id), {}
             )
             if user_skills_entry:
                 skills = user_skills_entry.get("skills", [])
@@ -73,7 +73,7 @@ class AnalyzeApplicantSkillFit(Tool):
         role_rec = next(
             (
                 r
-                for r in data.get("role_skill_catalog", [])
+                for r in data.get("role_skill_catalog", {}).values()
                 if r.get("role") == target_role
             ),
             {},
@@ -105,7 +105,7 @@ class AnalyzeApplicantSkillFit(Tool):
                 role_rec = next(
                     (
                         r
-                        for r in data.get("role_skill_catalog", [])
+                        for r in data.get("role_skill_catalog", {}).values()
                         if r.get("role") == target_role
                     ),
                     {},

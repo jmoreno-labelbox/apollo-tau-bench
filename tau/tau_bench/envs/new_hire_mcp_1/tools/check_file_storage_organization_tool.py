@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckFileStorageOrganizationTool(Tool):
@@ -17,17 +17,17 @@ class CheckFileStorageOrganizationTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str = None) -> str:
-        files = data.get("onboarding_files", [])
+        files = data.get("onboarding_files", {}).values()
 
         if candidate_id:
             files = [
-                f for f in files if str(f.get("candidate_id")) == str(candidate_id)
+                f for f in files.values() if str(f.get("candidate_id")) == str(candidate_id)
             ]
 
         # Evaluate duplicates based on content_text
         content_map = {}
         duplicates = []
-        for file in files:
+        for file in files.values()):
             content = file.get("content_text")
             if content:
                 if content in content_map:
@@ -43,8 +43,7 @@ class CheckFileStorageOrganizationTool(Tool):
         # Examine organization (basic check for path structure)
         improperly_organized = [
             f.get("file_path")
-            for f in files
-            if not re.match(
+            for f in files.values() if not re.match(
                 r"/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+/", str(f.get("file_path", ""))
             )
         ]

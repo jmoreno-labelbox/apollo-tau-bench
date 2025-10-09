@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateNewSchedulePayment(Tool):
@@ -47,7 +47,7 @@ class CreateNewSchedulePayment(Tool):
                 return json.dumps({"error": "end_date must be YYYY-MM-DD."}, indent=2)
 
         # validate source account and balance
-        account = next((a for a in data.get("accounts", []) if a["account_id"] == source_account_id), None)
+        account = next((a for a in data.get("accounts", {}).values() if a["account_id"] == source_account_id), None)
         if not account:
             return json.dumps({"error": "Source account not found."}, indent=2)
         if account.get("currency") != currency:

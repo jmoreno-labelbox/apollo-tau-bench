@@ -11,14 +11,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AssignReviewer(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], submission_id: Any = None, reviewer_user_id: Any = None, overwrite: Any = None) -> str:
-        submissions = data.get("submissions", [])
-        for sub in submissions:
+        submissions = data.get("submissions", {}).values()
+        for sub in submissions.values():
             if sub.get("submission_id") == submission_id or sub.get("proposal_id") == submission_id:
                 if overwrite:
                     sub["allocated_evaluators"] = [reviewer_user_id]

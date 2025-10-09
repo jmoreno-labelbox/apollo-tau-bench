@@ -9,13 +9,13 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
 def get_next_ingestion_id(data):
     pass
-    nsr = len(data.get("ingestion_logs", []))
+    nsr = len(data.get("ingestion_logs", {}))
     next_num = nsr + 1
     return next_num
 
@@ -27,70 +27,70 @@ def get_current_timestamp() -> str:
 
 def get_next_game_id(data):
     pass
-    ngames = len(data.get("games", []))
+    ngames = len(data.get("games", {}))
     next_num = 2024000000 + ngames + 1
     return next_num
 
 
 def get_next_pitch_id(data):
     pass
-    npitch = len(data.get("pitches", []))
+    npitch = len(data.get("pitches", {}))
     next_num = npitch + 1
     return next_num
 
 
 def get_next_player_goal_id(data):
     pass
-    ngoal = len(data.get("player_dev_goals", []))
+    ngoal = len(data.get("player_dev_goals", {}))
     next_num = ngoal + 1
     return next_num
 
 
 def get_next_event_id(data):
     pass
-    nevent = len(data.get("game_day_events", []))
+    nevent = len(data.get("game_day_events", {}))
     next_num = nevent + 1
     return next_num
 
 
 def get_next_scouting_report_id(data):
     pass
-    nsr = len(data.get("scouting_reports", []))
+    nsr = len(data.get("scouting_reports", {}))
     next_num = nsr + 1
     return next_num
 
 
 def get_next_dev_report_goal_id(data):
     pass
-    ndev_report = len(data.get("player_dev_reports", []))
+    ndev_report = len(data.get("player_dev_reports", {}))
     next_num = ndev_report + 1
     return next_num
 
 
 def get_next_grade_id(data):
     pass
-    ngrade = len(data.get("pitch_execution_grades", []))
+    ngrade = len(data.get("pitch_execution_grades", {}))
     next_num = ngrade + 1
     return next_num
 
 
 def get_next_workflow_run_id(data):
     pass
-    nsr = len(data.get("workflow_runs", []))
+    nsr = len(data.get("workflow_runs", {}))
     next_num = nsr + 1
     return f"run_{next_num}"
 
 
 def get_next_insight_id(data):
     pass
-    ninsight = len(data.get("curated_insights", []))
+    ninsight = len(data.get("curated_insights", {}))
     next_num = ninsight + 1
     return next_num
 
 
 def get_next_highlight_id(data):
     pass
-    nhighlight = len(data.get("video_playlists", []))
+    nhighlight = len(data.get("video_playlists", {}))
     next_num = nhighlight + 1
     return next_num
 
@@ -126,10 +126,10 @@ class GetPlayerDetailsByName(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        players = data.get("players", [])
+        players = data.get("players", {}).values()
 
         #3) Lookup for exact matches (without normalization)
-        for player in players:
+        for player in players.values():
             if player.get("full_name") == full_name:
                 payload = player
                 out = json.dumps(payload, indent=2)
@@ -172,10 +172,10 @@ class GetPlayerDetailsById(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        players = data.get("players", [])
+        players = data.get("players", {}).values()
 
         #3) Lookup for exact matches
-        for player in players:
+        for player in players.values():
             if player.get("player_id") == player_id:
                 payload = player
                 out = json.dumps(payload, indent=2)
@@ -216,11 +216,11 @@ class GetAllPlayersOfTeam(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        players: list[dict[str, Any]] = data.get("players", [])
+        players: list[dict[str, Any]] = data.get("players", {}).values()
 
         #3) Filter players based on exact team_id
         matching_players = [
-            player for player in players if player.get("current_team_id") == team_id
+            player for player in players.values() if player.get("current_team_id") == team_id
         ]
 
         if not matching_players:
@@ -275,10 +275,10 @@ class UpdatePlayerDetails(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        players = data.get("players", [])
+        players = data.get("players", {}).values()
 
         #3) Locate and modify player
-        for player in players:
+        for player in players.values():
             if player.get("player_id") == player_id:
                 if primary_position is not None:
                     player["primary_position"] = primary_position
@@ -340,10 +340,10 @@ class GetTeamDetailsById(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        teams = data.get("teams", [])
+        teams = data.get("teams", {}).values()
 
         #3) Lookup for exact matches
-        for team in teams:
+        for team in teams.values():
             if team.get("team_id") == team_id:
                 payload = team
                 out = json.dumps(payload, indent=2)
@@ -384,10 +384,10 @@ class GetTeamDetailsByName(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        teams = data.get("teams", [])
+        teams = data.get("teams", {}).values()
 
         #3) Lookup for exact matches (without normalization)
-        for team in teams:
+        for team in teams.values():
             if team.get("team_name") == name:
                 payload = team
                 out = json.dumps(payload, indent=2)
@@ -430,10 +430,10 @@ class GetTeamDetailsByAbbreviation(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        teams = data.get("teams", [])
+        teams = data.get("teams", {}).values()
 
         #3) Lookup for exact matches (without normalization)
-        for team in teams:
+        for team in teams.values():
             if team.get("abbreviation") == abbreviation:
                 payload = team
                 out = json.dumps(payload, indent=2)
@@ -476,10 +476,10 @@ class GetAllTeamsInLeague(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        teams: list[dict[str, Any]] = data.get("teams", [])
+        teams: list[dict[str, Any]] = data.get("teams", {}).values()
 
         #3) Filter teams based on exact league
-        matching_teams = [team for team in teams if team.get("league") == league]
+        matching_teams = [team for team in teams.values() if team.get("league") == league]
 
         if not matching_teams:
             payload = {"error": f"No teams found in league {league}"}
@@ -521,7 +521,7 @@ class GetGameDetailsByGamePk(Tool):
             return out
 
         #2) Retrieve DB
-        games: list[dict[str, Any]] = data.get("games", [])
+        games: list[dict[str, Any]] = data.get("games", {}).values()
 
         #3) Lookup for exact matches
         for game in games:
@@ -586,7 +586,7 @@ class UpdateGameDetails(Tool):
             return out
 
         #2) Retrieve DB
-        games: list[dict[str, Any]] = data.get("games", [])
+        games: list[dict[str, Any]] = data.get("games", {}).values()
 
         #3) Locate the game
         target = None
@@ -704,7 +704,7 @@ class CreateNewGame(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        games: list[dict[str, Any]] = data.get("games", [])
+        games: list[dict[str, Any]] = data.get("games", {}).values()
 
         #3) Create a new unique game_pk in a deterministic manner based on DB state
 
@@ -772,10 +772,10 @@ class FindGamesOnDate(Tool):
             return out
 
         #2) Retrieve DB
-        games: list[dict[str, Any]] = data.get("games", [])
+        games: list[dict[str, Any]] = data.get("games", {}).values()
 
         #3) Exact match on game_date (without normalization)
-        matching = [g for g in games if g.get("game_date") == date]
+        matching = [g for g in games.values() if g.get("game_date") == date]
 
         if not matching:
             payload = {"error": f"No games found on date {date}"}
@@ -832,7 +832,7 @@ class GetNextGame(Tool):
             return out
 
         #2) Retrieve DB
-        games: list[dict[str, Any]] = data.get("games", [])
+        games: list[dict[str, Any]] = data.get("games", {}).values()
 
         #3) Filter future games that are eligible
         def is_eligible(g: dict[str, Any]) -> bool:
@@ -844,7 +844,7 @@ class GetNextGame(Tool):
                 return True
             return g.get("home_team_id") == team_id or g.get("away_team_id") == team_id
 
-        future = [g for g in games if is_eligible(g)]
+        future = [g for g in games.values() if is_eligible(g)]
 
         if not future:
             target = (
@@ -922,7 +922,7 @@ class GetGameByHomeAway(Tool):
             return out
 
         #2) Access DB
-        games: list[dict[str, Any]] = data.get("games", [])
+        games: list[dict[str, Any]] = data.get("games", {}).values()
 
         #3) Filter for exact matches
         matches = [
@@ -982,7 +982,7 @@ class GetVenueById(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        venues: list[dict[str, Any]] = data.get("venues", [])
+        venues: list[dict[str, Any]] = data.get("venues", {}).values()
 
         #3) Lookup for exact matches
         for venue in venues:
@@ -1026,7 +1026,7 @@ class GetVenueByName(Tool):
             return out
 
         #2) Retrieve DB
-        venues: list[dict[str, Any]] = data.get("venues", [])
+        venues: list[dict[str, Any]] = data.get("venues", {}).values()
 
         #3) Exact match (without normalization)
         for venue in venues:
@@ -1070,10 +1070,10 @@ class GetAllVenueInCity(Tool):
             return out
 
         #2) Retrieve DB
-        venues: list[dict[str, Any]] = data.get("venues", [])
+        venues: list[dict[str, Any]] = data.get("venues", {}).values()
 
         #3) Filter for exact city
-        matching = [v for v in venues if v.get("city") == city]
+        matching = [v for v in venues.values() if v.get("city") == city]
 
         if not matching:
             payload = {"error": f"No venues found in city {city}"}
@@ -1115,7 +1115,7 @@ class GetUmpiresDetailsByName(Tool):
             return out
 
         #2) Retrieve DB
-        umpires: list[dict[str, Any]] = data.get("umpires", [])
+        umpires: list[dict[str, Any]] = data.get("umpires", {}).values()
 
         #3) Exact match (without normalization)
         for ump in umpires:
@@ -1161,7 +1161,7 @@ class GetUmpiresDetailsById(Tool):
             return out
 
         #2) Retrieve DB
-        umpires: list[dict[str, Any]] = data.get("umpires", [])
+        umpires: list[dict[str, Any]] = data.get("umpires", {}).values()
 
         #3) Lookup for exact matches
         for ump in umpires:
@@ -1208,7 +1208,7 @@ class GetUmpiresByExperience(Tool):
             return out
 
         #2) Retrieve DB
-        umpires: list[dict[str, Any]] = data.get("umpires", [])
+        umpires: list[dict[str, Any]] = data.get("umpires", {}).values()
 
         #3) Filter for individuals with experience exceeding threshold
         filtered = [
@@ -1277,10 +1277,10 @@ class GetAllEevntsByGamePk(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        events: list[dict[str, Any]] = data.get("game_day_events", [])
+        events: list[dict[str, Any]] = data.get("game_day_events", {}).values()
 
         #3) Filter for exact game_pk
-        matching = [e for e in events if e.get("game_pk") == game_pk]
+        matching = [e for e in events.values() if e.get("game_pk") == game_pk]
 
         if not matching:
             payload = {"error": f"No events found for game_pk {game_pk}"}
@@ -1359,7 +1359,7 @@ class CreateGameDayEvent(Tool):
             return out
 
         #2) Retrieve DB
-        events: list[dict[str, Any]] = data.get("game_day_events", [])
+        events: list[dict[str, Any]] = data.get("game_day_events", {}).values()
 
         #4) Establish a new event row
         new_event = {
@@ -1447,7 +1447,7 @@ class UpdateGameEventStatus(Tool):
             return out
 
         #2) Retrieve DB
-        events: list[dict[str, Any]] = data.get("game_day_events", [])
+        events: list[dict[str, Any]] = data.get("game_day_events", {}).values()
 
         #3) Locate and modify
         for event in events:
@@ -1498,10 +1498,10 @@ class GetAllGoalsByForPlayer(Tool):
             return out
 
         #2) Retrieve DB
-        goals: list[dict[str, Any]] = data.get("player_dev_goals", [])
+        goals: list[dict[str, Any]] = data.get("player_dev_goals", {}).values()
 
         #3) Filter goals related to player
-        matching = [g for g in goals if g.get("player_id") == player_id]
+        matching = [g for g in goals.values() if g.get("player_id") == player_id]
 
         if not matching:
             payload = {"error": f"No goals found for player_id {player_id}"}
@@ -1586,7 +1586,7 @@ class CreateNewGoal(Tool):
             )
             return out
 
-        goals: list[dict[str, Any]] = data.get("player_dev_goals", [])
+        goals: list[dict[str, Any]] = data.get("player_dev_goals", {}).values()
 
         new_goal = {
             "goal_id": get_next_player_goal_id(data),
@@ -1673,7 +1673,7 @@ class CreateNewReport(Tool):
             return out
 
         #2) Retrieve DB
-        reports: list[dict[str, Any]] = data.get("player_dev_reports", [])
+        reports: list[dict[str, Any]] = data.get("player_dev_reports", {}).values()
 
         new_id = get_next_dev_report_goal_id(data)
 
@@ -1729,10 +1729,10 @@ class GetAllReportForPlayer(Tool):
             return out
 
         #2) Retrieve DB
-        reports: list[dict[str, Any]] = data.get("player_dev_reports", [])
+        reports: list[dict[str, Any]] = data.get("player_dev_reports", {}).values()
 
         #3) Filter and arrange
-        matching = [r for r in reports if r.get("player_id") == player_id]
+        matching = [r for r in reports.values() if r.get("player_id") == player_id]
 
         if not matching:
             payload = {"error": f"No reports found for player_id {player_id}"}
@@ -1776,7 +1776,7 @@ class GetPitchDetailsById(Tool):
             return out
 
         #2) Retrieve DB
-        pitches: list[dict[str, Any]] = data.get("pitches", [])
+        pitches: list[dict[str, Any]] = data.get("pitches", {}).values()
 
         #3) Lookup for exact matches
         for p in pitches:
@@ -1826,11 +1826,11 @@ class GetAllPitchesByPitcherIds(Tool):
             return out
 
         #2) Retrieve DB
-        pitches: list[dict[str, Any]] = data.get("pitches", [])
+        pitches: list[dict[str, Any]] = data.get("pitches", {}).values()
 
         #3) Apply filter
         id_set = set(pitcher_ids)
-        matches = [p for p in pitches if p.get("pitcher_id") in id_set]
+        matches = [p for p in pitches.values() if p.get("pitcher_id") in id_set]
         if not matches:
             payload = {"error": f"No pitches found for pitcher_ids {pitcher_ids}"}
             out = json.dumps(
@@ -1896,11 +1896,11 @@ class GetAllPitchesByHitterIds(Tool):
             return out
 
         #2) Retrieve DB
-        pitches: list[dict[str, Any]] = data.get("pitches", [])
+        pitches: list[dict[str, Any]] = data.get("pitches", {}).values()
 
         #3) Apply filter
         id_set = set(hitter_ids)
-        matches = [p for p in pitches if p.get("hitter_id") in id_set]
+        matches = [p for p in pitches.values() if p.get("hitter_id") in id_set]
         if not matches:
             payload = {"error": f"No pitches found for hitter_ids {hitter_ids}"}
             out = json.dumps(
@@ -1954,10 +1954,10 @@ class GetAllPitchesForGame(Tool):
             return out
 
         #2) Retrieve DB
-        pitches: list[dict[str, Any]] = data.get("pitches", [])
+        pitches: list[dict[str, Any]] = data.get("pitches", {}).values()
 
         #3) Filter and order deterministically within the game
-        result = [p for p in pitches if p.get("game_pk") == game_pk]
+        result = [p for p in pitches.values() if p.get("game_pk") == game_pk]
         if not result:
             payload = {"error": f"No pitches found for game_pk {game_pk}"}
             out = json.dumps(
@@ -2066,7 +2066,7 @@ class CreateNewPitch(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        pitches: list[dict[str, Any]] = data.get("pitches", [])
+        pitches: list[dict[str, Any]] = data.get("pitches", {}).values()
 
         # Create a new pitch_id in a deterministic manner
         new_id = get_next_pitch_id(data)
@@ -2126,7 +2126,7 @@ class GetGradeByPitchId(Tool):
             return out
 
         #2) Retrieve DB
-        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", [])
+        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", {}).values()
 
         #3) Lookup for exact matches
         for rec in grades:
@@ -2181,11 +2181,11 @@ class GetGradesByPitchIds(Tool):
             return out
 
         #2) Retrieve DB
-        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", [])
+        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", {}).values()
 
         #3) Gather matches
         id_set = set(pitch_ids)
-        matches = [rec for rec in grades if rec.get("pitch_id") in id_set]
+        matches = [rec for rec in grades.values() if rec.get("pitch_id") in id_set]
 
         if not matches:
             payload = {"No grades found": f"No grades found for pitch_ids {pitch_ids}"}
@@ -2259,11 +2259,11 @@ class GetFilteredGradesByPitchIds(Tool):
             return out
 
         #---- 2) Retrieve DB
-        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", [])
+        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", {}).values()
 
         #---- 3) Gather matches based on pitch_ids
         id_set = set(pitch_ids)
-        initial = [rec for rec in grades if rec.get("pitch_id") in id_set]
+        initial = [rec for rec in grades.values() if rec.get("pitch_id") in id_set]
 
         if not initial:
             payload = {"error": f"No grades found for pitch_ids {pitch_ids}"}
@@ -2274,7 +2274,7 @@ class GetFilteredGradesByPitchIds(Tool):
 
         #---- 4) Exclude records where execution_grade matches grades_to_exclude (exact, case-sensitive)
         excl_set = set(grades_to_exclude)
-        filtered = [rec for rec in initial if rec.get("execution_grade") in excl_set]
+        filtered = [rec for rec in initial.values() if rec.get("execution_grade") in excl_set]
 
         if not filtered:
             payload = {
@@ -2368,7 +2368,7 @@ class CreateNewGrade(Tool):
             return out
 
         #2) Retrieve DB
-        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", [])
+        grades: list[dict[str, Any]] = data.get("pitch_execution_grades", {}).values()
 
         #3) Create a new grade_id
         new_id = get_next_grade_id(data)
@@ -2465,7 +2465,7 @@ class GetGradesByGradeForGame(Tool):
             return out
 
         #2) Retrieve DB
-        records: list[dict[str, Any]] = data.get("pitch_execution_grades", [])
+        records: list[dict[str, Any]] = data.get("pitch_execution_grades", {}).values()
 
         #3) Apply filter (exact, case-sensitive)
         allowed = set(grades)
@@ -2538,10 +2538,10 @@ class GetHighlightsByName(Tool):
         full_name = f"Game Highlights - {name}"
 
         #2) Retrieve DB
-        playlists: list[dict[str, Any]] = data.get("video_playlists", [])
+        playlists: list[dict[str, Any]] = data.get("video_playlists", {}).values()
 
         #3) Search for exact matches (without normalization)
-        matches = [p for p in playlists if p.get("playlist_name") == full_name]
+        matches = [p for p in playlists.values() if p.get("playlist_name") == full_name]
 
         if not matches:
             payload = {"error": f"No playlist found with name '{full_name}'"}
@@ -2608,7 +2608,7 @@ class AddNewHighlight(Tool):
         full_name = f"Game Highlights - {name}"
 
         #2) Retrieve DB
-        playlists: list[dict[str, Any]] = data.get("video_playlists", [])
+        playlists: list[dict[str, Any]] = data.get("video_playlists", {}).values()
 
         #3) Attempt to locate existing
         target = None
@@ -2680,10 +2680,10 @@ class GetHighlightByReportId(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        playlists: list[dict[str, Any]] = data.get("video_playlists", [])
+        playlists: list[dict[str, Any]] = data.get("video_playlists", {}).values()
 
         #3) Lookup for exact matches (without normalization)
-        matches = [p for p in playlists if p.get("report_id") == report_id]
+        matches = [p for p in playlists.values() if p.get("report_id") == report_id]
 
         if not matches:
             payload = {"error": f"No video playlists found for report_id {report_id}"}
@@ -2746,10 +2746,10 @@ class GetPlayerInsightsByPlayeridAndType(Tool):
             return out
 
         #2) Retrieve DB
-        insights: list[dict[str, Any]] = data.get("curated_insights", [])
+        insights: list[dict[str, Any]] = data.get("curated_insights", {}).values()
 
         #3) Filter based on player_id
-        player_insights = [i for i in insights if i.get("player_id") == player_id]
+        player_insights = [i for i in insights.values() if i.get("player_id") == player_id]
 
         if not player_insights:
             payload = {"error": f"No insights found for player_id {player_id}"}
@@ -2850,7 +2850,7 @@ class CreateNewInsight(Tool):
             return out
 
         #2) Retrieve DB
-        insights: list[dict[str, Any]] = data.get("curated_insights", [])
+        insights: list[dict[str, Any]] = data.get("curated_insights", {}).values()
 
         #3) Create a new insight_id in a deterministic manner
         new_id = get_next_insight_id(data)
@@ -2923,10 +2923,10 @@ class GetInsightbyreportid(Tool):
             return out
 
         #2) Retrieve DB
-        insights: list[dict[str, Any]] = data.get("curated_insights", [])
+        insights: list[dict[str, Any]] = data.get("curated_insights", {}).values()
 
         #3) Lookup for exact matches (without normalization)
-        matches = [i for i in insights if i.get("report_id") == report_id]
+        matches = [i for i in insights.values() if i.get("report_id") == report_id]
 
         if not matches:
             payload = {"error": f"No insights found for report_id {report_id}"}
@@ -2984,12 +2984,12 @@ class GetScoutingReportByGamepkAndType(Tool):
             return out
 
         #2) Retrieve DB
-        reports: list[dict[str, Any]] = data.get("scouting_reports", [])
+        reports: list[dict[str, Any]] = data.get("scouting_reports", {}).values()
 
         #3) Apply filter
-        matches = [r for r in reports if r.get("game_pk") == game_pk]
+        matches = [r for r in reports.values() if r.get("game_pk") == game_pk]
         if report_type is not None:
-            matches = [r for r in matches if r.get("report_type") == report_type]
+            matches = [r for r in matches.values() if r.get("report_type") == report_type]
 
         if not matches:
             if report_type is None:
@@ -3073,7 +3073,7 @@ class CreateScoutingReport(Tool):
             return out
 
         #2) Retrieve DB
-        reports: list[dict[str, Any]] = data.get("scouting_reports", [])
+        reports: list[dict[str, Any]] = data.get("scouting_reports", {}).values()
 
         #3) Create a new id
         new_id = get_next_scouting_report_id(data)
@@ -3134,7 +3134,7 @@ class GetScoutingReportById(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        reports: list[dict[str, Any]] = data.get("scouting_reports", [])
+        reports: list[dict[str, Any]] = data.get("scouting_reports", {}).values()
 
         #3) Lookup for exact matches
         for report in reports:
@@ -3192,7 +3192,7 @@ class CreateWorkflow(Tool):
             )
             return out
 
-        workflows = data.get("workflow_runs", [])
+        workflows = data.get("workflow_runs", {}).values()
         run_id = get_next_workflow_run_id(data)
         start_time = get_log_start_timestamp()
         end_time = get_log_end_timestamp()
@@ -3208,7 +3208,7 @@ class CreateWorkflow(Tool):
             "log_s3_path": log_path,
         }
 
-        workflows.append(new_entry)
+        data["workflow_runs"][new_entry["workflow_run_id"]] = new_entry
         payload = new_entry
         out = json.dumps(payload, indent=2)
         return out
@@ -3260,7 +3260,7 @@ class GetBullpenSessionInfoForPlayer(Tool):
             return out
 
         #2) Access DB
-        sessions: list[dict[str, Any]] = data.get("bullpen_sessions", [])
+        sessions: list[dict[str, Any]] = data.get("bullpen_sessions", {}).values()
 
         #3) Filter based on exact fields
         def match(session: dict[str, Any]) -> bool:
@@ -3276,7 +3276,7 @@ class GetBullpenSessionInfoForPlayer(Tool):
                 return False
             return True
 
-        matches = [s for s in sessions if match(s)]
+        matches = [s for s in sessions.values() if match(s)]
 
         if not matches:
             #Construct a clear, structured error
@@ -3362,7 +3362,7 @@ class CreateIngestionLog(Tool):
             return out
 
         #2) Access DB
-        logs: list[dict[str, Any]] = data.get("ingestion_logs", [])
+        logs: list[dict[str, Any]] = data.get("ingestion_logs", {}).values()
 
         #3) Create a new ingestion_id in a deterministic manner
         new_id = get_next_ingestion_id(data)
@@ -3436,10 +3436,10 @@ class GetModelDetailByGame(Tool):
             return out
 
         #2) Retrieve DB
-        models: list[dict[str, Any]] = data.get("umpire_game_models", [])
+        models: list[dict[str, Any]] = data.get("umpire_game_models", {}).values()
 
         #3) Gather matches
-        matches = [row for row in models if row.get("game_pk") == game_pk]
+        matches = [row for row in models.values() if row.get("game_pk") == game_pk]
 
         if not matches:
             payload = {"error": f"No model details found for game_pk {game_pk}"}

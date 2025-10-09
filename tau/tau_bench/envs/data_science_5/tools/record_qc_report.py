@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RecordQcReport(Tool):
@@ -19,7 +19,7 @@ class RecordQcReport(Tool):
         artifact_type: str = None,
         related_model_name: str = None
     ) -> str:
-        figs = data.get("qc_figures", [])
+        figs = data.get("qc_figures", {}).values()
         max_id = 0
         for f in figs:
             try:
@@ -37,7 +37,7 @@ class RecordQcReport(Tool):
             "related_model_name": related_model_name,
             "created_at": _now_iso_fixed(),
         }
-        figs.append(row)
+        data["qc_figures"][row["qc_figure_id"]] = row
         payload = {"figure_id": new_id, "figure_label": row["figure_label"]}
         out = json.dumps(
             payload, indent=2

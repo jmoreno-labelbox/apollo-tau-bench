@@ -106,7 +106,7 @@ class CreateMealPlanWithAutoEntries(Tool):
             DeriveChildModifications.invoke(
                 data, recipe_ids=chosen, ruleset="low_spice mild_textures bite_size"
             )
-        ).get("child_notes", {})
+        ).get("child_notes", {}).values()
         # generate entries from Mon to Sun beginning at week_start_date
         bulk_res = json.loads(
             AddMealPlanEntriesBulk.invoke(
@@ -222,7 +222,7 @@ class CreateMealPlanWithAutoEntries(Tool):
             DeriveChildModifications.invoke(
                 data, recipe_ids=chosen, ruleset="low_spice mild_textures bite_size"
             )
-        ).get("child_notes", {})
+        ).get("child_notes", {}).values()
         #generate entries from Mon to Sun beginning at week_start_date
         bulk_res = json.loads(
             AddMealPlanEntriesBulk.invoke(

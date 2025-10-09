@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class PlaceGroceryOrderTool(Tool):
@@ -106,7 +106,7 @@ class PlaceGroceryOrderTool(Tool):
 
         #2. Pre-condition Checks
         list_record = next(
-            (g for g in data.get("grocery_lists", []) if g.get("list_id") == list_id),
+            (g for g in data.get("grocery_lists", {}).values() if g.get("list_id") == list_id),
             None,
         )
         if not list_record:
@@ -126,7 +126,7 @@ class PlaceGroceryOrderTool(Tool):
         #3a. Create the main Order record
         orders_table = data.setdefault("orders", [])
         max_order_id = max(
-            (o.get("order_id", 0) for o in orders_table),
+            (o.get("order_id", 0) for o in orders_table.values()),
             default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["orders"],
         )
         new_order_id = max_order_id + 1
@@ -166,12 +166,12 @@ class PlaceGroceryOrderTool(Tool):
         }
         list_items = [
             item
-            for item in data.get("grocery_list_items", [])
+            for item in data.get("grocery_list_items", {}).values()
             if item.get("list_id") == list_id
         ]
         oi_table = data.setdefault("order_items", [])
         max_oi_id = max(
-            (oi.get("order_item_id", 0) for oi in oi_table),
+            (oi.get("order_item_id", 0) for oi in oi_table.values()),
             default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["order_items"],
         )
 
@@ -187,7 +187,7 @@ class PlaceGroceryOrderTool(Tool):
                 #Find the best in-stock product if no substitution was provided
                 candidate_products = [
                     p
-                    for p in data.get("store_products", [])
+                    for p in data.get("store_products", {}).values()
                     if p.get("store_id") == store_id
                     and p.get("ingredient_id") == ingredient_id
                     and p.get("stock_status_enum") in ("in_stock", "low")
@@ -201,7 +201,7 @@ class PlaceGroceryOrderTool(Tool):
             product_record = next(
                 (
                     p
-                    for p in data.get("store_products", [])
+                    for p in data.get("store_products", {}).values()
                     if p.get("product_id") == product_id_to_add
                 ),
                 None,

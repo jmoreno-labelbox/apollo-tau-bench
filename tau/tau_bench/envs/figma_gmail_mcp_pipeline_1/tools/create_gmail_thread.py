@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateGmailThread(Tool):  #WRITE
@@ -46,13 +46,13 @@ class CreateGmailThread(Tool):  #WRITE
             out = json.dumps(payload)
             return out
         gmail_labels = get_config_options(data, "gmail_labels")
-        invalid_labels = [l for l in current_labels if l not in gmail_labels]
+        invalid_labels = [l for l in current_labels.values() if l not in gmail_labels]
         if invalid_labels:
             payload = {"error": f"Invalid labels: {invalid_labels}. Allowed: {gmail_labels}"}
             out = json.dumps(
                 payload)
             return out
-        gmail_threads = data.get("gmail_threads", [])
+        gmail_threads = data.get("gmail_threads", {}).values()
         next_num = len(gmail_threads) + 1
         thread_id = f"thread_{next_num:03d}"
         created_ts = "2025-08-26T12:00:00Z"  #Utilize the current date/time in production
@@ -68,7 +68,7 @@ class CreateGmailThread(Tool):  #WRITE
             "current_labels": current_labels,
             "created_ts": created_ts,
         }
-        gmail_threads.append(new_thread)
+        gmail_thredata["ads"][ad_id] = new_thread
         payload = {"new_thread": new_thread}
         out = json.dumps(payload)
         return out

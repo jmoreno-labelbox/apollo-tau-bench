@@ -8,7 +8,7 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckTemperatureLogs(Tool):
@@ -16,8 +16,8 @@ class CheckTemperatureLogs(Tool):
     def invoke(data: Dict[str, Any], shipment_id: str = None, required_temp_range: str = None, excursions_flag: bool = False,
     required_range: Any = None,
     ) -> str:
-        shipments = data.get("inbound_shipments", [])
-        shipment = next((s for s in shipments if s.get("shipment_id") == shipment_id), None)
+        shipments = data.get("inbound_shipments", {}).values()
+        shipment = next((s for s in shipments.values() if s.get("shipment_id") == shipment_id), None)
 
         excursions_detected = False
         temperature_compliance = "compliant"

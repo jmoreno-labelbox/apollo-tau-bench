@@ -13,7 +13,7 @@ class list_review_approvals(Tool):
         rows = []
         for c in _ensure(data, "review_cycles", []):
             if c.get("cycle_id") == p["cycle_id"]:
-                for email, ts in c.get("approvals", {}).items():
+                for email, ts in c.get("approvals", {}).values().items():
                     rows.append({"approver_email": email, "approved_ts_nullable": ts})
                 break
         return _ok({"rows": rows})

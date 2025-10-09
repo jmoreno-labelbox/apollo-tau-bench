@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetOperationalEvents(Tool):
@@ -62,10 +62,10 @@ class GetOperationalEvents(Tool):
                 out = json.dumps(payload)
                 return out
 
-        operational_events = data.get("operational_events", [])
+        operational_events = data.get("operational_events", {}).values()
         filtered_events = []
 
-        for event in operational_events:
+        for event in operational_events.values():
             # Implement event type filtering
             if event_type and event.get("event_type") != event_type:
                 continue
@@ -73,7 +73,7 @@ class GetOperationalEvents(Tool):
             # Implement airport filtering
             if (
                 airport_code
-                and event.get("airport", {}).get("iata_code") != airport_code
+                and event.get("airport", {}).values().get("iata_code") != airport_code
             ):
                 continue
 

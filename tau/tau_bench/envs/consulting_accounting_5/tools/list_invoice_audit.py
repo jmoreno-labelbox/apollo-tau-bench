@@ -9,10 +9,10 @@ class ListInvoiceAudit(Tool):
     def invoke(data: Dict[str, Any], audit_id: str = None, invoice_id: str = None) -> str:
         results = []
         if audit_id:
-            results = [a for a in data["invoice_audit"] if a["audit_id"] == audit_id]
+            results = [a for a in data["invoice_audit"].values() if a["audit_id"] == audit_id]
 
         if invoice_id:
-            results = [a for a in data["invoice_audit"] if a["invoice_id"] == invoice_id]
+            results = [a for a in data["invoice_audit"].values() if a["invoice_id"] == invoice_id]
 
         return json.dumps(results)
     @staticmethod

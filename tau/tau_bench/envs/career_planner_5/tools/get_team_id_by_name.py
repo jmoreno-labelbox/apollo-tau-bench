@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTeamIdByName(Tool):
@@ -15,9 +15,9 @@ class GetTeamIdByName(Tool):
     def invoke(data: dict[str, Any], team_name: str) -> str:
         _team_nameL = team_name or ''.lower()
         pass
-        teams = data.get("teams", [])
+        teams = data.get("teams", {}).values()
         team = next(
-            (t for t in teams if t.get("team_name", "").lower() == team_name.lower()),
+            (t for t in teams.values() if t.get("team_name", "").lower() == team_name.lower()),
             None,
         )
         if team:

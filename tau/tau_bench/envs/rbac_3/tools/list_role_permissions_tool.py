@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListRolePermissionsTool(Tool):
@@ -19,11 +19,11 @@ class ListRolePermissionsTool(Tool):
     def invoke(data: dict[str, Any], role_id: str = None, param1: str = None, param2: str = None) -> str:
         # Support both role_id and param1 (alias)
         role_id = role_id or param1
-        role_perms = data.get("role_permissions", [])
-        perms = data.get("permissions", [])
-        perm_map = {p.get("permission_id"): p for p in perms}
+        role_perms = data.get("role_permissions", {}).values()
+        perms = data.get("permissions", {}).values()
+        perm_map = {p.get("permission_id"): p for p in perms.values()}
         out = []
-        for rp in role_perms:
+        for rp in role_perms.values():
             if rp.get("role_id") == role_id:
                 p = perm_map.get(rp.get("permission_id"))
                 if p:

@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetRepositoryHealthSummaryTool(Tool):
@@ -54,26 +54,23 @@ class GetRepositoryHealthSummaryTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", [])
-        prs = data.get("pull_requests", [])
-        alerts = data.get("code_scanning_alerts", [])
+        issues = data.get("issues", {}).values()
+        prs = data.get("pull_requests", {}).values()
+        alerts = data.get("code_scanning_alerts", {}).values()
 
         result = {
             "repo": repo_name,
             "open_issues": sum(
                 1
-                for i in issues
-                if i.get("repo") == repo_name and i.get("state") == "open"
+                for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "open"
             ),
             "open_prs": sum(
                 1
-                for p in prs
-                if p.get("repo") == repo_name and p.get("state") == "open"
+                for p in prs.values() if p.get("repo") == repo_name and p.get("state") == "open"
             ),
             "open_alerts": sum(
                 1
-                for a in alerts
-                if a.get("repo") == repo_name and a.get("state") == "open"
+                for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
             ),
             "report_date": CURRENT_DATE,
         }

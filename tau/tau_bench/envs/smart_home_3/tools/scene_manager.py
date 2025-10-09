@@ -7,16 +7,16 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SceneManager(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], action: str = "get", scene_id: str = None, scene_data: dict = {}, execute_time: str = None) -> str:
-        scenes = data.get("scenes", [])
+        scenes = data.get("scenes", {}).values()
 
         if action == "get":
-            result = [s for s in scenes if (not scene_id or s["id"] == scene_id)]
+            result = [s for s in scenes.values() if (not scene_id or s["id"] == scene_id)]
             payload = result
             out = json.dumps(payload, indent=2)
             return out
@@ -42,7 +42,7 @@ class SceneManager(Tool):
                 payload = {"error": "scene_data required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            scenes.append(scene_data)
+            data["scenes"][scene_id] = scene_data
             payload = {"success": f"Created scene {scene_data.get('id')}"}
             out = json.dumps(
                 payload, indent=2
@@ -68,7 +68,7 @@ class SceneManager(Tool):
                 payload = {"error": "scene_id required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            scenes[:] = [s for s in scenes if s["id"] != scene_id]
+            scenes[:] = [s for s in scenes.values() if s["id"] != scene_id]
             payload = {"success": f"Deleted scene {scene_id}"}
             out = json.dumps(payload, indent=2)
             return out

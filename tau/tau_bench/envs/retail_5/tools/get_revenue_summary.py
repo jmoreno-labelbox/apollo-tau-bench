@@ -14,7 +14,7 @@ class GetRevenueSummary(Tool):
         elif group_by == "user":
             revenue_data["by_user"] = {}
 
-        for order in orders:
+        for order in orders.values():
             if order["status"] in ["delivered", "completed", "processed"]:
                 order_total = sum(item["price"] for item in order["items"])
                 revenue_data["total_revenue"] += order_total

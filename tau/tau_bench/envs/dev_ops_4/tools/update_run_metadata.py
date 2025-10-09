@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateRunMetadata(Tool):
@@ -37,8 +37,8 @@ class UpdateRunMetadata(Tool):
     def invoke(data, run_id=None, metadata_patch=None):
         run_id = run_id
         patch = metadata_patch or {}
-        runs = data.get("build_runs", [])
-        run = next((r for r in runs if r.get("id") == run_id), None)
+        runs = data.get("build_runs", {}).values()
+        run = next((r for r in runs.values() if r.get("id") == run_id), None)
         if not run:
             payload = {"error": "run_not_found", "run_id": run_id}
             out = json.dumps(payload)

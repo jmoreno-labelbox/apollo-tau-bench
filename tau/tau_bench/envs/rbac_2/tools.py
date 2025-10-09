@@ -12,7 +12,7 @@ NOW: datetime = datetime(2025, 8, 9, 10, 00, 00, tzinfo=timezone.utc)
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -47,13 +47,12 @@ class CreateUser(Tool):
     actor_id: Any = None,
     ) -> str:
         try:
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
         except (KeyError, json.JSONDecodeError):
             users = []
         existing_ids = [
             int(item["user_id"].replace("U-", ""))
-            for item in users
-            if item["user_id"].startswith("U-")
+            for item in users.values() if item["user_id"].startswith("U-")
         ]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         user_id = f"U-{next_id_num:03d}"
@@ -66,7 +65,7 @@ class CreateUser(Tool):
             "status": status,
             "mfa_enabled": False,
         }
-        users.append(new_user)
+        data["users"][user_id] = new_user
         data["users.json"] = json.dumps(users)
         payload = new_user
         out = json.dumps(payload)
@@ -111,11 +110,11 @@ class GetUserDetailsById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, actor_id: Any = None) -> str:
         try:
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
         except (KeyError, json.JSONDecodeError):
             users = []
 
-        for user in users:
+        for user in users.values():
             if user.get("user_id") == user_id:
                 payload = user
                 out = json.dumps(payload)
@@ -151,11 +150,11 @@ class GetUserDetailsByUsername(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], username: str = None) -> str:
         try:
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
         except (KeyError, json.JSONDecodeError):
             users = []
 
-        for user in users:
+        for user in users.values():
             if user.get("username") == username:
                 payload = user
                 out = json.dumps(payload)
@@ -191,11 +190,11 @@ class GetUserDetailsByEmail(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], email: str = None) -> str:
         try:
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
         except (KeyError, json.JSONDecodeError):
             users = []
 
-        for user in users:
+        for user in users.values():
             if user.get("email") == email:
                 payload = user
                 out = json.dumps(payload)
@@ -235,14 +234,14 @@ class GetRoleIdByName(Tool):
     def invoke(data: dict[str, Any], role_name: str = None) -> str:
         find_role_name = role_name
         try:
-            roles = data.get("roles", [])
+            roles = data.get("roles", {}).values()
         except (KeyError, json.JSONDecodeError):
             roles = []
 
         exact_matches = []
         partial_matches = []
 
-        for role in roles:
+        for role in roles.values():
             current_role_name = role.get("role_name", "")
 
             if current_role_name == find_role_name:
@@ -294,14 +293,13 @@ class CreateAccessRequest(Tool):
         timestamp: str = None
     ) -> str:
         try:
-            requests = data.get("access_requests", [])
+            requests = data.get("access_requests", {}).values()
         except (KeyError, json.JSONDecodeError):
             requests = []
 
         existing_ids = [
             int(r["request_id"].replace("AR-", ""))
-            for r in requests
-            if r.get("request_id", "").startswith("AR-")
+            for r in requests.values() if r.get("request_id", "").startswith("AR-")
         ]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         request_id = f"AR-{next_id_num:03d}"
@@ -318,7 +316,7 @@ class CreateAccessRequest(Tool):
             "decision_at": None,
         }
 
-        requests.append(new_request)
+        data["access_requests"][new_request["access_request_id"]] = new_request
         data["access_requests.json"] = json.dumps(requests, indent=4)
         payload = new_request
         out = json.dumps(payload)
@@ -375,13 +373,12 @@ class AssignRoleToUser(Tool):
     assigned_on: Any = None,
     ) -> str:
         try:
-            user_roles = data.get("user_roles", [])
+            user_roles = data.get("user_roles", {}).values()
         except (KeyError, json.JSONDecodeError):
             user_roles = []
         existing_ids = [
             int(ur["user_role_id"].replace("UR-", ""))
-            for ur in user_roles
-            if ur.get("user_role_id", "").startswith("UR-")
+            for ur in user_roles.values() if ur.get("user_role_id", "").startswith("UR-")
         ]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         user_role_id = f"UR-{next_id_num:03d}"
@@ -394,7 +391,7 @@ class AssignRoleToUser(Tool):
             "expires_on": expires_on,
         }
 
-        user_roles.append(new_assignment)
+        user_data["roles"][role_id] = new_assignment
         data["user_roles.json"] = json.dumps(user_roles, indent=4)
         payload = new_assignment
         out = json.dumps(payload)
@@ -446,13 +443,12 @@ class LogAuditEvent(Tool):
         details: str = None
     ) -> str:
         try:
-            audit_logs = data.get("audit_logs", [])
+            audit_logs = data.get("audit_logs", {}).values()
         except (KeyError, json.JSONDecodeError):
             audit_logs = []
         existing_ids = [
             int(log["log_id"].replace("L-", ""))
-            for log in audit_logs
-            if log.get("log_id", "").startswith("L-")
+            for log in audit_logs.values() if log.get("log_id", "").startswith("L-")
         ]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         log_id = f"L-{next_id_num:03d}"
@@ -466,7 +462,7 @@ class LogAuditEvent(Tool):
             "details": details,
         }
 
-        audit_logs.append(new_log)
+        data["audit_logs"][new_log["audit_log_id"]] = new_log
         data["audit_logs.json"] = json.dumps(audit_logs, indent=4)
         payload = {"message": "Audit event logged successfully.", "log_details": new_log}
         out = json.dumps(payload)
@@ -528,13 +524,12 @@ class SendEmail(Tool):
         timestamp: str = None
     ) -> str:
         try:
-            emails = data.get("emails", [])
+            emails = data.get("emails", {}).values()
         except (KeyError, json.JSONDecodeError):
             emails = []
         existing_ids = [
             int(email["email_id"].replace("EM-", ""))
-            for email in emails
-            if email.get("email_id", "").startswith("EM-")
+            for email in emails.values() if email.get("email_id", "").startswith("EM-")
         ]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         email_id = f"EM-{next_id_num:03d}"
@@ -548,7 +543,7 @@ class SendEmail(Tool):
             "timestamp": timestamp,
         }
 
-        emails.append(new_email)
+        data["emails"][email_id] = new_email
         data["emails.json"] = json.dumps(emails, indent=4)
         payload = new_email
         out = json.dumps(payload)
@@ -608,12 +603,12 @@ class UpdateUserStatus(Tool):
         new_status = new_status
 
         try:
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
         except:
             users = []
 
         user_to_update = None
-        for user in users:
+        for user in users.values():
             if user.get("user_id") == user_id_to_update:
                 user["status"] = new_status
                 user_to_update = user
@@ -660,11 +655,11 @@ class GetUserRolesByUserId(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
         try:
-            user_roles = data.get("user_roles", [])
+            user_roles = data.get("user_roles", {}).values()
         except:
             user_roles = []
 
-        assigned_roles = [role for role in user_roles if role.get("user_id") == user_id]
+        assigned_roles = [role for role in user_roles.values() if role.get("user_id") == user_id]
         payload = assigned_roles
         out = json.dumps(payload)
         return out
@@ -696,12 +691,12 @@ class RevokeRoleFromUser(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_role_id: str = None) -> str:
         try:
-            user_roles = data.get("user_roles", [])
+            user_roles = data.get("user_roles", {}).values()
         except:
             user_roles = []
 
         index = -1
-        for i, assignment in enumerate(user_roles):
+        for i, assignment in enumerate(user_roles.values():
             if assignment.get("user_role_id") == user_role_id:
                 index = i
                 break
@@ -748,11 +743,11 @@ class GetAccessRequestById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], request_id: str = None) -> str:
         try:
-            access_requests = data.get("access_requests", [])
+            access_requests = data.get("access_requests", {}).values()
         except:
             access_requests = []
 
-        for request in access_requests:
+        for request in access_requests.values():
             if request.get("request_id") == request_id:
                 payload = request
                 out = json.dumps(payload)
@@ -788,11 +783,11 @@ class GetResourceDetailsById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], resource_id: str = None) -> str:
         try:
-            resources = data.get("resources", [])
+            resources = data.get("resources", {}).values()
         except:
             resources = []
 
-        for resource in resources:
+        for resource in resources.values():
             if resource.get("resource_id") == resource_id:
                 payload = resource
                 out = json.dumps(payload)
@@ -828,15 +823,15 @@ class ApproveAccessRequest(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], request_id: str = None, reviewer_id: str = None, timestamp: str = None, expires_on: str = None) -> str:
         try:
-            access_requests = data.get("access_requests", [])
-            user_roles = data.get("user_roles", [])
+            access_requests = data.get("access_requests", {}).values()
+            user_roles = data.get("user_roles", {}).values()
         except Exception as e:
             payload = {"error": f"Failed to load data lists: {e}"}
             out = json.dumps(payload)
             return out
 
         request = None
-        for req in access_requests:
+        for req in access_requests.values():
             if req.get("request_id") == request_id and req.get("status") == "PENDING":
                 request = req
                 break
@@ -852,8 +847,7 @@ class ApproveAccessRequest(Tool):
 
         ur_existing_ids = [
             int(ur["user_role_id"].replace("UR-", ""))
-            for ur in user_roles
-            if ur.get("user_role_id", "").startswith("UR-")
+            for ur in user_roles.values() if ur.get("user_role_id", "").startswith("UR-")
         ]
         next_ur_id = max(ur_existing_ids) + 1 if ur_existing_ids else 1
 
@@ -865,7 +859,7 @@ class ApproveAccessRequest(Tool):
             "assigned_on": timestamp,
             "expires_on": expires_on,
         }
-        user_roles.append(new_role_assignment)
+        user_data["roles"][role_id] = new_role_assignment
 
         data["access_requests"] = access_requests
         data["user_roles"] = user_roles
@@ -916,11 +910,11 @@ class GetSiemAlertById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], alert_id: str = None) -> str:
         try:
-            siem_alerts = data.get("siem_alerts", [])
+            siem_alerts = data.get("siem_alerts", {}).values()
         except:
             siem_alerts = []
 
-        for alert in siem_alerts:
+        for alert in siem_alerts.values():
             if alert.get("alert_id") == alert_id:
                 payload = alert
                 out = json.dumps(payload)
@@ -958,11 +952,11 @@ class GetCertificationDetailsById(Tool):
     user_id: Any = None,
     ) -> str:
         try:
-            certifications = data.get("certifications", [])
+            certifications = data.get("certifications", {}).values()
         except:
             certifications = []
 
-        for cert in certifications:
+        for cert in certifications.values():
             if cert.get("certification_id") == certification_id:
                 payload = cert
                 out = json.dumps(payload)
@@ -998,14 +992,13 @@ class FindUsersWithRole(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], role_id: str = None) -> str:
         try:
-            all_user_roles = data.get("user_roles", [])
+            all_user_roles = data.get("user_roles", {}).values()
         except:
             all_user_roles = []
 
         users_with_role = [
             assignment["user_id"]
-            for assignment in all_user_roles
-            if assignment.get("role_id") == role_id
+            for assignment in all_user_roles.values() if assignment.get("role_id") == role_id
         ]
         unique_user_ids = list(set(users_with_role))
         payload = unique_user_ids
@@ -1042,13 +1035,13 @@ class UpdateCertificationStatus(Tool):
         new_status = new_status
         timestamp = timestamp
         try:
-            certifications = data.get("certifications", [])
+            certifications = data.get("certifications", {}).values()
         except:
             certifications = []
 
         certification_found = False
         updated_certification = None
-        for cert in certifications:
+        for cert in certifications.values():
             if cert.get("certification_id") == certification_id_to_update:
                 cert["status"] = new_status
                 if new_status == "COMPLETED":
@@ -1116,14 +1109,13 @@ class CreatePolicyException(Tool):
         justification: str = None
     ) -> str:
         try:
-            policy_exceptions = data.get("policy_exceptions", [])
+            policy_exceptions = data.get("policy_exceptions", {}).values()
         except:
             policy_exceptions = []
 
         existing_ids = [
             int(item["exception_id"].replace("PE-", ""))
-            for item in policy_exceptions
-            if item.get("exception_id", "").startswith("PE-")
+            for item in policy_exceptions.values() if item.get("exception_id", "").startswith("PE-")
         ]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         exception_id = f"PE-{next_id_num:03d}"
@@ -1140,7 +1132,7 @@ class CreatePolicyException(Tool):
             "status": "ACTIVE",
         }
 
-        policy_exceptions.append(new_exception)
+        data["policy_exceptions"][new_exception["policy_exception_id"]] = new_exception
         data["policy_exceptions"] = policy_exceptions
         payload = {
             "message": "Policy exception created successfully.",
@@ -1212,14 +1204,13 @@ class CreateHubspotTicket(Tool):
         category: str = None
     ) -> str:
         try:
-            hubspot_tickets = data.get("hubspot_tickets", [])
+            hubspot_tickets = data.get("hubspot_tickets", {}).values()
         except:
             hubspot_tickets = []
 
         existing_ids = [
             int(item["ticket_id"].replace("TI-", ""))
-            for item in hubspot_tickets
-            if item.get("ticket_id", "").startswith("TI-")
+            for item in hubspot_tickets.values() if item.get("ticket_id", "").startswith("TI-")
         ]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         ticket_id = f"TI-{next_id_num:03d}"
@@ -1238,7 +1229,7 @@ class CreateHubspotTicket(Tool):
             "closed_at": None,
         }
 
-        hubspot_tickets.append(new_ticket)
+        hubspot_data["tickets"][ticket_id] = new_ticket
         data["hubspot_tickets"] = hubspot_tickets
         payload = {
             "message": "HubSpot ticket created successfully.",
@@ -1309,11 +1300,11 @@ class GetPermissionByName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], permission_name: str = None, resource_id: str = None) -> str:
         try:
-            permissions = data.get("permissions", [])
+            permissions = data.get("permissions", {}).values()
         except (KeyError, json.JSONDecodeError):
             permissions = []
 
-        for perm in permissions:
+        for perm in permissions.values():
             if perm.get("action") == permission_name:
                 if resource_id and perm.get("resource_id") != resource_id:
                     continue
@@ -1360,14 +1351,13 @@ class ListUserSessions(Tool):
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
         user_id_to_find = user_id
         try:
-            all_sessions = data.get("sessions", [])
+            all_sessions = data.get("sessions", {}).values()
         except:
             all_sessions = []
 
         user_sessions = [
             session
-            for session in all_sessions
-            if session.get("user_id") == user_id_to_find
+            for session in all_sessions.values() if session.get("user_id") == user_id_to_find
         ]
         payload = user_sessions
         out = json.dumps(payload)
@@ -1404,12 +1394,12 @@ class RejectAccessRequest(Tool):
         request_id_to_find = request_id
 
         try:
-            access_requests = data.get("access_requests", [])
+            access_requests = data.get("access_requests", {}).values()
         except:
             access_requests = []
 
         request_found = False
-        for request in access_requests:
+        for request in access_requests.values():
             if request.get("request_id") == request_id_to_find:
                 request["status"] = "REJECTED"
                 request["reviewed_by"] = reviewer_id
@@ -1477,11 +1467,11 @@ class GetResourceByName(Tool):
     def invoke(data: dict[str, Any], resource_name: str = None) -> str:
         resource_name_to_find = resource_name
         try:
-            all_resources = data.get("resources", [])
+            all_resources = data.get("resources", {}).values()
         except:
             all_resources = []
 
-        for resource in all_resources:
+        for resource in all_resources.values():
             if resource.get("name") == resource_name_to_find:
                 payload = resource
                 out = json.dumps(payload)
@@ -1524,14 +1514,13 @@ class CreateSiemAlert(Tool):
         severity: str = None
     ) -> str:
         try:
-            siem_alerts = data.get("siem_alerts", [])
+            siem_alerts = data.get("siem_alerts", {}).values()
         except:
             siem_alerts = []
 
         existing_ids = [
             int(item["alert_id"].replace("ALRT-", ""))
-            for item in siem_alerts
-            if item.get("alert_id", "").startswith("ALRT-")
+            for item in siem_alerts.values() if item.get("alert_id", "").startswith("ALRT-")
         ]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         alert_id = f"ALRT-{next_id_num:03d}"
@@ -1545,7 +1534,7 @@ class CreateSiemAlert(Tool):
             "severity": severity,
         }
 
-        siem_alerts.append(new_alert)
+        data["siem_alerts"][new_alert["siem_alert_id"]] = new_alert
         data["siem_alerts"] = siem_alerts
         payload = {"message": "SIEM alert created successfully.", "alert_details": new_alert}
         out = json.dumps(payload)
@@ -1601,11 +1590,11 @@ class GetSlackMessageById(Tool):
     def invoke(data: dict[str, Any], message_id: str = None) -> str:
         message_id_to_find = message_id
         try:
-            slack_messages = data.get("slack_messages", [])
+            slack_messages = data.get("slack_messages", {}).values()
         except:
             slack_messages = []
 
-        for message in slack_messages:
+        for message in slack_messages.values():
             if message.get("message_id") == message_id_to_find:
                 payload = message
                 out = json.dumps(payload)
@@ -1641,11 +1630,11 @@ class FindAccessRequestByDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, role_id: str = None, resource_id: str = None) -> str:
         try:
-            access_requests = data.get("access_requests", [])
+            access_requests = data.get("access_requests", {}).values()
         except:
             access_requests = []
 
-        for request in access_requests:
+        for request in access_requests.values():
             if (
                 request.get("user_id") == user_id
                 and request.get("requested_role_id") == role_id
@@ -1695,14 +1684,13 @@ class SendSlackMessage(Tool):
     thread_id: Any = None,
     ) -> str:
         try:
-            slack_messages = data.get("slack_messages", [])
+            slack_messages = data.get("slack_messages", {}).values()
         except:
             slack_messages = []
 
         existing_ids = [
             int(item["message_id"].replace("SL-", ""))
-            for item in slack_messages
-            if item.get("message_id", "").startswith("SL-")
+            for item in slack_messages.values() if item.get("message_id", "").startswith("SL-")
         ]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         message_id = f"SL-{next_id_num:03d}"
@@ -1716,7 +1704,7 @@ class SendSlackMessage(Tool):
             "reply_to_message_id": reply_to_message_id,
         }
 
-        slack_messages.append(new_message)
+        data["slack_messages"][new_message["slack_message_id"]] = new_message
         data["slack_messages"] = slack_messages
         payload = {
             "message": "Slack message sent successfully.",
@@ -1764,11 +1752,11 @@ class GetRoleDetailsById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], role_id: str = None) -> str:
         try:
-            roles = data.get("roles", [])
+            roles = data.get("roles", {}).values()
         except:
             roles = []
 
-        for role in roles:
+        for role in roles.values():
             if role.get("role_id") == role_id:
                 payload = role
                 out = json.dumps(payload)
@@ -1804,12 +1792,12 @@ class FindResources(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name_keyword: str = None, criticality: str = None, owner_id: str = None) -> str:
         try:
-            resources = data.get("resources", [])
+            resources = data.get("resources", {}).values()
         except:
             resources = []
 
         matching_resources = []
-        for resource in resources:
+        for resource in resources.values():
             if (
                 name_keyword
                 and name_keyword.lower() not in resource.get("name", "").lower()
@@ -1822,7 +1810,7 @@ class FindResources(Tool):
                 continue
             if owner_id and owner_id != resource.get("owner_id"):
                 continue
-            matching_resources.append(resource)
+            matching_data["resources"][resource_id] = resource
         payload = matching_resources
         out = json.dumps(payload)
         return out
@@ -1865,12 +1853,12 @@ class UpdateUserDepartment(Tool):
         new_department = new_department
 
         try:
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
         except (KeyError, json.JSONDecodeError):
             users = []
 
         user_to_update = None
-        for user in users:
+        for user in users.values():
             if user.get("user_id") == user_id_to_update:
                 user["department"] = new_department
                 user_to_update = user
@@ -1917,11 +1905,11 @@ class GetHubspotTicketById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], ticket_id: str = None) -> str:
         try:
-            hubspot_tickets = data.get("hubspot_tickets", [])
+            hubspot_tickets = data.get("hubspot_tickets", {}).values()
         except:
             hubspot_tickets = []
 
-        for ticket in hubspot_tickets:
+        for ticket in hubspot_tickets.values():
             if ticket.get("ticket_id") == ticket_id:
                 payload = ticket
                 out = json.dumps(payload)
@@ -1960,12 +1948,12 @@ class UpdateHubspotTicket(Tool):
         description: Any = None,
     ) -> str:
         try:
-            hubspot_tickets = data.get("hubspot_tickets", [])
+            hubspot_tickets = data.get("hubspot_tickets", {}).values()
         except:
             hubspot_tickets = []
 
         ticket_to_update = None
-        for ticket in hubspot_tickets:
+        for ticket in hubspot_tickets.values():
             if ticket.get("ticket_id") == ticket_id:
                 if status is not None:
                     ticket["status"] = status
@@ -2031,12 +2019,12 @@ class RevokePolicyException(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], exception_id: str = None) -> str:
         try:
-            policy_exceptions = data.get("policy_exceptions", [])
+            policy_exceptions = data.get("policy_exceptions", {}).values()
         except:
             policy_exceptions = []
 
         exception_found = False
-        for exc in policy_exceptions:
+        for exc in policy_exceptions.values():
             if exc.get("exception_id") == exception_id:
                 exc["status"] = "REVOKED"
                 exception_found = True
@@ -2082,11 +2070,11 @@ class GetPolicyExceptionById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], exception_id: str = None) -> str:
         try:
-            policy_exceptions = data.get("policy_exceptions", [])
+            policy_exceptions = data.get("policy_exceptions", {}).values()
         except:
             policy_exceptions = []
 
-        for exc in policy_exceptions:
+        for exc in policy_exceptions.values():
             if exc.get("exception_id") == exception_id:
                 payload = exc
                 out = json.dumps(payload)
@@ -2123,12 +2111,12 @@ class GetPolicyExceptionByUserId(Tool):
     def invoke(data: dict[str, Any], user_id: str = None, include_inactive: bool = False) -> str:
         terminal_statuses = {"REVOKED", "REJECTED", "EXPIRED"}
         try:
-            policy_exceptions = data.get("policy_exceptions", [])
+            policy_exceptions = data.get("policy_exceptions", {}).values()
         except:
             policy_exceptions = []
 
         user_exceptions = []
-        for exc in policy_exceptions:
+        for exc in policy_exceptions.values():
             if exc.get("user_id") == user_id:
                 if include_inactive:
                     user_exceptions.append(exc)
@@ -2169,8 +2157,8 @@ class FindRolesByResourceId(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], role_permissions: list = None, permissions: list = None, resource_id: str = None) -> str:
         try:
-            role_permissions = role_permissions if role_permissions is not None else data.get("role_permissions", [])
-            permissions = permissions if permissions is not None else data.get("permissions", [])
+            role_permissions = role_permissions if role_permissions is not None else data.get("role_permissions", {}).values()
+            permissions = permissions if permissions is not None else data.get("permissions", {}).values()
         except:
             payload = {"error": "Data files not found."}
             out = json.dumps(payload)
@@ -2178,8 +2166,7 @@ class FindRolesByResourceId(Tool):
 
         perm_ids_for_resource = {
             p["permission_id"]
-            for p in permissions
-            if p.get("resource_id") == resource_id
+            for p in permissions.values() if p.get("resource_id") == resource_id
         }
 
         if not perm_ids_for_resource:
@@ -2189,8 +2176,7 @@ class FindRolesByResourceId(Tool):
 
         role_ids_for_resource = {
             rp["role_id"]
-            for rp in role_permissions
-            if rp.get("permission_id") in perm_ids_for_resource
+            for rp in role_permissions.values() if rp.get("permission_id") in perm_ids_for_resource
         }
         payload = list(role_ids_for_resource)
         out = json.dumps(payload)
@@ -2223,11 +2209,11 @@ class FindHubspotTicketByDescription(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], keyword: str = None) -> str:
         try:
-            tickets = data.get("hubspot_tickets", [])
+            tickets = data.get("hubspot_tickets", {}).values()
         except (KeyError, json.JSONDecodeError):
             tickets = []
 
-        for ticket in tickets:
+        for ticket in tickets.values():
             description = ticket.get("description", "")
             if description is None:
                 description = ""
@@ -2269,11 +2255,11 @@ class GetPermissionById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], permission_id: str = None) -> str:
         try:
-            permissions = data.get("permissions", [])
+            permissions = data.get("permissions", {}).values()
         except (KeyError, json.JSONDecodeError):
             permissions = []
 
-        for perm in permissions:
+        for perm in permissions.values():
             if perm.get("permission_id") == permission_id:
                 payload = perm
                 out = json.dumps(payload)
@@ -2309,8 +2295,8 @@ class FindResourcesByRoleId(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], role_id: str = None) -> str:
         try:
-            role_permissions = data.get("role_permissions", [])
-            permissions = data.get("permissions", [])
+            role_permissions = data.get("role_permissions", {}).values()
+            permissions = data.get("permissions", {}).values()
         except:
             payload = {"error": "Data files not found."}
             out = json.dumps(payload)
@@ -2318,8 +2304,7 @@ class FindResourcesByRoleId(Tool):
 
         perm_ids_for_role = {
             rp["permission_id"]
-            for rp in role_permissions
-            if rp.get("role_id") == role_id
+            for rp in role_permissions.values() if rp.get("role_id") == role_id
         }
 
         if not perm_ids_for_role:
@@ -2329,8 +2314,7 @@ class FindResourcesByRoleId(Tool):
 
         resource_ids = {
             p["resource_id"]
-            for p in permissions
-            if p.get("permission_id") in perm_ids_for_role
+            for p in permissions.values() if p.get("permission_id") in perm_ids_for_role
         }
         payload = list(resource_ids)
         out = json.dumps(payload)
@@ -2362,11 +2346,11 @@ class GetSessionDetailsById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], session_id: str = None) -> str:
         try:
-            sessions = data.get("sessions", [])
+            sessions = data.get("sessions", {}).values()
         except (KeyError, json.JSONDecodeError):
             sessions = []
 
-        for session in sessions:
+        for session in sessions.values():
             if session.get("session_id") == session_id:
                 payload = session
                 out = json.dumps(payload)
@@ -2402,14 +2386,13 @@ class CheckUserSessionsById(Tool):
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
         user_id_to_find = user_id
         try:
-            all_sessions = data.get("sessions", [])
+            all_sessions = data.get("sessions", {}).values()
         except (KeyError, json.JSONDecodeError):
             all_sessions = []
 
         user_sessions = [
             session
-            for session in all_sessions
-            if session.get("user_id") == user_id_to_find
+            for session in all_sessions.values() if session.get("user_id") == user_id_to_find
         ]
         payload = user_sessions
         out = json.dumps(payload)
@@ -2444,12 +2427,12 @@ class UpdateResourceOwner(Tool):
         new_owner_id = new_owner_id
 
         try:
-            resources = data.get("resources", [])
+            resources = data.get("resources", {}).values()
         except (KeyError, json.JSONDecodeError):
             resources = []
 
         resource_to_update = None
-        for resource in resources:
+        for resource in resources.values():
             if resource.get("resource_id") == resource_id_to_update:
                 resource["owner_id"] = new_owner_id
                 resource_to_update = resource
@@ -2499,7 +2482,7 @@ class UpdateAccessRequest(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], request_id: str = None, new_reviewer_id: str = None, new_status: str = None, timestamp: str = None) -> str:
-        for req in data.get("access_requests", []):
+        for req in data.get("access_requests", {}).values():
             if req.get("request_id") == request_id:
                 if new_reviewer_id:
                     req["reviewer_id"] = new_reviewer_id
@@ -2552,14 +2535,13 @@ class FindAccessRequestsByUserId(Tool):
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
         user_id_to_find = user_id
         try:
-            all_requests = data.get("access_requests", [])
+            all_requests = data.get("access_requests", {}).values()
         except (KeyError, json.JSONDecodeError):
             all_requests = []
 
         user_requests = [
             request
-            for request in all_requests
-            if request.get("user_id") == user_id_to_find
+            for request in all_requests.values() if request.get("user_id") == user_id_to_find
         ]
         payload = user_requests
         out = json.dumps(payload)
@@ -2593,7 +2575,7 @@ class GetPermissionByResourceId(Tool):
         pass
         resource_id_to_find = resource_id
         try:
-            all_permissions = data.get("permissions", [])
+            all_permissions = data.get("permissions", {}).values()
         except (KeyError, json.JSONDecodeError):
             payload = []
             out = json.dumps(payload)
@@ -2601,8 +2583,7 @@ class GetPermissionByResourceId(Tool):
 
         matching_permissions = [
             perm
-            for perm in all_permissions
-            if perm.get("resource_id") == resource_id_to_find
+            for perm in all_permissions.values() if perm.get("resource_id") == resource_id_to_find
         ]
         payload = matching_permissions
         out = json.dumps(payload)
@@ -2634,11 +2615,11 @@ class GetUserRoleDetailsByUserRoleId(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_role_id: str = None) -> str:
         try:
-            user_roles = data.get("user_roles", [])
+            user_roles = data.get("user_roles", {}).values()
         except:
             user_roles = []
 
-        for user_role in user_roles:
+        for user_role in user_roles.values():
             if user_role.get("user_role_id") == user_role_id:
                 payload = user_role
                 out = json.dumps(payload)

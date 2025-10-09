@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AdvanceTrackingStatusTool(Tool):
@@ -41,9 +41,9 @@ class AdvanceTrackingStatusTool(Tool):
             )
             return out
 
-        tracking = data.get("tracking", [])
+        tracking = data.get("tracking", {}).values()
         tr = next(
-            (t for t in tracking if tracking_id in (t.get("tracking_id") or [])), None
+            (t for t in tracking.values() if tracking_id in (t.get("tracking_id") or [])), None
         )
         if not tr:
             payload = {"error": f"tracking_id '{tracking_id}' not found in tracking.json"}
@@ -59,9 +59,9 @@ class AdvanceTrackingStatusTool(Tool):
         tr["tracking_history"][status] = _now_iso()
 
         # Replicate into orders.json if relevant
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         order = next(
-            (o for o in orders if o.get("order_id") == tr.get("order_id")), None
+            (o for o in orders.values() if o.get("order_id") == tr.get("order_id")), None
         )
         if order:
             if "fulfillments" not in order:

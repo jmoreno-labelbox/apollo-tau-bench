@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateFixPlanStatus(Tool):
@@ -52,11 +52,11 @@ class UpdateFixPlanStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        fix_plans = data.get("fix_plans", [])
+        fix_plans = data.get("fix_plans", {}).values()
 
         # Locate the fix plan
         plan_found = False
-        for plan in fix_plans:
+        for plan in fix_plans.values():
             if plan.get("plan_id") == plan_id:
                 plan_found = True
                 old_status = plan.get("status")

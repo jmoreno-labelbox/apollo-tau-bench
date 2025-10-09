@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SensorReader(Tool):
@@ -22,12 +22,11 @@ class SensorReader(Tool):
 ,
     type: Any = None,
     ) -> str:
-        sensors = data.get("sensors", [])
+        sensors = data.get("sensors", {}).values()
 
         result = [
             s
-            for s in sensors
-            if (not sensor_id or s["id"] == sensor_id)
+            for s in sensors.values() if (not sensor_id or s["id"] == sensor_id)
             and (not sensor_type or s["type"] == sensor_type)
             and (not location or s["location"] == location)
         ]

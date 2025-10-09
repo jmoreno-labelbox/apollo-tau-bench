@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetFlightsByCriteria(Tool):
@@ -23,10 +23,10 @@ class GetFlightsByCriteria(Tool):
         destination: str | None = None,
     ) -> str:
         pass
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         matched_flights = []
 
-        for flight in flights:
+        for flight in flights.values():
             #Apply filters based on origin and destination if available
             if origin and flight.get("origin") != origin:
                 continue
@@ -34,7 +34,7 @@ class GetFlightsByCriteria(Tool):
                 continue
 
             #Verify if the flight contains information for the specified departure date
-            date_info = flight.get("dates", {}).get(departure_date)
+            date_info = flight.get("dates", {}).values().get(departure_date)
             if not date_info:
                 continue
 
@@ -101,7 +101,7 @@ class GetFlightsByCriteria(Tool):
                 if key in date_info and key not in flight_info:
                     flight_info[key] = date_info[key]
 
-            matched_flights.append(flight_info)
+            matched_data["flights"][flight_info["flight_id"]] = flight_info
         payload = matched_flights
         out = json.dumps(payload)
         return out

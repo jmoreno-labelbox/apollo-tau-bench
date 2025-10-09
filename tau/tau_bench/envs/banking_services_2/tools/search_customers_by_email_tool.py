@@ -7,16 +7,16 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchCustomersByEmailTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], email_domain: str = '', partial_email: str = '') -> str:
-        customers = data.get('customers', [])
+        customers = data.get('customers', {}).values()
         matches = []
 
-        for customer in customers:
+        for customer in customers.values():
             email = customer['contact_info']['email_address']
 
             if email_domain and email.endswith(f"@{email_domain}"):

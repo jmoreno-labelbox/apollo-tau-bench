@@ -49,7 +49,7 @@ class RegisterNewArticle(Tool):
         }
         if "articles" not in data:
             data["articles"] = []
-        data["articles"].append(new_article)
+        data["articles"][article_id] = new_article
         payload = {"success": True, "article": new_article}
         out = json.dumps(payload)
         return out

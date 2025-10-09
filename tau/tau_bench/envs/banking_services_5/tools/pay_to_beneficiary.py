@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class PayToBeneficiary(Tool):
@@ -29,7 +29,7 @@ class PayToBeneficiary(Tool):
             )
 
         # find beneficiary
-        bene = next((b for b in data.get("beneficiaries", [])
+        bene = next((b for b in data.get("beneficiaries", {}).values()
                      if b["beneficiary_id"] == beneficiary_id), None)
         if not bene:
             return json.dumps(
@@ -38,7 +38,7 @@ class PayToBeneficiary(Tool):
             )
 
         # find source account
-        acct = next((a for a in data.get("accounts", [])
+        acct = next((a for a in data.get("accounts", {}).values()
                      if a["account_id"] == source_account_id), None)
         if not acct:
             return json.dumps(

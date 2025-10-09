@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAllVenueInCity(Tool):
@@ -22,10 +22,10 @@ class GetAllVenueInCity(Tool):
             return out
 
         #2) Retrieve DB
-        venues: list[dict[str, Any]] = data.get("venues", [])
+        venues: list[dict[str, Any]] = data.get("venues", {}).values()
 
         #3) Filter for exact city
-        matching = [v for v in venues if v.get("city") == city]
+        matching = [v for v in venues.values() if v.get("city") == city]
 
         if not matching:
             payload = {"error": f"No venues found in city {city}"}

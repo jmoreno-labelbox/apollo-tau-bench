@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CancelReservation(Tool):
@@ -16,9 +16,9 @@ class CancelReservation(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], reservation_id: str) -> str:
         """If a reservation exists, cancel it and return either a success or error message."""
-        reservations = data.get("reservations", [])
+        reservations = data.get("reservations", {}).values()
 
-        for reservation in reservations:
+        for reservation in reservations.values():
             if reservation.get("reservation_id") == reservation_id:
                 reservation["status"] = "cancelled"
                 payload = {"success": f"Reservation {reservation_id} has been cancelled."}

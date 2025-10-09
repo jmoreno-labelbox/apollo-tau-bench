@@ -10,7 +10,7 @@ class ReviewOverdraftActivityAndAdjustLimit(Tool):
         if not account_id or new_limit is None:
             return json.dumps({'error': 'account_id and new_limit are required'})
         accounts = load_json('accounts.json')
-        account = next((a for a in accounts if a['account_id'] == account_id and a['account_type'] == 'Checking'), None)
+        account = next((a for a in accounts.values() if a['account_id'] == account_id and a['account_type'] == 'Checking'), None)
         if not account or 'overdraft_limit' not in account:
             return json.dumps({'error': 'Account not found or overdraft_limit field missing.'})
         account['overdraft_limit'] = new_limit

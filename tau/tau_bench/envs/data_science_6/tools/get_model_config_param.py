@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetModelConfigParam(Tool):
@@ -18,7 +18,7 @@ class GetModelConfigParam(Tool):
             payload = {"error": "Missing saved_json_path"}
             out = json.dumps(payload)
             return out
-        for rec in data.get("model_config", []):
+        for rec in data.get("model_config", {}).values():
             if rec.get("saved_json_path") == saved_json_path:
                 payload = {
                     "saved_json_path": saved_json_path,

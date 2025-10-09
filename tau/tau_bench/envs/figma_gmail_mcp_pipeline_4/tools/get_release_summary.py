@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetReleaseSummary(Tool):
@@ -25,13 +25,13 @@ class GetReleaseSummary(Tool):
         """
         Obtains detailed release information and metrics.
         """
-        releases = data.get("releases", [])
-        gmail_threads = data.get("gmail_threads", [])
+        releases = data.get("releases", {}).values()
+        gmail_threads = data.get("gmail_threads", {}).values()
 
         # Return the specific release if release_id is supplied
         if release_id:
             release_info = None
-            for release in releases:
+            for release in releases.values():
                 if release.get("release_id") == release_id:
                     release_info = release
                     break
@@ -45,7 +45,7 @@ class GetReleaseSummary(Tool):
             thread_id = release_info.get("thread_id_nullable")
             thread_info = None
             if thread_id:
-                for thread in gmail_threads:
+                for thread in gmail_threads.values():
                     if thread.get("thread_id") == thread_id:
                         thread_info = thread
                         break
@@ -77,7 +77,7 @@ class GetReleaseSummary(Tool):
             ]
 
         if status:
-            all_releases = [r for r in all_releases if r.get("status") == status]
+            all_releases = [r for r in all_releases.values() if r.get("status") == status]
 
         summary = {
             "total_releases": len(all_releases),

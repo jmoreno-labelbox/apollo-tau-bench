@@ -7,19 +7,18 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SetFeatureToggle(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], org_id: str, toggle_name: str, value: str) -> str:
         org_id, toggle_name, value = _sid(org_id), _sid(toggle_name), _sid(value)
-        settings = data.get("custom_settings", [])
+        settings = data.get("custom_settings", {}).values()
         st = next(
             (
                 s
-                for s in settings
-                if s.get("org_id") == org_id and s.get("setting_name") == toggle_name
+                for s in settings.values() if s.get("org_id") == org_id and s.get("setting_name") == toggle_name
             ),
             None,
         )

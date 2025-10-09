@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListAllTerminalMessage(Tool):
@@ -20,7 +20,7 @@ class ListAllTerminalMessage(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
         # Load terminal entry
-        terminal = data.get("terminal", [])
+        terminal = data.get("terminal", {}).values()
         if isinstance(terminal, list):
             entry = terminal[0] if terminal else {"printed_ts": [], "messages": []}
         elif isinstance(terminal, dict):

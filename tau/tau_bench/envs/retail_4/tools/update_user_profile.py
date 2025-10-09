@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateUserProfile(Tool):
@@ -25,11 +25,11 @@ class UpdateUserProfile(Tool):
         """
         pass
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         user_to_update = None
         user_index = None
 
-        for i, user in enumerate(users):
+        for i, user in enumerate(users.values():
             if user.get("user_id") == user_id:
                 user_to_update = user
                 user_index = i
@@ -48,7 +48,7 @@ class UpdateUserProfile(Tool):
             name_update = profile_updates["name"]
             if isinstance(name_update, dict):
                 if "first_name" in name_update or "last_name" in name_update:
-                    old_name = user_to_update.get("name", {})
+                    old_name = user_to_update.get("name", {}).values()
                     new_name = old_name.copy()
 
                     if "first_name" in name_update:
@@ -91,7 +91,7 @@ class UpdateUserProfile(Tool):
                     out = json.dumps(payload)
                     return out
 
-                old_address = user_to_update.get("address", {})
+                old_address = user_to_update.get("address", {}).values()
                 new_address = old_address.copy()
                 new_address.update(address_update)
 

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateSprint(Tool):
@@ -20,16 +20,16 @@ class CreateSprint(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
-        teams = data.get("teams", [])
+        sprints = data.get("sprints", {}).values()
+        teams = data.get("teams", {}).values()
 
-        team = next((t for t in teams if t.get("team_id") == team_id), None)
+        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
         if not team:
             payload = {"error": f"Team '{team_id}' not found"}
             out = json.dumps(payload)
             return out
 
-        for s in sprints:
+        for s in sprints.values():
             if s.get("sprint_id") == sprint_id:
                 payload = {
                     "error": f"sprint_id {sprint_id} exists. Please enter a unique sprint_id.",
@@ -50,7 +50,7 @@ class CreateSprint(Tool):
             "velocity": 0,
         }
 
-        sprints.append(new_sprint)
+        data["sprints"][sprint_id] = new_sprint
         payload = {"success": True, "sprint": new_sprint}
         out = json.dumps(payload)
         return out

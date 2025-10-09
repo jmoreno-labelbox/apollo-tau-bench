@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class MinimizeNewIngredients(Tool):
@@ -19,7 +19,7 @@ class MinimizeNewIngredients(Tool):
         for rid in ids:
             rows = [
                 r
-                for r in data.get("recipe_ingredients", [])
+                for r in data.get("recipe_ingredients", {}).values()
                 if int(r.get("recipe_id")) == rid
             ]
             non_staples = 0

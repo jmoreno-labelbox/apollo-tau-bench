@@ -9,7 +9,7 @@ class ReserveCartId(Tool):
         used = [c.get("cart_id") for c in (carts or [])]
         reserved = (_id_reservations or {}).get("cart_ids", [])
         next_id = _next_sequential_id(list(used) + list(reserved), "C")
-        resv = data.setdefault("_id_reservations", {})
+        resv = data.setdefault("_id_reservations", [])
         resv["cart_ids"] = list(set(reserved + [next_id]))
         payload = {"cart_id": next_id}
         out = json.dumps(payload, indent=2)

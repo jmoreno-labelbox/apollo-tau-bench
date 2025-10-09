@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateMaintenanceEntry(Tool):
@@ -61,10 +61,10 @@ class CreateMaintenanceEntry(Tool):
             technician_id = f"TECH{technician_number:03d}"
 
         #Confirm the aircraft is present
-        aircraft_data = data.get("aircraft", [])
+        aircraft_data = data.get("aircraft", {}).values()
         target_aircraft = None
 
-        for aircraft in aircraft_data:
+        for aircraft in aircraft_data.values():
             if aircraft.get("aircraft_id") == aircraft_id:
                 target_aircraft = aircraft
                 break
@@ -137,11 +137,11 @@ class CreateMaintenanceEntry(Tool):
                 return out
 
         #Create a unique identifier for the maintenance log
-        maintenance_logs = data.get("maintenance_logs", [])
+        maintenance_logs = data.get("maintenance_logs", {}).values()
         existing_numbers = []
 
         #Obtain existing log numbers
-        for log in maintenance_logs:
+        for log in maintenance_logs.values():
             log_id = log.get("log_id", "")
             if log_id.startswith("ML") and len(log_id) == 5:
                 try:
@@ -155,7 +155,7 @@ class CreateMaintenanceEntry(Tool):
         log_id = f"ML{next_number:03d}"
 
         #Confirm that the work_order_id is unique
-        existing_work_orders = [log.get("work_order_id") for log in maintenance_logs]
+        existing_work_orders = [log.get("work_order_id") for log in maintenance_logs.values()]
         if work_order_id in existing_work_orders:
             payload = {
                     "error": "Work order ID already exists",

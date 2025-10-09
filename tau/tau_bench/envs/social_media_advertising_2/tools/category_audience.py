@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CategoryAudience(Tool):
@@ -19,7 +19,7 @@ class CategoryAudience(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], category: str = None, date: str = None) -> str:
         cat, date = category, date
-        for v in data.get("f_viewership", []):
+        for v in data.get("f_viewership", {}).values():
             if v.get("category") == cat and v.get("date") == date:
                 payload = v
                 out = json.dumps(payload)

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AppendAlternateTrackingIdTool(Tool):
@@ -31,9 +31,9 @@ class AppendAlternateTrackingIdTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        tracking = data.get("tracking", [])
+        tracking = data.get("tracking", {}).values()
         rec = next(
-            (t for t in tracking if original_tid in (t.get("tracking_id") or [])), None
+            (t for t in tracking.values() if original_tid in (t.get("tracking_id") or [])), None
         )
         if not rec:
             payload = {
@@ -52,8 +52,8 @@ class AppendAlternateTrackingIdTool(Tool):
             )
             return out
 
-        couriers = data.get("couriers", [])
-        courier = next((c for c in couriers if c.get("name") == courier_name), None)
+        couriers = data.get("couriers", {}).values()
+        courier = next((c for c in couriers.values() if c.get("name") == courier_name), None)
         if not courier:
             payload = {"error": f"courier '{courier_name}' not found in couriers data"}
             out = json.dumps(
@@ -61,7 +61,7 @@ class AppendAlternateTrackingIdTool(Tool):
             )
             return out
 
-        used_ids = {tid for t in tracking for tid in t.get("tracking_id", [])}
+        used_ids = {tid for t in tracking.values() for tid in t.get("tracking_id", [])}
         candidate_ids = courier.get("tracking_ids", [])
         new_tid = next((tid for tid in candidate_ids if tid not in used_ids), None)
 

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateDeviceStateTimer(Tool):
@@ -21,18 +21,18 @@ class UpdateDeviceStateTimer(Tool):
         update: dict[str, Any],
         rrule: str | None = None
     ) -> str:
-        devices: list[dict[str, Any]] = data.get("devices", [])
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
         for dev in devices:
             if dev.get("id") == device_id:
                 allowed = set(dev.get("state_params", []))
-                bad_keys = [k for k in update if k not in allowed]
+                bad_keys = [k for k in update.values() if k not in allowed]
                 if bad_keys:
                     payload = {"error": f"Invalid state param(s): {bad_keys}"}
                     out = json.dumps(
                         payload, indent=2
                     )
                     return out
-                dev.setdefault("state", {}).update(update)
+                dev.setdefault("state", {}).values().update(update)
                 dev["state"]["last_updated"] = _now_iso()
                 ScheduleDeviceUpdate.invoke(
                     data, device_id, timestamp_end, {"power": "off"}, None, rrule
@@ -43,18 +43,18 @@ class UpdateDeviceStateTimer(Tool):
                 )
                 return out
         #attempt to check sensors if devices are not found
-        sensors: list[dict[str, Any]] = data.get("sensors", [])
+        sensors: list[dict[str, Any]] = data.get("sensors", {}).values()
         for sensor in sensors:
             if sensor.get("id") == device_id:
                 allowed = set(sensor.get("state_params", []))
-                bad_keys = [k for k in update if k not in allowed]
+                bad_keys = [k for k in update.values() if k not in allowed]
                 if bad_keys:
                     payload = {"error": f"Invalid state param(s): {bad_keys}"}
                     out = json.dumps(
                         payload, indent=2
                     )
                     return out
-                sensor.setdefault("state", {}).update(update)
+                sensor.setdefault("state", {}).values().update(update)
                 sensor["state"]["last_updated"] = _now_iso()
                 ScheduleDeviceUpdate.invoke(
                     data, device_id, timestamp_end, {"power": "off"}, None, rrule
@@ -68,18 +68,18 @@ class UpdateDeviceStateTimer(Tool):
         out = json.dumps(payload, indent=2)
         return out
         pass
-        devices: list[dict[str, Any]] = data.get("devices", [])
+        devices: list[dict[str, Any]] = data.get("devices", {}).values()
         for dev in devices:
             if dev.get("id") == device_id:
                 allowed = set(dev.get("state_params", []))
-                bad_keys = [k for k in update if k not in allowed]
+                bad_keys = [k for k in update.values() if k not in allowed]
                 if bad_keys:
                     payload = {"error": f"Invalid state param(s): {bad_keys}"}
                     out = json.dumps(
                         payload, indent=2
                     )
                     return out
-                dev.setdefault("state", {}).update(update)
+                dev.setdefault("state", {}).values().update(update)
                 dev["state"]["last_updated"] = _now_iso()
                 ScheduleDeviceUpdate.invoke(
                     data, device_id, timestamp_end, {"power": "off"}, None, rrule
@@ -90,18 +90,18 @@ class UpdateDeviceStateTimer(Tool):
                 )
                 return out
         #attempt to check sensors if devices are not found
-        sensors: list[dict[str, Any]] = data.get("sensors", [])
+        sensors: list[dict[str, Any]] = data.get("sensors", {}).values()
         for sensor in sensors:
             if sensor.get("id") == device_id:
                 allowed = set(sensor.get("state_params", []))
-                bad_keys = [k for k in update if k not in allowed]
+                bad_keys = [k for k in update.values() if k not in allowed]
                 if bad_keys:
                     payload = {"error": f"Invalid state param(s): {bad_keys}"}
                     out = json.dumps(
                         payload, indent=2
                     )
                     return out
-                sensor.setdefault("state", {}).update(update)
+                sensor.setdefault("state", {}).values().update(update)
                 sensor["state"]["last_updated"] = _now_iso()
                 ScheduleDeviceUpdate.invoke(
                     data, device_id, timestamp_end, {"power": "off"}, None, rrule

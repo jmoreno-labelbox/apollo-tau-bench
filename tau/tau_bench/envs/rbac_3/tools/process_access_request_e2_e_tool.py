@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ProcessAccessRequestE2ETool(Tool):
@@ -71,7 +71,7 @@ class ProcessAccessRequestE2ETool(Tool):
         req = next(
             (
                 r
-                for r in data.get("access_requests", [])
+                for r in data.get("access_requests", {}).values()
                 if r.get("request_id") == request_id
             ),
             None,
@@ -80,12 +80,12 @@ class ProcessAccessRequestE2ETool(Tool):
 
         roles_after = [
             ur.get("role_id")
-            for ur in data.get("user_roles", [])
+            for ur in data.get("user_roles", {}).values()
             if user_id and ur.get("user_id") == user_id and not ur.get("expires_on")
         ]
         sessions_after = [
             s
-            for s in data.get("sessions", [])
+            for s in data.get("sessions", {}).values()
             if user_id and s.get("user_id") == user_id and not s.get("end_time")
         ]
 

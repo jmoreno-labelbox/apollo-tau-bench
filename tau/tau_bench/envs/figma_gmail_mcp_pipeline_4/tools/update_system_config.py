@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateSystemConfig(Tool):
@@ -29,11 +29,11 @@ class UpdateSystemConfig(Tool):
                 payload)
             return out
 
-        system_config = data.get("system_config", [])
+        system_config = data.get("system_config", {}).values()
 
         # Locate existing configuration or generate a new one
         config_found = False
-        for config in system_config:
+        for config in system_config.values():
             if config.get("config_key") == config_key:
                 config_found = True
                 old_value = config.get("config_value_json")
@@ -85,7 +85,7 @@ class UpdateSystemConfig(Tool):
                 }
             ]
 
-            system_config.append(new_config)
+            data["system_config"][new_config["system_config_id"]] = new_config
         payload = {
                 "success": True,
                 "config_key": config_key,

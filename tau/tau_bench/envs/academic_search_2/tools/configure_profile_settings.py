@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ConfigureProfileSettings(Tool):
@@ -35,10 +35,10 @@ class ConfigureProfileSettings(Tool):
                 payload)
             return out
 
-        preferences = data.get("user_preferences", [])
+        preferences = data.get("user_preferences", {}).values()
 
         user_pref = next(
-            (pref for pref in preferences if pref.get("user_id") == user_id), None
+            (pref for pref in preferences.values() if pref.get("user_id") == user_id), None
         )
 
         if user_pref:
@@ -61,7 +61,7 @@ class ConfigureProfileSettings(Tool):
             if not ui_theme:
                 del new_pref["ui_theme"]
 
-            preferences.append(new_pref)
+            data["user_preferences"][new_pref["user_preference_id"]] = new_pref
             data["user_preferences"] = (
                 preferences  #Ensures that the updated list is saved back to 'data'
             )

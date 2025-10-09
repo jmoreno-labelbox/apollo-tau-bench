@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateCandidatesRecordTool(Tool):
@@ -22,15 +22,15 @@ class UpdateCandidatesRecordTool(Tool):
         if not fields_to_update or not isinstance(fields_to_update, dict):
             return _err("fields_to_update (object) is required")
 
-        candidates = data.get("candidates", [])
+        candidates = data.get("candidates", {}).values()
         updated_candidates = []
 
-        for candidate in candidates:
+        for candidate in candidates.values():
             if candidate.get("candidate_id") in candidate_ids:
                 for field, value in fields_to_update.items():
                     if field in candidate:
                         candidate[field] = value
-                updated_candidates.append(candidate)
+                updated_data["candidates"][candidate_id] = candidate
         payload = updated_candidates
         out = json.dumps(payload, indent=2)
         return out

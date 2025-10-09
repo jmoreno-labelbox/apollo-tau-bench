@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ValidateUserIdentity(Tool):
@@ -39,13 +39,13 @@ class ValidateUserIdentity(Tool):
                 payload)
             return out
 
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         target_user = None
         search_method = "user_id" if user_id else "name_search"
 
         if user_id:
             #Rule: Validate user identity exists before processing any user requests
-            target_user = next((u for u in users if u.get("user_id") == user_id), None)
+            target_user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
             if not target_user:
                 payload = {
@@ -61,8 +61,8 @@ class ValidateUserIdentity(Tool):
             #Search by first_name and last_name
             matching_users = []
 
-            for user in users:
-                user_name = user.get("name", {})
+            for user in users.values():
+                user_name = user.get("name", {}).values()
                 stored_first_name = user_name.get("first_name", "").lower().strip()
                 stored_last_name = user_name.get("last_name", "").lower().strip()
 
@@ -73,7 +73,7 @@ class ValidateUserIdentity(Tool):
                     stored_first_name == provided_first_name
                     and stored_last_name == provided_last_name
                 ):
-                    matching_users.append(user)
+                    matching_data["users"][user_id] = user
 
             if not matching_users:
                 payload = {
@@ -114,7 +114,7 @@ class ValidateUserIdentity(Tool):
 
         #Additional validation for first_name and last_name if provided when searching by user_id
         validation_details = {"user_id_valid": True}
-        user_name = target_user.get("name", {})
+        user_name = target_user.get("name", {}).values()
         stored_first_name = user_name.get("first_name", "")
         stored_last_name = user_name.get("last_name", "")
         stored_email = target_user.get("email", "")
@@ -154,7 +154,7 @@ class ValidateUserIdentity(Tool):
             validation_details["last_name_valid"] = True
 
         #Always include comprehensive user location details in the response
-        user_address = target_user.get("address", {})
+        user_address = target_user.get("address", {}).values()
 
         user_location_details = {
             "address1": user_address.get("address1", ""),
@@ -182,9 +182,9 @@ class ValidateUserIdentity(Tool):
             address_status = "partial"
 
         #Check if location supports delivery (based on available couriers)
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         supported_countries = set()
-        for courier in couriers:
+        for courier in couriers.values()):
             supported_countries.update(courier.get("coverage_area", []))
 
         destination_country = user_address.get("country", "")

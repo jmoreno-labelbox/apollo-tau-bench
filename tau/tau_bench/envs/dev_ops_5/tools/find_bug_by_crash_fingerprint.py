@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindBugByCrashFingerprint(Tool):
@@ -15,9 +15,9 @@ class FindBugByCrashFingerprint(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], crash_fingerprint: str = None) -> str:
-        work_items = data.get("work_items", [])
+        work_items = data.get("work_items", {}).values()
         for item in work_items:
-            if item.get("metadata", {}).get("crash_fingerprint") == crash_fingerprint:
+            if item.get("metadata", {}).values().get("crash_fingerprint") == crash_fingerprint:
                 payload = item
                 out = json.dumps(payload)
                 return out

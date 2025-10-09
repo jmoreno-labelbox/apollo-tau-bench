@@ -42,7 +42,7 @@ class CollectSubjectSnapshot(Tool):
             org_id = org_from(subject_id)
             #policy mandates two jobs
             required = {"Load API Metadata", "Populate Cache Job"}
-            org_jobs = [j for j in cache_jobs if j.get("org_id") == org_id]
+            org_jobs = [j for j in cache_jobs.values() if j.get("org_id") == org_id]
             found = {j.get("job_name") for j in org_jobs}
             details.update(
                 {
@@ -56,7 +56,7 @@ class CollectSubjectSnapshot(Tool):
             )
 
         elif subject_id.startswith("00D8"):  #appears to be an organization identifier
-            org_jobs = [j for j in cache_jobs if j.get("org_id") == subject_id]
+            org_jobs = [j for j in cache_jobs.values() if j.get("org_id") == subject_id]
             details.update(
                 {
                     "org_id": subject_id,
@@ -72,7 +72,7 @@ class CollectSubjectSnapshot(Tool):
             #is it an order?
             o = next((o for o in orders if o.get("order_id") == subject_id), None)
             if o:
-                its = [li for li in items if li.get("order_id") == subject_id]
+                its = [li for li in items.values() if li.get("order_id") == subject_id]
                 acct = next(
                     (a for a in accounts if a.get("account_id") == o.get("account_id")),
                     None,
@@ -99,7 +99,7 @@ class CollectSubjectSnapshot(Tool):
                 )
 
         elif subject_id.startswith("sg-"):  #identifier for the security group
-            grp = [r for r in sgs if r.get("security_group_id") == subject_id]
+            grp = [r for r in sgs.values() if r.get("security_group_id") == subject_id]
             has_public_redis = any(
                 r.get("port") == 6379
                 and r.get("protocol") == "TCP"

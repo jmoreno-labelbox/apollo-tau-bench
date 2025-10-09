@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateAddressForCustomerId(Tool):
@@ -26,10 +26,10 @@ class UpdateAddressForCustomerId(Tool):
                 "error": "At least one of mailing_address or residential_address must be provided."
             }, indent=2)
 
-        customers = data.get("customers", [])
-        for customer in customers:
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
-                contact_info = customer.setdefault("contact_info", {})
+                contact_info = customer.setdefault("contact_info", {}).values()
                 if mailing_address:
                     contact_info["mailing_address"] = mailing_address
                 if residential_address:

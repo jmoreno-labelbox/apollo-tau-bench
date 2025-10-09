@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTeamBudgetStatus(Tool):
@@ -25,13 +25,13 @@ class GetTeamBudgetStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        teams = data.get("teams", [])
-        budgets = data.get("budgets", [])
-        expenses = data.get("expenses", [])
-        employees = data.get("employees", [])
-        task_logs = data.get("task_logs", [])
+        teams = data.get("teams", {}).values()
+        budgets = data.get("budgets", {}).values()
+        expenses = data.get("expenses", {}).values()
+        employees = data.get("employees", {}).values()
+        task_logs = data.get("task_logs", {}).values()
 
-        team = next((t for t in teams if t.get("team_id") == team_id), None)
+        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
         if not team:
             payload = {"error": f"Team {team_id} not found"}
             out = json.dumps(payload)
@@ -41,8 +41,7 @@ class GetTeamBudgetStatus(Tool):
         budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -59,7 +58,7 @@ class GetTeamBudgetStatus(Tool):
 
         for member_id in team_members:
             employee = next(
-                (e for e in employees if e.get("employee_id") == member_id), None
+                (e for e in employees.values() if e.get("employee_id") == member_id), None
             )
             if employee:
                 hourly_rate = (
@@ -69,9 +68,9 @@ class GetTeamBudgetStatus(Tool):
                     hourly_rate = 175
 
                 member_logs = [
-                    log for log in task_logs if log.get("employee_id") == member_id
+                    log for log in task_logs.values() if log.get("employee_id") == member_id
                 ]
-                total_hours = sum(log.get("hours", 0) for log in member_logs)
+                total_hours = sum(log.get("hours", 0) for log in member_logs.values()
                 member_cost = total_hours * hourly_rate
 
                 member_costs[member_id] = {
@@ -85,13 +84,12 @@ class GetTeamBudgetStatus(Tool):
 
         team_expenses = [
             e
-            for e in expenses
-            if e.get("employee_id") in team_members
+            for e in expenses.values() if e.get("employee_id") in team_members
             and e.get("project_id") == project_id
             and e.get("status") == "approved"
         ]
 
-        total_expenses = sum(e.get("amount", 0) for e in team_expenses)
+        total_expenses = sum(e.get("amount", 0) for e in team_expenses.values()
 
         status = {
             "budget_utilization": (

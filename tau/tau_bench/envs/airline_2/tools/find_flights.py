@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindFlights(Tool):
@@ -71,15 +71,15 @@ class FindFlights(Tool):
             date_range.append(d.strftime("%Y-%m-%d"))
             d += timedelta(days=1)
 
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         matching_flights: list[dict[str, Any]] = []
 
         # Route and scan within the date range
-        for f in flights:
+        for f in flights.values():
             if f.get("origin") != origin or f.get("destination") != destination:
                 continue
 
-            per_day = f.get("dates", {})
+            per_day = f.get("dates", {}).values()
             for day in date_range:
                 if day not in per_day:
                     continue
@@ -126,7 +126,7 @@ class FindFlights(Tool):
                             "actual_arrival_time_est"
                         ]
 
-                matching_flights.append(result)
+                matching_data["flights"][result["flight_id"]] = result
 
         matching_flights.sort(
             key=lambda x: (x["date"], x["scheduled_departure_time_est"])
@@ -145,7 +145,7 @@ class FindFlights(Tool):
         if avail_with_prices:
             all_prices = []
             for r in avail_with_prices:
-                for cabin_class, price in r.get("prices", {}).items():
+                for cabin_class, price in r.get("prices", {}).values().items():
                     all_prices.append(
                         {
                             "cabin_class": cabin_class,

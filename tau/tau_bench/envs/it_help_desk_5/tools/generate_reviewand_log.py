@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateReviewandLog(Tool):
@@ -30,8 +30,8 @@ class GenerateReviewandLog(Tool):
             "output_path_pdf": f"s3://reports/Report_{formatted_date}.pdf",
         }
 
-        reports = data.get("validation_issues", [])
-        reports.append(new_report)
+        reports = data.get("validation_issues", {}).values()
+        data["validation_issues"][new_report["validation_issue_id"]] = new_report
         payload = {
                 "status": "ok",
                 "description": "Successfully created pdf and added report to validation_issues.",

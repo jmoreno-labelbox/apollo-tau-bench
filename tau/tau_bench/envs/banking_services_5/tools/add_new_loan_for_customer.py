@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddNewLoanForCustomer(Tool):
@@ -32,21 +32,21 @@ class AddNewLoanForCustomer(Tool):
                 "error": "customer_id, application_id, collateral_type, and collateral_info are required."
             }, indent=2)
 
-        customers = data.get("customers", [])
-        loan_applications = data.get("loan_applications", [])
+        customers = data.get("customers", {}).values()
+        loan_applications = data.get("loan_applications", {}).values()
 
         # Get customer object
-        customer = next((c for c in customers if c["customer_id"] == customer_id), None)
+        customer = next((c for c in customers.values() if c["customer_id"] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found."}, indent=2)
 
         # Get loan application
-        application = next((a for a in loan_applications if a["application_id"] == loan_application_id), None)
+        application = next((a for a in loan_applications.values() if a["application_id"] == loan_application_id), None)
         if not application:
             return json.dumps({"error": "Loan application not found."}, indent=2)
 
-        loan_details = application.get("loan_details", {})
-        decision = application.get("decision", {})
+        loan_details = application.get("loan_details", {}).values()
+        decision = application.get("decision", {}).values()
         loan_type = loan_details.get("loan_type")
 
         # Generate IDs

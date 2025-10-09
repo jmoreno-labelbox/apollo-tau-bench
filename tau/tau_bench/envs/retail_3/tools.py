@@ -13,7 +13,7 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -59,12 +59,12 @@ def _adjust_stock(
     data: dict[str, Any], product_id: str, item_id: str, quantity_change: int
 ):
     pass
-    products = data.get("products", [])
-    for p in products:
+    products = data.get("products", {}).values()
+    for p in products.values():
         if p.get("product_id") == product_id:
             variant = (p.get("variants") or {}).get(item_id)
             if variant:
-                stock_info = variant.get("stock", {})
+                stock_info = variant.get("stock", {}).values()
                 current_stock = stock_info.get("quantity", 0)
                 stock_info["quantity"] = current_stock + quantity_change
                 variant["stock"] = stock_info
@@ -110,8 +110,8 @@ class CreateOrderTool(Tool):
             )
             return out
 
-        suppliers = data.get("suppliers", [])
-        if not any(s.get("supplier_id") == supplier_id for s in suppliers):
+        suppliers = data.get("suppliers", {}).values()
+        if not any(s.get("supplier_id") == supplier_id for s in suppliers.values()):
             payload = {"error": f"supplier_id '{supplier_id}' not found in suppliers"}
             out = json.dumps(
                 payload, indent=2,
@@ -119,7 +119,7 @@ class CreateOrderTool(Tool):
             return out
 
         resolved_items: list[dict[str, Any]] = []
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         for line in items:
             pid = line.get("product_id")
             iid = line.get("item_id")
@@ -133,7 +133,7 @@ class CreateOrderTool(Tool):
                 )
                 return out
             variant = None
-            for p in products:
+            for p in products.values():
                 if p.get("product_id") == pid:
                     variant_data = (p.get("variants") or {}).get(iid)
                     if variant_data:
@@ -142,7 +142,7 @@ class CreateOrderTool(Tool):
                             "product_id": pid,
                             "item_id": iid,
                             "price": variant_data.get("price"),
-                            "options": variant_data.get("options", {}),
+                            "options": variant_data.get("options", {}).values()),
                         }
                         break
             if not variant:
@@ -166,7 +166,7 @@ class CreateOrderTool(Tool):
             "created_at": _now_iso(),
             "events": [],
         }
-        supply_orders.append(new_so)
+        supply_data["orders"][order_id] = new_so
         payload = {
                 "message": "supply_order_created",
                 "supply_order_id": new_so["supply_order_id"],
@@ -274,8 +274,8 @@ class AppendPaymentTool(Tool):
             )
             return out
 
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order_id '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
@@ -361,16 +361,16 @@ class AssignCourierAndCreateTrackingTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order_id '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
 
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         user = next(
-            (u for u in users if u.get("user_id") == order.get("user_id")), None
+            (u for u in users.values() if u.get("user_id") == order.get("user_id")), None
         )
         if not user:
             payload = {"error": f"user '{order.get('user_id')}' not found"}
@@ -380,9 +380,9 @@ class AssignCourierAndCreateTrackingTool(Tool):
             return out
 
         country = ((user.get("address") or {}).get("country")) or "USA"
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         courier = next(
-            (c for c in couriers if country in (c.get("coverage_area") or [])),
+            (c for c in couriers.values() if country in (c.get("coverage_area") or [])),
             couriers[0] if couriers else None,
         )
         if not courier:
@@ -391,7 +391,7 @@ class AssignCourierAndCreateTrackingTool(Tool):
             return out
 
         used = {
-            tid for t in data.get("tracking", []) for tid in t.get("tracking_id", [])
+            tid for t in data.get("tracking", {}).values() for tid in t.get("tracking_id", [])
         }
         tid = next(
             (tid for tid in courier.get("tracking_ids", []) if tid not in used), None
@@ -483,9 +483,9 @@ class AdvanceTrackingStatusTool(Tool):
             )
             return out
 
-        tracking = data.get("tracking", [])
+        tracking = data.get("tracking", {}).values()
         tr = next(
-            (t for t in tracking if tracking_id in (t.get("tracking_id") or [])), None
+            (t for t in tracking.values() if tracking_id in (t.get("tracking_id") or [])), None
         )
         if not tr:
             payload = {"error": f"tracking_id '{tracking_id}' not found in tracking.json"}
@@ -501,9 +501,9 @@ class AdvanceTrackingStatusTool(Tool):
         tr["tracking_history"][status] = _now_iso()
 
         # Replicate into orders.json if relevant
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         order = next(
-            (o for o in orders if o.get("order_id") == tr.get("order_id")), None
+            (o for o in orders.values() if o.get("order_id") == tr.get("order_id")), None
         )
         if order:
             if "fulfillments" not in order:
@@ -584,8 +584,8 @@ class CancelOrderAndRefundTool(Tool):
             )
             return out
 
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order_id '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
@@ -678,9 +678,9 @@ class AddItemsToOrderTool(Tool):
             )
             return out
 
-        orders = data.get("orders", [])
-        products = data.get("products", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        products = data.get("products", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
 
         if not order:
             payload = {"error": f"order_id '{order_id}' not found"}
@@ -702,7 +702,7 @@ class AddItemsToOrderTool(Tool):
                 )
                 return out
 
-            product = next((p for p in products if p.get("product_id") == pid), None)
+            product = next((p for p in products.values() if p.get("product_id") == pid), None)
             variant = (product.get("variants") or {}).get(iid) if product else None
 
             if not variant:
@@ -719,7 +719,7 @@ class AddItemsToOrderTool(Tool):
                 "product_id": pid,
                 "item_id": iid,
                 "price": variant.get("price"),
-                "options": variant.get("options", {}),
+                "options": variant.get("options", {}).values()),
             }
 
             for _ in range(qty):
@@ -805,8 +805,8 @@ class RemoveItemsByIndexTool(Tool):
             )
             return out
 
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order_id '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
@@ -884,8 +884,8 @@ class SetOrderStatusTool(Tool):
             )
             return out
 
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order_id '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
@@ -942,16 +942,16 @@ class LinkExistingTrackingToOrderTool(Tool):
             )
             return out
 
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order_id '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
 
-        tracking = data.get("tracking", [])
+        tracking = data.get("tracking", {}).values()
         tr = next(
-            (t for t in tracking if tracking_id in (t.get("tracking_id") or [])), None
+            (t for t in tracking.values() if tracking_id in (t.get("tracking_id") or [])), None
         )
         if not tr:
             payload = {"error": f"tracking_id '{tracking_id}' not found"}
@@ -1031,15 +1031,15 @@ class CreateSupplyOrderTool(Tool):
             )
             return out
 
-        suppliers = data.get("suppliers", [])
-        if not any(s.get("supplier_id") == supplier_id for s in suppliers):
+        suppliers = data.get("suppliers", {}).values()
+        if not any(s.get("supplier_id") == supplier_id for s in suppliers.values()):
             payload = {"error": f"supplier_id '{supplier_id}' not found in suppliers"}
             out = json.dumps(
                 payload, indent=2,
             )
             return out
 
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         resolved_items: list[dict[str, Any]] = []
 
         for line in items:
@@ -1056,7 +1056,7 @@ class CreateSupplyOrderTool(Tool):
                 return out
 
             variant = None
-            for p in products:
+            for p in products.values():
                 if p.get("product_id") == pid:
                     variant_data = (p.get("variants") or {}).get(iid)
                     if variant_data:
@@ -1065,7 +1065,7 @@ class CreateSupplyOrderTool(Tool):
                             "product_id": pid,
                             "item_id": iid,
                             "price": variant_data.get("price"),
-                            "options": variant_data.get("options", {}),
+                            "options": variant_data.get("options", {}).values()),
                         }
                         break
 
@@ -1091,7 +1091,7 @@ class CreateSupplyOrderTool(Tool):
             "created_at": _now_iso(),
             "events": [],
         }
-        supply_orders.append(new_so)
+        supply_data["orders"][order_id] = new_so
         payload = {
                 "message": "supply_order_created",
                 "supply_order_id": new_so["supply_order_id"],
@@ -1163,8 +1163,8 @@ class SetSupplyOrderStatusTool(Tool):
             )
             return out
 
-        supply_orders = data.get("supply_orders", [])
-        so = next((s for s in supply_orders if s.get("supply_order_id") == so_id), None)
+        supply_orders = data.get("supply_orders", {}).values()
+        so = next((s for s in supply_orders.values() if s.get("supply_order_id") == so_id), None)
         if not so:
             payload = {"error": f"supply_order_id '{so_id}' not found"}
             out = json.dumps(
@@ -1233,8 +1233,8 @@ class AppendSupplyOrderEventTool(Tool):
             )
             return out
 
-        supply_orders = data.get("supply_orders", [])
-        so = next((s for s in supply_orders if s.get("supply_order_id") == so_id), None)
+        supply_orders = data.get("supply_orders", {}).values()
+        so = next((s for s in supply_orders.values() if s.get("supply_order_id") == so_id), None)
         if not so:
             payload = {"error": f"supply_order_id '{so_id}' not found"}
             out = json.dumps(
@@ -1279,9 +1279,9 @@ class GetOrderFinancialsTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str = None) -> str:
         # Fetches the 'orders' object from the in-memory state, which could have been altered.
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
 
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"Order '{order_id}' not found in the current state"}
             out = json.dumps(
@@ -1332,9 +1332,9 @@ class FindOrdersByUserAndStatusTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         filtered = []
-        for o in orders:
+        for o in orders.values():
             if o.get("user_id") != user_id:
                 continue
             if status and o.get("status") != status:
@@ -1398,15 +1398,15 @@ class AttachCourierByNameTool(Tool):
             )
             return out
 
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order_id '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
 
-        couriers = data.get("couriers", [])
-        courier = next((c for c in couriers if c.get("name") == courier_name), None)
+        couriers = data.get("couriers", {}).values()
+        courier = next((c for c in couriers.values() if c.get("name") == courier_name), None)
         if not courier:
             payload = {"error": f"courier '{courier_name}' not found"}
             out = json.dumps(
@@ -1415,7 +1415,7 @@ class AttachCourierByNameTool(Tool):
             return out
 
         used_ids = {
-            tid for t in data.get("tracking", []) for tid in t.get("tracking_id", [])
+            tid for t in data.get("tracking", {}).values() for tid in t.get("tracking_id", [])
         }
         candidate_ids = courier.get("tracking_ids", [])
         tid = next((tid for tid in candidate_ids if tid not in used_ids), None)
@@ -1498,9 +1498,9 @@ class UpdateTrackingCourierTool(Tool):
             )
             return out
 
-        tracking = data.get("tracking", [])
+        tracking = data.get("tracking", {}).values()
         rec = next(
-            (t for t in tracking if tracking_id in (t.get("tracking_id") or [])), None
+            (t for t in tracking.values() if tracking_id in (t.get("tracking_id") or [])), None
         )
         if not rec:
             payload = {"error": f"tracking_id '{tracking_id}' not found in tracking records"}
@@ -1564,9 +1564,9 @@ class AddTrackingCustomEventTool(Tool):
             )
             return out
 
-        tracking = data.get("tracking", [])
+        tracking = data.get("tracking", {}).values()
         rec = next(
-            (t for t in tracking if tracking_id in (t.get("tracking_id") or [])), None
+            (t for t in tracking.values() if tracking_id in (t.get("tracking_id") or [])), None
         )
         if not rec:
             payload = {"error": f"tracking_id '{tracking_id}' not found in tracking records"}
@@ -1615,9 +1615,9 @@ class FindTrackingByOrderTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str = None) -> str:
         # Retrieves the tracking information from the in-memory state.
-        tracking_data = data.get("tracking", [])
+        tracking_data = data.get("tracking", {}).values()
 
-        tr = next((t for t in tracking_data if t.get("order_id") == order_id), None)
+        tr = next((t for t in tracking_data.values() if t.get("order_id") == order_id), None)
         if not tr:
             payload = {
                 "error": f"Tracking for order '{order_id}' not found in the current state"
@@ -1664,9 +1664,9 @@ class FindSupplyOrdersTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supplier_id: str = None, status: str = None) -> str:
-        supply_orders = data.get("supply_orders", [])
+        supply_orders = data.get("supply_orders", {}).values()
         filtered = []
-        for so in supply_orders:
+        for so in supply_orders.values():
             if supplier_id and so.get("supplier_id") != supplier_id:
                 continue
             if status and so.get("status") != status:
@@ -1731,15 +1731,15 @@ class SplitOrderIntoShipmentsTool(Tool):
             )
             return out
 
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order_id '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
 
-        couriers = data.get("couriers", [])
-        tracking_db = _convert_db_to_list(data.get("tracking", {}))
+        couriers = data.get("couriers", {}).values()
+        tracking_db = _convert_db_to_list(data.get("tracking", {}).values()
         items_len = len(order.get("items", []))
         created = []
 
@@ -1773,7 +1773,7 @@ class SplitOrderIntoShipmentsTool(Tool):
                 return out
 
             #locate courier
-            courier = next((c for c in couriers if c.get("name") == courier_name), None)
+            courier = next((c for c in couriers.values() if c.get("name") == courier_name), None)
             if not courier:
                 payload = {"error": f"courier '{courier_name}' not found"}
                 out = json.dumps(
@@ -1897,9 +1897,9 @@ class MergeOrdersForSameUserTool(Tool):
             )
             return out
 
-        orders = data.get("orders", [])
-        target = next((o for o in orders if o.get("order_id") == target_order_id), None)
-        source = next((o for o in orders if o.get("order_id") == source_order_id), None)
+        orders = data.get("orders", {}).values()
+        target = next((o for o in orders.values() if o.get("order_id") == target_order_id), None)
+        source = next((o for o in orders.values() if o.get("order_id") == source_order_id), None)
         if not target or not source:
             payload = {"error": "target or source order not found"}
             out = json.dumps(payload, indent=2)
@@ -1973,8 +1973,8 @@ class ReopenCancelledOrderTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order_id '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
@@ -2019,27 +2019,27 @@ class ReplaceItemVariantInOrderTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str, index: int, product_id: str, item_id: str) -> str:
-        orders = data.get("orders", [])
-        products = data.get("products", [])
-        tracking_data = data.get("tracking", [])
+        orders = data.get("orders", {}).values()
+        products = data.get("products", {}).values()
+        tracking_data = data.get("tracking", {}).values()
 
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"Order '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
 
         new_variant = None
-        for p in products:
+        for p in products.values():
             if p.get("product_id") == product_id:
-                variant_details = p.get("variants", {}).get(item_id)
+                variant_details = p.get("variants", {}).values().get(item_id)
                 if variant_details:
                     new_variant = {
                         "name": p.get("name"),
                         "product_id": product_id,
                         "item_id": item_id,
                         "price": variant_details.get("price"),
-                        "options": variant_details.get("options", {}),
+                        "options": variant_details.get("options", {}).values()),
                     }
                     break
         if not new_variant:
@@ -2072,7 +2072,7 @@ class ReplaceItemVariantInOrderTool(Tool):
 
         _recalculate_financials(order)
 
-        tr = next((t for t in tracking_data if t.get("order_id") == order_id), None)
+        tr = next((t for t in tracking_data.values() if t.get("order_id") == order_id), None)
         if tr and old_item_id and "item_ids" in tr:
             try:
                 id_index = tr["item_ids"].index(old_item_id)
@@ -2134,8 +2134,8 @@ class AutoApproveSupplyOrderTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        supply_orders = data.get("supply_orders", [])
-        so = next((s for s in supply_orders if s.get("supply_order_id") == so_id), None)
+        supply_orders = data.get("supply_orders", {}).values()
+        so = next((s for s in supply_orders.values() if s.get("supply_order_id") == so_id), None)
         if not so:
             payload = {"error": f"supply_order_id '{so_id}' not found"}
             out = json.dumps(
@@ -2212,8 +2212,8 @@ class DuplicateOrderTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        orders = data.get("orders", [])
-        src = next((o for o in orders if o.get("order_id") == src_id), None)
+        orders = data.get("orders", {}).values()
+        src = next((o for o in orders.values() if o.get("order_id") == src_id), None)
         if not src:
             payload = {"error": f"source_order_id '{src_id}' not found"}
             out = json.dumps(
@@ -2231,7 +2231,7 @@ class DuplicateOrderTool(Tool):
             "payment_history": [],
             "timestamp": _now_iso(),
         }
-        orders.append(new_order)
+        data["orders"][order_id] = new_order
         payload = {
                 "source_order_id": src_id,
                 "new_order_id": new_order["order_id"],
@@ -2289,8 +2289,8 @@ class RemovePaymentByIndexTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order_id '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
@@ -2353,9 +2353,9 @@ class AppendAlternateTrackingIdTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        tracking = data.get("tracking", [])
+        tracking = data.get("tracking", {}).values()
         rec = next(
-            (t for t in tracking if original_tid in (t.get("tracking_id") or [])), None
+            (t for t in tracking.values() if original_tid in (t.get("tracking_id") or [])), None
         )
         if not rec:
             payload = {
@@ -2374,8 +2374,8 @@ class AppendAlternateTrackingIdTool(Tool):
             )
             return out
 
-        couriers = data.get("couriers", [])
-        courier = next((c for c in couriers if c.get("name") == courier_name), None)
+        couriers = data.get("couriers", {}).values()
+        courier = next((c for c in couriers.values() if c.get("name") == courier_name), None)
         if not courier:
             payload = {"error": f"courier '{courier_name}' not found in couriers data"}
             out = json.dumps(
@@ -2383,7 +2383,7 @@ class AppendAlternateTrackingIdTool(Tool):
             )
             return out
 
-        used_ids = {tid for t in tracking for tid in t.get("tracking_id", [])}
+        used_ids = {tid for t in tracking.values() for tid in t.get("tracking_id", [])}
         candidate_ids = courier.get("tracking_ids", [])
         new_tid = next((tid for tid in candidate_ids if tid not in used_ids), None)
 
@@ -2459,7 +2459,7 @@ class ReassignTrackingToNewCourierTool(Tool):
             )
             return out
 
-        tracking_db = _convert_db_to_list(data.get("tracking", {}))
+        tracking_db = _convert_db_to_list(data.get("tracking", {}).values()
         rec = next(
             (t for t in tracking_db if tracking_id in (t.get("tracking_id") or [])), None
         )
@@ -2472,9 +2472,9 @@ class ReassignTrackingToNewCourierTool(Tool):
 
         old_courier = rec.get("courier_name")
 
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         new_courier = next(
-            (c for c in couriers if c.get("name") == new_courier_name), None
+            (c for c in couriers.values() if c.get("name") == new_courier_name), None
         )
         if not new_courier:
             payload = {"error": f"courier '{new_courier_name}' not found"}
@@ -2502,8 +2502,8 @@ class ReassignTrackingToNewCourierTool(Tool):
 
         order_id = rec.get("order_id")
         if order_id:
-            orders = data.get("orders", [])
-            order = next((o for o in orders if o.get("order_id") == order_id), None)
+            orders = data.get("orders", {}).values()
+            order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
             if order:
                 order.setdefault("fulfillments", []).append(
                     {
@@ -2570,10 +2570,10 @@ class ReceiveSupplyOrderAndCloseTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        supply_orders = data.get("supply_orders", [])
-        products = data.get("products", [])
+        supply_orders = data.get("supply_orders", {}).values()
+        products = data.get("products", {}).values()
 
-        so = next((s for s in supply_orders if s.get("supply_order_id") == so_id), None)
+        so = next((s for s in supply_orders.values() if s.get("supply_order_id") == so_id), None)
         if not so:
             payload = {"error": f"supply_order_id '{so_id}' not found"}
             out = json.dumps(
@@ -2600,7 +2600,7 @@ class ReceiveSupplyOrderAndCloseTool(Tool):
             quantity = so_item.get("quantity", 0)
 
             product = next(
-                (p for p in products if p.get("product_id") == product_id), None
+                (p for p in products.values() if p.get("product_id") == product_id), None
             )
             if product:
                 product["quantity"] = product.get("quantity", 0) + quantity
@@ -2682,8 +2682,8 @@ class UpdateProductVariantPriceTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        products = data.get("products", [])
-        product = next((p for p in products if p.get("product_id") == product_id), None)
+        products = data.get("products", {}).values()
+        product = next((p for p in products.values() if p.get("product_id") == product_id), None)
         if not product:
             payload = {"error": f"product_id '{product_id}' not found in products"}
             out = json.dumps(

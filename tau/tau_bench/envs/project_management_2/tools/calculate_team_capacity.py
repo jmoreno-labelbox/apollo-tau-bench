@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateTeamCapacity(Tool):
@@ -20,11 +20,11 @@ class CalculateTeamCapacity(Tool):
             out = json.dumps(payload)
             return out
 
-        teams = data.get("teams", [])
-        data.get("employees", [])
-        tasks = data.get("tasks", [])
+        teams = data.get("teams", {}).values()
+        data.get("employees", {}).values()
+        tasks = data.get("tasks", {}).values()
 
-        team = next((t for t in teams if t.get("team_id") == team_id), None)
+        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
         if not team:
             payload = {"error": f"Team '{team_id}' not found"}
             out = json.dumps(payload)
@@ -37,8 +37,7 @@ class CalculateTeamCapacity(Tool):
         if sprint_id:
             sprint_tasks = [
                 t
-                for t in tasks
-                if t.get("sprint_id") == sprint_id
+                for t in tasks.values() if t.get("sprint_id") == sprint_id
                 and t.get("assignee_id") in team_members
             ]
 
@@ -47,7 +46,7 @@ class CalculateTeamCapacity(Tool):
                 member_tasks = [
                     t for t in sprint_tasks if t.get("assignee_id") == member_id
                 ]
-                member_points = sum(t.get("story_points", 0) for t in member_tasks)
+                member_points = sum(t.get("story_points", 0) for t in member_tasks.values()
                 member_loads[member_id] = {
                     "story_points": member_points,
                     "task_count": len(member_tasks),

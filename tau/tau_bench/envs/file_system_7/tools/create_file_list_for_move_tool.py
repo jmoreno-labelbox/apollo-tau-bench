@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateFileListForMoveTool(Tool):
@@ -34,7 +34,7 @@ class CreateFileListForMoveTool(Tool):
     def invoke(data: dict[str, Any], target_directory: str) -> str:
         file_list: list[dict[str, Any]] = []
 
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             for directory in server.get("directories", []):
                 dir_path = directory.get("path", "")
                 for f in directory.get("files", []) or []:

@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RevokeUserRoleTool(Tool):
@@ -23,7 +23,7 @@ class RevokeUserRoleTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, role_id: str = None, revoked_by: str = None) -> str:
-        assignments = data.get("user_roles", [])
+        assignments = data.get("user_roles", {}).values()
         removed = False
 
         kept: list[dict[str, Any]] = []

@@ -25,7 +25,7 @@ class GetOrCreateCart(Tool):
             "contact_id": contact_id,
             "last_updated_at": get_current_timestamp(),
         }
-        carts.append(new_cart)
+        data["carts"][new_cart["cart_id"]] = new_cart
         payload = new_cart
         out = json.dumps(payload, indent=2)
         return out

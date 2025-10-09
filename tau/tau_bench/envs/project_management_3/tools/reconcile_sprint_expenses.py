@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReconcileSprintExpenses(Tool):
@@ -20,13 +20,13 @@ class ReconcileSprintExpenses(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
-        tasks = data.get("tasks", [])
-        task_logs = data.get("task_logs", [])
-        expenses = data.get("expenses", [])
-        employees = data.get("employees", [])
+        sprints = data.get("sprints", {}).values()
+        tasks = data.get("tasks", {}).values()
+        task_logs = data.get("task_logs", {}).values()
+        expenses = data.get("expenses", {}).values()
+        employees = data.get("employees", {}).values()
 
-        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
         if not sprint:
             payload = {"error": f"Sprint {sprint_id} not found"}
             out = json.dumps(payload)
@@ -37,7 +37,7 @@ class ReconcileSprintExpenses(Tool):
             out = json.dumps(payload)
             return out
 
-        sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
+        sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
 
         planned_story_points = sprint.get("planned_story_points", 0)
         completed_story_points = sprint.get("completed_story_points", 0)
@@ -47,7 +47,7 @@ class ReconcileSprintExpenses(Tool):
 
         for task in sprint_tasks:
             task_time_logs = [
-                log for log in task_logs if log.get("task_id") == task["task_id"]
+                log for log in task_logs.values() if log.get("task_id") == task["task_id"]
             ]
             for log in task_time_logs:
                 employee_id = log.get("employee_id")
@@ -56,7 +56,7 @@ class ReconcileSprintExpenses(Tool):
 
                 if employee_id not in cost_by_employee:
                     employee = next(
-                        (e for e in employees if e.get("employee_id") == employee_id),
+                        (e for e in employees.values() if e.get("employee_id") == employee_id),
                         None,
                     )
                     if employee:
@@ -83,9 +83,9 @@ class ReconcileSprintExpenses(Tool):
         sprint_end = datetime.fromisoformat(sprint["end_date"].replace("Z", "+00:00"))
 
         sprint_expenses = []
-        for expense in expenses:
+        for expense in expenses.values():
             if expense.get("sprint_id") == sprint_id:
-                sprint_expenses.append(expense)
+                sprint_data["expenses"][expense["expense_id"]] = expense
             elif expense.get("submitted_date"):
 
                 try:
@@ -93,7 +93,7 @@ class ReconcileSprintExpenses(Tool):
                         expense["submitted_date"].replace("Z", "+00:00")
                     )
                     if sprint_start <= submitted_date <= sprint_end:
-                        sprint_expenses.append(expense)
+                        sprint_data["expenses"][expense["expense_id"]] = expense
                 except:
 
                     pass
@@ -109,7 +109,7 @@ class ReconcileSprintExpenses(Tool):
             else 0
         )
 
-        total_personnel_cost = sum(emp["cost"] for emp in cost_by_employee.values())
+        total_personnel_cost = sum(emp["cost"] for emp in cost_by_employee.values()
 
         reconciliation = {
             "sprint_id": sprint_id,

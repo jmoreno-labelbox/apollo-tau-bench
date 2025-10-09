@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ValidateMilestoneReadiness(Tool):
@@ -20,12 +20,12 @@ class ValidateMilestoneReadiness(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        milestone_dependencies = data.get("milestone_dependencies", [])
-        external_dependencies = data.get("external_dependencies", [])
+        milestones = data.get("milestones", {}).values()
+        milestone_dependencies = data.get("milestone_dependencies", {}).values()
+        external_dependencies = data.get("external_dependencies", {}).values()
 
         milestone = next(
-            (m for m in milestones if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
         )
         if not milestone:
             payload = {"error": f"Milestone '{milestone_id}' not found"}
@@ -58,15 +58,14 @@ class ValidateMilestoneReadiness(Tool):
                     )
 
         predecessor_deps = [
-            d for d in milestone_dependencies if d.get("successor_id") == milestone_id
+            d for d in milestone_dependencies.values() if d.get("successor_id") == milestone_id
         ]
         for dep in predecessor_deps:
             if dep.get("is_mandatory"):
                 pred_milestone = next(
                     (
                         m
-                        for m in milestones
-                        if m.get("milestone_id") == dep.get("predecessor_id")
+                        for m in milestones.values() if m.get("milestone_id") == dep.get("predecessor_id")
                     ),
                     None,
                 )
@@ -81,7 +80,7 @@ class ValidateMilestoneReadiness(Tool):
                     )
 
         ext_deps = [
-            d for d in external_dependencies if d.get("milestone_id") == milestone_id
+            d for d in external_dependencies.values() if d.get("milestone_id") == milestone_id
         ]
         for ext_dep in ext_deps:
             if ext_dep.get("status") not in ["delivered", "confirmed"]:

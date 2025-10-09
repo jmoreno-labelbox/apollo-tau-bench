@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class OptimizeSecurityGroupRules(Tool):
@@ -34,7 +34,7 @@ class OptimizeSecurityGroupRules(Tool):
         changes = []
 
         rules_to_remove = []
-        for rule in rules:
+        for rule in rules.values()):
             if (
                 f"{rule.get('security_group_id')}" == f"{security_group_id}"
                 and int(rule.get("port")) == target_port
@@ -49,8 +49,7 @@ class OptimizeSecurityGroupRules(Tool):
 
         existing_cidrs = {
             r.get("source_ip")
-            for r in rules
-            if f"{r.get('security_group_id')}" == f"{security_group_id}"
+            for r in rules.values() if f"{r.get('security_group_id')}" == f"{security_group_id}"
             and int(r.get("port")) == target_port
         }
 
@@ -95,11 +94,11 @@ class OptimizeSecurityGroupRules(Tool):
             return _error("security_group_id is required.")
 
         allowed_cidrs = [allowed_cidr] if allowed_cidr else []
-        rules = data.get("aws_security_group_rules", [])
+        rules = data.get("aws_security_group_rules", {}).values()
         changes = []
 
         rules_to_remove = []
-        for rule in rules:
+        for rule in rules.values()):
             if (
                 f"{rule.get('security_group_id')}" == f"{security_group_id}"
                 and int(rule.get("port")) == target_port
@@ -114,8 +113,7 @@ class OptimizeSecurityGroupRules(Tool):
 
         existing_cidrs = {
             r.get("source_ip")
-            for r in rules
-            if f"{r.get('security_group_id')}" == f"{security_group_id}"
+            for r in rules.values() if f"{r.get('security_group_id')}" == f"{security_group_id}"
             and int(r.get("port")) == target_port
         }
 

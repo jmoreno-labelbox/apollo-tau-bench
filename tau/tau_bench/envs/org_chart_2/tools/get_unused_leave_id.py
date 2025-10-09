@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUnusedLeaveId(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        leaves = data.get("leaves", [])
+        leaves = data.get("leaves", {}).values()
         prefix = "LV"
         start_num = 10000
 

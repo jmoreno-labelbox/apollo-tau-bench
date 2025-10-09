@@ -11,7 +11,7 @@ class UpdateInvoicePayment(Tool):
         Marks an invoice as paid by updating paid_at field.
         """
         updated = None
-        for inv in data["invoices"]:
+        for inv in data["invoices"].values():
             if inv["invoice_id"] == invoice_id:
                 inv["paid_at"] = paid_at
                 updated = inv

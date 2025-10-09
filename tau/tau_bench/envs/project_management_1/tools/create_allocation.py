@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateAllocation(Tool):
@@ -35,24 +35,23 @@ class CreateAllocation(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
-        projects = data.get("projects", [])
-        skill_requirements = data.get("skill_requirements", [])
+        allocations = data.get("allocations", {}).values()
+        projects = data.get("projects", {}).values()
+        skill_requirements = data.get("skill_requirements", {}).values()
 
         is_temporary = any(
             term in role.lower()
             for term in ["consultant", "emergency", "temporary", "interim"]
         )
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
 
         skill_gap_filled = 0
         if project:
             project_requirements = next(
                 (
                     req
-                    for req in skill_requirements
-                    if req.get("project_id") == project_id
+                    for req in skill_requirements.values() if req.get("project_id") == project_id
                 ),
                 None,
             )
@@ -60,8 +59,7 @@ class CreateAllocation(Tool):
             if project_requirements:
                 current_allocations = [
                     alloc
-                    for alloc in allocations
-                    if alloc.get("project_id") == project_id
+                    for alloc in allocations.values() if alloc.get("project_id") == project_id
                     and alloc.get("status") == "active"
                 ]
                 current_hours = sum(
@@ -91,7 +89,7 @@ class CreateAllocation(Tool):
             "cross_department": cross_department,
         }
 
-        allocations.append(new_allocation)
+        data["allocations"][allocation_id] = new_allocation
 
         result = {
             "success": True,

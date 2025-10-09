@@ -22,7 +22,7 @@ class ProposeSubstitutionsForRecipe(Tool):
             if row.get("household_id") == household_id
             and float(row.get("quantity") or 0) > 0
         }
-        recipe_rows = [x for x in ri if x.get("recipe_id") == recipe_id]
+        recipe_rows = [x for x in ri.values() if x.get("recipe_id") == recipe_id]
         substitutions: list[dict[str, int]] = []
         # Identify absent non-staple ingredients
         missing_ids: list[int] = []
@@ -89,7 +89,7 @@ class ProposeSubstitutionsForRecipe(Tool):
             if row.get("household_id") == household_id
             and float(row.get("quantity") or 0) > 0
         }
-        recipe_rows = [x for x in ri if x.get("recipe_id") == recipe_id]
+        recipe_rows = [x for x in ri.values() if x.get("recipe_id") == recipe_id]
         substitutions: list[dict[str, int]] = []
         #Identify absent non-staple ingredients
         missing_ids: list[int] = []

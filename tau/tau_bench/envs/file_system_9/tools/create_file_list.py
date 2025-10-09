@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateFileList(Tool):
@@ -17,11 +17,11 @@ class CreateFileList(Tool):
     def invoke(data: dict[str, Any], operation_id: str = None, filepaths: list = None) -> str:
         if filepaths is None:
             filepaths = []
-        file_lists = data.get("file_lists", [])
+        file_lists = data.get("file_lists", {}).values()
 
         max_id = 0
         if file_lists:
-            for item in file_lists:
+            for item in file_lists.values():
                 try:
                     current_id_num = int(item.get("file_id", "file_000").split("_")[1])
                     if current_id_num > max_id:
@@ -36,7 +36,7 @@ class CreateFileList(Tool):
                 "a1f2e3d4c5b6789012345678901234567890abcd"  # Standard checksum
             )
             file_found = False
-            for server in data.get("file_system", []):
+            for server in data.get("file_system", {}).values():
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
                         current_path = f"{directory.get('path')}/{file.get('filename')}"
@@ -64,8 +64,8 @@ class CreateFileList(Tool):
                 "checksum": found_checksum,
                 "status": "pending",
             }
-            file_lists.append(new_entry)
-            added_files.append(file_id)
+            data["file_lists"][new_entry["file_list_id"]] = new_entry
+            added_data["files"][file_id] = file_id
         payload = {
             "status": "success",
             "message": f"Added {len(added_files)} files to the list.",

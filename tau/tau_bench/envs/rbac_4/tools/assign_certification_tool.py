@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AssignCertificationTool(Tool):
@@ -15,8 +15,8 @@ class AssignCertificationTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], certification_id: str, user_id: str, assigned_on: str = None, status: str = "ASSIGNED") -> str:
-        certifications = data.get("certifications", [])
-        users = data.get("users", [])
+        certifications = data.get("certifications", {}).values()
+        users = data.get("users", {}).values()
 
         if not isinstance(certifications, list):
             payload = {"error": "certifications must be a list"}
@@ -49,7 +49,7 @@ class AssignCertificationTool(Tool):
             return out
 
         #Confirm user existence
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
         if not user:
             payload = {"error": f"user_id {user_id} not found in users"}
             out = json.dumps(
@@ -58,7 +58,7 @@ class AssignCertificationTool(Tool):
             return out
 
         #Verify that certification_id is distinct
-        if any(c.get("certification_id") == certification_id for c in certifications):
+        if any(c.get("certification_id") == certification_id for c in certifications.values()):
             payload = {"error": f"certification_id {certification_id} already exists"}
             out = json.dumps(
                 payload, indent=2,
@@ -76,7 +76,7 @@ class AssignCertificationTool(Tool):
                 assigned_on  #field name is present in project datasets (e.g., user_roles)
             )
 
-        certifications.append(new_record)
+        data["certifications"][certification_id] = new_record
         payload = {
                 "success": f"Certification {certification_id} assigned to user {user_id}",
                 "certification": new_record,

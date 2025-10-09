@@ -7,18 +7,18 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchETLRunDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], run_id: str = None, run_name: str = None) -> str:
-        runs = data.get("etl_runs", []) or []
+        runs = data.get("etl_runs", {}).values() or []
         row = None
         if run_id is not None:
-            row = next((r for r in runs if str(r.get("run_id")) == str(run_id)), None)
+            row = next((r for r in runs.values() if str(r.get("run_id")) == str(run_id)), None)
         elif run_name:
-            row = next((r for r in runs if r.get("run_name") == run_name), None)
+            row = next((r for r in runs.values() if r.get("run_name") == run_name), None)
         payload = row or {"error": "ETL run not found"}
         out = json.dumps(payload, indent=2)
         return out

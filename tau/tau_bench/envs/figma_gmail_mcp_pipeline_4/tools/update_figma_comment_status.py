@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateFigmaCommentStatus(Tool):
@@ -43,11 +43,11 @@ class UpdateFigmaCommentStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        figma_comments = data.get("figma_comments", [])
+        figma_comments = data.get("figma_comments", {}).values()
 
         # Locate the comment
         comment_found = False
-        for comment in figma_comments:
+        for comment in figma_comments.values():
             if comment.get("comment_id") == comment_id:
                 comment_found = True
                 old_status = comment.get("comment_status", "OPEN")

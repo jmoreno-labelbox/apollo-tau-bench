@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class TrackArtifactUpdates(Tool):
@@ -33,10 +33,10 @@ class TrackArtifactUpdates(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        artifact_updates = data.get("artifact_updates", [])
+        change_requests = data.get("change_requests", {}).values()
+        artifact_updates = data.get("artifact_updates", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
@@ -60,7 +60,7 @@ class TrackArtifactUpdates(Tool):
             "update_date": datetime.now().isoformat(),
         }
 
-        artifact_updates.append(artifact_update)
+        data["artifact_updates"][artifact_update["artifact_update_id"]] = artifact_update
 
         if "artifacts_updated" not in cr:
             cr["artifacts_updated"] = []

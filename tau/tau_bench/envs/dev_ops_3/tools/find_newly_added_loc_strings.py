@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class find_newly_added_loc_strings(Tool):
@@ -16,12 +16,12 @@ class find_newly_added_loc_strings(Tool):
         pass
         from datetime import datetime, timedelta
 
-        loc_strings = data.get("loc_strings", [])
+        loc_strings = data.get("loc_strings", {}).values()
         now = datetime.fromisoformat(FIXED_TIMESTAMP.replace("Z", "+00:00"))
         time_threshold = now - timedelta(hours=hours_ago)
 
         new_strings = []
-        for s in loc_strings:
+        for s in loc_strings.values():
             if s.get("project_id") == project_id:
                 try:
                     created_at_dt = datetime.fromisoformat(

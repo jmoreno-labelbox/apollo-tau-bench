@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateNewAccountForCustomer(Tool):
@@ -60,8 +60,8 @@ class CreateNewAccountForCustomer(Tool):
         data.setdefault("accounts", []).append(new_account)
 
         # add to customer's account_ids
-        customers = data.get("customers", [])
-        for customer in customers:
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
                 ids = customer.setdefault("account_ids", [])
                 if account_id not in ids:

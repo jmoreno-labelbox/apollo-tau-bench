@@ -8,15 +8,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class TerminateUserSession(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], session_id: str = None) -> str:
-        sessions = data.get("user_sessions", [])
+        sessions = data.get("user_sessions", {}).values()
         terminated = False
-        for session in sessions:
+        for session in sessions.values():
             if session.get("session_id") == session_id:
                 session["end_time"] = NOW.strftime(DT_STR_FORMAT)
                 session["status"] = "TERMINATED"

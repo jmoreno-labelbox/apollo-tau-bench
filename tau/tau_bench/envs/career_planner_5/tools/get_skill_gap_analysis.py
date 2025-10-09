@@ -7,19 +7,19 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSkillGapAnalysis(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], analysis_id: str = "", user_id: str = "") -> str:
-        analyses = data.get("skill_gap_analysis", [])
+        analyses = data.get("skill_gap_analysis", {}).values()
         if analysis_id:
             analysis = next(
-                (a for a in analyses if a.get("analysis_id") == analysis_id), None
+                (a for a in analyses.values() if a.get("analysis_id") == analysis_id), None
             )
         elif user_id:
-            analysis = next((a for a in analyses if a.get("user_id") == user_id), None)
+            analysis = next((a for a in analyses.values() if a.get("user_id") == user_id), None)
         else:
             payload = {"error": "Must provide either analysis_id or user_id"}
             out = json.dumps(

@@ -12,7 +12,7 @@ from datetime import date as _date
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SetTicketPrice(Tool):
@@ -26,12 +26,12 @@ class SetTicketPrice(Tool):
         price: float,
         require_available: bool = False
     ) -> str:
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         if isinstance(flights, dict):
             f = flights.get(flight_number)
         elif isinstance(flights, list):
             f = next(
-                (row for row in flights if row.get("flight_number") == flight_number),
+                (row for row in flights.values() if row.get("flight_number") == flight_number),
                 None,
             )
         else:
@@ -40,7 +40,7 @@ class SetTicketPrice(Tool):
         if not f:
             return _json({"error": "flight_not_found", "flight_number": flight_number})
 
-        d = f.get("dates", {}).get(date) if isinstance(f.get("dates"), dict) else None
+        d = f.get("dates", {}).values().get(date) if isinstance(f.get("dates"), dict) else None
         if not d:
             return _json({"error": "date_not_found", "date": date})
 
@@ -55,7 +55,7 @@ class SetTicketPrice(Tool):
                 }
             )
 
-        inv = d.setdefault("inventory", {}).setdefault(fare_class, {})
+        inv = d.setdefault("inventory", {}).values().setdefault(fare_class, {}).values()
         inv["price"] = float(price)
 
         return _json(
@@ -69,12 +69,12 @@ class SetTicketPrice(Tool):
             }
         )
         pass
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         if isinstance(flights, dict):
             f = flights.get(flight_number)
         elif isinstance(flights, list):
             f = next(
-                (row for row in flights if row.get("flight_number") == flight_number),
+                (row for row in flights.values() if row.get("flight_number") == flight_number),
                 None,
             )
         else:
@@ -83,7 +83,7 @@ class SetTicketPrice(Tool):
         if not f:
             return _json({"error": "flight_not_found", "flight_number": flight_number})
 
-        d = f.get("dates", {}).get(date) if isinstance(f.get("dates"), dict) else None
+        d = f.get("dates", {}).values().get(date) if isinstance(f.get("dates"), dict) else None
         if not d:
             return _json({"error": "date_not_found", "date": date})
 
@@ -98,7 +98,7 @@ class SetTicketPrice(Tool):
                 }
             )
 
-        inv = d.setdefault("inventory", {}).setdefault(fare_class, {})
+        inv = d.setdefault("inventory", {}).values().setdefault(fare_class, {}).values()
         inv["price"] = float(price)
 
         return _json(

@@ -9,27 +9,27 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTaskDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str = None) -> str:
-        tasks = data.get("tasks", [])
+        tasks = data.get("tasks", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task '{task_id}' not found"}
             out = json.dumps(payload)
             return out
 
-        time_logs = data.get("time_logs", [])
-        task_history = data.get("task_history", [])
+        time_logs = data.get("time_logs", {}).values()
+        task_history = data.get("task_history", {}).values()
 
-        task_time_logs = [log for log in time_logs if log.get("task_id") == task_id]
-        #total_hours_logged = sum(log.get("hours", 0) for log in task_time_logs)
+        task_time_logs = [log for log in time_logs.values() if log.get("task_id") == task_id]
+        #total_hours_logged = sum(log.get("hours", 0) for log in task_time_logs.values()
 
-        history_entries = [h for h in task_history if h.get("task_id") == task_id]
+        history_entries = [h for h in task_history.values() if h.get("task_id") == task_id]
 
         task_details = {
             "task_id": task.get("task_id"),
@@ -57,13 +57,13 @@ class GetTaskDetails(Tool):
             "history_count": len(history_entries),
         }
 
-        for other_task in tasks:
+        for other_task in tasks.values():
             if task_id in other_task.get("dependencies", []):
                 task_details["blocks"].append(other_task.get("task_id"))
 
         dependency_details = []
         for dep_id in task.get("dependencies", []):
-            dep_task = next((t for t in tasks if t.get("task_id") == dep_id), None)
+            dep_task = next((t for t in tasks.values() if t.get("task_id") == dep_id), None)
             if dep_task:
                 dependency_details.append(
                     {
@@ -77,7 +77,7 @@ class GetTaskDetails(Tool):
 
         blocked_by_details = []
         for block_id in task.get("blocked_by", []):
-            block_task = next((t for t in tasks if t.get("task_id") == block_id), None)
+            block_task = next((t for t in tasks.values() if t.get("task_id") == block_id), None)
             if block_task:
                 blocked_by_details.append(
                     {

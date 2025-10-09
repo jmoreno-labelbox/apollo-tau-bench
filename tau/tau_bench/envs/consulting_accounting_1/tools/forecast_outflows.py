@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ForecastOutflows(Tool):
@@ -19,7 +19,7 @@ class ForecastOutflows(Tool):
         total = 0.0
         lines: list[dict[str, Any]] = []
         if include_sched:
-            for s in data.get("recurring_schedules", []):
+            for s in data.get("recurring_schedules", {}).values():
                 if not s.get("is_active", False):
                     continue
                 freq = s.get("frequency")
@@ -47,7 +47,7 @@ class ForecastOutflows(Tool):
         if include_taxes:
             taxes = [
                 s
-                for s in data.get("recurring_schedules", [])
+                for s in data.get("recurring_schedules", {}).values()
                 if s.get("schedule_type") in ("tax_payment",)
             ]
             for t in taxes:

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DeleteSourceFilesTool(Tool):
@@ -39,9 +39,9 @@ class DeleteSourceFilesTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], file_paths: list[str]) -> str:
         paths_to_delete = set(file_paths)
-        original_count = len(data.get("remote_files", []))
+        original_count = len(data.get("remote_files", {}))
         data["remote_files"] = [
-            f for f in data.get("remote_files", []) if f["path"] not in paths_to_delete
+            f for f in data.get("remote_files", {}).values() if f["path"] not in paths_to_delete
         ]
         payload = {
             "status": "success",

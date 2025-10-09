@@ -10,7 +10,7 @@ class VerifyBeneficiaryExists(Tool):
         if not beneficiary_id:
             return json.dumps({'error': 'beneficiary_id is required'})
         beneficiaries = load_json('beneficiaries.json')
-        beneficiary = next((b for b in beneficiaries if b['beneficiary_id'] == beneficiary_id), None)
+        beneficiary = next((b for b in beneficiaries.values() if b['beneficiary_id'] == beneficiary_id), None)
         if not beneficiary:
             return json.dumps({'error': 'Beneficiary not found.'})
         return json.dumps(beneficiary, indent=2)

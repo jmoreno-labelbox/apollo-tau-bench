@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateChangeRequest(Tool):
@@ -42,11 +42,11 @@ class CreateChangeRequest(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        projects = data.get("projects", [])
-        scope_baselines = data.get("scope_baselines", [])
+        change_requests = data.get("change_requests", {}).values()
+        projects = data.get("projects", {}).values()
+        scope_baselines = data.get("scope_baselines", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project '{project_id}' not found"}
             out = json.dumps(payload)
@@ -55,8 +55,7 @@ class CreateChangeRequest(Tool):
         project_baseline = next(
             (
                 b
-                for b in scope_baselines
-                if b.get("project_id") == project_id and b.get("status") == "approved"
+                for b in scope_baselines.values() if b.get("project_id") == project_id and b.get("status") == "approved"
             ),
             None,
         )
@@ -84,8 +83,7 @@ class CreateChangeRequest(Tool):
 
         active_crs = [
             cr
-            for cr in change_requests
-            if cr.get("project_id") == project_id
+            for cr in change_requests.values() if cr.get("project_id") == project_id
             and cr.get("status")
             in [
                 "draft",
@@ -110,8 +108,7 @@ class CreateChangeRequest(Tool):
 
         rejected_crs = [
             cr
-            for cr in change_requests
-            if cr.get("project_id") == project_id
+            for cr in change_requests.values() if cr.get("project_id") == project_id
             and cr.get("status") == "rejected"
             and cr.get("requester_id") == requester_id
         ]
@@ -169,9 +166,9 @@ class CreateChangeRequest(Tool):
             "approvals_received": [],
         }
 
-        change_requests.append(new_cr)
+        data["change_requests"][new_cr["change_request_id"]] = new_cr
 
-        change_history = data.get("change_history", [])
+        change_history = data.get("change_history", {}).values()
         history_entry = {
             "history_id": f"hist_ch_{uuid.uuid4().hex[:8]}",
             "cr_id": cr_id,
@@ -179,7 +176,7 @@ class CreateChangeRequest(Tool):
             "performed_by": requester_id,
             "timestamp": datetime.now().isoformat(),
         }
-        change_history.append(history_entry)
+        data["change_history"][history_entry["change_history_id"]] = history_entry
         payload = {"success": True, "change_request": new_cr}
         out = json.dumps(payload)
         return out

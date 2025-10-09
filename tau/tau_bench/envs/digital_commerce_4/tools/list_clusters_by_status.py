@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListClustersByStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], status: str) -> str:
-        clusters = data.get("aws_elasticache_clusters", [])
-        result = [c for c in clusters if c.get("status") == status]
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        result = [c for c in clusters.values() if c.get("status") == status]
         payload = result
         out = json.dumps(payload, indent=2)
         return out

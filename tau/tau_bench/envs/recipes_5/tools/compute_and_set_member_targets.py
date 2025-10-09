@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ComputeAndSetMemberTargets(Tool):
@@ -18,15 +18,15 @@ class ComputeAndSetMemberTargets(Tool):
             household_id = _default_household_id(data, _first_user_id(data))
             members = [
                 m
-                for m in data.get("members", [])
+                for m in data.get("members", {}).values()
                 if m.get("household_id") == household_id
             ]
             if not members:
                 return _json_dump({"error": "no members available"})
-            adults = [m for m in members if not m.get("is_child")]
+            adults = [m for m in members.values() if not m.get("is_child")]
             member_id = adults[0]["member_id"] if adults else members[0]["member_id"]
         m = next(
-            (x for x in data.get("members", []) if x.get("member_id") == member_id),
+            (x for x in data.get("members", {}).values() if x.get("member_id") == member_id),
             None,
         )
         if not m:

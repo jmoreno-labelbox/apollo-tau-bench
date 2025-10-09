@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetFileTextByPath(Tool):
@@ -15,7 +15,7 @@ class GetFileTextByPath(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], path: str) -> str:
-        rows = data.get("file_store", [])
+        rows = data.get("file_store", {}).values()
         for row in rows:
             paths = row.get("paths", [])
             if path in paths:

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCrewAvailability(Tool):
@@ -27,17 +27,17 @@ class GetCrewAvailability(Tool):
         from datetime import datetime
         import json
 
-        crew_members = data.get("crew_members", [])
-        flight_crew_assignments = data.get("flight_crew_assignments", [])
+        crew_members = data.get("crew_members", {}).values()
+        flight_crew_assignments = data.get("flight_crew_assignments", {}).values()
         filtered_crew = []
 
-        for crew in crew_members:
+        for crew in crew_members.values():
             # Implement filters
             if crew_id and crew.get("crew_member_id") != crew_id:
                 continue
             if role and crew.get("role") != role:
                 continue
-            if home_base and crew.get("home_base", {}).get("iata_code") != home_base:
+            if home_base and crew.get("home_base", {}).values().get("iata_code") != home_base:
                 continue
             if status and crew.get("status") != status:
                 continue
@@ -45,13 +45,13 @@ class GetCrewAvailability(Tool):
             # Retrieve active assignments
             current_assignments = []
             total_flight_hours = 0
-            for assignment in flight_crew_assignments:
-                if assignment.get("crew_member", {}).get("crew_member_id") == crew.get(
+            for assignment in flight_crew_assignments.values():
+                if assignment.get("crew_member", {}).values().get("crew_member_id") == crew.get(
                     "crew_member_id"
                 ):
                     current_assignments.append(
                         {
-                            "flight_number": assignment.get("flight", {}).get(
+                            "flight_number": assignment.get("flight", {}).values().get(
                                 "flight_number"
                             ),
                             "role": assignment.get("assigned_role"),
@@ -69,7 +69,7 @@ class GetCrewAvailability(Tool):
                     days_ago = (datetime.now().date() - flight_date).days
                     if days_ago <= 30:  # Previous 30 days
                         recent_flights.append(flight)
-                        total_flight_hours += flight.get("hours_flown", {}).get(
+                        total_flight_hours += flight.get("hours_flown", {}).values().get(
                             "total", 0
                         )
                 except (ValueError, TypeError):
@@ -92,7 +92,7 @@ class GetCrewAvailability(Tool):
                 "name": f"{crew.get('first_name', '')} {crew.get('last_name', '')}".strip(),
                 "role": crew.get("role"),
                 "status": crew.get("status"),
-                "home_base": crew.get("home_base", {}).get("iata_code"),
+                "home_base": crew.get("home_base", {}).values().get("iata_code"),
                 "availability": availability,
                 "current_assignments": len(current_assignments),
                 "recent_flight_hours": round(total_flight_hours, 1),

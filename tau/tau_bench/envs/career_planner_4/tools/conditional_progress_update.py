@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ConditionalProgressUpdate(Tool):
@@ -23,8 +23,8 @@ class ConditionalProgressUpdate(Tool):
         update_date: str,
     ) -> str:
         # Retrieve the current progress of the goal
-        goals_data = data.get("goals", [])
-        user_goals = next((g for g in goals_data if g.get("user_id") == user_id), {})
+        goals_data = data.get("goals", {}).values()
+        user_goals = next((g for g in goals_data.values() if g.get("user_id") == user_id), {}).values()
         goals = user_goals.get("goals", [])
         goal = next((g for g in goals if g.get("goal_id") == goal_id), None)
 

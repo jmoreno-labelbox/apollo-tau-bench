@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateBudgetFromVelocity(Tool):
@@ -20,20 +20,20 @@ class CreateBudgetFromVelocity(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
-        teams = data.get("teams", [])
-        sprints = data.get("sprints", [])
-        budgets = data.get("budgets", [])
-        employees = data.get("employees", [])
+        projects = data.get("projects", {}).values()
+        teams = data.get("teams", {}).values()
+        sprints = data.get("sprints", {}).values()
+        budgets = data.get("budgets", {}).values()
+        employees = data.get("employees", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
             return out
 
         project_team = next(
-            (t for t in teams if t.get("project_id") == project_id), None
+            (t for t in teams.values() if t.get("project_id") == project_id), None
         )
         if not project_team:
             payload = {"error": "No team assigned to project"}
@@ -42,8 +42,7 @@ class CreateBudgetFromVelocity(Tool):
 
         team_sprints = [
             s
-            for s in sprints
-            if s.get("team_id") == project_team["team_id"]
+            for s in sprints.values() if s.get("team_id") == project_team["team_id"]
             and s.get("status") == "completed"
         ]
 
@@ -51,14 +50,14 @@ class CreateBudgetFromVelocity(Tool):
             avg_velocity = 40
             avg_cost_per_point = 500
         else:
-            total_velocity = sum(s.get("velocity", 0) for s in team_sprints)
+            total_velocity = sum(s.get("velocity", 0) for s in team_sprints.values()
             total_sprints = len(team_sprints)
             avg_velocity = total_velocity / total_sprints if total_sprints > 0 else 40
 
             total_cost = 0
             for member_id in project_team.get("members", []):
                 employee = next(
-                    (e for e in employees if e.get("employee_id") == member_id), None
+                    (e for e in employees.values() if e.get("employee_id") == member_id), None
                 )
                 if employee:
                     hourly_rate = (
@@ -99,7 +98,7 @@ class CreateBudgetFromVelocity(Tool):
             "department": project.get("department"),
         }
 
-        budgets.append(new_budget)
+        data["budgets"][budget_id] = new_budget
         payload = {"success": True, "budget": new_budget}
         out = json.dumps(payload)
         return out

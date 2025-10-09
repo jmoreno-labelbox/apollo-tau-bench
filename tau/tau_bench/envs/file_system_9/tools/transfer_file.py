@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class TransferFile(Tool):
@@ -17,7 +17,7 @@ class TransferFile(Tool):
     def invoke(data: dict[str, Any], source_path: str = None, destination_path: str = None) -> str:
         source_file_details = None
         file_found = False
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             for directory in server.get("directories", []):
                 for file in directory.get("files", []):
                     if f"{directory.get('path')}/{file.get('filename')}" == source_path:
@@ -34,7 +34,7 @@ class TransferFile(Tool):
             # Verify if the source path contains a server name (for transfers between servers)
             try:
                 source_hostname, path = source_path.split(":", 1)
-                for server in data.get("file_system", []):
+                for server in data.get("file_system", {}).values():
                     if server.get("hostname") == source_hostname:
                         for directory in server.get("directories", []):
                             for file in directory.get("files", []):
@@ -70,14 +70,14 @@ class TransferFile(Tool):
             return out
 
         dest_server = None
-        for server in data["file_system"]:
+        for server in data["file_system"].values():
             if server.get("hostname") == dest_hostname:
                 dest_server = server
                 break
 
         if not dest_server:
             max_id = 0
-            for s in data["file_system"]:
+            for s in data["file_system"].values():
                 try:
                     current_id_num = int(s.get("server_id", "srv_000").split("_")[1])
                     if current_id_num > max_id:

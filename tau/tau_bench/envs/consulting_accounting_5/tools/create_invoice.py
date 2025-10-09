@@ -44,7 +44,7 @@ class CreateInvoice(Tool):
             "currency": currency,
             "notes": notes
         }
-        data["invoices"].append(new_invoice)
+        data["invoices"][invoice_id] = new_invoice
         return json.dumps(new_invoice["invoice_id"])
     @staticmethod
     def get_info() -> Dict[str, Any]:

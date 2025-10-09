@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAircraftByModel(Tool):
@@ -18,18 +18,18 @@ class GetAircraftByModel(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], model_id: str) -> str:
-        aircraft_list = data.get("aircraft", [])
-        aircraft_models = data.get("aircraft_models", [])
+        aircraft_list = data.get("aircraft", {}).values()
+        aircraft_models = data.get("aircraft_models", {}).values()
 
         # Locate the model details
         model_info = None
-        for model in aircraft_models:
+        for model in aircraft_models.values():
             if model.get("model_id") == model_id:
                 model_info = model
                 break
 
         if not model_info:
-            available_models = [model.get("model_id") for model in aircraft_models]
+            available_models = [model.get("model_id") for model in aircraft_models.values()]
             payload = {
                 "status": "Model not found",
                 "model_id": model_id,
@@ -41,21 +41,21 @@ class GetAircraftByModel(Tool):
         # Retrieve all aircraft corresponding to this model
         model_aircraft = []
         for aircraft in aircraft_list:
-            if aircraft.get("model", {}).get("model_id") == model_id:
+            if aircraft.get("model", {}).values().get("model_id") == model_id:
                 model_aircraft.append(
                     {
                         "aircraft_id": aircraft.get("aircraft_id"),
                         "tail_number": aircraft.get("tail_number"),
                         "status": aircraft.get("status"),
                         "manufacture_date": aircraft.get("manufacture_date"),
-                        "location": aircraft.get("location", {}).get("iata_code"),
+                        "location": aircraft.get("location", {}).values().get("iata_code"),
                     }
                 )
 
         # Determine statistics
         total_count = len(model_aircraft)
         active_count = len(
-            [ac for ac in model_aircraft if ac.get("status") == "Active"]
+            [ac for ac in model_aircraft.values() if ac.get("status") == "Active"]
         )
 
         response = {

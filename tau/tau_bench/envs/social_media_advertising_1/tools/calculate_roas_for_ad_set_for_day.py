@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateROASForAdSetForDay(Tool):
@@ -16,7 +16,7 @@ class CalculateROASForAdSetForDay(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], adset_id: str = None, date: str = None) -> str:
-        insights = data.get("f_insights", [])
+        insights = data.get("f_insights", {}).values()
 
         for insight in insights:
             if insight.get("adset_id") == adset_id and insight.get("date") == date:

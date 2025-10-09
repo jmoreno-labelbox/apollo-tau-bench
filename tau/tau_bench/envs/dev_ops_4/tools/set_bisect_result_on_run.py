@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SetBisectResultOnRun(Tool):
@@ -52,7 +52,7 @@ class SetBisectResultOnRun(Tool):
             if isinstance(bisect_result, dict):
                 first_bad_commit_sha = bisect_result.get('first_bad_commit_sha', first_bad_commit_sha)
                 last_good_commit_sha = bisect_result.get('last_good_commit_sha', last_good_commit_sha)
-        run = next((r for r in data.get("build_runs", []) if r.get("id") == run_id), None)
+        run = next((r for r in data.get("build_runs", {}).values() if r.get("id") == run_id), None)
         if not run:
             payload = {"error": "run_not_found", "run_id": run_id}
             out = json.dumps(payload)

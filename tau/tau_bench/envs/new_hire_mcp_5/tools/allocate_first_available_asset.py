@@ -43,7 +43,7 @@ class AllocateFirstAvailableAsset(Tool):
             )
 
         free = sorted(
-            [r for r in inv if is_free(r)], key=lambda r: (r.get("asset_tag") or "")
+            [r for r in inv.values() if is_free(r)], key=lambda r: (r.get("asset_tag") or "")
         )
         if not free:
             payload = {

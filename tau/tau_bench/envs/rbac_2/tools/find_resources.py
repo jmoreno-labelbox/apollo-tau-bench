@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindResources(Tool):
@@ -17,7 +17,7 @@ class FindResources(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name_keyword: str = None, criticality: str = None, owner_id: str = None) -> str:
         try:
-            resources = data.get("resources", [])
+            resources = data.get("resources", {}).values()
         except:
             resources = []
 
@@ -35,7 +35,7 @@ class FindResources(Tool):
                 continue
             if owner_id and owner_id != resource.get("owner_id"):
                 continue
-            matching_resources.append(resource)
+            matching_data["resources"][resource["resource_id"]] = resource
         payload = matching_resources
         out = json.dumps(payload)
         return out

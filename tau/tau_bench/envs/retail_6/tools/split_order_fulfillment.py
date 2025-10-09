@@ -39,7 +39,7 @@ class SplitOrderFulfillment(Tool):
                 "order_id": order_id,
                 "tracking_history": {},
             }
-            tr_list.append(tr)
+            data["tracking"][tr["tracking_id"]] = tr
         else:
             tr["item_ids"] = item_ids
             tr["delivery_carrier"] = courier_id

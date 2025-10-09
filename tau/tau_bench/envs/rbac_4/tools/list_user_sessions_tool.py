@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListUserSessionsTool(Tool):
@@ -15,7 +15,7 @@ class ListUserSessionsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str, active_only: bool = False) -> str:
-        sessions = data.get("sessions", [])
+        sessions = data.get("sessions", {}).values()
         if not isinstance(sessions, list):
             payload = {"error": "sessions must be a list"}
             out = json.dumps(payload, indent=2)
@@ -34,7 +34,7 @@ class ListUserSessionsTool(Tool):
             return out
 
         results = []
-        for s in sessions:
+        for s in sessions.values()):
             if s.get("user_id") != user_id:
                 continue
             if active_only and s.get("end_time") is not None:

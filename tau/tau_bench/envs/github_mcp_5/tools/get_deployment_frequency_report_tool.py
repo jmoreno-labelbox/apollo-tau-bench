@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetDeploymentFrequencyReportTool(Tool):
@@ -51,11 +51,10 @@ class GetDeploymentFrequencyReportTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        events = data.get("terminal", [])
+        events = data.get("terminal", {}).values()
         deploys = [
             d
-            for d in events
-            if d.get("repo") == repo_name and d.get("type") == "deploy"
+            for d in events.values() if d.get("repo") == repo_name and d.get("type") == "deploy"
         ]
         deploys = sorted(deploys, key=lambda d: (d.get("date"), d.get("event_id")))
 

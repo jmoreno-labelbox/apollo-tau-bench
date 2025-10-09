@@ -11,7 +11,7 @@ class CancelOrderItem(Tool):
             out = json.dumps(payload)
             return out
 
-        order = next((o for o in data["orders"] if o["order_id"] == order_id), None)
+        order = next((o for o in data["orders"].values() if o["order_id"] == order_id), None)
         if not order:
             payload = {"error": "Order not found"}
             out = json.dumps(payload)
@@ -46,7 +46,7 @@ class CancelOrderItem(Tool):
 
         #Verify if gift card payments were made for this order and process the refund
         user = next(
-            (u for u in data["users"] if u["user_id"] == order["user_id"]), None
+            (u for u in data["users"].values() if u["user_id"] == order["user_id"]), None
         )
         gift_card_refund_processed = False
 

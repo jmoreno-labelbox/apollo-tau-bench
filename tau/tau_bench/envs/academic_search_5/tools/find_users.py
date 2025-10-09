@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindUsers(Tool):
@@ -24,10 +24,10 @@ class FindUsers(Tool):
         name = name
         research_field = research_field
 
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
 
         if user_id:
-            for user in users:
+            for user in users.values():
                 if user.get("person_id") == user_id:
                     payload = user
                     out = json.dumps(payload, indent=2)
@@ -46,8 +46,7 @@ class FindUsers(Tool):
 
         results = [
             user
-            for user in users
-            if (not name or name.lower() in user.get("name", "").lower())
+            for user in users.values() if (not name or name.lower() in user.get("name", "").lower())
             and (
                 not research_field
                 or research_field.lower() in user.get("research_field", "").lower()

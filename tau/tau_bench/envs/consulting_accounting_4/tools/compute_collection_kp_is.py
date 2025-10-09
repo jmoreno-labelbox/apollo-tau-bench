@@ -8,19 +8,19 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ComputeCollectionKPIs(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], window_months: int = 12) -> str:
-        invs = data.get("invoices", []) or []
+        invs = data.get("invoices", {}).values() or []
         total_ar = sum(
-            float(i.get("total_due", 0)) for i in invs if i.get("paid_at") is None
+            float(i.get("total_due", 0)) for i in invs.values() if i.get("paid_at") is None
         )
         avg_daily_sales = round(
             (
-                sum(float(i.get("subtotal", 0)) for i in invs)
+                sum(float(i.get("subtotal", 0)) for i in invs.values()
                 / max(1, window_months * 30)
             ),
             2,

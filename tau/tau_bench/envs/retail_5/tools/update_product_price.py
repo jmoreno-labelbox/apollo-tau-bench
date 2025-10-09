@@ -13,7 +13,7 @@ class UpdateProductPrice(Tool):
             return out
 
         products = data["products"]
-        product = next((p for p in products if p["product_id"] == product_id), None)
+        product = next((p for p in products.values() if p["product_id"] == product_id), None)
 
         if not product:
             payload = {"error": f"Product {product_id} not found"}

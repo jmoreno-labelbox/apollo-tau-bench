@@ -7,18 +7,17 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindAvailableAsset(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], asset_type: str = None) -> str:
-        assets = data.get("it_assets", [])
+        assets = data.get("it_assets", {}).values()
         asset = next(
             (
                 a
-                for a in assets
-                if a.get("asset_type") == asset_type and a.get("status") == "in_stock"
+                for a in assets.values() if a.get("asset_type") == asset_type and a.get("status") == "in_stock"
             ),
             None,
         )

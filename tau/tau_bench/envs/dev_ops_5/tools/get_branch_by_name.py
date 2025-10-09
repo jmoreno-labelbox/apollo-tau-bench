@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetBranchByName(Tool):
@@ -15,8 +15,8 @@ class GetBranchByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], repository_id: str = None, branch_name: str = None) -> str:
-        branches = data.get("branches", [])
-        for branch in branches:
+        branches = data.get("branches", {}).values()
+        for branch in branches.values():
             if (
                 branch.get("repository_id") == repository_id
                 and branch.get("name") == branch_name

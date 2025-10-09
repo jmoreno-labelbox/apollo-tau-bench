@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateNewGame(Tool):
@@ -45,7 +45,7 @@ class CreateNewGame(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        games: list[dict[str, Any]] = data.get("games", [])
+        games: list[dict[str, Any]] = data.get("games", {}).values()
 
         #3) Create a new unique game_pk in a deterministic manner based on DB state
 

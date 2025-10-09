@@ -12,7 +12,7 @@ from datetime import date as _date
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetOperationalEvents(Tool):
@@ -30,9 +30,9 @@ class GetOperationalEvents(Tool):
     ) -> str:
         types = {_norm_status(t) for t in (types or [])}
 
-        events_src = data.get("operational_events", [])
+        events_src = data.get("operational_events", {}).values()
         out: list[dict[str, Any]] = []
-        for ev in events_src:
+        for ev in events_src.values():
             # be accommodating to schema: date / event_date / timestamp
             raw = ev.get("date") or ev.get("event_date") or ev.get("timestamp")
             if not raw:
@@ -55,9 +55,9 @@ class GetOperationalEvents(Tool):
         pass
         types = {_norm_status(t) for t in (types or [])}
 
-        events_src = data.get("operational_events", [])
+        events_src = data.get("operational_events", {}).values()
         out: list[dict[str, Any]] = []
-        for ev in events_src:
+        for ev in events_src.values():
             #be accommodating to schema: date / event_date / timestamp
             raw = ev.get("date") or ev.get("event_date") or ev.get("timestamp")
             if not raw:

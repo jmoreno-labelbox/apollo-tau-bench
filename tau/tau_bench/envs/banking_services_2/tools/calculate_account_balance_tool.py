@@ -7,15 +7,15 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateAccountBalanceTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str = None) -> str:
-        accounts = data.get('accounts', [])
+        accounts = data.get('accounts', {}).values()
 
-        for account in accounts:
+        for account in accounts.values():
             if account['account_id'] == account_id:
                 return json.dumps({
                     "account_id": account_id,

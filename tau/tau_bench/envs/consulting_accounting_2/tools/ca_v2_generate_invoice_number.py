@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2GenerateInvoiceNumber(Tool):
@@ -19,9 +19,9 @@ class CaV2GenerateInvoiceNumber(Tool):
         if not year:
             return _error("year is required.")
 
-        invoices = data.get("invoices", [])
+        invoices = data.get("invoices", {}).values()
         year_invoices = [
-            inv for inv in invoices if inv.get("invoice_date", "").startswith(year)
+            inv for inv in invoices.values() if inv.get("invoice_date", "").startswith(year)
         ]
 
         # Identify the maximum value for the year

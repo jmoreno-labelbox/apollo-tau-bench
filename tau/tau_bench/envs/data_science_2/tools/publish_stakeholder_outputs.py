@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class PublishStakeholderOutputs(Tool):
@@ -21,12 +21,12 @@ class PublishStakeholderOutputs(Tool):
         generated_ts: str,
     ) -> str:
         preds_ok = False
-        for r in data.get("predictions", []):
+        for r in data.get("predictions", {}).values():
             if r.get("predictions_csv_path") == predictions_final_csv_path:
                 preds_ok = True
                 break
         metrics_ok = False
-        for r in data.get("metrics", []):
+        for r in data.get("metrics", {}).values():
             if r.get("metrics_csv_path") == metrics_summary_csv_path:
                 metrics_ok = True
                 break

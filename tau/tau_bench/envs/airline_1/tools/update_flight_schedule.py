@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateFlightSchedule(Tool):
@@ -49,14 +49,14 @@ class UpdateFlightSchedule(Tool):
         else:
             flight_numbers = flight_number
 
-        flights_data = data.get("flights", [])
+        flights_data = data.get("flights", {}).values()
         results = {}
 
         for fn in flight_numbers:
             updated = False
-            for flight_route in flights_data:
+            for flight_route in flights_data.values():
                 if flight_route.get("flight_number") == fn:
-                    date_info = flight_route.get("dates", {}).get(flight_date)
+                    date_info = flight_route.get("dates", {}).values().get(flight_date)
                     if not date_info:
                         results[fn] = {"error": "Date not found", "date": flight_date}
                         updated = True

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateOrderFromCart(Tool):
@@ -24,12 +24,11 @@ class CreateOrderFromCart(Tool):
         account_id = _idstr(account_id)
         offer_id = _idstr(offer_id) if offer_id is not None else None
 
-        carts = data.get("carts", [])
+        carts = data.get("carts", {}).values()
         cart = next(
             (
                 c
-                for c in carts
-                if f"{c.get('cart_id')}" == f"{cart_id}"
+                for c in carts.values() if f"{c.get('cart_id')}" == f"{cart_id}"
                 and f"{c.get('contact_id')}" == f"{contact_id}"
             ),
             None,
@@ -39,18 +38,18 @@ class CreateOrderFromCart(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        orders = data.get("orders", [])
-        order_items = data.get("order_items", [])
+        orders = data.get("orders", {}).values()
+        order_items = data.get("order_items", {}).values()
         cart_items = [
             ci
-            for ci in data.get("cart_items", [])
+            for ci in data.get("cart_items", {}).values()
             if f"{ci.get('cart_id')}" == f"{cart_id}"
         ]
 
         account = next(
             (
                 a
-                for a in data.get("accounts", [])
+                for a in data.get("accounts", {}).values()
                 if f"{a.get('account_id')}" == f"{account_id}"
             ),
             None,
@@ -58,7 +57,7 @@ class CreateOrderFromCart(Tool):
         pricebook_id = account.get("default_pricebook_id") if account else "1"
         prices = [
             e
-            for e in data.get("pricebook_entries", [])
+            for e in data.get("pricebook_entries", {}).values()
             if f"{e.get('pricebook_id')}" == f"{pricebook_id}"
         ]
 
@@ -83,7 +82,7 @@ class CreateOrderFromCart(Tool):
             offer = next(
                 (
                     o
-                    for o in data.get("offers", [])
+                    for o in data.get("offers", {}).values()
                     if f"{o.get('offer_id')}" == f"{offer_id}"
                     and o.get("is_active") is True
                 ),
@@ -114,7 +113,7 @@ class CreateOrderFromCart(Tool):
                 account.get("shipping_street") if account else None
             ),
         }
-        orders.append(order)
+        data["orders"][order_id] = order
 
         for item in cart_items:
             entry = next(
@@ -145,12 +144,11 @@ class CreateOrderFromCart(Tool):
         account_id = _idstr(account_id)
         offer_id = _idstr(offer_id) if offer_id is not None else None
 
-        carts = data.get("carts", [])
+        carts = data.get("carts", {}).values()
         cart = next(
             (
                 c
-                for c in carts
-                if f"{c.get('cart_id')}" == f"{cart_id}"
+                for c in carts.values() if f"{c.get('cart_id')}" == f"{cart_id}"
                 and f"{c.get('contact_id')}" == f"{contact_id}"
             ),
             None,
@@ -160,18 +158,18 @@ class CreateOrderFromCart(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        orders = data.get("orders", [])
-        order_items = data.get("order_items", [])
+        orders = data.get("orders", {}).values()
+        order_items = data.get("order_items", {}).values()
         cart_items = [
             ci
-            for ci in data.get("cart_items", [])
+            for ci in data.get("cart_items", {}).values()
             if f"{ci.get('cart_id')}" == f"{cart_id}"
         ]
 
         account = next(
             (
                 a
-                for a in data.get("accounts", [])
+                for a in data.get("accounts", {}).values()
                 if f"{a.get('account_id')}" == f"{account_id}"
             ),
             None,
@@ -179,7 +177,7 @@ class CreateOrderFromCart(Tool):
         pricebook_id = account.get("default_pricebook_id") if account else "1"
         prices = [
             e
-            for e in data.get("pricebook_entries", [])
+            for e in data.get("pricebook_entries", {}).values()
             if f"{e.get('pricebook_id')}" == f"{pricebook_id}"
         ]
 
@@ -204,7 +202,7 @@ class CreateOrderFromCart(Tool):
             offer = next(
                 (
                     o
-                    for o in data.get("offers", [])
+                    for o in data.get("offers", {}).values()
                     if f"{o.get('offer_id')}" == f"{offer_id}"
                     and o.get("is_active") is True
                 ),
@@ -235,7 +233,7 @@ class CreateOrderFromCart(Tool):
                 account.get("shipping_street") if account else None
             ),
         }
-        orders.append(order)
+        data["orders"][order_id] = order
 
         for item in cart_items:
             entry = next(

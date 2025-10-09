@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ExportLogsTool(Tool):
@@ -15,7 +15,7 @@ class ExportLogsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], format: str = None, start_time: Any = None, end_time: Any = None) -> str:
-        logs = [l for l in data.get("audit_logs", []) if start_time <= l["timestamp"] <= end_time]
+        logs = [l for l in data.get("audit_logs", {}).values() if start_time <= l["timestamp"] <= end_time]
         if not format or not isinstance(format, str) or format.upper() not in ["CSV", "JSON"]:
             payload = {"error": "Invalid format"}
             out = json.dumps(payload, indent=2)

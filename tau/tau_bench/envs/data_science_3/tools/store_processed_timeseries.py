@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class StoreProcessedTimeseries(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], series_name: str = None, items: list = None) -> str:
-        table = data.get("processed_timeseries", [])
+        table = data.get("processed_timeseries", {}).values()
         items = items or []
         inserted = []
         max_id = 0
@@ -34,7 +34,7 @@ class StoreProcessedTimeseries(Tool):
                 "value": it.get("value"),
                 "source": it.get("source"),
             }
-            table.append(row)
+            data["processed_timeseries"][row["processed_timeserie_id"]] = row
             inserted.append(rid)
         payload = {"series_name": series_name, "inserted_row_ids": inserted}
         out = json.dumps(

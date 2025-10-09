@@ -10,7 +10,7 @@ class GetPaymentBehavior(Tool):
         """
         Returns payment_behavior_id(s) for a given publisher_id.
         """
-        behaviors = [pb["behavior_id"] for pb in data["payment_behavior"] if pb["publisher_id"] == publisher_id]
+        behaviors = [pb["behavior_id"] for pb in data["payment_behavior"].values() if pb["publisher_id"] == publisher_id]
         return json.dumps(behaviors)
     @staticmethod
     def get_info() -> Dict[str, Any]:

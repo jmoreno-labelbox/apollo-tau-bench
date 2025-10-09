@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateReservationBaggages(Tool):
@@ -22,11 +22,11 @@ class UpdateReservationBaggages(Tool):
         nonfree_baggages: int,
         payment_id: str,
     ) -> str:
-        users = data.get("users", [])
-        reservations = data.get("reservations", [])
+        users = data.get("users", {}).values()
+        reservations = data.get("reservations", {}).values()
 
         reservation = next(
-            (r for r in reservations if r.get("reservation_id") == reservation_id), None
+            (r for r in reservations.values() if r.get("reservation_id") == reservation_id), None
         )
         if not reservation:
             payload = {"error": "Reservation not found"}
@@ -34,7 +34,7 @@ class UpdateReservationBaggages(Tool):
             return out
 
         user = next(
-            (u for u in users if reservation_id in u.get("reservations", [])), None
+            (u for u in users.values() if reservation_id in u.get("reservations", [])), None
         )
         if not user:
             payload = {"error": "User not found for this reservation"}
@@ -46,7 +46,7 @@ class UpdateReservationBaggages(Tool):
         additional_cost = (nonfree_baggages - current_nonfree) * bag_fee
 
         if additional_cost > 0:
-            payment_method = user.get("payment_methods", {}).get(payment_id)
+            payment_method = user.get("payment_methods", {}).values().get(payment_id)
             if not payment_method:
                 payload = {"error": "Payment method not found"}
                 out = json.dumps(payload)

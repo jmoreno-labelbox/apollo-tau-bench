@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateHubspotTicket(Tool):
@@ -26,14 +26,13 @@ class CreateHubspotTicket(Tool):
         category: str = None
     ) -> str:
         try:
-            hubspot_tickets = data.get("hubspot_tickets", [])
+            hubspot_tickets = data.get("hubspot_tickets", {}).values()
         except:
             hubspot_tickets = []
 
         existing_ids = [
             int(item["ticket_id"].replace("TI-", ""))
-            for item in hubspot_tickets
-            if item.get("ticket_id", "").startswith("TI-")
+            for item in hubspot_tickets.values() if item.get("ticket_id", "").startswith("TI-")
         ]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         ticket_id = f"TI-{next_id_num:03d}"
@@ -52,7 +51,7 @@ class CreateHubspotTicket(Tool):
             "closed_at": None,
         }
 
-        hubspot_tickets.append(new_ticket)
+        hubspot_data["tickets"][ticket_id] = new_ticket
         data["hubspot_tickets"] = hubspot_tickets
         payload = {
             "message": "HubSpot ticket created successfully.",

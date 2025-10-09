@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchCompsAndCreateReportTool(Tool):
@@ -58,7 +58,7 @@ class SearchCompsAndCreateReportTool(Tool):
             )
         subject_price = subject_listing.get("list_price")
 
-        listings_map = {str(l.get("property_id")): l for l in data.get("listings", [])}
+        listings_map = {str(l.get("property_id")): l for l in data.get("listings", {}).values()}
         candidate_ids = set(listings_map.keys())
 
         candidates = []

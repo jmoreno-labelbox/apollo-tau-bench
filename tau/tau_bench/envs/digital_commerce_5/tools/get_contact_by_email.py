@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetContactByEmail(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], email: Any) -> str:
-        contacts = data.get("contacts", [])
-        match = next((c for c in contacts if c.get("email") == email), None)
+        contacts = data.get("contacts", {}).values()
+        match = next((c for c in contacts.values() if c.get("email") == email), None)
         payload = match or {}
         out = json.dumps(payload, indent=2)
         return out

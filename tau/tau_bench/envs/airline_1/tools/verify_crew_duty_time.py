@@ -9,13 +9,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class VerifyCrewDutyTime(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], crew_member_id: str, reference_date: str) -> str:
-        crew_members = data.get("crew_members", [])
+        crew_members = data.get("crew_members", {}).values()
         target_logs = []
         for member in crew_members:
             if member.get("crew_member_id") == crew_member_id:
@@ -40,7 +40,7 @@ class VerifyCrewDutyTime(Tool):
             log_date = datetime.fromisoformat(log.get("date"))
             delta = ref_date - log_date
 
-            raw_hours = log.get("hours_flown", {}).get("total")
+            raw_hours = log.get("hours_flown", {}).values().get("total")
             hours = raw_hours if isinstance(raw_hours, (int, float)) else 0.0
 
             if delta.days < 1:

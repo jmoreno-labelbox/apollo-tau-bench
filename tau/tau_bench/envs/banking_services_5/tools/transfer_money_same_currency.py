@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class TransferMoneySameCurrency(Tool):
@@ -24,9 +24,9 @@ class TransferMoneySameCurrency(Tool):
                 indent=2
             )
 
-        accounts = data.get("accounts", [])
-        src = next((a for a in accounts if a["account_id"] == source_account_id and a.get("customer_id") == customer_id), None)
-        tgt = next((a for a in accounts if a["account_id"] == target_account_id), None)
+        accounts = data.get("accounts", {}).values()
+        src = next((a for a in accounts.values() if a["account_id"] == source_account_id and a.get("customer_id") == customer_id), None)
+        tgt = next((a for a in accounts.values() if a["account_id"] == target_account_id), None)
 
         if not src:
             return json.dumps({"error": f"Source account '{source_account_id}' not found for customer '{customer_id}'."}, indent=2)

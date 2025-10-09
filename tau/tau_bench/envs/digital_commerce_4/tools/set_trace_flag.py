@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SetTraceFlag(Tool):
@@ -17,12 +17,11 @@ class SetTraceFlag(Tool):
     ) -> str:
         org_id, flag_name = _sid(org_id), _sid(flag_name)
         is_active = bool(is_active)
-        flags = data.get("trace_flags", [])
+        flags = data.get("trace_flags", {}).values()
         tf = next(
             (
                 f
-                for f in flags
-                if f.get("org_id") == org_id and f.get("flag_name") == flag_name
+                for f in flags.values() if f.get("org_id") == org_id and f.get("flag_name") == flag_name
             ),
             None,
         )

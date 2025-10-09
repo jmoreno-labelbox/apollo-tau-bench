@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetDeviceByIdOrFilter(Tool):
@@ -17,12 +17,12 @@ class GetDeviceByIdOrFilter(Tool):
     def invoke(
         data: dict[str, Any], devices: str = "", filters: dict[str, Any] | None = None
     ) -> str:
-        device_list = data.get("devices", [])
+        device_list = data.get("devices", {}).values()
         if devices:
-            result = [d for d in device_list if d.get("id") == devices]
+            result = [d for d in device_list.values() if d.get("id") == devices]
         elif filters:
             result = [
-                d for d in device_list if all(d.get(k) == v for k, v in filters.items())
+                d for d in device_list.values() if all(d.get(k) == v for k, v in filters.items())
             ]
         else:
             payload = {"error": "Either 'devices' (id) or 'filters' must be provided"}

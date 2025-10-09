@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AssignTrackingNumber(Tool):
@@ -70,7 +70,7 @@ class AssignTrackingNumber(Tool):
         selected_courier_preference = preferred_courier_id or courier_id
 
         #Find and validate all orders
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         valid_orders = []
         invalid_orders = []
 
@@ -83,7 +83,7 @@ class AssignTrackingNumber(Tool):
             )
 
             order_found = False
-            for i, order in enumerate(orders):
+            for i, order in enumerate(orders.values():
                 if order.get("order_id") == formatted_order_id:
                     current_status = order.get("status")
 
@@ -128,7 +128,7 @@ class AssignTrackingNumber(Tool):
         #Get destination country from first order if not provided
         if not destination_country:
             first_order = valid_orders[0]["order_data"]
-            order_address = first_order.get("address", {})
+            order_address = first_order.get("address", {}).values()
             destination_country = order_address.get("country")
 
             if not destination_country:
@@ -141,13 +141,13 @@ class AssignTrackingNumber(Tool):
                 return out
 
         #Rule: Assign couriers only if destination country matches their coverage areas
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         eligible_couriers = []
 
-        for courier in couriers:
+        for courier in couriers.values()):
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
-                eligible_couriers.append(courier)
+                eligible_data["couriers"][courier_id] = courier
 
         if not eligible_couriers:
             payload = {
@@ -229,7 +229,7 @@ class AssignTrackingNumber(Tool):
             formatted_order_id = order_info["order_id"]
 
             #Calculate order value for insurance requirements
-            order_items = order_data.get("items", [])
+            order_items = order_data.get("items", {}).values()
             order_value = sum(
                 item.get("price", 0) * item.get("quantity", 1) for item in order_items
             )
@@ -243,7 +243,7 @@ class AssignTrackingNumber(Tool):
                 "tracking_id": assigned_tracking_id,
                 "courier_id": selected_courier.get("courier_id"),
                 "courier_name": selected_courier.get("name"),
-                "courier_contact": selected_courier.get("contact_info", {}),
+                "courier_contact": selected_courier.get("contact_info", {}).values()),
                 "status": "processed",
                 "assigned_date": datetime.now().isoformat(),
                 "destination_country": destination_country,

@@ -10,7 +10,7 @@ class GetLicenseAssignments(Tool):
         account_id: str | None = None,
     ) -> str:
         results: list[dict[str, Any]] = []
-        for a in data["license_assignments"]:
+        for a in data["license_assignments"].values():
             if employee_id and a["employee_id"] != employee_id:
                 continue
             if account_id and a["account_id"] != account_id:

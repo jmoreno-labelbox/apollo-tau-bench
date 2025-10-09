@@ -7,16 +7,16 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListListingsByIds(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], listing_ids: list = None) -> str:
         ids = set(listing_ids or [])
-        props = _index_by(data.get("properties", []), "property_id")
+        props = _index_by(list(data.get("properties", {}).values()), "property_id")
         out = []
-        for lst in data.get("listings", []) or []:
+        for lst in data.get("listings", {}).values() or []:
             if ids and lst.get("listing_id") not in ids:
                 continue
             pr = props.get(lst.get("property_id")) or {}

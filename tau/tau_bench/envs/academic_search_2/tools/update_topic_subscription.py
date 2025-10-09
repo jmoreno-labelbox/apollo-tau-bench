@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateTopicSubscription(Tool):
@@ -23,12 +23,12 @@ class UpdateTopicSubscription(Tool):
             out = json.dumps(payload)
             return out
 
-        subscriptions = data.get("subscriptions", [])
+        subscriptions = data.get("subscriptions", {}).values()
 
         if action.lower() == "add":
             if any(
                 sub.get("user_id") == user_id and sub.get("topic") == topic
-                for sub in subscriptions
+                for sub in subscriptions.values()
             ):
                 payload = {
                     "success": False,
@@ -43,7 +43,7 @@ class UpdateTopicSubscription(Tool):
                 "user_id": user_id,
                 "topic": topic,
             }
-            subscriptions.append(new_subscription)
+            data["subscriptions"][subscription_id] = new_subscription
             payload = {"success": True, "subscription": new_subscription}
             out = json.dumps(payload)
             return out
@@ -52,8 +52,7 @@ class UpdateTopicSubscription(Tool):
             initial_count = len(subscriptions)
             data["subscriptions"] = [
                 sub
-                for sub in subscriptions
-                if not (sub.get("user_id") == user_id and sub.get("topic") == topic)
+                for sub in subscriptions.values() if not (sub.get("user_id") == user_id and sub.get("topic") == topic)
             ]
 
             if len(data["subscriptions"]) < initial_count:

@@ -12,7 +12,7 @@ class UpdateOrderStatus(Tool):
             return out
 
         orders = data["orders"]
-        order = next((o for o in orders if o["order_id"] == order_id), None)
+        order = next((o for o in orders.values() if o["order_id"] == order_id), None)
 
         if not order:
             payload = {"error": "Order not found"}

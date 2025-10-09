@@ -14,7 +14,7 @@ class ListSupplyOrdersByStatus(Tool):
         supply_orders = data["supply_orders"]
         filtered_orders = []
 
-        for order in supply_orders:
+        for order in supply_orders.values():
             if order["status"] == status:
                 if supplier_id and order["supplier_id"] != supplier_id:
                     continue

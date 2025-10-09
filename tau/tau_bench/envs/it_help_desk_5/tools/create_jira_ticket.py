@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateJiraTicket(Tool):
@@ -55,7 +55,7 @@ class CreateJiraTicket(Tool):
             "updated_at": "2025-07-14T15:30:00+00:00",
         }
 
-        jira_tickets.append(new_jira_ticket)
+        data["jira_tickets"][new_jira_ticket["jira_ticket_id"]] = new_jira_ticket
         payload = {
                 "status": "ok",
                 "reason": f"Successfully created a new Jira ticket {new_jira_id}.",

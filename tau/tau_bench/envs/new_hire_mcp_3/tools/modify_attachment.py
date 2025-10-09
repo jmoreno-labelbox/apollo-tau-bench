@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ModifyAttachment(Tool):
@@ -16,8 +16,8 @@ class ModifyAttachment(Tool):
     def invoke(data: dict[str, Any], updates: dict[str, Any] = None, attachment_id: str = None) -> str:
         updates = updates or {}
         attach_id = attachment_id
-        attachments = data.get("attachments", [])
-        for a in attachments:
+        attachments = data.get("attachments", {}).values()
+        for a in attachments.values():
             if a.get("attachment_id") == attach_id:
                 a.update(updates)
                 a["updated_at"] = _fixed_now_iso()

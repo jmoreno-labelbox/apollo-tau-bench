@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchIssues(Tool):
@@ -16,10 +16,10 @@ class SearchIssues(Tool):
         """Search issues by query."""
         _queryL = query or ''.lower()
         pass
-        issues_data = data.get("issues", [])
+        issues_data = data.get("issues", {}).values()
         matching_issues = []
 
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values():
             for i, title in enumerate(issue_entry["issue_titles"]):
                 if (
                     query.lower() in title.lower()

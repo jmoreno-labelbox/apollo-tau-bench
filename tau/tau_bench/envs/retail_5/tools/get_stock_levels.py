@@ -10,7 +10,7 @@ class GetStockLevels(Tool):
 
         if supplier_id:
             supplier = next(
-                (s for s in suppliers if s["supplier_id"] == supplier_id), None
+                (s for s in suppliers.values() if s["supplier_id"] == supplier_id), None
             )
             if not supplier:
                 payload = {"error": "Supplier not found"}
@@ -47,7 +47,7 @@ class GetStockLevels(Tool):
 
         #Retrieve low stock information from all suppliers
         all_low_stock = []
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             for item, stock in supplier["item_stock"].items():
                 if (isinstance(stock, int) and stock < low_stock_threshold) or (
                     isinstance(stock, str) and stock == "out_of_stock"

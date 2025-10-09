@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateCrewProfile(Tool):
@@ -33,11 +33,11 @@ class UpdateCrewProfile(Tool):
             return out
 
         # Locate the crew member
-        crew_members = data.get("crew_members", [])
+        crew_members = data.get("crew_members", {}).values()
         target_crew = None
         crew_index = None
 
-        for i, crew in enumerate(crew_members):
+        for i, crew in enumerate(crew_members.values():
             if crew.get("crew_member_id") == crew_id:
                 target_crew = crew
                 crew_index = i
@@ -53,7 +53,7 @@ class UpdateCrewProfile(Tool):
             "first_name": target_crew.get("first_name"),
             "last_name": target_crew.get("last_name"),
             "role": target_crew.get("role"),
-            "home_base": target_crew.get("home_base", {}).get("iata_code"),
+            "home_base": target_crew.get("home_base", {}).values().get("iata_code"),
             "status": target_crew.get("status"),
         }
 
@@ -152,7 +152,7 @@ class UpdateCrewProfile(Tool):
             "first_name": updated_crew.get("first_name"),
             "last_name": updated_crew.get("last_name"),
             "role": updated_crew.get("role"),
-            "home_base": updated_crew.get("home_base", {}).get("iata_code"),
+            "home_base": updated_crew.get("home_base", {}).values().get("iata_code"),
             "status": updated_crew.get("status"),
         }
 

@@ -6,7 +6,7 @@ class ListHouseholdMembers(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int) -> str:
         members = _get_table(data, "members")
-        rows = [m for m in members if m.get("household_id") == household_id]
+        rows = [m for m in members.values() if m.get("household_id") == household_id]
         payload = {"members": rows}
         out = json.dumps(payload, indent=2)
         return out

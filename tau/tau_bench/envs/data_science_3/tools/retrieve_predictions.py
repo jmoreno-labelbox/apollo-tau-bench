@@ -7,17 +7,16 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RetrievePredictions(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], batch_name: str = None, model_name: str = None) -> str:
-        preds = data.get("predictions", []) or []
+        preds = data.get("predictions", {}).values() or []
         rows = [
             p
-            for p in preds
-            if (not batch_name or p.get("batch_name") == batch_name)
+            for p in preds.values() if (not batch_name or p.get("batch_name") == batch_name)
             and (not model_name or p.get("model_name") == model_name)
         ]
         payload = {"predictions": rows}

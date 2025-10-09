@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class find_transaction(Tool):
@@ -24,10 +24,10 @@ class find_transaction(Tool):
         status: str = None,
         date: str = None
     ) -> str:
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
 
         matches = []
-        for transaction in transactions:
+        for transaction in transactions.values():
             # Utilize transaction_id if provided, prioritizing it over other parameters
             if (transaction_id is not None) and (
                 transaction["transaction_id"] == transaction_id

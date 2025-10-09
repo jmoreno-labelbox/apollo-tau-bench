@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2CalculateYtdRevenue(Tool):
@@ -16,12 +16,12 @@ class CaV2CalculateYtdRevenue(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], year: str = "2024", tax_rate: float = 0.265) -> str:
-        invoices = data.get("invoices", [])
+        invoices = data.get("invoices", {}).values()
         ytd_invoices = [
-            inv for inv in invoices if inv.get("invoice_date", "").startswith(year)
+            inv for inv in invoices.values() if inv.get("invoice_date", "").startswith(year)
         ]
 
-        total_revenue = sum(inv.get("subtotal", 0) for inv in ytd_invoices)
+        total_revenue = sum(inv.get("subtotal", 0) for inv in ytd_invoices.values()
         tax_reserve = round(total_revenue * tax_rate, 2)
 
         revenue_by_month = {}

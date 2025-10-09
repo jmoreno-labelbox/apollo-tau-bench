@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAutomationRunHistory(Tool):
@@ -16,15 +16,15 @@ class GetAutomationRunHistory(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], run_type: str = None, status: str = None, limit: int = 10) -> str:
-        runs = data.get("automation_runs", [])
+        runs = data.get("automation_runs", {}).values()
 
         # Apply filter based on run type if provided
         if run_type:
-            runs = [r for r in runs if r.get("run_type") == run_type]
+            runs = [r for r in runs.values() if r.get("run_type") == run_type]
 
         # Apply filter based on status if provided
         if status:
-            runs = [r for r in runs if r.get("status") == status]
+            runs = [r for r in runs.values() if r.get("status") == status]
 
         # Order by started_at (latest first) and restrict results
         runs.sort(key=lambda x: x.get("started_at", ""), reverse=True)
@@ -32,8 +32,8 @@ class GetAutomationRunHistory(Tool):
 
         # Compute summary statistics
         total_runs = len(runs)
-        success_count = len([r for r in runs if r.get("status") == "completed"])
-        failure_count = len([r for r in runs if r.get("status") == "failed"])
+        success_count = len([r for r in runs.values() if r.get("status") == "completed"])
+        failure_count = len([r for r in runs.values() if r.get("status") == "failed"])
         success_rate = (
             round((success_count / total_runs * 100), 2) if total_runs > 0 else 0
         )

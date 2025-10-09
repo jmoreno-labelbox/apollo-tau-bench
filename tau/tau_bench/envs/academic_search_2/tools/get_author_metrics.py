@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAuthorMetrics(Tool):
@@ -24,22 +24,21 @@ class GetAuthorMetrics(Tool):
             out = json.dumps(payload)
             return out
         articles = [
-            a for a in data.get("articles", []) if author_name in a.get("authors", [])
+            a for a in data.get("articles", {}).values() if author_name in a.get("authors", [])
         ]
         if not articles:
             payload = {"total_publications": 0, "total_citations": 0, "h_index": 0}
             out = json.dumps(
                 payload)
             return out
-        citations = data.get("citations", [])
+        citations = data.get("citations", {}).values()
         total_citations = 0
         citation_counts = []
         for article in articles:
             count = len(
                 [
                     c
-                    for c in citations
-                    if c.get("referenced_paper_id") == article["paper_id"]
+                    for c in citations.values() if c.get("referenced_paper_id") == article["paper_id"]
                 ]
             )
             total_citations += count

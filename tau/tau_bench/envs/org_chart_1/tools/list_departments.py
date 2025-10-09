@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class list_departments(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], departments: list = None) -> str:
-        payload = departments if departments is not None else data.get("departments", [])
+        payload = departments if departments is not None else data.get("departments", {}).values()
         out = json.dumps(payload, indent=2)
         return out
     @staticmethod

@@ -11,7 +11,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchUsers(Tool):
@@ -23,10 +23,10 @@ class FetchUsers(Tool):
         name = name
         research_field = research_field
 
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
 
         if user_id:
-            for user in users:
+            for user in users.values():
                 if user.get("person_id") == user_id:
                     payload = [user]
                     out = json.dumps(payload, indent=2)
@@ -42,7 +42,7 @@ class FetchUsers(Tool):
             return out
 
         results = []
-        for user in users:
+        for user in users.values():
             match = True
             if name and name.lower() not in user.get("name", "").lower():
                 match = False

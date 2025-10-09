@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpsertModelProfile(Tool):
@@ -18,12 +18,11 @@ class UpsertModelProfile(Tool):
             config_name = profile_name
         if params is None:
             params = {}
-        cfgs = data.get("model_config", [])
+        cfgs = data.get("model_config", {}).values()
         row = next(
             (
                 c
-                for c in cfgs
-                if c.get("model_name") == model_name
+                for c in cfgs.values() if c.get("model_name") == model_name
                 and c.get("config_name") == config_name
             ),
             None,
@@ -38,7 +37,7 @@ class UpsertModelProfile(Tool):
             }
         else:
             max_id = 0
-            for c in cfgs:
+            for c in cfgs.values():
                 try:
                     cid = int(c.get("config_id", 0))
                     if cid > max_id:
@@ -53,7 +52,7 @@ class UpsertModelProfile(Tool):
                 "params": params,
                 "created_at": _now_iso_fixed(),
             }
-            cfgs.append(row)
+            data["model_config"][row["model_config_id"]] = row
             out = {
                 "config_id": new_id,
                 "model_name": model_name,

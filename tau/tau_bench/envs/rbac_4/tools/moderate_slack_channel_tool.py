@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ModerateSlackChannelTool(Tool):
@@ -15,7 +15,7 @@ class ModerateSlackChannelTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], channel: str, action: str, message_ids: list[str] = [], target_channel: str = None, moderator_id: str = None) -> str:
-        messages = data.get("slack_messages", [])
+        messages = data.get("slack_messages", {}).values()
 
         updated = []
         for msg in messages:

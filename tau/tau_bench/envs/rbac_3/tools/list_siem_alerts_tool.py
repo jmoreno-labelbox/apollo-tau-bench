@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListSiemAlertsTool(Tool):
@@ -31,7 +31,7 @@ class ListSiemAlertsTool(Tool):
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        alerts: list[dict[str, Any]] = data.get("siem_alerts", [])
+        alerts: list[dict[str, Any]] = data.get("siem_alerts", {}).values()
         out: list[dict[str, Any]] = []
         for a in alerts:
             if user_id and not _eq(a.get("user_id"), user_id):

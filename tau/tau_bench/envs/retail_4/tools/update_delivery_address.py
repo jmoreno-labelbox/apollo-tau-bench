@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateDeliveryAddress(Tool):
@@ -23,8 +23,8 @@ class UpdateDeliveryAddress(Tool):
         Data Sources: couriers.json for delivery validation
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -32,11 +32,11 @@ class UpdateDeliveryAddress(Tool):
             return out
 
         # Find the order to update
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         order_to_update = None
         order_index = None
 
-        for i, order in enumerate(orders):
+        for i, order in enumerate(orders.values():
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 order_to_update = order
                 order_index = i
@@ -78,9 +78,9 @@ class UpdateDeliveryAddress(Tool):
             return out
 
         # Rule: Assign couriers only if destination country matches their coverage areas
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         supported_countries = set()
-        for courier in couriers:
+        for courier in couriers.values()):
             supported_countries.update(courier.get("coverage_area", []))
 
         destination_country = new_address.get("country")
@@ -93,7 +93,7 @@ class UpdateDeliveryAddress(Tool):
             return out
 
         # WRITE OPERATION: Update order address
-        old_address = order_to_update.get("address", {})
+        old_address = order_to_update.get("address", {}).values()
         order_to_update["address"] = new_address
         order_to_update["address_updated"] = {
             "updated_date": datetime.now().isoformat(),

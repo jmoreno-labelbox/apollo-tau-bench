@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AuthenticateUser(Tool):
@@ -28,15 +28,15 @@ class AuthenticateUser(Tool):
             )
             return out
 
-        #Primary store: data.get("authentication", [])
-        authentication = data.get("authentication", [])
+        #Primary store: data.get("authentication", {}).values()
+        authentication = data.get("authentication", {}).values()
 
         #Fallback if the DB was provided as a top-level list
         if not isinstance(authentication, list) and isinstance(data, list):
             authentication = data
 
         #Lookup by username first
-        user = next((u for u in authentication if u.get("username") == username), None)
+        user = next((u for u in authentication.values() if u.get("username") == username), None)
         if not user:
             payload = {"error": "User not found."}
             out = json.dumps(payload, indent=2)

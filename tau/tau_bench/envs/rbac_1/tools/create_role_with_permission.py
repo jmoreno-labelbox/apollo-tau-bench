@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateRoleWithPermission(Tool):
@@ -21,12 +21,12 @@ class CreateRoleWithPermission(Tool):
         role_name: str = None,
         role_description: str = None
     ) -> str:
-        permissions = data.get("permissions", [])
-        roles = data.get("roles", [])
-        role_permissions = data.get("role_permissions", [])
+        permissions = data.get("permissions", {}).values()
+        roles = data.get("roles", {}).values()
+        role_permissions = data.get("role_permissions", {}).values()
 
         new_perm_id_num = (
-            max((int(p["permission_id"][2:]) for p in permissions), default=0) + 1
+            max((int(p["permission_id"][2:]) for p in permissions.values()), default=0) + 1
         )
         new_perm_id = f"P-{new_perm_id_num:03d}"
         new_permission = {
@@ -35,10 +35,10 @@ class CreateRoleWithPermission(Tool):
             "resource_id": resource_id,
             "description": permission_description or f"Permission for the '{role_name}' role.",
         }
-        permissions.append(new_permission)
+        data["permissions"][permission_id] = new_permission
         data["permissions"] = permissions
 
-        new_role_id_num = max((int(r["role_id"][4:]) for r in roles), default=0) + 1
+        new_role_id_num = max((int(r["role_id"][4:]) for r in roles.values()), default=0) + 1
         new_role_id = f"ROL-{new_role_id_num:03d}"
         new_role = {
             "role_id": new_role_id,
@@ -46,11 +46,11 @@ class CreateRoleWithPermission(Tool):
             "description": role_description or f"Role with permission '{permission_name}'.",
             "is_temporary": False,
         }
-        roles.append(new_role)
+        data["roles"][role_id] = new_role
         data["roles"] = roles
 
         new_assignment = {"role_id": new_role_id, "permission_id": new_perm_id}
-        role_permissions.append(new_assignment)
+        role_data["permissions"][permission_id] = new_assignment
         data["role_permissions"] = role_permissions
         payload = {"permission_id": new_perm_id, "role_id": new_role_id, "status": "success"}
         out = json.dumps(payload)

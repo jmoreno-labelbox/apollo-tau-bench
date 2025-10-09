@@ -28,7 +28,7 @@ class LaunchProject(Tool):
             "linked_articles": [],
             "funding_source_id": funding_source_id,
         }
-        data["projects"].append(new_project)
+        data["projects"][project_id] = new_project
         payload = {"success": True, "project": new_project}
         out = json.dumps(payload)
         return out

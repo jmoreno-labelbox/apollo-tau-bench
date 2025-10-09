@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateUser(Tool):
@@ -33,8 +33,8 @@ class CreateUser(Tool):
             return out
 
         # Verify if the username is already taken
-        users = data.get("users", [])
-        for user in users:
+        users = data.get("users", {}).values()
+        for user in users.values()):
             if user.get("username") == username:
                 payload = {"error": f"username {username} already exists"}
                 out = json.dumps(payload)

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateTotalSizeTool(Tool):
@@ -91,21 +91,21 @@ class CalculateTotalSizeTool(Tool):
             # retrieve size based on path.
             if path:
                 # verify file_index.
-                idx = data.get("file_index", {})
+                idx = data.get("file_index", {}).values()
                 if (
                     isinstance(idx, dict)
                     and path in idx
                     and isinstance(idx[path].get("size"), (int, float))
                 ):
                     return int(idx[path]["size"])
-                for item in data.get("files", []) or []:
+                for item in data.get("files", {}).values() or []:
                     if (
                         isinstance(item, dict)
                         and item.get("path") == path
                         and isinstance(item.get("size"), (int, float))
                     ):
                         return int(item["size"])
-                for server in data.get("file_system", []) or []:
+                for server in data.get("file_system", {}).values() or []:
                     for f in server.get("files", []) or []:
                         if f.get("path") == path and isinstance(
                             f.get("size"), (int, float)
@@ -116,7 +116,7 @@ class CalculateTotalSizeTool(Tool):
 
         total = 0
         unknown: list[str] = []
-        for e in file_entries:
+        for e in file_entries.values():
             s = entry_size(e)
             if s is None:
                 # attempt to display useful information.

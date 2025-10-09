@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateResource(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None, owner_id: str = None, criticality: str = None, compliance_scope: str = None) -> str:
-        resources = data.get("resources", [])
-        new_id_num = max((int(r["resource_id"][4:]) for r in resources), default=0) + 1
+        resources = data.get("resources", {}).values()
+        new_id_num = max((int(r["resource_id"][4:]) for r in resources.values()), default=0) + 1
         new_resource_id = f"RES-{new_id_num:03d}"
         new_resource = {
             "resource_id": new_resource_id,
@@ -24,7 +24,7 @@ class CreateResource(Tool):
             "criticality": criticality,
             "compliance_scope": compliance_scope,
         }
-        resources.append(new_resource)
+        data["resources"][resource_id] = new_resource
         data["resources"] = resources
         payload = new_resource
         out = json.dumps(payload)

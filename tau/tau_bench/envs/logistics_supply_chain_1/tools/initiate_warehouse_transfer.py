@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class InitiateWarehouseTransfer(Tool):
@@ -24,20 +24,18 @@ class InitiateWarehouseTransfer(Tool):
                 payload, indent=2,
             )
             return out
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
         source_inv = next(
             (
                 i
-                for i in inventory
-                if i.get("sku") == sku and i.get("warehouse_id") == from_warehouse_id
+                for i in inventory.values() if i.get("sku") == sku and i.get("warehouse_id") == from_warehouse_id
             ),
             None,
         )
         dest_inv = next(
             (
                 i
-                for i in inventory
-                if i.get("sku") == sku and i.get("warehouse_id") == to_warehouse_id
+                for i in inventory.values() if i.get("sku") == sku and i.get("warehouse_id") == to_warehouse_id
             ),
             None,
         )
@@ -61,7 +59,7 @@ class InitiateWarehouseTransfer(Tool):
             dest_inv["quantity_inbound"] += quantity
         else:
             product_details = next(
-                (p for p in data.get("product_master", []) if p.get("sku") == sku), {}
+                (p for p in data.get("product_master", {}).values() if p.get("sku") == sku), {}
             )
             new_inv_record = {
                 "inventory_id": f"INV-{random.randint(10000, 99999)}",
@@ -74,7 +72,7 @@ class InitiateWarehouseTransfer(Tool):
                 "quantity_inbound": quantity,
                 "quantity_damaged": 0,
             }
-            inventory.append(new_inv_record)
+            data["inventory"][inventory_id] = new_inv_record
         payload = {
                 "status": "success",
                 "transfer_id": f"T-{from_warehouse_id}-{to_warehouse_id}-{random.randint(1000, 9999)}",

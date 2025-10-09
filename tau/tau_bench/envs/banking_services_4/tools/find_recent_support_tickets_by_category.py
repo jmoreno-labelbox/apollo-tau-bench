@@ -11,10 +11,10 @@ class FindRecentSupportTicketsByCategory(Tool):
             return json.dumps({'error': 'customer_id is required'})
 
         tickets = load_json('support_tickets.json')
-        filtered = [t for t in tickets if t['customer_id'] == customer_id]
+        filtered = [t for t in tickets.values() if t['customer_id'] == customer_id]
 
         if category:
-            filtered = [t for t in filtered if t.get('category') == category]
+            filtered = [t for t in filtered.values() if t.get('category') == category]
 
         # Sort by created_at or updated_at if available for "recent"
         filtered.sort(key=lambda x: x.get('created_at', ''), reverse=True)

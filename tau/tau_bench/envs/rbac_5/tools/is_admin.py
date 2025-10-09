@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class IsAdmin(Tool):
@@ -33,7 +33,7 @@ class IsAdmin(Tool):
             return out
 
         # Confirm the existence of the user
-        if not _find_by_id(data.get("users", []), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
@@ -52,11 +52,11 @@ class IsAdmin(Tool):
         # Current assignments for the user
         assignments = [
             ur
-            for ur in data.get("user_roles", [])
+            for ur in data.get("user_roles", {}).values()
             if ur.get("user_id") == user_id and is_active(ur)
         ]
 
-        role_map = {r.get("role_id"): r for r in data.get("roles", [])}
+        role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
 
         admin_role_ids: list[str] = []
         for ur in assignments:
@@ -69,7 +69,7 @@ class IsAdmin(Tool):
         if include_role_details:
             admin_roles_out: list[dict[str, Any]] = []
             for rid in admin_role_ids:
-                r = role_map.get(rid, {})
+                r = role_map.get(rid, {}).values()
                 admin_roles_out.append(
                     {
                         "role_id": rid,

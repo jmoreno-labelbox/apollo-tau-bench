@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UseItemFromInventoryTool(Tool):
@@ -97,14 +97,13 @@ class UseItemFromInventoryTool(Tool):
                 validation_error["error_code"], validation_error["details"]
             )
 
-        inventory_table = data.get("inventory_items", [])
+        inventory_table = data.get("inventory_items", {}).values()
 
         #2. Find the item in inventory
         item_to_use = next(
             (
                 item
-                for item in inventory_table
-                if item.get("household_id") == household_id
+                for item in inventory_table.values() if item.get("household_id") == household_id
                 and item.get("ingredient_id") == ingredient_id
             ),
             None,
@@ -140,7 +139,7 @@ class UseItemFromInventoryTool(Tool):
             )
             #Rebuild the list without the removed item
             data["inventory_items"] = [
-                item for item in inventory_table if item.get("inv_item_id") != item_id
+                item for item in inventory_table.values() if item.get("inv_item_id") != item_id
             ]
             response_data = {"status": "item_removed", "removed_item": item_to_use}
         else:

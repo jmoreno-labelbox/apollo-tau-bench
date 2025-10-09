@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCustomerLoyaltyPoints(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], customer_id: str) -> str:
-        customers = data.get("customers", [])
-        for customer in customers:
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
                 loyalty_info = {
                     "customer_id": customer_id,

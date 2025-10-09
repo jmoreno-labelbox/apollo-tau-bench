@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ManageRoomDevices(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], room_id: str, device_id: str, action: str) -> str:
-        rooms = data.get("rooms", [])
+        rooms = data.get("rooms", {}).values()
         room_found = False
         for room in rooms:
             if room.get("id") == room_id:

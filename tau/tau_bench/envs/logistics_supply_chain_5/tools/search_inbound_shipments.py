@@ -8,19 +8,18 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchInboundShipments(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], sku: str = None, destination_warehouse_id: str = None, status: str = None) -> str:
-        inbound_shipments = data.get("inbound_shipments", [])
-        inventory = data.get("inventory", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
+        inventory = data.get("inventory", {}).values()
 
         # Retrieve the existing stock for the SKU/warehouse
         current_inventory = next(
-            (item for item in inventory
-             if item.get("sku") == sku and item.get("warehouse_id") == destination_warehouse_id),
+            (item for item in inventory.values() if item.get("sku") == sku and item.get("warehouse_id") == destination_warehouse_id),
             None
         )
 

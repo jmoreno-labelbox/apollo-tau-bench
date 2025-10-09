@@ -8,14 +8,14 @@ class CreateTransaction(Tool):
     def invoke(data: Dict[str, Any], source_account_id: str = None, destination_account_id: str = None, amount: float = 0.0, description: str = "") -> str:
         transaction_id = _get_next_transaction_id(data)
 
-        source_account = next((acc for acc in data["accounts"] if acc["account_id"] == source_account_id), None)
+        source_account = next((acc for acc in data["accounts"].values() if acc["account_id"] == source_account_id), None)
         if not source_account:
             return json.dumps({"error": "Source account not found."})
 
         source_account["balance"] -= amount
 
         if destination_account_id:
-            dest_account = next((acc for acc in data["accounts"] if acc["account_id"] == destination_account_id), None)
+            dest_account = next((acc for acc in data["accounts"].values() if acc["account_id"] == destination_account_id), None)
             if dest_account:
                 dest_account["balance"] += amount
 
@@ -30,7 +30,7 @@ class CreateTransaction(Tool):
                 "status": "Completed",
                 "channel": "Online"
         }
-        data["transactions"].append(new_transaction)
+        data["transactions"][transaction_id] = new_transaction
 
         return json.dumps(new_transaction)
     @staticmethod

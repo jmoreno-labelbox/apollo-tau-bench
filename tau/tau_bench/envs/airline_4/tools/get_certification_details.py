@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCertificationDetails(Tool):
@@ -29,9 +29,9 @@ class GetCertificationDetails(Tool):
                 payload)
             return out
 
-        certifications = data.get("certifications", [])
+        certifications = data.get("certifications", {}).values()
 
-        for cert in certifications:
+        for cert in certifications.values():
             #Verify by ID if supplied
             if certification_id and cert.get("certification_id") == certification_id:
                 payload = cert

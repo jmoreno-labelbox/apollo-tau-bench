@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -25,8 +25,8 @@ class GetMe(Tool):
         pass
         import re
 
-        auth_users = data.get("authentication", [])
-        repositories = data.get("repositories", [])
+        auth_users = data.get("authentication", {}).values()
+        repositories = data.get("repositories", {}).values()
 
         if not auth_users:
             payload = {
@@ -66,7 +66,7 @@ class GetMe(Tool):
         if username and auth_key:
             #Complete authentication: ensure both username and auth_key are correct
             auth_method = "username_and_key"
-            for auth_user in auth_users:
+            for auth_user in auth_users.values():
                 if (
                     auth_user.get("username") == username
                     and auth_user.get("auth_key") == auth_key
@@ -100,7 +100,7 @@ class GetMe(Tool):
         elif auth_key and not username:
             #Auth key only: locate user by matching AUTH_KEY
             auth_method = "auth_key_only"
-            for auth_user in auth_users:
+            for auth_user in auth_users.values():
                 if auth_user.get("auth_key") == auth_key:
                     user = auth_user
                     break
@@ -130,7 +130,7 @@ class GetMe(Tool):
         elif username and not auth_key:
             #Username only: identify user by username (not as secure)
             auth_method = "username_only"
-            for auth_user in auth_users:
+            for auth_user in auth_users.values():
                 if auth_user.get("username") == username:
                     user = auth_user
                     break
@@ -164,7 +164,7 @@ class GetMe(Tool):
         final_username = user["username"]
 
         #Compute statistics for the repository
-        owned_repos = [repo for repo in repositories if repo["owner"] == final_username]
+        owned_repos = [repo for repo in repositories.values() if repo["owner"] == final_username]
         total_owned = len(owned_repos)
 
         #Retrieve organization memberships (users sharing email domains)
@@ -172,8 +172,7 @@ class GetMe(Tool):
         organizations = list(
             {
                 auth_user["email"].split("@")[1]
-                for auth_user in auth_users
-                if auth_user["email"].split("@")[1] == user_domain
+                for auth_user in auth_users.values() if auth_user["email"].split("@")[1] == user_domain
                 and auth_user["username"] != final_username
             }
         )
@@ -214,8 +213,7 @@ class GetMe(Tool):
                 "repositories_count": len(
                     [
                         repo
-                        for repo in repositories
-                        if final_username in [repo["owner"]]
+                        for repo in repositories.values() if final_username in [repo["owner"]]
                         or final_username in str(repo)
                     ]
                 ),
@@ -276,10 +274,10 @@ class SearchRepositories(Tool):
         """Search repositories by query string (exact-match permitted)."""
         _queryL = query or ''.lower()
         pass
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         matching_repos = []
 
-        for repo in repositories:
+        for repo in repositories.values():
             if query.lower() in repo["repo_name"].lower():
                 matching_repos.append(repo["repo_name"])
         payload = {"repo_names": matching_repos}
@@ -312,11 +310,11 @@ class GetRepository(Tool):
     def invoke(data: dict[str, Any], owner: str, repo: str, body: Any = None) -> str:
         """Get detailed information about a specific repository."""
         pass
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
 
         #Locate the repository
         target_repo = None
-        for repository in repositories:
+        for repository in repositories.values():
             repo_name = repository.get("repo_name") or repository.get("name")
             if repository.get("owner") == owner and repo_name == repo:
                 target_repo = repository
@@ -332,7 +330,7 @@ class GetRepository(Tool):
                         "searched_repo": repo,
                         "available_repos": [
                             f"{r.get('owner')}/{r.get('repo_name') or r.get('name')}"
-                            for r in repositories
+                            for r in repositories.values()
                         ],
                     },
                 }
@@ -395,16 +393,16 @@ class CreateRepository(Tool):
     ) -> str:
         """Create a repository with metadata."""
         pass
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
 
         #Verify the existence of the repository name
-        existing_names = [repo["repo_name"] for repo in repositories]
+        existing_names = [repo["repo_name"] for repo in repositories.values()]
         repo_name = name
         if name in existing_names:
             repo_name = f"{name}_v2"
 
         #Retrieve the authenticated user
-        auth_users = data.get("authentication", [])
+        auth_users = data.get("authentication", {}).values()
         username = auth_users[0]["username"] if auth_users else "default_user"
 
         #Establish a new repository entry
@@ -432,7 +430,7 @@ class CreateRepository(Tool):
             "updated_at": "2023-12-05T12:00:00Z",
         }
 
-        repositories.append(new_repo)
+        data["repositories"][new_repo["repositorie_id"]] = new_repo
         payload = {"name": repo_name, "default_branch": "main"}
         out = json.dumps(payload, indent=2)
         return out
@@ -480,12 +478,12 @@ class CreateOrUpdateFile(Tool):
     ) -> str:
         """Create/update a file on a branch."""
         pass
-        repositories = data.get("repositories", [])
-        commits = data.get("commits", [])
+        repositories = data.get("repositories", {}).values()
+        commits = data.get("commits", {}).values()
 
         #Identify the repository
         target_repo = None
-        for repository in repositories:
+        for repository in repositories.values():
             if repository["owner"] == owner and repository["repo_name"] == repo:
                 target_repo = repository
                 break
@@ -520,7 +518,7 @@ class CreateOrUpdateFile(Tool):
 
         #Append to commit data
         repo_commits = None
-        for commit_entry in commits:
+        for commit_entry in commits.values():
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 repo_commits = commit_entry
                 break
@@ -535,7 +533,7 @@ class CreateOrUpdateFile(Tool):
                 "commit_authors": [[owner]],
                 "commit_timestamps": [["2023-12-05T12:00:00Z"]],
             }
-            commits.append(repo_commits)
+            data["commits"][repo_commits["commit_id"]] = repo_commits
         else:
             try:
                 branch_idx_commits = repo_commits["branch_names"].index(branch)
@@ -592,12 +590,12 @@ class GetFileContents(Tool):
     ) -> str:
         """Read comprehensive file information including content, metadata, relationships, and statistics."""
         pass
-        repositories = data.get("repositories", [])
-        commits_data = data.get("commits", [])
+        repositories = data.get("repositories", {}).values()
+        commits_data = data.get("commits", {}).values()
 
         #Identify the repository
         target_repo = None
-        for repository in repositories:
+        for repository in repositories.values():
             if repository["owner"] == owner and repository["repo_name"] == repo:
                 target_repo = repository
                 break
@@ -687,8 +685,8 @@ class GetFileContents(Tool):
                 if line.strip() and not line.strip().startswith("#")
             ]
         )
-        comments = len([line for line in lines if line.strip().startswith("#")])
-        blank_lines = len([line for line in lines if not line.strip()])
+        comments = len([line for line in lines.values() if line.strip().startswith("#")])
+        blank_lines = len([line for line in lines.values() if not line.strip()])
 
         #Identify the file type and its language
         file_extension = path.split(".")[-1] if "." in path else ""
@@ -749,7 +747,7 @@ class GetFileContents(Tool):
         last_author = owner
 
         #Locate commits that altered this file
-        for commit_entry in commits_data:
+        for commit_entry in commits_data.values()):
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 for branch_messages in commit_entry.get("commit_messages", []):
                     for j, message in enumerate(branch_messages):
@@ -841,14 +839,14 @@ class ListCommits(Tool):
     ) -> str:
         """List comprehensive commit information with metadata, relationships, and statistics."""
         pass
-        commits = data.get("commits", [])
-        repositories = data.get("repositories", [])
-        pull_requests_data = data.get("pull_requests", [])
-        issues_data = data.get("issues", [])
+        commits = data.get("commits", {}).values()
+        repositories = data.get("repositories", {}).values()
+        pull_requests_data = data.get("pull_requests", {}).values()
+        issues_data = data.get("issues", {}).values()
 
         #Locate the repository to confirm its existence
         target_repo = None
-        for repository in repositories:
+        for repository in repositories.values():
             if repository["owner"] == owner and repository["repo_name"] == repo:
                 target_repo = repository
                 break
@@ -873,7 +871,7 @@ class ListCommits(Tool):
             return out
 
         #Identify commits for the specified repository and branch
-        for commit_entry in commits:
+        for commit_entry in commits.values():
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 try:
                     branch_idx = commit_entry["branch_names"].index(branch)
@@ -931,7 +929,7 @@ class ListCommits(Tool):
                                 ),
                             },
                         }
-                        all_commits.append(commit_data)
+                        all_data["commits"][commit_data["commit_id"]] = commit_data
 
                     #Implement pagination
                     start_idx = (page - 1) * per_page
@@ -942,7 +940,7 @@ class ListCommits(Tool):
                     related_prs = []
                     related_issues = []
 
-                    for pr_entry in pull_requests_data:
+                    for pr_entry in pull_requests_data.values():
                         if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                             for i, pr_title in enumerate(pr_entry.get("pr_titles", [])):
                                 if any(
@@ -951,7 +949,7 @@ class ListCommits(Tool):
                                 ):
                                     related_prs.append(pr_entry["pr_numbers"][i])
 
-                    for issue_entry in issues_data:
+                    for issue_entry in issues_data.values():
                         if (
                             issue_entry["owner"] == owner
                             and issue_entry["repo_name"] == repo
@@ -1092,7 +1090,7 @@ class SearchCode(Tool):
         import time
 
         start_time = time.time()
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         all_matches = []
 
         if not query.strip():
@@ -1137,7 +1135,7 @@ class SearchCode(Tool):
         by_language = {}
         by_repository = {}
 
-        for repo in repositories:
+        for repo in repositories.values():
             repo_name = f"{repo['owner']}/{repo['repo_name']}"
             repositories_searched.append(repo_name)
 
@@ -1332,9 +1330,9 @@ class ListCodeScanningAlerts(Tool):
     def invoke(data: dict[str, Any], owner: str, repo: str) -> str:
         """List code scanning alerts for a repo."""
         pass
-        alerts_data = data.get("code_scanning_alerts", [])
+        alerts_data = data.get("code_scanning_alerts", {}).values()
 
-        for alert_entry in alerts_data:
+        for alert_entry in alerts_data.values():
             if alert_entry["owner"] == owner and alert_entry["repo_name"] == repo:
                 alerts = []
                 for i, alert_num in enumerate(alert_entry["alert_numbers"]):
@@ -1385,13 +1383,13 @@ class CreateBranch(Tool):
         """Create a comprehensive branch with detailed information, relationships, and metadata."""
         _branchL = branch or ''.lower()
         pass
-        repositories = data.get("repositories", [])
-        commits_data = data.get("commits", [])
-        pull_requests_data = data.get("pull_requests", [])
+        repositories = data.get("repositories", {}).values()
+        commits_data = data.get("commits", {}).values()
+        pull_requests_data = data.get("pull_requests", {}).values()
 
         #Confirm the existence of the repository
         target_repo = None
-        for repository in repositories:
+        for repository in repositories.values():
             if repository["owner"] == owner and repository["repo_name"] == repo:
                 target_repo = repository
                 break
@@ -1464,7 +1462,7 @@ class CreateBranch(Tool):
         #If no SHA is given, apply fallback logic to retrieve the latest commit from the base branch
         if sha is None:
             fallback_sha = None
-            for commit_entry in commits_data:
+            for commit_entry in commits_data.values():
                 if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                     if base_branch in commit_entry.get("branch_names", []):
                         branch_idx = commit_entry["branch_names"].index(base_branch)
@@ -1499,7 +1497,7 @@ class CreateBranch(Tool):
         #Confirm that the SHA is present in the commit history
         sha_valid = False
         base_commit = None
-        for commit_entry in commits_data:
+        for commit_entry in commits_data.values():
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 for branch_commits in commit_entry.get("commit_shas", []):
                     if sha in branch_commits:
@@ -1526,7 +1524,7 @@ class CreateBranch(Tool):
         if not sha_valid:
             #Attempt to locate a valid SHA from the base branch as a backup
             fallback_sha = None
-            for commit_entry in commits_data:
+            for commit_entry in commits_data.values():
                 if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                     if base_branch in commit_entry.get("branch_names", []):
                         branch_idx = commit_entry["branch_names"].index(base_branch)
@@ -1541,7 +1539,7 @@ class CreateBranch(Tool):
                 sha = fallback_sha
                 sha_valid = True
                 #Retrieve commit details for the fallback SHA
-                for commit_entry in commits_data:
+                for commit_entry in commits_data.values():
                     if (
                         commit_entry["owner"] == owner
                         and commit_entry["repo_name"] == repo
@@ -1613,7 +1611,7 @@ class CreateBranch(Tool):
 
         #Locate pull requests utilizing this branch (should be empty for a new branch)
         pull_requests_using_branch = []
-        for pr_entry in pull_requests_data:
+        for pr_entry in pull_requests_data.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 for i, head_branch in enumerate(pr_entry.get("head_branches", [])):
                     if head_branch == branch:
@@ -1705,14 +1703,14 @@ class CreatePullRequest(Tool):
         _bodyL = body or ''.lower()
         _titleL = title or ''.lower()
         pass
-        pull_requests = data.get("pull_requests", [])
-        repositories = data.get("repositories", [])
-        commits_data = data.get("commits", [])
-        issues_data = data.get("issues", [])
+        pull_requests = data.get("pull_requests", {}).values()
+        repositories = data.get("repositories", {}).values()
+        commits_data = data.get("commits", {}).values()
+        issues_data = data.get("issues", {}).values()
 
         #Confirm the repository's existence
         target_repo = None
-        for repository in repositories:
+        for repository in repositories.values():
             if repository["owner"] == owner and repository["repo_name"] == repo:
                 target_repo = repository
                 break
@@ -1779,7 +1777,7 @@ class CreatePullRequest(Tool):
 
         #Locate the existing PR entry for this repository
         repo_prs = None
-        for pr_entry in pull_requests:
+        for pr_entry in pull_requests.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 repo_prs = pr_entry
                 break
@@ -1808,7 +1806,7 @@ class CreatePullRequest(Tool):
                 "created_ts": ["2023-12-05T12:00:00Z"],
                 "updated_ts": ["2023-12-05T12:00:00Z"],
             }
-            pull_requests.append(repo_prs)
+            data["pull_requests"][repo_prs["pull_request_id"]] = repo_prs
         else:
             #Append to the current PR entry
             pr_number = max(repo_prs["pr_numbers"]) + 1
@@ -1851,7 +1849,7 @@ class CreatePullRequest(Tool):
 
         #Identify commits present in the head branch but absent in the base
         commits_in_pr = []
-        for commit_entry in commits_data:
+        for commit_entry in commits_data.values()):
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 if head in commit_entry.get("branch_names", []):
                     head_branch_idx = commit_entry["branch_names"].index(head)
@@ -1864,7 +1862,7 @@ class CreatePullRequest(Tool):
 
         #Identify linked issues (analyze body for issue references)
         linked_issues = []
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values():
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 for i, issue_number in enumerate(issue_entry.get("issue_numbers", [])):
                     if (
@@ -1872,7 +1870,7 @@ class CreatePullRequest(Tool):
                         or f"closes #{issue_number}" in body.lower()
                         or f"fixes #{issue_number}" in body.lower()
                     ):
-                        linked_issues.append(issue_number)
+                        linked_data["issues"][issue_number["issue_id"]] = issue_number
 
         #Locate conflicting PRs (simulated based on the same base branch)
         conflicts_with = []
@@ -1980,9 +1978,9 @@ class GetPullRequest(Tool):
     def invoke(data: dict[str, Any], owner: str, repo: str, pullNumber: int) -> str:
         """Get PR details by number."""
         pass
-        pull_requests = data.get("pull_requests", [])
+        pull_requests = data.get("pull_requests", {}).values()
 
-        for pr_entry in pull_requests:
+        for pr_entry in pull_requests.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
@@ -2026,9 +2024,9 @@ class ListPullRequests(Tool):
     def invoke(data: dict[str, Any], owner: str, repo: str, state: str) -> str:
         """List PRs filtered by state."""
         pass
-        pull_requests = data.get("pull_requests", [])
+        pull_requests = data.get("pull_requests", {}).values()
 
-        for pr_entry in pull_requests:
+        for pr_entry in pull_requests.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 prs = []
                 for i, pr_number in enumerate(pr_entry["pr_numbers"]):
@@ -2073,10 +2071,10 @@ class GetPullRequestStatus(Tool):
     def invoke(data: dict[str, Any], owner: str, repo: str, pullNumber: int) -> str:
         """Get combined status checks for a PR."""
         pass
-        pull_requests = data.get("pull_requests", [])
+        pull_requests = data.get("pull_requests", {}).values()
 
         #Locate the pull request
-        for pr_entry in pull_requests:
+        for pr_entry in pull_requests.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
@@ -2118,7 +2116,7 @@ class GetPullRequestStatus(Tool):
                     result = {
                         "state": (
                             "success"
-                            if all(check["state"] == "success" for check in checks)
+                            if all(check["state"] == "success" for check in checks.values()
                             else "pending"
                         ),
                         "total_count": len(checks),
@@ -2168,9 +2166,9 @@ class CheckPullRequestMergeability(Tool):
     def invoke(data: dict[str, Any], owner: str, repo: str, pullNumber: int) -> str:
         """Check if a pull request is mergeable by examining its status and review state."""
         pass
-        pull_requests = data.get("pull_requests", [])
+        pull_requests = data.get("pull_requests", {}).values()
 
-        for pr_entry in pull_requests:
+        for pr_entry in pull_requests.values()):
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
@@ -2302,9 +2300,9 @@ class MergePullRequest(Tool):
     ) -> str:
         """Merge a PR using the specified method with optional commit message."""
         pass
-        pull_requests = data.get("pull_requests", [])
+        pull_requests = data.get("pull_requests", {}).values()
 
-        for pr_entry in pull_requests:
+        for pr_entry in pull_requests.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
@@ -2369,8 +2367,8 @@ class SubmitPullRequestForReview(Tool):
     ) -> str:
         """Submit a PR for review by requesting specific reviewers and marking it ready for review."""
         pass
-        pull_requests = data.get("pull_requests", [])
-        for pr_entry in pull_requests:
+        pull_requests = data.get("pull_requests", {}).values()
+        for pr_entry in pull_requests.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
@@ -2457,10 +2455,10 @@ class SearchIssues(Tool):
         """Search issues by query."""
         _queryL = query or ''.lower()
         pass
-        issues_data = data.get("issues", [])
+        issues_data = data.get("issues", {}).values()
         matching_issues = []
 
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values():
             for i, title in enumerate(issue_entry["issue_titles"]):
                 if (
                     query.lower() in title.lower()
@@ -2508,7 +2506,7 @@ class CreateIssue(Tool):
     ) -> str:
         """Create an issue with labels/assignees."""
         pass
-        issues_data = data.get("issues", [])
+        issues_data = data.get("issues", {}).values()
 
         #Confirm the validity of the assignees parameter
         if assignees is None:
@@ -2524,7 +2522,7 @@ class CreateIssue(Tool):
 
         #Locate the existing issue entry for this repository
         repo_issues = None
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values()):
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 repo_issues = issue_entry
                 break
@@ -2546,7 +2544,7 @@ class CreateIssue(Tool):
                 "created_ts": ["2023-12-05T12:00:00Z"],
                 "updated_ts": ["2023-12-05T12:00:00Z"],
             }
-            issues_data.append(repo_issues)
+            data["issues"][repo_issues["issue_id"]] = repo_issues
         else:
             #Append to the current issue entry - retrieve the highest existing issue number and increment by 1
             issue_number = max(repo_issues["issue_numbers"]) + 1
@@ -2600,11 +2598,11 @@ class GetIssue(Tool):
     def invoke(data: dict[str, Any], owner: str, repo: str, issue_number: int) -> str:
         """Get comprehensive issue information with metadata, relationships, and statistics."""
         pass
-        issues_data = data.get("issues", [])
-        commits_data = data.get("commits", [])
-        pull_requests_data = data.get("pull_requests", [])
+        issues_data = data.get("issues", {}).values()
+        commits_data = data.get("commits", {}).values()
+        pull_requests_data = data.get("pull_requests", {}).values()
 
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values():
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 try:
                     issue_idx = issue_entry["issue_numbers"].index(issue_number)
@@ -2653,7 +2651,7 @@ class GetIssue(Tool):
 
                     #Identify linked pull requests (simulated based on similar titles/labels)
                     linked_prs = []
-                    for pr_entry in pull_requests_data:
+                    for pr_entry in pull_requests_data.values():
                         if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                             for i, pr_title in enumerate(pr_entry.get("pr_titles", [])):
                                 if any(
@@ -2665,7 +2663,7 @@ class GetIssue(Tool):
 
                     #Locate referenced commits (simulated based on keywords in the title)
                     referenced_commits = []
-                    for commit_entry in commits_data:
+                    for commit_entry in commits_data.values():
                         if (
                             commit_entry["owner"] == owner
                             and commit_entry["repo_name"] == repo
@@ -2792,14 +2790,14 @@ class UpdateIssue(Tool):
     ) -> str:
         """Update issue with comprehensive tracking of changes, activity, and automated workflow triggers."""
         pass
-        issues_data = data.get("issues", [])
-        auth_users = data.get("authentication", [])
+        issues_data = data.get("issues", {}).values()
+        auth_users = data.get("authentication", {}).values()
 
         #Retrieve the current user for tracking purposes
         current_user = auth_users[0]["username"] if auth_users else "system"
         update_timestamp = "2023-12-05T12:00:00Z"
 
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values():
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 try:
                     issue_idx = issue_entry["issue_numbers"].index(issue_number)
@@ -3038,9 +3036,9 @@ class AddIssueComment(Tool):
     ) -> str:
         """Add a comment to an issue."""
         pass
-        issues_data = data.get("issues", [])
+        issues_data = data.get("issues", {}).values()
 
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values():
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 try:
                     issue_idx = issue_entry["issue_numbers"].index(issue_number)
@@ -3093,13 +3091,13 @@ class ListIssues(Tool):
     ) -> str:
         """List issues filtered by label/state. When no labels are provided, returns all issues."""
         pass
-        issues_data = data.get("issues", [])
+        issues_data = data.get("issues", {}).values()
 
         #Treat None or empty labels as "retrieve all"
         if labels is None:
             labels = []
 
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values():
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 issues = []
                 for i, issue_number in enumerate(issue_entry["issue_numbers"]):
@@ -3111,7 +3109,7 @@ class ListIssues(Tool):
                         continue
 
                     #Apply filter based on labels (if provided and not empty)
-                    if labels and not any(label in issue_labels for label in labels):
+                    if labels and not any(label in issue_labels for label in labels.values()):
                         continue
 
                     issues.append(
@@ -3165,9 +3163,9 @@ class CreatePullRequestReview(Tool):
     ) -> str:
         """Create a PR review (comment/approval)."""
         pass
-        pull_requests = data.get("pull_requests", [])
+        pull_requests = data.get("pull_requests", {}).values()
 
-        for pr_entry in pull_requests:
+        for pr_entry in pull_requests.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
@@ -3225,22 +3223,22 @@ class DeleteRepository(Tool):
     def invoke(data: dict[str, Any], owner: str, repo: str) -> str:
         """Delete a repository permanently."""
         pass
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
 
         #Locate and delete the repository
-        for i, repository in enumerate(repositories):
+        for i, repository in enumerate(repositories.values():
             if repository["owner"] == owner and repository["repo_name"] == repo:
                 repositories.pop(i)
 
                 #Additionally, remove associated data
                 #Delete commits
-                commits = data.get("commits", [])
+                commits = data.get("commits", {}).values()
                 for j in range(len(commits) - 1, -1, -1):
                     if commits[j]["owner"] == owner and commits[j]["repo_name"] == repo:
                         commits.pop(j)
 
                 #Delete pull requests
-                pull_requests = data.get("pull_requests", [])
+                pull_requests = data.get("pull_requests", {}).values()
                 for j in range(len(pull_requests) - 1, -1, -1):
                     if (
                         pull_requests[j]["owner"] == owner
@@ -3249,13 +3247,13 @@ class DeleteRepository(Tool):
                         pull_requests.pop(j)
 
                 #Delete issues
-                issues = data.get("issues", [])
+                issues = data.get("issues", {}).values()
                 for j in range(len(issues) - 1, -1, -1):
                     if issues[j]["owner"] == owner and issues[j]["repo_name"] == repo:
                         issues.pop(j)
 
                 #Delete code scanning alerts
-                alerts = data.get("code_scanning_alerts", [])
+                alerts = data.get("code_scanning_alerts", {}).values()
                 for j in range(len(alerts) - 1, -1, -1):
                     if alerts[j]["owner"] == owner and alerts[j]["repo_name"] == repo:
                         alerts.pop(j)
@@ -3292,10 +3290,10 @@ class GetLabels(Tool):
     def invoke(data: dict[str, Any], owner: str, repo: str) -> str:
         """Get all available labels for a repository."""
         pass
-        issues_data = data.get("issues", [])
+        issues_data = data.get("issues", {}).values()
 
         #Locate the repository within the issues data
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values():
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 #Gather all distinct labels from every issue in this repository
                 all_labels = set()
@@ -3362,9 +3360,9 @@ class ResolvePullRequestBlockers(Tool):
     def invoke(data: dict[str, Any], owner: str, repo: str, pullNumber: int) -> str:
         """Resolve blocking issues on a pull request to make it mergeable."""
         pass
-        pull_requests = data.get("pull_requests", [])
+        pull_requests = data.get("pull_requests", {}).values()
 
-        for pr_entry in pull_requests:
+        for pr_entry in pull_requests.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)

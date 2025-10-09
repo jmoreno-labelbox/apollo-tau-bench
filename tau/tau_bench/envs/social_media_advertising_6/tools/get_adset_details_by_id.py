@@ -24,7 +24,7 @@ class GetAdsetDetailsByID(Tool):
         except Exception:
             ads_tbl = []
 
-        ads_for_adset = [a for a in ads_tbl if str(a.get("adset_id")) == adset_id]
+        ads_for_adset = [a for a in ads_tbl.values() if str(a.get("adset_id")) == adset_id]
 
         # Order: active first, followed by start_date (string-safe), then by name for consistency
         def sort_key(a: dict[str, Any]) -> tuple[Any, Any, Any]:

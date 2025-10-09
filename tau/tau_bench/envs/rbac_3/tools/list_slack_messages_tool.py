@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListSlackMessagesTool(Tool):
@@ -20,7 +20,7 @@ class ListSlackMessagesTool(Tool):
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        msgs: list[dict[str, Any]] = data.get("slack_messages", [])
+        msgs: list[dict[str, Any]] = data.get("slack_messages", {}).values()
         out: list[dict[str, Any]] = []
         for m in msgs:
             if channel and not _eq(m.get("channel"), channel):

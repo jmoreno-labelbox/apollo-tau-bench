@@ -9,14 +9,14 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
 def _load_table(data: dict[str, Any], table: str) -> list[dict[str, Any]]:
     pass
     #return result
-    return data.get(table, [])
+    return data.get(table, {}).values()
 
 
 #begin tool class
@@ -136,7 +136,7 @@ class Curated(Tool):
         game_pk: Any = None,
         pitcher_id: Any = None
     ) -> str:
-        curated = data.get("curated_insights", [])
+        curated = data.get("curated_insights", {}).values()
         curated.append(
             {
                 "report_id": report_id,
@@ -248,16 +248,15 @@ class NextSet(Tool):
                 payload, indent=2
             )
             return out
-        games = data.get("games", [])
+        games = data.get("games", {}).values()
         candidates = [
             g
-            for g in games
-            if g.get("game_status") == "Scheduled"
+            for g in games.values() if g.get("game_status") == "Scheduled"
             and g.get("game_date") >= current_date
         ]
         if not candidates:
             candidates = sorted(
-                [g for g in games if g.get("game_date") >= current_date],
+                [g for g in games.values() if g.get("game_date") >= current_date],
                 key=lambda x: x.get("game_date"),
             )
         else:
@@ -328,10 +327,10 @@ class IngestLog(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], ingestion_log: dict = None, source_name: str = None, status_code: int = None, logs_ingested: int = None) -> str:
-        logs = data.get("ingestion_logs", [])
+        logs = data.get("ingestion_logs", {}).values()
         # Support both dict and individual parameters
         if ingestion_log is not None:
-            logs.append(ingestion_log)
+            data["ingestion_logs"][ingestion_log["ingestion_log_id"]] = ingestion_log
         else:
             log_entry = {}
             if source_name is not None:
@@ -340,7 +339,7 @@ class IngestLog(Tool):
                 log_entry['status_code'] = status_code
             if logs_ingested is not None:
                 log_entry['logs_ingested'] = logs_ingested
-            logs.append(log_entry)
+            data["ingestion_logs"][log_entry["ingestion_log_id"]] = log_entry
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out
@@ -372,8 +371,8 @@ class MonitorPlayerFatigue(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], player_id: str = None) -> str:
-        workloads = data.get("player_workload", [])
-        workload = next((w for w in workloads if w.get("player_id") == player_id), {})
+        workloads = data.get("player_workload", {}).values()
+        workload = next((w for w in workloads.values() if w.get("player_id") == player_id), {}).values()
         fatigue_score = (
             workload.get("innings_pitched", 0) * 0.5
             + workload.get("pitches_thrown", 0) * 0.1
@@ -477,12 +476,11 @@ class Artif(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], game_pk: str = None, artifact_name: str = None) -> str:
-        artifacts = data.get("spatial_artifacts", [])
+        artifacts = data.get("spatial_artifacts", {}).values()
         rec = next(
             (
                 a
-                for a in artifacts
-                if str(a.get("game_pk")) == str(game_pk)
+                for a in artifacts.values() if str(a.get("game_pk")) == str(game_pk)
                 and a.get("artifact_name") == artifact_name
             ),
             None,
@@ -519,7 +517,7 @@ class Umpiregame(Tool):
     def invoke(data: dict[str, Any], game_pk: str = None, zone_shift_x: float = None, zone_shift_z: float = None, calibration_error_pct: float = None) -> str:
         data.setdefault("umpire_game_models", []).append(
             {
-                "umpire_game_id": f"ump_{len(data.get('umpire_game_models', []))+1}",
+                "umpire_game_id": f"ump_{len(data.get("umpire_game_models", {}))+1}",
                 "game_pk": game_pk,
                 "zone_shift_x": zone_shift_x,
                 "zone_shift_z": zone_shift_z,
@@ -627,18 +625,17 @@ class ForecastMatchOutcome(Tool):
         home_team = home_team_id
         away_team = away_team_id
         # Dummy deterministic model: the team with a higher average runs wins
-        games = data.get("games", [])
+        games = data.get("games", {}).values()
 
         def avg_runs(team):
             pass
             team_games = [
                 g
-                for g in games
-                if g.get("home_team_id") == team or g.get("away_team_id") == team
+                for g in games.values() if g.get("home_team_id") == team or g.get("away_team_id") == team
             ]
             # return result
             return sum(
-                g.get("final_score", {}).get(str(team), 0) for g in team_games
+                g.get("final_score", {}).values().get(str(team), 0) for g in team_games
             ) / max(len(team_games), 1)
 
         winner = home_team if avg_runs(home_team) >= avg_runs(away_team) else away_team
@@ -672,10 +669,10 @@ class EventDay(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], event: dict[str, Any] = None, game_pk: Any = None, leverage_index: Any = None, is_manual_alert: Any = None, suggestion_text: str = None) -> str:
-        events = data.get("game_day_events", [])
+        events = data.get("game_day_events", {}).values()
         # Support both event dict and individual parameters
         if event is not None:
-            events.append(event)
+            data["game_day_events"][event["game_day_event_id"]] = event
         else:
             # Build event from individual parameters
             event_obj = {}
@@ -687,7 +684,7 @@ class EventDay(Tool):
                 event_obj['is_manual_alert'] = is_manual_alert
             if suggestion_text is not None:
                 event_obj['suggestion_text'] = suggestion_text
-            events.append(event_obj)
+            data["game_day_events"][event_obj["game_day_event_id"]] = event_obj
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out
@@ -725,9 +722,9 @@ class AllGames(Tool):
         batch_results = {}
 
         # Retrieve actual data from JSON files
-        pitches = data.get("pitches", [])
-        games = data.get("games", [])
-        players = data.get("players", [])
+        pitches = data.get("pitches", {}).values()
+        games = data.get("games", {}).values()
+        players = data.get("players", {}).values()
 
         for window in windows:
             if "PA" in window:  # Window for plate appearances
@@ -742,7 +739,7 @@ class AllGames(Tool):
                         if p.get("exit_velocity")
                     )
                     / max(
-                        len([p for p in filtered_pitches if p.get("exit_velocity")]), 1
+                        len([p for p in filtered_pitches.values() if p.get("exit_velocity")]), 1
                     ),
                     "pitch_types": list(
                         {
@@ -1010,8 +1007,8 @@ class SummarizePlayerPerformance(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], player_id: str = None) -> str:
-        games = data.get("games", [])
-        stats = [g for g in games if player_id in g.get("player_stats", {})]
+        games = data.get("games", {}).values()
+        stats = [g for g in games.values() if player_id in g.get("player_stats", {}).values()]
         summary = {
             "player_id": player_id,
             "games_played": len(stats),
@@ -1019,7 +1016,7 @@ class SummarizePlayerPerformance(Tool):
                 s["player_stats"][player_id].get("batting_avg", 0) for s in stats
             )
             / max(len(stats), 1),
-            "avg_ops": sum(s["player_stats"][player_id].get("ops", 0) for s in stats)
+            "avg_ops": sum(s["player_stats"][player_id].get("ops", 0) for s in stats.values()
             / max(len(stats), 1),
         }
         payload = summary
@@ -1149,18 +1146,17 @@ class CompareTeamStats(Tool):
     #primary invocation function
     def invoke(data: dict[str, Any], team_a: str = None, team_b: str = None) -> str:
         pass
-        games = data.get("games", [])
+        games = data.get("games", {}).values()
 
         def avg_runs(team):
             pass
             team_games = [
                 g
-                for g in games
-                if g.get("home_team_id") == team or g.get("away_team_id") == team
+                for g in games.values() if g.get("home_team_id") == team or g.get("away_team_id") == team
             ]
             #return result
             return sum(
-                g.get("final_score", {}).get(str(team), 0) for g in team_games
+                g.get("final_score", {}).values().get(str(team), 0) for g in team_games
             ) / max(len(team_games), 1)
         payload = {"team_a_avg_runs": avg_runs(team_a), "team_b_avg_runs": avg_runs(team_b)}
         out = json.dumps(
@@ -1255,7 +1251,7 @@ class Developments(Tool):
     def invoke(data: dict[str, Any], week_of: str = None, active_players: list = None) -> str:
         data.setdefault("player_dev_goals", []).append(
             {
-                "goal_id": f"goal_{len(data.get('player_dev_goals', []))+1}",
+                "goal_id": f"goal_{len(data.get("player_dev_goals", {}))+1}",
                 "week_of": week_of,
                 "active_players": active_players,
             }
@@ -1292,7 +1288,7 @@ class DevelopmentsReports(Tool):
     def invoke(data: dict[str, Any], week_of: str = None, report_count: int = None) -> str:
         data.setdefault("player_dev_reports", []).append(
             {
-                "dev_report_id": f"dev_{len(data.get('player_dev_reports', []))+1}",
+                "dev_report_id": f"dev_{len(data.get("player_dev_reports", {}))+1}",
                 "week_of": week_of,
                 "report_count": report_count,
             }
@@ -1398,8 +1394,8 @@ class TrackInjuryReports(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], player_id: str = None) -> str:
-        injuries = data.get("injury_reports", [])
-        player_injuries = [i for i in injuries if i.get("player_id") == player_id]
+        injuries = data.get("injury_reports", {}).values()
+        player_injuries = [i for i in injuries.values() if i.get("player_id") == player_id]
         payload = {"player_id": player_id, "injury_history": player_injuries}
         out = json.dumps(
             payload, indent=2
@@ -1468,7 +1464,7 @@ class ExecData(Tool):
     def invoke(data: dict[str, Any], game_pk: str = None, grades_count: int = None) -> str:
         data.setdefault("pitch_execution_grades", []).append(
             {
-                "grade_id": f"grade_{len(data.get('pitch_execution_grades', []))+1}",
+                "grade_id": f"grade_{len(data.get("pitch_execution_grades", {}))+1}",
                 "game_pk": game_pk,
                 "grades_count": grades_count,
             }

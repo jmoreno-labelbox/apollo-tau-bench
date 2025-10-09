@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindProjectOwnerTeam(Tool):
@@ -15,8 +15,8 @@ class FindProjectOwnerTeam(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], project_id: str = None) -> str:
-        repos = data.get("repositories", [])
-        teams = data.get("teams", [])
+        repos = data.get("repositories", {}).values()
+        teams = data.get("teams", {}).values()
 
         repo_id = None
         for repo in repos:
@@ -29,7 +29,7 @@ class FindProjectOwnerTeam(Tool):
             out = json.dumps(payload)
             return out
 
-        for team in teams:
+        for team in teams.values():
             #"project_focus": ["proj_001", "proj_002", "proj_003"],
             if project_id in team["project_focus"]:
                 payload = {"team_id": team["id"]}

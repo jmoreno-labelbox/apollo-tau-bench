@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateNewLoanApplication(Tool):
@@ -24,16 +24,16 @@ class CreateNewLoanApplication(Tool):
             return json.dumps({"error": "All loan-related fields and customer_id are required."}, indent=2)
 
         # Look up customer in the database
-        customers = data.get("customers", [])
-        customer = next((c for c in customers if c.get("customer_id") == customer_id), None)
+        customers = data.get("customers", {}).values()
+        customer = next((c for c in customers.values() if c.get("customer_id") == customer_id), None)
 
         if not customer:
             return json.dumps({"error": f"Customer with ID '{customer_id}' not found."}, indent=2)
 
         # Extract data from customer profile
-        personal_info = customer.get("personal_info", {})
-        contact_info = customer.get("contact_info", {})
-        financial_profile = customer.get("financial_profile", {})
+        personal_info = customer.get("personal_info", {}).values()
+        contact_info = customer.get("contact_info", {}).values()
+        financial_profile = customer.get("financial_profile", {}).values()
 
         first_name = personal_info.get("first_name")
         last_name = personal_info.get("last_name")

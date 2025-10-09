@@ -11,12 +11,12 @@ class ApplyPartialRefundToTransaction(Tool):
             return json.dumps({'error': 'transaction_id and refund_amount are required'})
         transactions = load_json('transactions.json')
         accounts = load_json('accounts.json')
-        txn = next((t for t in transactions if t['transaction_id'] == transaction_id), None)
+        txn = next((t for t in transactions.values() if t['transaction_id'] == transaction_id), None)
         if not txn or 'account_id' not in txn or 'amount' not in txn or 'status' not in txn:
             return json.dumps({'error': 'Transaction not found or missing required fields.'})
         if txn['status'] != 'Completed' or txn['amount'] >= 0:
             return json.dumps({'error': 'Refund only allowed for completed debit transactions.'})
-        acct = next((a for a in accounts if a['account_id'] == txn['account_id'] and 'balance' in a), None)
+        acct = next((a for a in accounts.values() if a['account_id'] == txn['account_id'] and 'balance' in a), None)
         if not acct:
             return json.dumps({'error': 'Account not found or missing balance.'})
         if abs(refund_amount) > abs(txn['amount']):
@@ -34,7 +34,7 @@ class ApplyPartialRefundToTransaction(Tool):
             'status': 'Completed',
             'channel': 'Online'
         }
-        transactions.append(refund_txn)
+        data["transactions"][transaction_id] = refund_txn
         return json.dumps({'success': True, 'refund_transaction': refund_txn})
     @staticmethod
     def get_info() -> Dict[str, Any]:

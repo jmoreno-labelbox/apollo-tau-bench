@@ -11,7 +11,7 @@ FIXED_NOW = "2025-08-06T12:00:00Z"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -56,10 +56,10 @@ def _find_one(rows: list[dict[str, Any]], **crit):
 
 def _ensure_unique_id(rows: list, id_field: str, candidate: str) -> str:
     pass
-    if not any(r.get(id_field) == candidate for r in rows):
+    if not any(r.get(id_field) == candidate for r in rows.values()):
         return candidate
     i = 2
-    while any(r.get(id_field) == f"{candidate}-{i}" for r in rows):
+    while any(r.get(id_field) == f"{candidate}-{i}" for r in rows.values()):
         i += 1
     return f"{candidate}-{i}"
 
@@ -868,7 +868,7 @@ class ManageCacheMaintenance(Tool):
         if action == "remove":
             for name in targets:
                 jid = _stable_id("job", name, environment)
-                jobs[:] = [r for r in jobs if r.get("job_id") != jid]
+                jobs[:] = [r for r in jobs.values() if r.get("job_id") != jid]
         last = _find_one(jobs, job_name=targets[0])
         return _json(
             {
@@ -1642,7 +1642,7 @@ class ResolveCatalogEntities(Tool):
                     pid = _stable_id("prod", n)
                     code = n if "-" in n else f"{n.upper().replace(' ','_')}-001"
                     row = {"product_id": pid, "name": n, "product_code": code}
-                    products.append(row)
+                    data["products"][product_id] = row
                 out.append(
                     {
                         "name": row.get("name", n),
@@ -1671,7 +1671,7 @@ class ResolveCatalogEntities(Tool):
                         "description": n,
                         "active": False,
                     }
-                    offers.append(row)
+                    data["offers"][offer_id] = row
                 out.append(
                     {
                         "name": row.get("name", row.get("offer_code")),
@@ -1743,7 +1743,7 @@ class UpsertPricebookEntriesBatch(Tool):
                     "name": code,
                     "product_code": code,
                 }
-                products.append(prod)
+                data["products"][product_id] = prod
 
             pbe_id = _stable_id("pbe", pb["pricebook_id"], code)
             row = _find_one(pbes, pbe_id=pbe_id)
@@ -1785,7 +1785,7 @@ class UpsertPricebookEntriesBatch(Tool):
                     "name": code,
                     "product_code": code,
                 }
-                products.append(prod)
+                data["products"][product_id] = prod
 
             pbe_id = _stable_id("pbe", pb["pricebook_id"], code)
             row = _find_one(pbes, pbe_id=pbe_id)

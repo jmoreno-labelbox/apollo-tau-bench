@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateProject(Tool):
@@ -34,7 +34,7 @@ class UpdateProject(Tool):
             out = json.dumps(payload)
             return out
         project = next(
-            (p for p in data.get("projects", []) if p.get("project_id") == project_id),
+            (p for p in data.get("projects", {}).values() if p.get("project_id") == project_id),
             None,
         )
         if not project:
@@ -65,17 +65,17 @@ class UpdateProject(Tool):
                 project["collaborators"] = []
 
             provided_collaborators = add_collaborators
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
 
             valid_collaborator_ids = []
             for collab_item in provided_collaborators:
                 # Verify if the item is a valid user_id
-                if any(u["person_id"] == collab_item for u in users):
+                if any(u["person_id"] == collab_item for u in users.values()):
                     valid_collaborator_ids.append(collab_item)
                 # If not, attempt to search by name
                 else:
                     found_user = next(
-                        (u for u in users if u["name"] == collab_item), None
+                        (u for u in users.values() if u["name"] == collab_item), None
                     )
                     if found_user:
                         valid_collaborator_ids.append(found_user["user_id"])

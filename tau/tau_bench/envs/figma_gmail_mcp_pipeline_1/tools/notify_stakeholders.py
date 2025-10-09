@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class NotifyStakeholders(Tool):  #WRITE
@@ -48,13 +48,13 @@ class NotifyStakeholders(Tool):  #WRITE
         #Retrieve valid Gmail labels for the notification workflow
         gmail_labels = get_config_options(data, "gmail_labels")
         notification_labels = ["fix-plan", "audit", "notification"]
-        valid_labels = [label for label in notification_labels if label in gmail_labels]
+        valid_labels = [label for label in notification_labels.values() if label in gmail_labels]
         if not valid_labels:
             #Revert to available labels
             valid_labels = gmail_labels[:2] if len(gmail_labels) >= 2 else gmail_labels
 
         #Initiate the Gmail thread first
-        gmail_threads = data.get("gmail_threads", [])
+        gmail_threads = data.get("gmail_threads", {}).values()
         next_thread_num = len(gmail_threads) + 1
         thread_id = f"thread_{next_thread_num:03d}"
         created_ts = "2025-08-29T12:00:00Z"
@@ -69,10 +69,10 @@ class NotifyStakeholders(Tool):  #WRITE
             "current_labels": valid_labels,
             "created_ts": created_ts,
         }
-        gmail_threads.append(new_thread)
+        gmail_thredata["ads"][ad_id] = new_thread
 
         #Compose a Gmail message within the thread
-        gmail_messages = data.get("gmail_messages", [])
+        gmail_messages = data.get("gmail_messages", {}).values()
         next_msg_num = len(gmail_messages) + 1
         message_id = f"msg_{next_msg_num:03d}"
         sent_ts = created_ts
@@ -89,7 +89,7 @@ class NotifyStakeholders(Tool):  #WRITE
             "sent_ts": sent_ts,
             "attachments_asset_ids": [],
         }
-        gmail_messages.append(new_message)
+        data["gmail_messages"][new_message["gmail_message_id"]] = new_message
         payload = {
                 "thread_created": new_thread,
                 "message_created": new_message,

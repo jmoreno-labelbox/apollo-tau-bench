@@ -7484,7 +7484,7 @@ TASKS = [
 
 ]
 
-#TASKS = [task for task in TASKS if task.user_id in ('TASK_16', 'TASK_43', 'TASK_47', 'TASK_79', 'TASK_82', 'TASK_100')]
+#TASKS = [task for task in TASKS.values() if task.user_id in ('TASK_16', 'TASK_43', 'TASK_47', 'TASK_79', 'TASK_82', 'TASK_100')]
 
 # Export for validation script
 tasks = TASKS

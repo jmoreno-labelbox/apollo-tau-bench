@@ -7,17 +7,17 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class EventDay(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], event: dict[str, Any] = None, game_pk: Any = None, leverage_index: Any = None, is_manual_alert: Any = None, suggestion_text: str = None) -> str:
-        events = data.get("game_day_events", [])
+        events = data.get("game_day_events", {}).values()
         # Support both event dict and individual parameters
         if event is not None:
-            events.append(event)
+            data["game_day_events"][event["game_day_event_id"]] = event
         else:
             # Build event from individual parameters
             event_obj = {}
@@ -29,7 +29,7 @@ class EventDay(Tool):
                 event_obj['is_manual_alert'] = is_manual_alert
             if suggestion_text is not None:
                 event_obj['suggestion_text'] = suggestion_text
-            events.append(event_obj)
+            data["game_day_events"][event_obj["game_day_event_id"]] = event_obj
         payload = {"status": "ok"}
         out = json.dumps(payload, indent=2)
         return out

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddDeviceToRoom(Tool):
@@ -15,14 +15,14 @@ class AddDeviceToRoom(Tool):
     def invoke(data: dict[str, Any], room_id: str, device_id: str,
     new_device: Any = None,
     ) -> str:
-        rooms = data.get("rooms", [])
+        rooms = data.get("rooms", {}).values()
         _, room = _find(rooms, room_id)
         if not room:
             payload = {"error": f"room '{room_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
         # check if the device is present
-        if not _find(data.get("devices", []), device_id)[1]:
+        if not _find(data.get("devices", {}).values()), device_id)[1]:
             payload = {"error": f"device '{device_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out

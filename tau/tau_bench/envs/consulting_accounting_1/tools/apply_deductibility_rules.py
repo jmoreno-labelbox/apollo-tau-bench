@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ApplyDeductibilityRules(Tool):
@@ -18,7 +18,7 @@ class ApplyDeductibilityRules(Tool):
             out = json.dumps(payload, indent=2)
             return out
         exp = next(
-            (e for e in data.get("expenses", []) if e.get("expense_id") == expense_id),
+            (e for e in data.get("expenses", {}).values() if e.get("expense_id") == expense_id),
             None,
         )
         if not exp:
@@ -29,7 +29,7 @@ class ApplyDeductibilityRules(Tool):
         cat_obj = next(
             (
                 c
-                for c in data.get("expense_categories", [])
+                for c in data.get("expense_categories", {}).values()
                 if c.get("category_code") == cat
             ),
             None,

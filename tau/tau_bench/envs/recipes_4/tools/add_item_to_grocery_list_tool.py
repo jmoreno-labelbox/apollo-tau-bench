@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddItemToGroceryListTool(Tool):
@@ -107,14 +107,14 @@ class AddItemToGroceryListTool(Tool):
             )
 
         #2. Pre-condition Checks
-        if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", [])):
+        if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "GroceryList", "entity_id": list_id}
             )
         ingredient_meta = next(
             (
                 i
-                for i in data.get("ingredients", [])
+                for i in data.get("ingredients", {}).values()
                 if i.get("ingredient_id") == ingredient_id
             ),
             None,
@@ -137,7 +137,7 @@ class AddItemToGroceryListTool(Tool):
         )
 
         list_record = next(
-            g for g in data.get("grocery_lists", []) if g.get("list_id") == list_id
+            g for g in data.get("grocery_lists", {}).values() if g.get("list_id") == list_id
         )
         household_id = list_record.get("household_id")
 
@@ -153,7 +153,7 @@ class AddItemToGroceryListTool(Tool):
             #Create new item
             action = "create"
             max_id = max(
-                (i.get("item_id", 0) for i in gli_table),
+                (i.get("item_id", 0) for i in gli_table.values()),
                 default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"][
                     "grocery_list_items"
                 ],

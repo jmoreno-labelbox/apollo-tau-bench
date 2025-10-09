@@ -15,7 +15,7 @@ class ResolveCatalogEntities(Tool):
                     pid = _stable_id("prod", n)
                     code = n if "-" in n else f"{n.upper().replace(' ','_')}-001"
                     row = {"product_id": pid, "name": n, "product_code": code}
-                    products.append(row)
+                    data["products"][product_id] = row
                 out.append(
                     {
                         "name": row.get("name", n),
@@ -44,7 +44,7 @@ class ResolveCatalogEntities(Tool):
                         "description": n,
                         "active": False,
                     }
-                    offers.append(row)
+                    data["offers"][offer_id] = row
                 out.append(
                     {
                         "name": row.get("name", row.get("offer_code")),

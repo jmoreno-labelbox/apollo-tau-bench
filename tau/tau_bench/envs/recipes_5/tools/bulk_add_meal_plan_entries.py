@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class BulkAddMealPlanEntries(Tool):
@@ -29,7 +29,7 @@ class BulkAddMealPlanEntries(Tool):
             mp_row = next(
                 (
                     m
-                    for m in data.get("meal_plans", [])
+                    for m in data.get("meal_plans", {}).values()
                     if m.get("meal_plan_id") == meal_plan_id
                 ),
                 None,
@@ -62,7 +62,7 @@ class BulkAddMealPlanEntries(Tool):
             )["selected_recipe_ids_json"]
             recipes = _parse_json_list_ids(ranked)
         dates = _plan_week_dates(str(week_start_date))
-        entries_tbl = data.get("meal_plan_entries", [])
+        entries_tbl = data.get("meal_plan_entries", {}).values()
         created_ids: list[int] = []
         next_id = _max_id(entries_tbl, "entry_id", 6100)
         for i, rid in enumerate(recipes[:7]):
@@ -77,7 +77,7 @@ class BulkAddMealPlanEntries(Tool):
                 "servings_child": 1,
                 "notes": "",
             }
-            entries_tbl.append(row)
+            data["meal_plan_entries"][row["meal_plan_entrie_id"]] = row
             created_ids.append(next_id)
         return _json_dump({"created_entry_ids": created_ids})
         

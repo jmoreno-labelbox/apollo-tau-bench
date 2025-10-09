@@ -12,7 +12,7 @@ from datetime import date as _date
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListAircraftAtAirport(Tool):
@@ -38,7 +38,7 @@ class ListAircraftAtAirport(Tool):
         airport = _get_airport_by_iata(data, iata)
 
         rows: list[dict[str, Any]] = []
-        for a in data.get("aircraft", []):
+        for a in data.get("aircraft", {}).values():
             loc = (a.get("location") or {}).get("iata_code")
             if (loc or "").upper() != iata:
                 continue
@@ -85,7 +85,7 @@ class ListAircraftAtAirport(Tool):
         airport = _get_airport_by_iata(data, iata)
 
         rows: list[dict[str, Any]] = []
-        for a in data.get("aircraft", []):
+        for a in data.get("aircraft", {}).values():
             loc = (a.get("location") or {}).get("iata_code")
             if (loc or "").upper() != iata:
                 continue

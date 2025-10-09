@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCandidatesNeedingOrientationSchedulingTool(Tool):
@@ -20,12 +20,12 @@ class GetCandidatesNeedingOrientationSchedulingTool(Tool):
         if days_until_start is None:
             return _err("days_until_start (integer) is required")
 
-        candidates = data.get("candidates", [])
-        access_checks = data.get("access_checks", [])
-        emails = data.get("emails", [])
+        candidates = data.get("candidates", {}).values()
+        access_checks = data.get("access_checks", {}).values()
+        emails = data.get("emails", {}).values()
 
         ready_candidates = []
-        for candidate in candidates:
+        for candidate in candidates.values():
             start_date = candidate.get("start_date")
             cid = str(candidate.get("candidate_id"))
 
@@ -46,7 +46,7 @@ class GetCandidatesNeedingOrientationSchedulingTool(Tool):
 
             # Review access checks
             candidate_access_checks = [
-                ac for ac in access_checks if str(ac.get("candidate_id")) == cid
+                ac for ac in access_checks.values() if str(ac.get("candidate_id")) == cid
             ]
             if not candidate_access_checks or any(
                 ac.get("status") == "Failed" for ac in candidate_access_checks
@@ -56,8 +56,7 @@ class GetCandidatesNeedingOrientationSchedulingTool(Tool):
             # Look for an existing orientation invitation by examining the subject
             has_invitation = any(
                 "orientation invitation" in str(e.get("subject", "")).lower()
-                for e in emails
-                if str(e.get("candidate_id_nullable")) == cid
+                for e in emails.values() if str(e.get("candidate_id_nullable")) == cid
             )
             if has_invitation:
                 continue
@@ -66,7 +65,7 @@ class GetCandidatesNeedingOrientationSchedulingTool(Tool):
             # Basic priority scoring
             priority_score = 100 - _days_between(HARD_TS.split("T")[0], start_date)
             candidate_copy["scheduling_priority_score"] = priority_score
-            ready_candidates.append(candidate_copy)
+            ready_data["candidates"][candidate_id] = candidate_copy
 
         ready_candidates.sort(
             key=lambda x: x["scheduling_priority_score"], reverse=True

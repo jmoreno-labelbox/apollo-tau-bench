@@ -22,7 +22,7 @@ class EscalateToQualityTeam(Tool):
 
         if "escalations" not in data:
             data["escalations"] = []
-        data["escalations"].append(escalation)
+        data["escalations"][escalation_id] = escalation
 
         return json.dumps({
             "escalation_id": escalation_id,

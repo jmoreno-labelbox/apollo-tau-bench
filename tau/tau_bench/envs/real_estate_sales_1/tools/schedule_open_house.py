@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ScheduleOpenHouse(Tool):
@@ -23,8 +23,8 @@ class ScheduleOpenHouse(Tool):
             return out
 
         # Verify if the property is listed
-        listings = data.get("listings", [])
-        property_exists = any(l.get("property_id") == property_id for l in listings)
+        listings = data.get("listings", {}).values()
+        property_exists = any(l.get("property_id") == property_id for l in listings.values()
 
         if not property_exists:
             payload = {"error": f"Property {property_id} not found in listings"}

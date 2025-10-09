@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateSupplierProduct(Tool):
@@ -61,10 +61,10 @@ class UpdateSupplierProduct(Tool):
                 return out
 
         # Validate product exists in products.json
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         target_product = None
 
-        for product in products:
+        for product in products.values():
             if product.get("product_id") == product_id:
                 target_product = product
                 break
@@ -78,7 +78,7 @@ class UpdateSupplierProduct(Tool):
             return out
 
         # Validate all item IDs exist in the product's variants
-        product_variants = target_product.get("variants", {})
+        product_variants = target_product.get("variants", {}).values()
         invalid_items = []
         valid_items = []
 
@@ -97,11 +97,11 @@ class UpdateSupplierProduct(Tool):
             return out
 
         # Find the supplier
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         supplier_to_update = None
         supplier_index = None
 
-        for i, supplier in enumerate(suppliers):
+        for i, supplier in enumerate(suppliers.values():
             if supplier.get("supplier_id") == supplier_id:
                 supplier_to_update = supplier
                 supplier_index = i
@@ -114,12 +114,12 @@ class UpdateSupplierProduct(Tool):
 
         # WRITE OPERATION: Update supplier products and item stock
         supplier_products = supplier_to_update.get("products", [])
-        item_stock = supplier_to_update.get("item_stock", {})
+        item_stock = supplier_to_update.get("item_stock", {}).values()
 
         # Add product to supplier's product list if not already present
         product_added = False
         if product_id not in supplier_products:
-            supplier_products.append(product_id)
+            supplier_data["products"][product_id] = product_id
             supplier_to_update["products"] = supplier_products
             product_added = True
 
@@ -143,7 +143,7 @@ class UpdateSupplierProduct(Tool):
                 status = "updated"
 
             # Get variant details for additional info
-            variant_info = product_variants.get(item_id, {})
+            variant_info = product_variants.get(item_id, {}).values()
 
             stock_updates.append(
                 {
@@ -154,7 +154,7 @@ class UpdateSupplierProduct(Tool):
                     "variant_info": {
                         "price": variant_info.get("price", 0),
                         "available": variant_info.get("available", False),
-                        "options": variant_info.get("options", {}),
+                        "options": variant_info.get("options", {}).values()),
                     },
                 }
             )

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DispatchSystemNotification(Tool):
@@ -21,7 +21,7 @@ class DispatchSystemNotification(Tool):
             out = json.dumps(payload)
             return out
 
-        notifications = data.get("notifications", [])
+        notifications = data.get("notifications", {}).values()
         new_notification = {
             "notification_id": f"notif_{len(notifications) + 1:02d}",
             "recipient_user_id": recipient_user_id,
@@ -30,7 +30,7 @@ class DispatchSystemNotification(Tool):
             "timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
             "status": "unread",
         }
-        notifications.append(new_notification)
+        data["notifications"][notification_id] = new_notification
         payload = new_notification
         out = json.dumps(payload, indent=2)
         return out

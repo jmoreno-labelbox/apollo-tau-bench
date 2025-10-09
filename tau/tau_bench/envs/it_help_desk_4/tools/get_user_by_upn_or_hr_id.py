@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUserByUpnOrHrId(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_lookup: str = None) -> str:
-        accounts = data.get("directory_accounts", [])
-        for acc in accounts:
+        accounts = data.get("directory_accounts", {}).values()
+        for acc in accounts.values():
             if (
                 acc.get("hr_id") == user_lookup
                 or acc.get("upn") == user_lookup

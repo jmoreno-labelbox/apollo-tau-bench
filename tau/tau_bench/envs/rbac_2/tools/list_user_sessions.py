@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListUserSessions(Tool):
@@ -18,14 +18,13 @@ class ListUserSessions(Tool):
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
         user_id_to_find = user_id
         try:
-            all_sessions = data.get("sessions", [])
+            all_sessions = data.get("sessions", {}).values()
         except:
             all_sessions = []
 
         user_sessions = [
             session
-            for session in all_sessions
-            if session.get("user_id") == user_id_to_find
+            for session in all_sessions.values() if session.get("user_id") == user_id_to_find
         ]
         payload = user_sessions
         out = json.dumps(payload)

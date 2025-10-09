@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ProcessPayment(Tool):
@@ -23,8 +23,8 @@ class ProcessPayment(Tool):
         Process payment for a customer order following retail rules validation
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -32,7 +32,7 @@ class ProcessPayment(Tool):
             return out
 
         # Rule: Payment methods must be valid type: credit_card, paypal, or gift_card with sufficient balance
-        payment_methods = user.get("payment_methods", {})
+        payment_methods = user.get("payment_methods", {}).values()
         pay_keys = list(payment_methods.keys())
         payment_method = None
         for key in pay_keys:

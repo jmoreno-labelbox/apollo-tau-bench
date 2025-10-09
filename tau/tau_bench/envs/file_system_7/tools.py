@@ -11,7 +11,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -31,7 +31,7 @@ class ScanIncompleteTasksTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], file_list_directory: Any = None) -> str:
-        db = _convert_db_to_list(data.get("file_check_db", {}))
+        db = _convert_db_to_list(data.get("file_check_db", {}).values()
         for task in db:
             if not task.get("completed", True):
                 payload = {"task_id": task.get("task_id"), "task": task}
@@ -66,7 +66,7 @@ class ParseFileCheckInstructionsTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str) -> str:
         task_details = next(
-            (t for t in data.get("file_check_db", []) if t["task_id"] == task_id), None
+            (t for t in data.get("file_check_db", {}).values() if t["task_id"] == task_id), None
         )
         if not task_details:
             payload = {"error": f"Task ID {task_id} not found."}
@@ -74,7 +74,7 @@ class ParseFileCheckInstructionsTool(Tool):
             return out
 
         # The parsed_instructions field is pre-structured, allowing for direct usage.
-        instructions = task_details.get("parsed_instructions", {})
+        instructions = task_details.get("parsed_instructions", {}).values()
         if "task_instructions" not in data:
             data["task_instructions"] = []
 
@@ -82,8 +82,8 @@ class ParseFileCheckInstructionsTool(Tool):
         parsed_instruction = {
             "task_id": task_id,
             "remote_address": task_details.get("remote_server"),
-            "max_size": instructions.get("size_filter", {}).get("max_bytes"),
-            "last_access_days": instructions.get("time_filter", {}).get("days"),
+            "max_size": instructions.get("size_filter", {}).values().get("max_bytes"),
+            "last_access_days": instructions.get("time_filter", {}).values().get("days"),
             "users": instructions.get("user_filter", []),
         }
         data["task_instructions"].append(parsed_instruction)
@@ -245,7 +245,7 @@ class FindAndStatFilesTool(Tool):
         all_remote_files: list[dict[str, Any]] = []
 
         # Traverse the simulated file_system structure to gather files in a deterministic manner.
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             server_host = server.get("host", server.get("remote_address", "unknown"))
             for directory in server.get("directories", []):
                 dir_path = directory.get("path", "")
@@ -577,7 +577,7 @@ class RemoteCleanupTool(Tool):
         # Delete entries from remote_storage by matching either path or basename.
         if "remote_storage" in data:
             remaining = []
-            for item in data["remote_storage"]:
+            for item in data["remote_storage"].values():
                 path = item.get("path")
                 basename = path.split("/")[-1] if path else None
                 if path in files_to_delete or basename in files_to_delete:
@@ -587,7 +587,7 @@ class RemoteCleanupTool(Tool):
             data["remote_storage"] = remaining
 
         # Delete files that exist in server directories.
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             for directory in server.get("directories", []):
                 remaining_files = []
                 for f in directory.get("files", []):
@@ -648,7 +648,7 @@ class UpdateTaskStatusTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str, completed: bool) -> str:
         task = next(
-            (t for t in data.get("file_check_db", []) if t["task_id"] == task_id), None
+            (t for t in data.get("file_check_db", {}).values() if t["task_id"] == task_id), None
         )
         if task:
             task["completed"] = completed
@@ -723,7 +723,7 @@ class CreateFileListForMoveTool(Tool):
     def invoke(data: dict[str, Any], target_directory: str) -> str:
         file_list: list[dict[str, Any]] = []
 
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             for directory in server.get("directories", []):
                 dir_path = directory.get("path", "")
                 for f in directory.get("files", []) or []:
@@ -873,7 +873,7 @@ class PopulateChecksumsInFileListTool(Tool):
             payload = {"error": "file_list not found."}
             out = json.dumps(payload)
             return out
-        for file in data["file_list"]:
+        for file in data["file_list"].values():
             file["checksum"] = hashlib.sha256(file["path"].encode()).hexdigest()
         payload = {"status": "success", "populated_count": len(data["file_list"])}
         out = json.dumps(payload)
@@ -905,7 +905,7 @@ class ComputeAndResolveDestinationPathsTool(Tool):
         sort_rules = sort_rules
         destination_paths: set[str] = set()
 
-        for file in data.get("file_list", []):
+        for file in data.get("file_list", {}).values():
             ext = file["filename"].split(".")[-1] if "." in file["filename"] else ""
             sub_dir = sort_rules.get(ext, "miscellaneous")
             base = (
@@ -925,7 +925,7 @@ class ComputeAndResolveDestinationPathsTool(Tool):
 
             destination_paths.add(candidate)
             file["destination_path"] = candidate
-        payload = {"status": "success", "paths_resolved": len(data.get("file_list", []))}
+        payload = {"status": "success", "paths_resolved": len(data.get("file_list", {}))}
         out = json.dumps(
             payload)
         return out
@@ -952,7 +952,7 @@ class CopyAndVerifyFilesTool(Tool):
         if "moved_files" not in data:
             data["moved_files"] = []
 
-        for file in data.get("file_list", []):
+        for file in data.get("file_list", {}).values():
             # Emulate checksum computation if absent.
             if "checksum" not in file:
                 file["checksum"] = hashlib.sha256(file["path"].encode()).hexdigest()
@@ -1082,21 +1082,21 @@ class CalculateTotalSizeTool(Tool):
             # retrieve size based on path.
             if path:
                 # verify file_index.
-                idx = data.get("file_index", {})
+                idx = data.get("file_index", {}).values()
                 if (
                     isinstance(idx, dict)
                     and path in idx
                     and isinstance(idx[path].get("size"), (int, float))
                 ):
                     return int(idx[path]["size"])
-                for item in data.get("files", []) or []:
+                for item in data.get("files", {}).values() or []:
                     if (
                         isinstance(item, dict)
                         and item.get("path") == path
                         and isinstance(item.get("size"), (int, float))
                     ):
                         return int(item["size"])
-                for server in data.get("file_system", []) or []:
+                for server in data.get("file_system", {}).values() or []:
                     for f in server.get("files", []) or []:
                         if f.get("path") == path and isinstance(
                             f.get("size"), (int, float)
@@ -1107,7 +1107,7 @@ class CalculateTotalSizeTool(Tool):
 
         total = 0
         unknown: list[str] = []
-        for e in file_entries:
+        for e in file_entries.values():
             s = entry_size(e)
             if s is None:
                 # attempt to display useful information.
@@ -1158,7 +1158,7 @@ class VerifyRemoteChecksumTool(Tool):
         remote_file = next(
             (
                 f
-                for f in data.get("remote_storage", [])
+                for f in data.get("remote_storage", {}).values()
                 if f["path"] == remote_path
             ),
             None,
@@ -1261,7 +1261,7 @@ class UpdateArchiveStatusTool(Tool):
         archive_task = next(
             (
                 t
-                for t in data.get("archive_instructions", [])
+                for t in data.get("archive_instructions", {}).values()
                 if t.get("archive_id") == archive_id
             ),
             None,
@@ -1349,8 +1349,8 @@ class ValidateFilesExistTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], file_paths: list[str], minimum_size_bytes: Any = None, check_permissions: Any = None, validate_format: Any = None) -> str:
-        existing_paths = {f["path"] for f in data.get("remote_files", [])}
-        missing_files = [p for p in file_paths if p not in existing_paths]
+        existing_paths = {f["path"] for f in data.get("remote_files", {}).values()}
+        missing_files = [p for p in file_paths.values() if p not in existing_paths]
         if missing_files:
             payload = {"status": "failed", "missing_files": missing_files}
             out = json.dumps(payload)
@@ -1386,7 +1386,7 @@ class CreateTarArchiveTool(Tool):
         # Compute the total size of files to ascertain the archive size.
         total_size = sum(
             f["size"]
-            for f in data.get("remote_files", [])
+            for f in data.get("remote_files", {}).values()
             if f["path"] in file_paths
         )
         archive_size = int(total_size * 0.7)  # Estimate of the compression ratio.
@@ -1459,9 +1459,9 @@ class DeleteSourceFilesTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], file_paths: list[str]) -> str:
         paths_to_delete = set(file_paths)
-        original_count = len(data.get("remote_files", []))
+        original_count = len(data.get("remote_files", {}))
         data["remote_files"] = [
-            f for f in data.get("remote_files", []) if f["path"] not in paths_to_delete
+            f for f in data.get("remote_files", {}).values() if f["path"] not in paths_to_delete
         ]
         payload = {
                 "status": "success",

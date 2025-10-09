@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CountCommitsByAuthorTool(Tool):
@@ -51,9 +51,9 @@ class CountCommitsByAuthorTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", [])
+        commits = data.get("commits", {}).values()
         author_counts = {}
-        for c in commits:
+        for c in commits.values():
             if c.get("repo") == repo_name:
                 author = _normalize_user(c.get("author"))
                 author_counts[author] = author_counts.get(author, 0) + 1

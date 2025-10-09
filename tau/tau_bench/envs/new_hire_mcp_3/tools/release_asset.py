@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReleaseAsset(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], asset_tag: str = None) -> str:
-        assets = data.get("inventory_assets", [])
-        for a in assets:
+        assets = data.get("inventory_assets", {}).values()
+        for a in assets.values():
             if a.get("asset_tag") == asset_tag:
                 a["assigned_candidate_id_nullable"] = None
                 a["status"] = "Available"

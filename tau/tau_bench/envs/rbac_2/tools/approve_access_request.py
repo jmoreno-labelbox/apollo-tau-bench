@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ApproveAccessRequest(Tool):
@@ -17,8 +17,8 @@ class ApproveAccessRequest(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], request_id: str = None, reviewer_id: str = None, timestamp: str = None, expires_on: str = None) -> str:
         try:
-            access_requests = data.get("access_requests", [])
-            user_roles = data.get("user_roles", [])
+            access_requests = data.get("access_requests", {}).values()
+            user_roles = data.get("user_roles", {}).values()
         except Exception as e:
             payload = {"error": f"Failed to load data lists: {e}"}
             out = json.dumps(payload)
@@ -41,8 +41,7 @@ class ApproveAccessRequest(Tool):
 
         ur_existing_ids = [
             int(ur["user_role_id"].replace("UR-", ""))
-            for ur in user_roles
-            if ur.get("user_role_id", "").startswith("UR-")
+            for ur in user_roles.values() if ur.get("user_role_id", "").startswith("UR-")
         ]
         next_ur_id = max(ur_existing_ids) + 1 if ur_existing_ids else 1
 
@@ -54,7 +53,7 @@ class ApproveAccessRequest(Tool):
             "assigned_on": timestamp,
             "expires_on": expires_on,
         }
-        user_roles.append(new_role_assignment)
+        user_data["roles"][role_id] = new_role_assignment
 
         data["access_requests"] = access_requests
         data["user_roles"] = user_roles

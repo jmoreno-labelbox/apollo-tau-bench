@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -67,7 +67,7 @@ class CaV2GetConsultantProfile(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        consultants = data.get("consultants", [])
+        consultants = data.get("consultants", {}).values()
         if not consultants:
             return _error("No consultant profile found.")
         payload = consultants[0]
@@ -93,8 +93,8 @@ class CaV2FindPublisherByName(Tool):
     def invoke(data: dict[str, Any], publisher_name: str = None) -> str:
         if not publisher_name:
             return _error("publisher_name is required.")
-        publishers = data.get("publishers", [])
-        publisher = _find_one(publishers, "name", publisher_name)
+        publishers = data.get("publishers", {}).values()
+        publisher = _find_one(list(publishers.values()), "name", publisher_name)
         return (
             json.dumps(publisher)
             if publisher
@@ -124,8 +124,8 @@ class CaV2FindProjectByIsbn(Tool):
     def invoke(data: dict[str, Any], isbn: str = None) -> str:
         if not isbn:
             return _error("isbn is required.")
-        projects = data.get("projects", [])
-        project = _find_one(projects, "isbn", isbn)
+        projects = data.get("projects", {}).values()
+        project = _find_one(list(projects.values()), "isbn", isbn)
         return (
             json.dumps(project)
             if project
@@ -156,8 +156,8 @@ class CaV2GetProjectById(Tool):
         if not project_id:
             return _error("project_id is required.")
 
-        projects = data.get("projects", [])
-        project = _find_one(projects, "project_id", project_id)
+        projects = data.get("projects", {}).values()
+        project = _find_one(list(projects.values()), "project_id", project_id)
 
         if not project:
             return _error(f"Project {project_id} not found.")
@@ -200,7 +200,7 @@ class CaV2GetProjectsByPublisher(Tool):
         if not publisher_id:
             return _error("publisher_id is required.")
 
-        projects = data.get("projects", [])
+        projects = data.get("projects", {}).values()
         publisher_projects = _find_all(projects, "publisher_id", publisher_id)
 
         if active_only:
@@ -238,10 +238,10 @@ class CaV2GetTimeEntriesForPeriod(Tool):
         if not all([project_id, start_date, end_date]):
             return _error("project_id, start_date, and end_date are required.")
 
-        time_entries = data.get("time_entries", [])
+        time_entries = data.get("time_entries", {}).values()
         filtered_entries = []
 
-        for entry in time_entries:
+        for entry in time_entries.values():
             if (
                 entry.get("project_id") == project_id
                 and start_date <= entry.get("entry_date", "") <= end_date
@@ -276,8 +276,8 @@ class CaV2GetUnpaidInvoices(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        invoices = data.get("invoices", [])
-        unpaid_invoices = [inv for inv in invoices if not inv.get("paid_at")]
+        invoices = data.get("invoices", {}).values()
+        unpaid_invoices = [inv for inv in invoices.values() if not inv.get("paid_at")]
         payload = unpaid_invoices
         out = json.dumps(payload)
         return out
@@ -302,8 +302,8 @@ class CaV2GetInvoiceById(Tool):
         if not invoice_id:
             return _error("invoice_id is required.")
 
-        invoices = data.get("invoices", [])
-        invoice = _find_one(invoices, "invoice_id", invoice_id)
+        invoices = data.get("invoices", {}).values()
+        invoice = _find_one(list(invoices.values()), "invoice_id", invoice_id)
         return (
             json.dumps(invoice)
             if invoice
@@ -334,7 +334,7 @@ class CaV2GetInvoiceLinesForInvoice(Tool):
         if not invoice_id:
             return _error("invoice_id is required.")
 
-        invoice_lines = data.get("invoice_lines", [])
+        invoice_lines = data.get("invoice_lines", {}).values()
         lines = _find_all(invoice_lines, "invoice_id", invoice_id)
         payload = lines
         out = json.dumps(payload)
@@ -364,7 +364,7 @@ class CaV2GetExpensesByCategory(Tool):
         if not category_code:
             return _error("category_code is required.")
 
-        expenses = data.get("expenses", [])
+        expenses = data.get("expenses", {}).values()
         filtered_expenses = _find_all(expenses, "category_code", category_code)
 
         if start_date and end_date:
@@ -402,7 +402,7 @@ class CaV2GetExpenseCategories(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        expense_categories = data.get("expense_categories", [])
+        expense_categories = data.get("expense_categories", {}).values()
         payload = expense_categories
         out = json.dumps(payload)
         return out
@@ -427,8 +427,8 @@ class CaV2GetPaymentBehaviorByPublisher(Tool):
         if not publisher_id:
             return _error("publisher_id is required.")
 
-        payment_behaviors = data.get("payment_behavior", [])
-        behavior = _find_one(payment_behaviors, "publisher_id", publisher_id)
+        payment_behaviors = data.get("payment_behavior", {}).values()
+        behavior = _find_one(list(payment_behaviors.values()), "publisher_id", publisher_id)
         return (
             json.dumps(behavior)
             if behavior
@@ -456,7 +456,7 @@ class CaV2GetBankAccounts(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        bank_accounts = data.get("bank_accounts", [])
+        bank_accounts = data.get("bank_accounts", {}).values()
         payload = bank_accounts
         out = json.dumps(payload)
         return out
@@ -478,16 +478,15 @@ class CaV2GetPipelineOpportunities(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], stage: str = None, min_probability: float = None) -> str:
-        opportunities = data.get("pipeline_opportunities", [])
+        opportunities = data.get("pipeline_opportunities", {}).values()
 
         if stage:
-            opportunities = [opp for opp in opportunities if opp.get("stage") == stage]
+            opportunities = [opp for opp in opportunities.values() if opp.get("stage") == stage]
 
         if min_probability is not None:
             opportunities = [
                 opp
-                for opp in opportunities
-                if opp.get("probability", 0) >= min_probability
+                for opp in opportunities.values() if opp.get("probability", 0) >= min_probability
             ]
         payload = opportunities
         out = json.dumps(payload)
@@ -521,13 +520,13 @@ class CaV2GetRecurringSchedules(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], schedule_type: str = None, active_only: bool = True) -> str:
-        schedules = data.get("recurring_schedules", [])
+        schedules = data.get("recurring_schedules", {}).values()
 
         if schedule_type:
             schedules = _find_all(schedules, "schedule_type", schedule_type)
 
         if active_only:
-            schedules = [sch for sch in schedules if sch.get("is_active", True)]
+            schedules = [sch for sch in schedules.values() if sch.get("is_active", True)]
         payload = schedules
         out = json.dumps(payload)
         return out
@@ -559,8 +558,8 @@ class CaV2CalculateInvoiceAging(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], current_date: str = "2024-12-10") -> str:
-        invoices = data.get("invoices", [])
-        unpaid_invoices = [inv for inv in invoices if not inv.get("paid_at")]
+        invoices = data.get("invoices", {}).values()
+        unpaid_invoices = [inv for inv in invoices.values() if not inv.get("paid_at")]
 
         aging_buckets = {
             "current": [],  # 0 to 30 days
@@ -618,12 +617,12 @@ class CaV2CalculateYtdRevenue(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], year: str = "2024", tax_rate: float = 0.265) -> str:
-        invoices = data.get("invoices", [])
+        invoices = data.get("invoices", {}).values()
         ytd_invoices = [
-            inv for inv in invoices if inv.get("invoice_date", "").startswith(year)
+            inv for inv in invoices.values() if inv.get("invoice_date", "").startswith(year)
         ]
 
-        total_revenue = sum(inv.get("subtotal", 0) for inv in ytd_invoices)
+        total_revenue = sum(inv.get("subtotal", 0) for inv in ytd_invoices.values()
         tax_reserve = round(total_revenue * tax_rate, 2)
 
         revenue_by_month = {}
@@ -669,16 +668,16 @@ class CaV2CalculateProjectProfitability(Tool):
             return _error("project_id is required.")
 
         # Retrieve project information
-        projects = data.get("projects", [])
-        project = _find_one(projects, "project_id", project_id)
+        projects = data.get("projects", {}).values()
+        project = _find_one(list(projects.values()), "project_id", project_id)
         if not project:
             return _error(f"Project '{project_id}' not found.")
 
         # Compute income from invoices
-        invoice_lines = data.get("invoice_lines", [])
+        invoice_lines = data.get("invoice_lines", {}).values()
         project_lines = _find_all(invoice_lines, "project_id", project_id)
-        total_revenue = sum(line.get("line_amount", 0) for line in project_lines)
-        total_hours = sum(line.get("hours_billed", 0) for line in project_lines)
+        total_revenue = sum(line.get("line_amount", 0) for line in project_lines.values()
+        total_hours = sum(line.get("hours_billed", 0) for line in project_lines.values()
 
         # Determine actual hourly rate
         effective_rate = total_revenue / total_hours if total_hours > 0 else 0
@@ -727,20 +726,19 @@ class CaV2CalculateExpenseSummary(Tool):
         if category_filter is None:
             category_filter = []
 
-        expenses = data.get("expenses", [])
-        expense_categories = data.get("expense_categories", [])
+        expenses = data.get("expenses", {}).values()
+        expense_categories = data.get("expense_categories", {}).values()
 
         # Narrow down expenses by date range
         if start_date and end_date:
             filtered_expenses = [
                 exp
-                for exp in expenses
-                if start_date <= exp.get("expense_date", "") <= end_date
+                for exp in expenses.values() if start_date <= exp.get("expense_date", "") <= end_date
             ]
         else:
             # Narrow down expenses by year
             filtered_expenses = [
-                exp for exp in expenses if exp.get("expense_date", "").startswith(year)
+                exp for exp in expenses.values() if exp.get("expense_date", "").startswith(year)
             ]
 
         # Narrow down by categories if provided
@@ -862,7 +860,7 @@ class CaV2CreateInvoice(Tool):
 
         # Generate invoice entry
         new_invoice = {
-            "invoice_id": invoice_id or f"INV{len(data.get('invoices', [])) + 1:03d}",
+            "invoice_id": invoice_id or f"INV{len(data.get("invoices", {})) + 1:03d}",
             "invoice_number": invoice_number,
             "publisher_id": publisher_id,
             "invoice_date": invoice_date,
@@ -998,8 +996,8 @@ class CaV2UpdateInvoicePayment(Tool):
         if not invoice_id:
             return _error("invoice_id is required.")
 
-        invoices = data.get("invoices", [])
-        invoice = _find_one(invoices, "invoice_id", invoice_id)
+        invoices = data.get("invoices", {}).values()
+        invoice = _find_one(list(invoices.values()), "invoice_id", invoice_id)
 
         if not invoice:
             return _error(f"Invoice '{invoice_id}' not found.")
@@ -1111,8 +1109,8 @@ class CaV2CreateExpense(Tool):
             )
 
         # Retrieve category to determine permissible amount
-        expense_categories = data.get("expense_categories", [])
-        category = _find_one(expense_categories, "category_code", category_code)
+        expense_categories = data.get("expense_categories", {}).values()
+        category = _find_one(list(expense_categories.values()), "category_code", category_code)
 
         if not category:
             return _error(f"Expense category '{category_code}' not found.")
@@ -1185,17 +1183,17 @@ class CaV2ForecastCashFlow(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], forecast_months: int = 3, current_date: str = "2024-12-10") -> str:
         # Retrieve outstanding invoices
-        invoices = data.get("invoices", [])
-        unpaid_invoices = [inv for inv in invoices if not inv.get("paid_at")]
+        invoices = data.get("invoices", {}).values()
+        unpaid_invoices = [inv for inv in invoices.values() if not inv.get("paid_at")]
 
         # Retrieve payment patterns
-        payment_behaviors = data.get("payment_behavior", [])
+        payment_behaviors = data.get("payment_behavior", {}).values()
 
         # Predict collections
         forecasted_collections = []
         for invoice in unpaid_invoices:
             publisher_id = invoice.get("publisher_id")
-            behavior = _find_one(payment_behaviors, "publisher_id", publisher_id)
+            behavior = _find_one(list(payment_behaviors.values()), "publisher_id", publisher_id)
 
             avg_days = behavior.get("avg_days_to_pay", 30) if behavior else 30
             invoice_date = datetime.fromisoformat(
@@ -1218,8 +1216,8 @@ class CaV2ForecastCashFlow(Tool):
             )
 
         # Retrieve regular expenses
-        recurring_schedules = data.get("recurring_schedules", [])
-        active_schedules = [sch for sch in recurring_schedules if sch.get("is_active")]
+        recurring_schedules = data.get("recurring_schedules", {}).values()
+        active_schedules = [sch for sch in recurring_schedules.values() if sch.get("is_active")]
 
         # Condense data monthly
         monthly_summary = {}
@@ -1259,7 +1257,7 @@ class CaV2ForecastCashFlow(Tool):
             forecast_period_months=forecast_months,
             forecasted_collections=forecasted_collections,
             monthly_summary=monthly_summary,
-            total_expected_collections=sum(c["amount"] for c in forecasted_collections),
+            total_expected_collections=sum(c["amount"] for c in forecasted_collections.values()),
         )
 
     @staticmethod
@@ -1301,7 +1299,7 @@ class CaV2CreateDashboardSnapshot(Tool):
 
         snapshot = {
             "snapshot_id": snapshot_id
-            or f"SNAP{len(data.get('dashboard_snapshots', [])) + 1:03d}",
+            or f"SNAP{len(data.get("dashboard_snapshots", {})) + 1:03d}",
             "snapshot_date": snapshot_date,
             "ytd_revenue": ytd_revenue or 0.0,
             "ytd_tax_reserve": ytd_tax_reserve or 0.0,
@@ -1343,8 +1341,8 @@ class CaV2GetTaxRateByYear(Tool):
         if not year:
             return _error("year is required.")
 
-        tax_rates = data.get("tax_rates", [])
-        tax_rate = _find_one(tax_rates, "tax_year", int(year))
+        tax_rates = data.get("tax_rates", {}).values()
+        tax_rate = _find_one(list(tax_rates.values()), "tax_year", int(year))
         return (
             json.dumps(tax_rate)
             if tax_rate
@@ -1426,9 +1424,9 @@ class CaV2CreateMonthlyRevenue(Tool):
             return _error("Required fields: month_year, revenue, tax_reserve")
 
         monthly_revenue = {
-            "row_id": row_id or f"REV{len(data.get('monthly_revenue', [])) + 1:03d}",
+            "row_id": row_id or f"REV{len(data.get("monthly_revenue", {})) + 1:03d}",
             "snapshot_id": snapshot_id
-            or f"SNAP{len(data.get('dashboard_snapshots', [])) + 1:03d}",
+            or f"SNAP{len(data.get("dashboard_snapshots", {})) + 1:03d}",
             "month_year": month_year,
             "revenue": revenue,
             "tax_reserve": tax_reserve,
@@ -1473,7 +1471,7 @@ class CaV2CreateSchedulerRun(Tool):
             return _error("Required fields: task_name, status")
 
         scheduler_run = {
-            "run_id": run_id or f"RUN{len(data.get('scheduler_runs', [])) + 1:03d}",
+            "run_id": run_id or f"RUN{len(data.get("scheduler_runs", {})) + 1:03d}",
             "task_name": task_name,
             "scheduled_for": scheduled_for,
             "executed_at": executed_at,
@@ -1516,9 +1514,9 @@ class CaV2GenerateInvoiceNumber(Tool):
         if not year:
             return _error("year is required.")
 
-        invoices = data.get("invoices", [])
+        invoices = data.get("invoices", {}).values()
         year_invoices = [
-            inv for inv in invoices if inv.get("invoice_date", "").startswith(year)
+            inv for inv in invoices.values() if inv.get("invoice_date", "").startswith(year)
         ]
 
         # Identify the maximum value for the year
@@ -1573,18 +1571,18 @@ class CaV2CalculateHoursWorkedInPeriod(Tool):
         if not all([start_date, end_date]):
             return _error("start_date and end_date are required.")
 
-        time_entries = data.get("time_entries", [])
+        time_entries = data.get("time_entries", {}).values()
 
         # Narrow down by date and optionally by project IDs
         filtered_entries = []
-        for entry in time_entries:
+        for entry in time_entries.values():
             entry_date = entry.get("entry_date", "")
             if start_date <= entry_date <= end_date:
                 if not project_ids or entry.get("project_id") in project_ids:
                     filtered_entries.append(entry)
 
         # Compute overall totals
-        total_hours = sum(entry.get("hours_worked", 0) for entry in filtered_entries)
+        total_hours = sum(entry.get("hours_worked", 0) for entry in filtered_entries.values()
 
         # Categorize by project
         hours_by_project = {}
@@ -1663,7 +1661,7 @@ class CaV2CalculateBankTotal(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        bank_accounts = data.get("bank_accounts", [])
+        bank_accounts = data.get("bank_accounts", {}).values()
 
         total_balance = 0.0
         account_details = []
@@ -1671,7 +1669,7 @@ class CaV2CalculateBankTotal(Tool):
         # Compute only liquid assets (checking and savings accounts)
         liquid_account_types = ["checking", "savings"]
 
-        for account in bank_accounts:
+        for account in bank_accounts.values():
             account_type = account.get("account_type", "")
             balance = float(account.get("current_balance", 0.0))
 

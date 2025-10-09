@@ -13,7 +13,7 @@ class FindTickets(Tool):
     ) -> str:
         pass
         results = []
-        for t in data["tickets"]:
+        for t in data["tickets"].values():
             if status and t["status"] != status:
                 continue
             if priority and t["priority"] != priority:

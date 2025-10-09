@@ -8,15 +8,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUserProfile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str) -> str:
         """Fetch the complete profile for a specified user ID."""
-        users = data.get("users", [])
-        user_profile = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user_profile = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if user_profile:
             payload = user_profile

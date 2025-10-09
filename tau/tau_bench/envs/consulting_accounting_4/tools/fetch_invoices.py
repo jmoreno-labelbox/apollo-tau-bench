@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchInvoices(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], status: str = None, publisher_id: str = None, date_from: str = None, date_to: str = None) -> str:
-        rows = data.get("invoices", []) or []
+        rows = data.get("invoices", {}).values() or []
         out = []
         for r in rows:
             if status == "open" and r.get("paid_at") is not None:

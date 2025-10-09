@@ -18,7 +18,7 @@ class AddPaymentMethod(Tool):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
-        pm = user.setdefault("payment_methods", {})
+        pm = user.setdefault("payment_methods", {}).values()
         pm[payment_method["id"]] = payment_method
         payload = {"success": True, "user_id": user_id, "payment_method_id": payment_method["id"]}
         out = json.dumps(

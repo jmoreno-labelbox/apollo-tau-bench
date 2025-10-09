@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateProjectCost(Tool):
@@ -20,14 +20,14 @@ class CalculateProjectCost(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
-        tasks = data.get("tasks", [])
-        task_logs = data.get("task_logs", [])
-        expenses = data.get("expenses", [])
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
+        tasks = data.get("tasks", {}).values()
+        task_logs = data.get("task_logs", {}).values()
+        expenses = data.get("expenses", {}).values()
 
         project_allocations = [
-            a for a in allocations if a.get("project_id") == project_id
+            a for a in allocations.values() if a.get("project_id") == project_id
         ]
 
         actual_personnel_cost = 0
@@ -37,8 +37,7 @@ class CalculateProjectCost(Tool):
             employee = next(
                 (
                     e
-                    for e in employees
-                    if e.get("employee_id") == allocation.get("employee_id")
+                    for e in employees.values() if e.get("employee_id") == allocation.get("employee_id")
                 ),
                 None,
             )
@@ -54,18 +53,16 @@ class CalculateProjectCost(Tool):
 
                 employee_tasks = [
                     t
-                    for t in tasks
-                    if t.get("assignee_id") == employee["employee_id"]
+                    for t in tasks.values() if t.get("assignee_id") == employee["employee_id"]
                     and t.get("sprint_id")
-                    and any(a.get("project_id") == project_id for a in allocations)
+                    and any(a.get("project_id") == project_id for a in allocations.values()
                 ]
 
                 actual_hours = 0
                 for task in employee_tasks:
                     task_hours = sum(
                         log.get("hours", 0)
-                        for log in task_logs
-                        if log.get("task_id") == task["task_id"]
+                        for log in task_logs.values() if log.get("task_id") == task["task_id"]
                     )
                     actual_hours += task_hours
 
@@ -79,13 +76,12 @@ class CalculateProjectCost(Tool):
 
         project_expenses = [
             e
-            for e in expenses
-            if e.get("project_id") == project_id and e.get("status") == "approved"
+            for e in expenses.values() if e.get("project_id") == project_id and e.get("status") == "approved"
         ]
-        non_personnel_cost = sum(e.get("amount", 0) for e in project_expenses)
+        non_personnel_cost = sum(e.get("amount", 0) for e in project_expenses.values()
 
-        teams = data.get("teams", [])
-        project_teams = [t for t in teams if t.get("project_id") == project_id]
+        teams = data.get("teams", {}).values()
+        project_teams = [t for t in teams.values() if t.get("project_id") == project_id]
 
         cost_breakdown = {
             "project_id": project_id,
@@ -112,12 +108,10 @@ class CalculateProjectCost(Tool):
 
         completed_story_points = sum(
             t.get("story_points", 0)
-            for t in tasks
-            if t.get("status") == "done"
+            for t in tasks.values() if t.get("status") == "done"
             and any(
                 a.get("project_id") == project_id
-                for a in allocations
-                if a.get("employee_id") == t.get("assignee_id")
+                for a in allocations.values() if a.get("employee_id") == t.get("assignee_id")
             )
         )
 

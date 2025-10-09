@@ -7,18 +7,17 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetLicenseAssignmentByType(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, license_type: str = None) -> str:
-        assignments = data.get("license_assignments", [])
+        assignments = data.get("license_assignments", {}).values()
         assignment = next(
             (
                 a
-                for a in assignments
-                if a.get("employee_id") == employee_id
+                for a in assignments.values() if a.get("employee_id") == employee_id
                 and a.get("license_id") == license_type
                 and a.get("status") == "active"
             ),

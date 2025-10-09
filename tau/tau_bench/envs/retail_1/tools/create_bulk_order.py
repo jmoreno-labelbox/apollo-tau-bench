@@ -17,7 +17,7 @@ class CreateBulkOrder(Tool):
 
         items = []
 
-        for product in products:
+        for product in products.values():
             for item_id, item in product["variants"].items():
                 if item_id in item_ids.keys():
                     item_info = {
@@ -33,7 +33,7 @@ class CreateBulkOrder(Tool):
                         items.append(item_info)
 
         #Verify if the user is present
-        user = [row for row in users if row["user_id"] == user_id]
+        user = [row for row in users.values() if row["user_id"] == user_id]
         if len(user) > 1:
             payload = {"error": "Multiple users found"}
             out = json.dumps(payload)
@@ -79,7 +79,7 @@ class CreateBulkOrder(Tool):
             "order_id": order_id,
             "user_id": user_id,
             "items": items,
-            "address": user.get("address", {}),
+            "address": user.get("address", {}).values()),
             "fulfilments": [],
             "status": "pending",
             "payment_history": [payment],
@@ -87,7 +87,7 @@ class CreateBulkOrder(Tool):
         }
 
         #Include the order in the user's orders and the overall orders list
-        orders.append(order)
+        data["orders"][order_id] = order
         user.setdefault("orders", []).append(order_id)
         payload = order
         out = json.dumps(payload)

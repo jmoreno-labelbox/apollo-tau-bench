@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateOrUpdateCompReport(Tool):
@@ -20,7 +20,7 @@ class CreateOrUpdateCompReport(Tool):
         created_by_broker_id: str,
         final_status: str = "draft"
     ) -> str:
-        reports = data.get("comp_reports", [])
+        reports = data.get("comp_reports", {}).values()
         new_report_id = _next_auto_id(reports, "report_id")
         doc_uri = f"https://test.storage.com/reports/comp_{new_report_id:03d}.pdf"
         rpt = {
@@ -32,18 +32,18 @@ class CreateOrUpdateCompReport(Tool):
             "doc_uri": doc_uri,
             "status": final_status,
         }
-        reports.append(rpt)
+        data["comp_reports"][rpt["comp_report_id"]] = rpt
 
-        comps_table = data.get("comparables", [])
-        props = _by_key(data.get("properties", []), "property_id")
+        comps_table = data.get("comparables", {}).values()
+        props = _by_key(data.get("properties", {}).values()), "property_id")
         candidates = []
-        for lst in data.get("listings", []) or []:
+        for lst in data.get("listings", {}).values() or []:
             if lst.get("status") != "active":
                 continue
             pid = lst.get("property_id")
             if pid == subject_property_id:
                 continue
-            props.get(pid, {})
+            props.get(pid, {}).values()
             candidates.append(
                 {
                     "comp_property_id": pid,
@@ -56,7 +56,7 @@ class CreateOrUpdateCompReport(Tool):
             comp_id = _next_auto_id(comps_table, "comp_id")
             comps_table.append({"comp_id": comp_id, "report_id": new_report_id, **comp})
 
-        documents = data.get("documents", [])
+        documents = data.get("documents", {}).values()
         new_doc_id = _next_auto_id(documents, "document_id")
         documents.append(
             {
@@ -70,7 +70,7 @@ class CreateOrUpdateCompReport(Tool):
             }
         )
 
-        audits = data.get("audit_events", [])
+        audits = data.get("audit_events", {}).values()
         new_audit_id = _next_auto_id(audits, "event_id")
         audits.append(
             {

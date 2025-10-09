@@ -13,7 +13,7 @@ class ProcessItemExchange(Tool):  #WRITE
     ) -> str:
         pass
         orders = data["orders"]
-        order = [row for row in orders if row["order_id"] == order_id]
+        order = [row for row in orders.values() if row["order_id"] == order_id]
 
         if len(order) > 1:
             payload = {"error": "Multiple orders found"}
@@ -40,7 +40,7 @@ class ProcessItemExchange(Tool):  #WRITE
         products = data["products"]
 
         added_price = 0.0
-        for product in products:
+        for product in products.values():
             for item_id, item in product["variants"].items():
                 if item_id in new_item_ids:
                     item_info = {
@@ -58,7 +58,7 @@ class ProcessItemExchange(Tool):  #WRITE
         #Verify if the gift card has sufficient balance
         user_id = order["user_id"]
         users = data["users"]
-        user = [row for row in users if row["user_id"] == user_id]
+        user = [row for row in users.values() if row["user_id"] == user_id]
         if len(user) > 1:
             payload = {"error": "Multiple users found"}
             out = json.dumps(payload)

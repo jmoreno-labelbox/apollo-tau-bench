@@ -11,15 +11,15 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
 class GetProductSkuByName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], product_name: str = None) -> str:
-        products = data.get("products", [])
-        for product in products:
+        products = data.get("products", {}).values()
+        for product in products.values():
             if product.get("name") == product_name:
                 payload = {"sku": product.get("sku")}
                 out = json.dumps(payload)
@@ -52,8 +52,8 @@ class GetProductSkuByName(Tool):
 class GetInventoryItemBySkuAndStore(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sku: str = None, store_id: str = None) -> str:
-        inventory_items = data.get("inventory", [])
-        for item in inventory_items:
+        inventory_items = data.get("inventory", {}).values()
+        for item in inventory_items.values():
             if item.get("sku") == sku and item.get("store_id") == store_id:
                 payload = item
                 out = json.dumps(payload)
@@ -90,7 +90,7 @@ class GetInventoryItemBySkuAndStore(Tool):
 class GetPromotionByNameAndDate(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], promotion_name: str = None, query_date: str = None) -> str:
-        promotions = data.get("promotions", [])
+        promotions = data.get("promotions", {}).values()
 
         if not query_date:
             payload = {}
@@ -104,7 +104,7 @@ class GetPromotionByNameAndDate(Tool):
             out = json.dumps(payload)
             return out
 
-        for promo in promotions:
+        for promo in promotions.values():
             if promo.get("name") == promotion_name:
                 start_date_str = promo.get("start_date", "").split("T")[0]
                 end_date_str = promo.get("end_date", "").split("T")[0]
@@ -153,8 +153,8 @@ class GetPromotionByNameAndDate(Tool):
 class GetCustomerIdByName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], customer_name: str = None) -> str:
-        customers = data.get("customers", [])
-        for customer in customers:
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
             if customer.get("name") == customer_name:
                 payload = {"customer_id": customer.get("customer_id")}
                 out = json.dumps(payload)
@@ -188,10 +188,10 @@ class CreateCustomer(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None, membership_level: str = None, 
                opt_in_marketing: bool = None, loyalty_points: int = None) -> str:
-        customers = data.get("customers", [])
+        customers = data.get("customers", {}).values()
 
         max_customer_id_num = 0
-        for customer in customers:
+        for customer in customers.values():
             if isinstance(customer.get("customer_id"), str):
                 match = re.match(r"CUST-(\d+)", customer["customer_id"])
                 if match:
@@ -214,7 +214,7 @@ class CreateCustomer(Tool):
             "status": "active",
         }
 
-        customers.append(new_customer)
+        data["customers"][customer_id] = new_customer
         data["customers"] = customers
         payload = {"customer_id": new_customer_id}
         out = json.dumps(payload)
@@ -261,9 +261,9 @@ class CreateCustomer(Tool):
 class UpdateInventorySale(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], inventory_id: str = None, quantity_sold: int = None, last_stock_count_date: str = None) -> str:
-        inventory_items = data.get("inventory", [])
+        inventory_items = data.get("inventory", {}).values()
         updated_item = None
-        for item in inventory_items:
+        for item in inventory_items.values():
             if item.get("id") == inventory_id:
                 item["quantity"] = item.get("quantity", 0) - quantity_sold
                 item["reserved_quantity"] = max(
@@ -325,10 +325,10 @@ class CreateTransaction(Tool):
 ,
     status: Any = None,
     ) -> str:
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
 
         max_transaction_id_num = 0
-        for transaction in transactions:
+        for transaction in transactions.values():
             txn_id = transaction.get("transaction_id")
             if isinstance(txn_id, str):
                 match = re.match(r"TXN-(\d+)", txn_id)
@@ -354,7 +354,7 @@ class CreateTransaction(Tool):
             "line_items": line_items,
         }
 
-        transactions.append(new_transaction)
+        data["transactions"][transaction_id] = new_transaction
         data["transactions"] = transactions
         payload = {"transaction_id": new_transaction_id}
         out = json.dumps(payload)
@@ -439,9 +439,9 @@ class CreateTransaction(Tool):
 class GetEmployeeIdByName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_name: str = None) -> str:
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
 
-        for employee in employees:
+        for employee in employees.values():
             if employee.get("name") == employee_name:
                 payload = {"employee_id": employee.get("employee_id")}
                 out = json.dumps(payload)
@@ -474,8 +474,8 @@ class GetEmployeeIdByName(Tool):
 class ActivatePromotion(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], promotion_id: str = None) -> str:
-        promotions = data.get("promotions", [])
-        for promo in promotions:
+        promotions = data.get("promotions", {}).values()
+        for promo in promotions.values():
             if promo.get("promotion_id") == promotion_id:
                 promo["status"] = "active"
                 payload = {"promotion_id": promotion_id, "status": "active"}
@@ -509,8 +509,8 @@ class ActivatePromotion(Tool):
 class DeactivatePromotion(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], promotion_id: str = None) -> str:
-        promotions = data.get("promotions", [])
-        for promo in promotions:
+        promotions = data.get("promotions", {}).values()
+        for promo in promotions.values():
             if promo.get("promotion_id") == promotion_id:
                 promo["status"] = "inactive"
                 payload = {"promotion_id": promotion_id, "status": "inactive"}
@@ -556,9 +556,9 @@ class UpdatePromotionDetails(Tool):
     requires_code: Any = None,
     type: Any = None,
     ) -> str:
-        promotions = data.get("promotions", [])
+        promotions = data.get("promotions", {}).values()
         updated_promo = None
-        for promo in promotions:
+        for promo in promotions.values():
             if promo.get("promotion_id") == promotion_id:
                 if key is not None and value is not None:
                     promo[key] = value
@@ -635,8 +635,8 @@ class UpdatePromotionDetails(Tool):
 class GetPromotionsByStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], status: str = None) -> str:
-        promotions = data.get("promotions", [])
-        results = [promo for promo in promotions if promo.get("status") == status]
+        promotions = data.get("promotions", {}).values()
+        results = [promo for promo in promotions.values() if promo.get("status") == status]
         payload = results
         out = json.dumps(payload)
         return out
@@ -665,8 +665,8 @@ class GetPromotionsByStatus(Tool):
 class GetProductDetailsBySKU(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sku: str = None) -> str:
-        products = data.get("products", [])
-        for product in products:
+        products = data.get("products", {}).values()
+        for product in products.values():
             if product.get("sku") == sku:
                 payload = product
                 out = json.dumps(payload)
@@ -703,9 +703,9 @@ class UpdateProductDetails(Tool):
     category: Any = None,
     status: Any = None,
     ) -> str:
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         updated_product = None
-        for product in products:
+        for product in products.values():
             if product.get("sku") == sku:
                 if name is not None:
                     product["name"] = name
@@ -809,9 +809,9 @@ class UpdateProductDetails(Tool):
 class UpdateCustomerLoyaltyPoints(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], customer_id: str = None, points_to_add: int = None) -> str:
-        customers = data.get("customers", [])
+        customers = data.get("customers", {}).values()
         updated_customer = None
-        for customer in customers:
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
                 customer["loyalty_points"] = (
                     customer.get("loyalty_points", 0) + points_to_add
@@ -850,9 +850,9 @@ class UpdateCustomerLoyaltyPoints(Tool):
 class UpdateInventoryReservedQuantity(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], inventory_id: str = None, change_amount: int = None) -> str:
-        inventory_items = data.get("inventory", [])
+        inventory_items = data.get("inventory", {}).values()
         updated_item = None
-        for item in inventory_items:
+        for item in inventory_items.values():
             if item.get("id") == inventory_id:
                 item["reserved_quantity"] = (
                     item.get("reserved_quantity", 0) + change_amount
@@ -891,8 +891,8 @@ class UpdateInventoryReservedQuantity(Tool):
 class GetPromotionById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], promotion_id: str = None) -> str:
-        promotions = data.get("promotions", [])
-        for promo in promotions:
+        promotions = data.get("promotions", {}).values()
+        for promo in promotions.values():
             if promo.get("promotion_id") == promotion_id:
                 payload = promo
                 out = json.dumps(payload)
@@ -939,10 +939,10 @@ class CreatePromotion(Tool):
 ,
     type: Any = None,
     ) -> str:
-        promotions = data.get("promotions", [])
+        promotions = data.get("promotions", {}).values()
 
         max_promotion_id_num = 0
-        for promo in promotions:
+        for promo in promotions.values():
             if isinstance(promo.get("promotion_id"), str):
                 match = re.match(r"PROMO-(\d+)", promo["promotion_id"])
                 if match:
@@ -967,7 +967,7 @@ class CreatePromotion(Tool):
             "times_used": times_used,
         }
 
-        promotions.append(new_promotion)
+        data["promotions"][promotion_id] = new_promotion
         data["promotions"] = promotions
         payload = {"promotion_id": new_promotion_id}
         out = json.dumps(payload)
@@ -1046,8 +1046,8 @@ class CreatePromotion(Tool):
 class GetProductByStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], status: str = None) -> str:
-        products = data.get("products", [])
-        results = [product for product in products if product.get("status") == status]
+        products = data.get("products", {}).values()
+        results = [product for product in products.values() if product.get("status") == status]
         payload = results
         out = json.dumps(payload)
         return out
@@ -1082,9 +1082,9 @@ class UpdateCustomerDetails(Tool):
         status: Any = None,
         phone_number: Any = None,
     ) -> str:
-        customers = data.get("customers", [])
+        customers = data.get("customers", {}).values()
         updated_customer = None
-        for customer in customers:
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
                 if name is not None:
                     customer["name"] = name
@@ -1156,9 +1156,9 @@ class UpdateCustomerDetails(Tool):
 class UpdateInventoryStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], inventory_id: str = None, status: str = None) -> str:
-        inventory_items = data.get("inventory", [])
+        inventory_items = data.get("inventory", {}).values()
         updated_item = None
-        for item in inventory_items:
+        for item in inventory_items.values():
             if item.get("id") == inventory_id:
                 item["status"] = status
                 updated_item = item
@@ -1195,8 +1195,8 @@ class UpdateInventoryStatus(Tool):
 class GetCustomerDetailsById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], customer_id: str = None) -> str:
-        customers = data.get("customers", [])
-        for customer in customers:
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
             if customer.get("customer_id") == customer_id:
                 payload = customer
                 out = json.dumps(payload)
@@ -1229,8 +1229,8 @@ class GetCustomerDetailsById(Tool):
 class FindTransactionByCustomerAndSku(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], customer_id: str = None, sku: str = None) -> str:
-        transactions = data.get("transactions", [])
-        for txn in transactions:
+        transactions = data.get("transactions", {}).values()
+        for txn in transactions.values():
             if txn.get("customer_id") == customer_id:
                 for item in txn.get("line_items", []):
                     if item.get("sku") == sku:
@@ -1272,15 +1272,15 @@ class FindTransactionByCustomerAndSku(Tool):
 class ProcessItemReturn(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], transaction_id: str = None, sku: str = None, quantity_returned: int = None, unit_price: float = None) -> str:
-        transactions = data.get("transactions", [])
-        inventory = data.get("inventory", [])
+        transactions = data.get("transactions", {}).values()
+        inventory = data.get("inventory", {}).values()
 
-        for txn in transactions:
+        for txn in transactions.values():
             if txn.get("transaction_id") == transaction_id:
                 txn["status"] = "returned"
                 break
 
-        for item in inventory:
+        for item in inventory.values():
             if item.get("sku") == sku:
                 item["quantity"] += quantity_returned
                 break
@@ -1331,9 +1331,9 @@ class ProcessItemReturn(Tool):
 class GetProductsByCategory(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], category: str = None) -> str:
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         results = [
-            product for product in products if product.get("category") == category
+            product for product in products.values() if product.get("category") == category
         ]
         payload = results
         out = json.dumps(payload)
@@ -1363,11 +1363,11 @@ class GetProductsByCategory(Tool):
 class ExecuteInventoryTransfer(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sku: str = None, quantity: int = None, from_store_id: int = None, to_store_id: int = None) -> str:
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
         from_item = None
         to_item = None
 
-        for item in inventory:
+        for item in inventory.values():
             if item["store_id"] == from_store_id and item["sku"] == sku:
                 from_item = item
             if item["store_id"] == to_store_id and item["sku"] == sku:
@@ -1428,16 +1428,16 @@ class ExecuteInventoryTransfer(Tool):
 class CreateInventoryRecord(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sku: str = None, store_id: str = None, location: str = None) -> str:
-        inventory_list = data.get("inventory", [])
+        inventory_list = data.get("inventory", {}).values()
 
-        for item in inventory_list:
+        for item in inventory_list.values():
             if item.get("sku") == sku and item.get("store_id") == store_id:
                 payload = {"status": "exists", "inventory_id": item.get("id")}
                 out = json.dumps(payload)
                 return out
 
         max_inv_id_num = 0
-        for item in inventory_list:
+        for item in inventory_list.values():
             inv_id = item.get("id")
             if isinstance(inv_id, str):
                 match = re.match(r"INV-(\d+)", inv_id)
@@ -1462,7 +1462,7 @@ class CreateInventoryRecord(Tool):
             "last_stock_count": "2025-07-28",
         }
 
-        inventory_list.append(new_record)
+        data["inventory"][inventory_id] = new_record
         data["inventory"] = inventory_list
         payload = {"status": "created", "inventory_id": new_inv_id}
         out = json.dumps(payload)
@@ -1505,8 +1505,8 @@ class CalculateTransactionTotals(Tool):
         if promotion_ids is None:
             promotion_ids = []
 
-        products = data.get("products", [])
-        promotions = data.get("promotions", [])
+        products = data.get("products", {}).values()
+        promotions = data.get("promotions", {}).values()
 
         subtotal = 0.0
         total_discount = 0.0
@@ -1515,7 +1515,7 @@ class CalculateTransactionTotals(Tool):
         for item in line_items:
             sku = item.get("sku")
             quantity = item.get("quantity")
-            product_details = next((p for p in products if p["sku"] == sku), None)
+            product_details = next((p for p in products.values() if p["sku"] == sku), None)
 
             if not product_details:
                 continue
@@ -1528,7 +1528,7 @@ class CalculateTransactionTotals(Tool):
 
             for promo_id in promotion_ids:
                 promo = next(
-                    (p for p in promotions if p["promotion_id"] == promo_id), None
+                    (p for p in promotions.values() if p["promotion_id"] == promo_id), None
                 )
                 if promo and sku in promo.get("applicable_skus", []):
                     if promo.get("type") == "percentage":
@@ -1598,10 +1598,10 @@ class CalculateTransactionTotals(Tool):
 class UpdateStockLevel(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], inventory_id: str = None, quantity_to_add: int = None) -> str:
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
 
         found_item = None
-        for item in inventory:
+        for item in inventory.values():
             if item.get("id") == inventory_id:
                 found_item = item
                 break
@@ -1658,19 +1658,19 @@ class FindCustomersByCriteria(Tool):
         if purchase_history_skus is None:
             purchase_history_skus = []
 
-        customers = data.get("customers", [])
-        transactions = data.get("transactions", [])
+        customers = data.get("customers", {}).values()
+        transactions = data.get("transactions", {}).values()
 
         qualified_customers = []
 
-        for customer in customers:
+        for customer in customers.values():
             if customer.get("membership_level") in membership_levels:
                 customer_id = customer.get("customer_id")
-                for txn in transactions:
+                for txn in transactions.values():
                     if txn.get("customer_id") == customer_id:
                         for item in txn.get("line_items", []):
                             if item.get("sku") in purchase_history_skus:
-                                qualified_customers.append(customer)
+                                qualified_data["customers"][customer_id] = customer
                                 break
                         break
         payload = qualified_customers

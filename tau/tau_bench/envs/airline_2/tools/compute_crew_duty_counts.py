@@ -17,7 +17,7 @@ class ComputeCrewDutyCounts(Tool):
         }
         counts = {"24h": 0, "30d": 0, "365d": 0}
         # Derived from flight_log
-        for c in data["crew_members"]:
+        for c in data["crew_members"].values():
             if c["crew_member_id"] != crew_member_id:
                 continue
             for entry in c["flight_log"]:

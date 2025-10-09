@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateAircraftLocation(Tool):
@@ -19,11 +19,11 @@ class UpdateAircraftLocation(Tool):
         aircraft_id: str, 
         new_location_airport_id: str
     ) -> str:
-        aircraft_list = data.get("aircraft", [])
-        airports = data.get("airports", [])
+        aircraft_list = data.get("aircraft", {}).values()
+        airports = data.get("airports", {}).values()
         
         target_airport = next(
-            (a for a in airports if a.get("airport_id") == new_location_airport_id),
+            (a for a in airports.values() if a.get("airport_id") == new_location_airport_id),
             None,
         )
         if not target_airport:
@@ -35,7 +35,7 @@ class UpdateAircraftLocation(Tool):
             return out
 
         target_aircraft = next(
-            (ac for ac in aircraft_list if ac.get("aircraft_id") == aircraft_id), None
+            (ac for ac in aircraft_list.values() if ac.get("aircraft_id") == aircraft_id), None
         )
         if not target_aircraft:
             payload = {"error": "Aircraft not found", "aircraft_id": aircraft_id}

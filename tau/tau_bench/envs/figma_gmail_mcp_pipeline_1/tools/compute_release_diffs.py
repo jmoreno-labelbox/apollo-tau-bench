@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ComputeReleaseDiffs(Tool):  #READ
@@ -30,12 +30,12 @@ class ComputeReleaseDiffs(Tool):  #READ
                 payload)
             return out
 
-        releases = data.get("releases", [])
-        figma_artifacts = data.get("figma_artifacts", [])
+        releases = data.get("releases", {}).values()
+        figma_artifacts = data.get("figma_artifacts", {}).values()
 
         #Identify the active release
         current_release = next(
-            (r for r in releases if r.get("release_id") == release_id), None
+            (r for r in releases.values() if r.get("release_id") == release_id), None
         )
         if not current_release:
             payload = {"error": f"Release with release_id '{release_id}' not found"}
@@ -49,8 +49,7 @@ class ComputeReleaseDiffs(Tool):  #READ
         #Locate the last release with the same figma_file_id (using created_ts)
         same_file_releases = [
             r
-            for r in releases
-            if r.get("figma_file_id") == current_figma_file_id
+            for r in releases.values() if r.get("figma_file_id") == current_figma_file_id
             and r.get("release_id") != release_id
         ]
 
@@ -78,8 +77,7 @@ class ComputeReleaseDiffs(Tool):  #READ
         #Locate all figma_artifacts sharing the same figma_file_id
         same_file_artifacts = [
             artifact
-            for artifact in figma_artifacts
-            if artifact.get("figma_file_id") == current_figma_file_id
+            for artifact in figma_artifacts.values() if artifact.get("figma_file_id") == current_figma_file_id
         ]
 
         frames_added = []

@@ -9,7 +9,7 @@ class ReserveOrderId(Tool):
         used = [o.get("order_id") for o in (orders or [])]
         reserved = (_id_reservations or {}).get("order_ids", [])
         next_id = _next_sequential_id(list(used) + list(reserved), "O")
-        resv = data.setdefault("_id_reservations", {})
+        resv = data.setdefault("_id_reservations", [])
         resv["order_ids"] = list(set(reserved + [next_id]))
         payload = {"order_id": next_id}
         out = json.dumps(payload, indent=2)

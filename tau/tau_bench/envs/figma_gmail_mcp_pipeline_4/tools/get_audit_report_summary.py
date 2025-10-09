@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAuditReportSummary(Tool):
@@ -23,13 +23,13 @@ class GetAuditReportSummary(Tool):
             out = json.dumps(payload)
             return out
 
-        audits = data.get("audits", [])
-        audit_findings_ds = data.get("audit_findings_ds", [])
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audits = data.get("audits", {}).values()
+        audit_findings_ds = data.get("audit_findings_ds", {}).values()
+        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
 
         #Locate the audit
         audit_info = None
-        for audit in audits:
+        for audit in audits.values():
             if audit.get("audit_id") == audit_id:
                 audit_info = audit
                 break
@@ -40,9 +40,9 @@ class GetAuditReportSummary(Tool):
             return out
 
         #Retrieve findings related to this audit
-        ds_findings = [f for f in audit_findings_ds if f.get("audit_id") == audit_id]
+        ds_findings = [f for f in audit_findings_ds.values() if f.get("audit_id") == audit_id]
         a11y_findings = [
-            f for f in audit_findings_a11y if f.get("audit_id") == audit_id
+            f for f in audit_findings_a11y.values() if f.get("audit_id") == audit_id
         ]
 
         #Tally findings based on severity

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateGroceryListFromMealPlanTool(Tool):
@@ -82,7 +82,7 @@ class GenerateGroceryListFromMealPlanTool(Tool):
         meal_plan = next(
             (
                 p
-                for p in data.get("meal_plans", [])
+                for p in data.get("meal_plans", {}).values()
                 if p.get("meal_plan_id") == meal_plan_id
             ),
             None,
@@ -101,19 +101,19 @@ class GenerateGroceryListFromMealPlanTool(Tool):
             )
 
         #3. Core Logic: Calculate Net Needs
-        all_ingredients_meta = data.get("ingredients", [])
+        all_ingredients_meta = data.get("ingredients", {}).values()
         context = {"ingredients": all_ingredients_meta}
 
         #3a. Aggregate all required ingredients for the plan, normalizing units
         plan_entries = [
             e
-            for e in data.get("meal_plan_entries", [])
+            for e in data.get("meal_plan_entries", {}).values()
             if e.get("meal_plan_id") == meal_plan_id
         ]
         recipe_ids = {e["recipe_id"] for e in plan_entries}
         required_ingredients_list = [
             ri
-            for ri in data.get("recipe_ingredients", [])
+            for ri in data.get("recipe_ingredients", {}).values()
             if ri["recipe_id"] in recipe_ids
         ]
 
@@ -127,7 +127,7 @@ class GenerateGroceryListFromMealPlanTool(Tool):
         #3b. Get available inventory, normalizing units
         inventory_items = [
             i
-            for i in data.get("inventory_items", [])
+            for i in data.get("inventory_items", {}).values()
             if i.get("household_id") == household_id
         ]
         available_totals = collections.defaultdict(float)
@@ -145,8 +145,7 @@ class GenerateGroceryListFromMealPlanTool(Tool):
                 ingredient_meta = next(
                     (
                         i
-                        for i in all_ingredients_meta
-                        if i["ingredient_id"] == ingredient_id
+                        for i in all_ingredients_meta.values() if i["ingredient_id"] == ingredient_id
                     ),
                     {},
                 )
@@ -167,7 +166,7 @@ class GenerateGroceryListFromMealPlanTool(Tool):
         #4. Create Grocery List and Items
         gl_table = data.setdefault("grocery_lists", [])
         max_list_id = max(
-            (g.get("list_id", 0) for g in gl_table),
+            (g.get("list_id", 0) for g in gl_table.values()),
             default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["grocery_lists"],
         )
         new_list_id = max_list_id + 1
@@ -185,7 +184,7 @@ class GenerateGroceryListFromMealPlanTool(Tool):
 
         gli_table = data.setdefault("grocery_list_items", [])
         max_item_id = max(
-            (i.get("item_id", 0) for i in gli_table),
+            (i.get("item_id", 0) for i in gli_table.values()),
             default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["grocery_list_items"],
         )
         created_item_ids = []

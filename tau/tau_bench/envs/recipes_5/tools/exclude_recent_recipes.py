@@ -25,7 +25,7 @@ class ExcludeRecentRecipes(Tool):
         recent = recent_recipe_ids
         if recent is None:
             recent = _recent_recipe_ids(data, household_id, days_back, anchor_date)
-        filtered = [rid for rid in cand if rid not in {int(x) for x in recent}]
+        filtered = [rid for rid in cand.values() if rid not in {int(x) for x in recent}]
         return _json_dump({"filtered_recipe_ids_json": json.dumps(filtered)})
     @staticmethod
     def get_info() -> dict[str, Any]:

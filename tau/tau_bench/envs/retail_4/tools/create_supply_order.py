@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateSupplyOrder(Tool):
@@ -107,7 +107,7 @@ class CreateSupplyOrder(Tool):
                 return out
 
         #Get product information
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
 
         #When item_ids are provided, find product_id for each item
         if item_ids or not product_id:
@@ -116,8 +116,8 @@ class CreateSupplyOrder(Tool):
 
             for item in items_to_process:
                 product_found = None
-                for product in products:
-                    variants = product.get("variants", {})
+                for product in products.values():
+                    variants = product.get("variants", {}).values()
                     if item in variants:
                         product_found = product.get("product_id")
                         products_involved.add(product_found)
@@ -248,7 +248,7 @@ class CreateSupplyOrder(Tool):
                 return out
 
         #Get product information
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
 
         #When item_ids are provided, find product_id for each item
         if item_ids or not product_id:
@@ -257,8 +257,8 @@ class CreateSupplyOrder(Tool):
 
             for item in items_to_process:
                 product_found = None
-                for product in products:
-                    variants = product.get("variants", {})
+                for product in products.values():
+                    variants = product.get("variants", {}).values()
                     if item in variants:
                         product_found = product.get("product_id")
                         products_involved.add(product_found)
@@ -329,7 +329,7 @@ class CreateSupplyOrder(Tool):
         pass
         #Rule: Supply orders must reference valid supplier_id and existing product_id
         product_found = None
-        for product in products:
+        for product in products.values():
             if product.get("product_id") == product_id:
                 product_found = product
                 break
@@ -341,7 +341,7 @@ class CreateSupplyOrder(Tool):
             return out
 
         #Rule: Confirm item_id exists in product variants before including in orders
-        variants = product_found.get("variants", {})
+        variants = product_found.get("variants", {}).values()
         valid_items = []
         invalid_items = []
 
@@ -350,7 +350,7 @@ class CreateSupplyOrder(Tool):
                 valid_items.append(
                     {
                         "item_id": item,
-                        "variant_options": variants[item].get("options", {}),
+                        "variant_options": variants[item].get("options", {}).values()),
                         "current_price": variants[item].get("price", 0),
                         "available": variants[item].get("available", False),
                         "unit_cost": (
@@ -382,7 +382,7 @@ class CreateSupplyOrder(Tool):
             return out
 
         #Generate new supply order ID
-        existing_supply_orders = data.get("supply_orders", [])
+        existing_supply_orders = data.get("supply_orders", {}).values()
         order_number = len(existing_supply_orders) + 1
         new_supply_order_id = f"#SO{str(order_number).zfill(4)}"
 
@@ -437,7 +437,7 @@ class CreateSupplyOrder(Tool):
         #WRITE OPERATION: Add new supply order to supply_orders.json
         if "supply_orders" not in data:
             data["supply_orders"] = []
-        data["supply_orders"].append(new_supply_order)
+        data["supply_orders"][supply_order_id] = new_supply_order
 
         result = {
             "status": "success",
@@ -526,7 +526,7 @@ class CreateSupplyOrder(Tool):
                 return order_result  #Return error if any order creation fails
 
         #Calculate totals
-        total_orders_cost = sum(order["total_cost"] for order in created_orders)
+        total_orders_cost = sum(order["total_cost"] for order in created_orders.values()
         total_quantity_ordered = sum(
             order["total_quantity"] for order in created_orders
         )

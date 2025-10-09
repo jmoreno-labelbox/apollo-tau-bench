@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateMilestoneDependency(Tool):
@@ -19,10 +19,10 @@ class CreateMilestoneDependency(Tool):
     ) -> bool:
         """Verify whether including this dependency would result in a circular dependency"""
         pass
-        dependencies = data.get("milestone_dependencies", [])
+        dependencies = data.get("milestone_dependencies", {}).values()
 
         graph = {}
-        for dep in dependencies:
+        for dep in dependencies.values():
             pred = dep.get("predecessor_id")
             succ = dep.get("successor_id")
             if pred not in graph:
@@ -93,11 +93,11 @@ class CreateMilestoneDependency(Tool):
             out = json.dumps(payload)
             return out
 
-        milestone_dependencies = data.get("milestone_dependencies", [])
-        milestones = data.get("milestones", [])
+        milestone_dependencies = data.get("milestone_dependencies", {}).values()
+        milestones = data.get("milestones", {}).values()
 
-        pred_exists = any(m.get("milestone_id") == predecessor_id for m in milestones)
-        succ_exists = any(m.get("milestone_id") == successor_id for m in milestones)
+        pred_exists = any(m.get("milestone_id") == predecessor_id for m in milestones.values()
+        succ_exists = any(m.get("milestone_id") == successor_id for m in milestones.values()
 
         if not pred_exists or not succ_exists:
             payload = {"error": "One or both milestones not found"}
@@ -107,7 +107,7 @@ class CreateMilestoneDependency(Tool):
         existing = any(
             d.get("predecessor_id") == predecessor_id
             and d.get("successor_id") == successor_id
-            for d in milestone_dependencies
+            for d in milestone_dependencies.values()
         )
 
         if existing:
@@ -129,9 +129,9 @@ class CreateMilestoneDependency(Tool):
             "created_date": datetime.now(timezone.utc).isoformat(),
         }
 
-        milestone_dependencies.append(new_dependency)
+        data["milestone_dependencies"][new_dependency["milestone_dependencie_id"]] = new_dependency
 
-        for milestone in milestones:
+        for milestone in milestones.values():
             if milestone.get("milestone_id") == successor_id:
                 milestone["is_critical_path"] = True
                 break
@@ -139,8 +139,7 @@ class CreateMilestoneDependency(Tool):
         project_id = next(
             (
                 m.get("project_id")
-                for m in milestones
-                if m.get("milestone_id") == predecessor_id
+                for m in milestones.values() if m.get("milestone_id") == predecessor_id
             ),
             None,
         )

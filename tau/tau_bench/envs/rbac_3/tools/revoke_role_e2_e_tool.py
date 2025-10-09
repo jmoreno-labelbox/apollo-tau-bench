@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RevokeRoleE2ETool(Tool):
@@ -46,19 +46,19 @@ class RevokeRoleE2ETool(Tool):
                 action_type="RevokeRole",
                 target_id=f"{user_id}:{role_id}",
                 timestamp=_HARD_TS,
-                details=revoke_res.get("log_info", {}).get("details")
+                details=revoke_res.get("log_info", {}).values().get("details")
                 or ("REMOVED" if revoke_res.get("removed") else "NOOP"),
             )
         )
 
         roles_after = [
             ur.get("role_id")
-            for ur in data.get("user_roles", [])
+            for ur in data.get("user_roles", {}).values()
             if ur.get("user_id") == user_id and not ur.get("expires_on")
         ]
         sessions_after = [
             s
-            for s in data.get("sessions", [])
+            for s in data.get("sessions", {}).values()
             if s.get("user_id") == user_id and not s.get("end_time")
         ]
 

@@ -8,7 +8,7 @@ from decimal import ROUND_HALF_UP, Decimal
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetOrdersByContactId(Tool):
@@ -21,8 +21,8 @@ class GetOrdersByContactId(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        orders = data.get("orders", [])
-        contact_orders = [o for o in orders if o.get("contact_id") == contact_id]
+        orders = data.get("orders", {}).values()
+        contact_orders = [o for o in orders.values() if o.get("contact_id") == contact_id]
         payload = contact_orders
         out = json.dumps(payload, indent=2)
         return out

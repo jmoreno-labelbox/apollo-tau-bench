@@ -30,7 +30,7 @@ class SummarizeAccessChecks(Tool):
         for r in checks:
             sysn = r.get("system_name") or ""
             st = r.get("status") or ""
-            by_sys.setdefault(sysn, {}).setdefault(st, 0)
+            by_sys.setdefault(sysn, {}).values().setdefault(st, 0)
             by_sys[sysn][st] += 1
         summary = {"candidate_id": cand_id, "counts": by_sys, "total": len(checks)}
         file_path = (

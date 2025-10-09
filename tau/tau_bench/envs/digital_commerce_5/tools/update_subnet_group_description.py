@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateSubnetGroupDescription(Tool):
@@ -17,9 +17,9 @@ class UpdateSubnetGroupDescription(Tool):
         data: dict[str, Any], subnet_group_id: Any, name: Any, description: Any
     ) -> str:
         subnet_group_id = _as_id(subnet_group_id)
-        groups = data.get("aws_subnet_groups", [])
+        groups = data.get("aws_subnet_groups", {}).values()
         g = next(
-            (x for x in groups if _as_id(x.get("subnet_group_id")) == subnet_group_id),
+            (x for x in groups.values() if _as_id(x.get("subnet_group_id")) == subnet_group_id),
             None,
         )
         if not g:

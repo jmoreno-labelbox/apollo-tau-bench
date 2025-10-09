@@ -11,7 +11,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -26,10 +26,10 @@ class SearchTasks(Tool):
         sprint_id: str = None, 
         priority: str = None
     ) -> str:
-        tasks = data.get("tasks", [])
+        tasks = data.get("tasks", {}).values()
 
         if task_id:
-            for task in tasks:
+            for task in tasks.values():
                 if task.get("task_id") == task_id:
                     payload = task
                     out = json.dumps(payload, indent=2)
@@ -39,7 +39,7 @@ class SearchTasks(Tool):
             return out
 
         results = []
-        for task in tasks:
+        for task in tasks.values():
             match = True
 
             if title and title.lower() not in task.get("title", "").lower():
@@ -119,12 +119,12 @@ class CreateTask(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        employees = data.get("employees", [])
-        sprints = data.get("sprints", [])
+        tasks = data.get("tasks", {}).values()
+        employees = data.get("employees", {}).values()
+        sprints = data.get("sprints", {}).values()
 
         assignee = next(
-            (emp for emp in employees if emp.get("employee_id") == assignee_id), None
+            (emp for emp in employees.values() if emp.get("employee_id") == assignee_id), None
         )
         if not assignee:
             payload = {"error": f"Employee '{assignee_id}' not found"}
@@ -138,8 +138,7 @@ class CreateTask(Tool):
             if not is_senior:
                 senior_members = [
                     emp
-                    for emp in employees
-                    if any(
+                    for emp in employees.values() if any(
                         skill.get("proficiency", 0) >= 4
                         for skill in emp.get("skills", [])
                     )
@@ -156,16 +155,15 @@ class CreateTask(Tool):
                     return out
 
         if sprint_id:
-            sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+            sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
             if sprint and sprint.get("status") == "active":
                 assignee_tasks = [
                     t
-                    for t in tasks
-                    if t.get("assignee_id") == assignee_id
+                    for t in tasks.values() if t.get("assignee_id") == assignee_id
                     and t.get("sprint_id") == sprint_id
                     and t.get("status") != "done"
                 ]
-                current_points = sum(t.get("story_points", 0) for t in assignee_tasks)
+                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values()
 
                 if current_points + story_points > 25:
                     payload = {
@@ -178,7 +176,7 @@ class CreateTask(Tool):
                     return out
 
         for dep_id in dependencies:
-            if not any(task.get("task_id") == dep_id for task in tasks):
+            if not any(task.get("task_id") == dep_id for task in tasks.values()):
                 payload = {"error": f"Dependency task '{dep_id}' not found"}
                 out = json.dumps(payload)
                 return out
@@ -186,7 +184,7 @@ class CreateTask(Tool):
         task_id = f"task_{uuid.uuid4().hex[:8]}"
 
         if new_task_id:
-            for t in tasks:
+            for t in tasks.values():
                 if t.get("task_id") == new_task_id:
                     payload = {
                         "error": f"new_task_id {new_task_id} exists. Please enter a unique task_id."
@@ -212,7 +210,7 @@ class CreateTask(Tool):
             "time_logged": 0,
         }
 
-        tasks.append(new_task)
+        data["tasks"][task_id] = new_task
         payload = {"success": True, "task": new_task}
         out = json.dumps(payload)
         return out
@@ -262,21 +260,21 @@ class CreateTask(Tool):
 class GetTaskDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str = None) -> str:
-        tasks = data.get("tasks", [])
+        tasks = data.get("tasks", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task '{task_id}' not found"}
             out = json.dumps(payload)
             return out
 
-        time_logs = data.get("time_logs", [])
-        task_history = data.get("task_history", [])
+        time_logs = data.get("time_logs", {}).values()
+        task_history = data.get("task_history", {}).values()
 
-        task_time_logs = [log for log in time_logs if log.get("task_id") == task_id]
-        #total_hours_logged = sum(log.get("hours", 0) for log in task_time_logs)
+        task_time_logs = [log for log in time_logs.values() if log.get("task_id") == task_id]
+        #total_hours_logged = sum(log.get("hours", 0) for log in task_time_logs.values()
 
-        history_entries = [h for h in task_history if h.get("task_id") == task_id]
+        history_entries = [h for h in task_history.values() if h.get("task_id") == task_id]
 
         task_details = {
             "task_id": task.get("task_id"),
@@ -304,13 +302,13 @@ class GetTaskDetails(Tool):
             "history_count": len(history_entries),
         }
 
-        for other_task in tasks:
+        for other_task in tasks.values():
             if task_id in other_task.get("dependencies", []):
                 task_details["blocks"].append(other_task.get("task_id"))
 
         dependency_details = []
         for dep_id in task.get("dependencies", []):
-            dep_task = next((t for t in tasks if t.get("task_id") == dep_id), None)
+            dep_task = next((t for t in tasks.values() if t.get("task_id") == dep_id), None)
             if dep_task:
                 dependency_details.append(
                     {
@@ -324,7 +322,7 @@ class GetTaskDetails(Tool):
 
         blocked_by_details = []
         for block_id in task.get("blocked_by", []):
-            block_task = next((t for t in tasks if t.get("task_id") == block_id), None)
+            block_task = next((t for t in tasks.values() if t.get("task_id") == block_id), None)
             if block_task:
                 blocked_by_details.append(
                     {
@@ -366,9 +364,9 @@ class UpdateTaskStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
+        tasks = data.get("tasks", {}).values()
 
-        for task in tasks:
+        for task in tasks.values():
             if task.get("task_id") == task_id:
                 old_status = task.get("status")
 
@@ -377,7 +375,7 @@ class UpdateTaskStatus(Tool):
                     unresolved_deps = []
                     for dep_id in dependencies:
                         dep_task = next(
-                            (t for t in tasks if t.get("task_id") == dep_id), None
+                            (t for t in tasks.values() if t.get("task_id") == dep_id), None
                         )
                         if dep_task and dep_task.get("status") != "done":
                             unresolved_deps.append(dep_id)
@@ -439,16 +437,16 @@ class CreateSprint(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
-        teams = data.get("teams", [])
+        sprints = data.get("sprints", {}).values()
+        teams = data.get("teams", {}).values()
 
-        team = next((t for t in teams if t.get("team_id") == team_id), None)
+        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
         if not team:
             payload = {"error": f"Team '{team_id}' not found"}
             out = json.dumps(payload)
             return out
 
-        for s in sprints:
+        for s in sprints.values():
             if s.get("sprint_id") == sprint_id:
                 payload = {
                     "error": f"sprint_id {sprint_id} exists. Please enter a unique sprint_id.",
@@ -469,7 +467,7 @@ class CreateSprint(Tool):
             "velocity": 0,
         }
 
-        sprints.append(new_sprint)
+        data["sprints"][sprint_id] = new_sprint
         payload = {"success": True, "sprint": new_sprint}
         out = json.dumps(payload)
         return out
@@ -518,9 +516,9 @@ class MarkSprintAsReviewed(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
+        sprints = data.get("sprints", {}).values()
 
-        for sprint in sprints:
+        for sprint in sprints.values():
             if sprint.get("sprint_id") == sprint_id:
                 sprint["reviewed"] = "True"
                 payload = {"success": True}
@@ -560,12 +558,12 @@ class AssignTaskToSprint(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        sprints = data.get("sprints", [])
-        teams = data.get("teams", [])
+        tasks = data.get("tasks", {}).values()
+        sprints = data.get("sprints", {}).values()
+        teams = data.get("teams", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
-        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
+        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
 
         if not task:
             payload = {"error": f"Task '{task_id}' not found"}
@@ -593,7 +591,7 @@ class AssignTaskToSprint(Tool):
             return out
 
         team = next(
-            (t for t in teams if t.get("team_id") == sprint.get("team_id")), None
+            (t for t in teams.values() if t.get("team_id") == sprint.get("team_id")), None
         )
         if team:
 
@@ -601,8 +599,7 @@ class AssignTaskToSprint(Tool):
 
             completed_sprints = [
                 s
-                for s in sprints
-                if s.get("team_id") == team.get("team_id")
+                for s in sprints.values() if s.get("team_id") == team.get("team_id")
                 and s.get("status") == "completed"
             ]
 
@@ -611,14 +608,14 @@ class AssignTaskToSprint(Tool):
                 recent_sprints = sorted(
                     completed_sprints, key=lambda x: x.get("end_date", ""), reverse=True
                 )[:3]
-                avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints) / 3
+                avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints.values() / 3
                 capacity_limit = avg_velocity * 0.8
             else:
 
                 capacity_limit = len(team_members) * 20
 
-            sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
-            current_points = sum(t.get("story_points", 0) for t in sprint_tasks)
+            sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
+            current_points = sum(t.get("story_points", 0) for t in sprint_tasks.values()
             new_total = current_points + task.get("story_points", 0)
 
             if new_total > capacity_limit:
@@ -700,9 +697,9 @@ class GetSprintDetails(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
+        sprints = data.get("sprints", {}).values()
 
-        for sprint in sprints:
+        for sprint in sprints.values():
             if sprint.get("sprint_id") == sprint_id:
                 payload = sprint
                 out = json.dumps(payload, indent=2)
@@ -736,18 +733,18 @@ class CalculateSprintBurndown(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
-        tasks = data.get("tasks", [])
+        sprints = data.get("sprints", {}).values()
+        tasks = data.get("tasks", {}).values()
 
-        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
         if not sprint:
             payload = {"error": f"Sprint '{sprint_id}' not found"}
             out = json.dumps(payload)
             return out
 
-        sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
+        sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
 
-        total_points = sum(t.get("story_points", 0) for t in sprint_tasks)
+        total_points = sum(t.get("story_points", 0) for t in sprint_tasks.values()
         completed_points = sum(
             t.get("story_points", 0) for t in sprint_tasks if t.get("status") == "done"
         )
@@ -763,7 +760,7 @@ class CalculateSprintBurndown(Tool):
             for t in sprint_tasks
             if t.get("status") == "blocked"
         )
-        blocked_tasks = [t for t in sprint_tasks if t.get("status") == "blocked"]
+        blocked_tasks = [t for t in sprint_tasks.values() if t.get("status") == "blocked"]
 
         completion_percentage = (
             round((completed_points / total_points * 100), 1) if total_points > 0 else 0
@@ -810,14 +807,14 @@ class CalculateSprintBurndown(Tool):
             "task_breakdown": {
                 "total_tasks": len(sprint_tasks),
                 "completed_tasks": len(
-                    [t for t in sprint_tasks if t.get("status") == "done"]
+                    [t for t in sprint_tasks.values() if t.get("status") == "done"]
                 ),
                 "in_progress_tasks": len(
-                    [t for t in sprint_tasks if t.get("status") == "in_progress"]
+                    [t for t in sprint_tasks.values() if t.get("status") == "in_progress"]
                 ),
                 "blocked_tasks": len(blocked_tasks),
                 "todo_tasks": len(
-                    [t for t in sprint_tasks if t.get("status") == "todo"]
+                    [t for t in sprint_tasks.values() if t.get("status") == "todo"]
                 ),
             },
         }
@@ -864,13 +861,13 @@ class ReassignTask(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        employees = data.get("employees", [])
-        task_history = data.get("task_history", [])
-        sprints = data.get("sprints", [])
+        tasks = data.get("tasks", {}).values()
+        employees = data.get("employees", {}).values()
+        task_history = data.get("task_history", {}).values()
+        sprints = data.get("sprints", {}).values()
 
         new_assignee = next(
-            (emp for emp in employees if emp.get("employee_id") == new_assignee_id),
+            (emp for emp in employees.values() if emp.get("employee_id") == new_assignee_id),
             None,
         )
         if not new_assignee:
@@ -878,7 +875,7 @@ class ReassignTask(Tool):
             out = json.dumps(payload)
             return out
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task '{task_id}' not found"}
             out = json.dumps(payload)
@@ -892,8 +889,7 @@ class ReassignTask(Tool):
             if not is_senior:
                 senior_members = [
                     emp
-                    for emp in employees
-                    if any(
+                    for emp in employees.values() if any(
                         skill.get("proficiency", 0) >= 4
                         for skill in emp.get("skills", [])
                     )
@@ -912,18 +908,17 @@ class ReassignTask(Tool):
 
         if task.get("sprint_id"):
             sprint = next(
-                (s for s in sprints if s.get("sprint_id") == task["sprint_id"]), None
+                (s for s in sprints.values() if s.get("sprint_id") == task["sprint_id"]), None
             )
             if sprint and sprint.get("status") == "active":
                 assignee_tasks = [
                     t
-                    for t in tasks
-                    if t.get("assignee_id") == new_assignee_id
+                    for t in tasks.values() if t.get("assignee_id") == new_assignee_id
                     and t.get("sprint_id") == task["sprint_id"]
                     and t.get("status") != "done"
                     and t.get("task_id") != task_id
                 ]
-                current_points = sum(t.get("story_points", 0) for t in assignee_tasks)
+                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values()
 
                 if current_points + task.get("story_points", 0) > 25:
                     payload = {
@@ -940,8 +935,7 @@ class ReassignTask(Tool):
         reassignment_count = len(
             [
                 h
-                for h in task_history
-                if h.get("task_id") == task_id and h.get("action") == "reassigned"
+                for h in task_history.values() if h.get("task_id") == task_id and h.get("action") == "reassigned"
             ]
         )
         if reassignment_count >= 2:
@@ -963,7 +957,7 @@ class ReassignTask(Tool):
             "to_assignee": new_assignee_id,
             "timestamp": datetime.now().isoformat(),
         }
-        task_history.append(history_entry)
+        data["task_history"][history_entry["task_history_id"]] = history_entry
 
         task["assignee_id"] = new_assignee_id
         task["updated_date"] = datetime.now().isoformat()
@@ -1003,11 +997,11 @@ class UpdateSprintStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
-        tasks = data.get("tasks", [])
-        teams = data.get("teams", [])
+        sprints = data.get("sprints", {}).values()
+        tasks = data.get("tasks", {}).values()
+        teams = data.get("teams", {}).values()
 
-        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
         if not sprint:
             payload = {"error": f"Sprint '{sprint_id}' not found"}
             out = json.dumps(payload)
@@ -1031,14 +1025,13 @@ class UpdateSprintStatus(Tool):
         if new_status == "active":
             team_id = sprint.get("team_id")
 
-            team = next((t for t in teams if t.get("team_id") == team_id), None)
+            team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
             if team:
                 team_members = team.get("members", [])
 
                 completed_sprints = [
                     s
-                    for s in sprints
-                    if s.get("team_id") == team_id and s.get("status") == "completed"
+                    for s in sprints.values() if s.get("team_id") == team_id and s.get("status") == "completed"
                 ]
 
                 if len(completed_sprints) >= 3:
@@ -1047,7 +1040,7 @@ class UpdateSprintStatus(Tool):
                         key=lambda x: x.get("end_date", ""),
                         reverse=True,
                     )[:3]
-                    avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints) / 3
+                    avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints.values() / 3
                     capacity_limit = avg_velocity * 0.8
                 else:
                     capacity_limit = len(team_members) * 20
@@ -1062,7 +1055,7 @@ class UpdateSprintStatus(Tool):
                     return out
 
         if new_status == "completed":
-            sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
+            sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
             incomplete_tasks = [
                 t for t in sprint_tasks if t.get("status") not in ["done"]
             ]
@@ -1121,12 +1114,11 @@ class GetTeamVelocity(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
+        sprints = data.get("sprints", {}).values()
 
         team_sprints = [
             s
-            for s in sprints
-            if s.get("team_id") == team_id and s.get("status") == "completed"
+            for s in sprints.values() if s.get("team_id") == team_id and s.get("status") == "completed"
         ]
 
         team_sprints.sort(key=lambda x: x.get("end_date", ""), reverse=True)
@@ -1195,11 +1187,11 @@ class CreateTaskDependency(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
+        tasks = data.get("tasks", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         dependency_task = next(
-            (t for t in tasks if t.get("task_id") == depends_on_task_id), None
+            (t for t in tasks.values() if t.get("task_id") == depends_on_task_id), None
         )
 
         if not task:
@@ -1219,7 +1211,7 @@ class CreateTaskDependency(Tool):
             visited.add(start_id)
 
             task_to_check = next(
-                (t for t in tasks if t.get("task_id") == start_id), None
+                (t for t in tasks.values() if t.get("task_id") == start_id), None
             )
             if not task_to_check:
                 return False
@@ -1281,14 +1273,14 @@ class CreateTaskDependency(Tool):
 class GetBacklogTasks(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], priority: str = None, max_story_points: int = None) -> str:
-        tasks = data.get("tasks", [])
+        tasks = data.get("tasks", {}).values()
 
         backlog_tasks = [
-            t for t in tasks if not t.get("sprint_id") and t.get("status") != "done"
+            t for t in tasks.values() if not t.get("sprint_id") and t.get("status") != "done"
         ]
 
         if priority:
-            backlog_tasks = [t for t in backlog_tasks if t.get("priority") == priority]
+            backlog_tasks = [t for t in backlog_tasks.values() if t.get("priority") == priority]
 
         if max_story_points:
             backlog_tasks = [
@@ -1340,10 +1332,10 @@ class GetBacklogTasks(Tool):
 class LogTimeOnTask(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str = None, hours_logged: float = None, employee_id: str = None, notes: str = "") -> str:
-        tasks = data.get("tasks", [])
-        time_logs = data.get("time_logs", [])
+        tasks = data.get("tasks", {}).values()
+        time_logs = data.get("time_logs", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task '{task_id}' not found"}
             out = json.dumps(payload)
@@ -1362,7 +1354,7 @@ class LogTimeOnTask(Tool):
             "notes": notes,
             "logged_date": datetime.now().isoformat(),
         }
-        time_logs.append(log_entry)
+        data["time_logs"][log_entry["time_log_id"]] = log_entry
 
         task["time_logged"] = task.get("time_logged", 0) + hours_logged
         task["updated_date"] = datetime.now().isoformat()
@@ -1415,10 +1407,10 @@ class EscalateTask(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        escalations = data.get("escalations", [])
+        tasks = data.get("tasks", {}).values()
+        escalations = data.get("escalations", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task '{task_id}' not found"}
             out = json.dumps(payload)
@@ -1445,7 +1437,7 @@ class EscalateTask(Tool):
             "created_date": datetime.now().isoformat(),
             "resolved": False,
         }
-        escalations.append(escalation)
+        data["escalations"][escalation["escalation_id"]] = escalation
 
         if task.get("priority") != "critical":
             task["previous_priority"] = task.get("priority")
@@ -1496,11 +1488,11 @@ class CalculateTeamCapacity(Tool):
             out = json.dumps(payload)
             return out
 
-        teams = data.get("teams", [])
-        data.get("employees", [])
-        tasks = data.get("tasks", [])
+        teams = data.get("teams", {}).values()
+        data.get("employees", {}).values()
+        tasks = data.get("tasks", {}).values()
 
-        team = next((t for t in teams if t.get("team_id") == team_id), None)
+        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
         if not team:
             payload = {"error": f"Team '{team_id}' not found"}
             out = json.dumps(payload)
@@ -1513,8 +1505,7 @@ class CalculateTeamCapacity(Tool):
         if sprint_id:
             sprint_tasks = [
                 t
-                for t in tasks
-                if t.get("sprint_id") == sprint_id
+                for t in tasks.values() if t.get("sprint_id") == sprint_id
                 and t.get("assignee_id") in team_members
             ]
 
@@ -1523,7 +1514,7 @@ class CalculateTeamCapacity(Tool):
                 member_tasks = [
                     t for t in sprint_tasks if t.get("assignee_id") == member_id
                 ]
-                member_points = sum(t.get("story_points", 0) for t in member_tasks)
+                member_points = sum(t.get("story_points", 0) for t in member_tasks.values()
                 member_loads[member_id] = {
                     "story_points": member_points,
                     "task_count": len(member_tasks),
@@ -1598,10 +1589,10 @@ class CreateSprintRetrospective(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
-        retrospectives = data.get("retrospectives", [])
+        sprints = data.get("sprints", {}).values()
+        retrospectives = data.get("retrospectives", {}).values()
 
-        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
         if not sprint:
             payload = {"error": f"Sprint '{sprint_id}' not found"}
             out = json.dumps(payload)
@@ -1669,7 +1660,7 @@ class CreateSprintRetrospective(Tool):
             "team_id": sprint.get("team_id"),
         }
 
-        retrospectives.append(retrospective)
+        data["retrospectives"][retrospective["retrospective_id"]] = retrospective
         payload = {"success": True, "retrospective": retrospective}
         out = json.dumps(payload)
         return out
@@ -1718,9 +1709,9 @@ class GetTaskHistory(Tool):
             out = json.dumps(payload)
             return out
 
-        task_history = data.get("task_history", [])
+        task_history = data.get("task_history", {}).values()
 
-        history_entries = [h for h in task_history if h.get("task_id") == task_id]
+        history_entries = [h for h in task_history.values() if h.get("task_id") == task_id]
 
         history_entries.sort(key=lambda x: x.get("timestamp", ""))
         payload = {
@@ -1766,11 +1757,11 @@ class UpdateTaskPriority(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        task_history = data.get("task_history", [])
-        employees = data.get("employees", [])
+        tasks = data.get("tasks", {}).values()
+        task_history = data.get("task_history", {}).values()
+        employees = data.get("employees", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task '{task_id}' not found"}
             out = json.dumps(payload)
@@ -1782,8 +1773,7 @@ class UpdateTaskPriority(Tool):
             assignee = next(
                 (
                     emp
-                    for emp in employees
-                    if emp.get("employee_id") == task.get("assignee_id")
+                    for emp in employees.values() if emp.get("employee_id") == task.get("assignee_id")
                 ),
                 None,
             )
@@ -1795,8 +1785,7 @@ class UpdateTaskPriority(Tool):
                 if not is_senior:
                     senior_members = [
                         emp
-                        for emp in employees
-                        if any(
+                        for emp in employees.values() if any(
                             skill.get("proficiency", 0) >= 4
                             for skill in emp.get("skills", [])
                         )
@@ -1822,7 +1811,7 @@ class UpdateTaskPriority(Tool):
             "to_priority": new_priority,
             "timestamp": datetime.now().isoformat(),
         }
-        task_history.append(history_entry)
+        data["task_history"][history_entry["task_history_id"]] = history_entry
 
         task["priority"] = new_priority
         task["updated_date"] = datetime.now().isoformat()
@@ -1866,9 +1855,9 @@ class GetEmployeeWorkload(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
+        tasks = data.get("tasks", {}).values()
 
-        employee_tasks = [t for t in tasks if t.get("assignee_id") == employee_id]
+        employee_tasks = [t for t in tasks.values() if t.get("assignee_id") == employee_id]
 
         if sprint_id:
             employee_tasks = [
@@ -1880,18 +1869,18 @@ class GetEmployeeWorkload(Tool):
         ]
         if include_blocked:
             active_tasks.extend(
-                [t for t in employee_tasks if t.get("status") == "blocked"]
+                [t for t in employee_tasks.values() if t.get("status") == "blocked"]
             )
 
-        total_story_points = sum(t.get("story_points", 0) for t in active_tasks)
+        total_story_points = sum(t.get("story_points", 0) for t in active_tasks.values()
 
         status_breakdown = {
-            "todo": len([t for t in employee_tasks if t.get("status") == "todo"]),
+            "todo": len([t for t in employee_tasks.values() if t.get("status") == "todo"]),
             "in_progress": len(
-                [t for t in employee_tasks if t.get("status") == "in_progress"]
+                [t for t in employee_tasks.values() if t.get("status") == "in_progress"]
             ),
-            "blocked": len([t for t in employee_tasks if t.get("status") == "blocked"]),
-            "done": len([t for t in employee_tasks if t.get("status") == "done"]),
+            "blocked": len([t for t in employee_tasks.values() if t.get("status") == "blocked"]),
+            "done": len([t for t in employee_tasks.values() if t.get("status") == "done"]),
         }
 
         priority_breakdown = {
@@ -1974,12 +1963,12 @@ class BulkMoveTasksToSprint(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        sprints = data.get("sprints", [])
-        teams = data.get("teams", [])
+        tasks = data.get("tasks", {}).values()
+        sprints = data.get("sprints", {}).values()
+        teams = data.get("teams", {}).values()
 
         sprint = next(
-            (s for s in sprints if s.get("sprint_id") == target_sprint_id), None
+            (s for s in sprints.values() if s.get("sprint_id") == target_sprint_id), None
         )
         if not sprint:
             payload = {"error": f"Sprint '{target_sprint_id}' not found"}
@@ -1995,7 +1984,7 @@ class BulkMoveTasksToSprint(Tool):
             return out
 
         team = next(
-            (t for t in teams if t.get("team_id") == sprint.get("team_id")), None
+            (t for t in teams.values() if t.get("team_id") == sprint.get("team_id")), None
         )
         if not team:
             payload = {"error": "Sprint team not found"}
@@ -2006,8 +1995,7 @@ class BulkMoveTasksToSprint(Tool):
 
         completed_sprints = [
             s
-            for s in sprints
-            if s.get("team_id") == team.get("team_id")
+            for s in sprints.values() if s.get("team_id") == team.get("team_id")
             and s.get("status") == "completed"
         ]
 
@@ -2015,13 +2003,13 @@ class BulkMoveTasksToSprint(Tool):
             recent_sprints = sorted(
                 completed_sprints, key=lambda x: x.get("end_date", ""), reverse=True
             )[:3]
-            avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints) / 3
+            avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints.values() / 3
             capacity_limit = avg_velocity * 0.8
         else:
             capacity_limit = len(team_members) * 20
 
-        sprint_tasks = [t for t in tasks if t.get("sprint_id") == target_sprint_id]
-        current_points = sum(t.get("story_points", 0) for t in sprint_tasks)
+        sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == target_sprint_id]
+        current_points = sum(t.get("story_points", 0) for t in sprint_tasks.values()
 
         moved_tasks = []
         failed_tasks = []
@@ -2037,7 +2025,7 @@ class BulkMoveTasksToSprint(Tool):
             )
 
         for task_id in task_ids:
-            task = next((t for t in tasks if t.get("task_id") == task_id), None)
+            task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
             if not task:
                 failed_tasks.append({"task_id": task_id, "reason": "Task not found"})
                 continue
@@ -2149,12 +2137,12 @@ class CloneTask(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        employees = data.get("employees", [])
-        sprints = data.get("sprints", [])
+        tasks = data.get("tasks", {}).values()
+        employees = data.get("employees", {}).values()
+        sprints = data.get("sprints", {}).values()
 
         source_task = next(
-            (t for t in tasks if t.get("task_id") == source_task_id), None
+            (t for t in tasks.values() if t.get("task_id") == source_task_id), None
         )
         if not source_task:
             payload = {"error": f"Source task '{source_task_id}' not found"}
@@ -2164,7 +2152,7 @@ class CloneTask(Tool):
         assignee_id = new_assignee_id or source_task.get("assignee_id")
 
         assignee = next(
-            (emp for emp in employees if emp.get("employee_id") == assignee_id), None
+            (emp for emp in employees.values() if emp.get("employee_id") == assignee_id), None
         )
         if not assignee:
             payload = {"error": f"Assignee '{assignee_id}' not found"}
@@ -2178,8 +2166,7 @@ class CloneTask(Tool):
             if not is_senior:
                 senior_members = [
                     emp
-                    for emp in employees
-                    if any(
+                    for emp in employees.values() if any(
                         skill.get("proficiency", 0) >= 4
                         for skill in emp.get("skills", [])
                     )
@@ -2198,16 +2185,15 @@ class CloneTask(Tool):
 
         story_points = source_task.get("story_points", 3)
         if sprint_id:
-            sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+            sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
             if sprint and sprint.get("status") == "active":
                 assignee_tasks = [
                     t
-                    for t in tasks
-                    if t.get("assignee_id") == assignee_id
+                    for t in tasks.values() if t.get("assignee_id") == assignee_id
                     and t.get("sprint_id") == sprint_id
                     and t.get("status") != "done"
                 ]
-                current_points = sum(t.get("story_points", 0) for t in assignee_tasks)
+                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values()
 
                 if current_points + story_points > 25:
                     payload = {
@@ -2222,7 +2208,7 @@ class CloneTask(Tool):
         task_id = f"task_{uuid.uuid4().hex[:8]}"
 
         if new_task_id:
-            for t in tasks:
+            for t in tasks.values():
                 if t.get("task_id") == new_task_id:
                     payload = {
                             "error": f"new_task_id {new_task_id} exists. Please enter a unique task_id."
@@ -2250,7 +2236,7 @@ class CloneTask(Tool):
             "cloned_from": source_task_id,
         }
 
-        tasks.append(new_task)
+        data["tasks"][task_id] = new_task
         payload = {"success": True, "new_task": new_task, "source_task_id": source_task_id}
         out = json.dumps(
             payload)
@@ -2300,10 +2286,10 @@ class ResolveBlockedTask(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        task_history = data.get("task_history", [])
+        tasks = data.get("tasks", {}).values()
+        task_history = data.get("task_history", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task '{task_id}' not found"}
             out = json.dumps(payload)
@@ -2318,7 +2304,7 @@ class ResolveBlockedTask(Tool):
             task["blocked_by"] = []
         else:
             for dep_id in task.get("dependencies", []):
-                dep_task = next((t for t in tasks if t.get("task_id") == dep_id), None)
+                dep_task = next((t for t in tasks.values() if t.get("task_id") == dep_id), None)
 
                 if dep_task and dep_task.get("status") != "done":
                     unresolved_deps.append(dep_id)
@@ -2339,15 +2325,15 @@ class ResolveBlockedTask(Tool):
             "resolution": resolution,
             "timestamp": datetime.now().isoformat(),
         }
-        task_history.append(history_entry)
+        data["task_history"][history_entry["task_history_id"]] = history_entry
 
         task["status"] = "todo"
         task["blocked_date"] = None
         task["updated_date"] = datetime.now().isoformat()
 
         if task.get("escalated"):
-            escalations = data.get("escalations", [])
-            for esc in escalations:
+            escalations = data.get("escalations", {}).values()
+            for esc in escalations.values():
                 if esc.get("task_id") == task_id and not esc.get("resolved"):
                     esc["resolved"] = True
                     esc["resolution_date"] = datetime.now().isoformat()
@@ -2392,28 +2378,27 @@ class GenerateSprintReport(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
-        tasks = data.get("tasks", [])
-        time_logs = data.get("time_logs", [])
+        sprints = data.get("sprints", {}).values()
+        tasks = data.get("tasks", {}).values()
+        time_logs = data.get("time_logs", {}).values()
 
-        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
         if not sprint:
             payload = {"error": f"Sprint '{sprint_id}' not found"}
             out = json.dumps(payload)
             return out
 
-        sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
+        sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
 
         total_tasks = len(sprint_tasks)
-        completed_tasks = [t for t in sprint_tasks if t.get("status") == "done"]
-        blocked_tasks = [t for t in sprint_tasks if t.get("status") == "blocked"]
+        completed_tasks = [t for t in sprint_tasks.values() if t.get("status") == "done"]
+        blocked_tasks = [t for t in sprint_tasks.values() if t.get("status") == "blocked"]
 
         sprint_time_logs = [
             log
-            for log in time_logs
-            if any(t.get("task_id") == log.get("task_id") for t in sprint_tasks)
+            for log in time_logs.values() if any(t.get("task_id") == log.get("task_id") for t in sprint_tasks.values()
         ]
-        #total_hours_logged = sum(log.get("hours", 0) for log in sprint_time_logs)
+        #total_hours_logged = sum(log.get("hours", 0) for log in sprint_time_logs.values()
 
         assignee_performance = {}
         for task in sprint_tasks:
@@ -2448,7 +2433,7 @@ class GenerateSprintReport(Tool):
                 ]
                 if task.get("status") == "done":
                     required_hours = task.get("story_points", 0) * 2 * 0.5
-                    logged_hours = sum(log.get("hours", 0) for log in task_logs)
+                    logged_hours = sum(log.get("hours", 0) for log in task_logs.values()
                     if logged_hours < required_hours:
                         compliance_issues.append(
                             {
@@ -2527,11 +2512,11 @@ class GenerateSprintReport(Tool):
 class CheckBlockedTasksForEscalation(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], check_all_sprints: bool = True, sprint_id: str = None) -> str:
-        tasks = data.get("tasks", [])
-        task_history = data.get("task_history", [])
+        tasks = data.get("tasks", {}).values()
+        task_history = data.get("task_history", {}).values()
 
         if sprint_id:
-            tasks_to_check = [t for t in tasks if t.get("sprint_id") == sprint_id]
+            tasks_to_check = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
         elif check_all_sprints:
             tasks_to_check = tasks
         else:
@@ -2541,7 +2526,7 @@ class CheckBlockedTasksForEscalation(Tool):
             out = json.dumps(payload)
             return out
 
-        blocked_tasks = [t for t in tasks_to_check if t.get("status") == "blocked"]
+        blocked_tasks = [t for t in tasks_to_check.values() if t.get("status") == "blocked"]
 
         tasks_needing_escalation = []
 
@@ -2552,8 +2537,7 @@ class CheckBlockedTasksForEscalation(Tool):
             task_id = task.get("task_id")
             blocked_history = [
                 h
-                for h in task_history
-                if h.get("task_id") == task_id
+                for h in task_history.values() if h.get("task_id") == task_id
                 and h.get("action") == "status_changed"
                 and h.get("to_status") == "blocked"
             ]
@@ -2607,11 +2591,11 @@ class CheckBlockedTasksForEscalation(Tool):
 class CheckTimeLoggingCompliance(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sprint_id: str = None, check_all: bool = False) -> str:
-        tasks = data.get("tasks", [])
-        time_logs = data.get("time_logs", [])
+        tasks = data.get("tasks", {}).values()
+        time_logs = data.get("time_logs", {}).values()
 
         if sprint_id:
-            tasks_to_check = [t for t in tasks if t.get("sprint_id") == sprint_id]
+            tasks_to_check = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
         elif check_all:
             tasks_to_check = tasks
         else:
@@ -2658,10 +2642,9 @@ class CheckTimeLoggingCompliance(Tool):
                 if task.get("status") == "done":
                     task_logs = [
                         log
-                        for log in time_logs
-                        if log.get("task_id") == task.get("task_id")
+                        for log in time_logs.values() if log.get("task_id") == task.get("task_id")
                     ]
-                    total_hours = sum(log.get("hours", 0) for log in task_logs)
+                    total_hours = sum(log.get("hours", 0) for log in task_logs.values()
                     required_hours = task.get("story_points", 0) * 2 * 0.5
 
                     if total_hours < required_hours:

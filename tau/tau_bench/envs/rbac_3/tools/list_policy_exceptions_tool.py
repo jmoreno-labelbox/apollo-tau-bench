@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListPolicyExceptionsTool(Tool):
@@ -47,7 +47,7 @@ class ListPolicyExceptionsTool(Tool):
         dt_from = _parse_iso(date_from)
         dt_to = _parse_iso(date_to)
 
-        exceptions: list[dict[str, Any]] = data.get("policy_exceptions", [])
+        exceptions: list[dict[str, Any]] = data.get("policy_exceptions", {}).values()
         out: list[dict[str, Any]] = []
 
         for rec in exceptions:

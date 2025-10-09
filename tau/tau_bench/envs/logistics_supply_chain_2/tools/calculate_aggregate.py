@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateAggregate(Tool):
@@ -28,7 +28,7 @@ class CalculateAggregate(Tool):
         import json as json_module
         # Support both 'json' and 'json_name' for backward compatibility
         data_key = json_name or json
-        dataset = data.get(data_key, [])
+        dataset = data.get(data_key, {}).values()
 
         result = []
         for instance in dataset:
@@ -37,7 +37,7 @@ class CalculateAggregate(Tool):
             else:
                 result.append([instance[key], instance[value]])
         if list_of_ids:
-            result = [r for r in result if r[0] in list_of_ids]
+            result = [r for r in result.values() if r[0] in list_of_ids]
         result = sorted(result, key=lambda x: x[1])
         min_value = min([result[i][1] for i in range(len(result))])
         min_keys = [r[0] for r in result if r[1] == min_value]

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetDataBackupInfo(Tool):
@@ -15,11 +15,11 @@ class GetDataBackupInfo(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], backup_id: Any = None) -> str:
-        backups = data.get("data_backups", [])
+        backups = data.get("data_backups", {}).values()
         if not backups:
             return _error("No backups found.")
         if backup_id:
-            match = _find_one(backups, "backup_id", backup_id)
+            match = _find_one(list(backups.values()), "backup_id", backup_id)
             if not match:
                 return _error(f"Backup '{backup_id}' not found.")
             payload = match

@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCitationGraph(Tool):
@@ -26,19 +26,17 @@ class GetCitationGraph(Tool):
             out = json.dumps(payload)
             return out
 
-        citations = data.get("citations", [])
+        citations = data.get("citations", {}).values()
 
         # Functionality taken from the previous FindCommonCitations tool
         if compare_with_article_id:
             cites1 = {
                 c["referenced_paper_id"]
-                for c in citations
-                if c.get("origin_paper_id") == article_id
+                for c in citations.values() if c.get("origin_paper_id") == article_id
             }
             cites2 = {
                 c["referenced_paper_id"]
-                for c in citations
-                if c.get("origin_paper_id") == compare_with_article_id
+                for c in citations.values() if c.get("origin_paper_id") == compare_with_article_id
             }
             common_citations = list(cites1.intersection(cites2))
             payload = {
@@ -55,13 +53,11 @@ class GetCitationGraph(Tool):
         else:
             cited_by = [
                 c["origin_paper_id"]
-                for c in citations
-                if c.get("referenced_paper_id") == article_id
+                for c in citations.values() if c.get("referenced_paper_id") == article_id
             ]
             cites = [
                 c["referenced_paper_id"]
-                for c in citations
-                if c.get("origin_paper_id") == article_id
+                for c in citations.values() if c.get("origin_paper_id") == article_id
             ]
             result = {"article_id": article_id, "cited_by": cited_by, "cites": cites}
             payload = result

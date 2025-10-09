@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetClusterById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cluster_id: str) -> str:
         cluster_id = _sid(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", [])
-        cluster = next((c for c in clusters if c.get("cluster_id") == cluster_id), None)
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        cluster = next((c for c in clusters.values() if c.get("cluster_id") == cluster_id), None)
         payload = cluster or {"error": f"cluster {cluster_id} not found"}
         out = json.dumps(
             payload, indent=2

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindCarriers(Tool):
@@ -16,7 +16,7 @@ class FindCarriers(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], transport_mode: str, carriers: list = None) -> str:
         """Run the tool using the specified parameters."""
-        carriers = carriers if carriers is not None else data.get("carriers", [])
+        carriers = carriers if carriers is not None else data.get("carriers", {}).values()
         results = [
             carrier
             for carrier in carriers

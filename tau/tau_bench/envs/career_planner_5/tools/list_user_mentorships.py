@@ -7,18 +7,17 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListUserMentorships(Tool):
     @staticmethod
     def invoke(data, user_id: str, user_mentorship_relationships: list = None) -> str:
         if user_mentorship_relationships is None:
-            user_mentorship_relationships = data.get("user_mentorship_relationships", [])
+            user_mentorship_relationships = data.get("user_mentorship_relationships", {}).values()
         rels = [
             rel
-            for rel in user_mentorship_relationships
-            if rel.get("mentee_id") == user_id
+            for rel in user_mentorship_relationships.values() if rel.get("mentee_id") == user_id
         ]
         payload = {"mentorships": rels}
         out = json.dumps(payload, indent=2)

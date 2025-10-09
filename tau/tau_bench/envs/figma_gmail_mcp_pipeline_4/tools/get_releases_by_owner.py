@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetReleasesByOwner(Tool):
@@ -30,11 +30,11 @@ class GetReleasesByOwner(Tool):
             out = json.dumps(payload)
             return out
 
-        releases = data.get("releases", [])
+        releases = data.get("releases", {}).values()
 
         # Sort releases based on specified criteria
         results = []
-        for release in releases:
+        for release in releases.values():
             # Main filter - owner email
             if release.get("owner_email") != owner_email:
                 continue

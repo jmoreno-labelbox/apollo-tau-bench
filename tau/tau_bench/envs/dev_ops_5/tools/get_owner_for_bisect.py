@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetOwnerForBisect(Tool):
@@ -15,8 +15,8 @@ class GetOwnerForBisect(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], bisect_id: str = None) -> str:
-        bisect_results = data.get("bisect_results", [])
-        ownership_map = data.get("ownership_map", [])
+        bisect_results = data.get("bisect_results", {}).values()
+        ownership_map = data.get("ownership_map", {}).values()
 
         #1. Locate the bisect result record
         bisect_record = None
@@ -47,7 +47,7 @@ class GetOwnerForBisect(Tool):
         #4. Identify the most specific owner for the primary suspect file using the ownership map
         most_specific_owner = None
         longest_match = -1
-        for ownership in ownership_map:
+        for ownership in ownership_map.values():
             owner_path = ownership.get("file_path")
             if primary_suspect_file.startswith(owner_path):
                 if len(owner_path) > longest_match:

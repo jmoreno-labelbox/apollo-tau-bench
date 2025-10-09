@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateReservation(Tool):
@@ -70,11 +70,11 @@ class UpdateReservation(Tool):
                 payload)
             return out
 
-        reservations = data.get("reservations", [])
+        reservations = data.get("reservations", {}).values()
         target_reservation = None
         reservation_index = None
 
-        for i, reservation in enumerate(reservations):
+        for i, reservation in enumerate(reservations.values():
             if reservation.get("reservation_id") == reservation_id:
                 target_reservation = reservation
                 reservation_index = i
@@ -87,11 +87,11 @@ class UpdateReservation(Tool):
 
         #Identify the user linked to this reservation
         user_id = target_reservation.get("user_id")
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         target_user = None
         user_index = None
 
-        for i, user in enumerate(users):
+        for i, user in enumerate(users.values():
             user_reservations = user.get("reservations", [])
             if reservation_id in user_reservations:
                 target_user = user
@@ -254,7 +254,7 @@ class UpdateReservation(Tool):
                     return out
 
             target_reservation["flights"] = flights
-            new_total_cost = sum(flight["price"] for flight in flights)
+            new_total_cost = sum(flight["price"] for flight in flights.values()
             updates_made.append("flights")
 
             if flights:
@@ -308,7 +308,7 @@ class UpdateReservation(Tool):
             payment_method = None
 
             if payment_method_id is not None:
-                payment_methods = target_user.get("payment_methods", {})
+                payment_methods = target_user.get("payment_methods", {}).values()
                 if payment_method_id not in payment_methods:
                     available_methods = list(payment_methods.keys())
                     #Attempt to locate a payment method that has adequate funds

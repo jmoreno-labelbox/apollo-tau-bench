@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateIssue(Tool):
@@ -26,14 +26,14 @@ class UpdateIssue(Tool):
     ) -> str:
         """Update issue with comprehensive tracking of changes, activity, and automated workflow triggers."""
         pass
-        issues_data = data.get("issues", [])
-        auth_users = data.get("authentication", [])
+        issues_data = data.get("issues", {}).values()
+        auth_users = data.get("authentication", {}).values()
 
         #Retrieve the current user for tracking purposes
         current_user = auth_users[0]["username"] if auth_users else "system"
         update_timestamp = "2023-12-05T12:00:00Z"
 
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values():
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 try:
                     issue_idx = issue_entry["issue_numbers"].index(issue_number)

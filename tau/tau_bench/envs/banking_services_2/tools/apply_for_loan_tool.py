@@ -7,7 +7,7 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ApplyForLoanTool(Tool):
@@ -15,7 +15,7 @@ class ApplyForLoanTool(Tool):
     def invoke(data: Dict[str, Any], customer_id: str = None, loan_type: str = None, 
                requested_amount: float = None, purpose: str = None, 
                annual_income: float = None) -> str:
-        loan_applications = data.get('loan_applications', [])
+        loan_applications = data.get('loan_applications', {}).values()
 
         application_id = f"loan_app_{generate_unique_id()}"
 
@@ -43,7 +43,7 @@ class ApplyForLoanTool(Tool):
             "approved_amount": None
         }
 
-        loan_applications.append(new_application)
+        loan_data["applications"][application_id] = new_application
 
         return json.dumps({
             "application_id": application_id,

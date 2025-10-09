@@ -8,14 +8,14 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateShippingLabels(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str, carrier_scac: str, outbound_orders: list = None, carriers: list = None) -> str:
-        orders = outbound_orders if outbound_orders is not None else data.get("outbound_orders", [])
-        carriers = carriers if carriers is not None else data.get("carriers", [])
+        orders = outbound_orders if outbound_orders is not None else data.get("outbound_orders", {}).values()
+        carriers = carriers if carriers is not None else data.get("carriers", {}).values()
 
         order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:

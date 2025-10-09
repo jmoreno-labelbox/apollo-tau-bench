@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateFixPlanFromAuditTool(Tool):
@@ -49,12 +49,12 @@ class GenerateFixPlanFromAuditTool(Tool):
 
         ds = [
             r
-            for r in data.get("audit_findings_ds", [])
+            for r in data.get("audit_findings_ds", {}).values()
             if r.get("audit_id") == audit_id
         ]
         a11y = [
             r
-            for r in data.get("audit_findings_a11y", [])
+            for r in data.get("audit_findings_a11y", {}).values()
             if r.get("audit_id") == audit_id
         ]
         grouped: dict[str, list[dict[str, Any]]] = {}

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DenyPolicyExceptionTool(Tool):
@@ -15,7 +15,7 @@ class DenyPolicyExceptionTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], exception_id: str = None, reviewed_by: str = None, reviewed_on: str = None) -> str:
-        for e in data.get("policy_exceptions", []):
+        for e in data.get("policy_exceptions", {}).values():
             if e["exception_id"] == exception_id:
                 e["status"] = "DENIED"
                 e["reviewed_by"] = reviewed_by

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateUserMembership(Tool):
@@ -41,11 +41,11 @@ class UpdateUserMembership(Tool):
             return out
 
         # Locate the user
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         target_user = None
         user_index = None
 
-        for i, user in enumerate(users):
+        for i, user in enumerate(users.values():
             if user.get("email") == user_email:
                 target_user = user
                 user_index = i

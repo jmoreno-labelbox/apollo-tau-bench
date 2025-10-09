@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ForecastInflows(Tool):
@@ -24,11 +24,11 @@ class ForecastInflows(Tool):
         import datetime as _dt
 
         today = _dt.datetime.fromisoformat("2024-11-30")
-        invoices = data.get("invoices", [])
+        invoices = data.get("invoices", {}).values()
         total_expected = 0.0
         breakdown = []
         for inv_id in invoices_ids:
-            inv = next((i for i in invoices if i.get("invoice_id") == inv_id), None)
+            inv = next((i for i in invoices.values() if i.get("invoice_id") == inv_id), None)
             if not inv or inv.get("paid_at"):
                 continue
             inv_date = _dt.datetime.fromisoformat(inv["invoice_date"])

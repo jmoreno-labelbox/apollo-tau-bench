@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ArchiveUserAppAccounts(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        app_accounts = data.get("app_accounts", [])
+        app_accounts = data.get("app_accounts", {}).values()
         archived_count = 0
         for acc in app_accounts:
             if acc.get("employee_id") == employee_id:

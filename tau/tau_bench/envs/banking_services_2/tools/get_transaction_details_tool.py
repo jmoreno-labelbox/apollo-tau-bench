@@ -7,15 +7,15 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTransactionDetailsTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], transaction_id: str = None) -> str:
-        transactions = data.get('transactions', [])
+        transactions = data.get('transactions', {}).values()
 
-        for transaction in transactions:
+        for transaction in transactions.values():
             if transaction['transaction_id'] == transaction_id:
                 return json.dumps({
                     'transaction_id': transaction['transaction_id'],

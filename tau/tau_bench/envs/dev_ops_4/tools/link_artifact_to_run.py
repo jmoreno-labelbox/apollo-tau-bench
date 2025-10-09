@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LinkArtifactToRun(Tool):
@@ -38,8 +38,8 @@ class LinkArtifactToRun(Tool):
         # Support artifact_id as an alternative to artifacts_uri
         if artifact_id is not None:
             artifacts_uri = artifact_id
-        runs = data.get("build_runs", [])
-        run = next((r for r in runs if r.get("id") == run_id), None)
+        runs = data.get("build_runs", {}).values()
+        run = next((r for r in runs.values() if r.get("id") == run_id), None)
         if not run:
             payload = {"error": "run_not_found", "run_id": run_id}
             out = json.dumps(payload)

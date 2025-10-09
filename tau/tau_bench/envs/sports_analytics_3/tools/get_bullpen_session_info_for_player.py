@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetBullpenSessionInfoForPlayer(Tool):
@@ -38,7 +38,7 @@ class GetBullpenSessionInfoForPlayer(Tool):
             return out
 
         #2) Access DB
-        sessions: list[dict[str, Any]] = data.get("bullpen_sessions", [])
+        sessions: list[dict[str, Any]] = data.get("bullpen_sessions", {}).values()
 
         #3) Filter based on exact fields
         def match(session: dict[str, Any]) -> bool:
@@ -54,7 +54,7 @@ class GetBullpenSessionInfoForPlayer(Tool):
                 return False
             return True
 
-        matches = [s for s in sessions if match(s)]
+        matches = [s for s in sessions.values() if match(s)]
 
         if not matches:
             #Construct a clear, structured error

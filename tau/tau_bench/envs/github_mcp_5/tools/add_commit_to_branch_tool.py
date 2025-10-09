@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddCommitToBranchTool(Tool):
@@ -65,12 +65,12 @@ class AddCommitToBranchTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", [])
+        commits = data.get("commits", {}).values()
         if any(
             c.get("repo") == repo_name
             and c.get("message") == message
             and c.get("branch") == branch
-            for c in commits
+            for c in commits.values()
         ):
             return _response(
                 "error",
@@ -90,7 +90,7 @@ class AddCommitToBranchTool(Tool):
             "created_at": CURRENT_DATE,
             "updated_at": CURRENT_DATE,
         }
-        commits.append(new_commit)
+        data["commits"][new_commit["commit_id"]] = new_commit
         return _response("ok", new_commit)
     @staticmethod
     def get_info() -> dict[str, Any]:

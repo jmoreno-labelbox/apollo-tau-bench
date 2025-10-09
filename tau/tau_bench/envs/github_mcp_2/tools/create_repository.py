@@ -16,7 +16,7 @@ class CreateRepository(Tool):
         me = _auth(data)["username"]
 
         repos = _repos(data)
-        if any(r["owner"] == me and r["repo_name"] == repo_name for r in repos):
+        if any(r["owner"] == me and r["repo_name"] == repo_name for r in repos.values()):
             payload = {"error": "Repository already exists."}
             out = json.dumps(payload, indent=2)
             return out

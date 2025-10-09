@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RunAndRecordSystemAccessChecksTool(Tool):
@@ -27,7 +27,7 @@ class RunAndRecordSystemAccessChecksTool(Tool):
             return _err("candidate_id or candidate_ids is required.")
 
         candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", [])
+            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
         }
         access_checks = data.setdefault("access_checks", [])
         all_created_records = []
@@ -48,7 +48,7 @@ class RunAndRecordSystemAccessChecksTool(Tool):
             for system_name in systems_to_check:
                 status = "Success"
                 note_nullable = None
-                if (sum(ord(c) for c in cid) + len(system_name)) % 7 == 0:
+                if (sum(ord(c) for c in cid.values() + len(system_name)) % 7 == 0:
                     status = "Failed"
                     note_nullable = (
                         f"Automated check failed. Code: {sum(ord(c) for c in cid[:5])}."

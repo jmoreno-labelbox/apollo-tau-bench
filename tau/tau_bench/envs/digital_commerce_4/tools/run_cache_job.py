@@ -7,21 +7,21 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RunCacheJob(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], org_id: str, job_name: str) -> str:
         org_id = _sid(org_id)
-        jobs = data.get("cache_jobs", [])
+        jobs = data.get("cache_jobs", {}).values()
         valid_jobs = {"Load API Metadata", "Populate Cache Job"}
         if job_name not in valid_jobs:
             payload = {"error": "invalid job name"}
             out = json.dumps(payload, indent=2)
             return out
         updated = []
-        for j in jobs:
+        for j in jobs.values():
             if j.get("org_id") == org_id and j.get("job_name") == job_name:
                 j["last_run_status"] = "Success"
                 j["last_run_time"] = FIXED_NOW

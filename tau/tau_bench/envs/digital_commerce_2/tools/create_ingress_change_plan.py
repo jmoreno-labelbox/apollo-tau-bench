@@ -8,7 +8,7 @@ from decimal import ROUND_HALF_UP, Decimal
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateIngressChangePlan(Tool):
@@ -27,7 +27,7 @@ class CreateIngressChangePlan(Tool):
         env_tag = str(env_tag)
         # locate the rule
         rule = None
-        for r in data.get("aws_security_group_rules", []):
+        for r in data.get("aws_security_group_rules", {}).values():
             if r.get("rule_id") == rule_id:
                 rule = r
                 break

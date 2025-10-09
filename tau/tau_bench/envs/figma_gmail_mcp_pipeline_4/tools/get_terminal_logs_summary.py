@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTerminalLogsSummary(Tool):
@@ -31,11 +31,11 @@ class GetTerminalLogsSummary(Tool):
         """
         Obtains terminal logs with filtering and summarization features.
         """
-        terminal_logs = data.get("terminal_logs", [])
+        terminal_logs = data.get("terminal_logs", {}).values()
 
         # Sort logs based on specified criteria
         results = []
-        for log in terminal_logs:
+        for log in terminal_logs.values():
             # Implement filters
             if log_level:
                 log_message = log.get("message", "")
@@ -52,7 +52,7 @@ class GetTerminalLogsSummary(Tool):
 
             if message_keywords:
                 message = log.get("message", "").lower()
-                if not any(keyword.lower() in message for keyword in message_keywords):
+                if not any(keyword.lower() in message for keyword in message_keywords.values()):
                     continue
 
             # Enforce date filters

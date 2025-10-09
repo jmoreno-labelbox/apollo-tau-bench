@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchSuppliersByProduct:
@@ -45,14 +45,14 @@ class SearchSuppliersByProduct:
             return out
 
         # Get product information for type filtering and availability checking
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         product_name_map = {}
         item_availability_map = {}
 
-        for product in products:
+        for product in products.values():
             product_id_key = product.get("product_id")
             product_name = product.get("name", "").lower()
-            variants = product.get("variants", {})
+            variants = product.get("variants", {}).values()
 
             if product_id_key:
                 product_name_map[product_id_key] = product_name
@@ -96,14 +96,14 @@ class SearchSuppliersByProduct:
                     out = json.dumps(payload)
                     return out
 
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         matching_suppliers = []
 
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             current_supplier_id = supplier.get("supplier_id")
             supplier_name = supplier.get("name")
             supplier_products = supplier.get("products", [])
-            item_stock = supplier.get("item_stock", {})
+            item_stock = supplier.get("item_stock", {}).values()
 
             # Filter by supplier_id if provided
             if supplier_id and current_supplier_id != supplier_id:
@@ -117,7 +117,7 @@ class SearchSuppliersByProduct:
             supplier_match = {
                 "supplier_id": current_supplier_id,
                 "supplier_name": supplier_name,
-                "contact_info": supplier.get("contact_info", {}),
+                "contact_info": supplier.get("contact_info", {}).values()),
                 "matching_items": [],
             }
 
@@ -147,8 +147,8 @@ class SearchSuppliersByProduct:
                             if product_type_lower:
                                 # Find the product this item belongs to
                                 item_product_id = None
-                                for prod in products:
-                                    if item_id in prod.get("variants", {}):
+                                for prod in products.values():
+                                    if item_id in prod.get("variants", {}).values():
                                         item_product_id = prod.get("product_id")
                                         break
 
@@ -175,7 +175,7 @@ class SearchSuppliersByProduct:
                                 )
 
                     if supplier_match["matching_items"]:
-                        matching_suppliers.append(supplier_match)
+                        matching_data["suppliers"][supplier_id] = supplier_match
             else:
                 # Product-level search - find all items for this product
                 candidate_items = []
@@ -204,8 +204,8 @@ class SearchSuppliersByProduct:
                             if product_type_lower:
                                 # Find the product this item belongs to
                                 item_product_id = None
-                                for prod in products:
-                                    if stock_item_id in prod.get("variants", {}):
+                                for prod in products.values():
+                                    if stock_item_id in prod.get("variants", {}).values():
                                         item_product_id = prod.get("product_id")
                                         break
 
@@ -257,7 +257,7 @@ class SearchSuppliersByProduct:
                 supplier_match["matching_items"] = candidate_items
 
                 if supplier_match["matching_items"]:
-                    matching_suppliers.append(supplier_match)
+                    matching_data["suppliers"][supplier_id] = supplier_match
 
         # Sort by total available stock (descending)
         for supplier in matching_suppliers:

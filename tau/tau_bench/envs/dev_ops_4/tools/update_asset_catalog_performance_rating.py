@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateAssetCatalogPerformanceRating(Tool):
@@ -15,7 +15,7 @@ class UpdateAssetCatalogPerformanceRating(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], asset_path: str = None, performance_rating: str = None) -> str:
-        rows = data.get("asset_catalog", [])
+        rows = data.get("asset_catalog", {}).values()
         idx = next(
             (i for i, r in enumerate(rows) if r.get("asset_path") == asset_path), None
         )

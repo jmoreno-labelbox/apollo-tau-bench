@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAllPitchesForGame(Tool):
@@ -22,10 +22,10 @@ class GetAllPitchesForGame(Tool):
             return out
 
         #2) Retrieve DB
-        pitches: list[dict[str, Any]] = data.get("pitches", [])
+        pitches: list[dict[str, Any]] = data.get("pitches", {}).values()
 
         #3) Filter and order deterministically within the game
-        result = [p for p in pitches if p.get("game_pk") == game_pk]
+        result = [p for p in pitches.values() if p.get("game_pk") == game_pk]
         if not result:
             payload = {"error": f"No pitches found for game_pk {game_pk}"}
             out = json.dumps(

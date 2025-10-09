@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AssignCourierAndCreateTrackingTool(Tool):
@@ -48,16 +48,16 @@ class AssignCourierAndCreateTrackingTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        orders = data.get("orders", [])
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        orders = data.get("orders", {}).values()
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"order_id '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
 
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         user = next(
-            (u for u in users if u.get("user_id") == order.get("user_id")), None
+            (u for u in users.values() if u.get("user_id") == order.get("user_id")), None
         )
         if not user:
             payload = {"error": f"user '{order.get('user_id')}' not found"}
@@ -67,9 +67,9 @@ class AssignCourierAndCreateTrackingTool(Tool):
             return out
 
         country = ((user.get("address") or {}).get("country")) or "USA"
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         courier = next(
-            (c for c in couriers if country in (c.get("coverage_area") or [])),
+            (c for c in couriers.values() if country in (c.get("coverage_area") or [])),
             couriers[0] if couriers else None,
         )
         if not courier:
@@ -78,7 +78,7 @@ class AssignCourierAndCreateTrackingTool(Tool):
             return out
 
         used = {
-            tid for t in data.get("tracking", []) for tid in t.get("tracking_id", [])
+            tid for t in data.get("tracking", {}).values() for tid in t.get("tracking_id", [])
         }
         tid = next(
             (tid for tid in courier.get("tracking_ids", []) if tid not in used), None

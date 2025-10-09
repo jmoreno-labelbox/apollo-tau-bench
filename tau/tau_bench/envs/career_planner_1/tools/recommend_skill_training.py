@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RecommendSkillTraining(Tool):
@@ -16,7 +16,7 @@ class RecommendSkillTraining(Tool):
     def invoke(data: dict[str, Any], user_id: str = None, skill: str = None) -> str:
         # Confirm that the skill is pertinent to available roles
         valid_skills = set()
-        for role_entry in data.get("role_skill_catalog", []):
+        for role_entry in data.get("role_skill_catalog", {}).values():
             skills = role_entry.get("required_skills", [])
             if isinstance(skills, list):
                 for skill_item in skills:

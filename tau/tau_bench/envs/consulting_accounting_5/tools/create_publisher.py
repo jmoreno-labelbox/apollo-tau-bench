@@ -19,7 +19,7 @@ class CreatePublisher(Tool):
             "created_at": "2024-08-08T12:00:00",
             "updated_at": "2024-08-08T12:00:00",
         }
-        data["publishers"].append(new_publisher)
+        data["publishers"][publisher_id] = new_publisher
         return json.dumps(new_publisher["publisher_id"])
     @staticmethod
     def get_info() -> Dict[str, Any]:

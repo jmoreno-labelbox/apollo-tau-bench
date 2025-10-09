@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindWorkflow(Tool):
@@ -19,7 +19,7 @@ class FindWorkflow(Tool):
         uid = employee_id
         name = workflow_name
 
-        for wf in data.get("hr_workflows", []):
+        for wf in data.get("hr_workflows", {}).values():
             # Verify if the workflow name matches initially
             if wf.get("workflow_name", "").lower() == name.lower():
                 # Verify the presence of a top-level employee_id (e.g., Performance Review)

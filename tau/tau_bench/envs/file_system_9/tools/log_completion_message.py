@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LogCompletionMessage(Tool):
@@ -15,7 +15,7 @@ class LogCompletionMessage(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str = None, user_id: str = None, message: str = None) -> str:
-        completion_messages = data.get("completion_messages", [])
+        completion_messages = data.get("completion_messages", {}).values()
         max_id = 0
         if completion_messages:
             for msg in completion_messages:

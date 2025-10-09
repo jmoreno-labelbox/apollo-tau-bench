@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateGmailMessageStatus(Tool):
@@ -38,11 +38,11 @@ class UpdateGmailMessageStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        gmail_messages = data.get("gmail_messages", [])
+        gmail_messages = data.get("gmail_messages", {}).values()
 
         # Locate the message
         message_found = False
-        for message in gmail_messages:
+        for message in gmail_messages.values():
             if message.get("message_id") == message_id:
                 message_found = True
 

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCustomersAboveXSpend(Tool):  #VIEW
@@ -15,7 +15,7 @@ class GetCustomersAboveXSpend(Tool):  #VIEW
     def invoke(data: dict[str, Any], transactions: list[dict[str, Any]] = None, amount: float = None) -> str:
         spend_by_customer = {}
         # Use transactions from data if not provided
-        txn_list = transactions if transactions is not None else data.get("transactions", [])
+        txn_list = transactions if transactions is not None else data.get("transactions", {}).values()
         for txn in txn_list:
             customer_id = txn.get("customer_id")
             total_amount = txn.get("total_amount", 0.0)

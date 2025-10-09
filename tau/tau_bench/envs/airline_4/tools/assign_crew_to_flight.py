@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AssignCrewToFlight(Tool):
@@ -36,13 +36,13 @@ class AssignCrewToFlight(Tool):
             return out
 
         #Retrieve data collections
-        crew_members = data.get("crew_members", [])
-        flights = data.get("flights", [])
-        flight_crew_assignments = data.get("flight_crew_assignments", [])
+        crew_members = data.get("crew_members", {}).values()
+        flights = data.get("flights", {}).values()
+        flight_crew_assignments = data.get("flight_crew_assignments", {}).values()
 
         #Confirm the existence of the crew member
         target_crew_member = None
-        for crew_member in crew_members:
+        for crew_member in crew_members.values():
             if crew_member.get("crew_member_id") == crew_member_id:
                 target_crew_member = crew_member
                 break
@@ -55,7 +55,7 @@ class AssignCrewToFlight(Tool):
 
         #Ensure the flight is present
         flight_exists = False
-        for flight in flights:
+        for flight in flights.values():
             if flight.get("flight_number") == flight_number:
                 flight_exists = True
                 break
@@ -67,10 +67,10 @@ class AssignCrewToFlight(Tool):
             return out
 
         #Verify if the crew member is already allocated to this flight
-        for assignment in flight_crew_assignments:
+        for assignment in flight_crew_assignments.values()):
             if (
-                assignment.get("flight", {}).get("flight_id") == flight_id
-                and assignment.get("crew_member", {}).get("crew_member_id")
+                assignment.get("flight", {}).values().get("flight_id") == flight_id
+                and assignment.get("crew_member", {}).values().get("crew_member_id")
                 == crew_member_id
             ):
                 payload = {
@@ -85,9 +85,9 @@ class AssignCrewToFlight(Tool):
 
         #Determine if the role is already occupied for this flight (Captain and First Officer must be distinct)
         if assigned_role in ["Captain", "First Officer"]:
-            for assignment in flight_crew_assignments:
+            for assignment in flight_crew_assignments.values():
                 if (
-                    assignment.get("flight", {}).get("flight_id") == flight_id
+                    assignment.get("flight", {}).values().get("flight_id") == flight_id
                     and assignment.get("assigned_role") == assigned_role
                 ):
                     payload = {
@@ -105,7 +105,7 @@ class AssignCrewToFlight(Tool):
         #Create a new assignment identifier
         existing_ids = [
             assignment.get("assignment_id", "")
-            for assignment in flight_crew_assignments
+            for assignment in flight_crew_assignments.values()
         ]
         assignment_numbers = []
         for id_str in existing_ids:
@@ -127,7 +127,7 @@ class AssignCrewToFlight(Tool):
         }
 
         #Include in the assignments list
-        flight_crew_assignments.append(new_assignment)
+        data["flight_crew_assignments"][new_assignment["flight_crew_assignment_id"]] = new_assignment
         payload = {"success": True, "assignment_created": new_assignment}
         out = json.dumps(
             payload, indent=2

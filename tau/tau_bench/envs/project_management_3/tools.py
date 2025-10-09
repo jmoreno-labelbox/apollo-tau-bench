@@ -11,7 +11,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -33,12 +33,12 @@ class CreateProjectBudget(Tool):
             out = json.dumps(payload)
             return out
 
-        budgets = data.get("budgets", [])
-        projects = data.get("projects", [])
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
+        budgets = data.get("budgets", {}).values()
+        projects = data.get("projects", {}).values()
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
@@ -53,8 +53,7 @@ class CreateProjectBudget(Tool):
 
         project_allocations = [
             a
-            for a in allocations
-            if a.get("project_id") == project_id and a.get("status") == "active"
+            for a in allocations.values() if a.get("project_id") == project_id and a.get("status") == "active"
         ]
 
         total_personnel_cost = 0
@@ -62,8 +61,7 @@ class CreateProjectBudget(Tool):
             employee = next(
                 (
                     e
-                    for e in employees
-                    if e.get("employee_id") == allocation.get("employee_id")
+                    for e in employees.values() if e.get("employee_id") == allocation.get("employee_id")
                 ),
                 None,
             )
@@ -105,7 +103,7 @@ class CreateProjectBudget(Tool):
             "department": project.get("department"),
         }
 
-        budgets.append(new_budget)
+        data["budgets"][budget_id] = new_budget
         payload = {"success": True, "budget": new_budget}
         out = json.dumps(payload)
         return out
@@ -148,14 +146,14 @@ class CalculateProjectCost(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
-        tasks = data.get("tasks", [])
-        task_logs = data.get("task_logs", [])
-        expenses = data.get("expenses", [])
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
+        tasks = data.get("tasks", {}).values()
+        task_logs = data.get("task_logs", {}).values()
+        expenses = data.get("expenses", {}).values()
 
         project_allocations = [
-            a for a in allocations if a.get("project_id") == project_id
+            a for a in allocations.values() if a.get("project_id") == project_id
         ]
 
         actual_personnel_cost = 0
@@ -165,8 +163,7 @@ class CalculateProjectCost(Tool):
             employee = next(
                 (
                     e
-                    for e in employees
-                    if e.get("employee_id") == allocation.get("employee_id")
+                    for e in employees.values() if e.get("employee_id") == allocation.get("employee_id")
                 ),
                 None,
             )
@@ -182,18 +179,16 @@ class CalculateProjectCost(Tool):
 
                 employee_tasks = [
                     t
-                    for t in tasks
-                    if t.get("assignee_id") == employee["employee_id"]
+                    for t in tasks.values() if t.get("assignee_id") == employee["employee_id"]
                     and t.get("sprint_id")
-                    and any(a.get("project_id") == project_id for a in allocations)
+                    and any(a.get("project_id") == project_id for a in allocations.values()
                 ]
 
                 actual_hours = 0
                 for task in employee_tasks:
                     task_hours = sum(
                         log.get("hours", 0)
-                        for log in task_logs
-                        if log.get("task_id") == task["task_id"]
+                        for log in task_logs.values() if log.get("task_id") == task["task_id"]
                     )
                     actual_hours += task_hours
 
@@ -207,13 +202,12 @@ class CalculateProjectCost(Tool):
 
         project_expenses = [
             e
-            for e in expenses
-            if e.get("project_id") == project_id and e.get("status") == "approved"
+            for e in expenses.values() if e.get("project_id") == project_id and e.get("status") == "approved"
         ]
-        non_personnel_cost = sum(e.get("amount", 0) for e in project_expenses)
+        non_personnel_cost = sum(e.get("amount", 0) for e in project_expenses.values()
 
-        teams = data.get("teams", [])
-        project_teams = [t for t in teams if t.get("project_id") == project_id]
+        teams = data.get("teams", {}).values()
+        project_teams = [t for t in teams.values() if t.get("project_id") == project_id]
 
         cost_breakdown = {
             "project_id": project_id,
@@ -240,12 +234,10 @@ class CalculateProjectCost(Tool):
 
         completed_story_points = sum(
             t.get("story_points", 0)
-            for t in tasks
-            if t.get("status") == "done"
+            for t in tasks.values() if t.get("status") == "done"
             and any(
                 a.get("project_id") == project_id
-                for a in allocations
-                if a.get("employee_id") == t.get("assignee_id")
+                for a in allocations.values() if a.get("employee_id") == t.get("assignee_id")
             )
         )
 
@@ -299,12 +291,12 @@ class ValidateExpenseSubmission(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
-        projects = data.get("projects", [])
-        sprints = data.get("sprints", [])
-        tasks = data.get("tasks", [])
+        allocations = data.get("allocations", {}).values()
+        projects = data.get("projects", {}).values()
+        sprints = data.get("sprints", {}).values()
+        tasks = data.get("tasks", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
@@ -318,8 +310,7 @@ class ValidateExpenseSubmission(Tool):
         employee_allocation = next(
             (
                 a
-                for a in allocations
-                if a.get("employee_id") == employee_id
+                for a in allocations.values() if a.get("employee_id") == employee_id
                 and a.get("project_id") == project_id
                 and a.get("status") == "active"
             ),
@@ -347,7 +338,7 @@ class ValidateExpenseSubmission(Tool):
         }
 
         if sprint_id:
-            sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+            sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
             if sprint:
                 if sprint.get("status") != "active":
                     validation_result["warnings"].append(
@@ -375,7 +366,7 @@ class ValidateExpenseSubmission(Tool):
                         )
 
         if task_id:
-            task = next((t for t in tasks if t.get("task_id") == task_id), None)
+            task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
             if task:
                 if task.get("assignee_id") != employee_id:
                     validation_result["valid"] = False
@@ -443,13 +434,13 @@ class GetTeamBudgetStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        teams = data.get("teams", [])
-        budgets = data.get("budgets", [])
-        expenses = data.get("expenses", [])
-        employees = data.get("employees", [])
-        task_logs = data.get("task_logs", [])
+        teams = data.get("teams", {}).values()
+        budgets = data.get("budgets", {}).values()
+        expenses = data.get("expenses", {}).values()
+        employees = data.get("employees", {}).values()
+        task_logs = data.get("task_logs", {}).values()
 
-        team = next((t for t in teams if t.get("team_id") == team_id), None)
+        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
         if not team:
             payload = {"error": f"Team {team_id} not found"}
             out = json.dumps(payload)
@@ -459,8 +450,7 @@ class GetTeamBudgetStatus(Tool):
         budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -477,7 +467,7 @@ class GetTeamBudgetStatus(Tool):
 
         for member_id in team_members:
             employee = next(
-                (e for e in employees if e.get("employee_id") == member_id), None
+                (e for e in employees.values() if e.get("employee_id") == member_id), None
             )
             if employee:
                 hourly_rate = (
@@ -487,9 +477,9 @@ class GetTeamBudgetStatus(Tool):
                     hourly_rate = 175
 
                 member_logs = [
-                    log for log in task_logs if log.get("employee_id") == member_id
+                    log for log in task_logs.values() if log.get("employee_id") == member_id
                 ]
-                total_hours = sum(log.get("hours", 0) for log in member_logs)
+                total_hours = sum(log.get("hours", 0) for log in member_logs.values()
                 member_cost = total_hours * hourly_rate
 
                 member_costs[member_id] = {
@@ -503,13 +493,12 @@ class GetTeamBudgetStatus(Tool):
 
         team_expenses = [
             e
-            for e in expenses
-            if e.get("employee_id") in team_members
+            for e in expenses.values() if e.get("employee_id") in team_members
             and e.get("project_id") == project_id
             and e.get("status") == "approved"
         ]
 
-        total_expenses = sum(e.get("amount", 0) for e in team_expenses)
+        total_expenses = sum(e.get("amount", 0) for e in team_expenses.values()
 
         status = {
             "budget_utilization": (
@@ -586,13 +575,13 @@ class ReconcileSprintExpenses(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
-        tasks = data.get("tasks", [])
-        task_logs = data.get("task_logs", [])
-        expenses = data.get("expenses", [])
-        employees = data.get("employees", [])
+        sprints = data.get("sprints", {}).values()
+        tasks = data.get("tasks", {}).values()
+        task_logs = data.get("task_logs", {}).values()
+        expenses = data.get("expenses", {}).values()
+        employees = data.get("employees", {}).values()
 
-        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
         if not sprint:
             payload = {"error": f"Sprint {sprint_id} not found"}
             out = json.dumps(payload)
@@ -603,7 +592,7 @@ class ReconcileSprintExpenses(Tool):
             out = json.dumps(payload)
             return out
 
-        sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
+        sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
 
         planned_story_points = sprint.get("planned_story_points", 0)
         completed_story_points = sprint.get("completed_story_points", 0)
@@ -613,7 +602,7 @@ class ReconcileSprintExpenses(Tool):
 
         for task in sprint_tasks:
             task_time_logs = [
-                log for log in task_logs if log.get("task_id") == task["task_id"]
+                log for log in task_logs.values() if log.get("task_id") == task["task_id"]
             ]
             for log in task_time_logs:
                 employee_id = log.get("employee_id")
@@ -622,7 +611,7 @@ class ReconcileSprintExpenses(Tool):
 
                 if employee_id not in cost_by_employee:
                     employee = next(
-                        (e for e in employees if e.get("employee_id") == employee_id),
+                        (e for e in employees.values() if e.get("employee_id") == employee_id),
                         None,
                     )
                     if employee:
@@ -649,9 +638,9 @@ class ReconcileSprintExpenses(Tool):
         sprint_end = datetime.fromisoformat(sprint["end_date"].replace("Z", "+00:00"))
 
         sprint_expenses = []
-        for expense in expenses:
+        for expense in expenses.values():
             if expense.get("sprint_id") == sprint_id:
-                sprint_expenses.append(expense)
+                sprint_data["expenses"][expense_id] = expense
             elif expense.get("submitted_date"):
 
                 try:
@@ -659,7 +648,7 @@ class ReconcileSprintExpenses(Tool):
                         expense["submitted_date"].replace("Z", "+00:00")
                     )
                     if sprint_start <= submitted_date <= sprint_end:
-                        sprint_expenses.append(expense)
+                        sprint_data["expenses"][expense_id] = expense
                 except:
 
                     pass
@@ -675,7 +664,7 @@ class ReconcileSprintExpenses(Tool):
             else 0
         )
 
-        total_personnel_cost = sum(emp["cost"] for emp in cost_by_employee.values())
+        total_personnel_cost = sum(emp["cost"] for emp in cost_by_employee.values()
 
         reconciliation = {
             "sprint_id": sprint_id,
@@ -759,15 +748,14 @@ class CreateVendorFromRetrospective(Tool):
             out = json.dumps(payload)
             return out
 
-        vendors = data.get("vendors", [])
-        retrospectives = data.get("retrospectives", [])
-        teams = data.get("teams", [])
+        vendors = data.get("vendors", {}).values()
+        retrospectives = data.get("retrospectives", {}).values()
+        teams = data.get("teams", {}).values()
 
         existing = next(
             (
                 v
-                for v in vendors
-                if v.get("vendor_name", "").lower() == vendor_name.lower()
+                for v in vendors.values() if v.get("vendor_name", "").lower() == vendor_name.lower()
             ),
             None,
         )
@@ -781,14 +769,13 @@ class CreateVendorFromRetrospective(Tool):
             retro = next(
                 (
                     r
-                    for r in retrospectives
-                    if r.get("retrospective_id") == retrospective_id
+                    for r in retrospectives.values() if r.get("retrospective_id") == retrospective_id
                 ),
                 None,
             )
             if retro:
                 team_id = retro.get("team_id")
-                team = next((t for t in teams if t.get("team_id") == team_id), None)
+                team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
                 if team:
                     action_items = retro.get("action_items", [])
                     for item in action_items:
@@ -823,7 +810,7 @@ class CreateVendorFromRetrospective(Tool):
             "preferred_for_skills": team_skills,
         }
 
-        vendors.append(new_vendor)
+        data["vendors"][vendor_id] = new_vendor
         payload = {"success": True, "vendor": new_vendor}
         out = json.dumps(payload)
         return out
@@ -874,15 +861,15 @@ class GenerateDepartmentFinancialReport(Tool):
             out = json.dumps(payload)
             return out
 
-        departments = data.get("departments", [])
-        projects = data.get("projects", [])
-        budgets = data.get("budgets", [])
-        employees = data.get("employees", [])
-        allocations = data.get("allocations", [])
-        data.get("expenses", [])
+        departments = data.get("departments", {}).values()
+        projects = data.get("projects", {}).values()
+        budgets = data.get("budgets", {}).values()
+        employees = data.get("employees", {}).values()
+        allocations = data.get("allocations", {}).values()
+        data.get("expenses", {}).values()
 
         department = next(
-            (d for d in departments if d.get("department_name") == department_name),
+            (d for d in departments.values() if d.get("department_name") == department_name),
             None,
         )
         if not department:
@@ -890,7 +877,7 @@ class GenerateDepartmentFinancialReport(Tool):
             out = json.dumps(payload)
             return out
 
-        dept_projects = [p for p in projects if p.get("department") == department_name]
+        dept_projects = [p for p in projects.values() if p.get("department") == department_name]
 
         total_budget = 0
         total_spent = 0
@@ -901,8 +888,7 @@ class GenerateDepartmentFinancialReport(Tool):
             project_budget = next(
                 (
                     b
-                    for b in budgets
-                    if b.get("project_id") == project["project_id"]
+                    for b in budgets.values() if b.get("project_id") == project["project_id"]
                     and b.get("fiscal_year") == fiscal_year
                 ),
                 None,
@@ -933,19 +919,18 @@ class GenerateDepartmentFinancialReport(Tool):
         employee_costs = {}
         if include_employee_costs:
             dept_employees = [
-                e for e in employees if e.get("department") == department_name
+                e for e in employees.values() if e.get("department") == department_name
             ]
 
             for employee in dept_employees:
 
                 emp_allocations = [
                     a
-                    for a in allocations
-                    if a.get("employee_id") == employee["employee_id"]
+                    for a in allocations.values() if a.get("employee_id") == employee["employee_id"]
                     and a.get("status") == "active"
                 ]
 
-                total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations)
+                total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values()
                 hourly_rate = (
                     150 if "senior" in employee.get("role", "").lower() else 100
                 )
@@ -990,10 +975,10 @@ class GenerateDepartmentFinancialReport(Tool):
                 "allocated_hours": department.get("allocated_hours", 0),
             },
             "high_priority_projects": len(
-                [p for p in dept_projects if p.get("priority") == "critical"]
+                [p for p in dept_projects.values() if p.get("priority") == "critical"]
             ),
             "projects_over_budget": len(
-                [p for p in project_summaries if p["utilization"] > 90]
+                [p for p in project_summaries.values() if p["utilization"] > 90]
             ),
             "report_generated": datetime.now().isoformat(),
         }
@@ -1049,12 +1034,12 @@ class AllocateTaskExpenses(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        expenses = data.get("expenses", [])
-        allocations = data.get("allocations", [])
-        budgets = data.get("budgets", [])
+        tasks = data.get("tasks", {}).values()
+        expenses = data.get("expenses", {}).values()
+        allocations = data.get("allocations", {}).values()
+        budgets = data.get("budgets", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task {task_id} not found"}
             out = json.dumps(payload)
@@ -1064,8 +1049,7 @@ class AllocateTaskExpenses(Tool):
         employee_allocation = next(
             (
                 a
-                for a in allocations
-                if a.get("employee_id") == employee_id and a.get("status") == "active"
+                for a in allocations.values() if a.get("employee_id") == employee_id and a.get("status") == "active"
             ),
             None,
         )
@@ -1108,13 +1092,12 @@ class AllocateTaskExpenses(Tool):
             },
         }
 
-        expenses.append(new_expense)
+        data["expenses"][expense_id] = new_expense
 
         budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == current_time.year
             ),
             None,
@@ -1180,14 +1163,14 @@ class CalculateVelocityBudgetRatio(Tool):
             out = json.dumps(payload)
             return out
 
-        teams = data.get("teams", [])
-        sprints = data.get("sprints", [])
-        budgets = data.get("budgets", [])
-        expenses = data.get("expenses", [])
-        data.get("task_logs", [])
-        employees = data.get("employees", [])
+        teams = data.get("teams", {}).values()
+        sprints = data.get("sprints", {}).values()
+        budgets = data.get("budgets", {}).values()
+        expenses = data.get("expenses", {}).values()
+        data.get("task_logs", {}).values()
+        employees = data.get("employees", {}).values()
 
-        team = next((t for t in teams if t.get("team_id") == team_id), None)
+        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
         if not team:
             payload = {"error": f"Team {team_id} not found"}
             out = json.dumps(payload)
@@ -1195,8 +1178,7 @@ class CalculateVelocityBudgetRatio(Tool):
 
         team_sprints = [
             s
-            for s in sprints
-            if s.get("team_id") == team_id and s.get("status") == "completed"
+            for s in sprints.values() if s.get("team_id") == team_id and s.get("status") == "completed"
         ]
 
         team_sprints.sort(key=lambda x: x.get("end_date", ""), reverse=True)
@@ -1225,7 +1207,7 @@ class CalculateVelocityBudgetRatio(Tool):
 
             for member_id in team.get("members", []):
                 employee = next(
-                    (e for e in employees if e.get("employee_id") == member_id), None
+                    (e for e in employees.values() if e.get("employee_id") == member_id), None
                 )
                 if employee:
                     hourly_rate = (
@@ -1237,11 +1219,10 @@ class CalculateVelocityBudgetRatio(Tool):
 
             sprint_expenses = [
                 e
-                for e in expenses
-                if e.get("sprint_id") == sprint["sprint_id"]
+                for e in expenses.values() if e.get("sprint_id") == sprint["sprint_id"]
                 and e.get("status") == "approved"
             ]
-            sprint_expense_total = sum(e.get("amount", 0) for e in sprint_expenses)
+            sprint_expense_total = sum(e.get("amount", 0) for e in sprint_expenses.values()
             sprint_cost += sprint_expense_total
 
             total_cost += sprint_cost
@@ -1265,8 +1246,7 @@ class CalculateVelocityBudgetRatio(Tool):
         budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -1374,15 +1354,15 @@ class TransferBudgetBetweenTeams(Tool):
             out = json.dumps(payload)
             return out
 
-        teams = data.get("teams", [])
-        budgets = data.get("budgets", [])
-        budget_transfers = data.get("budget_transfers", [])
+        teams = data.get("teams", {}).values()
+        budgets = data.get("budgets", {}).values()
+        budget_transfers = data.get("budget_transfers", {}).values()
 
         source_team = next(
-            (t for t in teams if t.get("team_id") == source_team_id), None
+            (t for t in teams.values() if t.get("team_id") == source_team_id), None
         )
         target_team = next(
-            (t for t in teams if t.get("team_id") == target_team_id), None
+            (t for t in teams.values() if t.get("team_id") == target_team_id), None
         )
 
         if not source_team or not target_team:
@@ -1396,8 +1376,7 @@ class TransferBudgetBetweenTeams(Tool):
         source_budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == source_project_id
+                for b in budgets.values() if b.get("project_id") == source_project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -1426,8 +1405,7 @@ class TransferBudgetBetweenTeams(Tool):
         target_budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == target_project_id
+                for b in budgets.values() if b.get("project_id") == target_project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -1452,7 +1430,7 @@ class TransferBudgetBetweenTeams(Tool):
             "fiscal_year": fiscal_year,
         }
 
-        budget_transfers.append(new_transfer)
+        data["budget_transfers"][new_transfer["budget_transfer_id"]] = new_transfer
 
         if new_transfer["status"] == "approved":
             source_budget["total_budget"] -= transfer_amount
@@ -1506,13 +1484,13 @@ class GetEmployeeExpenseHistory(Tool):
             out = json.dumps(payload)
             return out
 
-        employees = data.get("employees", [])
-        expenses = data.get("expenses", [])
-        reimbursements = data.get("reimbursements", [])
-        allocations = data.get("allocations", [])
+        employees = data.get("employees", {}).values()
+        expenses = data.get("expenses", {}).values()
+        reimbursements = data.get("reimbursements", {}).values()
+        allocations = data.get("allocations", {}).values()
 
         employee = next(
-            (e for e in employees if e.get("employee_id") == employee_id), None
+            (e for e in employees.values() if e.get("employee_id") == employee_id), None
         )
         if not employee:
             payload = {"error": f"Employee {employee_id} not found"}
@@ -1521,13 +1499,12 @@ class GetEmployeeExpenseHistory(Tool):
 
         employee_expenses = [
             e
-            for e in expenses
-            if e.get("employee_id") == employee_id
+            for e in expenses.values() if e.get("employee_id") == employee_id
             and e.get("fiscal_year") == fiscal_year
         ]
 
         employee_reimbursements = [
-            r for r in reimbursements if r.get("employee_id") == employee_id
+            r for r in reimbursements.values() if r.get("employee_id") == employee_id
         ]
 
         expenses_by_project = {}
@@ -1553,8 +1530,7 @@ class GetEmployeeExpenseHistory(Tool):
         total_allocation_percentage = 0
         active_allocations = [
             a
-            for a in allocations
-            if a.get("employee_id") == employee_id and a.get("status") == "active"
+            for a in allocations.values() if a.get("employee_id") == employee_id and a.get("status") == "active"
         ]
 
         for allocation in active_allocations:
@@ -1568,10 +1544,10 @@ class GetEmployeeExpenseHistory(Tool):
             "employee_name": employee.get("name"),
             "fiscal_year": fiscal_year,
             "expense_summary": {
-                "total_expenses": sum(e.get("amount", 0) for e in employee_expenses),
+                "total_expenses": sum(e.get("amount", 0) for e in employee_expenses.values()),
                 "expense_count": len(employee_expenses),
                 "approved_count": len(
-                    [e for e in employee_expenses if e.get("status") == "approved"]
+                    [e for e in employee_expenses.values() if e.get("status") == "approved"]
                 ),
                 "pending_count": len(
                     [
@@ -1581,7 +1557,7 @@ class GetEmployeeExpenseHistory(Tool):
                     ]
                 ),
                 "rejected_count": len(
-                    [e for e in employee_expenses if e.get("status") == "rejected"]
+                    [e for e in employee_expenses.values() if e.get("status") == "rejected"]
                 ),
             },
             "reimbursement_summary": {
@@ -1609,7 +1585,7 @@ class GetEmployeeExpenseHistory(Tool):
                     ]
                 ),
                 "over_limit_expenses": len(
-                    [e for e in employee_expenses if e.get("amount", 0) > monthly_limit]
+                    [e for e in employee_expenses.values() if e.get("amount", 0) > monthly_limit]
                 ),
             },
         }
@@ -1665,11 +1641,11 @@ class GetEmployeeReimbursementHistory(Tool):
             out = json.dumps(payload)
             return out
 
-        employees = data.get("employees", [])
-        reimbursements = data.get("reimbursements", [])
+        employees = data.get("employees", {}).values()
+        reimbursements = data.get("reimbursements", {}).values()
 
         employee = next(
-            (e for e in employees if e.get("employee_id") == employee_id), None
+            (e for e in employees.values() if e.get("employee_id") == employee_id), None
         )
         if not employee:
             payload = {"error": f"Employee {employee_id} not found"}
@@ -1677,7 +1653,7 @@ class GetEmployeeReimbursementHistory(Tool):
             return out
 
         employee_reimbursements = [
-            r for r in reimbursements if r.get("employee_id") == employee_id
+            r for r in reimbursements.values() if r.get("employee_id") == employee_id
         ]
 
         history = {
@@ -1736,20 +1712,20 @@ class CreateBudgetFromVelocity(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
-        teams = data.get("teams", [])
-        sprints = data.get("sprints", [])
-        budgets = data.get("budgets", [])
-        employees = data.get("employees", [])
+        projects = data.get("projects", {}).values()
+        teams = data.get("teams", {}).values()
+        sprints = data.get("sprints", {}).values()
+        budgets = data.get("budgets", {}).values()
+        employees = data.get("employees", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
             return out
 
         project_team = next(
-            (t for t in teams if t.get("project_id") == project_id), None
+            (t for t in teams.values() if t.get("project_id") == project_id), None
         )
         if not project_team:
             payload = {"error": "No team assigned to project"}
@@ -1758,8 +1734,7 @@ class CreateBudgetFromVelocity(Tool):
 
         team_sprints = [
             s
-            for s in sprints
-            if s.get("team_id") == project_team["team_id"]
+            for s in sprints.values() if s.get("team_id") == project_team["team_id"]
             and s.get("status") == "completed"
         ]
 
@@ -1767,14 +1742,14 @@ class CreateBudgetFromVelocity(Tool):
             avg_velocity = 40
             avg_cost_per_point = 500
         else:
-            total_velocity = sum(s.get("velocity", 0) for s in team_sprints)
+            total_velocity = sum(s.get("velocity", 0) for s in team_sprints.values()
             total_sprints = len(team_sprints)
             avg_velocity = total_velocity / total_sprints if total_sprints > 0 else 40
 
             total_cost = 0
             for member_id in project_team.get("members", []):
                 employee = next(
-                    (e for e in employees if e.get("employee_id") == member_id), None
+                    (e for e in employees.values() if e.get("employee_id") == member_id), None
                 )
                 if employee:
                     hourly_rate = (
@@ -1815,7 +1790,7 @@ class CreateBudgetFromVelocity(Tool):
             "department": project.get("department"),
         }
 
-        budgets.append(new_budget)
+        data["budgets"][budget_id] = new_budget
         payload = {"success": True, "budget": new_budget}
         out = json.dumps(payload)
         return out
@@ -1853,15 +1828,14 @@ class GetBudgetStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        budgets = data.get("budgets", [])
-        expenses = data.get("expenses", [])
-        purchase_orders = data.get("purchase_orders", [])
+        budgets = data.get("budgets", {}).values()
+        expenses = data.get("expenses", {}).values()
+        purchase_orders = data.get("purchase_orders", {}).values()
 
         budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -1877,16 +1851,14 @@ class GetBudgetStatus(Tool):
 
         pending_expenses = sum(
             e.get("amount", 0)
-            for e in expenses
-            if e.get("project_id") == project_id
+            for e in expenses.values() if e.get("project_id") == project_id
             and e.get("status") == "pending_approval"
             and e.get("fiscal_year") == fiscal_year
         )
 
         pending_pos = sum(
             po.get("total_amount", 0)
-            for po in purchase_orders
-            if po.get("project_id") == project_id
+            for po in purchase_orders.values() if po.get("project_id") == project_id
             and po.get("status") == "pending_approval"
         )
 
@@ -1951,11 +1923,11 @@ class ProcessVendorPayment(Tool):
             out = json.dumps(payload)
             return out
 
-        invoices = data.get("invoices", [])
-        payments = data.get("payments", [])
-        vendors = data.get("vendors", [])
+        invoices = data.get("invoices", {}).values()
+        payments = data.get("payments", {}).values()
+        vendors = data.get("vendors", {}).values()
 
-        invoice = next((i for i in invoices if i.get("invoice_id") == invoice_id), None)
+        invoice = next((i for i in invoices.values() if i.get("invoice_id") == invoice_id), None)
         if not invoice:
             payload = {"error": f"Invoice {invoice_id} not found"}
             out = json.dumps(payload)
@@ -2003,14 +1975,14 @@ class ProcessVendorPayment(Tool):
             "days_late": days_late,
         }
 
-        payments.append(new_payment)
+        data["payments"][payment_id] = new_payment
 
         invoice["status"] = "paid"
         invoice["payment_id"] = payment_id
         invoice["paid_date"] = datetime.now(timezone.utc).isoformat()
 
         vendor = next(
-            (v for v in vendors if v.get("vendor_id") == invoice["vendor_id"]), None
+            (v for v in vendors.values() if v.get("vendor_id") == invoice["vendor_id"]), None
         )
         if vendor:
             if "late_payments" not in vendor:
@@ -2088,14 +2060,13 @@ class RequestBudgetModification(Tool):
             out = json.dumps(payload)
             return out
 
-        budget_modifications = data.get("budget_modifications", [])
-        budgets = data.get("budgets", [])
+        budget_modifications = data.get("budget_modifications", {}).values()
+        budgets = data.get("budgets", {}).values()
 
         current_budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -2137,7 +2108,7 @@ class RequestBudgetModification(Tool):
             "fiscal_year": fiscal_year,
         }
 
-        budget_modifications.append(new_modification)
+        data["budget_modifications"][new_modification["budget_modification_id"]] = new_modification
 
         result = {"success": True, "modification_request": new_modification}
 
@@ -2200,18 +2171,18 @@ class GetVendorStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        vendors = data.get("vendors", [])
-        invoices = data.get("invoices", [])
-        data.get("payments", [])
-        purchase_orders = data.get("purchase_orders", [])
+        vendors = data.get("vendors", {}).values()
+        invoices = data.get("invoices", {}).values()
+        data.get("payments", {}).values()
+        purchase_orders = data.get("purchase_orders", {}).values()
 
-        vendor = next((v for v in vendors if v.get("vendor_id") == vendor_id), None)
+        vendor = next((v for v in vendors.values() if v.get("vendor_id") == vendor_id), None)
         if not vendor:
             payload = {"error": f"Vendor {vendor_id} not found"}
             out = json.dumps(payload)
             return out
 
-        vendor_invoices = [i for i in invoices if i.get("vendor_id") == vendor_id]
+        vendor_invoices = [i for i in invoices.values() if i.get("vendor_id") == vendor_id]
 
         outstanding_amount = sum(
             i.get("amount", 0) for i in vendor_invoices if i.get("status") != "paid"
@@ -2219,14 +2190,12 @@ class GetVendorStatus(Tool):
 
         pending_pos = [
             po
-            for po in purchase_orders
-            if po.get("vendor_id") == vendor_id
+            for po in purchase_orders.values() if po.get("vendor_id") == vendor_id
             and po.get("status") == "pending_approval"
         ]
         approved_pos = [
             po
-            for po in purchase_orders
-            if po.get("vendor_id") == vendor_id and po.get("status") == "approved"
+            for po in purchase_orders.values() if po.get("vendor_id") == vendor_id and po.get("status") == "approved"
         ]
 
         late_invoices = []
@@ -2257,11 +2226,11 @@ class GetVendorStatus(Tool):
             "requires_prepayment": vendor.get("late_payments", 0) >= 3,
             "outstanding_amount": outstanding_amount,
             "pending_pos_count": len(pending_pos),
-            "pending_pos_value": sum(po.get("total_amount", 0) for po in pending_pos),
+            "pending_pos_value": sum(po.get("total_amount", 0) for po in pending_pos.values()),
             "approved_pos_count": len(approved_pos),
-            "approved_pos_value": sum(po.get("total_amount", 0) for po in approved_pos),
+            "approved_pos_value": sum(po.get("total_amount", 0) for po in approved_pos.values()),
             "late_invoices": late_invoices,
-            "total_late_fees": sum(inv["late_fee"] for inv in late_invoices),
+            "total_late_fees": sum(inv["late_fee"] for inv in late_invoices.values()),
             "last_payment_date": vendor.get("last_payment_date"),
         }
         payload = status
@@ -2296,11 +2265,11 @@ class AllocateCosts(Tool):
                 payload)
             return out
 
-        expenses = data.get("expenses", [])
-        cost_allocations = data.get("cost_allocations", [])
-        budgets = data.get("budgets", [])
+        expenses = data.get("expenses", {}).values()
+        cost_allocations = data.get("cost_allocations", {}).values()
+        budgets = data.get("budgets", {}).values()
 
-        expense = next((e for e in expenses if e.get("expense_id") == expense_id), None)
+        expense = next((e for e in expenses.values() if e.get("expense_id") == expense_id), None)
         if not expense:
             payload = {"error": f"Expense {expense_id} not found"}
             out = json.dumps(payload)
@@ -2317,7 +2286,7 @@ class AllocateCosts(Tool):
                 payload)
             return out
 
-        total_allocated = sum(split.get("amount", 0) for split in allocation_splits)
+        total_allocated = sum(split.get("amount", 0) for split in allocation_splits.values()
         if abs(total_allocated - expense["amount"]) > 0.01:
             payload = {
                     "error": f"Allocated amounts must match expense total ${expense['amount']}"
@@ -2338,14 +2307,13 @@ class AllocateCosts(Tool):
             "status": "completed",
         }
 
-        cost_allocations.append(new_allocation)
+        cost_data["allocations"][allocation_id] = new_allocation
 
         for split in allocation_splits:
             budget = next(
                 (
                     b
-                    for b in budgets
-                    if b.get("project_id") == split["project_id"]
+                    for b in budgets.values() if b.get("project_id") == split["project_id"]
                     and b.get("fiscal_year") == fiscal_year
                 ),
                 None,
@@ -2356,9 +2324,8 @@ class AllocateCosts(Tool):
 
         unallocated = [
             e
-            for e in expenses
-            if e.get("expense_id")
-            not in [a.get("expense_id") for a in cost_allocations]
+            for e in expenses.values() if e.get("expense_id")
+            not in [a.get("expense_id") for a in cost_allocations.values()]
             and e.get("amount", 0) > 10000
         ]
 
@@ -2436,7 +2403,7 @@ class SubmitReimbursement(Tool):
             out = json.dumps(payload)
             return out
 
-        reimbursements = data.get("reimbursements", [])
+        reimbursements = data.get("reimbursements", {}).values()
 
         expense_dt = datetime.fromisoformat(expense_date.replace("Z", "+00:00"))
 
@@ -2466,7 +2433,7 @@ class SubmitReimbursement(Tool):
             "days_to_submit": days_elapsed,
         }
 
-        reimbursements.append(new_reimbursement)
+        data["reimbursements"][reimbursement_id] = new_reimbursement
         payload = {"success": True, "reimbursement": new_reimbursement}
         out = json.dumps(payload)
         return out
@@ -2534,16 +2501,15 @@ class GetFinancialReport(Tool):
             out = json.dumps(payload)
             return out
 
-        budgets = data.get("budgets", [])
-        expenses = data.get("expenses", [])
-        purchase_orders = data.get("purchase_orders", [])
+        budgets = data.get("budgets", {}).values()
+        expenses = data.get("expenses", {}).values()
+        purchase_orders = data.get("purchase_orders", {}).values()
 
         if report_type == "project":
             budget = next(
                 (
                     b
-                    for b in budgets
-                    if b.get("project_id") == entity_id
+                    for b in budgets.values() if b.get("project_id") == entity_id
                     and b.get("fiscal_year") == fiscal_year
                 ),
                 None,
@@ -2556,8 +2522,7 @@ class GetFinancialReport(Tool):
 
             project_expenses = [
                 e
-                for e in expenses
-                if e.get("project_id") == entity_id
+                for e in expenses.values() if e.get("project_id") == entity_id
                 and e.get("fiscal_year") == fiscal_year
                 and e.get("status") == "approved"
             ]
@@ -2591,16 +2556,14 @@ class GetFinancialReport(Tool):
                     "pending": len(
                         [
                             po
-                            for po in purchase_orders
-                            if po.get("project_id") == entity_id
+                            for po in purchase_orders.values() if po.get("project_id") == entity_id
                             and po.get("status") == "pending_approval"
                         ]
                     ),
                     "approved": len(
                         [
                             po
-                            for po in purchase_orders
-                            if po.get("project_id") == entity_id
+                            for po in purchase_orders.values() if po.get("project_id") == entity_id
                             and po.get("status") == "approved"
                         ]
                     ),
@@ -2682,7 +2645,7 @@ class CreateFinancialAlert(Tool):
             out = json.dumps(payload)
             return out
 
-        financial_alerts = data.get("financial_alerts", [])
+        financial_alerts = data.get("financial_alerts", {}).values()
 
         new_alert = {
             "alert_id": alert_id,
@@ -2697,7 +2660,7 @@ class CreateFinancialAlert(Tool):
             "last_triggered": None,
         }
 
-        financial_alerts.append(new_alert)
+        data["financial_alerts"][new_alert["financial_alert_id"]] = new_alert
         payload = {"success": True, "alert": new_alert}
         out = json.dumps(payload)
         return out
@@ -2756,11 +2719,11 @@ class ProcessBudgetTransfer(Tool):
             out = json.dumps(payload)
             return out
 
-        budget_transfers = data.get("budget_transfers", [])
-        budgets = data.get("budgets", [])
+        budget_transfers = data.get("budget_transfers", {}).values()
+        budgets = data.get("budgets", {}).values()
 
         transfer = next(
-            (t for t in budget_transfers if t.get("transfer_id") == transfer_id), None
+            (t for t in budget_transfers.values() if t.get("transfer_id") == transfer_id), None
         )
         if not transfer:
             payload = {"error": f"Transfer {transfer_id} not found"}
@@ -2782,12 +2745,12 @@ class ProcessBudgetTransfer(Tool):
         }
 
         all_approved = all(
-            transfer["approvals"].get(role, {}).get("action") == "approve"
+            transfer["approvals"].get(role, {}).values().get("action") == "approve"
             for role in transfer["approvals_required"]
         )
 
         any_rejected = any(
-            transfer["approvals"].get(role, {}).get("action") == "reject"
+            transfer["approvals"].get(role, {}).values().get("action") == "reject"
             for role in transfer["approvals_required"]
         )
 
@@ -2799,8 +2762,7 @@ class ProcessBudgetTransfer(Tool):
             source_budget = next(
                 (
                     b
-                    for b in budgets
-                    if b.get("project_id") == transfer["source_project_id"]
+                    for b in budgets.values() if b.get("project_id") == transfer["source_project_id"]
                     and b.get("fiscal_year") == transfer["fiscal_year"]
                 ),
                 None,
@@ -2808,8 +2770,7 @@ class ProcessBudgetTransfer(Tool):
             target_budget = next(
                 (
                     b
-                    for b in budgets
-                    if b.get("project_id") == transfer["target_project_id"]
+                    for b in budgets.values() if b.get("project_id") == transfer["target_project_id"]
                     and b.get("fiscal_year") == transfer["fiscal_year"]
                 ),
                 None,
@@ -2881,11 +2842,11 @@ class RecordInvoice(Tool):
             out = json.dumps(payload)
             return out
 
-        invoices = data.get("invoices", [])
-        purchase_orders = data.get("purchase_orders", [])
-        vendors = data.get("vendors", [])
+        invoices = data.get("invoices", {}).values()
+        purchase_orders = data.get("purchase_orders", {}).values()
+        vendors = data.get("vendors", {}).values()
 
-        vendor = next((v for v in vendors if v.get("vendor_id") == vendor_id), None)
+        vendor = next((v for v in vendors.values() if v.get("vendor_id") == vendor_id), None)
         if not vendor:
             payload = {"error": f"Vendor {vendor_id} not found"}
             out = json.dumps(payload)
@@ -2893,7 +2854,7 @@ class RecordInvoice(Tool):
 
         if po_number:
             po = next(
-                (p for p in purchase_orders if p.get("po_number") == po_number), None
+                (p for p in purchase_orders.values() if p.get("po_number") == po_number), None
             )
             if po:
                 if po.get("vendor_id") != vendor_id:
@@ -2923,7 +2884,7 @@ class RecordInvoice(Tool):
             "payment_terms": vendor.get("payment_terms", "Net 30"),
         }
 
-        invoices.append(new_invoice)
+        data["invoices"][invoice_id] = new_invoice
 
         due_dt = datetime.fromisoformat(due_date.replace("Z", "+00:00"))
 
@@ -2991,13 +2952,13 @@ class GetProjectFinancialSummary(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
-        budgets = data.get("budgets", [])
-        expenses = data.get("expenses", [])
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
+        projects = data.get("projects", {}).values()
+        budgets = data.get("budgets", {}).values()
+        expenses = data.get("expenses", {}).values()
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
@@ -3006,8 +2967,7 @@ class GetProjectFinancialSummary(Tool):
         current_budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -3015,14 +2975,13 @@ class GetProjectFinancialSummary(Tool):
 
         project_allocations = [
             a
-            for a in allocations
-            if a.get("project_id") == project_id and a.get("status") == "active"
+            for a in allocations.values() if a.get("project_id") == project_id and a.get("status") == "active"
         ]
 
         weekly_resource_cost = 0
         for alloc in project_allocations:
             employee = next(
-                (e for e in employees if e.get("employee_id") == alloc["employee_id"]),
+                (e for e in employees.values() if e.get("employee_id") == alloc["employee_id"]),
                 None,
             )
             if employee:
@@ -3033,8 +2992,7 @@ class GetProjectFinancialSummary(Tool):
 
         approved_expenses = sum(
             e.get("amount", 0)
-            for e in expenses
-            if e.get("project_id") == project_id and e.get("status") == "approved"
+            for e in expenses.values() if e.get("project_id") == project_id and e.get("status") == "approved"
         )
 
         summary = {
@@ -3101,11 +3059,11 @@ class CalculateEmployeeCostRate(Tool):
             out = json.dumps(payload)
             return out
 
-        employees = data.get("employees", [])
-        allocations = data.get("allocations", [])
+        employees = data.get("employees", {}).values()
+        allocations = data.get("allocations", {}).values()
 
         employee = next(
-            (e for e in employees if e.get("employee_id") == employee_id), None
+            (e for e in employees.values() if e.get("employee_id") == employee_id), None
         )
         if not employee:
             payload = {"error": f"Employee {employee_id} not found"}
@@ -3125,7 +3083,7 @@ class CalculateEmployeeCostRate(Tool):
             base_rate = 100
 
         skills = employee.get("skills", [])
-        max_proficiency = max((s.get("proficiency", 0) for s in skills), default=3)
+        max_proficiency = max((s.get("proficiency", 0) for s in skills.values()), default=3)
         skill_multiplier = 1 + (max_proficiency - 3) * 0.1
 
         adjusted_rate = base_rate * skill_multiplier
@@ -3138,10 +3096,9 @@ class CalculateEmployeeCostRate(Tool):
 
         active_allocations = [
             a
-            for a in allocations
-            if a.get("employee_id") == employee_id and a.get("status") == "active"
+            for a in allocations.values() if a.get("employee_id") == employee_id and a.get("status") == "active"
         ]
-        total_hours = sum(a.get("hours_per_week", 0) for a in active_allocations)
+        total_hours = sum(a.get("hours_per_week", 0) for a in active_allocations.values()
 
         cost_rates = {
             "weekly_rate": round(fully_loaded_rate * 40, 2),
@@ -3197,12 +3154,12 @@ class GetDepartmentBudgetOverview(Tool):
             out = json.dumps(payload)
             return out
 
-        departments = data.get("departments", [])
-        projects = data.get("projects", [])
-        budgets = data.get("budgets", [])
+        departments = data.get("departments", {}).values()
+        projects = data.get("projects", {}).values()
+        budgets = data.get("budgets", {}).values()
 
         department = next(
-            (d for d in departments if d.get("department_name") == department_name),
+            (d for d in departments.values() if d.get("department_name") == department_name),
             None,
         )
         if not department:
@@ -3210,7 +3167,7 @@ class GetDepartmentBudgetOverview(Tool):
             out = json.dumps(payload)
             return out
 
-        dept_projects = [p for p in projects if p.get("department") == department_name]
+        dept_projects = [p for p in projects.values() if p.get("department") == department_name]
 
         total_budget = 0
         total_spent = 0
@@ -3220,8 +3177,7 @@ class GetDepartmentBudgetOverview(Tool):
             project_budget = next(
                 (
                     b
-                    for b in budgets
-                    if b.get("project_id") == project["project_id"]
+                    for b in budgets.values() if b.get("project_id") == project["project_id"]
                     and b.get("fiscal_year") == fiscal_year
                 ),
                 None,
@@ -3308,13 +3264,13 @@ class CreateCostForecast(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
-        budgets = data.get("budgets", [])
-        cost_forecasts = data.get("cost_forecasts", [])
+        projects = data.get("projects", {}).values()
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
+        budgets = data.get("budgets", {}).values()
+        cost_forecasts = data.get("cost_forecasts", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
@@ -3322,14 +3278,13 @@ class CreateCostForecast(Tool):
 
         project_allocations = [
             a
-            for a in allocations
-            if a.get("project_id") == project_id and a.get("status") == "active"
+            for a in allocations.values() if a.get("project_id") == project_id and a.get("status") == "active"
         ]
 
         monthly_personnel_cost = 0
         for alloc in project_allocations:
             employee = next(
-                (e for e in employees if e.get("employee_id") == alloc["employee_id"]),
+                (e for e in employees.values() if e.get("employee_id") == alloc["employee_id"]),
                 None,
             )
             if employee:
@@ -3375,8 +3330,7 @@ class CreateCostForecast(Tool):
         current_budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -3406,7 +3360,7 @@ class CreateCostForecast(Tool):
             "created_date": datetime.now().isoformat(),
         }
 
-        cost_forecasts.append(new_forecast)
+        data["cost_forecasts"][new_forecast["cost_forecast_id"]] = new_forecast
         payload = {"success": True, "forecast": new_forecast}
         out = json.dumps(payload)
         return out
@@ -3448,18 +3402,18 @@ class GetTaskCostBreakdown(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        task_logs = data.get("task_logs", [])
-        employees = data.get("employees", [])
-        expenses = data.get("expenses", [])
+        tasks = data.get("tasks", {}).values()
+        task_logs = data.get("task_logs", {}).values()
+        employees = data.get("employees", {}).values()
+        expenses = data.get("expenses", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task {task_id} not found"}
             out = json.dumps(payload)
             return out
 
-        task_time_logs = [log for log in task_logs if log.get("task_id") == task_id]
+        task_time_logs = [log for log in task_logs.values() if log.get("task_id") == task_id]
 
         personnel_costs = []
         total_hours = 0
@@ -3470,7 +3424,7 @@ class GetTaskCostBreakdown(Tool):
             hours = log.get("hours", 0)
 
             employee = next(
-                (e for e in employees if e.get("employee_id") == employee_id), None
+                (e for e in employees.values() if e.get("employee_id") == employee_id), None
             )
             if employee:
                 hourly_rate = (
@@ -3494,11 +3448,10 @@ class GetTaskCostBreakdown(Tool):
 
         task_expenses = [
             e
-            for e in expenses
-            if e.get("task_id") == task_id and e.get("status") == "approved"
+            for e in expenses.values() if e.get("task_id") == task_id and e.get("status") == "approved"
         ]
 
-        total_expense_cost = sum(e.get("amount", 0) for e in task_expenses)
+        total_expense_cost = sum(e.get("amount", 0) for e in task_expenses.values()
 
         story_points = task.get("story_points", 1)
         total_cost = total_personnel_cost + total_expense_cost
@@ -3558,12 +3511,12 @@ class ValidatePurchaseOrder(Tool):
             out = json.dumps(payload)
             return out
 
-        budgets = data.get("budgets", [])
-        vendors = data.get("vendors", [])
-        data.get("purchase_orders", [])
-        projects = data.get("projects", [])
+        budgets = data.get("budgets", {}).values()
+        vendors = data.get("vendors", {}).values()
+        data.get("purchase_orders", {}).values()
+        projects = data.get("projects", {}).values()
 
-        vendor = next((v for v in vendors if v.get("vendor_id") == vendor_id), None)
+        vendor = next((v for v in vendors.values() if v.get("vendor_id") == vendor_id), None)
         if not vendor:
             payload = {"error": f"Vendor {vendor_id} not found"}
             out = json.dumps(payload)
@@ -3579,8 +3532,7 @@ class ValidatePurchaseOrder(Tool):
         budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -3597,7 +3549,7 @@ class ValidatePurchaseOrder(Tool):
             - budget.get("committed_amount", 0)
         )
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         approval_required = []
 
         if project:
@@ -3695,14 +3647,14 @@ class GetEmployeeCostByProject(Tool):
             out = json.dumps(payload)
             return out
 
-        employees = data.get("employees", [])
-        allocations = data.get("allocations", [])
-        task_logs = data.get("task_logs", [])
-        tasks = data.get("tasks", [])
-        expenses = data.get("expenses", [])
+        employees = data.get("employees", {}).values()
+        allocations = data.get("allocations", {}).values()
+        task_logs = data.get("task_logs", {}).values()
+        tasks = data.get("tasks", {}).values()
+        expenses = data.get("expenses", {}).values()
 
         employee = next(
-            (e for e in employees if e.get("employee_id") == employee_id), None
+            (e for e in employees.values() if e.get("employee_id") == employee_id), None
         )
         if not employee:
             payload = {"error": f"Employee {employee_id} not found"}
@@ -3712,8 +3664,7 @@ class GetEmployeeCostByProject(Tool):
         project_allocation = next(
             (
                 a
-                for a in allocations
-                if a.get("employee_id") == employee_id
+                for a in allocations.values() if a.get("employee_id") == employee_id
                 and a.get("project_id") == project_id
             ),
             None,
@@ -3723,12 +3674,10 @@ class GetEmployeeCostByProject(Tool):
 
         employee_project_tasks = [
             t
-            for t in tasks
-            if t.get("assignee_id") == employee_id
+            for t in tasks.values() if t.get("assignee_id") == employee_id
             and any(
                 a.get("project_id") == project_id
-                for a in allocations
-                if a.get("employee_id") == employee_id
+                for a in allocations.values() if a.get("employee_id") == employee_id
             )
         ]
 
@@ -3738,12 +3687,11 @@ class GetEmployeeCostByProject(Tool):
         for task in employee_project_tasks:
             task_time_logs = [
                 log
-                for log in task_logs
-                if log.get("task_id") == task["task_id"]
+                for log in task_logs.values() if log.get("task_id") == task["task_id"]
                 and log.get("employee_id") == employee_id
             ]
 
-            task_hours = sum(log.get("hours", 0) for log in task_time_logs)
+            task_hours = sum(log.get("hours", 0) for log in task_time_logs.values()
             total_hours += task_hours
 
             if task_hours > 0:
@@ -3764,12 +3712,11 @@ class GetEmployeeCostByProject(Tool):
         if include_expenses:
             employee_expenses = [
                 e
-                for e in expenses
-                if e.get("employee_id") == employee_id
+                for e in expenses.values() if e.get("employee_id") == employee_id
                 and e.get("project_id") == project_id
                 and e.get("status") == "approved"
             ]
-            total_expense_amount = sum(e.get("amount", 0) for e in employee_expenses)
+            total_expense_amount = sum(e.get("amount", 0) for e in employee_expenses.values()
 
         employee_cost = {
             "employee_id": employee_id,
@@ -3840,11 +3787,11 @@ class CreateBudgetThresholdAlert(Tool):
             out = json.dumps(payload)
             return out
 
-        budgets = data.get("budgets", [])
-        budget_alerts = data.get("budget_alerts", [])
-        projects = data.get("projects", [])
+        budgets = data.get("budgets", {}).values()
+        budget_alerts = data.get("budget_alerts", {}).values()
+        projects = data.get("projects", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
@@ -3853,8 +3800,7 @@ class CreateBudgetThresholdAlert(Tool):
         existing_alert = next(
             (
                 a
-                for a in budget_alerts
-                if a.get("project_id") == project_id
+                for a in budget_alerts.values() if a.get("project_id") == project_id
                 and a.get("threshold_percentage") == threshold_percentage
                 and a.get("active")
             ),
@@ -3882,13 +3828,12 @@ class CreateBudgetThresholdAlert(Tool):
             "alert_type": "budget_threshold",
         }
 
-        budget_alerts.append(new_alert)
+        data["budget_alerts"][new_alert["budget_alert_id"]] = new_alert
 
         current_budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == datetime.now().year
             ),
             None,
@@ -3951,19 +3896,19 @@ class GetSprintFinancialAnalysis(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
-        tasks = data.get("tasks", [])
-        task_logs = data.get("task_logs", [])
-        employees = data.get("employees", [])
-        expenses = data.get("expenses", [])
+        sprints = data.get("sprints", {}).values()
+        tasks = data.get("tasks", {}).values()
+        task_logs = data.get("task_logs", {}).values()
+        employees = data.get("employees", {}).values()
+        expenses = data.get("expenses", {}).values()
 
-        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
         if not sprint:
             payload = {"error": f"Sprint {sprint_id} not found"}
             out = json.dumps(payload)
             return out
 
-        sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
+        sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
 
         employee_costs = {}
         total_hours = 0
@@ -3971,7 +3916,7 @@ class GetSprintFinancialAnalysis(Tool):
 
         for task in sprint_tasks:
             task_time_logs = [
-                log for log in task_logs if log.get("task_id") == task["task_id"]
+                log for log in task_logs.values() if log.get("task_id") == task["task_id"]
             ]
 
             for log in task_time_logs:
@@ -3980,7 +3925,7 @@ class GetSprintFinancialAnalysis(Tool):
 
                 if employee_id not in employee_costs:
                     employee = next(
-                        (e for e in employees if e.get("employee_id") == employee_id),
+                        (e for e in employees.values() if e.get("employee_id") == employee_id),
                         None,
                     )
                     if employee:
@@ -4011,9 +3956,9 @@ class GetSprintFinancialAnalysis(Tool):
         sprint_end = datetime.fromisoformat(sprint["end_date"].replace("Z", "+00:00"))
 
         sprint_expenses = []
-        for expense in expenses:
+        for expense in expenses.values():
             if expense.get("sprint_id") == sprint_id:
-                sprint_expenses.append(expense)
+                sprint_data["expenses"][expense_id] = expense
             elif expense.get("submitted_date"):
 
                 try:
@@ -4034,7 +3979,7 @@ class GetSprintFinancialAnalysis(Tool):
                         ).replace(tzinfo=timezone.utc)
 
                     if sprint_start <= submitted_date <= sprint_end:
-                        sprint_expenses.append(expense)
+                        sprint_data["expenses"][expense_id] = expense
                 except Exception:
 
                     pass
@@ -4127,15 +4072,15 @@ class CalculateProjectROI(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
-        budgets = data.get("budgets", [])
-        expenses = data.get("expenses", [])
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
-        task_logs = data.get("task_logs", [])
-        tasks = data.get("tasks", [])
+        projects = data.get("projects", {}).values()
+        budgets = data.get("budgets", {}).values()
+        expenses = data.get("expenses", {}).values()
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
+        task_logs = data.get("task_logs", {}).values()
+        tasks = data.get("tasks", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
@@ -4144,8 +4089,7 @@ class CalculateProjectROI(Tool):
         project_budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -4156,18 +4100,16 @@ class CalculateProjectROI(Tool):
 
         project_tasks = [
             t
-            for t in tasks
-            if any(
+            for t in tasks.values() if any(
                 a.get("project_id") == project_id
-                for a in allocations
-                if a.get("employee_id") == t.get("assignee_id")
+                for a in allocations.values() if a.get("employee_id") == t.get("assignee_id")
             )
         ]
 
         actual_personnel_cost = 0
         for task in project_tasks:
             task_time_logs = [
-                log for log in task_logs if log.get("task_id") == task["task_id"]
+                log for log in task_logs.values() if log.get("task_id") == task["task_id"]
             ]
 
             for log in task_time_logs:
@@ -4175,7 +4117,7 @@ class CalculateProjectROI(Tool):
                 hours = log.get("hours", 0)
 
                 employee = next(
-                    (e for e in employees if e.get("employee_id") == employee_id), None
+                    (e for e in employees.values() if e.get("employee_id") == employee_id), None
                 )
                 if employee:
                     hourly_rate = (
@@ -4185,11 +4127,10 @@ class CalculateProjectROI(Tool):
 
         project_expenses = [
             e
-            for e in expenses
-            if e.get("project_id") == project_id and e.get("status") == "approved"
+            for e in expenses.values() if e.get("project_id") == project_id and e.get("status") == "approved"
         ]
 
-        total_expense_cost = sum(e.get("amount", 0) for e in project_expenses)
+        total_expense_cost = sum(e.get("amount", 0) for e in project_expenses.values()
 
         total_actual_cost = actual_personnel_cost + total_expense_cost
 

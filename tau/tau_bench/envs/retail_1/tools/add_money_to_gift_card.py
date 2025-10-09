@@ -14,7 +14,7 @@ class AddMoneyToGiftCard(Tool):
         pass
         users = data["users"]
         #Verify if the user is present
-        user = [row for row in users if row["user_id"] == user_id]
+        user = [row for row in users.values() if row["user_id"] == user_id]
         if len(user) > 1:
             payload = {"error": "Multiple users found"}
             out = json.dumps(payload)

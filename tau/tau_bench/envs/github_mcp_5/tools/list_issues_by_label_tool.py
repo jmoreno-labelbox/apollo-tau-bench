@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListIssuesByLabelTool(Tool):
@@ -52,7 +52,7 @@ class ListIssuesByLabelTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", [])
+        issues = data.get("issues", {}).values()
         labeled = [
             {
                 "issue_id": _safe_id(
@@ -63,8 +63,7 @@ class ListIssuesByLabelTool(Tool):
                 "state": i.get("state"),
                 "report_date": CURRENT_DATE,
             }
-            for i in issues
-            if i.get("repo") == repo_name
+            for i in issues.values() if i.get("repo") == repo_name
             and label.lower() in [lbl.lower() for lbl in i.get("labels", [])]
         ]
         return _response("ok", labeled)

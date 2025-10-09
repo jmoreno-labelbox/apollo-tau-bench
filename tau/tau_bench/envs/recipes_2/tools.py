@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -20,10 +20,10 @@ class CreateMealPlan(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int = None, week_start_date: str = None, created_by_user_id: int = None) -> str:
-        meal_plans = data.get("meal_plans", [])
+        meal_plans = data.get("meal_plans", {}).values()
         # Automatically create the subsequent meal_plan_id
         new_id = (
-            max([plan.get("meal_plan_id", 0) for plan in meal_plans]) + 1
+            max([plan.get("meal_plan_id", 0) for plan in meal_plans.values()]) + 1
             if meal_plans
             else 6001
         )
@@ -35,7 +35,7 @@ class CreateMealPlan(Tool):
             "created_by_user_id": created_by_user_id,
             "created_at": "2025-08-20T11:00:00Z",  # Employing a constant timestamp for uniformity
         }
-        data["meal_plans"].append(new_plan)
+        data["meal_plans"][meal_plan_id] = new_plan
         payload = new_plan
         out = json.dumps(payload)
         return out
@@ -80,10 +80,10 @@ class AddRecipeToMealPlan(Tool):
         servings_child: int = 1,
         notes: str = ""
     ) -> str:
-        entries = data.get("meal_plan_entries", [])
+        entries = data.get("meal_plan_entries", {}).values()
         # Automatically create the next entry_id
         new_id = (
-            max([entry.get("entry_id", 0) for entry in entries]) + 1
+            max([entry.get("entry_id", 0) for entry in entries.values()]) + 1
             if entries
             else 6101
         )
@@ -135,9 +135,9 @@ class CreateGroceryListFromMealPlan(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int = None, meal_plan_id: int = None, user_id: int = None) -> str:
-        lists = data.get("grocery_lists", [])
+        lists = data.get("grocery_lists", {}).values()
         # Automatically create the next list_id
-        new_id = max([l.get("list_id", 0) for l in lists]) + 1 if lists else 8001
+        new_id = max([l.get("list_id", 0) for l in lists.values()]) + 1 if lists else 8001
 
         new_list = {
             "list_id": new_id,
@@ -176,13 +176,13 @@ class AddItemToGroceryList(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], list_id: int = None, ingredient_id: int = None, quantity: float = None, unit: str = None) -> str:
-        items = data.get("grocery_list_items", [])
+        items = data.get("grocery_list_items", {}).values()
         # Automatically create the next item_id
-        new_id = max([item.get("item_id", 0) for item in items]) + 1 if items else 8101
+        new_id = max([item.get("item_id", 0) for item in items.values()]) + 1 if items else 8101
 
-        ingredients = data.get("ingredients", [])
+        ingredients = data.get("ingredients", {}).values()
         ingredient_info = next(
-            (ing for ing in ingredients if ing["ingredient_id"] == ingredient_id), None
+            (ing for ing in ingredients.values() if ing["ingredient_id"] == ingredient_id), None
         )
         if not ingredient_info:
             payload = {"error": f"Ingredient {ingredient_id} not found."}
@@ -237,10 +237,10 @@ class CreateOrderFromGroceryList(Tool):
         subtotal_cents: int = None,
         total_cents: int = None
     ) -> str:
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         # Automatically create the next order_id
         new_id = (
-            max([order.get("order_id", 0) for order in orders]) + 1 if orders else 10001
+            max([order.get("order_id", 0) for order in orders.values()]) + 1 if orders else 10001
         )
 
         new_order = {
@@ -255,7 +255,7 @@ class CreateOrderFromGroceryList(Tool):
             "scheduled_slot_start_ts": "2025-08-22T18:00:00Z",
             "scheduled_slot_end_ts": "2025-08-22T20:00:00Z",
         }
-        data["orders"].append(new_order)
+        data["orders"][order_id] = new_order
         payload = new_order
         out = json.dumps(payload)
         return out
@@ -293,9 +293,9 @@ class AddAuditLog(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int, user_id: int, entity_type: str, entity_id: int, action_enum: str, payload_json: dict = {}) -> str:
-        logs = data.get("audit_logs", [])
+        logs = data.get("audit_logs", {}).values()
         # Automatically create the next audit_id
-        new_id = max([log.get("audit_id", 0) for log in logs]) + 1 if logs else 12001
+        new_id = max([log.get("audit_id", 0) for log in logs.values()]) + 1 if logs else 12001
 
         new_log = {
             "audit_id": new_id,
@@ -355,8 +355,8 @@ class GetUserByEmail(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], email: str = None) -> str:
-        users = data.get("users", [])
-        for user in users:
+        users = data.get("users", {}).values()
+        for user in users.values():
             if user.get("email") == email:
                 payload = user
                 out = json.dumps(payload)
@@ -390,8 +390,8 @@ class GetHouseholdByUserId(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        households = data.get("households", [])
-        for household in households:
+        households = data.get("households", {}).values()
+        for household in households.values():
             if household.get("primary_user_id") == user_id:
                 payload = household
                 out = json.dumps(payload)
@@ -425,9 +425,9 @@ class GetMembersByHouseholdId(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], household_id: str = None) -> str:
-        members = data.get("members", [])
+        members = data.get("members", {}).values()
         household_members = [
-            member for member in members if member.get("household_id") == household_id
+            member for member in members.values() if member.get("household_id") == household_id
         ]
         payload = household_members
         out = json.dumps(payload)
@@ -462,11 +462,10 @@ class SearchHouseholdsByName(Tool):
             payload = {"error": "name_query parameter is required."}
             out = json.dumps(payload)
             return out
-        households = data.get("households", [])
+        households = data.get("households", {}).values()
         matching_households = [
             household
-            for household in households
-            if name_query.lower() in household.get("household_name", "").lower()
+            for household in households.values() if name_query.lower() in household.get("household_name", "").lower()
         ]
         payload = matching_households
         out = json.dumps(payload)
@@ -498,9 +497,9 @@ class SearchRecipes(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], cuisine: str = None, meal_type: str = None, is_peanut_free: bool = None) -> str:
-        recipes = data.get("recipes", [])
+        recipes = data.get("recipes", {}).values()
         results = []
-        for recipe in recipes:
+        for recipe in recipes.values():
             match = True
             if cuisine and recipe.get("cuisine") != cuisine:
                 match = False
@@ -549,8 +548,8 @@ class GetRecipeDetails(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], recipe_id: str = None) -> str:
-        recipes = data.get("recipes", [])
-        for recipe in recipes:
+        recipes = data.get("recipes", {}).values()
+        for recipe in recipes.values():
             if recipe.get("recipe_id") == recipe_id:
                 payload = recipe
                 out = json.dumps(payload)
@@ -584,9 +583,9 @@ class GetRecipeIngredients(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], recipe_id: str = None) -> str:
-        recipe_ingredients = data.get("recipe_ingredients", [])
+        recipe_ingredients = data.get("recipe_ingredients", {}).values()
         ingredients = [
-            ri for ri in recipe_ingredients if ri.get("recipe_id") == recipe_id
+            ri for ri in recipe_ingredients.values() if ri.get("recipe_id") == recipe_id
         ]
         payload = ingredients
         out = json.dumps(payload)
@@ -621,11 +620,10 @@ class SearchRecipesByTitleSubstring(Tool):
             payload = {"error": "title_substring parameter is required."}
             out = json.dumps(payload)
             return out
-        recipes = data.get("recipes", [])
+        recipes = data.get("recipes", {}).values()
         matching_recipes = [
             recipe
-            for recipe in recipes
-            if title_substring.lower() in recipe.get("recipe_title", "").lower()
+            for recipe in recipes.values() if title_substring.lower() in recipe.get("recipe_title", "").lower()
         ]
         payload = matching_recipes
         out = json.dumps(payload)
@@ -657,9 +655,9 @@ class GetInventoryForHousehold(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], household_id: str = None) -> str:
-        inventory = data.get("inventory_items", [])
+        inventory = data.get("inventory_items", {}).values()
         household_inventory = [
-            item for item in inventory if item.get("household_id") == household_id
+            item for item in inventory.values() if item.get("household_id") == household_id
         ]
         payload = household_inventory
         out = json.dumps(payload)
@@ -690,13 +688,12 @@ class GetMealHistoryForHousehold(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], household_id: str, days_ago: int = 14) -> str:
-        meal_history = data.get("meal_history", [])
+        meal_history = data.get("meal_history", {}).values()
         current_date = datetime.strptime("2025-08-20", "%Y-%m-%d")
         start_date = current_date - timedelta(days=days_ago)
         history = [
             h
-            for h in meal_history
-            if h.get("household_id") == household_id
+            for h in meal_history.values() if h.get("household_id") == household_id
             and datetime.strptime(h.get("plan_date"), "%Y-%m-%d") >= start_date
         ]
         payload = history
@@ -739,9 +736,9 @@ class GetMealPlansByHouseholdId(Tool):
             payload = {"error": "household_id parameter is required."}
             out = json.dumps(payload)
             return out
-        meal_plans = data.get("meal_plans", [])
+        meal_plans = data.get("meal_plans", {}).values()
         matching_plans = [
-            plan for plan in meal_plans if plan.get("household_id") == household_id
+            plan for plan in meal_plans.values() if plan.get("household_id") == household_id
         ]
         payload = matching_plans
         out = json.dumps(payload)
@@ -779,9 +776,9 @@ class SearchMealPlanEntries(Tool):
             out = json.dumps(
                 payload)
             return out
-        meal_plan_entries = data.get("meal_plan_entries", [])
+        meal_plan_entries = data.get("meal_plan_entries", {}).values()
         matching_entries = []
-        for entry in meal_plan_entries:
+        for entry in meal_plan_entries.values():
             if entry.get("meal_plan_id") != meal_plan_id:
                 continue
             plan_date = entry.get("plan_date", "")
@@ -789,7 +786,7 @@ class SearchMealPlanEntries(Tool):
                 continue
             notes = entry.get("notes", "")
             if notes and notes_substring.lower() in notes.lower():
-                matching_entries.append(entry)
+                matching_data["meal_plan_entries"][entry["meal_plan_entrie_id"]] = entry
         payload = matching_entries
         out = json.dumps(payload)
         return out
@@ -840,9 +837,9 @@ class GetMealPlanEntriesByRecipeId(Tool):
             payload = {"error": "recipe_id parameter is required."}
             out = json.dumps(payload)
             return out
-        meal_plan_entries = data.get("meal_plan_entries", [])
+        meal_plan_entries = data.get("meal_plan_entries", {}).values()
         matching_entries = [
-            entry for entry in meal_plan_entries if entry.get("recipe_id") == recipe_id
+            entry for entry in meal_plan_entries.values() if entry.get("recipe_id") == recipe_id
         ]
         payload = matching_entries
         out = json.dumps(payload)
@@ -877,8 +874,8 @@ class UpdateInventoryItemQuantity(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], inv_item_id: str = None, new_quantity: int = None) -> str:
-        inventory = data.get("inventory_items", [])
-        for item in inventory:
+        inventory = data.get("inventory_items", {}).values()
+        for item in inventory.values():
             if item.get("inv_item_id") == inv_item_id:
                 item["quantity"] = new_quantity
                 payload = item
@@ -911,13 +908,13 @@ class RemoveRecipeFromMealPlan(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], entry_id: str = None) -> str:
-        entries = data.get("meal_plan_entries", [])
+        entries = data.get("meal_plan_entries", {}).values()
         entry_to_remove = next(
-            (e for e in entries if e.get("entry_id") == entry_id), None
+            (e for e in entries.values() if e.get("entry_id") == entry_id), None
         )
         if entry_to_remove:
             data["meal_plan_entries"] = [
-                e for e in entries if e.get("entry_id") != entry_id
+                e for e in entries.values() if e.get("entry_id") != entry_id
             ]
             payload = {"status": "success", "message": f"Entry {entry_id} removed."}
             out = json.dumps(payload)
@@ -951,12 +948,11 @@ class SearchUsersByName(Tool):
             out = json.dumps(payload)
             return out
 
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
 
         matching_users = [
             user
-            for user in users
-            if name_query.lower() in user.get("full_name", "").lower()
+            for user in users.values() if name_query.lower() in user.get("full_name", "").lower()
         ]
         payload = matching_users
         out = json.dumps(payload)
@@ -992,12 +988,11 @@ class SearchIngredientsByName(Tool):
             out = json.dumps(payload)
             return out
 
-        ingredients = data.get("ingredients", [])
+        ingredients = data.get("ingredients", {}).values()
 
         matching_ingredients = [
             ingredient
-            for ingredient in ingredients
-            if name_query.lower() in ingredient.get("ingredient_name", "").lower()
+            for ingredient in ingredients.values() if name_query.lower() in ingredient.get("ingredient_name", "").lower()
         ]
         payload = matching_ingredients
         out = json.dumps(payload)
@@ -1033,12 +1028,11 @@ class GetInventoryForHouseholdAndIngredientId(Tool):
             out = json.dumps(payload)
             return out
 
-        inventory = data.get("inventory_items", [])
+        inventory = data.get("inventory_items", {}).values()
 
         household_ingredient_inventory = [
             item
-            for item in inventory
-            if item.get("household_id") == household_id
+            for item in inventory.values() if item.get("household_id") == household_id
             and item.get("ingredient_id") == ingredient_id
         ]
         payload = household_ingredient_inventory
@@ -1079,12 +1073,11 @@ class SearchStoresByName(Tool):
             out = json.dumps(payload)
             return out
 
-        stores = data.get("stores", [])
+        stores = data.get("stores", {}).values()
 
         matching_stores = [
             store
-            for store in stores
-            if name_query.lower() in store.get("store_name", "").lower()
+            for store in stores.values() if name_query.lower() in store.get("store_name", "").lower()
         ]
         payload = matching_stores
         out = json.dumps(payload)
@@ -1115,8 +1108,8 @@ class AddMealHistory(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int = None, recipe_id: int = None, plan_date: str = None, was_prepared: bool = None, rating_int: int = None) -> str:
-        history = data.get("meal_history", [])
-        new_id = max([h.get("history_id", 0) for h in history]) + 1 if history else 6201
+        history = data.get("meal_history", {}).values()
+        new_id = max([h.get("history_id", 0) for h in history.values()]) + 1 if history else 6201
 
         new_entry = {
             "history_id": new_id,
@@ -1168,8 +1161,8 @@ class UpdateMealPlanEntryNotes(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], entry_id: str = None, new_notes: str = None) -> str:
-        entries = data.get("meal_plan_entries", [])
-        for entry in entries:
+        entries = data.get("meal_plan_entries", {}).values()
+        for entry in entries.values():
             if entry.get("entry_id") == entry_id:
                 entry["notes"] = new_notes
                 payload = entry
@@ -1202,19 +1195,19 @@ class AddUser(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], email: str = None, full_name: str = None) -> str:
-        users = data.get("users", [])
-        if any(user.get("email") == email for user in users):
+        users = data.get("users", {}).values()
+        if any(user.get("email") == email for user in users.values()):
             payload = {"error": f"User with email '{email}' already exists."}
             out = json.dumps(payload)
             return out
-        new_id = max([u.get("user_id", 0) for u in users]) + 1 if users else 101
+        new_id = max([u.get("user_id", 0) for u in users.values()]) + 1 if users else 101
         new_user = {
             "user_id": new_id,
             "email": email,
             "full_name": full_name,
             "created_at": "2025-08-22T10:00:00Z",
         }
-        data["users"].append(new_user)
+        data["users"][user_id] = new_user
         payload = new_user
         out = json.dumps(payload)
         return out
@@ -1242,9 +1235,9 @@ class AddHousehold(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], household_name: str = None, timezone: str = None, primary_user_id: int = None) -> str:
-        households = data.get("households", [])
+        households = data.get("households", {}).values()
         new_id = (
-            max([h.get("household_id", 0) for h in households]) + 1
+            max([h.get("household_id", 0) for h in households.values()]) + 1
             if households
             else 201
         )
@@ -1254,7 +1247,7 @@ class AddHousehold(Tool):
             "timezone": timezone,
             "primary_user_id": primary_user_id,
         }
-        data["households"].append(new_household)
+        data["households"][household_id] = new_household
         payload = new_household
         out = json.dumps(payload)
         return out
@@ -1283,8 +1276,8 @@ class AddMember(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int = None, full_name: str = None, birthdate: str = None, is_child: bool = None) -> str:
-        members = data.get("members", [])
-        new_id = max([m.get("member_id", 0) for m in members]) + 1 if members else 301
+        members = data.get("members", {}).values()
+        new_id = max([m.get("member_id", 0) for m in members.values()]) + 1 if members else 301
         new_member = {
             "member_id": new_id,
             "household_id": household_id,
@@ -1335,12 +1328,11 @@ class GetGroceryListsByHouseholdId(Tool):
             out = json.dumps(payload)
             return out
 
-        grocery_lists = data.get("grocery_lists", [])
+        grocery_lists = data.get("grocery_lists", {}).values()
 
         matching_lists = [
             glist
-            for glist in grocery_lists
-            if glist.get("household_id") == household_id
+            for glist in grocery_lists.values() if glist.get("household_id") == household_id
         ]
         payload = matching_lists
         out = json.dumps(payload)
@@ -1376,12 +1368,11 @@ class GetMealHistoryByHouseholdAndDate(Tool):
             out = json.dumps(payload)
             return out
 
-        meal_history = data.get("meal_history", [])
+        meal_history = data.get("meal_history", {}).values()
 
         matching_history = [
             entry
-            for entry in meal_history
-            if entry.get("household_id") == household_id
+            for entry in meal_history.values() if entry.get("household_id") == household_id
             and entry.get("plan_date") == plan_date
         ]
         payload = matching_history
@@ -1422,11 +1413,11 @@ class RemoveItemFromGroceryList(Tool):
             out = json.dumps(payload)
             return out
 
-        items = data.get("grocery_list_items", [])
+        items = data.get("grocery_list_items", {}).values()
         original_count = len(items)
         # Exclude the item that has the corresponding ID
         data["grocery_list_items"] = [
-            item for item in items if item.get("item_id") != item_id
+            item for item in items.values() if item.get("item_id") != item_id
         ]
 
         if len(data["grocery_list_items"]) < original_count:
@@ -1471,8 +1462,8 @@ class UpdateMealHistory(Tool):
             out = json.dumps(payload)
             return out
 
-        history = data.get("meal_history", [])
-        for entry in history:
+        history = data.get("meal_history", {}).values()
+        for entry in history.values():
             if entry.get("history_id") == history_id:
                 if was_prepared is not None:
                     entry["was_prepared"] = was_prepared
@@ -1520,12 +1511,11 @@ class GetGroceryListItemsByListIdAndIngredientId(Tool):
             out = json.dumps(payload)
             return out
 
-        grocery_list_items = data.get("grocery_list_items", [])
+        grocery_list_items = data.get("grocery_list_items", {}).values()
 
         matching_items = [
             item
-            for item in grocery_list_items
-            if item.get("list_id") == list_id
+            for item in grocery_list_items.values() if item.get("list_id") == list_id
             and item.get("ingredient_id") == ingredient_id
         ]
         payload = matching_items

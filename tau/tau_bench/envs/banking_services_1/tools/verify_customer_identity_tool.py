@@ -32,7 +32,7 @@ class VerifyCustomerIdentityTool(Tool):
             )
 
         customers = load_json("customers_documents.json")
-        customer = next((c for c in customers if c["customer_id"] == customer_id), None)
+        customer = next((c for c in customers.values() if c["customer_id"] == customer_id), None)
 
         if not customer:
             return json.dumps(

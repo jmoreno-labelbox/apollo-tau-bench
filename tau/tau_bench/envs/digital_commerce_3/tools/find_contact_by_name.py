@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindContactByName(Tool):
@@ -15,7 +15,7 @@ class FindContactByName(Tool):
     def invoke(data: dict[str, Any], first_name: Any, last_name: Any) -> str:
         matches = [
             c
-            for c in data.get("contacts", [])
+            for c in data.get("contacts", {}).values()
             if c.get("first_name") == first_name and c.get("last_name") == last_name
         ]
         payload = matches[0] if matches else {}

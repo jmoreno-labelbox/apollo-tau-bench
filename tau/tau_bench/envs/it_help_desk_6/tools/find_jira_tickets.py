@@ -13,7 +13,7 @@ class FindJiraTickets(Tool):
     ) -> str:
         pass
         results = []
-        for j in data["jira_tickets"]:
+        for j in data["jira_tickets"].values():
             if issue_type and j["issue_type"] != issue_type:
                 continue
             if status and j["status"] != status:

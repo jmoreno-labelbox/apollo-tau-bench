@@ -9,7 +9,7 @@ class GetAppAccounts(Tool):
     ) -> str:
         pass
         results = []
-        for a in data["app_accounts"]:
+        for a in data["app_accounts"].values():
             if a["employee_id"] != employee_id:
                 continue
             if app_id and a["app_id"] != app_id:

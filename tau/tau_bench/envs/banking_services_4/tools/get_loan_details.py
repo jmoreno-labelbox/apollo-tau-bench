@@ -12,7 +12,7 @@ class GetLoanDetails(Tool):
 
         loans = load_json("loans.json")
 
-        loan = next((l for l in loans if l["loan_id"] == loan_id), None)
+        loan = next((l for l in loans.values() if l["loan_id"] == loan_id), None)
         if not loan:
             return json.dumps({"error": f"Loan with ID '{loan_id}' not found"})
 

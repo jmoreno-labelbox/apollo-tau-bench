@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DispatchUserAlert(Tool):
@@ -28,7 +28,7 @@ class DispatchUserAlert(Tool):
                 payload)
             return out
 
-        notifications = data.get("notifications", [])
+        notifications = data.get("notifications", {}).values()
         new_alert = {
             "notification_id": f"notif_{uuid.uuid4().hex[:6]}",
             "recipient_user_id": recipient_user_id,
@@ -37,7 +37,7 @@ class DispatchUserAlert(Tool):
             "timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
             "status": "unread",
         }
-        notifications.append(new_alert)
+        data["notifications"][notification_id] = new_alert
         payload = {"success": True, "alert": new_alert}
         out = json.dumps(payload)
         return out

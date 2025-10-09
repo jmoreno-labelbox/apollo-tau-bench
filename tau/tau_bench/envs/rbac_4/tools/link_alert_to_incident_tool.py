@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LinkAlertToIncidentTool(Tool):
@@ -15,8 +15,8 @@ class LinkAlertToIncidentTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], incident_id: str = None, alert_id: str = None) -> str:
-        incidents = data.get("incidents", [])
-        alerts = data.get("siem_alerts", [])
+        incidents = data.get("incidents", {}).values()
+        alerts = data.get("siem_alerts", {}).values()
 
         if not isinstance(incidents, list):
             payload = {"error": "incidents must be a list"}
@@ -41,14 +41,14 @@ class LinkAlertToIncidentTool(Tool):
             return out
 
         incident = next(
-            (i for i in incidents if i.get("incident_id") == incident_id), None
+            (i for i in incidents.values() if i.get("incident_id") == incident_id), None
         )
         if not incident:
             payload = {"error": f"Incident {incident_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
 
-        alert = next((a for a in alerts if a.get("alert_id") == alert_id), None)
+        alert = next((a for a in alerts.values() if a.get("alert_id") == alert_id), None)
         if not alert:
             payload = {"error": f"Alert {alert_id} not found"}
             out = json.dumps(payload, indent=2)

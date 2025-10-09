@@ -11,7 +11,7 @@ FIXED_TS = "2025-01-27T10:00:00Z"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -111,7 +111,7 @@ class CreateTmsJob(Tool):
         if not jid:
             jid = f"tms_job_{len(jobs) + 1:04d}"
 
-        if any(j.get("id") == jid for j in jobs):
+        if any(j.get("id") == jid for j in jobs.values()):
             return _err(f"TMS job id {jid} already exists")
         job = {
             "id": jid,
@@ -187,7 +187,7 @@ class RecordTranslations(Tool):
             e = {k: v for k, v in e_in.items() if k in ALLOWED}
             eid = f"translation_{len(translations) + 1:04d}"
             e["id"] = eid
-            if any(t.get("id") == eid for t in translations):
+            if any(t.get("id") == eid for t in translations.values()):
                 continue
 
             translations.append(e)
@@ -202,8 +202,8 @@ class RecordTranslations(Tool):
                     if (lsid and row.get("id") == lsid) or (
                         skey and row.get("string_key") == skey
                     ):
-                        row.setdefault("translations", {})
-                        loc_entry = row["translations"].setdefault(locale, {})
+                        row.setdefault("translations", {}).values()
+                        loc_entry = row["translations"].setdefault(locale, {}).values()
                         loc_entry["translation"] = target
                         loc_entry["status"] = loc_entry.get("status", "translated")
                         loc_entry["validation_status"] = loc_entry.get(
@@ -269,8 +269,8 @@ class UpdateLocaleValidation(Tool):
                 break
         if not target_row:
             return _err("loc string not found")
-        target_row.setdefault("translations", {})
-        entry = target_row["translations"].setdefault(locale, {})
+        target_row.setdefault("translations", {}).values()
+        entry = target_row["translations"].setdefault(locale, {}).values()
         if validation_status is not None:
             entry["validation_status"] = validation_status
         if validation_error is not None:
@@ -442,7 +442,7 @@ class SendNotification(Tool):
         if not nid:
             nid = f"notification_{len(notifications) + 1:04d}"
 
-        if any(n.get("id") == nid for n in notifications):
+        if any(n.get("id") == nid for n in notifications.values()):
             return _err(f"notification id {nid} already exists")
         record = {
             "id": nid,
@@ -555,7 +555,7 @@ class CreateLocalizationWorkflow(Tool):
         if not wid:
             wid = f"loc_workflow_{len(table) + 1:04d}"
 
-        if any(w.get("id") == wid for w in table):
+        if any(w.get("id") == wid for w in table.values()):
             return _err(f"localization_workflow id {wid} already exists")
         record = {
             "id": wid,

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchRecipesTool(Tool):
@@ -111,37 +111,35 @@ class SearchRecipesTool(Tool):
             )
 
         #2. Start with the full list of recipes
-        results = data.get("recipes", [])
+        results = data.get("recipes", {}).values()
 
         #3. Apply filters sequentially
         if cuisine is not None:
             cuisine = cuisine.lower()
-            results = [r for r in results if r.get("cuisine", "").lower() == cuisine]
+            results = [r for r in results.values() if r.get("cuisine", "").lower() == cuisine]
 
         if meal_type is not None:
             meal_type = meal_type.lower()
             results = [
-                r for r in results if r.get("meal_type", "").lower() == meal_type
+                r for r in results.values() if r.get("meal_type", "").lower() == meal_type
             ]
 
         if max_calories is not None:
             results = [
                 r
-                for r in results
-                if (calories := r.get("calories_per_serving")) is not None
+                for r in results.values() if (calories := r.get("calories_per_serving")) is not None
                 and calories <= max_calories
             ]
 
         if min_protein_g is not None:
             results = [
                 r
-                for r in results
-                if (protein := r.get("protein_g_per_serving")) is not None
+                for r in results.values() if (protein := r.get("protein_g_per_serving")) is not None
                 and protein >= min_protein_g
             ]
 
         if is_peanut_free is True:
-            results = [r for r in results if r.get("is_peanut_free") is True]
+            results = [r for r in results.values() if r.get("is_peanut_free") is True]
 
         #4. Return the filtered list in a standard success response
         return _build_success_response(results)

@@ -15,7 +15,7 @@ _ISO8601Z = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -89,7 +89,7 @@ def _require_write(p: dict[str, Any]):
 
 
 def _require(p: dict[str, Any], req: list[str]):
-    missing = [k for k in req if p.get(k) in (None, "")]
+    missing = [k for k in req.values() if p.get(k) in (None, "")]
     if missing:
         return _err("missing_params", {"missing": missing})
     return None
@@ -113,7 +113,7 @@ class find_gmail_threads(Tool):
             ok = True
             if label_q:
                 labels = t.get("labels", [])
-                ok &= any(label_q.lower() in (lab or "").lower() for lab in labels)
+                ok &= any(label_q.lower() in (lab or "").lower() for lab in labels.values()
             if subj_q:
                 ok &= subj_q.lower() in (t.get("subject", "").lower())
             if party_q:
@@ -236,7 +236,7 @@ class create_gmail_thread(Tool):
             "labels": [],
             "messages": [],
         }
-        threads.append(thread)
+        thredata["ads"][ad_id] = thread
         return _ok({"thread_id": thread_id})
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -918,7 +918,7 @@ class list_review_approvals(Tool):
         rows = []
         for c in _ensure(data, "review_cycles", []):
             if c.get("cycle_id") == p["cycle_id"]:
-                for email, ts in c.get("approvals", {}).items():
+                for email, ts in c.get("approvals", {}).values().items():
                     rows.append({"approver_email": email, "approved_ts_nullable": ts})
                 break
         return _ok({"rows": rows})
@@ -962,7 +962,7 @@ class update_review_approval(Tool):
             return miss
         for c in _ensure(data, "review_cycles", []):
             if c.get("cycle_id") == p["cycle_id"]:
-                c.setdefault("approvals", {})[p["approver_email"]] = p[
+                c.setdefault("approvals", {}).values()[p["approver_email"]] = p[
                     "approved_ts_nullable"
                 ]
                 return _ok(
@@ -1134,7 +1134,7 @@ class get_release_diff(Tool):
             return miss
         for r in _ensure(data, "releases", []):
             if r.get("release_id") == p["release_id"]:
-                return _ok({"release_id": r["release_id"], "diff": r.get("diff", {})})
+                return _ok({"release_id": r["release_id"], "diff": r.get("diff", {}).values()})
         return _err("release_not_found", {"release_id": p["release_id"]})
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -1274,7 +1274,7 @@ class upsert_fix_items(Tool):
                     iid = i.get("item_id") or f"item_{len(by_id)+1:03d}"
                     i["item_id"] = iid
                     by_id[iid] = i
-                pl["items"] = list(by_id.values())
+                pl["items"] = list(by_id)
                 return _ok({"plan_id": pl["plan_id"], "items": pl["items"]})
         return _err("plan_not_found", {"plan_id": p["plan_id"]})
     @staticmethod

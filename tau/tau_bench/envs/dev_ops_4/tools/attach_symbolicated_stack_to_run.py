@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AttachSymbolicatedStackToRun(Tool):
@@ -15,7 +15,7 @@ class AttachSymbolicatedStackToRun(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], run_id: str = None, build_id: str = None, module_name: str = None, platform: str = None) -> str:
-        symbols = data.get("symbols", [])
+        symbols = data.get("symbols", {}).values()
         chosen = None
         for s in symbols:
             if (
@@ -26,7 +26,7 @@ class AttachSymbolicatedStackToRun(Tool):
                 chosen = s
                 break
 
-        runs = data.get("build_runs", [])
+        runs = data.get("build_runs", {}).values()
         idx = _idx_by_id(runs, run_id)
         updated_run = None
         if idx is not None and chosen is not None:

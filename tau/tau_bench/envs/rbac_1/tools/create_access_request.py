@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateAccessRequest(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, resource_id: str = None, requested_role_id: str = None, justification: str = None) -> str:
-        requests = data.get("access_requests", [])
-        new_id_num = max((int(r["request_id"][3:]) for r in requests), default=0) + 1
+        requests = data.get("access_requests", {}).values()
+        new_id_num = max((int(r["request_id"][3:]) for r in requests.values()), default=0) + 1
         new_request_id = f"AR-{new_id_num:03d}"
         new_request = {
             "request_id": new_request_id,
@@ -26,7 +26,7 @@ class CreateAccessRequest(Tool):
             "status": "PENDING",
             "submitted_at": NOW.strftime(DT_STR_FORMAT),
         }
-        requests.append(new_request)
+        data["access_requests"][new_request["access_request_id"]] = new_request
         data["access_requests"] = requests
         payload = new_request
         out = json.dumps(payload)

@@ -8,7 +8,7 @@ from decimal import ROUND_HALF_UP, Decimal
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateSubnetGroupDescription(Tool):
@@ -16,8 +16,8 @@ class UpdateSubnetGroupDescription(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], subnet_group_id: Any, new_description: Any) -> str:
         subnet_group_id = _idstr(subnet_group_id)
-        groups = data.get("aws_subnet_groups", [])
-        for g in groups:
+        groups = data.get("aws_subnet_groups", {}).values()
+        for g in groups.values():
             if g.get("subnet_group_id") == subnet_group_id:
                 g["description"] = new_description
                 payload = g

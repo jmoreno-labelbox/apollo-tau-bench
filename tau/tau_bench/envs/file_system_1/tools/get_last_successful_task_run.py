@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetLastSuccessfulTaskRun(Tool):
@@ -17,7 +17,7 @@ class GetLastSuccessfulTaskRun(Tool):
     def invoke(data: dict[str, Any], task_type: str = None) -> str:
         successful_runs = [
             log
-            for log in data.get("task_logs", [])
+            for log in data.get("task_logs", {}).values()
             if log.get("task_type") == task_type and log.get("result") == "success"
         ]
         if not successful_runs:

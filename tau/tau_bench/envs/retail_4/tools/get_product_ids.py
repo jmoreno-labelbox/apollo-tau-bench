@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetProductIds:
@@ -25,8 +25,8 @@ class GetProductIds:
         Data Sources: orders.json (order items), users.json (user validation), products.json (product names)
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -39,7 +39,7 @@ class GetProductIds:
             return out
 
         # Find all specified orders for the user
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         found_orders = []
         not_found_orders = []
 
@@ -50,17 +50,17 @@ class GetProductIds:
             )
 
             order_found = False
-            for order in orders:
+            for order in orders.values()):
                 if (
                     order.get("order_id") == formatted_order_id
                     and order.get("user_id") == user_id
                 ):
-                    found_orders.append(order)
+                    found_data["orders"][order_id] = order
                     order_found = True
                     break
 
             if not order_found:
-                not_found_orders.append(formatted_order_id)
+                not_found_data["orders"][order_id] = formatted_order_id
 
         if not found_orders:
             payload = {
@@ -72,9 +72,9 @@ class GetProductIds:
             return out
 
         # Get product information for filtering
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         product_name_map = {}
-        for product in products:
+        for product in products.values():
             product_id = product.get("product_id")
             product_name = product.get("name", "").lower()
             if product_id:

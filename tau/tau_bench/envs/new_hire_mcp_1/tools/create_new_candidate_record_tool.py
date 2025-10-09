@@ -24,7 +24,7 @@ class CreateNewCandidateRecordTool(Tool):
         candidates = data.setdefault("candidates", [])
 
         # Check for duplicates
-        if any(c.get("candidate_email") == candidate_email for c in candidates):
+        if any(c.get("candidate_email") == candidate_email for c in candidates.values()):
             return _err(
                 f"Candidate with email '{candidate_email}' already exists.",
                 code="conflict",
@@ -46,7 +46,7 @@ class CreateNewCandidateRecordTool(Tool):
             "welcome_email_message_id_nullable": None,
         }
 
-        candidates.append(new_candidate)
+        data["candidates"][candidate_id] = new_candidate
         payload = new_candidate
         out = json.dumps(payload, indent=2)
         return out

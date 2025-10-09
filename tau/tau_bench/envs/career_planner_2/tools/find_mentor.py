@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindMentor(Tool):
@@ -16,7 +16,7 @@ class FindMentor(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], expertise: list[str] = None) -> str:
-        mentors = data.get("user_mentorship", [])
+        mentors = data.get("user_mentorship", {}).values()
         # Deterministic choice: the first mentor from the list who meets all expertise criteria and is available.
         for m in sorted(mentors, key=lambda x: x["mentor_id"]):  # Sort to ensure determinism
             if m.get("availability") != "Full" and all(

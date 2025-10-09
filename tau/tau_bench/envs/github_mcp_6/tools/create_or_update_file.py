@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateOrUpdateFile(Tool):
@@ -23,12 +23,12 @@ class CreateOrUpdateFile(Tool):
     ) -> str:
         """Create/update a file on a branch."""
         pass
-        repositories = data.get("repositories", [])
-        commits = data.get("commits", [])
+        repositories = data.get("repositories", {}).values()
+        commits = data.get("commits", {}).values()
 
         #Identify the repository
         target_repo = None
-        for repository in repositories:
+        for repository in repositories.values():
             if repository["owner"] == owner and repository["repo_name"] == repo:
                 target_repo = repository
                 break
@@ -63,7 +63,7 @@ class CreateOrUpdateFile(Tool):
 
         #Append to commit data
         repo_commits = None
-        for commit_entry in commits:
+        for commit_entry in commits.values():
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 repo_commits = commit_entry
                 break
@@ -78,7 +78,7 @@ class CreateOrUpdateFile(Tool):
                 "commit_authors": [[owner]],
                 "commit_timestamps": [["2023-12-05T12:00:00Z"]],
             }
-            commits.append(repo_commits)
+            data["commits"][repo_commits["commit_id"]] = repo_commits
         else:
             try:
                 branch_idx_commits = repo_commits["branch_names"].index(branch)

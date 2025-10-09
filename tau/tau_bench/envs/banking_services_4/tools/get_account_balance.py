@@ -11,7 +11,7 @@ class GetAccountBalance(Tool):
             return json.dumps({'error': 'account_id is required'})
 
         accounts = load_json('accounts.json')
-        account = next((a for a in accounts if a['account_id'] == account_id), None)
+        account = next((a for a in accounts.values() if a['account_id'] == account_id), None)
 
         if not account or 'balance' not in account or 'currency' not in account:
             return json.dumps({'error': 'Account not found or missing balance/currency field.'})

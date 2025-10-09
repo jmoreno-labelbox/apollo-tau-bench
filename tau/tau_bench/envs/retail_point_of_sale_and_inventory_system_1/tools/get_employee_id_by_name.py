@@ -9,15 +9,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetEmployeeIdByName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_name: str = None) -> str:
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
 
-        for employee in employees:
+        for employee in employees.values():
             if employee.get("name") == employee_name:
                 payload = {"employee_id": employee.get("employee_id")}
                 out = json.dumps(payload)

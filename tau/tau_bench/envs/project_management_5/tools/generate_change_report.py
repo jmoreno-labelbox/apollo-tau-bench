@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateChangeReport(Tool):
@@ -25,13 +25,13 @@ class GenerateChangeReport(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        change_approvals = data.get("change_approvals", [])
-        projects = data.get("projects", [])
-        emergency_logs = data.get("emergency_logs", [])
+        change_requests = data.get("change_requests", {}).values()
+        change_approvals = data.get("change_approvals", {}).values()
+        projects = data.get("projects", {}).values()
+        emergency_logs = data.get("emergency_logs", {}).values()
         report = {}
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project '{project_id}' not found"}
             out = json.dumps(payload)
@@ -51,7 +51,7 @@ class GenerateChangeReport(Tool):
                 return None
 
         project_crs = [
-            cr for cr in change_requests if cr.get("project_id") == project_id
+            cr for cr in change_requests.values() if cr.get("project_id") == project_id
         ]
 
         if report_type == "summary":
@@ -85,8 +85,7 @@ class GenerateChangeReport(Tool):
                     log = next(
                         (
                             e
-                            for e in emergency_logs
-                            if e.get("cr_id") == cr.get("cr_id")
+                            for e in emergency_logs.values() if e.get("cr_id") == cr.get("cr_id")
                         ),
                         None,
                     )
@@ -210,7 +209,7 @@ class GenerateChangeReport(Tool):
                         }
 
                     cr_approvals = [
-                        a for a in change_approvals if a.get("cr_id") == cr.get("cr_id")
+                        a for a in change_approvals.values() if a.get("cr_id") == cr.get("cr_id")
                     ]
                     cr_detail["approvals"] = [
                         {
@@ -236,10 +235,10 @@ class GenerateChangeReport(Tool):
             missing_risk_assessments = 0
             non_compliant_items = []
 
-            scope_baselines = data.get("scope_baselines", [])
+            scope_baselines = data.get("scope_baselines", {}).values()
             baseline_exists = any(
                 b.get("project_id") == project_id and b.get("status") == "approved"
-                for b in scope_baselines
+                for b in scope_baselines.values()
             )
             no_baseline = not baseline_exists
 
@@ -281,8 +280,7 @@ class GenerateChangeReport(Tool):
                     log = next(
                         (
                             e
-                            for e in emergency_logs
-                            if e.get("cr_id") == cr.get("cr_id")
+                            for e in emergency_logs.values() if e.get("cr_id") == cr.get("cr_id")
                         ),
                         None,
                     )

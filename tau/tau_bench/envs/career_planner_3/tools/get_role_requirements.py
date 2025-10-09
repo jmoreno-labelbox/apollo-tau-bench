@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetRoleRequirements(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], role_name: str = None) -> str:
-        role_catalog = data.get("role_skill_catalog", [])
-        result = [r for r in role_catalog if r["role"] == role_name]
+        role_catalog = data.get("role_skill_catalog", {}).values()
+        result = [r for r in role_catalog.values() if r["role"] == role_name]
 
         if not result:
             payload = {

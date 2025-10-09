@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class StatusMonitor(Tool):
@@ -17,13 +17,13 @@ class StatusMonitor(Tool):
 
         if report_type == "summary" or not category:
             status["devices"] = {
-                "total": len(data.get("devices", [])),
+                "total": len(data.get("devices", {})),
                 "by_type": {},
                 "by_location": {},
                 "powered_on": 0,
             }
 
-            for device in data.get("devices", []):
+            for device in data.get("devices", {}).values():
                 device_type = device.get("type", "unknown")
                 location = device.get("location", "unknown")
                 status["devices"]["by_type"][device_type] = (
@@ -32,43 +32,43 @@ class StatusMonitor(Tool):
                 status["devices"]["by_location"][location] = (
                     status["devices"]["by_location"].get(location, 0) + 1
                 )
-                if device.get("state", {}).get("power") == "on":
+                if device.get("state", {}).values().get("power") == "on":
                     status["devices"]["powered_on"] += 1
 
-            status["scenes"] = {"total": len(data.get("scenes", []))}
-            status["lists"] = {"total": len(data.get("custom_lists", []))}
+            status["scenes"] = {"total": len(data.get("scenes", {}))}
+            status["lists"] = {"total": len(data.get("custom_lists", {}))}
             status["reminders"] = {
-                "total": len(data.get("reminders", [])),
+                "total": len(data.get("reminders", {})),
                 "active": len(
                     [
                         r
-                        for r in data.get("reminders", [])
+                        for r in data.get("reminders", {}).values()
                         if r.get("status") == "active"
                     ]
                 ),
             }
             status["members"] = {
-                "total": len(data.get("members", [])),
+                "total": len(data.get("members", {})),
                 "residents": len(
                     [
                         m
-                        for m in data.get("members", [])
-                        if m.get("residence", {}).get("lives_in_house")
+                        for m in data.get("members", {}).values()
+                        if m.get("residence", {}).values().get("lives_in_house")
                     ]
                 ),
             }
 
         if category == "devices" or report_type == "detailed":
-            devices = data.get("devices", [])
+            devices = data.get("devices", {}).values()
             status["device_details"] = [
                 {
                     "id": d["id"],
                     "type": d["type"],
                     "location": d["location"],
-                    "power": d.get("state", {}).get("power", "unknown"),
-                    "last_updated": d.get("state", {}).get("last_updated"),
+                    "power": d.get("state", {}).values().get("power", "unknown"),
+                    "last_updated": d.get("state", {}).values().get("last_updated"),
                 }
-                for d in devices
+                for d in devices.values()
             ]
         payload = status
         out = json.dumps(payload, indent=2)

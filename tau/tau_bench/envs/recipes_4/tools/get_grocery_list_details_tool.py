@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetGroceryListDetailsTool(Tool):
@@ -62,7 +62,7 @@ class GetGroceryListDetailsTool(Tool):
 
         #2. Data Retrieval: Find the base grocery list object
         list_record = next(
-            (g for g in data.get("grocery_lists", []) if g.get("list_id") == list_id),
+            (g for g in data.get("grocery_lists", {}).values() if g.get("list_id") == list_id),
             None,
         )
 
@@ -74,18 +74,17 @@ class GetGroceryListDetailsTool(Tool):
         #3. Data Enrichment (Hydration): Fetch and enrich list items
         list_items = [
             item
-            for item in data.get("grocery_list_items", [])
+            for item in data.get("grocery_list_items", {}).values()
             if item.get("list_id") == list_id
         ]
 
         enriched_items = []
-        all_ingredients_meta = data.get("ingredients", [])
+        all_ingredients_meta = data.get("ingredients", {}).values()
         for item in list_items:
             ingredient_meta = next(
                 (
                     i
-                    for i in all_ingredients_meta
-                    if i.get("ingredient_id") == item.get("ingredient_id")
+                    for i in all_ingredients_meta.values() if i.get("ingredient_id") == item.get("ingredient_id")
                 ),
                 None,
             )

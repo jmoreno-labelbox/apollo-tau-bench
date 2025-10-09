@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetHighlightsByName(Tool):
@@ -31,10 +31,10 @@ class GetHighlightsByName(Tool):
         full_name = f"Game Highlights - {name}"
 
         #2) Retrieve DB
-        playlists: list[dict[str, Any]] = data.get("video_playlists", [])
+        playlists: list[dict[str, Any]] = data.get("video_playlists", {}).values()
 
         #3) Search for exact matches (without normalization)
-        matches = [p for p in playlists if p.get("playlist_name") == full_name]
+        matches = [p for p in playlists.values() if p.get("playlist_name") == full_name]
 
         if not matches:
             payload = {"error": f"No playlist found with name '{full_name}'"}

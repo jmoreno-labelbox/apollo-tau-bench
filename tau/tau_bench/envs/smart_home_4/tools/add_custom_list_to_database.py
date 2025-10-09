@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddCustomListToDatabase(Tool):
@@ -21,14 +21,14 @@ class AddCustomListToDatabase(Tool):
                 payload, indent=2
             )
             return out
-        custom_lists = data.get("custom_lists", [])
-        if any(l["list_id"] == custom_list.get("list_id") for l in custom_lists):
+        custom_lists = data.get("custom_lists", {}).values()
+        if any(l["list_id"] == custom_list.get("list_id") for l in custom_lists.values()):
             payload = {"error": "Custom list with this id already exists"}
             out = json.dumps(
                 payload, indent=2
             )
             return out
-        custom_lists.append(custom_list)
+        data["custom_lists"][custom_list["custom_list_id"]] = custom_list
         payload = {
                 "success": "Custom list added",
                 "custom_list": custom_list,

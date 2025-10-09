@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckChangeConflicts(Tool):
@@ -20,9 +20,9 @@ class CheckChangeConflicts(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
+        change_requests = data.get("change_requests", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
@@ -34,8 +34,7 @@ class CheckChangeConflicts(Tool):
         if compare_to_cr_id:
             active_crs = [
                 c
-                for c in change_requests
-                if c.get("project_id") == project_id
+                for c in change_requests.values() if c.get("project_id") == project_id
                 and c.get("cr_id") == compare_to_cr_id
                 and c.get("status")
                 in ["pending_approval", "in_review", "approved", "draft"]
@@ -43,8 +42,7 @@ class CheckChangeConflicts(Tool):
         else:
             active_crs = [
                 c
-                for c in change_requests
-                if c.get("project_id") == project_id
+                for c in change_requests.values() if c.get("project_id") == project_id
                 and c.get("cr_id") != cr_id
                 and c.get("status")
                 in ["pending_approval", "in_review", "approved", "draft"]
@@ -115,7 +113,7 @@ class CheckChangeConflicts(Tool):
                         }
                     )
 
-        has_rule_violations = any(c.get("rule_violation") for c in conflicts)
+        has_rule_violations = any(c.get("rule_violation") for c in conflicts.values()
         payload = {
                 "cr_id": cr_id,
                 "conflicts_found": len(conflicts),

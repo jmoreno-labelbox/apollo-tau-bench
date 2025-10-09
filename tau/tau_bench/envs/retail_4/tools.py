@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -26,8 +26,8 @@ class ProcessPayment(Tool):
         Process payment for a customer order following retail rules validation
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -35,7 +35,7 @@ class ProcessPayment(Tool):
             return out
 
         # Rule: Payment methods must be valid type: credit_card, paypal, or gift_card with sufficient balance
-        payment_methods = user.get("payment_methods", {})
+        payment_methods = user.get("payment_methods", {}).values()
         pay_keys = list(payment_methods.keys())
         payment_method = None
         for key in pay_keys:
@@ -186,7 +186,7 @@ class AllocateInventory(Tool):
             return out
 
         # Rule: Confirm item_id exists in product variants before including in orders
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         allocation_results = []
         successful_allocations = []
         failed_allocations = []
@@ -196,8 +196,8 @@ class AllocateInventory(Tool):
             product_found = None
             variant_found = None
 
-            for product in products:
-                variants = product.get("variants", {})
+            for product in products.values():
+                variants = product.get("variants", {}).values()
                 if current_item_id in variants:
                     product_found = product
                     variant_found = variants[current_item_id]
@@ -236,7 +236,7 @@ class AllocateInventory(Tool):
                 "quantity_allocated": quantity,
                 "unit_price": unit_price,
                 "total_price": total_price,
-                "variant_options": variant_found.get("options", {}),
+                "variant_options": variant_found.get("options", {}).values()),
                 "status": "success",
             }
 
@@ -383,13 +383,13 @@ class AssignCourier(Tool):
             values_to_process = order_values
 
         # Rule: Assign couriers only if destination country matches their coverage areas
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         eligible_couriers = []
 
-        for courier in couriers:
+        for courier in couriers.values()):
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
-                eligible_couriers.append(courier)
+                eligible_data["couriers"][courier_id] = courier
 
         if not eligible_couriers:
             payload = {
@@ -606,7 +606,7 @@ class ValidateOrderItems(Tool):
         """
         Validate all items in an order before processing
         """
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         validated_items = []
         total_order_value = 0.0
 
@@ -619,8 +619,8 @@ class ValidateOrderItems(Tool):
             variant_found = None
             product_found = None
 
-            for product in products:
-                variants = product.get("variants", {})
+            for product in products.values():
+                variants = product.get("variants", {}).values()
                 if item_id in variants:
                     variant_found = variants[item_id]
                     product_found = product
@@ -659,7 +659,7 @@ class ValidateOrderItems(Tool):
                     "quantity": quantity,
                     "unit_price": unit_price,
                     "item_total": item_total,
-                    "options": variant_found.get("options", {}),
+                    "options": variant_found.get("options", {}).values()),
                     "availability": variant_found.get("available", False),
                 }
             )
@@ -721,8 +721,8 @@ class ValidateShippingAddress(Tool):
         Validate shipping address for order fulfillment
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -730,7 +730,7 @@ class ValidateShippingAddress(Tool):
             return out
 
         # Use custom address if provided, otherwise use user's stored address
-        address = custom_address if custom_address else user.get("address", {})
+        address = custom_address if custom_address else user.get("address", {}).values()
 
         # Rule: Validate all required address fields: address1, city, country, state, zip
         required_fields = ["address1", "city", "country", "state", "zip"]
@@ -749,9 +749,9 @@ class ValidateShippingAddress(Tool):
             return out
 
         # Additional validation for supported countries
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         supported_countries = set()
-        for courier in couriers:
+        for courier in couriers.values():
             supported_countries.update(courier.get("coverage_area", []))
 
         destination_country = address.get("country")
@@ -814,9 +814,9 @@ class CheckSupplyOrderStatus(Tool):
         Check supply order status for inventory replenishment planning
         """
         # Rule: Supply orders must reference valid supplier_id and existing product_id
-        supply_orders = data.get("supply_orders", [])
+        supply_orders = data.get("supply_orders", {}).values()
         product_supply_orders = [
-            so for so in supply_orders if so.get("product_id") == product_id
+            so for so in supply_orders.values() if so.get("product_id") == product_id
         ]
 
         if not product_supply_orders:
@@ -835,11 +835,11 @@ class CheckSupplyOrderStatus(Tool):
         for order in product_supply_orders:
             status = order.get("status")
             if status == "cancelled":
-                cancelled_orders.append(order)
+                cancelled_data["orders"][order_id] = order
             elif status == "fulfilled":
-                fulfilled_orders.append(order)
+                fulfilled_data["orders"][order_id] = order
             elif status == "pending":
-                active_orders.append(order)
+                active_data["orders"][order_id] = order
 
         # Calculate totals
         total_pending_quantity = sum(
@@ -913,14 +913,14 @@ class SearchProductsByFilter(Tool):
         Data Sources: products.json (product_id, name, variants with price/available fields)
         """
         _categoryL = (category or '').lower()
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         matching_products = []
 
         # Rule: Check product availability status before allocation - never allocate unavailable items
-        for product in products:
+        for product in products.values():
             product_name = product.get("name", "").lower()
             product_id = product.get("product_id")
-            variants = product.get("variants", {})
+            variants = product.get("variants", {}).values()
 
             # Filter by category if specified
             if category and category.lower() not in product_name:
@@ -931,7 +931,7 @@ class SearchProductsByFilter(Tool):
             for variant_id, variant in variants.items():
                 variant_price = variant.get("price", 0)
                 variant_available = variant.get("available", False)
-                variant_options = variant.get("options", {})
+                variant_options = variant.get("options", {}).values()
 
                 # Rule: Check product availability status before allocation
                 if not show_all:
@@ -998,8 +998,8 @@ class SearchProductsByFilter(Tool):
                         "name": product.get("name"),
                         "variants_count": len(valid_variants),
                         "price_range": {
-                            "min": min(v["price"] for v in valid_variants),
-                            "max": max(v["price"] for v in valid_variants),
+                            "min": min(v["price"] for v in valid_variants.values()),
+                            "max": max(v["price"] for v in valid_variants.values()),
                         },
                         "sample_variants": valid_variants,
                     }
@@ -1104,8 +1104,8 @@ class GetUserOrderHistory(Tool):
         Data Sources: users.json (user_id, orders, payment_methods, name, email, address), orders.json (order details), products.json (product names for filtering)
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -1114,9 +1114,9 @@ class GetUserOrderHistory(Tool):
 
         # Extract user information from users.json structure
         user_orders = user.get("orders", [])
-        payment_methods = user.get("payment_methods", {})
-        user_name = user.get("name", {})
-        user_address = user.get("address", {})
+        payment_methods = user.get("payment_methods", {}).values()
+        user_name = user.get("name", {}).values()
+        user_address = user.get("address", {}).values()
 
         # Get detailed order information if product_type filter is specified
         filtered_orders = user_orders
@@ -1128,22 +1128,22 @@ class GetUserOrderHistory(Tool):
             filter_applied = True
 
             # Get product information for filtering
-            products = data.get("products", [])
+            products = data.get("products", {}).values()
             product_name_map = {}
-            for product in products:
+            for product in products.values():
                 product_id = product.get("product_id")
                 product_name = product.get("name", "").lower()
                 if product_id:
                     product_name_map[product_id] = product_name
 
             # Get order details to filter by product type
-            orders = data.get("orders", [])
+            orders = data.get("orders", {}).values()
             filtered_orders = []
 
             for order_id in user_orders:
                 # Find the order details
                 order_details = None
-                for order in orders:
+                for order in orders.values():
                     if (
                         order.get("order_id") == order_id
                         and order.get("user_id") == user_id
@@ -1171,7 +1171,7 @@ class GetUserOrderHistory(Tool):
 
                     # Include order if it has matching products
                     if order_has_matching_products:
-                        filtered_orders.append(order_id)
+                        filtered_data["orders"][order_id] = order_id
 
         # Rule: Payment methods must be valid type: credit_card, paypal, or gift_card
         valid_payment_methods = []
@@ -1197,19 +1197,19 @@ class GetUserOrderHistory(Tool):
 
         # Get detailed information about filtered orders (both with and without product type filter)
         order_details_summary = []
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
 
         # Get product information for item_ids mapping
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         product_name_map = {}
-        for product in products:
+        for product in products.values():
             product_id = product.get("product_id")
             product_name = product.get("name", "").lower()
             if product_id:
                 product_name_map[product_id] = product_name
 
         for order_id in filtered_orders:
-            for order in orders:
+            for order in orders.values():
                 if (
                     order.get("order_id") == order_id
                     and order.get("user_id") == user_id
@@ -1339,9 +1339,9 @@ class ValidateSupplierCapacity(Tool):
 
         Data Sources: supply_orders.json (supplier_id, status, quantity, total_cost, order_date)
         """
-        supply_orders = data.get("supply_orders", [])
+        supply_orders = data.get("supply_orders", {}).values()
         supplier_orders = [
-            order for order in supply_orders if order.get("supplier_id") == supplier_id
+            order for order in supply_orders.values() if order.get("supplier_id") == supplier_id
         ]
 
         if not supplier_orders:
@@ -1361,19 +1361,19 @@ class ValidateSupplierCapacity(Tool):
         for order in supplier_orders:
             status = order.get("status")
             if status == "pending":
-                pending_orders.append(order)
+                pending_data["orders"][order_id] = order
             elif status == "fulfilled":
-                fulfilled_orders.append(order)
+                fulfilled_data["orders"][order_id] = order
             elif status == "cancelled":
-                cancelled_orders.append(order)
+                cancelled_data["orders"][order_id] = order
 
         # Calculate capacity metrics
-        total_pending_quantity = sum(order.get("quantity", 0) for order in pending_orders)
-        total_fulfilled_quantity = sum(order.get("quantity", 0) for order in fulfilled_orders)
-        total_cancelled_quantity = sum(order.get("quantity", 0) for order in cancelled_orders)
+        total_pending_quantity = sum(order.get("quantity", 0) for order in pending_orders.values()
+        total_fulfilled_quantity = sum(order.get("quantity", 0) for order in fulfilled_orders.values()
+        total_cancelled_quantity = sum(order.get("quantity", 0) for order in cancelled_orders.values()
 
-        total_pending_cost = sum(order.get("total_cost", 0) for order in pending_orders)
-        total_fulfilled_cost = sum(order.get("total_cost", 0) for order in fulfilled_orders)
+        total_pending_cost = sum(order.get("total_cost", 0) for order in pending_orders.values()
+        total_fulfilled_cost = sum(order.get("total_cost", 0) for order in fulfilled_orders.values()
 
         # Calculate reliability metrics
         total_completed_orders = len(fulfilled_orders) + len(cancelled_orders)
@@ -1540,13 +1540,13 @@ class CalculateShippingCost(Tool):
         """
         pass
         #Rule: Assign couriers only if destination country matches their coverage areas
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         eligible_couriers = []
 
-        for courier in couriers:
+        for courier in couriers.values()):
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
-                eligible_couriers.append(courier)
+                eligible_data["couriers"][courier_id] = courier
 
         if not eligible_couriers:
             payload = {
@@ -1771,10 +1771,10 @@ class CalculateShippingCost(Tool):
         return out
         eligible_couriers = []
 
-        for courier in couriers:
+        for courier in couriers.values():
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
-                eligible_couriers.append(courier)
+                eligible_data["couriers"][courier_id] = courier
 
         if not eligible_couriers:
             payload = {
@@ -2144,8 +2144,8 @@ class GenerateOrderSummary(Tool):
         """
         pass
         #Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -2154,7 +2154,7 @@ class GenerateOrderSummary(Tool):
             return out
 
         #Validate payment methods and prepare payment breakdown
-        payment_methods = user.get("payment_methods", {})
+        payment_methods = user.get("payment_methods", {}).values()
         selected_payments = []
 
         for payment_method_id in payment_methods_source:
@@ -2193,7 +2193,7 @@ class GenerateOrderSummary(Tool):
             selected_payments.append(payment_info)
 
         #Validate and price all items
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         order_items = []
         subtotal = 0.0
 
@@ -2206,8 +2206,8 @@ class GenerateOrderSummary(Tool):
             variant_found = None
             product_found = None
 
-            for product in products:
-                variants = product.get("variants", {})
+            for product in products.values():
+                variants = product.get("variants", {}).values()
                 if item_id in variants:
                     variant_found = variants[item_id]
                     product_found = product
@@ -2231,7 +2231,7 @@ class GenerateOrderSummary(Tool):
                     "quantity": quantity,
                     "unit_price": unit_price,
                     "line_total": line_total,
-                    "options": variant_found.get("options", {}),
+                    "options": variant_found.get("options", {}).values()),
                 }
             )
 
@@ -2345,7 +2345,7 @@ class GenerateOrderSummary(Tool):
             )
 
         #Rule: Maintain data integrity: order totals must match sum of item prices
-        calculated_subtotal = sum(item["line_total"] for item in order_items)
+        calculated_subtotal = sum(item["line_total"] for item in order_items.values()
         calculated_payment_total = sum(
             payment["allocated_amount"] for payment in payment_breakdown
         )
@@ -2459,8 +2459,8 @@ class CreateOrder(Tool):
             return out
 
         #Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -2470,9 +2470,9 @@ class CreateOrder(Tool):
 
         #Validate return order exists if return_order_id is provided
         if return_order_id:
-            orders = data.get("orders", [])
+            orders = data.get("orders", {}).values()
             return_order_found = False
-            for order in orders:
+            for order in orders.values():
                 if (
                     order.get("order_id") == return_order_id
                     and order.get("user_id") == user_id
@@ -2490,7 +2490,7 @@ class CreateOrder(Tool):
                 return out
 
         #Validate payment methods and prepare payment breakdown
-        payment_methods = user.get("payment_methods", {})
+        payment_methods = user.get("payment_methods", {}).values()
         selected_payments = []
 
         for payment_method_source in payment_method_sources:
@@ -2529,7 +2529,7 @@ class CreateOrder(Tool):
             selected_payments.append(payment_info)
 
         #Validate and process items
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         order_items = []
         subtotal_amount = 0.0
 
@@ -2542,8 +2542,8 @@ class CreateOrder(Tool):
             variant_found = None
             product_found = None
 
-            for product in products:
-                variants = product.get("variants", {})
+            for product in products.values():
+                variants = product.get("variants", {}).values()
                 if item_id in variants:
                     variant_found = variants[item_id]
                     product_found = product
@@ -2579,7 +2579,7 @@ class CreateOrder(Tool):
                     "product_id": product_found.get("product_id"),
                     "item_id": item_id,
                     "price": unit_price,
-                    "options": variant_found.get("options", {}),
+                    "options": variant_found.get("options", {}).values()),
                     "quantity": quantity,
                 }
             )
@@ -2721,7 +2721,7 @@ class CreateOrder(Tool):
                 return out
 
         #Generate new order ID
-        existing_orders = data.get("orders", [])
+        existing_orders = data.get("orders", {}).values()
         order_number = len(existing_orders) + 1
         new_order_id = f"#W{str(order_number).zfill(7)}"
 
@@ -2760,7 +2760,7 @@ class CreateOrder(Tool):
         new_order = {
             "order_id": new_order_id,
             "user_id": user_id,
-            "address": user.get("address", {}),
+            "address": user.get("address", {}).values()),
             "items": order_items,
             "fulfillments": [],
             "status": "pending",
@@ -2784,7 +2784,7 @@ class CreateOrder(Tool):
         #WRITE OPERATION: Add new order to orders.json
         if "orders" not in data:
             data["orders"] = []
-        data["orders"].append(new_order)
+        data["orders"][order_id] = new_order
 
         #WRITE OPERATION: Update user's order list in users.json
         if "orders" not in user:
@@ -2792,7 +2792,7 @@ class CreateOrder(Tool):
         user["orders"].append(new_order_id)
 
         #Calculate final amounts for response
-        final_payment_amount = sum(p["allocated_amount"] for p in payment_breakdown)
+        final_payment_amount = sum(p["allocated_amount"] for p in payment_breakdown.values()
 
         result = {
             "status": "success",
@@ -2957,9 +2957,9 @@ class UpdateOrderStatus(Tool):
         # Validate tracking and courier if provided
         selected_courier = None
         if tracking_id and courier_id:
-            couriers = data.get("couriers", [])
+            couriers = data.get("couriers", {}).values()
 
-            for courier in couriers:
+            for courier in couriers.values():
                 if courier.get("courier_id") == courier_id:
                     selected_courier = courier
                     break
@@ -2987,7 +2987,7 @@ class UpdateOrderStatus(Tool):
             return out
 
         # Find and process all orders
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         successful_updates = []
         failed_updates = []
 
@@ -3000,7 +3000,7 @@ class UpdateOrderStatus(Tool):
             )
 
             order_found = False
-            for i, order in enumerate(orders):
+            for i, order in enumerate(orders.values():
                 if order.get("order_id") == formatted_order_id:
                     order_found = True
                     old_status = order.get("status")
@@ -3147,11 +3147,11 @@ class UpdateSupplyOrderStatus(Tool):
             return out
 
         # Find the supply order to update
-        supply_orders = data.get("supply_orders", [])
+        supply_orders = data.get("supply_orders", {}).values()
         supply_order_to_update = None
         order_index = None
 
-        for i, order in enumerate(supply_orders):
+        for i, order in enumerate(supply_orders.values():
             if order.get("supply_order_id") == supply_order_id:
                 supply_order_to_update = order
                 order_index = i
@@ -3267,12 +3267,12 @@ class UpdateProductAvailability(Tool):
 
         Writes to: products.json (updates variant availability and price)
         """
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         product_to_update = None
         product_index = None
 
         # Find the product
-        for i, product in enumerate(products):
+        for i, product in enumerate(products.values():
             if product.get("product_id") == product_id:
                 product_to_update = product
                 product_index = i
@@ -3284,7 +3284,7 @@ class UpdateProductAvailability(Tool):
             return out
 
         # Rule: Confirm item_id exists in product variants before including in orders
-        variants = product_to_update.get("variants", {})
+        variants = product_to_update.get("variants", {}).values()
         if item_id not in variants:
             payload = {
                 "error": f"Item variant {item_id} not found in product {product_id}",
@@ -3332,7 +3332,7 @@ class UpdateProductAvailability(Tool):
                 if price_updated
                 else {"updated": False}
             ),
-            "variant_options": variant_to_update.get("options", {}),
+            "variant_options": variant_to_update.get("options", {}).values()),
             "last_updated": variant_to_update["last_updated"],
         }
         payload = result
@@ -3467,7 +3467,7 @@ class CreateSupplyOrder(Tool):
                 return out
 
         #Get product information
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
 
         #When item_ids are provided, find product_id for each item
         if item_ids or not product_id:
@@ -3476,8 +3476,8 @@ class CreateSupplyOrder(Tool):
 
             for item in items_to_process:
                 product_found = None
-                for product in products:
-                    variants = product.get("variants", {})
+                for product in products.values():
+                    variants = product.get("variants", {}).values()
                     if item in variants:
                         product_found = product.get("product_id")
                         products_involved.add(product_found)
@@ -3608,7 +3608,7 @@ class CreateSupplyOrder(Tool):
                 return out
 
         #Get product information
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
 
         #When item_ids are provided, find product_id for each item
         if item_ids or not product_id:
@@ -3617,8 +3617,8 @@ class CreateSupplyOrder(Tool):
 
             for item in items_to_process:
                 product_found = None
-                for product in products:
-                    variants = product.get("variants", {})
+                for product in products.values():
+                    variants = product.get("variants", {}).values()
                     if item in variants:
                         product_found = product.get("product_id")
                         products_involved.add(product_found)
@@ -3689,7 +3689,7 @@ class CreateSupplyOrder(Tool):
         pass
         #Rule: Supply orders must reference valid supplier_id and existing product_id
         product_found = None
-        for product in products:
+        for product in products.values():
             if product.get("product_id") == product_id:
                 product_found = product
                 break
@@ -3701,7 +3701,7 @@ class CreateSupplyOrder(Tool):
             return out
 
         #Rule: Confirm item_id exists in product variants before including in orders
-        variants = product_found.get("variants", {})
+        variants = product_found.get("variants", {}).values()
         valid_items = []
         invalid_items = []
 
@@ -3710,7 +3710,7 @@ class CreateSupplyOrder(Tool):
                 valid_items.append(
                     {
                         "item_id": item,
-                        "variant_options": variants[item].get("options", {}),
+                        "variant_options": variants[item].get("options", {}).values()),
                         "current_price": variants[item].get("price", 0),
                         "available": variants[item].get("available", False),
                         "unit_cost": (
@@ -3742,7 +3742,7 @@ class CreateSupplyOrder(Tool):
             return out
 
         #Generate new supply order ID
-        existing_supply_orders = data.get("supply_orders", [])
+        existing_supply_orders = data.get("supply_orders", {}).values()
         order_number = len(existing_supply_orders) + 1
         new_supply_order_id = f"#SO{str(order_number).zfill(4)}"
 
@@ -3797,7 +3797,7 @@ class CreateSupplyOrder(Tool):
         #WRITE OPERATION: Add new supply order to supply_orders.json
         if "supply_orders" not in data:
             data["supply_orders"] = []
-        data["supply_orders"].append(new_supply_order)
+        data["supply_orders"][supply_order_id] = new_supply_order
 
         result = {
             "status": "success",
@@ -3886,7 +3886,7 @@ class CreateSupplyOrder(Tool):
                 return order_result  #Return error if any order creation fails
 
         #Calculate totals
-        total_orders_cost = sum(order["total_cost"] for order in created_orders)
+        total_orders_cost = sum(order["total_cost"] for order in created_orders.values()
         total_quantity_ordered = sum(
             order["total_quantity"] for order in created_orders
         )
@@ -3978,13 +3978,13 @@ class ValidateUserIdentity(Tool):
                 payload)
             return out
 
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         target_user = None
         search_method = "user_id" if user_id else "name_search"
 
         if user_id:
             #Rule: Validate user identity exists before processing any user requests
-            target_user = next((u for u in users if u.get("user_id") == user_id), None)
+            target_user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
             if not target_user:
                 payload = {
@@ -4000,8 +4000,8 @@ class ValidateUserIdentity(Tool):
             #Search by first_name and last_name
             matching_users = []
 
-            for user in users:
-                user_name = user.get("name", {})
+            for user in users.values():
+                user_name = user.get("name", {}).values()
                 stored_first_name = user_name.get("first_name", "").lower().strip()
                 stored_last_name = user_name.get("last_name", "").lower().strip()
 
@@ -4012,7 +4012,7 @@ class ValidateUserIdentity(Tool):
                     stored_first_name == provided_first_name
                     and stored_last_name == provided_last_name
                 ):
-                    matching_users.append(user)
+                    matching_data["users"][user_id] = user
 
             if not matching_users:
                 payload = {
@@ -4053,7 +4053,7 @@ class ValidateUserIdentity(Tool):
 
         #Additional validation for first_name and last_name if provided when searching by user_id
         validation_details = {"user_id_valid": True}
-        user_name = target_user.get("name", {})
+        user_name = target_user.get("name", {}).values()
         stored_first_name = user_name.get("first_name", "")
         stored_last_name = user_name.get("last_name", "")
         stored_email = target_user.get("email", "")
@@ -4093,7 +4093,7 @@ class ValidateUserIdentity(Tool):
             validation_details["last_name_valid"] = True
 
         #Always include comprehensive user location details in the response
-        user_address = target_user.get("address", {})
+        user_address = target_user.get("address", {}).values()
 
         user_location_details = {
             "address1": user_address.get("address1", ""),
@@ -4121,9 +4121,9 @@ class ValidateUserIdentity(Tool):
             address_status = "partial"
 
         #Check if location supports delivery (based on available couriers)
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         supported_countries = set()
-        for courier in couriers:
+        for courier in couriers.values()):
             supported_countries.update(courier.get("coverage_area", []))
 
         destination_country = user_address.get("country", "")
@@ -4202,8 +4202,8 @@ class CancelOrder(Tool):
         Data Sources: users.json for validation
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -4211,11 +4211,11 @@ class CancelOrder(Tool):
             return out
 
         # Find the order to cancel
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         order_to_cancel = None
         order_index = None
 
-        for i, order in enumerate(orders):
+        for i, order in enumerate(orders.values():
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 order_to_cancel = order
                 order_index = i
@@ -4335,8 +4335,8 @@ class UpdateDeliveryAddress(Tool):
         Data Sources: couriers.json for delivery validation
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -4344,11 +4344,11 @@ class UpdateDeliveryAddress(Tool):
             return out
 
         # Find the order to update
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         order_to_update = None
         order_index = None
 
-        for i, order in enumerate(orders):
+        for i, order in enumerate(orders.values():
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 order_to_update = order
                 order_index = i
@@ -4390,9 +4390,9 @@ class UpdateDeliveryAddress(Tool):
             return out
 
         # Rule: Assign couriers only if destination country matches their coverage areas
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         supported_countries = set()
-        for courier in couriers:
+        for courier in couriers.values()):
             supported_countries.update(courier.get("coverage_area", []))
 
         destination_country = new_address.get("country")
@@ -4405,7 +4405,7 @@ class UpdateDeliveryAddress(Tool):
             return out
 
         # WRITE OPERATION: Update order address
-        old_address = order_to_update.get("address", {})
+        old_address = order_to_update.get("address", {}).values()
         order_to_update["address"] = new_address
         order_to_update["address_updated"] = {
             "updated_date": datetime.now().isoformat(),
@@ -4485,11 +4485,11 @@ class AddPaymentMethod(Tool):
         """
         pass
         #Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         user_to_update = None
         user_index = None
 
-        for i, user in enumerate(users):
+        for i, user in enumerate(users.values():
             if user.get("user_id") == user_id:
                 user_to_update = user
                 user_index = i
@@ -4512,7 +4512,7 @@ class AddPaymentMethod(Tool):
             return out
 
         #Generate unique payment method ID
-        existing_payment_methods = user_to_update.get("payment_methods", {})
+        existing_payment_methods = user_to_update.get("payment_methods", {}).values()
         method_count = len(existing_payment_methods) + 1
         new_payment_id = f"{payment_type}_{method_count}{user_id.split('_')[-1]}"
 
@@ -4627,11 +4627,11 @@ class UpdateUserProfile(Tool):
         """
         pass
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         user_to_update = None
         user_index = None
 
-        for i, user in enumerate(users):
+        for i, user in enumerate(users.values():
             if user.get("user_id") == user_id:
                 user_to_update = user
                 user_index = i
@@ -4650,7 +4650,7 @@ class UpdateUserProfile(Tool):
             name_update = profile_updates["name"]
             if isinstance(name_update, dict):
                 if "first_name" in name_update or "last_name" in name_update:
-                    old_name = user_to_update.get("name", {})
+                    old_name = user_to_update.get("name", {}).values()
                     new_name = old_name.copy()
 
                     if "first_name" in name_update:
@@ -4693,7 +4693,7 @@ class UpdateUserProfile(Tool):
                     out = json.dumps(payload)
                     return out
 
-                old_address = user_to_update.get("address", {})
+                old_address = user_to_update.get("address", {}).values()
                 new_address = old_address.copy()
                 new_address.update(address_update)
 
@@ -4790,8 +4790,8 @@ class RequestOrderReturn(Tool):
         Writes to: orders.json (adds return request to order)
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -4852,11 +4852,11 @@ class RequestOrderReturn(Tool):
             return out
 
         # Find the order to process return for
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         order_to_return = None
         order_index = None
 
-        for i, order in enumerate(orders):
+        for i, order in enumerate(orders.values():
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 order_to_return = order
                 order_index = i
@@ -5040,8 +5040,8 @@ class GetPurchasedItems(Tool):
             return out
             
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -5049,10 +5049,10 @@ class GetPurchasedItems(Tool):
             return out
 
         # Find the specific order
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         target_order = None
 
-        for order in orders:
+        for order in orders.values():
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 target_order = order
                 break
@@ -5078,7 +5078,7 @@ class GetPurchasedItems(Tool):
             return out
 
         # Enrich item details with additional product information
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         detailed_items = []
         total_order_value = 0.0
 
@@ -5087,19 +5087,19 @@ class GetPurchasedItems(Tool):
             product_id = order_item.get("product_id")
             item_price = order_item.get("price", 0)
             item_name = order_item.get("name")
-            item_options = order_item.get("options", {})
+            item_options = order_item.get("options", {}).values()
 
             # Find additional product details from products.json
             additional_details = {}
-            for product in products:
+            for product in products.values():
                 if product.get("product_id") == product_id:
-                    variants = product.get("variants", {})
+                    variants = product.get("variants", {}).values()
                     if item_id in variants:
                         variant_info = variants[item_id]
                         additional_details = {
                             "current_availability": variant_info.get("available", False),
                             "current_price": variant_info.get("price", 0),
-                            "full_options": variant_info.get("options", {}),
+                            "full_options": variant_info.get("options", {}).values()),
                             "supplier_id": product.get("supplier_id"),
                         }
                     break
@@ -5171,7 +5171,7 @@ class GetPurchasedItems(Tool):
                 "user_id": user_id,
                 "order_status": order_status,
                 "order_date": order_timestamp,
-                "delivery_address": target_order.get("address", {}),
+                "delivery_address": target_order.get("address", {}).values()),
             },
             "financial_summary": {
                 "total_order_value": round(total_order_value, 2),
@@ -5238,9 +5238,9 @@ class GetCourier(Tool):
         tracking_id = tracking_id.strip()
 
         # Find which courier has this tracking ID
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
 
-        for courier in couriers:
+        for courier in couriers.values():
             courier_tracking_ids = courier.get("tracking_ids", [])
             if tracking_id in courier_tracking_ids:
                 result = {
@@ -5298,8 +5298,8 @@ class VerifyGiftCardBalance(Tool):
             return out
 
         #Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -5308,7 +5308,7 @@ class VerifyGiftCardBalance(Tool):
             return out
 
         #Verify name matches user record
-        user_name = user.get("name", {})
+        user_name = user.get("name", {}).values()
         stored_first_name = user_name.get("first_name", "").lower().strip()
         stored_last_name = user_name.get("last_name", "").lower().strip()
 
@@ -5328,7 +5328,7 @@ class VerifyGiftCardBalance(Tool):
             return out
 
         #Rule: Payment methods must be valid type: credit_card, paypal, or gift_card
-        payment_methods = user.get("payment_methods", {})
+        payment_methods = user.get("payment_methods", {}).values()
         gift_cards = []
 
         for method_id, method_details in payment_methods.items():
@@ -5355,7 +5355,7 @@ class VerifyGiftCardBalance(Tool):
             return out
 
         #Calculate total gift card balance
-        total_balance = sum(card["balance"] for card in gift_cards)
+        total_balance = sum(card["balance"] for card in gift_cards.values()
 
         result = {
             "status": "success",
@@ -5419,10 +5419,10 @@ class CheckOrderStatus(Tool):
             order_id = f"#{order_id}"
 
         # Find the order
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         target_order = None
 
-        for order in orders:
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 target_order = order
                 break
@@ -5472,7 +5472,7 @@ class CheckOrderStatus(Tool):
         }
 
         # Get delivery address
-        delivery_address = target_order.get("address", {})
+        delivery_address = target_order.get("address", {}).values()
 
         # Check for cancellation info
         cancellation_info = target_order.get("cancellation_info")
@@ -5537,8 +5537,8 @@ class GetUserInfo(Tool):
         Get basic user information
         Data Sources: users.json (user_id, name, email, address)
         """
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -5548,9 +5548,9 @@ class GetUserInfo(Tool):
         payload = {
             "status": "success",
             "user_id": user_id,
-            "name": user.get("name", {}),
+            "name": user.get("name", {}).values()),
             "email": user.get("email", ""),
-            "address": user.get("address", {}),
+            "address": user.get("address", {}).values()),
             "total_orders": len(user.get("orders", [])),
         }
         out = json.dumps(payload)
@@ -5584,9 +5584,9 @@ class GetProductInfo(Tool):
         Get basic product information by item ID
         Data Sources: products.json
         """
-        products = data.get("products", [])
-        for product in products:
-            variants = product.get("variants", {})
+        products = data.get("products", {}).values()
+        for product in products.values():
+            variants = product.get("variants", {}).values()
             if item_id in variants:
                 variant = variants[item_id]
                 payload = {
@@ -5596,7 +5596,7 @@ class GetProductInfo(Tool):
                     "product_name": product.get("name"),
                     "price": variant.get("price"),
                     "available": variant.get("available"),
-                    "options": variant.get("options", {}),
+                    "options": variant.get("options", {}).values()),
                 }
                 out = json.dumps(payload)
                 return out
@@ -5632,15 +5632,15 @@ class CheckUserPaymentMethods(Tool):
         List user's available payment methods
         Data Sources: users.json (payment_methods)
         """
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
             out = json.dumps(payload)
             return out
 
-        payment_methods = user.get("payment_methods", {})
+        payment_methods = user.get("payment_methods", {}).values()
         method_list = []
 
         for method_id, method_info in payment_methods.items():
@@ -5700,12 +5700,12 @@ class UpdateSupplierInfo(Tool):
         Writes to: suppliers.json (updates existing supplier contact_info and adds performance data)
         Data Sources: suppliers.json (supplier_id, name, contact_info)
         """
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         supplier_to_update = None
         supplier_index = None
 
         # Find the supplier
-        for i, supplier in enumerate(suppliers):
+        for i, supplier in enumerate(suppliers.values():
             if supplier.get("supplier_id") == supplier_id:
                 supplier_to_update = supplier
                 supplier_index = i
@@ -5720,7 +5720,7 @@ class UpdateSupplierInfo(Tool):
         updates_applied = []
 
         if contact_updates:
-            current_contact = supplier_to_update.get("contact_info", {})
+            current_contact = supplier_to_update.get("contact_info", {}).values()
 
             if "phone" in contact_updates:
                 current_contact["phone"] = contact_updates["phone"]
@@ -5765,8 +5765,8 @@ class UpdateSupplierInfo(Tool):
             "supplier_id": supplier_id,
             "supplier_name": supplier_to_update.get("name"),
             "updates_applied": updates_applied,
-            "updated_contact_info": supplier_to_update.get("contact_info", {}),
-            "performance_rating": supplier_to_update.get("performance_metrics", {}).get(
+            "updated_contact_info": supplier_to_update.get("contact_info", {}).values()),
+            "performance_rating": supplier_to_update.get("performance_metrics", {}).values().get(
                 "rating"
             ),
             "last_updated": supplier_to_update["last_updated"],
@@ -5915,12 +5915,12 @@ class UpdateInventoryStock(Tool):
                 payload)
             return out
 
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         supplier_to_update = None
         supplier_index = None
 
         #Find the supplier
-        for i, supplier in enumerate(suppliers):
+        for i, supplier in enumerate(suppliers.values():
             if supplier.get("supplier_id") == supplier_id:
                 supplier_to_update = supplier
                 supplier_index = i
@@ -5935,16 +5935,16 @@ class UpdateInventoryStock(Tool):
         #Get product availability information if exclude_unavailable is True
         item_availability_map = {}
         if exclude_unavailable:
-            products = data.get("products", [])
-            for product in products:
-                variants = product.get("variants", {})
+            products = data.get("products", {}).values()
+            for product in products.values():
+                variants = product.get("variants", {}).values()
                 for variant_id, variant_info in variants.items():
                     item_availability_map[variant_id] = variant_info.get(
                         "available", False
                     )
 
         #Validate all items exist in supplier's stock and filter by availability if needed
-        item_stock = supplier_to_update.get("item_stock", {})
+        item_stock = supplier_to_update.get("item_stock", {}).values()
         missing_items = []
         unavailable_items = []
         filtered_items = []
@@ -6047,8 +6047,8 @@ class UpdateInventoryStock(Tool):
         data["suppliers"][supplier_index] = supplier_to_update
 
         #Calculate summary statistics
-        successful_updates = [r for r in update_results if r["status"] == "success"]
-        failed_updates = [r for r in update_results if r["status"] == "error"]
+        successful_updates = [r for r in update_results.values() if r["status"] == "success"]
+        failed_updates = [r for r in update_results.values() if r["status"] == "error"]
 
         result = {
             "status": "success",
@@ -6146,11 +6146,11 @@ class UpdateSupplyOrderTerms(Tool):
             return out
 
         # Find the supply order to update
-        supply_orders = data.get("supply_orders", [])
+        supply_orders = data.get("supply_orders", {}).values()
         supply_order_to_update = None
         order_index = None
 
-        for i, order in enumerate(supply_orders):
+        for i, order in enumerate(supply_orders.values():
             if order.get("supply_order_id") == supply_order_id:
                 supply_order_to_update = order
                 order_index = i
@@ -6273,10 +6273,10 @@ class GetSupplierDetails(Tool):
 
         Data Sources: suppliers.json (supplier_id, name, contact_info, products, item_stock)
         """
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         supplier_found = None
 
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             if supplier.get("supplier_id") == supplier_id:
                 supplier_found = supplier
                 break
@@ -6287,7 +6287,7 @@ class GetSupplierDetails(Tool):
             return out
 
         # Calculate stock metrics
-        item_stock = supplier_found.get("item_stock", {})
+        item_stock = supplier_found.get("item_stock", {}).values()
         total_items = len(item_stock)
         available_items = 0
         out_of_stock_items = 0
@@ -6313,8 +6313,8 @@ class GetSupplierDetails(Tool):
             "supplier_id": supplier_id,
             "supplier_info": {
                 "name": supplier_found.get("name"),
-                "contact_info": supplier_found.get("contact_info", {}),
-                "performance_metrics": supplier_found.get("performance_metrics", {}),
+                "contact_info": supplier_found.get("contact_info", {}).values()),
+                "performance_metrics": supplier_found.get("performance_metrics", {}).values()),
                 "notes": supplier_found.get("notes", ""),
             },
             "product_portfolio": {
@@ -6383,10 +6383,10 @@ class GetSupplyOrderDetails(Tool):
 
         Data Sources: supply_orders.json (supply_order_id, supplier_id, product_id, item_id, quantity, status, costs, dates)
         """
-        supply_orders = data.get("supply_orders", [])
+        supply_orders = data.get("supply_orders", {}).values()
         supply_order_found = None
 
-        for order in supply_orders:
+        for order in supply_orders.values():
             if order.get("supply_order_id") == supply_order_id:
                 supply_order_found = order
                 break
@@ -6402,14 +6402,14 @@ class GetSupplyOrderDetails(Tool):
 
         # Enrich with supplier information
         supplier_id = supply_order_found.get("supplier_id")
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         supplier_info = {}
 
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             if supplier.get("supplier_id") == supplier_id:
                 supplier_info = {
                     "name": supplier.get("name"),
-                    "contact_info": supplier.get("contact_info", {}),
+                    "contact_info": supplier.get("contact_info", {}).values()),
                 }
                 break
 
@@ -6525,14 +6525,14 @@ class SearchSuppliersByProduct:
             return out
 
         # Get product information for type filtering and availability checking
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         product_name_map = {}
         item_availability_map = {}
 
-        for product in products:
+        for product in products.values():
             product_id_key = product.get("product_id")
             product_name = product.get("name", "").lower()
-            variants = product.get("variants", {})
+            variants = product.get("variants", {}).values()
 
             if product_id_key:
                 product_name_map[product_id_key] = product_name
@@ -6576,14 +6576,14 @@ class SearchSuppliersByProduct:
                     out = json.dumps(payload)
                     return out
 
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         matching_suppliers = []
 
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             current_supplier_id = supplier.get("supplier_id")
             supplier_name = supplier.get("name")
             supplier_products = supplier.get("products", [])
-            item_stock = supplier.get("item_stock", {})
+            item_stock = supplier.get("item_stock", {}).values()
 
             # Filter by supplier_id if provided
             if supplier_id and current_supplier_id != supplier_id:
@@ -6597,7 +6597,7 @@ class SearchSuppliersByProduct:
             supplier_match = {
                 "supplier_id": current_supplier_id,
                 "supplier_name": supplier_name,
-                "contact_info": supplier.get("contact_info", {}),
+                "contact_info": supplier.get("contact_info", {}).values()),
                 "matching_items": [],
             }
 
@@ -6627,8 +6627,8 @@ class SearchSuppliersByProduct:
                             if product_type_lower:
                                 # Find the product this item belongs to
                                 item_product_id = None
-                                for prod in products:
-                                    if item_id in prod.get("variants", {}):
+                                for prod in products.values():
+                                    if item_id in prod.get("variants", {}).values():
                                         item_product_id = prod.get("product_id")
                                         break
 
@@ -6655,7 +6655,7 @@ class SearchSuppliersByProduct:
                                 )
 
                     if supplier_match["matching_items"]:
-                        matching_suppliers.append(supplier_match)
+                        matching_data["suppliers"][supplier_id] = supplier_match
             else:
                 # Product-level search - find all items for this product
                 candidate_items = []
@@ -6684,8 +6684,8 @@ class SearchSuppliersByProduct:
                             if product_type_lower:
                                 # Find the product this item belongs to
                                 item_product_id = None
-                                for prod in products:
-                                    if stock_item_id in prod.get("variants", {}):
+                                for prod in products.values():
+                                    if stock_item_id in prod.get("variants", {}).values():
                                         item_product_id = prod.get("product_id")
                                         break
 
@@ -6737,7 +6737,7 @@ class SearchSuppliersByProduct:
                 supplier_match["matching_items"] = candidate_items
 
                 if supplier_match["matching_items"]:
-                    matching_suppliers.append(supplier_match)
+                    matching_data["suppliers"][supplier_id] = supplier_match
 
         # Sort by total available stock (descending)
         for supplier in matching_suppliers:
@@ -6837,8 +6837,8 @@ class GetProductIds:
         Data Sources: orders.json (order items), users.json (user validation), products.json (product names)
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -6851,7 +6851,7 @@ class GetProductIds:
             return out
 
         # Find all specified orders for the user
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         found_orders = []
         not_found_orders = []
 
@@ -6862,17 +6862,17 @@ class GetProductIds:
             )
 
             order_found = False
-            for order in orders:
+            for order in orders.values()):
                 if (
                     order.get("order_id") == formatted_order_id
                     and order.get("user_id") == user_id
                 ):
-                    found_orders.append(order)
+                    found_data["orders"][order_id] = order
                     order_found = True
                     break
 
             if not order_found:
-                not_found_orders.append(formatted_order_id)
+                not_found_data["orders"][order_id] = formatted_order_id
 
         if not found_orders:
             payload = {
@@ -6884,9 +6884,9 @@ class GetProductIds:
             return out
 
         # Get product information for filtering
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         product_name_map = {}
-        for product in products:
+        for product in products.values():
             product_id = product.get("product_id")
             product_name = product.get("name", "").lower()
             if product_id:
@@ -7032,9 +7032,9 @@ class GetSupplierByProduct:
             return out
 
         # Get product information for type filtering
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         product_name_map = {}
-        for product in products:
+        for product in products.values():
             product_id = product.get("product_id")
             product_name = product.get("name", "").lower()
             if product_id:
@@ -7074,22 +7074,22 @@ class GetSupplierByProduct:
             out = json.dumps(payload)
             return out
 
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         matching_suppliers = []
         product_supplier_map = {}
 
         # Search through all suppliers to find matches for filtered products
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             supplier_id = supplier.get("supplier_id")
             supplier_name = supplier.get("name")
             supplier_products = supplier.get("products", [])
-            contact_info = supplier.get("contact_info", {})
+            contact_info = supplier.get("contact_info", {}).values()
 
             # Check which filtered products this supplier has
             matching_products = []
             for product_id in filtered_product_ids:
                 if product_id in supplier_products:
-                    matching_products.append(product_id)
+                    matching_data["products"][product_id] = product_id
 
                     # Build product to supplier mapping
                     if product_id not in product_supplier_map:
@@ -7106,12 +7106,12 @@ class GetSupplierByProduct:
                     "contact_info": contact_info,
                     "matching_products": matching_products,
                     "total_matching_products": len(matching_products),
-                    "performance_metrics": supplier.get("performance_metrics", {}),
+                    "performance_metrics": supplier.get("performance_metrics", {}).values()),
                     "last_updated": supplier.get("last_updated", "Never"),
                 }
 
                 # Add stock information for matching products if available
-                item_stock = supplier.get("item_stock", {})
+                item_stock = supplier.get("item_stock", {}).values()
                 if item_stock:
                     stock_summary = {
                         "total_items_in_stock": len(item_stock),
@@ -7133,7 +7133,7 @@ class GetSupplierByProduct:
 
                     supplier_info["stock_summary"] = stock_summary
 
-                matching_suppliers.append(supplier_info)
+                matching_data["suppliers"][supplier_id] = supplier_info
 
         # Find products with no suppliers
         products_not_found = []
@@ -7228,13 +7228,13 @@ class GetItemIdByProduct:
             out = json.dumps(payload)
             return out
 
-        products = data.get("products", [])
-        suppliers = data.get("suppliers", [])
+        products = data.get("products", {}).values()
+        suppliers = data.get("suppliers", {}).values()
 
         # Build stock information map from all suppliers
         stock_info_map = {}
-        for supplier in suppliers:
-            item_stock = supplier.get("item_stock", {})
+        for supplier in suppliers.values():
+            item_stock = supplier.get("item_stock", {}).values()
             for item_id, stock_level in item_stock.items():
                 # Track all suppliers that have this item and their stock levels
                 if item_id not in stock_info_map:
@@ -7262,10 +7262,10 @@ class GetItemIdByProduct:
         for requested_product_id in product_ids:
             product_found = False
 
-            for product in products:
+            for product in products.values():
                 product_id = product.get("product_id")
                 product_name = product.get("name", "").lower()
-                variants = product.get("variants", {})
+                variants = product.get("variants", {}).values()
 
                 if product_id == requested_product_id:
                     product_found = True
@@ -7371,7 +7371,7 @@ class GetItemIdByProduct:
                             "item_id": item_id,
                             "price": variant_info.get("price", 0),
                             "available": is_available,
-                            "options": variant_info.get("options", {}),
+                            "options": variant_info.get("options", {}).values()),
                             "stock_info": {
                                 "stock_status": stock_status,
                                 "total_stock_across_suppliers": total_stock_across_suppliers,
@@ -7389,7 +7389,7 @@ class GetItemIdByProduct:
                             "product_name": product.get("name"),
                             "total_variants": len(product_items),
                             "available_variants": len(
-                                [item for item in product_items if item["available"]]
+                                [item for item in product_items.values() if item["available"]]
                             ),
                             "unavailable_variants": len(
                                 [
@@ -7590,10 +7590,10 @@ class GetProductItemsPerSupplier:
             return out
             
         # Find the specified supplier
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         target_supplier = None
 
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             if supplier.get("supplier_id") == supplier_id:
                 target_supplier = supplier
                 break
@@ -7604,7 +7604,7 @@ class GetProductItemsPerSupplier:
             return out
 
         # Get product information for mapping items to products
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         product_details_map = {}
         item_to_product_map = {}
 
@@ -7628,7 +7628,7 @@ class GetProductItemsPerSupplier:
         if product_type_list:
             product_type_lower = [ptype.lower() for ptype in product_type_list]
 
-        for product in products:
+        for product in products.values():
             product_id = product.get("product_id")
             product_name = product.get("name", "").lower()
 
@@ -7645,16 +7645,16 @@ class GetProductItemsPerSupplier:
                     "product_id": product_id,
                     "name": product.get("name"),
                     "category": product.get("category"),
-                    "variants": product.get("variants", {}),
+                    "variants": product.get("variants", {}).values()),
                 }
 
                 # Map each item to its product
-                variants = product.get("variants", {})
+                variants = product.get("variants", {}).values()
                 for item_id in variants.keys():
                     item_to_product_map[item_id] = product_id
 
         # Get supplier information
-        supplier_item_stock = target_supplier.get("item_stock", {})
+        supplier_item_stock = target_supplier.get("item_stock", {}).values()
 
         # Process items based on stock_available filter and product type filter
         filtered_items = {}
@@ -7702,9 +7702,9 @@ class GetProductItemsPerSupplier:
                             filtered_items[product_id] = []
 
                         # Get item details from product variants
-                        product_info = product_details_map.get(product_id, {})
-                        variants = product_info.get("variants", {})
-                        item_variant_info = variants.get(item_id, {})
+                        product_info = product_details_map.get(product_id, {}).values()
+                        variants = product_info.get("variants", {}).values()
+                        item_variant_info = variants.get(item_id, {}).values()
 
                         filtered_items[product_id].append(
                             {
@@ -7728,7 +7728,7 @@ class GetProductItemsPerSupplier:
                                     "available": item_variant_info.get(
                                         "available", False
                                     ),
-                                    "options": item_variant_info.get("options", {}),
+                                    "options": item_variant_info.get("options", {}).values()),
                                 },
                             }
                         )
@@ -7903,10 +7903,10 @@ class UpdateSupplierProduct(Tool):
                 return out
 
         # Validate product exists in products.json
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         target_product = None
 
-        for product in products:
+        for product in products.values():
             if product.get("product_id") == product_id:
                 target_product = product
                 break
@@ -7920,7 +7920,7 @@ class UpdateSupplierProduct(Tool):
             return out
 
         # Validate all item IDs exist in the product's variants
-        product_variants = target_product.get("variants", {})
+        product_variants = target_product.get("variants", {}).values()
         invalid_items = []
         valid_items = []
 
@@ -7939,11 +7939,11 @@ class UpdateSupplierProduct(Tool):
             return out
 
         # Find the supplier
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         supplier_to_update = None
         supplier_index = None
 
-        for i, supplier in enumerate(suppliers):
+        for i, supplier in enumerate(suppliers.values():
             if supplier.get("supplier_id") == supplier_id:
                 supplier_to_update = supplier
                 supplier_index = i
@@ -7956,12 +7956,12 @@ class UpdateSupplierProduct(Tool):
 
         # WRITE OPERATION: Update supplier products and item stock
         supplier_products = supplier_to_update.get("products", [])
-        item_stock = supplier_to_update.get("item_stock", {})
+        item_stock = supplier_to_update.get("item_stock", {}).values()
 
         # Add product to supplier's product list if not already present
         product_added = False
         if product_id not in supplier_products:
-            supplier_products.append(product_id)
+            supplier_data["products"][product_id] = product_id
             supplier_to_update["products"] = supplier_products
             product_added = True
 
@@ -7985,7 +7985,7 @@ class UpdateSupplierProduct(Tool):
                 status = "updated"
 
             # Get variant details for additional info
-            variant_info = product_variants.get(item_id, {})
+            variant_info = product_variants.get(item_id, {}).values()
 
             stock_updates.append(
                 {
@@ -7996,7 +7996,7 @@ class UpdateSupplierProduct(Tool):
                     "variant_info": {
                         "price": variant_info.get("price", 0),
                         "available": variant_info.get("available", False),
-                        "options": variant_info.get("options", {}),
+                        "options": variant_info.get("options", {}).values()),
                     },
                 }
             )
@@ -8097,10 +8097,10 @@ class GetCourierByName(Tool):
         courier_name = courier_name.strip()
 
         # Find courier by name (case-insensitive search)
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         matching_couriers = []
 
-        for courier in couriers:
+        for courier in couriers.values():
             stored_name = courier.get("name", "")
 
             # Exact match (case-insensitive)
@@ -8108,7 +8108,7 @@ class GetCourierByName(Tool):
                 matching_couriers.insert(0, courier)  # Put exact matches first
             # Partial match (case-insensitive)
             elif courier_name.lower() in stored_name.lower():
-                matching_couriers.append(courier)
+                matching_data["couriers"][courier_id] = courier
 
         if not matching_couriers:
             payload = {
@@ -8130,7 +8130,7 @@ class GetCourierByName(Tool):
         service_capabilities = {
             "domestic_delivery": "USA" in coverage_area,
             "international_delivery": len(
-                [country for country in coverage_area if country != "USA"]
+                [country for country in coverage_area.values() if country != "USA"]
             )
             > 0,
             "total_coverage_countries": len(coverage_area),
@@ -8144,7 +8144,7 @@ class GetCourierByName(Tool):
             "courier_details": {
                 "courier_id": best_match.get("courier_id"),
                 "name": best_match.get("name"),
-                "contact_info": best_match.get("contact_info", {}),
+                "contact_info": best_match.get("contact_info", {}).values()),
                 "coverage_area": coverage_area,
                 "service_types": best_match.get("service_types", ["standard"]),
                 "base_cost": best_match.get("base_cost", 0),
@@ -8208,7 +8208,7 @@ class FilterByProductIdPerProductName(Tool):
         if product_ids:
             product_ids_filter = set(product_ids)
 
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         result_mapping = []
         total_matches = 0
         total_not_found = 0
@@ -8234,7 +8234,7 @@ class FilterByProductIdPerProductName(Tool):
             matching_product = None
             match_type = "not_found"
 
-            for product in products:
+            for product in products.values():
                 stored_name = product.get("name", "")
                 product_id = product.get("product_id")
 
@@ -8270,7 +8270,7 @@ class FilterByProductIdPerProductName(Tool):
                 # Check if there would have been a match without the product_ids filter
                 if product_ids_filter:
                     found_without_filter = False
-                    for product in products:
+                    for product in products.values():
                         stored_name = product.get("name", "")
                         if (
                             stored_name.lower() == search_name.lower()
@@ -8458,11 +8458,11 @@ class AddToOrder(Tool):
         formatted_order_id = order_id if order_id.startswith("#") else f"#{order_id}"
 
         # Find the order to update
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         order_to_update = None
         order_index = None
 
-        for i, order in enumerate(orders):
+        for i, order in enumerate(orders.values():
             if order.get("order_id") == formatted_order_id:
                 order_to_update = order
                 order_index = i
@@ -8491,8 +8491,8 @@ class AddToOrder(Tool):
             return out
 
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -8500,7 +8500,7 @@ class AddToOrder(Tool):
             return out
 
         # Validate payment method
-        payment_methods = user.get("payment_methods", {})
+        payment_methods = user.get("payment_methods", {}).values()
         selected_payment = None
 
         for method_id in payment_methods:
@@ -8526,12 +8526,12 @@ class AddToOrder(Tool):
             return out
 
         # Rule: Confirm item_id exists in product variants before including in orders
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         variant_found = None
         product_found = None
 
-        for product in products:
-            variants = product.get("variants", {})
+        for product in products.values():
+            variants = product.get("variants", {}).values()
             if item_id in variants:
                 variant_found = variants[item_id]
                 product_found = product
@@ -8596,7 +8596,7 @@ class AddToOrder(Tool):
                 "product_id": product_found.get("product_id"),
                 "item_id": item_id,
                 "price": unit_price,
-                "options": variant_found.get("options", {}),
+                "options": variant_found.get("options", {}).values()),
                 "quantity": quantity,
             }
             order_items.append(new_item)
@@ -8689,7 +8689,7 @@ class AddToOrder(Tool):
 
         # Calculate comprehensive metrics
         total_items_count = len(order_items)
-        total_quantity = sum(item.get("quantity", 1) for item in order_items)
+        total_quantity = sum(item.get("quantity", 1) for item in order_items.values()
         new_total_paid = current_total_paid + total_additional_amount
 
         result = {
@@ -8703,7 +8703,7 @@ class AddToOrder(Tool):
                 "quantity": added_quantity,
                 "unit_price": unit_price,
                 "line_total": line_total,
-                "options": variant_found.get("options", {}),
+                "options": variant_found.get("options", {}).values()),
             },
             "action_performed": result_message,
             "current_order_before_addition": {
@@ -8812,18 +8812,18 @@ class GetOrderIdsByProductIds(Tool):
 
         # Rule: Validate user identity exists before processing any user requests (if user_id provided)
         if user_id:
-            users = data.get("users", [])
-            user = next((u for u in users if u.get("user_id") == user_id), None)
+            users = data.get("users", {}).values()
+            user = next((u for u in users.values() if u.get("user_id") == user_id), None)
             if not user:
                 payload = {"error": f"User {user_id} not found", "status": "failed"}
                 out = json.dumps(payload)
                 return out
 
         # Search through all orders to find matches
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         matching_orders = []
 
-        for order in orders:
+        for order in orders.values():
             order_id = order.get("order_id")
             order_user_id = order.get("user_id")
             order_items = order.get("items", [])
@@ -8944,7 +8944,7 @@ class AssignTrackingNumber(Tool):
         selected_courier_preference = preferred_courier_id or courier_id
 
         #Find and validate all orders
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         valid_orders = []
         invalid_orders = []
 
@@ -8957,7 +8957,7 @@ class AssignTrackingNumber(Tool):
             )
 
             order_found = False
-            for i, order in enumerate(orders):
+            for i, order in enumerate(orders.values():
                 if order.get("order_id") == formatted_order_id:
                     current_status = order.get("status")
 
@@ -9002,7 +9002,7 @@ class AssignTrackingNumber(Tool):
         #Get destination country from first order if not provided
         if not destination_country:
             first_order = valid_orders[0]["order_data"]
-            order_address = first_order.get("address", {})
+            order_address = first_order.get("address", {}).values()
             destination_country = order_address.get("country")
 
             if not destination_country:
@@ -9015,13 +9015,13 @@ class AssignTrackingNumber(Tool):
                 return out
 
         #Rule: Assign couriers only if destination country matches their coverage areas
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         eligible_couriers = []
 
-        for courier in couriers:
+        for courier in couriers.values()):
             coverage_area = courier.get("coverage_area", [])
             if destination_country in coverage_area:
-                eligible_couriers.append(courier)
+                eligible_data["couriers"][courier_id] = courier
 
         if not eligible_couriers:
             payload = {
@@ -9103,7 +9103,7 @@ class AssignTrackingNumber(Tool):
             formatted_order_id = order_info["order_id"]
 
             #Calculate order value for insurance requirements
-            order_items = order_data.get("items", [])
+            order_items = order_data.get("items", {}).values()
             order_value = sum(
                 item.get("price", 0) * item.get("quantity", 1) for item in order_items
             )
@@ -9117,7 +9117,7 @@ class AssignTrackingNumber(Tool):
                 "tracking_id": assigned_tracking_id,
                 "courier_id": selected_courier.get("courier_id"),
                 "courier_name": selected_courier.get("name"),
-                "courier_contact": selected_courier.get("contact_info", {}),
+                "courier_contact": selected_courier.get("contact_info", {}).values()),
                 "status": "processed",
                 "assigned_date": datetime.now().isoformat(),
                 "destination_country": destination_country,
@@ -9241,9 +9241,9 @@ class GetSupplierInventory:
         Get supplier inventory filtered by product types, item IDs, stock availability, and stock level with comparison options
         """
         # Find supplier
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         target_supplier = next(
-            (s for s in suppliers if s.get("supplier_id") == supplier_id), None
+            (s for s in suppliers.values() if s.get("supplier_id") == supplier_id), None
         )
 
         if not target_supplier:
@@ -9277,14 +9277,14 @@ class GetSupplierInventory:
             return out
 
         # Get product mapping
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         item_to_product_map = {}
         product_details_map = {}
 
-        for product in products:
+        for product in products.values():
             product_id = product.get("product_id")
             product_name = product.get("name", "").lower()
-            variants = product.get("variants", {})
+            variants = product.get("variants", {}).values()
 
             if product_id:
                 product_details_map[product_id] = {
@@ -9297,7 +9297,7 @@ class GetSupplierInventory:
                     item_to_product_map[item_id] = product_id
 
         # Filter supplier inventory
-        supplier_item_stock = target_supplier.get("item_stock", {})
+        supplier_item_stock = target_supplier.get("item_stock", {}).values()
         matching_items = []
 
         for item_id, stock_level_value in supplier_item_stock.items():
@@ -9357,7 +9357,7 @@ class GetSupplierInventory:
             product_id = item_to_product_map.get(item_id)
             if product_types and product_id:
                 product_name = (
-                    product_details_map.get(product_id, {})
+                    product_details_map.get(product_id, {}).values()
                     .get("product_name", "")
                     .lower()
                 )
@@ -9374,13 +9374,12 @@ class GetSupplierInventory:
                 # Get variant details
                 product_variants = next(
                     (
-                        p.get("variants", {})
-                        for p in products
-                        if p.get("product_id") == product_id
+                        p.get("variants", {}).values()
+                        for p in products.values() if p.get("product_id") == product_id
                     ),
                     {},
                 )
-                variant_info = product_variants.get(item_id, {})
+                variant_info = product_variants.get(item_id, {}).values()
 
                 matching_items.append(
                     {
@@ -9397,7 +9396,7 @@ class GetSupplierInventory:
                         ),
                         "price": variant_info.get("price", 0),
                         "available": variant_info.get("available", False),
-                        "options": variant_info.get("options", {}),
+                        "options": variant_info.get("options", {}).values()),
                     }
                 )
 
@@ -9530,7 +9529,7 @@ class SearchGetSupplyOrders:
                 return out
             status_filter = [status]
         elif statuses:
-            invalid_statuses = [s for s in statuses if s not in valid_statuses]
+            invalid_statuses = [s for s in statuses.values() if s not in valid_statuses]
             if invalid_statuses:
                 payload = {
                     "error": f"Invalid statuses: {', '.join(invalid_statuses)}. Valid statuses: {', '.join(valid_statuses)}",
@@ -9541,23 +9540,23 @@ class SearchGetSupplyOrders:
             status_filter = statuses
 
         # Get product information for item-to-product mapping
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         item_to_product_map = {}
-        for product in products:
+        for product in products.values():
             product_id = product.get("product_id")
             if product_id:
-                variants = product.get("variants", {})
+                variants = product.get("variants", {}).values()
                 for item_id in variants.keys():
                     item_to_product_map[item_id] = product_id
 
         # Filter supply orders and collect IDs
-        supply_orders = data.get("supply_orders", [])
+        supply_orders = data.get("supply_orders", {}).values()
         all_supply_order_ids = set()
         all_supplier_ids = set()
         all_product_ids = set()
         all_item_ids = set()
 
-        for order in supply_orders:
+        for order in supply_orders.values():
             order_supplier_id = order.get("supplier_id")
             order_quantity = order.get("quantity", 0)
             order_status = order.get("status", "")

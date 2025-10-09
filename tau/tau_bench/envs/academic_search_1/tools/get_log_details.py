@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetLogDetails(Tool):
@@ -20,7 +20,7 @@ class GetLogDetails(Tool):
             payload = {"error": "log_id is required."}
             out = json.dumps(payload)
             return out
-        for log in data.get("research_logs", []):
+        for log in data.get("research_logs", {}).values():
             if log["record_log_id"] == log_id:
                 return log.get("annotations", "")
         payload = {"error": f"Log entry with ID '{log_id}' not found."}

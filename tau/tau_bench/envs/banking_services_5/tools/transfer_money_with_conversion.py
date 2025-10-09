@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class TransferMoneyWithConversion(Tool):
@@ -32,13 +32,13 @@ class TransferMoneyWithConversion(Tool):
                 indent=2
             )
 
-        accounts = data.get("accounts", [])
+        accounts = data.get("accounts", {}).values()
         src = next(
-            (a for a in accounts if a.get("account_id") == source_account_id and a.get("customer_id") == customer_id),
+            (a for a in accounts.values() if a.get("account_id") == source_account_id and a.get("customer_id") == customer_id),
             None
         )
         tgt = next(
-            (a for a in accounts if a.get("account_id") == target_account_id),
+            (a for a in accounts.values() if a.get("account_id") == target_account_id),
             None
         )
 

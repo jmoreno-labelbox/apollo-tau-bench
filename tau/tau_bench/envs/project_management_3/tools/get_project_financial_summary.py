@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetProjectFinancialSummary(Tool):
@@ -20,13 +20,13 @@ class GetProjectFinancialSummary(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
-        budgets = data.get("budgets", [])
-        expenses = data.get("expenses", [])
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
+        projects = data.get("projects", {}).values()
+        budgets = data.get("budgets", {}).values()
+        expenses = data.get("expenses", {}).values()
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
@@ -35,8 +35,7 @@ class GetProjectFinancialSummary(Tool):
         current_budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -44,14 +43,13 @@ class GetProjectFinancialSummary(Tool):
 
         project_allocations = [
             a
-            for a in allocations
-            if a.get("project_id") == project_id and a.get("status") == "active"
+            for a in allocations.values() if a.get("project_id") == project_id and a.get("status") == "active"
         ]
 
         weekly_resource_cost = 0
         for alloc in project_allocations:
             employee = next(
-                (e for e in employees if e.get("employee_id") == alloc["employee_id"]),
+                (e for e in employees.values() if e.get("employee_id") == alloc["employee_id"]),
                 None,
             )
             if employee:
@@ -62,8 +60,7 @@ class GetProjectFinancialSummary(Tool):
 
         approved_expenses = sum(
             e.get("amount", 0)
-            for e in expenses
-            if e.get("project_id") == project_id and e.get("status") == "approved"
+            for e in expenses.values() if e.get("project_id") == project_id and e.get("status") == "approved"
         )
 
         summary = {

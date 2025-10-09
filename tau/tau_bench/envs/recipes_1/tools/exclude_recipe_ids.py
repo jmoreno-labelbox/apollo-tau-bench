@@ -13,7 +13,7 @@ class ExcludeRecipeIds(Tool):
         exclude_ids = ExcludeRecipeIds or []
         cand = _parse_json_list_ids(candidates_json)
         exset = {int(x) for x in exclude_ids}
-        out = [rid for rid in cand if rid not in exset]
+        out = [rid for rid in cand.values() if rid not in exset]
         return _json_dump({"filtered_recipe_ids_json": json.dumps(out)})
     @staticmethod
     def get_info() -> dict[str, Any]:

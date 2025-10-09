@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateCarrier(Tool):
@@ -16,9 +16,9 @@ class UpdateCarrier(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], carrier_scac: str = None, updates: dict[str, Any] = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
 
-        for carrier in carriers:
+        for carrier in carriers.values():
             if carrier["scac"] == carrier_scac:
                 carrier.update(updates)
                 payload = {"success": f"carrier {carrier_scac} updated"}

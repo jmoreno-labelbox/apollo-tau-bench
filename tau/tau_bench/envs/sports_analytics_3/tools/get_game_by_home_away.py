@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetGameByHomeAway(Tool):
@@ -46,7 +46,7 @@ class GetGameByHomeAway(Tool):
             return out
 
         #2) Access DB
-        games: list[dict[str, Any]] = data.get("games", [])
+        games: list[dict[str, Any]] = data.get("games", {}).values()
 
         #3) Filter for exact matches
         matches = [

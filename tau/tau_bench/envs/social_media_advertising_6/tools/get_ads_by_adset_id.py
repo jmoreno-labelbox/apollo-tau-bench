@@ -10,7 +10,7 @@ class GetAdsByAdsetID(Tool):
         if err:
             return _fail(err)
         rows = _assert_table(data, "ads")
-        payload = [r for r in rows if str(r.get("adset_id")) == str(adset_id)]
+        payload = [r for r in rows.values() if str(r.get("adset_id")) == str(adset_id)]
         out = json.dumps(payload)
         return out
     @staticmethod

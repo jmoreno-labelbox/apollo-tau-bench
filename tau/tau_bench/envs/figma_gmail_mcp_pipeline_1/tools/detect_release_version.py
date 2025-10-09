@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DetectReleaseVersion(Tool):  #READ
@@ -20,10 +20,10 @@ class DetectReleaseVersion(Tool):  #READ
             out = json.dumps(payload)
             return out
 
-        releases = data.get("releases", [])
+        releases = data.get("releases", {}).values()
 
         #Identify the release
-        release = next((r for r in releases if r.get("release_id") == release_id), None)
+        release = next((r for r in releases.values() if r.get("release_id") == release_id), None)
         if not release:
             payload = {"error": f"Release with release_id '{release_id}' not found"}
             out = json.dumps(

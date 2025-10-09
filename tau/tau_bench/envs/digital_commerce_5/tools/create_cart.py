@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateCart(Tool):
@@ -21,14 +21,14 @@ class CreateCart(Tool):
         if not cart_id or not contact_id or not created_at:
             return _err("cart_id, contact_id, created_at are required.")
         carts = data.setdefault("carts", [])
-        if any(_as_id(c.get("cart_id")) == cart_id for c in carts):
+        if any(_as_id(c.get("cart_id")) == cart_id for c in carts.values()):
             existing = next(c for c in carts if _as_id(c.get("cart_id")) == cart_id)
             payload = existing
             out = json.dumps(payload, indent=2)
             return out
-        contacts = data.get("contacts", [])
+        contacts = data.get("contacts", {}).values()
         contact = next(
-            (c for c in contacts if _as_id(c.get("contact_id")) == contact_id), None
+            (c for c in contacts.values() if _as_id(c.get("contact_id")) == contact_id), None
         )
         if not contact:
             return _err("Contact not found.")
@@ -40,7 +40,7 @@ class CreateCart(Tool):
             "override_pricebook_id": None,
             "last_updated_at": created_at,
         }
-        carts.append(cart)
+        data["carts"][cart["cart_id"]] = cart
         payload = cart
         out = json.dumps(payload, indent=2)
         return out

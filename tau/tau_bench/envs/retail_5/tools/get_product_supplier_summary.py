@@ -15,14 +15,14 @@ class GetProductSupplierSummary(Tool):
         suppliers = data["suppliers"]
         supply_orders = data["supply_orders"]
 
-        product = next((p for p in products if p["product_id"] == product_id), None)
+        product = next((p for p in products.values() if p["product_id"] == product_id), None)
         if not product:
             payload = {"error": f"Product {product_id} not found"}
             out = json.dumps(payload)
             return out
 
         supplier = next(
-            (s for s in suppliers if s["supplier_id"] == product["supplier_id"]), None
+            (s for s in suppliers.values() if s["supplier_id"] == product["supplier_id"]), None
         )
 
         # Retrieve supply orders associated with this product

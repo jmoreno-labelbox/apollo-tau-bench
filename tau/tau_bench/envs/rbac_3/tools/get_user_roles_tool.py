@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUserRolesTool(Tool):
@@ -18,8 +18,8 @@ class GetUserRolesTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
         roles: list[str] = []
-        assignments = data.get("user_roles", [])
-        for assignment in assignments:
+        assignments = data.get("user_roles", {}).values()
+        for assignment in assignments.values():
             if assignment.get("user_id") == user_id and not assignment.get(
                 "expires_on"
             ):

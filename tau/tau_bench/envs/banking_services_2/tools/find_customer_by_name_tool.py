@@ -7,7 +7,7 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindCustomerByNameTool(Tool):
@@ -15,10 +15,10 @@ class FindCustomerByNameTool(Tool):
     def invoke(data: Dict[str, Any], first_name: str = '', last_name: str = '') -> str:
         first_name = first_name.lower()
         last_name = last_name.lower()
-        customers = data.get('customers', [])
+        customers = data.get('customers', {}).values()
 
         matches = []
-        for customer in customers:
+        for customer in customers.values():
             if (customer['personal_info']['first_name'].lower() == first_name and
                 customer['personal_info']['last_name'].lower() == last_name):
                 matches.append({

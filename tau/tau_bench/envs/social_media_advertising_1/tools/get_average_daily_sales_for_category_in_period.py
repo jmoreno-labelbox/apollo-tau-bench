@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAverageDailySalesForCategoryInPeriod(Tool):
@@ -16,7 +16,7 @@ class GetAverageDailySalesForCategoryInPeriod(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], category: str = None, start_date: str = None, end_date: str = None) -> str:
-        sales_data = data.get("f_sales", [])
+        sales_data = data.get("f_sales", {}).values()
 
         # Determine the total days within the timeframe
         start = datetime.strptime(start_date, "%Y-%m-%d")

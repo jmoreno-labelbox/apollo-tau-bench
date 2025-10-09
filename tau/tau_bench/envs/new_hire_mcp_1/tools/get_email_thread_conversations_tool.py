@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetEmailThreadConversationsTool(Tool):
@@ -20,16 +20,15 @@ class GetEmailThreadConversationsTool(Tool):
         if not candidate_id:
             return _err("candidate_id is required")
 
-        emails = data.get("emails", [])
+        emails = data.get("emails", {}).values()
 
         candidate_emails = [
             e
-            for e in emails
-            if str(e.get("candidate_id_nullable")) == str(candidate_id)
+            for e in emails.values() if str(e.get("candidate_id_nullable")) == str(candidate_id)
         ]
 
         if not include_draft_responses:
-            candidate_emails = [e for e in candidate_emails if not e.get("draft_flag")]
+            candidate_emails = [e for e in candidate_emails.values() if not e.get("draft_flag")]
 
         # Organize by thread_id
         threads = {}

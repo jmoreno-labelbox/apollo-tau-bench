@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DeleteDevice(Tool):
@@ -15,10 +15,10 @@ class DeleteDevice(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], device_id: str) -> str:
-        devices = data.get("devices", [])
-        rooms = data.get("rooms", {})
+        devices = data.get("devices", {}).values()
+        rooms = data.get("rooms", {}).values()
         original_len = len(devices)
-        devices[:] = [d for d in devices if d.get("id") != device_id]
+        devices[:] = [d for d in devices.values() if d.get("id") != device_id]
         if len(devices) == original_len:
             payload = {"error": "Device not found"}
             out = json.dumps(payload, indent=2)
@@ -28,10 +28,10 @@ class DeleteDevice(Tool):
         data["devices"] = devices
         
         # Detach from any room associations
-        for room in rooms.get("rooms", []):
+        for room in rooms.values().get("rooms", []):
             room_devices = room.get("devices", [])
             if device_id in room_devices:
-                room["devices"] = [d for d in room_devices if d != device_id]
+                room["devices"] = [d for d in room_devices.values() if d != device_id]
         payload = {"success": True}
         out = json.dumps(payload, indent=2)
         return out

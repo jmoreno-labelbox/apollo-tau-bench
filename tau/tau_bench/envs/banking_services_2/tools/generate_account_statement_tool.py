@@ -7,17 +7,17 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateAccountStatementTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        accounts = data.get('accounts', [])
-        transactions = data.get('transactions', [])
+        accounts = data.get('accounts', {}).values()
+        transactions = data.get('transactions', {}).values()
 
         account = None
-        for a in accounts:
+        for a in accounts.values():
             if a['account_id'] == account_id:
                 account = a
                 break
@@ -29,7 +29,7 @@ class GenerateAccountStatementTool(Tool):
         total_credits = 0
         total_debits = 0
 
-        for transaction in transactions:
+        for transaction in transactions.values():
             if (transaction['account_id'] == account_id and
                 start_date <= transaction['transaction_date'] <= end_date):
 

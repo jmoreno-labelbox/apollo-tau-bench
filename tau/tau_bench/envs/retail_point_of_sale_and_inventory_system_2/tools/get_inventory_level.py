@@ -8,29 +8,29 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetInventoryLevel(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sku: str) -> str:
-        inventory = data.get("inventory", [])
-        products = data.get("products", [])
+        inventory = data.get("inventory", {}).values()
+        products = data.get("products", {}).values()
 
-        product = next((p for p in products if p.get("sku") == sku), None)
+        product = next((p for p in products.values() if p.get("sku") == sku), None)
         if not product:
             payload = {"error": f"Product with SKU {sku} not found."}
             out = json.dumps(payload)
             return out
 
-        inventory_records = [inv for inv in inventory if inv.get("sku") == sku]
+        inventory_records = [inv for inv in inventory.values() if inv.get("sku") == sku]
 
         if not inventory_records:
             payload = {"error": f"No inventory records found for SKU {sku}"}
             out = json.dumps(payload)
             return out
 
-        total_quantity = sum(inv.get("quantity", 0) for inv in inventory_records)
+        total_quantity = sum(inv.get("quantity", 0) for inv in inventory_records.values()
         total_reserved = sum(
             inv.get("reserved_quantity", 0) for inv in inventory_records
         )

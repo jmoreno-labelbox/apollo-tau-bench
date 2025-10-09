@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetRoleMembersTool(Tool):
@@ -15,8 +15,8 @@ class GetRoleMembersTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], role_id: str, status: str = None) -> str:
-        users = data.get("users", [])
-        user_roles = data.get("user_roles", [])
+        users = data.get("users", {}).values()
+        user_roles = data.get("user_roles", {}).values()
 
         if not isinstance(user_roles, list) or not isinstance(users, list):
             payload = {"error": "users and user_roles must be lists"}
@@ -28,10 +28,10 @@ class GetRoleMembersTool(Tool):
             return out
 
         member_user_ids = {
-            ur["user_id"] for ur in user_roles if ur.get("role_id") == role_id
+            ur["user_id"] for ur in user_roles.values() if ur.get("role_id") == role_id
         }
         results = []
-        for u in users:
+        for u in users.values()):
             if u.get("user_id") in member_user_ids:
                 if status and u.get("status") != status:
                     continue

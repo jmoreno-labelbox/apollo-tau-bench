@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetMortgageRates(Tool):
@@ -16,15 +16,15 @@ class GetMortgageRates(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], loan_type: str = "conventional", term_years: int = 30, document_id: Any = None) -> str:
         # Retrieve mortgage rates from the database
-        rates = data.get("mortgage_rates", [])
+        rates = data.get("mortgage_rates", {}).values()
         filtered_rates = []
 
-        for rate in rates:
+        for rate in rates.values():
             if (
                 rate.get("loan_type") == loan_type
                 and rate.get("term_years") == term_years
             ):
-                filtered_rates.append(rate)
+                filtered_data["mortgage_rates"][rate["mortgage_rate_id"]] = rate
         payload = {
                 "loan_type": loan_type,
                 "term_years": term_years,

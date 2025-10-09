@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetOrderIdsByProductIds(Tool):
@@ -28,18 +28,18 @@ class GetOrderIdsByProductIds(Tool):
 
         # Rule: Validate user identity exists before processing any user requests (if user_id provided)
         if user_id:
-            users = data.get("users", [])
-            user = next((u for u in users if u.get("user_id") == user_id), None)
+            users = data.get("users", {}).values()
+            user = next((u for u in users.values() if u.get("user_id") == user_id), None)
             if not user:
                 payload = {"error": f"User {user_id} not found", "status": "failed"}
                 out = json.dumps(payload)
                 return out
 
         # Search through all orders to find matches
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         matching_orders = []
 
-        for order in orders:
+        for order in orders.values():
             order_id = order.get("order_id")
             order_user_id = order.get("user_id")
             order_items = order.get("items", [])

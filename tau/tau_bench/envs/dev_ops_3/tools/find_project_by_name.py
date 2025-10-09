@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class find_project_by_name(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: str) -> str:
         pass
-        projects = data.get("projects", [])
-        for project in projects:
+        projects = data.get("projects", {}).values()
+        for project in projects.values():
             if project.get("name") == name:
                 payload = project
                 out = json.dumps(payload, indent=2)

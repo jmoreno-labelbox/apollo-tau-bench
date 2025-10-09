@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -18,12 +18,12 @@ class FindUserIdByNameZip(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], first_name: str, last_name: str, zip: str) -> str:
-        users = data.get("users", [])
-        for user in users:
+        users = data.get("users", {}).values()
+        for user in users.values():
             if (
-                user.get("name", {}).get("first_name") == first_name
-                and user.get("name", {}).get("last_name") == last_name
-                and user.get("address", {}).get("zip") == zip
+                user.get("name", {}).values().get("first_name") == first_name
+                and user.get("name", {}).values().get("last_name") == last_name
+                and user.get("address", {}).values().get("zip") == zip
             ):
                 payload = {"user_id": user.get("user_id")}
                 out = json.dumps(payload)
@@ -62,8 +62,8 @@ class GetUserDetails(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str) -> str:
-        users = data.get("users", [])
-        for user in users:
+        users = data.get("users", {}).values()
+        for user in users.values():
             if user.get("user_id") == user_id:
                 payload = user
                 out = json.dumps(payload)
@@ -92,8 +92,8 @@ class GetUserOrders(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str) -> str:
-        users = data.get("users", [])
-        for user in users:
+        users = data.get("users", {}).values()
+        for user in users.values():
             if user.get("user_id") == user_id:
                 payload = {"orders": user.get("orders", [])}
                 out = json.dumps(payload)
@@ -122,8 +122,8 @@ class UpdateUserAddress(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str, address: dict[str, Any]) -> str:
-        users = data.get("users", [])
-        for user in users:
+        users = data.get("users", {}).values()
+        for user in users.values():
             if user.get("user_id") == user_id:
                 user["address"] = address
                 payload = {"status": "success", "user_id": user_id, "address": address}
@@ -159,10 +159,10 @@ class GetUserPaymentMethods(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str) -> str:
-        users = data.get("users", [])
-        for user in users:
+        users = data.get("users", {}).values()
+        for user in users.values():
             if user.get("user_id") == user_id:
-                payload = {"payment_methods": user.get("payment_methods", {})}
+                payload = {"payment_methods": user.get("payment_methods", {}).values()}
                 out = json.dumps(payload)
                 return out
         payload = {"error": "User not found", "user_id": user_id}
@@ -194,8 +194,8 @@ class GetOrderDetails(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str) -> str:
-        orders = data.get("orders", [])
-        for order in orders:
+        orders = data.get("orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 payload = order
                 out = json.dumps(payload)
@@ -224,8 +224,8 @@ class GetOrderStatus(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str) -> str:
-        orders = data.get("orders", [])
-        for order in orders:
+        orders = data.get("orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 payload = {"order_id": order_id, "status": order.get("status")}
                 out = json.dumps(payload)
@@ -254,8 +254,8 @@ class UpdateOrderStatus(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str, status: str) -> str:
-        orders = data.get("orders", [])
-        for order in orders:
+        orders = data.get("orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 order["status"] = status
                 payload = {"status": "success", "order_id": order_id, "new_status": status}
@@ -293,8 +293,8 @@ class AddOrderFulfillment(Tool):
         tracking_ids: list[str],
         item_ids: list[str]
     ) -> str:
-        orders = data.get("orders", [])
-        for order in orders:
+        orders = data.get("orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 fulfillments = order.get("fulfillments", [])
                 fulfillments.append({"tracking_id": tracking_ids, "item_ids": item_ids})
@@ -310,8 +310,8 @@ class AddOrderFulfillment(Tool):
         out = json.dumps(payload)
         return out
         pass
-        orders = data.get("orders", [])
-        for order in orders:
+        orders = data.get("orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 fulfillments = order.get("fulfillments", [])
                 fulfillments.append({"tracking_id": tracking_ids, "item_ids": item_ids})
@@ -353,8 +353,8 @@ class GetOrderPaymentHistory(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str) -> str:
-        orders = data.get("orders", [])
-        for order in orders:
+        orders = data.get("orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 payload = {
                     "order_id": order_id,
@@ -391,8 +391,8 @@ class GetProductDetails(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], product_id: str) -> str:
-        products = data.get("products", [])
-        for product in products:
+        products = data.get("products", {}).values()
+        for product in products.values():
             if product.get("product_id") == product_id:
                 payload = product
                 out = json.dumps(payload)
@@ -421,9 +421,9 @@ class GetVariantDetails(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], item_id: str) -> str:
-        products = data.get("products", [])
-        for product in products:
-            variants = product.get("variants", {})
+        products = data.get("products", {}).values()
+        for product in products.values():
+            variants = product.get("variants", {}).values()
             var = variants.get(item_id)
             if var:
                 result = {"product_id": product.get("product_id"), "variant": var}
@@ -454,10 +454,10 @@ class ListAvailableVariants(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], product_id: str) -> str:
-        products = data.get("products", [])
-        for product in products:
+        products = data.get("products", {}).values()
+        for product in products.values():
             if product.get("product_id") == product_id:
-                variants = product.get("variants", {})
+                variants = product.get("variants", {}).values()
                 available = [v for v in variants.values() if v.get("available") is True]
                 payload = {"product_id": product_id, "available_variants": available}
                 out = json.dumps(payload)
@@ -488,10 +488,10 @@ class UpdateVariantAvailability(Tool):
     def invoke(
         data: dict[str, Any], product_id: str, item_id: str, available: bool
     ) -> str:
-        products = data.get("products", [])
-        for product in products:
+        products = data.get("products", {}).values()
+        for product in products.values():
             if product.get("product_id") == product_id:
-                variants = product.get("variants", {})
+                variants = product.get("variants", {}).values()
                 if item_id in variants:
                     variants[item_id]["available"] = available
                     payload = {
@@ -513,10 +513,10 @@ class UpdateVariantAvailability(Tool):
         out = json.dumps(payload)
         return out
         pass
-        products = data.get("products", [])
-        for product in products:
+        products = data.get("products", {}).values()
+        for product in products.values():
             if product.get("product_id") == product_id:
-                variants = product.get("variants", {})
+                variants = product.get("variants", {}).values()
                 if item_id in variants:
                     variants[item_id]["available"] = available
                     payload = {
@@ -567,10 +567,10 @@ class UpdateVariantPrice(Tool):
     def invoke(
         data: dict[str, Any], product_id: str, item_id: str, price: float
     ) -> str:
-        products = data.get("products", [])
-        for product in products:
+        products = data.get("products", {}).values()
+        for product in products.values():
             if product.get("product_id") == product_id:
-                variants = product.get("variants", {})
+                variants = product.get("variants", {}).values()
                 if item_id in variants:
                     variants[item_id]["price"] = price
                     payload = {
@@ -592,10 +592,10 @@ class UpdateVariantPrice(Tool):
         out = json.dumps(payload)
         return out
         pass
-        products = data.get("products", [])
-        for product in products:
+        products = data.get("products", {}).values()
+        for product in products.values():
             if product.get("product_id") == product_id:
-                variants = product.get("variants", {})
+                variants = product.get("variants", {}).values()
                 if item_id in variants:
                     variants[item_id]["price"] = price
                     payload = {
@@ -649,8 +649,8 @@ class GetSupplierById(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supplier_id: str) -> str:
-        suppliers = data.get("suppliers", [])
-        for supplier in suppliers:
+        suppliers = data.get("suppliers", {}).values()
+        for supplier in suppliers.values():
             if supplier.get("supplier_id") == supplier_id:
                 payload = supplier
                 out = json.dumps(payload)
@@ -684,8 +684,8 @@ class GetSupplierProducts(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supplier_id: str) -> str:
-        suppliers = data.get("suppliers", [])
-        for s in suppliers:
+        suppliers = data.get("suppliers", {}).values()
+        for s in suppliers.values():
             if s.get("supplier_id") == supplier_id:
                 payload = {"supplier_id": supplier_id, "products": s.get("products", [])}
                 out = json.dumps(payload)
@@ -714,10 +714,10 @@ class UpdateItemStock(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supplier_id: str, item_id: str, value: Any) -> str:
-        suppliers = data.get("suppliers", [])
-        for s in suppliers:
+        suppliers = data.get("suppliers", {}).values()
+        for s in suppliers.values():
             if s.get("supplier_id") == supplier_id:
-                item_stock = s.get("item_stock", {})
+                item_stock = s.get("item_stock", {}).values()
                 item_stock[item_id] = value
                 s["item_stock"] = item_stock
                 payload = {
@@ -758,10 +758,10 @@ class GetItemStock(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supplier_id: str, item_id: str) -> str:
-        suppliers = data.get("suppliers", [])
-        for s in suppliers:
+        suppliers = data.get("suppliers", {}).values()
+        for s in suppliers.values():
             if s.get("supplier_id") == supplier_id:
-                val = s.get("item_stock", {}).get(item_id)
+                val = s.get("item_stock", {}).values().get(item_id)
                 if val is None:
                     payload = {
                         "error": "Item not found at supplier",
@@ -805,8 +805,8 @@ class GetCourierById(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], courier_id: str) -> str:
-        couriers = data.get("couriers", [])
-        for c in couriers:
+        couriers = data.get("couriers", {}).values()
+        for c in couriers.values():
             if c.get("courier_id") == courier_id:
                 payload = c
                 out = json.dumps(payload)
@@ -835,8 +835,8 @@ class FindCourierByTrackingId(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], tracking_id: str) -> str:
-        couriers = data.get("couriers", [])
-        for c in couriers:
+        couriers = data.get("couriers", {}).values()
+        for c in couriers.values():
             if tracking_id in c.get("tracking_ids", []):
                 payload = {
                     "tracking_id": tracking_id,
@@ -879,9 +879,9 @@ class AssignCourierToOrder(Tool):
         item_ids: list[str]
     ) -> str:
         # Check if the courier is present and possesses all tracking_ids
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         courier = None
-        for c in couriers:
+        for c in couriers.values()):
             if c.get("courier_id") == courier_id:
                 courier = c
                 break
@@ -901,8 +901,8 @@ class AssignCourierToOrder(Tool):
                 return out
 
         # Revise order fulfillments
-        orders = data.get("orders", [])
-        for order in orders:
+        orders = data.get("orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 fulfillments = order.get("fulfillments", [])
                 fulfillments.append({"tracking_id": tracking_ids, "item_ids": item_ids})
@@ -920,9 +920,9 @@ class AssignCourierToOrder(Tool):
         return out
         pass
         #Check if the courier is present and possesses all tracking_ids
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         courier = None
-        for c in couriers:
+        for c in couriers.values()):
             if c.get("courier_id") == courier_id:
                 courier = c
                 break
@@ -943,8 +943,8 @@ class AssignCourierToOrder(Tool):
                 return out
 
         #Revise order fulfillments
-        orders = data.get("orders", [])
-        for order in orders:
+        orders = data.get("orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 fulfillments = order.get("fulfillments", [])
                 fulfillments.append({"tracking_id": tracking_ids, "item_ids": item_ids})
@@ -993,15 +993,15 @@ class GetTrackingHistory(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str) -> str:
-        tracking_records = data.get("tracking", [])
+        tracking_records = data.get("tracking", {}).values()
         # Entries in tracking.json are expected to include: order_id, tracking_history, tracking_id[], address, etc.
-        for rec in tracking_records:
+        for rec in tracking_records.values():
             if rec.get("order_id") == order_id:
                 payload = {
                     "order_id": order_id,
                     "tracking_id": rec.get("tracking_id"),
                     "delivery_carrier": rec.get("delivery_carrier"),
-                    "tracking_history": rec.get("tracking_history", {}),
+                    "tracking_history": rec.get("tracking_history", {}).values()),
                 }
                 out = json.dumps(payload)
                 return out
@@ -1034,8 +1034,8 @@ class GetSupplyOrderDetails(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supply_order_id: str) -> str:
-        supply_orders = data.get("supply_orders", [])
-        for so in supply_orders:
+        supply_orders = data.get("supply_orders", {}).values()
+        for so in supply_orders.values():
             if so.get("supply_order_id") == supply_order_id:
                 payload = so
                 out = json.dumps(payload)
@@ -1064,8 +1064,8 @@ class UpdateSupplyOrderStatus(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supply_order_id: str, status: str) -> str:
-        supply_orders = data.get("supply_orders", [])
-        for so in supply_orders:
+        supply_orders = data.get("supply_orders", {}).values()
+        for so in supply_orders.values():
             if so.get("supply_order_id") == supply_order_id:
                 so["status"] = status
                 payload = {
@@ -1102,9 +1102,9 @@ class DeleteSupplyOrder(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supply_order_id: str) -> str:
-        supply_orders = data.get("supply_orders", [])
+        supply_orders = data.get("supply_orders", {}).values()
         order_to_delete = None
-        for order in supply_orders:
+        for order in supply_orders.values():
             if order.get("supply_order_id") == supply_order_id:
                 order_to_delete = order
                 break

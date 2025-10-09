@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateOrderStatus(Tool):
@@ -15,8 +15,8 @@ class UpdateOrderStatus(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str, status: str) -> str:
-        orders = data.get("orders", [])
-        for order in orders:
+        orders = data.get("orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 order["status"] = status
                 payload = {"status": "success", "order_id": order_id, "new_status": status}

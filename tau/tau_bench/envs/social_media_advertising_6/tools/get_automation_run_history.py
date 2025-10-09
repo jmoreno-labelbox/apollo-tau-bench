@@ -9,7 +9,7 @@ class GetAutomationRunHistory(Tool):
         pass
         #optional filters based on type
         runs = _assert_table(data, "automation_runs")
-        out = [r for r in runs if (run_type is None or r.get("run_type") == run_type)]
+        out = [r for r in runs.values() if (run_type is None or r.get("run_type") == run_type)]
         payload = out
         out = json.dumps(payload)
         return out

@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListAccessRequestsByUserTool(Tool):
@@ -18,7 +18,7 @@ class ListAccessRequestsByUserTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str) -> str:
         out = [
-            r for r in data.get("access_requests", []) if r.get("user_id") == user_id
+            r for r in data.get("access_requests", {}).values() if r.get("user_id") == user_id
         ]
         out = sorted(
             out, key=lambda r: (r.get("submitted_at") or "", r.get("request_id") or "")

@@ -9,20 +9,20 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSkillGapAnalysis(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = "", analysis_id: str = "") -> str:
-        skill_gaps = data.get("skill_gap_analysis", [])
+        skill_gaps = data.get("skill_gap_analysis", {}).values()
         if analysis_id:
             analysis = next(
-                (s for s in skill_gaps if s.get("analysis_id") == analysis_id), None
+                (s for s in skill_gaps.values() if s.get("analysis_id") == analysis_id), None
             )
         elif user_id:
             analysis = next(
-                (s for s in skill_gaps if s.get("user_id") == user_id), None
+                (s for s in skill_gaps.values() if s.get("user_id") == user_id), None
             )
         else:
             payload = {"error": "Either user_id or analysis_id required"}

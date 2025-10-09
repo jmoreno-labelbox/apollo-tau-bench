@@ -14,7 +14,7 @@ class CheckProductAvailability(Tool):
         products = data["products"]
 
         if item_id:
-            for product in products:
+            for product in products.values():
                 for variant_id, variant in product["variants"].items():
                     if variant["item_id"] == item_id:
                         payload = {
@@ -33,7 +33,7 @@ class CheckProductAvailability(Tool):
             return out
 
         if product_id:
-            product = next((p for p in products if p["product_id"] == product_id), None)
+            product = next((p for p in products.values() if p["product_id"] == product_id), None)
             if not product:
                 payload = {"error": "Product not found"}
                 out = json.dumps(payload)

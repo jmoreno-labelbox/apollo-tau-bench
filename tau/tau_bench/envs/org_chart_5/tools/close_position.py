@@ -8,15 +8,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class close_position(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], position_id: str = None) -> str:
-        positions = data.get("positions", [])
+        positions = data.get("positions", {}).values()
         position_to_close = next(
-            (p for p in positions if p.get("position_id") == position_id), None
+            (p for p in positions.values() if p.get("position_id") == position_id), None
         )
 
         if position_to_close:

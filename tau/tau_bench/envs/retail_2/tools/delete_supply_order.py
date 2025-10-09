@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DeleteSupplyOrder(Tool):
@@ -15,9 +15,9 @@ class DeleteSupplyOrder(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supply_order_id: str) -> str:
-        supply_orders = data.get("supply_orders", [])
+        supply_orders = data.get("supply_orders", {}).values()
         order_to_delete = None
-        for order in supply_orders:
+        for order in supply_orders.values():
             if order.get("supply_order_id") == supply_order_id:
                 order_to_delete = order
                 break

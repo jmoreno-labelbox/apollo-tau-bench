@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FilterOpenTickets(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        tickets = data.get("tickets", [])
+        tickets = data.get("tickets", {}).values()
         open_statuses = ["New", "In Progress", "On Hold", "Open"]
-        open_tickets = [t for t in tickets if t.get("status") in open_statuses]
+        open_tickets = [t for t in tickets.values() if t.get("status") in open_statuses]
         payload = open_tickets
         out = json.dumps(payload, indent=2)
         return out

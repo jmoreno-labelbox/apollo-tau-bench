@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateSecurityGroupRule(Tool):
@@ -16,8 +16,8 @@ class UpdateSecurityGroupRule(Tool):
     def invoke(data: dict[str, Any], rule_id: Any, cidr: Any, description: Any) -> str:
         # Updates only the rules established through our add_security_group_rule (rule_id = 'SGR_####')
         rule_id = _as_id(rule_id)
-        rules = data.get("aws_security_group_rules", [])
-        r = next((x for x in rules if _as_id(x.get("rule_id")) == rule_id), None)
+        rules = data.get("aws_security_group_rules", {}).values()
+        r = next((x for x in rules.values() if _as_id(x.get("rule_id")) == rule_id), None)
         if not r:
             return _err("Rule not found.")
         r["cidr"] = str(cidr)

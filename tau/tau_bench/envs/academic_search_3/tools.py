@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -25,9 +25,9 @@ class LocatePapers(Tool):
         year: int = None, 
         article_id: str = None
     ) -> str:
-        articles: list = data.get("articles", [])
+        articles: list = data.get("articles", {}).values()
         results = []
-        for article in articles:
+        for article in articles.values():
             match = True
             if article_id and article_id != article.get("article_id"):
                 match = False
@@ -86,8 +86,8 @@ class SummarizeAbstract(Tool):
             out = json.dumps(payload)
             return out
 
-        articles = data.get("articles", [])
-        for article in articles:
+        articles = data.get("articles", {}).values()
+        for article in articles.values():
             if article.get("article_id") == article_id:
                 summary = f"The article '{article.get('title')}' discusses {article.get('topic')}. The abstract focuses on {article.get('abstract')}"
                 payload = {"summary": summary}
@@ -128,8 +128,8 @@ class ExtractKeywords(Tool):
             out = json.dumps(payload)
             return out
 
-        articles = data.get("articles", [])
-        for article in articles:
+        articles = data.get("articles", {}).values()
+        for article in articles.values():
             if article.get("article_id") == article_id:
                 abstract = article.get("abstract", "").lower()
                 potential_keywords = [
@@ -140,7 +140,7 @@ class ExtractKeywords(Tool):
                     "quantum computing",
                     "gene therapy",
                 ]
-                found_keywords = [kw for kw in potential_keywords if kw in abstract]
+                found_keywords = [kw for kw in potential_keywords.values() if kw in abstract]
                 payload = found_keywords
                 out = json.dumps(payload)
                 return out
@@ -174,9 +174,9 @@ class FindUsersByCriteria(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: Any = None, name: Any = None, research_field: Any = None, availability: Any = None, institution: Any = None) -> str:
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         results = []
-        for user in users:
+        for user in users.values():
             match = True
             if user_id and user_id != user.get("person_id"):
                 match = False
@@ -236,9 +236,9 @@ class QuerySubmissions(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], submission_id: str = None, article_id: str = None, status: str = None) -> str:
-        submissions = data.get("submissions", [])
+        submissions = data.get("submissions", {}).values()
         results = []
-        for sub in submissions:
+        for sub in submissions.values():
             match = True
             if submission_id and submission_id != sub.get("submission_id"):
                 match = False
@@ -286,7 +286,7 @@ class GenerateNewReview(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], submission_id: str = None, reviewer_user_id: str = None, score: int = None, comments: str = None) -> str:
-        review_id = f"rev_{len(data.get('reviews', [])) + 1:02d}"
+        review_id = f"rev_{len(data.get("reviews", {})) + 1:02d}"
         new_review = {
             "review_id": review_id,
             "submission_id": submission_id,
@@ -295,7 +295,7 @@ class GenerateNewReview(Tool):
             "comments": comments,
             "review_date": datetime.now().strftime("%Y-%m-%d"),
         }
-        data.get("reviews", []).append(new_review)
+        data["reviews"][new_review["review_id"]] = new_review
         payload = new_review
         out = json.dumps(payload, indent=2)
         return out
@@ -343,11 +343,10 @@ class SearchReviews(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], submission_id: str = None, reviewer_user_id: str = None) -> str:
-        reviews = data.get("reviews", [])
+        reviews = data.get("reviews", {}).values()
         results = [
             r
-            for r in reviews
-            if r.get("submission_id") == submission_id
+            for r in reviews.values() if r.get("submission_id") == submission_id
             and r.get("reviewer_user_id") == reviewer_user_id
         ]
         payload = results
@@ -384,9 +383,9 @@ class QueryProjects(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], project_id: str = None, project_name: str = None, funding_source_id: str = None) -> str:
-        projects = data.get("projects", [])
+        projects = data.get("projects", {}).values()
         results = []
-        for proj in projects:
+        for proj in projects.values():
             match = True
             if project_id and project_id != proj.get("project_id"):
                 match = False
@@ -434,13 +433,13 @@ class LocateFundingSources(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], area: str = None, status: str = None, funding_source_id: str = None, source_name: str = None) -> str:
-        sources = data.get("funding_sources", [])
+        sources = data.get("funding_sources", {}).values()
         results = []
         area = area.lower() if area else ""
         status = status.lower() if status else ""
         source_name = source_name.lower() if source_name else ""
 
-        for s in sources:
+        for s in sources.values()):
             match_area = not area or area in s.get("focus_area", "").lower()
             match_status = not status or status == s.get("status", "").lower()
             match_id = not funding_source_id or funding_source_id == s.get("sponsor_id")
@@ -495,19 +494,19 @@ class AddEntryToLog(Tool):
         target_id_value = None
 
         if user_id is not None:
-            target_list = data.get("users", [])
+            target_list = data.get("users", {}).values()
             target_id_key = "user_id"
             target_id_value = user_id
         elif project_id is not None:
-            target_list = data.get("projects", [])
+            target_list = data.get("projects", {}).values()
             target_id_key = "project_id"
             target_id_value = project_id
         elif submission_id is not None:
-            target_list = data.get("submissions", [])
+            target_list = data.get("submissions", {}).values()
             target_id_key = "submission_id"
             target_id_value = submission_id
         elif article_id is not None:
-            target_list = data.get("articles", [])
+            target_list = data.get("articles", {}).values()
             target_id_key = "article_id"
             target_id_value = article_id
         else:
@@ -517,7 +516,7 @@ class AddEntryToLog(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        for item in target_list:
+        for item in target_list.values():
             if item.get(target_id_key) == target_id_value:
                 if "logs" not in item:
                     item["logs"] = []
@@ -573,10 +572,10 @@ class DeleteCitation(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], citation_id: Any = None) -> str:
-        citations = data.get("citations", [])
+        citations = data.get("citations", {}).values()
         original_count = len(citations)
         data["citations"] = [
-            c for c in citations if c.get("citation_id") != citation_id
+            c for c in citations.values() if c.get("citation_id") != citation_id
         ]
         if len(data["citations"]) < original_count:
             payload = {
@@ -617,16 +616,16 @@ class QueryCitationConnections(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], direction: Any = None, source_article_id: str = None, cited_article_id: str = None) -> str:
-        citations = data.get("citations", [])
+        citations = data.get("citations", {}).values()
         results = []
 
         if direction == "from" and source_article_id is not None:
             source_id = source_article_id
-            results = [c for c in citations if c.get("source_article_id") == source_id]
+            results = [c for c in citations.values() if c.get("source_article_id") == source_id]
 
         elif direction == "to" and cited_article_id is not None:
             cited_id = cited_article_id
-            results = [c for c in citations if c.get("referenced_paper_id") == cited_id]
+            results = [c for c in citations.values() if c.get("referenced_paper_id") == cited_id]
         payload = results
         out = json.dumps(payload, indent=2)
         return out
@@ -666,7 +665,7 @@ class RetrieveCitationData(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], citation_id: Any = None) -> str:
-        for citation in data.get("citations", []):
+        for citation in data.get("citations", {}).values():
             if citation.get("citation_id") == citation_id:
                 payload = citation
                 out = json.dumps(payload, indent=2)
@@ -701,7 +700,7 @@ class InitiateProject(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], project_name: str = None, lead_researcher_id: str = None, funding_source_id: str = None) -> str:
-        projects = data.get("projects", [])
+        projects = data.get("projects", {}).values()
         new_project = {
             "project_id": f"proj_{len(projects) + 1:02d}",
             "project_name": project_name,
@@ -713,7 +712,7 @@ class InitiateProject(Tool):
             "funding_source_id": funding_source_id,
             "logs": [],
         }
-        projects.append(new_project)
+        data["projects"][project_id] = new_project
         payload = new_project
         out = json.dumps(payload, indent=2)
         return out
@@ -754,7 +753,7 @@ class RegisterArticleRecord(Tool):
     def invoke(data: dict[str, Any], title: str, authors: list = None, topic: str = None, abstract: str = None) -> str:
         if authors is None:
             authors = []
-        articles = data.get("articles", [])
+        articles = data.get("articles", {}).values()
         new_article = {
             "article_id": f"art_{len(articles) + 1:02d}",
             "title": title,
@@ -764,7 +763,7 @@ class RegisterArticleRecord(Tool):
             "abstract": abstract,
             "status": "draft",
         }
-        articles.append(new_article)
+        data["articles"][article_id] = new_article
         payload = new_article
         out = json.dumps(payload, indent=2)
         return out
@@ -808,7 +807,7 @@ class SubmitArticleForReview(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], article_id: str = None, author_user_id: str = None) -> str:
-        submissions = data.get("submissions", [])
+        submissions = data.get("submissions", {}).values()
         new_submission = {
             "submission_id": f"sub_{len(submissions) + 1:02d}",
             "article_id": article_id,
@@ -817,7 +816,7 @@ class SubmitArticleForReview(Tool):
             "status": "submitted",
             "assigned_reviewers": [],
         }
-        submissions.append(new_submission)
+        data["submissions"][submission_id] = new_submission
         payload = new_submission
         out = json.dumps(payload, indent=2)
         return out
@@ -857,7 +856,7 @@ class LinkCitedArticle(Tool):
         cited_article_id: str = None,
         citation_context: str = "Citation added for reference."
     ) -> str:
-        citations = data.get("citations", [])
+        citations = data.get("citations", {}).values()
         new_citation_id = f"cit_{len(citations) + 1:02d}"
         new_citation = {
             "reference_id": new_citation_id,
@@ -865,7 +864,7 @@ class LinkCitedArticle(Tool):
             "referenced_paper_id": cited_article_id,
             "reference_context": citation_context,
         }
-        citations.append(new_citation)
+        data["citations"][citation_id] = new_citation
         payload = new_citation
         out = json.dumps(payload, indent=2)
         return out
@@ -904,9 +903,9 @@ class DeleteReview(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], review_id: Any = None) -> str:
-        reviews = data.get("reviews", [])
+        reviews = data.get("reviews", {}).values()
         original_count = len(reviews)
-        data["reviews"] = [r for r in reviews if r.get("review_id") != review_id]
+        data["reviews"] = [r for r in reviews.values() if r.get("review_id") != review_id]
         if len(data["reviews"]) < original_count:
             payload = {
                 "status": "success",
@@ -967,13 +966,13 @@ class ModifyRecord(Tool):
             return out
 
         table_map = {
-            "article": (data.get("articles", []), "article_id"),
-            "project": (data.get("projects", []), "project_id"),
-            "user": (data.get("users", []), "user_id"),
-            "submission": (data.get("submissions", []), "submission_id"),
-            "funding_source": (data.get("funding_sources", []), "funding_source_id"),
-            "user_preference": (data.get("user_preferences", []), "preference_id"),
-            "subscription": (data.get("subscriptions", []), "subscription_id"),
+            "article": (data.get("articles", {}).values()), "article_id"),
+            "project": (data.get("projects", {}).values()), "project_id"),
+            "user": (data.get("users", {}).values()), "user_id"),
+            "submission": (data.get("submissions", {}).values()), "submission_id"),
+            "funding_source": (data.get("funding_sources", {}).values()), "funding_source_id"),
+            "user_preference": (data.get("user_preferences", {}).values()), "preference_id"),
+            "subscription": (data.get("subscriptions", {}).values()), "subscription_id"),
         }
 
         if record_type not in table_map:
@@ -983,7 +982,7 @@ class ModifyRecord(Tool):
 
         target_list, id_key = table_map[record_type]
 
-        for item in target_list:
+        for item in target_list.values():
             if item.get(id_key) == record_id:
                 # Apply modifications from the modifications parameter
                 if modifications:
@@ -1108,7 +1107,7 @@ class DispatchSystemNotification(Tool):
             out = json.dumps(payload)
             return out
 
-        notifications = data.get("notifications", [])
+        notifications = data.get("notifications", {}).values()
         new_notification = {
             "notification_id": f"notif_{len(notifications) + 1:02d}",
             "recipient_user_id": recipient_user_id,
@@ -1117,7 +1116,7 @@ class DispatchSystemNotification(Tool):
             "timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
             "status": "unread",
         }
-        notifications.append(new_notification)
+        data["notifications"][notification_id] = new_notification
         payload = new_notification
         out = json.dumps(payload, indent=2)
         return out

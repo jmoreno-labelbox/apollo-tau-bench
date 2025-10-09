@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddExternalDependency(Tool):
@@ -34,11 +34,11 @@ class AddExternalDependency(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        external_dependencies = data.get("external_dependencies", [])
+        milestones = data.get("milestones", {}).values()
+        external_dependencies = data.get("external_dependencies", {}).values()
 
         milestone = next(
-            (m for m in milestones if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
         )
         if not milestone:
             payload = {"error": f"Milestone '{milestone_id}' not found"}
@@ -65,7 +65,7 @@ class AddExternalDependency(Tool):
             "status": "pending",
         }
 
-        external_dependencies.append(new_dependency)
+        data["external_dependencies"][new_dependency["external_dependencie_id"]] = new_dependency
 
         if criticality == "critical" and not new_dependency["confirmed"]:
             milestone["health"] = (

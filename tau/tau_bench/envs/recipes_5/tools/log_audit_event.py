@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LogAuditEvent(Tool):
@@ -45,7 +45,7 @@ class LogAuditEvent(Tool):
                 )[0]
             else:
                 entity_type, entity_id = "system", 0
-        al = data.get("audit_logs", [])
+        al = data.get("audit_logs", {}).values()
         next_a = _max_id(al, "audit_id", 12000) + 1
         row = {
             "audit_id": next_a,
@@ -57,7 +57,7 @@ class LogAuditEvent(Tool):
             "payload_json": payload_json,
             "created_at": "2025-01-03T10:00:00Z",
         }
-        al.append(row)
+        data["audit_logs"][row["audit_log_id"]] = row
         return _json_dump({"audit_id": next_a})
     @staticmethod
     def get_info() -> dict[str, Any]:

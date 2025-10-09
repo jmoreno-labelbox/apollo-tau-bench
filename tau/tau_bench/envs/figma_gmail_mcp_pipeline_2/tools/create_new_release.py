@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateNewRelease(Tool):
@@ -32,7 +32,7 @@ class CreateNewRelease(Tool):
         ]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -40,7 +40,7 @@ class CreateNewRelease(Tool):
             )
             return out
 
-        releases: list[dict[str, Any]] = data.get("releases", [])
+        releases: list[dict[str, Any]] = data.get("releases", {}).values()
         release_id = get_next_release_id(data)
         created_ts = get_now_timestamp()
 
@@ -55,7 +55,7 @@ class CreateNewRelease(Tool):
             "thread_id_nullable": thread_id,
         }
 
-        releases.append(new_release)
+        data["releases"][release_id] = new_release
         data["releases"] = releases
         payload = new_release
         out = json.dumps(payload, indent=2)

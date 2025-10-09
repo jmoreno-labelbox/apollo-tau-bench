@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchVulnerabilitiesByCVE(Tool):
@@ -16,10 +16,10 @@ class SearchVulnerabilitiesByCVE(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cve: str = None) -> str:
         cve_id = cve
-        vulnerabilities = data.get("vulnerabilities", [])
+        vulnerabilities = data.get("vulnerabilities", {}).values()
 
         matching_vulnerabilities = [
-            vuln for vuln in vulnerabilities if vuln.get("cve") == cve_id
+            vuln for vuln in vulnerabilities.values() if vuln.get("cve") == cve_id
         ]
         payload = {"vulnerabilities": matching_vulnerabilities}
         out = json.dumps(payload)

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchRecipesByTitleSubstring(Tool):
@@ -20,11 +20,10 @@ class SearchRecipesByTitleSubstring(Tool):
             payload = {"error": "title_substring parameter is required."}
             out = json.dumps(payload)
             return out
-        recipes = data.get("recipes", [])
+        recipes = data.get("recipes", {}).values()
         matching_recipes = [
             recipe
-            for recipe in recipes
-            if title_substring.lower() in recipe.get("recipe_title", "").lower()
+            for recipe in recipes.values() if title_substring.lower() in recipe.get("recipe_title", "").lower()
         ]
         payload = matching_recipes
         out = json.dumps(payload)

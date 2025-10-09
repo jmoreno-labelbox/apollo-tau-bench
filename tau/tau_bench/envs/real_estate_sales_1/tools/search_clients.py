@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchClients(Tool):
@@ -15,7 +15,7 @@ class SearchClients(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], name: str = "", client_id: Any = None) -> str:
-        clients = data.get("client_preferences", [])
+        clients = data.get("client_preferences", {}).values()
         if not clients:
             payload = {"error": "No client data available"}
             out = json.dumps(payload, indent=2)
@@ -24,7 +24,7 @@ class SearchClients(Tool):
         results = []
         name_query = name.lower()
 
-        for client in clients:
+        for client in clients.values():
             if client_id and client.get("client_id") != client_id:
                 continue
             if name_query and name_query not in client.get("name", "").lower():

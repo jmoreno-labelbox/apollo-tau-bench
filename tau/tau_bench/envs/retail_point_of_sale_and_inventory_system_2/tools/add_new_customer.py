@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddNewCustomer(Tool):
@@ -16,9 +16,9 @@ class AddNewCustomer(Tool):
     def invoke(
         data: dict[str, Any], name: str, email: str, phone_number: str, address: str
     ) -> str:
-        customers = data.get("customers", [])
+        customers = data.get("customers", {}).values()
 
-        if any(c.get("email") == email for c in customers):
+        if any(c.get("email") == email for c in customers.values()):
             payload = {"error": f"Customer with email {email} already exists."}
             out = json.dumps(payload)
             return out
@@ -35,15 +35,15 @@ class AddNewCustomer(Tool):
             "membership_level": "bronze",
         }
 
-        customers.append(new_customer)
+        data["customers"][customer_id] = new_customer
         data["customers"] = customers
         payload = new_customer
         out = json.dumps(payload, indent=2)
         return out
         pass
-        customers = data.get("customers", [])
+        customers = data.get("customers", {}).values()
 
-        if any(c.get("email") == email for c in customers):
+        if any(c.get("email") == email for c in customers.values()):
             payload = {"error": f"Customer with email {email} already exists."}
             out = json.dumps(payload)
             return out
@@ -60,7 +60,7 @@ class AddNewCustomer(Tool):
             "membership_level": "bronze",
         }
 
-        customers.append(new_customer)
+        data["customers"][customer_id] = new_customer
         data["customers"] = customers
         payload = new_customer
         out = json.dumps(payload, indent=2)

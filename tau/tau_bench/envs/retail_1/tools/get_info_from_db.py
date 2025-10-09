@@ -9,7 +9,7 @@ from tau_bench.envs.retail_1.tools import _match
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetInfoFromDB(Tool):  #READ
@@ -23,7 +23,7 @@ class GetInfoFromDB(Tool):  #READ
         pass
         db = _convert_db_to_list(data.get(database_name, {}))
 
-        filtered_db = [row for row in db if _match(row, filter_params)]
+        filtered_db = [row for row in db.values() if _match(row, filter_params)]
         if not filtered_db:
             payload = {"error": "No entries found matching the filter parameters."}
             out = json.dumps(
@@ -70,7 +70,7 @@ class GetInfoFromDB(Tool):  #READ
                             "description": "A list of all the keys of the infomation that should be returned by the function for the filtered database entries.",
                         },
                     },
-                    "required": ["filter_params"],
+                    "required": ["database_name", "filter_params"],
                 },
             },
         }

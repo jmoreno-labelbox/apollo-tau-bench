@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchCreativeRotation(Tool):
@@ -28,7 +28,7 @@ class FetchCreativeRotation(Tool):
             return out
 
         rows = []
-        for r in data.get("creative_rotations", []):
+        for r in data.get("creative_rotations", {}).values():
             if rotation_id and str(r.get("rotation_id")) == str(rotation_id):
                 rows.append(r)
             elif adset_id and str(r.get("adset_id")) == str(adset_id):

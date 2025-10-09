@@ -9,16 +9,16 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetJobMarketInsights(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], role: str) -> str:
         _roleL = role or ''.lower()
-        insights = data.get("job_market_insights", [])
+        insights = data.get("job_market_insights", {}).values()
         insight = next(
-            (i for i in insights if i.get("role", "").lower() == role.lower()), None
+            (i for i in insights.values() if i.get("role", "").lower() == role.lower()), None
         )
         if insight:
             payload = insight

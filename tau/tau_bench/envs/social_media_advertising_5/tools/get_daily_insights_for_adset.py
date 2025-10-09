@@ -9,13 +9,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetDailyInsightsForAdset(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], adset_id: str = None, date: str = None) -> str:
-        for i in data.get("f_insights", []):
+        for i in data.get("f_insights", {}).values():
             if i.get("adset_id") == adset_id and i.get("date") == date:
                 payload = i
                 out = json.dumps(payload)

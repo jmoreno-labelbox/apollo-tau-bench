@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class WriteTerminalLog(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], event_type: str = None, message: str = None) -> str:
-        logs = data.get("terminal_log", [])
+        logs = data.get("terminal_log", {}).values()
         max_id = 0
-        for l in logs:
+        for l in logs.values():
             try:
                 lid = int(l.get("log_id", 0))
                 if lid > max_id:
@@ -29,7 +29,7 @@ class WriteTerminalLog(Tool):
             "message": message,
             "created_at": _fixed_now_iso(),
         }
-        logs.append(row)
+        data["terminal_log"][row["terminal_log_id"]] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out

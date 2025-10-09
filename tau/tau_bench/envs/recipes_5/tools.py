@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -22,7 +22,7 @@ def _all_recipe_ids_filtered(
 ) -> list[int]:
     pass
     out = []
-    for r in data.get("recipes", []):
+    for r in data.get("recipes", {}).values():
         if r.get("meal_type") != meal_type:
             continue
         if int(r.get("protein_g_per_serving", 0)) < int(min_protein_g):
@@ -47,7 +47,7 @@ def _latest_order_id(data: dict[str, Any], household_id: int | None) -> int | No
 
 def _ensure_list_id(data: dict[str, Any], list_id: int) -> dict[str, Any]:
     pass
-    for gl in data.get("grocery_lists", []):
+    for gl in data.get("grocery_lists", {}).values():
         if gl.get("list_id") == list_id:
             return gl
     return {}
@@ -57,7 +57,7 @@ def _max_id(records: list[dict[str, Any]], key: str, default: int) -> int:
     pass
     if not records:
         return default
-    return max(int(r.get(key, default)) for r in records)
+    return max(int(r.get(key, default)) for r in records.values()
 
 
 def _latest_list_for_household(
@@ -68,7 +68,7 @@ def _latest_list_for_household(
         return None
     lists_ = [
         l
-        for l in data.get("grocery_lists", [])
+        for l in data.get("grocery_lists", {}).values()
         if l.get("household_id") == household_id
     ]
     if not lists_:
@@ -83,7 +83,7 @@ def _latest_order_for_household(
     if household_id is None:
         return None
     orders = [
-        o for o in data.get("orders", []) if o.get("household_id") == household_id
+        o for o in data.get("orders", {}).values() if o.get("household_id") == household_id
     ]
     if not orders:
         return None
@@ -93,13 +93,13 @@ def _latest_order_for_household(
 def _recipe_by_id(data: dict[str, Any], recipe_id: int) -> dict[str, Any] | None:
     pass
     return next(
-        (r for r in data.get("recipes", []) if r.get("recipe_id") == recipe_id), None
+        (r for r in data.get("recipes", {}).values() if r.get("recipe_id") == recipe_id), None
     )
 
 
 def _first_user_id(data: dict[str, Any]) -> int | None:
     pass
-    users = data.get("users", [])
+    users = data.get("users", {}).values()
     if not users:
         return None
     return int(sorted(users, key=lambda u: int(u.get("user_id", 10**9)))[0]["user_id"])
@@ -113,14 +113,14 @@ def _household_for_user(
         h = next(
             (
                 h
-                for h in data.get("households", [])
+                for h in data.get("households", {}).values()
                 if h.get("primary_user_id") == user_id
             ),
             None,
         )
         if h:
             return h
-    households = data.get("households", [])
+    households = data.get("households", {}).values()
     if not households:
         return None
     return sorted(households, key=lambda h: int(h.get("household_id", 10**9)))[0]
@@ -166,7 +166,7 @@ def _recent_recipe_ids(
     else:
         hh_rows = [
             h
-            for h in data.get("meal_history", [])
+            for h in data.get("meal_history", {}).values()
             if h.get("household_id") == household_id
         ]
         if hh_rows:
@@ -178,7 +178,7 @@ def _recent_recipe_ids(
     start = end - timedelta(days=int(days_back))
     return [
         int(r.get("recipe_id"))
-        for r in data.get("meal_history", [])
+        for r in data.get("meal_history", {}).values()
         if r.get("household_id") == household_id
         and str(r.get("plan_date")) >= start.isoformat()
     ]
@@ -191,7 +191,7 @@ def _latest_meal_plan_for_household(
     if household_id is None:
         return None
     plans = [
-        m for m in data.get("meal_plans", []) if m.get("household_id") == household_id
+        m for m in data.get("meal_plans", {}).values() if m.get("household_id") == household_id
     ]
     if not plans:
         return None
@@ -225,7 +225,7 @@ def _ingredient_by_id(
     return next(
         (
             i
-            for i in data.get("ingredients", [])
+            for i in data.get("ingredients", {}).values()
             if i.get("ingredient_id") == ingredient_id
         ),
         None,
@@ -238,7 +238,7 @@ def _parse_json_list_ids(json_str: str | None) -> list[int]:
         if not json_str:
             return []
         val = json.loads(json_str)
-        if isinstance(val, list) and all(isinstance(x, int) for x in val):
+        if isinstance(val, list) and all(isinstance(x, int) for x in val.values()):
             return val
     except Exception:
         pass
@@ -266,7 +266,7 @@ def _ids_from_kwargs_or_defaults(
 
 def _default_store_id(data: dict[str, Any]) -> int | None:
     pass
-    stores = data.get("stores", [])
+    stores = data.get("stores", {}).values()
     if not stores:
         return None
     return int(
@@ -282,7 +282,7 @@ def _next_week_start_date_for_household(
     if household_id is None:
         return base.isoformat()
     plans = [
-        m for m in data.get("meal_plans", []) if m.get("household_id") == household_id
+        m for m in data.get("meal_plans", {}).values() if m.get("household_id") == household_id
     ]
     if not plans:
         return base.isoformat()
@@ -301,8 +301,8 @@ def _collect_recipe_ingredients(
     data: dict[str, Any], recipe_ids: list[int]
 ) -> list[dict[str, Any]]:
     pass
-    ri = data.get("recipe_ingredients", [])
-    return [row for row in ri if row.get("recipe_id") in recipe_ids]
+    ri = data.get("recipe_ingredients", {}).values()
+    return [row for row in ri.values() if row.get("recipe_id") in recipe_ids]
 
 
 def _json_dump(obj: Any) -> str:
@@ -318,7 +318,7 @@ def _store_products_for_ingredient(
     pass
     return [
         p
-        for p in data.get("store_products", [])
+        for p in data.get("store_products", {}).values()
         if p.get("store_id") == store_id and p.get("ingredient_id") == ingredient_id
     ]
 
@@ -337,7 +337,7 @@ def _pick_target_from_member(
     pass
     if member_id is not None:
         m = next(
-            (x for x in data.get("members", []) if x.get("member_id") == member_id),
+            (x for x in data.get("members", {}).values() if x.get("member_id") == member_id),
             None,
         )
         if m:
@@ -345,8 +345,8 @@ def _pick_target_from_member(
             pro = int(m.get("target_protein") or 0)
             if cal and pro:
                 return cal, pro
-    members = data.get("members", [])
-    adults = [m for m in members if not m.get("is_child")]
+    members = data.get("members", {}).values()
+    adults = [m for m in members.values() if not m.get("is_child")]
     m = adults[0] if adults else (members[0] if members else None)
     if m:
         cal = int(m.get("target_calories") or 2200)
@@ -361,16 +361,16 @@ class GetUserByEmail(Tool):
         user = None
         if email:
             user = next(
-                (u for u in data.get("users", []) if u.get("email") == email), None
+                (u for u in data.get("users", {}).values() if u.get("email") == email), None
             )
         if user is None and user_id is not None:
             user = next(
-                (u for u in data.get("users", []) if u.get("user_id") == user_id), None
+                (u for u in data.get("users", {}).values() if u.get("user_id") == user_id), None
             )
         if user is None:
             fid = _first_user_id(data)
             user = next(
-                (u for u in data.get("users", []) if u.get("user_id") == fid), None
+                (u for u in data.get("users", {}).values() if u.get("user_id") == fid), None
             )
         if not user:
             return _json_dump({"error": "no users available"})
@@ -425,7 +425,7 @@ class ListHouseholdMembers(Tool):
         if household_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
         rows = [
-            m for m in data.get("members", []) if m.get("household_id") == household_id
+            m for m in data.get("members", {}).values() if m.get("household_id") == household_id
         ]
         return _json_dump(rows)
     @staticmethod
@@ -450,13 +450,13 @@ class GetMemberByName(Tool):
         if household_id is None:
             household_id = _default_household_id(data, _first_user_id(data))
         members = [
-            m for m in data.get("members", []) if m.get("household_id") == household_id
+            m for m in data.get("members", {}).values() if m.get("household_id") == household_id
         ]
         m = None
         if full_name:
-            m = next((x for x in members if x.get("full_name") == full_name), None)
+            m = next((x for x in members.values() if x.get("full_name") == full_name), None)
         if m is None and members:
-            adults = [x for x in members if not x.get("is_child")]
+            adults = [x for x in members.values() if not x.get("is_child")]
             m = adults[0] if adults else members[0]
         if not m:
             return _json_dump({"error": "no member found"})
@@ -487,15 +487,15 @@ class ComputeAndSetMemberTargets(Tool):
             household_id = _default_household_id(data, _first_user_id(data))
             members = [
                 m
-                for m in data.get("members", [])
+                for m in data.get("members", {}).values()
                 if m.get("household_id") == household_id
             ]
             if not members:
                 return _json_dump({"error": "no members available"})
-            adults = [m for m in members if not m.get("is_child")]
+            adults = [m for m in members.values() if not m.get("is_child")]
             member_id = adults[0]["member_id"] if adults else members[0]["member_id"]
         m = next(
-            (x for x in data.get("members", []) if x.get("member_id") == member_id),
+            (x for x in data.get("members", {}).values() if x.get("member_id") == member_id),
             None,
         )
         if not m:
@@ -641,7 +641,7 @@ class ExcludeRecentRecipes(Tool):
         recent = recent_recipe_ids
         if recent is None:
             recent = _recent_recipe_ids(data, household_id, days_back, anchor_date)
-        filtered = [rid for rid in cand if rid not in {int(x) for x in recent}]
+        filtered = [rid for rid in cand.values() if rid not in {int(x) for x in recent}]
         return _json_dump({"filtered_recipe_ids_json": json.dumps(filtered)})
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -783,7 +783,7 @@ class GenerateChildModifications(Tool):
             if mp:
                 ids = [
                     int(e.get("recipe_id"))
-                    for e in data.get("meal_plan_entries", [])
+                    for e in data.get("meal_plan_entries", {}).values()
                     if e.get("meal_plan_id") == mp.get("meal_plan_id")
                 ]
         notes = {}
@@ -821,7 +821,7 @@ class CreateMealPlan(Tool):
         week_start_date = week_start_date or _next_week_start_date_for_household(data, household_id)
         if household_id is None or created_by_user_id is None:
             return _json_dump({"error": "unable to infer household or user"})
-        meal_plans = data.get("meal_plans", [])
+        meal_plans = data.get("meal_plans", {}).values()
         next_id = _max_id(meal_plans, "meal_plan_id", 6000) + 1
         new_row = {
             "meal_plan_id": next_id,
@@ -830,7 +830,7 @@ class CreateMealPlan(Tool):
             "created_by_user_id": int(created_by_user_id),
             "created_at": "2025-01-01T00:00:00Z",
         }
-        meal_plans.append(new_row)
+        data["meal_plans"][meal_plan_id] = new_row
         return _json_dump({"meal_plan_id": next_id})
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -870,7 +870,7 @@ class BulkAddMealPlanEntries(Tool):
             mp_row = next(
                 (
                     m
-                    for m in data.get("meal_plans", [])
+                    for m in data.get("meal_plans", {}).values()
                     if m.get("meal_plan_id") == meal_plan_id
                 ),
                 None,
@@ -903,7 +903,7 @@ class BulkAddMealPlanEntries(Tool):
             )["selected_recipe_ids_json"]
             recipes = _parse_json_list_ids(ranked)
         dates = _plan_week_dates(str(week_start_date))
-        entries_tbl = data.get("meal_plan_entries", [])
+        entries_tbl = data.get("meal_plan_entries", {}).values()
         created_ids: list[int] = []
         next_id = _max_id(entries_tbl, "entry_id", 6100)
         for i, rid in enumerate(recipes[:7]):
@@ -918,7 +918,7 @@ class BulkAddMealPlanEntries(Tool):
                 "servings_child": 1,
                 "notes": "",
             }
-            entries_tbl.append(row)
+            data["meal_plan_entries"][row["meal_plan_entrie_id"]] = row
             created_ids.append(next_id)
         return _json_dump({"created_entry_ids": created_ids})
         
@@ -951,7 +951,7 @@ class UpdateMealPlanEntryNotes(Tool):
         if notes_map is None:
             rec_ids = [
                 int(e.get("recipe_id"))
-                for e in data.get("meal_plan_entries", [])
+                for e in data.get("meal_plan_entries", {}).values()
                 if e.get("meal_plan_id") == meal_plan_id
             ]
             gen = json.loads(
@@ -961,7 +961,7 @@ class UpdateMealPlanEntryNotes(Tool):
             )["child_mod_notes"]
             notes_map = gen
         updated = 0
-        for e in data.get("meal_plan_entries", []):
+        for e in data.get("meal_plan_entries", {}).values():
             if e.get("meal_plan_id") != meal_plan_id:
                 continue
             rid = str(e.get("recipe_id"))
@@ -1016,12 +1016,12 @@ class CreateGroceryListFromMealPlan(Tool):
                 meal_plan_id = int(mp["meal_plan_id"])
         entries = [
             e
-            for e in data.get("meal_plan_entries", [])
+            for e in data.get("meal_plan_entries", {}).values()
             if e.get("meal_plan_id") == meal_plan_id
         ]
         recipe_ids = [int(e.get("recipe_id")) for e in entries]
         items = _sum_grocery_items(data, recipe_ids)
-        gl_tbl = data.get("grocery_lists", [])
+        gl_tbl = data.get("grocery_lists", {}).values()
         next_list = _max_id(gl_tbl, "list_id", 8000) + 1
         new_gl = {
             "list_id": next_list,
@@ -1031,8 +1031,8 @@ class CreateGroceryListFromMealPlan(Tool):
             "created_at": "2025-01-01T12:00:00Z",
             "status_enum": "initialized",
         }
-        gl_tbl.append(new_gl)
-        gli_tbl = data.get("grocery_list_items", [])
+        data["grocery_lists"][new_gl["grocery_list_id"]] = new_gl
+        gli_tbl = data.get("grocery_list_items", {}).values()
         next_item = _max_id(gli_tbl, "item_id", 8100)
         created_items = []
         for it in items:
@@ -1050,7 +1050,7 @@ class CreateGroceryListFromMealPlan(Tool):
                 ),
                 "overlap_last_month_flag": False,
             }
-            gli_tbl.append(gli)
+            data["grocery_list_items"][gli["grocery_list_item_id"]] = gli
             created_items.append(next_item)
         return _json_dump({"list_id": next_list, "created_item_ids": created_items})
     @staticmethod
@@ -1082,7 +1082,7 @@ class CategorizeGroceryListSections(Tool):
         if list_id is None:
             return _json_dump({"updated_items": 0})
         cnt = 0
-        for item in data.get("grocery_list_items", []):
+        for item in data.get("grocery_list_items", {}).values():
             if item.get("list_id") != list_id:
                 continue
             ingr = _ingredient_by_id(data, int(item.get("ingredient_id")))
@@ -1114,7 +1114,7 @@ class FlagPantryStaplesOnList(Tool):
         if list_id is None:
             return _json_dump({"updated_items": 0})
         cnt = 0
-        for item in data.get("grocery_list_items", []):
+        for item in data.get("grocery_list_items", {}).values():
             if item.get("list_id") != list_id:
                 continue
             ingr = _ingredient_by_id(data, int(item.get("ingredient_id")))
@@ -1155,7 +1155,7 @@ class FlagOverlapLastMonthOnList(Tool):
             )
         }
         cnt = 0
-        for item in data.get("grocery_list_items", []):
+        for item in data.get("grocery_list_items", {}).values():
             if item.get("list_id") != list_id:
                 continue
             item["overlap_last_month_flag"] = (
@@ -1190,7 +1190,7 @@ class ListInventoryByHousehold(Tool):
             household_id = _default_household_id(data, _first_user_id(data))
         rows = [
             i
-            for i in data.get("inventory_items", [])
+            for i in data.get("inventory_items", {}).values()
             if i.get("household_id") == household_id
         ]
         return _json_dump({"household_id": household_id, "inventory_items": rows})
@@ -1221,7 +1221,7 @@ class CheckStoreInventoryForList(Tool):
         if list_id is None or store_id is None:
             return _json_dump({"flagged_items": []})
         flagged = []
-        for item in data.get("grocery_list_items", []):
+        for item in data.get("grocery_list_items", {}).values():
             if item.get("list_id") != list_id:
                 continue
             products = _store_products_for_ingredient(
@@ -1338,7 +1338,7 @@ class UpdateGroceryListWithSubstitutes(Tool):
             for s in substitutions
             if "ingredient_id" in s and "substitute_ingredient_id" in s
         }
-        for item in data.get("grocery_list_items", []):
+        for item in data.get("grocery_list_items", {}).values():
             if item.get("list_id") != list_id:
                 continue
             old = int(item.get("ingredient_id"))
@@ -1390,7 +1390,7 @@ class CreateOrderFromList(Tool):
             scheduled_slot_end_ts = "2025-01-02T20:00:00Z"
         if household_id is None or store_id is None or list_id is None:
             return _json_dump({"error": "unable to infer household, store, or list"})
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         next_id = _max_id(orders, "order_id", 10000) + 1
         row = {
             "order_id": next_id,
@@ -1404,7 +1404,7 @@ class CreateOrderFromList(Tool):
             "scheduled_slot_start_ts": str(scheduled_slot_start_ts),
             "scheduled_slot_end_ts": str(scheduled_slot_end_ts),
         }
-        orders.append(row)
+        data["orders"][order_id] = row
         return _json_dump({"order_id": next_id})
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -1437,7 +1437,7 @@ class AddOrderItemsFromList(Tool):
             household_id = _default_household_id(data, _first_user_id(data))
             order_id = _latest_order_id(data, household_id)
         order = next(
-            (o for o in data.get("orders", []) if o.get("order_id") == order_id), None
+            (o for o in data.get("orders", {}).values() if o.get("order_id") == order_id), None
         )
         if not order:
             return _json_dump({"error": "no order available"})
@@ -1445,9 +1445,9 @@ class AddOrderItemsFromList(Tool):
             store_id = int(order.get("store_id"))
         list_id = order.get("list_id")
         items = [
-            i for i in data.get("grocery_list_items", []) if i.get("list_id") == list_id
+            i for i in data.get("grocery_list_items", {}).values() if i.get("list_id") == list_id
         ]
-        oi_tbl = data.get("order_items", [])
+        oi_tbl = data.get("order_items", {}).values()
         next_oi = _max_id(oi_tbl, "order_item_id", 10100)
         created_ids = []
         subtotal = 0
@@ -1461,7 +1461,7 @@ class AddOrderItemsFromList(Tool):
                 product = next(
                     (
                         p
-                        for p in data.get("store_products", [])
+                        for p in data.get("store_products", {}).values()
                         if p.get("product_id") == int(override_pid)
                     ),
                     None,
@@ -1480,7 +1480,7 @@ class AddOrderItemsFromList(Tool):
                 "fulfilled_qty": 1,
                 "substitute_product_id": None,
             }
-            oi_tbl.append(oi)
+            data["order_items"][oi["order_item_id"]] = oi
             created_ids.append(next_oi)
             subtotal += int(product.get("price_cents", 0))
         order["subtotal_cents"] = subtotal
@@ -1519,7 +1519,7 @@ class UpdateOrderStatus(Tool):
             household_id = _default_household_id(data, _first_user_id(data))
             order_id = _latest_order_id(data, household_id)
         order = next(
-            (o for o in data.get("orders", []) if o.get("order_id") == order_id), None
+            (o for o in data.get("orders", {}).values() if o.get("order_id") == order_id), None
         )
         if not order:
             return _json_dump({"error": "no order available"})
@@ -1578,7 +1578,7 @@ class LogAuditEvent(Tool):
                 )[0]
             else:
                 entity_type, entity_id = "system", 0
-        al = data.get("audit_logs", [])
+        al = data.get("audit_logs", {}).values()
         next_a = _max_id(al, "audit_id", 12000) + 1
         row = {
             "audit_id": next_a,
@@ -1590,7 +1590,7 @@ class LogAuditEvent(Tool):
             "payload_json": payload_json,
             "created_at": "2025-01-03T10:00:00Z",
         }
-        al.append(row)
+        data["audit_logs"][row["audit_log_id"]] = row
         return _json_dump({"audit_id": next_a})
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -1652,7 +1652,7 @@ class GetMealPlanDetails(Tool):
         row = next(
             (
                 m
-                for m in data.get("meal_plans", [])
+                for m in data.get("meal_plans", {}).values()
                 if m.get("meal_plan_id") == meal_plan_id
             ),
             None,
@@ -1688,7 +1688,7 @@ class GetGroceryListDetails(Tool):
         if not header:
             return _json_dump({"error": f"list_id {list_id} not found"})
         items = [
-            i for i in data.get("grocery_list_items", []) if i.get("list_id") == list_id
+            i for i in data.get("grocery_list_items", {}).values() if i.get("list_id") == list_id
         ]
         return _json_dump({"grocery_list": header, "items": items})
     @staticmethod

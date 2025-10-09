@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class MapPathToOwner(Tool):
@@ -15,8 +15,8 @@ class MapPathToOwner(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], file_path: str = None) -> str:
-        maps = data.get("ownership_map", [])
-        rec = next((m for m in maps if m.get("file_path") == file_path), None)
+        maps = data.get("ownership_map", {}).values()
+        rec = next((m for m in maps.values() if m.get("file_path") == file_path), None)
         payload = {"owner_map": rec}
         out = json.dumps(payload, indent=2)
         return out

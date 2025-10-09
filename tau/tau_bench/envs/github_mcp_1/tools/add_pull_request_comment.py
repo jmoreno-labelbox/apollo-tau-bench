@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddPullRequestComment(Tool):
@@ -63,7 +63,7 @@ class AddPullRequestComment(Tool):
             return out
 
         #Load PR DB (expects list at data['pull_requests'])
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values()
         if not isinstance(pr_db, list):
             payload = {"error": "Invalid pull requests DB: expected a list."}
             out = json.dumps(

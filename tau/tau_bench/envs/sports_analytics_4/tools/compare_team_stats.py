@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CompareTeamStats(Tool):
@@ -15,18 +15,17 @@ class CompareTeamStats(Tool):
     #primary invocation function
     def invoke(data: dict[str, Any], team_a: str = None, team_b: str = None) -> str:
         pass
-        games = data.get("games", [])
+        games = data.get("games", {}).values()
 
         def avg_runs(team):
             pass
             team_games = [
                 g
-                for g in games
-                if g.get("home_team_id") == team or g.get("away_team_id") == team
+                for g in games.values() if g.get("home_team_id") == team or g.get("away_team_id") == team
             ]
             #return result
             return sum(
-                g.get("final_score", {}).get(str(team), 0) for g in team_games
+                g.get("final_score", {}).values().get(str(team), 0) for g in team_games
             ) / max(len(team_games), 1)
         payload = {"team_a_avg_runs": avg_runs(team_a), "team_b_avg_runs": avg_runs(team_b)}
         out = json.dumps(

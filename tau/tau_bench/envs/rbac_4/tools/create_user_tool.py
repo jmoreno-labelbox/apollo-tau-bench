@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateUserTool(Tool):
@@ -25,11 +25,11 @@ class CreateUserTool(Tool):
     actor_id: Any = None,
     created_at: str = None
     ) -> str:
-        users = data.get("users", [])
-        audit_logs = data.get("audit_logs", [])
+        users = data.get("users", {}).values()
+        audit_logs = data.get("audit_logs", {}).values()
 
         # Validation: confirm that username/email are distinct
-        for u in users:
+        for u in users.values():
             if u["username"] == username:
                 payload = {"error": f"Username {username} already exists"}
                 out = json.dumps(payload, indent=2)

@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateTotalBalance(Tool):
@@ -25,13 +25,13 @@ class CalculateTotalBalance(Tool):
                 indent=2
             )
 
-        customers = data.get("customers", [])
-        if not any(c.get("customer_id") == customer_id for c in customers):
+        customers = data.get("customers", {}).values()
+        if not any(c.get("customer_id") == customer_id for c in customers.values()):
             return json.dumps({"error": "Customer not found."}, indent=2)
 
-        accounts = data.get("accounts", [])
+        accounts = data.get("accounts", {}).values()
         total = 0.0
-        for acc in accounts:
+        for acc in accounts.values():
             if acc.get("account_id") in account_ids and acc.get("customer_id") == customer_id:
                 total += acc.get("balance", 0.0)
 

@@ -197,7 +197,7 @@ class UpsertCrewCertification(Tool):
                 action = "created"
 
         #predictable audit (prevent duplicate audits with the same id)
-        if not any(a.get("id") == audit_id for a in audits):
+        if not any(a.get("id") == audit_id for a in audits.values()):
             audits.append(
                 {
                     "id": audit_id,
@@ -377,7 +377,7 @@ class UpsertCrewCertification(Tool):
                 action = "created"
 
         #predictable audit (prevent duplicate audits with the same id)
-        if not any(a.get("id") == audit_id for a in audits):
+        if not any(a.get("id") == audit_id for a in audits.values()):
             audits.append(
                 {
                     "id": audit_id,

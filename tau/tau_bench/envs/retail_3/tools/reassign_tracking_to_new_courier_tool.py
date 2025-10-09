@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReassignTrackingToNewCourierTool(Tool):
@@ -40,7 +40,7 @@ class ReassignTrackingToNewCourierTool(Tool):
             )
             return out
 
-        tracking_db = _convert_db_to_list(data.get("tracking", {}))
+        tracking_db = _convert_db_to_list(data.get("tracking", {}).values()
         rec = next(
             (t for t in tracking_db if tracking_id in (t.get("tracking_id") or [])), None
         )
@@ -53,9 +53,9 @@ class ReassignTrackingToNewCourierTool(Tool):
 
         old_courier = rec.get("courier_name")
 
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         new_courier = next(
-            (c for c in couriers if c.get("name") == new_courier_name), None
+            (c for c in couriers.values() if c.get("name") == new_courier_name), None
         )
         if not new_courier:
             payload = {"error": f"courier '{new_courier_name}' not found"}
@@ -83,8 +83,8 @@ class ReassignTrackingToNewCourierTool(Tool):
 
         order_id = rec.get("order_id")
         if order_id:
-            orders = data.get("orders", [])
-            order = next((o for o in orders if o.get("order_id") == order_id), None)
+            orders = data.get("orders", {}).values()
+            order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
             if order:
                 order.setdefault("fulfillments", []).append(
                     {

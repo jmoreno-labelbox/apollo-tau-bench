@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindRecipesByIngredientsTool(Tool):
@@ -91,12 +91,12 @@ class FindRecipesByIngredientsTool(Tool):
 
         #2. Pre-process recipe requirements for efficient lookup
         recipe_requirements = collections.defaultdict(set)
-        for ri in data.get("recipe_ingredients", []):
+        for ri in data.get("recipe_ingredients", {}).values():
             recipe_requirements[ri["recipe_id"]].add(ri["ingredient_id"])
 
         #3. Find matching recipes
         matching_recipes = []
-        for recipe in data.get("recipes", []):
+        for recipe in data.get("recipes", {}).values():
             recipe_id = recipe["recipe_id"]
             required_ids = recipe_requirements[recipe_id]
 
@@ -108,7 +108,7 @@ class FindRecipesByIngredientsTool(Tool):
                     "missing_ingredient_count": len(missing_ids),
                     "missing_ingredient_ids": sorted(list(missing_ids)),
                 }
-                matching_recipes.append(match_details)
+                matching_data["recipes"][recipe_id] = match_details
 
         #4. Sort results to show the best matches first
         matching_recipes.sort(key=lambda x: x["missing_ingredient_count"])

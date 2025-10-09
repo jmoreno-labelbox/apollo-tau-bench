@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindSubstituteProductsTool(Tool):
@@ -73,14 +73,14 @@ class FindSubstituteProductsTool(Tool):
             )
 
         #2. Pre-condition Check
-        if not any(s.get("store_id") == store_id for s in data.get("stores", [])):
+        if not any(s.get("store_id") == store_id for s in data.get("stores", {}).values():
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Store", "entity_id": store_id}
             )
 
         #3. Core Logic
         suggestions = []
-        all_store_products = data.get("store_products", [])
+        all_store_products = data.get("store_products", {}).values()
 
         for item in problem_items:
             original_ingredient_id = item.get("ingredient_id")
@@ -94,8 +94,7 @@ class FindSubstituteProductsTool(Tool):
                 #Find all products for the substitute ingredient at the store
                 candidate_products = [
                     p
-                    for p in all_store_products
-                    if p.get("store_id") == store_id
+                    for p in all_store_products.values() if p.get("store_id") == store_id
                     and p.get("ingredient_id") == sub_ingredient_id
                 ]
 

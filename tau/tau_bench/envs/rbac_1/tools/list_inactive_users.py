@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListInactiveUsers(Tool):
@@ -18,12 +18,12 @@ class ListInactiveUsers(Tool):
 
         active_user_ids = {
             session["user_id"]
-            for session in data.get("user_sessions", [])
+            for session in data.get("user_sessions", {}).values()
             if datetime.strptime(session["end_time"], DT_STR_FORMAT)
             >= inactive_since_dt
         }
 
-        all_user_ids = {user["user_id"] for user in data.get("users", [])}
+        all_user_ids = {user["user_id"] for user in data.get("users", {}).values()}
         inactive_user_ids = list(all_user_ids - active_user_ids)
         payload = {"inactive_users": inactive_user_ids}
         out = json.dumps(payload)

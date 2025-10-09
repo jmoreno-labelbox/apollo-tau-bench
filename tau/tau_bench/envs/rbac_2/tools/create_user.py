@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateUser(Tool):
@@ -19,13 +19,12 @@ class CreateUser(Tool):
     actor_id: Any = None,
     ) -> str:
         try:
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
         except (KeyError, json.JSONDecodeError):
             users = []
         existing_ids = [
             int(item["user_id"].replace("U-", ""))
-            for item in users
-            if item["user_id"].startswith("U-")
+            for item in users.values() if item["user_id"].startswith("U-")
         ]
         next_id_num = max(existing_ids) + 1 if existing_ids else 1
         user_id = f"U-{next_id_num:03d}"
@@ -38,7 +37,7 @@ class CreateUser(Tool):
             "status": status,
             "mfa_enabled": False,
         }
-        users.append(new_user)
+        data["users"][user_id] = new_user
         data["users.json"] = json.dumps(users)
         payload = new_user
         out = json.dumps(payload)

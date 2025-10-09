@@ -8,7 +8,7 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchPurchaseOrders(Tool):
@@ -16,10 +16,10 @@ class SearchPurchaseOrders(Tool):
     def invoke(data: Dict[str, Any], supplier_id: str = None, status: str = None) -> str:
         # Due to the absence of purchase_orders data, we will look into inbound_shipments
         # that signify orders that have been made and are currently being processed
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
         results = []
 
-        for shipment in inbound_shipments:
+        for shipment in inbound_shipments.values():
             match = True
 
             if supplier_id and shipment.get("supplier_id") != supplier_id:

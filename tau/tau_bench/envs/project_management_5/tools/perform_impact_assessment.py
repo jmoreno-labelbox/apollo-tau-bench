@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class PerformImpactAssessment(Tool):
@@ -28,17 +28,17 @@ class PerformImpactAssessment(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        budgets = data.get("budgets", [])
+        change_requests = data.get("change_requests", {}).values()
+        budgets = data.get("budgets", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
             return out
 
         project_budget = next(
-            (b for b in budgets if b.get("project_id") == cr.get("project_id")), None
+            (b for b in budgets.values() if b.get("project_id") == cr.get("project_id")), None
         )
         budget_impact_percentage = 0
         if project_budget and budget_impact:
@@ -47,25 +47,23 @@ class PerformImpactAssessment(Tool):
                 (budget_impact / total_budget * 100) if total_budget > 0 else 0
             )
 
-        allocations = data.get("allocations", [])
+        allocations = data.get("allocations", {}).values()
         resource_conflicts = []
         for req in resource_requirements:
             emp_id = req.get("employee_id")
             emp_allocations = [
                 a
-                for a in allocations
-                if a.get("employee_id") == emp_id and a.get("status") == "active"
+                for a in allocations.values() if a.get("employee_id") == emp_id and a.get("status") == "active"
             ]
-            total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations)
+            total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values()
             if total_hours + req.get("hours_per_week", 0) > 40:
                 resource_conflicts.append(emp_id)
 
-        critical_paths = data.get("critical_paths", [])
+        critical_paths = data.get("critical_paths", {}).values()
         project_critical_path = next(
             (
                 cp
-                for cp in critical_paths
-                if cp.get("project_id") == cr.get("project_id")
+                for cp in critical_paths.values() if cp.get("project_id") == cr.get("project_id")
             ),
             None,
         )

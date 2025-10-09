@@ -15,7 +15,7 @@ class CalculateTotalOutflows(Tool):
         end_date_obj = datetime.strptime(end_date, "%Y-%m-%d")
         total_outflow = 0
 
-        for schedule in data["recurring_schedules"]:
+        for schedule in data["recurring_schedules"].values():
             if not schedule.get("is_active"):
                 continue
 

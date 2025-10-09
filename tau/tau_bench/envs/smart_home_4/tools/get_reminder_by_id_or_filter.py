@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetReminderByIdOrFilter(Tool):
@@ -19,12 +19,12 @@ class GetReminderByIdOrFilter(Tool):
         reminder_id: str = "",
         filters: dict[str, Any] | None = None
     ) -> str:
-        reminders = data.get("reminders", [])
+        reminders = data.get("reminders", {}).values()
         if reminder_id:
-            result = [r for r in reminders if r.get("reminder_id") == reminder_id]
+            result = [r for r in reminders.values() if r.get("reminder_id") == reminder_id]
         elif filters:
             result = [
-                r for r in reminders if all(r.get(k) == v for k, v in filters.items())
+                r for r in reminders.values() if all(r.get(k) == v for k, v in filters.items())
             ]
         else:
             payload = {"error": "Either 'reminder_id' or 'filters' must be provided"}

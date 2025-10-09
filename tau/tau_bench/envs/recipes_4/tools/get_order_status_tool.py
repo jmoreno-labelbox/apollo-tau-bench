@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetOrderStatusTool(Tool):
@@ -62,7 +62,7 @@ class GetOrderStatusTool(Tool):
 
         #2. Data Retrieval
         order_record = next(
-            (o for o in data.get("orders", []) if o.get("order_id") == order_id), None
+            (o for o in data.get("orders", {}).values() if o.get("order_id") == order_id), None
         )
 
         if not order_record:
@@ -73,10 +73,10 @@ class GetOrderStatusTool(Tool):
         #3. Data Enrichment (Hydration)
         order_items = [
             item
-            for item in data.get("order_items", [])
+            for item in data.get("order_items", {}).values()
             if item.get("order_id") == order_id
         ]
-        all_products = data.get("store_products", [])
+        all_products = data.get("store_products", {}).values()
 
         enriched_items = []
         for item in order_items:
@@ -86,8 +86,7 @@ class GetOrderStatusTool(Tool):
             product_info = next(
                 (
                     p
-                    for p in all_products
-                    if p.get("product_id") == item.get("product_id")
+                    for p in all_products.values() if p.get("product_id") == item.get("product_id")
                 ),
                 None,
             )
@@ -99,7 +98,7 @@ class GetOrderStatusTool(Tool):
             sub_id = item.get("substitute_product_id")
             if sub_id:
                 sub_info = next(
-                    (p for p in all_products if p.get("product_id") == sub_id), None
+                    (p for p in all_products.values() if p.get("product_id") == sub_id), None
                 )
                 enriched_item["substitute_product_name"] = (
                     sub_info.get("product_name") if sub_info else "Unknown Substitute"

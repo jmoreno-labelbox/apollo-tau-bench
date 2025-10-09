@@ -24,7 +24,7 @@ class FindUnderperformingAdsets(Tool):
             rev = float(r.get("revenue", 0.0))
             roas = (rev / spend) if spend > 0 else 0.0
             if roas < th:
-                a = adsets.get(aid, {})
+                a = adsets.get(aid, {}).values()
                 out.append(
                     {
                         "adset_id": aid,

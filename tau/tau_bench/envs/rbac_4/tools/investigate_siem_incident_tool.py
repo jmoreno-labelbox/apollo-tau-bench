@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class InvestigateSiemIncidentTool(Tool):
@@ -15,7 +15,7 @@ class InvestigateSiemIncidentTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], alert_id: str = None, analyst_id: str = None, notes: str = None, investigated_on: str = None, created_on: Any = None) -> str:
-        investigations = data.get("siem_investigations", [])
+        investigations = data.get("siem_investigations", {}).values()
         new_id = f"INV-{len(investigations) + 1:03d}"
         investigations.append(
             {

@@ -32,7 +32,7 @@ class AddExpenseRecord(Tool):
             "category_code": category_code,
             "created_at": created_at
         }
-        data["expenses"].append(new_exp)
+        data["expenses"][expense_id] = new_exp
         return json.dumps(new_exp["expense_id"])
     @staticmethod
     def get_info() -> Dict[str, Any]:

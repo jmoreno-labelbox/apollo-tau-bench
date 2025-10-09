@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LookupPropertyWithLatestListing(Tool):
@@ -21,7 +21,7 @@ class LookupPropertyWithLatestListing(Tool):
         prop = next(
             (
                 p
-                for p in data.get("properties", [])
+                for p in data.get("properties", {}).values()
                 if p.get("property_id") == property_id
             ),
             None,
@@ -33,7 +33,7 @@ class LookupPropertyWithLatestListing(Tool):
             )
             return out
         listings = [
-            l for l in data.get("listings", []) if l.get("property_id") == property_id
+            l for l in data.get("listings", {}).values() if l.get("property_id") == property_id
         ]
         listing = None
         if listings:

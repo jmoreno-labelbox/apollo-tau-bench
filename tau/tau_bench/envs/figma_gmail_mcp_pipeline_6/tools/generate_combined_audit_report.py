@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class generate_combined_audit_report(Tool):
@@ -20,8 +20,8 @@ class generate_combined_audit_report(Tool):
         timestamp: str,
         request_id: str,
     ) -> str:
-        audits = data.get("audits", [])
-        arts = data.get("figma_artifacts", [])
+        audits = data.get("audits", {}).values()
+        arts = data.get("figma_artifacts", {}).values()
         if not any(
             isinstance(a, dict) and a.get("audit_id") == audit_id for a in audits
         ):
@@ -29,7 +29,7 @@ class generate_combined_audit_report(Tool):
             out = json.dumps(payload, indent=2)
             return out
         if not any(
-            isinstance(a, dict) and a.get("artifact_id") == artifact_id for a in arts
+            isinstance(a, dict) and a.get("artifact_id") == artifact_id for a in arts.values()
         ):
             payload = {"error": f"artifact_id '{artifact_id}' not found"}
             out = json.dumps(
@@ -73,7 +73,7 @@ class generate_combined_audit_report(Tool):
             "size_bytes": 0,
             "day": _ymd(timestamp),
         }
-        assets.append(asset_row)
+        data["assets"][asset_id] = asset_row
 
         report_row = {
             "report_id": report_id,

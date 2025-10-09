@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUserSessions(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
         user_sessions = [
-            s for s in data.get("sessions", []) if s.get("user_id") == user_id
+            s for s in data.get("sessions", {}).values() if s.get("user_id") == user_id
         ]
         user_sessions.sort(key=lambda x: x["start_time"], reverse=True)
         payload = {"sessions": user_sessions}

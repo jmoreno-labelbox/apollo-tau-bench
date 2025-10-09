@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTopNMostExpensiveProductsByStore(Tool):  #VIEW
     @staticmethod
     def invoke(data: dict[str, Any], store_id: str, n: int) -> str:
-        products = {p["sku"]: p["price"] for p in data.get("products", [])}
-        inventory = {i["sku"]: i["store_id"] for i in data.get("inventory", [])}
+        products = {p["sku"]: p["price"] for p in data.get("products", {}).values()}
+        inventory = {i["sku"]: i["store_id"] for i in data.get("inventory", {}).values()}
 
         items = [
             {"sku": sku, "price": price}

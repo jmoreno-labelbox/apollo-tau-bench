@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ProcessVendorPayment(Tool):
@@ -20,11 +20,11 @@ class ProcessVendorPayment(Tool):
             out = json.dumps(payload)
             return out
 
-        invoices = data.get("invoices", [])
-        payments = data.get("payments", [])
-        vendors = data.get("vendors", [])
+        invoices = data.get("invoices", {}).values()
+        payments = data.get("payments", {}).values()
+        vendors = data.get("vendors", {}).values()
 
-        invoice = next((i for i in invoices if i.get("invoice_id") == invoice_id), None)
+        invoice = next((i for i in invoices.values() if i.get("invoice_id") == invoice_id), None)
         if not invoice:
             payload = {"error": f"Invoice {invoice_id} not found"}
             out = json.dumps(payload)
@@ -72,14 +72,14 @@ class ProcessVendorPayment(Tool):
             "days_late": days_late,
         }
 
-        payments.append(new_payment)
+        data["payments"][payment_id] = new_payment
 
         invoice["status"] = "paid"
         invoice["payment_id"] = payment_id
         invoice["paid_date"] = datetime.now(timezone.utc).isoformat()
 
         vendor = next(
-            (v for v in vendors if v.get("vendor_id") == invoice["vendor_id"]), None
+            (v for v in vendors.values() if v.get("vendor_id") == invoice["vendor_id"]), None
         )
         if vendor:
             if "late_payments" not in vendor:

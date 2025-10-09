@@ -9,13 +9,15 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
 def _index_by(items: list[dict[str, Any]], key: str) -> dict[Any, dict[str, Any]]:
     pass
-    return {i.get(key): i for i in items or []}
+    
+    if isinstance(items, dict): items = list(items)
+return {i.get(key): i for i in items or []}
 
 
 def _fixed_now_iso() -> str:
@@ -26,7 +28,7 @@ def _fixed_now_iso() -> str:
 class FetchProjectConfig(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], key: str = None) -> str:
-        cfg = data.get("project_config", {}) or {}
+        cfg = data.get("project_config", {}).values() or {}
         if key:
             payload = {key: cfg.get(key)}
             out = json.dumps(payload, indent=2)
@@ -55,7 +57,7 @@ class ModifyProjectConfig(Tool):
     def invoke(data: dict[str, Any], updates: dict[str, Any] = None) -> str:
         if updates is None:
             updates = {}
-        cfg = data.get("project_config", {})
+        cfg = data.get("project_config", {}).values()
         if cfg is None or isinstance(cfg, list):
             cfg = {}
             data["project_config"] = cfg
@@ -83,7 +85,7 @@ class ModifyProjectConfig(Tool):
 class FetchEnvironment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        env = data.get("environment", {}) or {}
+        env = data.get("environment", {}).values() or {}
         payload = env
         out = json.dumps(payload, indent=2)
         return out
@@ -103,7 +105,7 @@ class ModifyEnvironment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], updates: dict[str, Any] = None) -> str:
         updates = updates or {}
-        env = data.get("environment", {})
+        env = data.get("environment", {}).values()
         if env is None or isinstance(env, list):
             env = {}
             data["environment"] = env
@@ -131,7 +133,7 @@ class ModifyEnvironment(Tool):
 class BrowseFileStore(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        payload = {"files": data.get("file_store", [])}
+        payload = {"files": data.get("file_store", {}).values()}
         out = json.dumps(payload, indent=2)
         return out
     @staticmethod
@@ -149,9 +151,9 @@ class BrowseFileStore(Tool):
 class AddFile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], path: str = None, mime_type: str = None, size: int = None) -> str:
-        files = data.get("file_store", [])
+        files = data.get("file_store", {}).values()
         max_id = 0
-        for f in files:
+        for f in files.values():
             try:
                 fid = int(f.get("file_id", 0))
                 if fid > max_id:
@@ -166,7 +168,7 @@ class AddFile(Tool):
             "size": size,
             "created_at": _fixed_now_iso(),
         }
-        files.append(row)
+        data["files"][file_id] = row
         payload = {"file_id": new_id, "path": row["path"]}
         out = json.dumps(payload, indent=2)
         return out
@@ -193,12 +195,12 @@ class AddFile(Tool):
 class RetrieveFile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], file_id: str = None, path: str = None) -> str:
-        files = data.get("file_store", []) or []
+        files = data.get("file_store", {}).values() or []
         row = None
         if file_id is not None:
-            row = next((f for f in files if str(f.get("file_id")) == str(file_id)), None)
+            row = next((f for f in files.values() if str(f.get("file_id")) == str(file_id)), None)
         elif path:
-            row = next((f for f in files if f.get("path") == path), None)
+            row = next((f for f in files.values() if f.get("path") == path), None)
         payload = row or {"error": "File not found"}
         out = json.dumps(payload, indent=2)
         return out
@@ -230,9 +232,9 @@ class LogETLRun(Tool):
         status: str = None,
         rows_processed: int = None
     ) -> str:
-        runs = data.get("etl_runs", [])
+        runs = data.get("etl_runs", {}).values()
         max_id = 0
-        for r in runs:
+        for r in runs.values():
             try:
                 rid = int(r.get("run_id", 0))
                 if rid > max_id:
@@ -249,7 +251,7 @@ class LogETLRun(Tool):
             "started_at": _fixed_now_iso(),
             "finished_at": _fixed_now_iso(),
         }
-        runs.append(row)
+        data["etl_runs"][row["etl_run_id"]] = row
         payload = {"run_id": new_id, "run_name": row["run_name"]}
         out = json.dumps(payload, indent=2)
         return out
@@ -277,12 +279,12 @@ class LogETLRun(Tool):
 class FetchETLRunDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], run_id: str = None, run_name: str = None) -> str:
-        runs = data.get("etl_runs", []) or []
+        runs = data.get("etl_runs", {}).values() or []
         row = None
         if run_id is not None:
-            row = next((r for r in runs if str(r.get("run_id")) == str(run_id)), None)
+            row = next((r for r in runs.values() if str(r.get("run_id")) == str(run_id)), None)
         elif run_name:
-            row = next((r for r in runs if r.get("run_name") == run_name), None)
+            row = next((r for r in runs.values() if r.get("run_name") == run_name), None)
         payload = row or {"error": "ETL run not found"}
         out = json.dumps(payload, indent=2)
         return out
@@ -310,7 +312,7 @@ class RetrieveWaterLevels(Tool):
     def invoke(data: dict[str, Any], station_id: str = None, start: str = None, end: str = None) -> str:
         station = station_id
         rows = []
-        for r in data.get("water_levels", []) or []:
+        for r in data.get("water_levels", {}).values() or []:
             if station and r.get("station_id") != station:
                 continue
             ts = r.get("timestamp", "")
@@ -345,11 +347,11 @@ class RetrieveWaterLevels(Tool):
 class StoreProcessedTimeseries(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], series_name: str = None, items: list = None) -> str:
-        table = data.get("processed_timeseries", [])
+        table = data.get("processed_timeseries", {}).values()
         items = items or []
         inserted = []
         max_id = 0
-        for r in table:
+        for r in table.values():
             try:
                 rid = int(r.get("row_id", 0))
                 if rid > max_id:
@@ -366,7 +368,7 @@ class StoreProcessedTimeseries(Tool):
                 "value": it.get("value"),
                 "source": it.get("source"),
             }
-            table.append(row)
+            data["processed_timeseries"][row["processed_timeserie_id"]] = row
             inserted.append(rid)
         payload = {"series_name": series_name, "inserted_row_ids": inserted}
         out = json.dumps(
@@ -396,7 +398,7 @@ class FetchProcessedTimeseries(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], series_name: str = None, start: str = None, end: str = None) -> str:
         rows = []
-        for r in data.get("processed_timeseries", []) or []:
+        for r in data.get("processed_timeseries", {}).values() or []:
             if series_name and r.get("series_name") != series_name:
                 continue
             ts = r.get("timestamp", "")
@@ -431,9 +433,9 @@ class FetchProcessedTimeseries(Tool):
 class AddFeatureSet(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], feature_set_name: str = None, version: str = None, columns: list = None) -> str:
-        feats = data.get("features", [])
+        feats = data.get("features", {}).values()
         max_id = 0
-        for f in feats:
+        for f in feats.values():
             try:
                 fid = int(f.get("feature_set_id", 0))
                 if fid > max_id:
@@ -448,7 +450,7 @@ class AddFeatureSet(Tool):
             "columns": columns,
             "created_at": _fixed_now_iso(),
         }
-        feats.append(row)
+        data["features"][row["feature_id"]] = row
         payload = {"feature_set_id": new_id, "feature_set_name": row["feature_set_name"]}
         out = json.dumps(
             payload, indent=2,
@@ -477,14 +479,14 @@ class AddFeatureSet(Tool):
 class FetchFeatureSetDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], feature_set_id: str = None, feature_set_name: str = None) -> str:
-        feats = data.get("features", []) or []
+        feats = data.get("features", {}).values() or []
         row = None
         if feature_set_id is not None:
             row = next(
-                (f for f in feats if str(f.get("feature_set_id")) == str(feature_set_id)), None
+                (f for f in feats.values() if str(f.get("feature_set_id")) == str(feature_set_id)), None
             )
         elif feature_set_name:
-            row = next((f for f in feats if f.get("feature_set_name") == feature_set_name), None)
+            row = next((f for f in feats.values() if f.get("feature_set_name") == feature_set_name), None)
         payload = row or {"error": "Feature set not found"}
         out = json.dumps(payload, indent=2)
         return out
@@ -517,9 +519,9 @@ class AddModel(Tool):
         version: str = None,
         status: str = None
     ) -> str:
-        models = data.get("models", [])
+        models = data.get("models", {}).values()
         max_id = 0
-        for m in models:
+        for m in models.values():
             try:
                 mid = int(m.get("model_id", 0))
                 if mid > max_id:
@@ -537,7 +539,7 @@ class AddModel(Tool):
             "created_at": _fixed_now_iso(),
             "updated_at": _fixed_now_iso(),
         }
-        models.append(row)
+        data["models"][model_id] = row
         payload = {"model_id": new_id, "model_name": row["model_name"]}
         out = json.dumps(
             payload, indent=2
@@ -574,12 +576,12 @@ class AddModel(Tool):
 class FetchModelDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], model_id: str = None, model_name: str = None) -> str:
-        models = data.get("models", []) or []
+        models = data.get("models", {}).values() or []
         row = None
         if model_id is not None:
-            row = next((m for m in models if str(m.get("model_id")) == str(model_id)), None)
+            row = next((m for m in models.values() if str(m.get("model_id")) == str(model_id)), None)
         elif model_name:
-            row = next((m for m in models if m.get("model_name") == model_name), None)
+            row = next((m for m in models.values() if m.get("model_name") == model_name), None)
         payload = row or {"error": "Model not found"}
         out = json.dumps(payload, indent=2)
         return out
@@ -607,12 +609,11 @@ class SaveModelConfig(Tool):
     def invoke(data: dict[str, Any], model_name: str = None, config_name: str = None, params: dict = None) -> str:
         if params is None:
             params = {}
-        cfgs = data.get("model_config", [])
+        cfgs = data.get("model_config", {}).values()
         row = next(
             (
                 c
-                for c in cfgs
-                if c.get("model_name") == model_name
+                for c in cfgs.values() if c.get("model_name") == model_name
                 and c.get("config_name") == config_name
             ),
             None,
@@ -627,7 +628,7 @@ class SaveModelConfig(Tool):
             }
         else:
             max_id = 0
-            for c in cfgs:
+            for c in cfgs.values():
                 try:
                     cid = int(c.get("config_id", 0))
                     if cid > max_id:
@@ -642,7 +643,7 @@ class SaveModelConfig(Tool):
                 "params": params,
                 "created_at": _fixed_now_iso(),
             }
-            cfgs.append(row)
+            data["model_config"][row["model_config_id"]] = row
             out = {
                 "config_id": new_id,
                 "model_name": model_name,
@@ -675,11 +676,10 @@ class SaveModelConfig(Tool):
 class FetchModelConfig(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], model_name: str = None, config_name: str = None) -> str:
-        cfgs = data.get("model_config", []) or []
+        cfgs = data.get("model_config", {}).values() or []
         rows = [
             c
-            for c in cfgs
-            if (not model_name or c.get("model_name") == model_name)
+            for c in cfgs.values() if (not model_name or c.get("model_name") == model_name)
             and (not config_name or c.get("config_name") == config_name)
         ]
         payload = {"configs": rows}
@@ -713,9 +713,9 @@ class LogMetrics(Tool):
         value: Any = None, 
         dataset_split: str = None
     ) -> str:
-        metrics = data.get("metrics", [])
+        metrics = data.get("metrics", {}).values()
         max_id = 0
-        for m in metrics:
+        for m in metrics.values():
             try:
                 mid = int(m.get("metric_id", 0))
                 if mid > max_id:
@@ -731,7 +731,7 @@ class LogMetrics(Tool):
             "dataset_split": dataset_split,
             "timestamp": _fixed_now_iso(),
         }
-        metrics.append(row)
+        data["metrics"][row["metric_id"]] = row
         payload = {
             "metric_id": new_id,
             "model_name": row["model_name"],
@@ -765,11 +765,10 @@ class LogMetrics(Tool):
 class RetrieveMetrics(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], model_name: str = None, metric_name: str = None, dataset_split: str = None) -> str:
-        metrics = data.get("metrics", []) or []
+        metrics = data.get("metrics", {}).values() or []
         rows = [
             m
-            for m in metrics
-            if (not model_name or m.get("model_name") == model_name)
+            for m in metrics.values() if (not model_name or m.get("model_name") == model_name)
             and (not metric_name or m.get("metric_name") == metric_name)
             and (not dataset_split or m.get("dataset_split") == dataset_split)
         ]
@@ -799,9 +798,9 @@ class RetrieveMetrics(Tool):
 class AddPredictionBatch(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], batch_name: str = None, model_name: str = None, items: list = None) -> str:
-        preds = data.get("predictions", [])
+        preds = data.get("predictions", {}).values()
         max_id = 0
-        for p in preds:
+        for p in preds.values():
             try:
                 pid = int(p.get("prediction_id", 0))
                 if pid > max_id:
@@ -816,7 +815,7 @@ class AddPredictionBatch(Tool):
             "items": items or [],
             "created_at": _fixed_now_iso(),
         }
-        preds.append(row)
+        data["predictions"][row["prediction_id"]] = row
         payload = {"prediction_id": new_id, "batch_name": row["batch_name"]}
         out = json.dumps(
             payload, indent=2
@@ -845,11 +844,10 @@ class AddPredictionBatch(Tool):
 class RetrievePredictions(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], batch_name: str = None, model_name: str = None) -> str:
-        preds = data.get("predictions", []) or []
+        preds = data.get("predictions", {}).values() or []
         rows = [
             p
-            for p in preds
-            if (not batch_name or p.get("batch_name") == batch_name)
+            for p in preds.values() if (not batch_name or p.get("batch_name") == batch_name)
             and (not model_name or p.get("model_name") == model_name)
         ]
         payload = {"predictions": rows}
@@ -907,9 +905,9 @@ class StoreQCFigure(Tool):
         artifact_type: str = None, 
         related_model_name: str = None
     ) -> str:
-        figs = data.get("qc_figures", [])
+        figs = data.get("qc_figures", {}).values()
         max_id = 0
-        for f in figs:
+        for f in figs.values():
             try:
                 fid = int(f.get("figure_id", 0))
                 if fid > max_id:
@@ -925,7 +923,7 @@ class StoreQCFigure(Tool):
             "related_model_name": related_model_name,
             "created_at": _fixed_now_iso(),
         }
-        figs.append(row)
+        data["qc_figures"][row["qc_figure_id"]] = row
         payload = {"figure_id": new_id, "figure_label": row["figure_label"]}
         out = json.dumps(
             payload, indent=2
@@ -955,14 +953,14 @@ class StoreQCFigure(Tool):
 class FetchQCFigure(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], figure_id: str = None, figure_label: str = None) -> str:
-        figs = data.get("qc_figures", []) or []
+        figs = data.get("qc_figures", {}).values() or []
         fid = figure_id
         label = figure_label
         row = None
         if fid is not None:
-            row = next((f for f in figs if str(f.get("figure_id")) == str(fid)), None)
+            row = next((f for f in figs.values() if str(f.get("figure_id")) == str(fid)), None)
         elif label:
-            row = next((f for f in figs if f.get("figure_label") == label), None)
+            row = next((f for f in figs.values() if f.get("figure_label") == label), None)
         payload = row or {"error": "QC figure not found"}
         out = json.dumps(payload, indent=2)
         return out
@@ -988,9 +986,9 @@ class FetchQCFigure(Tool):
 class SaveStakeholderOutput(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], output_label: str = None, audience: str = None, artifact_path: str = None) -> str:
-        outs = data.get("stakeholder_outputs", [])
+        outs = data.get("stakeholder_outputs", {}).values()
         max_id = 0
-        for o in outs:
+        for o in outs.values():
             try:
                 oid = int(o.get("output_id", 0))
                 if oid > max_id:
@@ -1005,7 +1003,7 @@ class SaveStakeholderOutput(Tool):
             "artifact_path": artifact_path,
             "created_at": _fixed_now_iso(),
         }
-        outs.append(row)
+        data["stakeholder_outputs"][row["stakeholder_output_id"]] = row
         payload = {"output_id": new_id, "output_label": row["output_label"]}
         out = json.dumps(
             payload, indent=2
@@ -1034,12 +1032,12 @@ class SaveStakeholderOutput(Tool):
 class FetchStakeholderOutput(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], output_id: str = None, output_label: str = None) -> str:
-        outs = data.get("stakeholder_outputs", []) or []
+        outs = data.get("stakeholder_outputs", {}).values() or []
         row = None
         if output_id is not None:
-            row = next((o for o in outs if str(o.get("output_id")) == str(output_id)), None)
+            row = next((o for o in outs.values() if str(o.get("output_id")) == str(output_id)), None)
         elif output_label:
-            row = next((o for o in outs if o.get("output_label") == output_label), None)
+            row = next((o for o in outs.values() if o.get("output_label") == output_label), None)
         payload = row or {"error": "Stakeholder output not found"}
         out = json.dumps(payload, indent=2)
         return out
@@ -1073,9 +1071,9 @@ class DispatchResultsEmail(Tool):
         model_name: str = None,
         batch_name: str = None
     ) -> str:
-        inbox = data.get("gmail_messages", [])
+        inbox = data.get("gmail_messages", {}).values()
         max_id = 0
-        for m in inbox:
+        for m in inbox.values():
             try:
                 mid = int(m.get("message_id", 0))
                 if mid > max_id:
@@ -1093,7 +1091,7 @@ class DispatchResultsEmail(Tool):
             "batch_name": batch_name,
             "sent_at": _fixed_now_iso(),
         }
-        inbox.append(row)
+        data["gmail_messages"][row["gmail_message_id"]] = row
         payload = {"status": "sent", "message_id": new_id, "to": row["to"]}
         out = json.dumps(
             payload, indent=2
@@ -1125,9 +1123,9 @@ class DispatchResultsEmail(Tool):
 class WriteTerminalLog(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], event_type: str = None, message: str = None) -> str:
-        logs = data.get("terminal_log", [])
+        logs = data.get("terminal_log", {}).values()
         max_id = 0
-        for l in logs:
+        for l in logs.values():
             try:
                 lid = int(l.get("log_id", 0))
                 if lid > max_id:
@@ -1141,7 +1139,7 @@ class WriteTerminalLog(Tool):
             "message": message,
             "created_at": _fixed_now_iso(),
         }
-        logs.append(row)
+        data["terminal_log"][row["terminal_log_id"]] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -1167,9 +1165,9 @@ class WriteTerminalLog(Tool):
 class BrowseTerminalLog(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], event_type: str = None) -> str:
-        logs = data.get("terminal_log", []) or []
+        logs = data.get("terminal_log", {}).values() or []
         rows = [
-            l for l in logs if (not event_type or l.get("event_type") == event_type)
+            l for l in logs.values() if (not event_type or l.get("event_type") == event_type)
         ]
         payload = {"logs": rows}
         out = json.dumps(payload, indent=2)

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReplaceItemVariantInOrderTool(Tool):
@@ -20,27 +20,27 @@ class ReplaceItemVariantInOrderTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str, index: int, product_id: str, item_id: str) -> str:
-        orders = data.get("orders", [])
-        products = data.get("products", [])
-        tracking_data = data.get("tracking", [])
+        orders = data.get("orders", {}).values()
+        products = data.get("products", {}).values()
+        tracking_data = data.get("tracking", {}).values()
 
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             payload = {"error": f"Order '{order_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
 
         new_variant = None
-        for p in products:
+        for p in products.values():
             if p.get("product_id") == product_id:
-                variant_details = p.get("variants", {}).get(item_id)
+                variant_details = p.get("variants", {}).values().get(item_id)
                 if variant_details:
                     new_variant = {
                         "name": p.get("name"),
                         "product_id": product_id,
                         "item_id": item_id,
                         "price": variant_details.get("price"),
-                        "options": variant_details.get("options", {}),
+                        "options": variant_details.get("options", {}).values()),
                     }
                     break
         if not new_variant:
@@ -73,7 +73,7 @@ class ReplaceItemVariantInOrderTool(Tool):
 
         _recalculate_financials(order)
 
-        tr = next((t for t in tracking_data if t.get("order_id") == order_id), None)
+        tr = next((t for t in tracking_data.values() if t.get("order_id") == order_id), None)
         if tr and old_item_id and "item_ids" in tr:
             try:
                 id_index = tr["item_ids"].index(old_item_id)

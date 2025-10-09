@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ComputeUserFillRate(Tool):
@@ -19,15 +19,15 @@ class ComputeUserFillRate(Tool):
             payload = {"error": "user_id is required"}
             out = json.dumps(payload, indent=2)
             return out
-        user_orders = [o for o in data.get("orders", []) if o.get("user_id") == user_id]
-        total = sum(len(o.get("items", [])) for o in user_orders)
+        user_orders = [o for o in data.get("orders", {}).values() if o.get("user_id") == user_id]
+        total = sum(len(o.get("items", [])) for o in user_orders.values()
         delivered = 0
         for o in user_orders:
             #tally items in fulfillments that tracking indicates as delivered
             for f in o.get("fulfillments", []):
                 for tid in f.get("tracking_id", []):
                     tr = _find_tracking(data, tid)
-                    if tr and tr.get("tracking_history", {}).get("delivered"):
+                    if tr and tr.get("tracking_history", {}).values().get("delivered"):
                         delivered += len(f.get("item_ids", []))
         rate = (delivered / total) if total else 0.0
         payload = {"user_id": user_id, "fill_rate": round(rate, 4)}

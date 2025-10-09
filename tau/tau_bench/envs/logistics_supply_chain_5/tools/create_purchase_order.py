@@ -8,7 +8,7 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreatePurchaseOrder(Tool):
@@ -28,23 +28,23 @@ class CreatePurchaseOrder(Tool):
                 "error": "supplier_id, sku, quantity, and destination_warehouse are required"
             })
 
-        suppliers = data.get("supplier_master", [])
-        products = data.get("product_master", [])
-        warehouses = data.get("warehouses", [])
+        suppliers = data.get("supplier_master", {}).values()
+        products = data.get("product_master", {}).values()
+        warehouses = data.get("warehouses", {}).values()
 
-        supplier = next((s for s in suppliers if s.get("supplier_id") == supplier_id), None)
+        supplier = next((s for s in suppliers.values() if s.get("supplier_id") == supplier_id), None)
         if not supplier:
             return json.dumps({"error": f"Supplier {supplier_id} not found"})
 
-        product = next((p for p in products if p.get("sku") == sku), None)
+        product = next((p for p in products.values() if p.get("sku") == sku), None)
         if not product:
             return json.dumps({"error": f"Product {sku} not found"})
 
-        warehouse = next((w for w in warehouses if w.get("warehouse_id") == destination_warehouse), None)
+        warehouse = next((w for w in warehouses.values() if w.get("warehouse_id") == destination_warehouse), None)
         if not warehouse:
             return json.dumps({"error": f"Warehouse {destination_warehouse} not found"})
 
-        existing_pos = data.get("purchase_orders", [])
+        existing_pos = data.get("purchase_orders", {}).values()
         po_counter = len(existing_pos) + 1
         po_id = f"PO-{supplier_id}-{sku}-{po_counter:03d}"
 

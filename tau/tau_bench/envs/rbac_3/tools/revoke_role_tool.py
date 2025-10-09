@@ -15,7 +15,7 @@ class RevokeRoleTool(Tool):
                 data, user_id=user_id, role_id=role_id, revoked_by=actor_id
             )
         )
-        details = base.get("log_info", {}).get("details") or (
+        details = base.get("log_info", {}).values().get("details") or (
             "REMOVED" if base.get("removed") else "NOOP"
         )
         audit = json.loads(

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AssignLicenses(Tool):
@@ -25,21 +25,21 @@ class AssignLicenses(Tool):
 
         licenses = set()
 
-        license_assignments = data.get("license_assignments", [])
-        for assignment in license_assignments:
+        license_assignments = data.get("license_assignments", {}).values()
+        for assignment in license_assignments.values():
             if assignment["employee_id"] == employee_id:
                 licenses.add(assignment["license_id"])
 
-        group_map = data.get("rbac_group_map", [])
+        group_map = data.get("rbac_group_map", {}).values()
         if job_title is None:
-            for group in group_map:
+            for group in group_map.values():
                 if group["job_title"] == job_title:
                     for license in group["default_license_bundle"]:
                         licenses.add(license)
 
         inventory = data.get("license_inventory")
 
-        for license in inventory:
+        for license in inventory.values():
             if license["license_id"] in licenses:
                 license["used_seats"] += 1
                 last_id = license_assignments[-1]["assignment_id"]
@@ -53,7 +53,7 @@ class AssignLicenses(Tool):
                     "status": "active",
                     "assigned_at": FIXED_NOW,
                 }
-                license_assignments.append(new_license_assignment)
+                data["license_assignments"][new_license_assignment["license_assignment_id"]] = new_license_assignment
         payload = {
             "status": "ok",
             "reason": f"Licenses successfully added for {employee_id}.",

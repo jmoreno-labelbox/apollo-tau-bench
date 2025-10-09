@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetFigmaCommentsByArtifact(Tool):
@@ -27,11 +27,11 @@ class GetFigmaCommentsByArtifact(Tool):
         """
         Obtains Figma comments filtered by artifact, author, and additional criteria.
         """
-        figma_comments = data.get("figma_comments", [])
+        figma_comments = data.get("figma_comments", {}).values()
 
         # Return the specific comment if comment_id is supplied
         if comment_id:
-            for comment in figma_comments:
+            for comment in figma_comments.values():
                 if comment.get("comment_id") == comment_id:
                     payload = comment
                     out = json.dumps(payload, indent=2)
@@ -42,7 +42,7 @@ class GetFigmaCommentsByArtifact(Tool):
 
         # Sort comments based on specified criteria
         results = []
-        for comment in figma_comments:
+        for comment in figma_comments.values():
             # Implement filters
             if artifact_id:
                 if comment.get("artifact_id") != artifact_id:
@@ -58,7 +58,7 @@ class GetFigmaCommentsByArtifact(Tool):
 
             if content_keywords:
                 content = comment.get("content", "").lower()
-                if not any(keyword.lower() in content for keyword in content_keywords):
+                if not any(keyword.lower() in content for keyword in content_keywords.values()):
                     continue
 
             # Enforce date filters

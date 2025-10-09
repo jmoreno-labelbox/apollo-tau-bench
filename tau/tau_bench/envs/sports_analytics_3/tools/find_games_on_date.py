@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindGamesOnDate(Tool):
@@ -24,10 +24,10 @@ class FindGamesOnDate(Tool):
             return out
 
         #2) Retrieve DB
-        games: list[dict[str, Any]] = data.get("games", [])
+        games: list[dict[str, Any]] = data.get("games", {}).values()
 
         #3) Exact match on game_date (without normalization)
-        matching = [g for g in games if g.get("game_date") == date]
+        matching = [g for g in games.values() if g.get("game_date") == date]
 
         if not matching:
             payload = {"error": f"No games found on date {date}"}

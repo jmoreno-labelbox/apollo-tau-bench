@@ -10,7 +10,7 @@ class GetInvoiceLines(Tool):
         """
         Returns invoice_line_ids for a given invoice_id.
         """
-        lines = [ln for ln in data["invoice_lines"] if ln["invoice_id"] == invoice_id]
+        lines = [ln for ln in data["invoice_lines"].values() if ln["invoice_id"] == invoice_id]
         return json.dumps([ln["line_id"] for ln in lines])
     @staticmethod
     def get_info() -> Dict[str, Any]:

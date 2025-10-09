@@ -9,13 +9,13 @@ from datetime import timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetMonthlyExpenseBySnapshot(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], snapshot_id: str) -> str:
-        for record in data.get("monthly_expenses", []):
+        for record in data.get("monthly_expenses", {}).values():
             if record["snapshot_id"] == snapshot_id:
                 return json.dumps(record["row_id"])
         return None

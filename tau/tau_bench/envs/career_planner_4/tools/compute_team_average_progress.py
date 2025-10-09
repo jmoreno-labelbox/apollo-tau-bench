@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ComputeTeamAverageProgress(Tool):
@@ -20,7 +20,7 @@ class ComputeTeamAverageProgress(Tool):
         teams: list = None,
         user_course_progress: list = None
     ) -> str:
-        teams = teams if teams is not None else data.get("teams", [])
+        teams = teams if teams is not None else data.get("teams", {}).values()
         team = next((t for t in teams if t.get("team_id") == team_id), None)
         if not team:
             payload = {"error": "Team not found"}
@@ -34,9 +34,9 @@ class ComputeTeamAverageProgress(Tool):
             return out
 
         total_progress = 0
-        user_progress = user_course_progress if user_course_progress is not None else data.get("user_course_progress", [])
+        user_progress = user_course_progress if user_course_progress is not None else data.get("user_course_progress", {}).values()
         for member in members:
-            user_courses = [p for p in user_progress if p.get("user_id") == member]
+            user_courses = [p for p in user_progress.values() if p.get("user_id") == member]
             if user_courses:
                 avg_progress = sum(
                     p.get("current_progress_percent", 0) for p in user_courses

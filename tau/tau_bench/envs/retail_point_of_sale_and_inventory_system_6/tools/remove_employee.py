@@ -8,20 +8,20 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class remove_employee(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
 
         if employee_id is None:
             payload = {"error": "employee_id must be sent"}
             out = json.dumps(payload, indent=2)
             return out
 
-        for employee in employees:
+        for employee in employees.values():
             if employee["employee_id"] == employee_id:
                 del employee
                 payload = {"success": f"Removed employee: {employee_id}"}

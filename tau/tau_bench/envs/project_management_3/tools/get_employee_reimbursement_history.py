@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetEmployeeReimbursementHistory(Tool):
@@ -20,11 +20,11 @@ class GetEmployeeReimbursementHistory(Tool):
             out = json.dumps(payload)
             return out
 
-        employees = data.get("employees", [])
-        reimbursements = data.get("reimbursements", [])
+        employees = data.get("employees", {}).values()
+        reimbursements = data.get("reimbursements", {}).values()
 
         employee = next(
-            (e for e in employees if e.get("employee_id") == employee_id), None
+            (e for e in employees.values() if e.get("employee_id") == employee_id), None
         )
         if not employee:
             payload = {"error": f"Employee {employee_id} not found"}
@@ -32,7 +32,7 @@ class GetEmployeeReimbursementHistory(Tool):
             return out
 
         employee_reimbursements = [
-            r for r in reimbursements if r.get("employee_id") == employee_id
+            r for r in reimbursements.values() if r.get("employee_id") == employee_id
         ]
 
         history = {

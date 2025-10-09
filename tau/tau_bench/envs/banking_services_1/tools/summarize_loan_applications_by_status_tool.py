@@ -26,7 +26,7 @@ class SummarizeLoanApplicationsByStatusTool(Tool):
             return json.dumps({"error": "customer_id is required"}, indent=2)
 
         applications = load_json("loan_applications.json")
-        filtered = [a for a in applications if a["customer_id"] == customer_id]
+        filtered = [a for a in applications.values() if a["customer_id"] == customer_id]
         summary = {"approved": 0, "pending": 0, "rejected": 0}
         for a in filtered:
             status = a.get("status", "pending").lower()

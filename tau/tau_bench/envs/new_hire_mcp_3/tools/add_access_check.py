@@ -8,15 +8,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddAccessCheck(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], check: dict = None) -> str:
         new_check = check or {}
-        checks = data.get("access_checks", [])
-        checks.append(new_check)
+        checks = data.get("access_checks", {}).values()
+        data["access_checks"][new_check["access_check_id"]] = new_check
         data["access_checks"] = checks
         payload = {"added_check": new_check}
         out = json.dumps(payload, indent=2)

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetPullRequestStatus(Tool):
@@ -15,10 +15,10 @@ class GetPullRequestStatus(Tool):
     def invoke(data: dict[str, Any], owner: str, repo: str, pullNumber: int) -> str:
         """Get combined status checks for a PR."""
         pass
-        pull_requests = data.get("pull_requests", [])
+        pull_requests = data.get("pull_requests", {}).values()
 
         #Locate the pull request
-        for pr_entry in pull_requests:
+        for pr_entry in pull_requests.values():
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
@@ -60,7 +60,7 @@ class GetPullRequestStatus(Tool):
                     result = {
                         "state": (
                             "success"
-                            if all(check["state"] == "success" for check in checks)
+                            if all(check["state"] == "success" for check in checks.values()
                             else "pending"
                         ),
                         "total_count": len(checks),

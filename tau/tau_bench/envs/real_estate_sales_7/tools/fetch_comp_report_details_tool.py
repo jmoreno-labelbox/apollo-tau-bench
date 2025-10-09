@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchCompReportDetailsTool(Tool):
@@ -23,7 +23,7 @@ class FetchCompReportDetailsTool(Tool):
         report = next(
             (
                 r
-                for r in data.get("comp_reports", [])
+                for r in data.get("comp_reports", {}).values()
                 if _as_int(r.get("report_id")) == report_id
             ),
             None,
@@ -33,12 +33,12 @@ class FetchCompReportDetailsTool(Tool):
 
         comps = [
             c
-            for c in data.get("comparables", [])
+            for c in data.get("comparables", {}).values()
             if _as_int(c.get("report_id")) == report_id
         ]
         docs = [
             d
-            for d in data.get("documents", [])
+            for d in data.get("documents", {}).values()
             if d.get("entity_type") == "comp_report"
             and str(d.get("entity_id")) == str(report_id)
         ]
@@ -47,7 +47,7 @@ class FetchCompReportDetailsTool(Tool):
         client_id = _as_int(report.get("client_id"))
         emails = [
             e
-            for e in data.get("emails", [])
+            for e in data.get("emails", {}).values()
             if _as_int(e.get("client_id")) == client_id
         ]
         emails_sorted = sorted(
@@ -57,7 +57,7 @@ class FetchCompReportDetailsTool(Tool):
         #audit trail records for this report
         audits = [
             a
-            for a in data.get("audit_events", [])
+            for a in data.get("audit_events", {}).values()
             if a.get("entity_type") == "comp_report"
             and str(a.get("entity_id")) == str(report_id)
         ]

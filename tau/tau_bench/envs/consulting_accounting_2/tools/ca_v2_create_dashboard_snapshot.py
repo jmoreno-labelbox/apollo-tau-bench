@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2CreateDashboardSnapshot(Tool):
@@ -28,7 +28,7 @@ class CaV2CreateDashboardSnapshot(Tool):
 
         snapshot = {
             "snapshot_id": snapshot_id
-            or f"SNAP{len(data.get('dashboard_snapshots', [])) + 1:03d}",
+            or f"SNAP{len(data.get('dashboard_snapshots', {})) + 1:03d}",
             "snapshot_date": snapshot_date,
             "ytd_revenue": ytd_revenue or 0.0,
             "ytd_tax_reserve": ytd_tax_reserve or 0.0,

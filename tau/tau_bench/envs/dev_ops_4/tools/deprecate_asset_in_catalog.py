@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DeprecateAssetInCatalog(Tool):
@@ -32,8 +32,8 @@ class DeprecateAssetInCatalog(Tool):
     @staticmethod
     def invoke(data, asset_path=None):
         pass
-        catalog = data.get("asset_catalog", [])
-        row = next((a for a in catalog if a.get("asset_path") == asset_path), None)
+        catalog = data.get("asset_catalog", {}).values()
+        row = next((a for a in catalog.values() if a.get("asset_path") == asset_path), None)
         if not row:
             payload = {"error": "asset_not_found", "asset_path": asset_path}
             out = json.dumps(payload)

@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchEnvironment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        env = data.get("environment", {}) or {}
+        env = data.get("environment", {}).values() or {}
         payload = env
         out = json.dumps(payload, indent=2)
         return out

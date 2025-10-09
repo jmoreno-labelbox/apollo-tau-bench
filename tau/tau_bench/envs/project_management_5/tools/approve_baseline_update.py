@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ApproveBaselineUpdate(Tool):
@@ -20,10 +20,10 @@ class ApproveBaselineUpdate(Tool):
             out = json.dumps(payload)
             return out
 
-        scope_baselines = data.get("scope_baselines", [])
+        scope_baselines = data.get("scope_baselines", {}).values()
 
         baseline = next(
-            (b for b in scope_baselines if b.get("baseline_id") == baseline_id), None
+            (b for b in scope_baselines.values() if b.get("baseline_id") == baseline_id), None
         )
         if not baseline:
             payload = {"error": f"Baseline '{baseline_id}' not found"}
@@ -52,8 +52,7 @@ class ApproveBaselineUpdate(Tool):
         existing_approved = next(
             (
                 b
-                for b in scope_baselines
-                if b.get("project_id") == project_id
+                for b in scope_baselines.values() if b.get("project_id") == project_id
                 and b.get("status") == "approved"
                 and b.get("baseline_id") != baseline_id
             ),
@@ -82,8 +81,8 @@ class ApproveBaselineUpdate(Tool):
             }
         )
 
-        change_requests = data.get("change_requests", [])
-        for cr in change_requests:
+        change_requests = data.get("change_requests", {}).values()
+        for cr in change_requests.values():
             if cr.get("project_id") == project_id and cr.get("status") in [
                 "completed",
                 "approved",

@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SummarizePlayerPerformance(Tool):
     @staticmethod
     #primary invocation function
     def invoke(data: dict[str, Any], player_id: str = None) -> str:
-        games = data.get("games", [])
-        stats = [g for g in games if player_id in g.get("player_stats", {})]
+        games = data.get("games", {}).values()
+        stats = [g for g in games.values() if player_id in g.get("player_stats", {}).values()]
         summary = {
             "player_id": player_id,
             "games_played": len(stats),
@@ -23,7 +23,7 @@ class SummarizePlayerPerformance(Tool):
                 s["player_stats"][player_id].get("batting_avg", 0) for s in stats
             )
             / max(len(stats), 1),
-            "avg_ops": sum(s["player_stats"][player_id].get("ops", 0) for s in stats)
+            "avg_ops": sum(s["player_stats"][player_id].get("ops", 0) for s in stats.values()
             / max(len(stats), 1),
         }
         payload = summary

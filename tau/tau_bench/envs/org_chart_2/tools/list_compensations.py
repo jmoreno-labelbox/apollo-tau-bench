@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class list_compensations(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str) -> str:
-        all_compensations = data.get("compensation_records", [])
+        all_compensations = data.get("compensation_records", {}).values()
         history = [
-            comp for comp in all_compensations if comp.get("employee_id") == employee_id
+            comp for comp in all_compensations.values() if comp.get("employee_id") == employee_id
         ]
         if not history:
             payload = {"count": 0, "results": []}

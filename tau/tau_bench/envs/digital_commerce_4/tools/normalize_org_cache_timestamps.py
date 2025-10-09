@@ -7,16 +7,16 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class NormalizeOrgCacheTimestamps(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], org_id: str) -> str:
         org_id = _sid(org_id)
-        jobs = data.get("cache_jobs", [])
+        jobs = data.get("cache_jobs", {}).values()
         updated: list[str] = []
-        for j in jobs:
+        for j in jobs.values():
             if j.get("org_id") == org_id:
                 j["last_run_time"] = FIXED_NOW
                 updated.append(j.get("job_id"))

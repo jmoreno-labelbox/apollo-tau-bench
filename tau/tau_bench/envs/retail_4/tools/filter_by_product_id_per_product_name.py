@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FilterByProductIdPerProductName(Tool):
@@ -41,7 +41,7 @@ class FilterByProductIdPerProductName(Tool):
         if product_ids:
             product_ids_filter = set(product_ids)
 
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         result_mapping = []
         total_matches = 0
         total_not_found = 0
@@ -67,7 +67,7 @@ class FilterByProductIdPerProductName(Tool):
             matching_product = None
             match_type = "not_found"
 
-            for product in products:
+            for product in products.values():
                 stored_name = product.get("name", "")
                 product_id = product.get("product_id")
 
@@ -103,7 +103,7 @@ class FilterByProductIdPerProductName(Tool):
                 # Check if there would have been a match without the product_ids filter
                 if product_ids_filter:
                     found_without_filter = False
-                    for product in products:
+                    for product in products.values():
                         stored_name = product.get("name", "")
                         if (
                             stored_name.lower() == search_name.lower()

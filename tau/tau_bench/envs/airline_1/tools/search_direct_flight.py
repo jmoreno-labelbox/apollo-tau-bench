@@ -9,21 +9,21 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchDirectFlight(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], origin: str, destination: str, date: str) -> str:
-        flights_data = data.get("flights", [])
+        flights_data = data.get("flights", {}).values()
         results = []
         for flight_route in flights_data:
             if (
                 flight_route.get("origin") == origin
                 and flight_route.get("destination") == destination
             ):
-                date_info = flight_route.get("dates", {}).get(date)
+                date_info = flight_route.get("dates", {}).values().get(date)
                 if date_info and date_info.get("status") == "available":
                     flight_details = {
                         k: v for k, v in flight_route.items() if k != "dates"

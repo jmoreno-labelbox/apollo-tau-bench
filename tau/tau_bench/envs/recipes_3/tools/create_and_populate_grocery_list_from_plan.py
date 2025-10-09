@@ -36,7 +36,7 @@ class CreateAndPopulateGroceryListFromPlan(Tool):
         list_id = list_res.get("list_id")
         # If the list contains items, avoid duplication
         gli = _get_table(data, "grocery_list_items")
-        if any(i.get("list_id") == list_id for i in gli):
+        if any(i.get("list_id") == list_id for i in gli.values()):
             payload = {"list_id": list_id, "added": 0, "deduplicated_items": True}
             out = json.dumps(
                 payload, indent=2

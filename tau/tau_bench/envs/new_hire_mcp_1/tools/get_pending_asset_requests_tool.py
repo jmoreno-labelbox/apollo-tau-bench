@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetPendingAssetRequestsTool(Tool):
@@ -19,7 +19,7 @@ class GetPendingAssetRequestsTool(Tool):
     def invoke(data: dict[str, Any], status_filter: str = None, role_filter: str = None,
     candidate_id: Any = None,
     ) -> str:
-        asset_requests = data.get("asset_requests", [])
+        asset_requests = data.get("asset_requests", {}).values()
 
         # Implement status filter
         if status_filter:
@@ -29,12 +29,12 @@ class GetPendingAssetRequestsTool(Tool):
                     f"Invalid status_filter. Valid statuses are: {sorted(list(valid_statuses))}"
                 )
             asset_requests = [
-                r for r in asset_requests if r.get("status") == status_filter
+                r for r in asset_requests.values() if r.get("status") == status_filter
             ]
 
         results = []
         candidates_map = {
-            str(c.get("candidate_id")): c for c in data.get("candidates", [])
+            str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
         }
 
         for request in asset_requests:

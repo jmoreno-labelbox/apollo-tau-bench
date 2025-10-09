@@ -12,7 +12,7 @@ class ComputePlateBalance(Tool):
         section_map = {
             i["ingredient_id"]: i["grocery_section"] for i in ingredients
         }
-        rows = [r for r in ri if r["recipe_id"] == recipe_id]
+        rows = [r for r in ri.values() if r["recipe_id"] == recipe_id]
         counts = {"veggies": 0, "protein": 0, "carb": 0, "fats": 0}
         for r in rows:
             sec = section_map.get(r["ingredient_id"]) or ""

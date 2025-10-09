@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class get_new_employee_id(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
         used_ids = [e["employee_id"] for e in employees]
         for i in range(10000, 100000):
             if f"E{i:05d}" not in used_ids:

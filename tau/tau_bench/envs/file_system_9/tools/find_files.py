@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindFiles(Tool):
@@ -16,7 +16,7 @@ class FindFiles(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], server_hostname: str = None, search_path: str = None) -> str:
         found_files = []
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == server_hostname:
                 for directory in server.get("directories", []):
                     if directory.get("path").startswith(search_path):

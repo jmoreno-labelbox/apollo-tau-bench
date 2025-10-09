@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -18,7 +18,7 @@ class GetFileMetadata(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], filepath: str = None, server_hostname: str = None) -> str:
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == server_hostname:
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
@@ -66,7 +66,7 @@ class GetLastAccessTime(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], filepath: str = None, server_hostname: str = None) -> str:
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == server_hostname:
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
@@ -121,7 +121,7 @@ class GetLastAccessedFile(Tool):
         )
 
         server_found = False
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == server_hostname:
                 server_found = True
                 for directory in server.get("directories", []):
@@ -174,7 +174,7 @@ class FindFiles(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], server_hostname: str = None, search_path: str = None) -> str:
         found_files = []
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == server_hostname:
                 for directory in server.get("directories", []):
                     if directory.get("path").startswith(search_path):
@@ -215,7 +215,7 @@ class CheckDiskSpace(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], server_hostname: str = None) -> str:
-        for server in data.get("system_resources", []):
+        for server in data.get("system_resources", {}).values():
             if server.get("hostname") == server_hostname:
                 payload = server.get("disk")
                 out = json.dumps(payload)
@@ -257,10 +257,10 @@ class CreateArchive(Tool):
         filepaths: list[str] = None
     ) -> str:
         # Step 1: Generate the instruction in archive_instructions.json
-        archive_instructions = data.get("archive_instructions", [])
+        archive_instructions = data.get("archive_instructions", {}).values()
         max_id = 0
         if archive_instructions:
-            for instruction in archive_instructions:
+            for instruction in archive_instructions.values():
                 try:
                     current_id_num = int(
                         instruction.get("archive_id", "arch_000").split("_")[1]
@@ -296,7 +296,7 @@ class CreateArchive(Tool):
         total_size = 0
         for path in filepaths:
             file_found = False
-            for server in data.get("file_system", []):
+            for server in data.get("file_system", {}).values():
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
                         if f"{directory.get('path')}/{file.get('filename')}" == path:
@@ -379,11 +379,11 @@ class CreateFileList(Tool):
     def invoke(data: dict[str, Any], operation_id: str = None, filepaths: list = None) -> str:
         if filepaths is None:
             filepaths = []
-        file_lists = data.get("file_lists", [])
+        file_lists = data.get("file_lists", {}).values()
 
         max_id = 0
         if file_lists:
-            for item in file_lists:
+            for item in file_lists.values():
                 try:
                     current_id_num = int(item.get("file_id", "file_000").split("_")[1])
                     if current_id_num > max_id:
@@ -398,7 +398,7 @@ class CreateFileList(Tool):
                 "a1f2e3d4c5b6789012345678901234567890abcd"  # Standard checksum
             )
             file_found = False
-            for server in data.get("file_system", []):
+            for server in data.get("file_system", {}).values():
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
                         current_path = f"{directory.get('path')}/{file.get('filename')}"
@@ -426,8 +426,8 @@ class CreateFileList(Tool):
                 "checksum": found_checksum,
                 "status": "pending",
             }
-            file_lists.append(new_entry)
-            added_files.append(file_id)
+            data["file_lists"][new_entry["file_list_id"]] = new_entry
+            added_data["files"][file_id] = file_id
         payload = {
             "status": "success",
             "message": f"Added {len(added_files)} files to the list.",
@@ -468,7 +468,7 @@ class TransferFile(Tool):
     def invoke(data: dict[str, Any], source_path: str = None, destination_path: str = None) -> str:
         source_file_details = None
         file_found = False
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             for directory in server.get("directories", []):
                 for file in directory.get("files", []):
                     if f"{directory.get('path')}/{file.get('filename')}" == source_path:
@@ -485,7 +485,7 @@ class TransferFile(Tool):
             # Verify if the source path contains a server name (for transfers between servers)
             try:
                 source_hostname, path = source_path.split(":", 1)
-                for server in data.get("file_system", []):
+                for server in data.get("file_system", {}).values():
                     if server.get("hostname") == source_hostname:
                         for directory in server.get("directories", []):
                             for file in directory.get("files", []):
@@ -521,14 +521,14 @@ class TransferFile(Tool):
             return out
 
         dest_server = None
-        for server in data["file_system"]:
+        for server in data["file_system"].values():
             if server.get("hostname") == dest_hostname:
                 dest_server = server
                 break
 
         if not dest_server:
             max_id = 0
-            for s in data["file_system"]:
+            for s in data["file_system"].values():
                 try:
                     current_id_num = int(s.get("server_id", "srv_000").split("_")[1])
                     if current_id_num > max_id:
@@ -588,7 +588,7 @@ class VerifyChecksum(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], file_id: str = None, filepath: str = None) -> str:
         original_checksum = None
-        for record in data.get("file_lists", []):
+        for record in data.get("file_lists", {}).values():
             if record.get("file_id") == file_id:
                 original_checksum = record.get("checksum")
                 break
@@ -607,7 +607,7 @@ class VerifyChecksum(Tool):
 
         actual_checksum = None
         file_found = False
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == dest_hostname:
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
@@ -666,7 +666,7 @@ class DeleteFile(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], filepath: str) -> str:
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             for directory in server.get("directories", []):
                 original_len = len(directory.get("files", []))
                 directory["files"] = [
@@ -744,7 +744,7 @@ class UpdateTaskStatus(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str = None, new_status: str = None) -> str:
-        for task in data.get("task_logs", []):
+        for task in data.get("task_logs", {}).values():
             if task.get("task_id") == task_id:
                 task["result"] = new_status
                 payload = {
@@ -753,7 +753,7 @@ class UpdateTaskStatus(Tool):
                 }
                 out = json.dumps(payload)
                 return out
-        for task in data.get("archive_instructions", []):
+        for task in data.get("archive_instructions", {}).values():
             if task.get("archive_id") == task_id:
                 task["status"] = new_status
                 payload = {
@@ -762,7 +762,7 @@ class UpdateTaskStatus(Tool):
                 }
                 out = json.dumps(payload)
                 return out
-        for task in data.get("directories", []):
+        for task in data.get("directories", {}).values():
             if task.get("operation_id") == task_id:
                 payload = {
                     "status": "success",
@@ -797,10 +797,10 @@ class LogCompletionMessage(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str = None, user_id: str = None, message: str = None) -> str:
-        completion_messages = data.get("completion_messages", [])
+        completion_messages = data.get("completion_messages", {}).values()
         max_id = 0
         if completion_messages:
-            for msg in completion_messages:
+            for msg in completion_messages.values():
                 try:
                     current_id_num = int(msg.get("msg_id", "comp_000").split("_")[1])
                     if current_id_num > max_id:
@@ -851,7 +851,7 @@ class SendSlackNotification(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], channel_name: str = None, message: str = None) -> str:
         channel_id = None
-        for channel in data.get("slack_channels", []):
+        for channel in data.get("slack_channels", {}).values():
             if channel.get("name") == channel_name:
                 channel_id = channel.get("channel_id")
                 break
@@ -861,10 +861,10 @@ class SendSlackNotification(Tool):
             out = json.dumps(payload)
             return out
 
-        slack_messages = data.get("slack_messages", [])
+        slack_messages = data.get("slack_messages", {}).values()
         max_id = 0
         if slack_messages:
-            for msg in slack_messages:
+            for msg in slack_messages.values():
                 try:
                     current_id_num = int(msg.get("message_id", "msg_000").split("_")[1])
                     if current_id_num > max_id:
@@ -911,10 +911,10 @@ class LogError(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], err_type: str = None, task_id: str = None, user_id: str = None, message: str = None, severity: str = None) -> str:
-        error_messages = data.get("error_messages", [])
+        error_messages = data.get("error_messages", {}).values()
         max_id = 0
         if error_messages:
-            for msg in error_messages:
+            for msg in error_messages.values():
                 try:
                     current_id_num = int(msg.get("msg_id", "err_msg_000").split("_")[2])
                     if current_id_num > max_id:
@@ -970,7 +970,7 @@ class GetPendingFileChecks(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
         pending_tasks = [
-            task for task in data.get("file_check_db", []) if not task.get("completed")
+            task for task in data.get("file_check_db", {}).values() if not task.get("completed")
         ]
         payload = {"pending_tasks": pending_tasks}
         out = json.dumps(payload)
@@ -992,7 +992,7 @@ class CreateDirectory(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], server_hostname: str = None, new_directory_path: str = None) -> str:
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == server_hostname:
                 server["directories"].append({"path": new_directory_path, "files": []})
                 payload = {
@@ -1037,7 +1037,7 @@ class MoveFile(Tool):
         file_to_move = None
         source_directory = None
 
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             for directory in server.get("directories", []):
                 for file in directory.get("files", []):
                     if f"{directory.get('path')}/{file.get('filename')}" == source_path:
@@ -1065,7 +1065,7 @@ class MoveFile(Tool):
 
         file_to_move["filename"] = dest_filename
 
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             for directory in server.get("directories", []):
                 if directory.get("path") == dest_dir_path:
                     directory["files"].append(file_to_move)

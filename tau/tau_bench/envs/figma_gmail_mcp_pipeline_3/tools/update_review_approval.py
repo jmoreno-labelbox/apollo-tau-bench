@@ -28,7 +28,7 @@ class update_review_approval(Tool):
             return miss
         for c in _ensure(data, "review_cycles", []):
             if c.get("cycle_id") == p["cycle_id"]:
-                c.setdefault("approvals", {})[p["approver_email"]] = p[
+                c.setdefault("approvals", {}).values()[p["approver_email"]] = p[
                     "approved_ts_nullable"
                 ]
                 return _ok(

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTranslationByKeyAndLocale(Tool):
@@ -17,8 +17,8 @@ class GetTranslationByKeyAndLocale(Tool):
     def invoke(data: dict[str, Any], string_key: str = None, locale: str = None) -> str:
         key = string_key
         locale = locale
-        translations = data.get("translations", [])
-        for t in translations:
+        translations = data.get("translations", {}).values()
+        for t in translations.values():
             if t.get("string_key") == key and t.get("locale") == locale:
                 payload = t
                 out = json.dumps(payload)

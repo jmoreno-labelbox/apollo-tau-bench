@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetOperationalEventsByFlight(Tool):
@@ -32,12 +32,12 @@ class GetOperationalEventsByFlight(Tool):
             return out
 
         #Retrieve operational events
-        operational_events = data.get("operational_events", [])
+        operational_events = data.get("operational_events", {}).values()
         flight_events = []
 
         #Apply filters to events based on flight
-        for event in operational_events:
-            flight_info = event.get("flight", {})
+        for event in operational_events.values():
+            flight_info = event.get("flight", {}).values()
             event_flight_id = flight_info.get("flight_id")
             event_flight_number = flight_info.get("flight_number")
 
@@ -67,8 +67,8 @@ class GetOperationalEventsByFlight(Tool):
             flight_info = flight_events[0]["flight"]
         elif flight_id or flight_number:
             #Attempt to locate flight information from flight data
-            flights = data.get("flights", [])
-            for flight in flights:
+            flights = data.get("flights", {}).values()
+            for flight in flights.values():
                 if (flight_id and flight.get("flight_id") == flight_id) or (
                     flight_number and flight.get("flight_number") == flight_number
                 ):
@@ -82,12 +82,12 @@ class GetOperationalEventsByFlight(Tool):
 
         #Compute statistics for events
         total_events = len(flight_events)
-        active_events = len([e for e in flight_events if e.get("status") == "Active"])
+        active_events = len([e for e in flight_events.values() if e.get("status") == "Active"])
         resolved_events = len(
-            [e for e in flight_events if e.get("status") == "Resolved"]
+            [e for e in flight_events.values() if e.get("status") == "Resolved"]
         )
         monitoring_events = len(
-            [e for e in flight_events if e.get("status") == "Monitoring"]
+            [e for e in flight_events.values() if e.get("status") == "Monitoring"]
         )
 
         #Categorize events based on type

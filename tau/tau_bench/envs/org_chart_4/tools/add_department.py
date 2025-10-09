@@ -7,7 +7,7 @@ class add_department(Tool):
     def invoke(data: dict[str, Any], department_id: str) -> str:
         departments = data.setdefault("departments", [])
         department = {"department_id": department_id}
-        departments.append(department)
+        data["departments"][department_id] = department
         payload = {"success": True, "department_id": department_id}
         out = json.dumps(
             payload, indent=2,

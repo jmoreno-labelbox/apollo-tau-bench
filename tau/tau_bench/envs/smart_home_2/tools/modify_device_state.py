@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ModifyDeviceState(Tool):
@@ -20,14 +20,14 @@ class ModifyDeviceState(Tool):
         rrule: str | None = None,
         timestamp: str | None = None,
     ) -> str:
-        devices = data.get("devices", [])
+        devices = data.get("devices", {}).values()
         idx, device = _find(devices, device_id)
         if not device:
             payload = {"error": f"device '{device_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
         allowed = set(device.get("state_params", []))
-        if any(k not in allowed for k in update):
+        if any(k not in allowed for k in update.values()):
             payload = {"error": "one or more params not allowed for this device"}
             out = json.dumps(
                 payload, indent=2
@@ -51,7 +51,7 @@ class ModifyDeviceState(Tool):
             )
             return out
         else:
-            device_state = device.get("state", {})
+            device_state = device.get("state", {}).values()
             device_state.update(update)
             device_state["last_updated"] = timestamp or _now_iso()
             payload = {"success": "state updated"}

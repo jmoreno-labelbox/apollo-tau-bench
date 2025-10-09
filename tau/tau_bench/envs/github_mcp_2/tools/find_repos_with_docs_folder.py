@@ -15,7 +15,7 @@ class FindReposWithDocsFolder(Tool):
             if r.get("owner") != me:
                 continue
             for file_list in r.get("branch_files", []):
-                if any(f.startswith("docs/") for f in file_list):
+                if any(f.startswith("docs/") for f in file_list.values()):
                     matches.append(r["repo_name"])
                     break
         payload = matches

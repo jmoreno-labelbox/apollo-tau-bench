@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetReleaseDiffSummary(Tool):
@@ -25,13 +25,13 @@ class GetReleaseDiffSummary(Tool):
         """
         Obtains release diff information and summaries of changes between releases.
         """
-        release_diffs = data.get("release_diffs", [])
-        releases = data.get("releases", [])
+        release_diffs = data.get("release_diffs", {}).values()
+        releases = data.get("releases", {}).values()
 
         # Return the specific diff if diff_id is supplied
         if diff_id:
             diff_info = None
-            for diff in release_diffs:
+            for diff in release_diffs.values():
                 if diff.get("diff_id") == diff_id:
                     diff_info = diff
                     break
@@ -43,7 +43,7 @@ class GetReleaseDiffSummary(Tool):
 
             # Enhance with details from the release
             release_info = None
-            for release in releases:
+            for release in releases.values():
                 if release.get("release_id") == diff_info.get("release_id"):
                     release_info = release
                     break
@@ -66,7 +66,7 @@ class GetReleaseDiffSummary(Tool):
 
         # Sort diffs based on specified criteria
         results = []
-        for diff in release_diffs:
+        for diff in release_diffs.values():
             # Implement filters
             if release_id:
                 if diff.get("release_id") != release_id:

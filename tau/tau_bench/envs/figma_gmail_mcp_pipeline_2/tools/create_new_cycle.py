@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateNewCycle(Tool):
@@ -27,7 +27,7 @@ class CreateNewCycle(Tool):
             )
             return out
 
-        cycles: list[dict[str, Any]] = data.get("review_cycles", [])
+        cycles: list[dict[str, Any]] = data.get("review_cycles", {}).values()
         cycle_id = get_next_cycle_id(data)
         created_ts = get_now_timestamp()
 

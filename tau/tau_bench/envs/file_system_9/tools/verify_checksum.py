@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class VerifyChecksum(Tool):
@@ -16,7 +16,7 @@ class VerifyChecksum(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], file_id: str = None, filepath: str = None) -> str:
         original_checksum = None
-        for record in data.get("file_lists", []):
+        for record in data.get("file_lists", {}).values():
             if record.get("file_id") == file_id:
                 original_checksum = record.get("checksum")
                 break
@@ -35,7 +35,7 @@ class VerifyChecksum(Tool):
 
         actual_checksum = None
         file_found = False
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == dest_hostname:
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):

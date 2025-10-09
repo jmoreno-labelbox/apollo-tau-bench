@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateBufferConsumption(Tool):
@@ -35,10 +35,10 @@ class UpdateBufferConsumption(Tool):
             out = json.dumps(payload)
             return out
 
-        schedule_buffers = data.get("schedule_buffers", [])
+        schedule_buffers = data.get("schedule_buffers", {}).values()
 
         buffer = next(
-            (b for b in schedule_buffers if b.get("project_id") == project_id), None
+            (b for b in schedule_buffers.values() if b.get("project_id") == project_id), None
         )
         if not buffer:
             total_project_days = 180
@@ -53,7 +53,7 @@ class UpdateBufferConsumption(Tool):
                 "integration_consumed": 0,
                 "buffer_history": [],
             }
-            schedule_buffers.append(buffer)
+            data["schedule_buffers"][buffer["schedule_buffer_id"]] = buffer
 
         if buffer_type == "project":
             buffer["project_consumed"] = (
@@ -114,7 +114,7 @@ class UpdateBufferConsumption(Tool):
         risk_review_required = total_consumption_percentage > 60
 
         if risk_review_required:
-            risk_reviews = data.get("risk_reviews", [])
+            risk_reviews = data.get("risk_reviews", {}).values()
             review_id = f"risk_{uuid.uuid4().hex[:8]}"
             risk_reviews.append(
                 {

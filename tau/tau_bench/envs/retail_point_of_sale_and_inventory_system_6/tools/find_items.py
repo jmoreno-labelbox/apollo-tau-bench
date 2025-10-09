@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class find_items(Tool):
@@ -22,7 +22,7 @@ class find_items(Tool):
         last_stock_count: str = None,
         location: str = None
     ) -> str:
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
 
         # These columns will match precisely with the provided value
         exact_match_cols = ["id", "sku", "store_id", "status", "last_stock_count"]
@@ -41,7 +41,7 @@ class find_items(Tool):
         }
 
         matches = []
-        for item in inventory:
+        for item in inventory.values():
             # Include in the return list if all provided criteria match
             if all(
                 [

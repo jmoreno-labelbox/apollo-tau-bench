@@ -24,7 +24,7 @@ class SubmitReview(Tool):
             "recommendation": recommendation,
             "review_date": datetime.now().strftime("%Y-%m-%d"),
         }
-        data["reviews"].append(new_review)
+        data["reviews"][review_id] = new_review
         payload = {"success": True, "review": new_review}
         out = json.dumps(payload)
         return out

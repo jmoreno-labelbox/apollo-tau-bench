@@ -12,7 +12,7 @@ class SendInvoiceEmail(Tool):
         """
         sent_time = '2025-09-05T00:00:00Z'
 
-        invoice = next((inv for inv in data["invoices"] if inv["invoice_number"] == invoice_number), None)
+        invoice = next((inv for inv in data["invoices"].values() if inv["invoice_number"] == invoice_number), None)
         if invoice:
             invoice["sent_at"] = sent_time
             return json.dumps({"status": "success", "invoice_id": invoice["invoice_id"], "sent_at": sent_time})

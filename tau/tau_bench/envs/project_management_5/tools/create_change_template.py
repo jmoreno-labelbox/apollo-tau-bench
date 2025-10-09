@@ -25,7 +25,7 @@ class CreateChangeTemplate(Tool):
         change_templates = data["change_templates"]
 
         existing = next(
-            (t for t in change_templates if t.get("template_name") == template_name),
+            (t for t in change_templates.values() if t.get("template_name") == template_name),
             None,
         )
         if existing:

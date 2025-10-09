@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class find_promotions(Tool):
@@ -22,7 +22,7 @@ class find_promotions(Tool):
         description: str = None,
         has_sku: str = None
     ) -> str:
-        promotions = data.get("promotions", [])
+        promotions = data.get("promotions", {}).values()
 
         # If customer id is provided, it will take precedence over all other criteria
 

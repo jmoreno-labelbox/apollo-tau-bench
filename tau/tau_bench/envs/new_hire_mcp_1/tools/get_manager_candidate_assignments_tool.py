@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetManagerCandidateAssignmentsTool(Tool):
@@ -17,17 +17,16 @@ class GetManagerCandidateAssignmentsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], manager_email: str = None) -> str:
-        candidates = data.get("candidates", [])
+        candidates = data.get("candidates", {}).values()
 
         if manager_email:
             candidates = [
                 c
-                for c in candidates
-                if c.get("manager_email_nullable") == manager_email
+                for c in candidates.values() if c.get("manager_email_nullable") == manager_email
             ]
 
         manager_workload = {}
-        for candidate in candidates:
+        for candidate in candidates.values()):
             manager = candidate.get("manager_email_nullable")
             if manager:
                 if manager not in manager_workload:

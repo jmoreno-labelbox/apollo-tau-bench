@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAdsetSpendForDateRange(Tool):
@@ -22,7 +22,7 @@ class GetAdsetSpendForDateRange(Tool):
         )
         total_spend = sum(
             i.get("spend", 0)
-            for i in data.get("f_insights", [])
+            for i in data.get("f_insights", {}).values()
             if i.get("adset_id") == adset_id
             and start <= datetime.strptime(i["date"], "%Y-%m-%d").date() <= end
         )

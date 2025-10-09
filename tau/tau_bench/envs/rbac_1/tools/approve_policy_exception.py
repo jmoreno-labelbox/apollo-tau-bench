@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ApprovePolicyException(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], exception_id: str = None, reviewed_by: str = None) -> str:
-        for ex in data.get("policy_exceptions", []):
+        for ex in data.get("policy_exceptions", {}).values():
             if ex.get("exception_id") == exception_id:
                 ex["status"] = "ACTIVE"
                 ex["reviewed_by"] = reviewed_by

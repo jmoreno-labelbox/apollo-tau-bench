@@ -9,18 +9,17 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckCourseCompletionStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str, course_id: str) -> str:
-        progress = data.get("user_course_progress", [])
+        progress = data.get("user_course_progress", {}).values()
         user_progress = next(
             (
                 p
-                for p in progress
-                if p.get("user_id") == user_id and p.get("course_id") == course_id
+                for p in progress.values() if p.get("user_id") == user_id and p.get("course_id") == course_id
             ),
             None,
         )

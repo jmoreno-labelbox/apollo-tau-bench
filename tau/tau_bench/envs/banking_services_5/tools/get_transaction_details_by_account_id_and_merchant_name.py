@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTransactionDetailsByAccountIdAndMerchantName(Tool):
@@ -27,10 +27,9 @@ class GetTransactionDetailsByAccountIdAndMerchantName(Tool):
                 indent=2
             )
 
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
         matched = [
-            txn for txn in transactions
-            if txn.get("account_id") == account_id
+            txn for txn in transactions.values() if txn.get("account_id") == account_id
             and (txn.get("merchant_name") or "").strip().lower() == merchant_name
         ]
 

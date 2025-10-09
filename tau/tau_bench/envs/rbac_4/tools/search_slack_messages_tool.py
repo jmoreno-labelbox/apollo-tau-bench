@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchSlackMessagesTool(Tool):
@@ -24,7 +24,7 @@ class SearchSlackMessagesTool(Tool):
         regex: str = None,
         thread_id: str = None
     ) -> str:
-        messages = data.get("slack_messages", [])
+        messages = data.get("slack_messages", {}).values()
         import re
 
         results = []
@@ -37,7 +37,7 @@ class SearchSlackMessagesTool(Tool):
                 continue
             if end_time and msg["timestamp"] > end_time:
                 continue
-            if keywords and not any(kw in msg["message"] for kw in keywords):
+            if keywords and not any(kw in msg["message"] for kw in keywords.values()):
                 continue
             if regex and not re.search(regex, msg["message"]):
                 continue

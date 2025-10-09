@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RegisterAssetInCatalog(Tool):
@@ -43,8 +43,8 @@ class RegisterAssetInCatalog(Tool):
         # Support asset_name as an alternative to asset_path
         if asset_name is not None:
             asset_path = asset_name
-        catalog = data.get("asset_catalog", [])
-        row = next((a for a in catalog if a.get("asset_path") == asset_path), None)
+        catalog = data.get("asset_catalog", {}).values()
+        row = next((a for a in catalog.values() if a.get("asset_path") == asset_path), None)
         if row:
             row["asset_type"] = asset_type
             row["validation_status"] = validation_status
@@ -60,7 +60,7 @@ class RegisterAssetInCatalog(Tool):
                 }
             )
         data["asset_catalog"] = catalog
-        payload = {"asset": next(a for a in catalog if a.get("asset_path") == asset_path)}
+        payload = {"asset": next(a for a in catalog.values() if a.get("asset_path") == asset_path)}
         out = json.dumps(
             payload, indent=2,
         )

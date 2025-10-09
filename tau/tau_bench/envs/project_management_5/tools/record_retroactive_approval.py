@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RecordRetroactiveApproval(Tool):
@@ -28,11 +28,11 @@ class RecordRetroactiveApproval(Tool):
             out = json.dumps(payload)
             return out
 
-        emergency_logs = data.get("emergency_logs", [])
-        change_requests = data.get("change_requests", [])
+        emergency_logs = data.get("emergency_logs", {}).values()
+        change_requests = data.get("change_requests", {}).values()
 
         log = next(
-            (e for e in emergency_logs if e.get("log_id") == emergency_log_id), None
+            (e for e in emergency_logs.values() if e.get("log_id") == emergency_log_id), None
         )
         if not log:
             payload = {"error": f"Emergency log '{emergency_log_id}' not found"}
@@ -57,7 +57,7 @@ class RecordRetroactiveApproval(Tool):
             log["rollback_trigger_date"] = current_time.isoformat()
 
             cr = next(
-                (c for c in change_requests if c.get("cr_id") == log.get("cr_id")), None
+                (c for c in change_requests.values() if c.get("cr_id") == log.get("cr_id")), None
             )
             if cr:
                 cr["requires_rollback"] = True
@@ -86,7 +86,7 @@ class RecordRetroactiveApproval(Tool):
             log["rejection_comments"] = comments
 
             cr = next(
-                (c for c in change_requests if c.get("cr_id") == log.get("cr_id")), None
+                (c for c in change_requests.values() if c.get("cr_id") == log.get("cr_id")), None
             )
             if cr:
                 cr["requires_rollback"] = True

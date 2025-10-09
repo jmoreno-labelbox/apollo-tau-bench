@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCustomList(Tool):
@@ -15,7 +15,7 @@ class GetCustomList(Tool):
     def invoke(
         data: dict[str, Any], list_id: str | None = None, list_name: str | None = None
     ) -> str:
-        custom_lists = data.get("custom_lists", [])
+        custom_lists = data.get("custom_lists", {}).values()
         if not list_id and not list_name:
             payload = custom_lists
             out = json.dumps(payload, indent=2)

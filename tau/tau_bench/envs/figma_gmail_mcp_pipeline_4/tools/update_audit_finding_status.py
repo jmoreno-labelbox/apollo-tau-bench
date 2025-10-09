@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateAuditFindingStatus(Tool):
@@ -44,7 +44,7 @@ class UpdateAuditFindingStatus(Tool):
         finding_type = None
 
         for dataset_name in ["audit_findings_ds", "audit_findings_a11y"]:
-            findings = data.get(dataset_name, [])
+            findings = data.get(dataset_name, {}).values()
             for finding in findings:
                 if finding.get("finding_id") == finding_id:
                     finding_found = True

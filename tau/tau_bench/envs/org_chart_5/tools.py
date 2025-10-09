@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -27,7 +27,7 @@ def find_employee(employees: list[dict[str, Any]], employee_id: str) -> dict[str
 class get_employee_profile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        employee = find_employee(data.get("employees", []), employee_id)
+        employee = find_employee(data.get("employees", {}).values()), employee_id)
         if not employee:
             payload = {"error": f"employee_id {employee_id} not found"}
             out = json.dumps(
@@ -38,20 +38,20 @@ class get_employee_profile(Tool):
         profile = employee.copy()
         profile["compensation_history"] = [
             c
-            for c in data.get("compensation_records", [])
+            for c in data.get("compensation_records", {}).values()
             if c.get("employee_id") == employee_id
         ]
         profile["performance_reviews"] = [
             r
-            for r in data.get("performance_reviews", [])
+            for r in data.get("performance_reviews", {}).values()
             if r.get("employee_id") == employee_id
         ]
         profile["leave_records"] = [
             l
-            for l in data.get("leave_records", [])
+            for l in data.get("leave_records", {}).values()
             if l.get("employee_id") == employee_id
         ]
-        for doc_record in data.get("employee_documents", {}).get(
+        for doc_record in data.get("employee_documents", {}).values().get(
             "employee_documents", []
         ):
             if doc_record.get("employee_id") == employee_id:
@@ -85,7 +85,7 @@ class create_employee_from_offer_letter(Tool):
                 payload, indent=2
             )
             return out
-        if find_employee(data.get("employees", []), employee_id):
+        if find_employee(data.get("employees", {}).values()), employee_id):
             payload = {"error": f"employee_id {employee_id} already exists"}
             out = json.dumps(
                 payload, indent=2
@@ -99,7 +99,7 @@ class create_employee_from_offer_letter(Tool):
             "status": "Active",
             "notes": f"Created from offer doc {offer_doc_id}",
         }
-        data.get("employees", []).append(new_employee)
+        data["employees"][new_employee["employee_id"]] = new_employee
         payload = {
                 "success": f"Employee {employee_id} created from offer letter {offer_doc_id}"
             }
@@ -132,7 +132,7 @@ class list_department_headcount(Tool):
         headcount = len(
             [
                 e
-                for e in data.get("employees", [])
+                for e in data.get("employees", {}).values()
                 if e.get("department_id") == department_id
                 and e.get("status") == "Active"
             ]
@@ -161,7 +161,7 @@ class list_department_headcount(Tool):
 class update_employee_compensation(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, new_comp: dict = None) -> str:
-        if not find_employee(data.get("employees", []), employee_id):
+        if not find_employee(data.get("employees", {}).values()), employee_id):
             payload = {"error": f"employee_id {employee_id} not found"}
             out = json.dumps(
                 payload, indent=2
@@ -177,7 +177,7 @@ class update_employee_compensation(Tool):
             )
             return out
 
-        data.get("compensation_records", []).append(new_comp_record)
+        data["compensation_records"][new_comp_record["compensation_record_id"]] = new_comp_record
         payload = {
                 "success": f"Compensation record {new_comp_record['compensation_id']} added for {employee_id}"
             }
@@ -210,17 +210,17 @@ class update_employee_compensation(Tool):
 class get_performance_review_status(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], department_id: str = None, employee_id: str = None) -> str:
-        reviews = data.get("performance_reviews", [])
+        reviews = data.get("performance_reviews", {}).values()
 
         if employee_id:
-            results = [r for r in reviews if r.get("employee_id") == employee_id]
+            results = [r for r in reviews.values() if r.get("employee_id") == employee_id]
         elif department_id:
             dept_employees = {
                 e["employee_id"]
-                for e in data.get("employees", [])
+                for e in data.get("employees", {}).values()
                 if e.get("department_id") == department_id
             }
-            results = [r for r in reviews if r.get("employee_id") in dept_employees]
+            results = [r for r in reviews.values() if r.get("employee_id") in dept_employees]
         else:
             payload = {"error": "Either employee_id or department_id is required"}
             out = json.dumps(
@@ -251,7 +251,7 @@ class get_performance_review_status(Tool):
 class submit_performance_review(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, review_data: dict[str, Any] = None) -> str:
-        employee = find_employee(data.get("employees", []), employee_id)
+        employee = find_employee(data.get("employees", {}).values()), employee_id)
         if not employee:
             payload = {"error": f"employee_id {employee_id} not found"}
             out = json.dumps(
@@ -263,10 +263,10 @@ class submit_performance_review(Tool):
         new_review["employee_id"] = employee_id
         if "review_id" not in new_review:
             new_review["review_id"] = (
-                f"PR_NEW_{len(data.get('performance_reviews', [])) + 1}"
+                f"PR_NEW_{len(data.get("performance_reviews", {})) + 1}"
             )
 
-        data.get("performance_reviews", []).append(new_review)
+        data["performance_reviews"][new_review["performance_review_id"]] = new_review
 
         if "performance_review_ids" not in employee:
             employee["performance_review_ids"] = []
@@ -311,24 +311,24 @@ class get_leave_calendar(Tool):
             )
             return out
 
-        results = data.get("leave_records", [])
+        results = data.get("leave_records", {}).values()
 
         if department_id:
             dept_employees = {
                 e["employee_id"]
-                for e in data.get("employees", [])
+                for e in data.get("employees", {}).values()
                 if e.get("department_id") == department_id
             }
-            results = [r for r in results if r.get("employee_id") in dept_employees]
+            results = [r for r in results.values() if r.get("employee_id") in dept_employees]
 
         if employee_id:
-            results = [r for r in results if r.get("employee_id") == employee_id]
+            results = [r for r in results.values() if r.get("employee_id") == employee_id]
 
         if start_date:
-            results = [r for r in results if r.get("end_date", "") >= start_date]
+            results = [r for r in results.values() if r.get("end_date", "") >= start_date]
 
         if end_date:
-            results = [r for r in results if r.get("start_date", "") <= end_date]
+            results = [r for r in results.values() if r.get("start_date", "") <= end_date]
         payload = results
         out = json.dumps(payload, indent=2)
         return out
@@ -355,7 +355,7 @@ class get_leave_calendar(Tool):
 class request_leave(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, leave_data: dict = None) -> str:
-        if not find_employee(data.get("employees", []), employee_id):
+        if not find_employee(data.get("employees", {}).values()), employee_id):
             payload = {"error": f"employee_id {employee_id} not found"}
             out = json.dumps(
                 payload, indent=2
@@ -365,9 +365,9 @@ class request_leave(Tool):
         new_leave = leave_data.copy()
         new_leave["employee_id"] = employee_id
         if "leave_id" not in new_leave:
-            new_leave["leave_id"] = f"LV_NEW_{len(data.get('leave_records', [])) + 1}"
+            new_leave["leave_id"] = f"LV_NEW_{len(data.get("leave_records", {})) + 1}"
 
-        data.get("leave_records", []).append(new_leave)
+        data["leave_records"][new_leave["leave_record_id"]] = new_leave
         payload = {"success": f"Leave {new_leave['leave_id']} requested for {employee_id}"}
         out = json.dumps(
             payload, indent=2,
@@ -399,7 +399,7 @@ class get_benefits_enrollment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, department_id: str = None) -> str:
         if employee_id:
-            employee = find_employee(data.get("employees", []), employee_id)
+            employee = find_employee(data.get("employees", {}).values()), employee_id)
             if not employee:
                 payload = {"error": f"employee_id {employee_id} not found"}
                 out = json.dumps(
@@ -413,7 +413,7 @@ class get_benefits_enrollment(Tool):
         if department_id:
             dept_employees = [
                 e
-                for e in data.get("employees", [])
+                for e in data.get("employees", {}).values()
                 if e.get("department_id") == department_id
             ]
             all_benefits = {
@@ -450,7 +450,7 @@ class get_benefits_enrollment(Tool):
 class enroll_in_benefit(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, benefit_id: str = None) -> str:
-        employee = find_employee(data.get("employees", []), employee_id)
+        employee = find_employee(data.get("employees", {}).values()), employee_id)
         if not employee:
             payload = {"error": f"employee_id {employee_id} not found"}
             out = json.dumps(
@@ -498,7 +498,7 @@ class enroll_in_benefit(Tool):
 class remove_from_benefit(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, benefit_id: str = None) -> str:
-        employee = find_employee(data.get("employees", []), employee_id)
+        employee = find_employee(data.get("employees", {}).values()), employee_id)
         if not employee:
             payload = {"error": f"employee_id {employee_id} not found"}
             out = json.dumps(
@@ -551,7 +551,7 @@ class get_document_compliance_status(Tool):
         emp_doc_record = next(
             (
                 d
-                for d in data.get("employee_documents", {}).get(
+                for d in data.get("employee_documents", {}).values().get(
                     "employee_documents", []
                 )
                 if d.get("employee_id") == employee_id
@@ -599,14 +599,14 @@ class get_document_compliance_status(Tool):
 class upload_employee_document(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, document_data: dict = None) -> str:
-        main_container = data.get("employee_documents", {}).get(
+        main_container = data.get("employee_documents", {}).values().get(
             "employee_documents", []
         )
 
         emp_doc_record = next(
             (
                 d
-                for d in data.get("employee_documents", {}).get(
+                for d in data.get("employee_documents", {}).values().get(
                     "employee_documents", []
                 )
                 if d.get("employee_id") == employee_id
@@ -614,7 +614,7 @@ class upload_employee_document(Tool):
             None,
         )
         if not emp_doc_record:
-            employee = find_employee(data.get("employees", []), employee_id)
+            employee = find_employee(data.get("employees", {}).values()), employee_id)
             employee_name = (
                 f"{employee.get('first_name')} {employee.get('last_name')}"
                 if employee
@@ -626,7 +626,7 @@ class upload_employee_document(Tool):
                 "name": employee_name,
                 "documents": [],
             }
-            main_container.append(emp_doc_record)
+            data["employee_documents"][emp_doc_record["employee_document_id"]] = emp_doc_record
 
         emp_doc_record["documents"].append(document_data)
         payload = {"success": f"Document uploaded for {employee_id}"}
@@ -657,18 +657,18 @@ class upload_employee_document(Tool):
 class get_org_diversity_metrics(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], department_id: str = None, level: str = None) -> str:
-        employees_to_scan = data.get("employees", [])
+        employees_to_scan = data.get("employees", {}).values()
         if department_id:
             employees_to_scan = [
-                e for e in employees_to_scan if e.get("department_id") == department_id
+                e for e in employees_to_scan.values() if e.get("department_id") == department_id
             ]
         if level:
             employees_to_scan = [
-                e for e in employees_to_scan if e.get("level_id") == level
+                e for e in employees_to_scan.values() if e.get("level_id") == level
             ]
 
-        gender_counts = Counter(e.get("gender") for e in employees_to_scan)
-        ethnicity_counts = Counter(e.get("ethnicity_code") for e in employees_to_scan)
+        gender_counts = Counter(e.get("gender") for e in employees_to_scan.values()
+        ethnicity_counts = Counter(e.get("ethnicity_code") for e in employees_to_scan.values()
 
         metrics = {
             "filter_department": department_id,
@@ -701,7 +701,7 @@ class get_org_diversity_metrics(Tool):
 class update_employee_job_level(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, new_level: str = None) -> str:
-        employee = find_employee(data.get("employees", []), employee_id)
+        employee = find_employee(data.get("employees", {}).values()), employee_id)
         if not employee:
             payload = {"error": f"employee_id {employee_id} not found"}
             out = json.dumps(
@@ -739,13 +739,13 @@ class get_open_positions(Tool):
     def invoke(data: dict[str, Any], department_id: str = None, level: str = None) -> str:
         filled_position_ids = {
             e.get("position_id")
-            for e in data.get("employees", [])
+            for e in data.get("employees", {}).values()
             if e.get("status") == "Active"
         }
-        all_positions = data.get("positions", [])
+        all_positions = data.get("positions", {}).values()
 
         open_positions = [
-            p for p in all_positions if p.get("position_id") not in filled_position_ids
+            p for p in all_positions.values() if p.get("position_id") not in filled_position_ids
         ]
 
         if department_id:
@@ -753,7 +753,7 @@ class get_open_positions(Tool):
                 p for p in open_positions if p.get("department_id") == department_id
             ]
         if level:
-            open_positions = [p for p in open_positions if p.get("level_id") == level]
+            open_positions = [p for p in open_positions.values() if p.get("level_id") == level]
         payload = open_positions
         out = json.dumps(payload, indent=2)
         return out
@@ -778,9 +778,9 @@ class get_open_positions(Tool):
 class close_position(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], position_id: str = None) -> str:
-        positions = data.get("positions", [])
+        positions = data.get("positions", {}).values()
         position_to_close = next(
-            (p for p in positions if p.get("position_id") == position_id), None
+            (p for p in positions.values() if p.get("position_id") == position_id), None
         )
 
         if position_to_close:
@@ -813,8 +813,8 @@ class close_position(Tool):
 class update_company_document_content(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], doc_id: str = None, new_content: str = None) -> str:
-        all_docs = data.get("company_doc", {}).get("company_documents", [])
-        doc_to_update = next((d for d in all_docs if d.get("id") == doc_id), None)
+        all_docs = data.get("company_doc", {}).values().get("company_documents", [])
+        doc_to_update = next((d for d in all_docs.values() if d.get("id") == doc_id), None)
 
         if doc_to_update:
             doc_to_update["content"] = new_content
@@ -852,7 +852,7 @@ class update_company_document_content(Tool):
 class get_compensation_records(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        if not find_employee(data.get("employees", []), employee_id):
+        if not find_employee(data.get("employees", {}).values()), employee_id):
             payload = {"error": f"employee_id {employee_id} not found"}
             out = json.dumps(
                 payload, indent=2
@@ -861,7 +861,7 @@ class get_compensation_records(Tool):
 
         records = [
             c
-            for c in data.get("compensation_records", [])
+            for c in data.get("compensation_records", {}).values()
             if c.get("employee_id") == employee_id
         ]
         payload = records
@@ -886,7 +886,7 @@ class get_compensation_records(Tool):
 class update_employee_status(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, new_status: str = None) -> str:
-        employee = find_employee(data.get("employees", []), employee_id)
+        employee = find_employee(data.get("employees", {}).values()), employee_id)
         if not employee:
             payload = {"error": f"employee_id {employee_id} not found"}
             out = json.dumps(

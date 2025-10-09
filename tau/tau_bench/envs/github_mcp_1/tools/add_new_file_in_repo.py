@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddNewFileInRepo(Tool):
@@ -42,7 +42,7 @@ class AddNewFileInRepo(Tool):
             return out
 
         #Preferred repository access pattern
-        repos = data.get("repositories", [])
+        repos = data.get("repositories", {}).values()
         if not isinstance(repos, list):
             payload = {
                     "error": "Invalid database format: expected 'repositories' to be a list."
@@ -56,8 +56,7 @@ class AddNewFileInRepo(Tool):
         repo = next(
             (
                 r
-                for r in repos
-                if r.get("owner") == owner and r.get("repo_name") == repo_name
+                for r in repos.values() if r.get("owner") == owner and r.get("repo_name") == repo_name
             ),
             None,
         )

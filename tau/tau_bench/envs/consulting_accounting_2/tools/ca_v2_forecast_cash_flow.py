@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2ForecastCashFlow(Tool):
@@ -17,17 +17,17 @@ class CaV2ForecastCashFlow(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], forecast_months: int = 3, current_date: str = "2024-12-10") -> str:
         # Retrieve outstanding invoices
-        invoices = data.get("invoices", [])
-        unpaid_invoices = [inv for inv in invoices if not inv.get("paid_at")]
+        invoices = data.get("invoices", {}).values()
+        unpaid_invoices = [inv for inv in invoices.values() if not inv.get("paid_at")]
 
         # Retrieve payment patterns
-        payment_behaviors = data.get("payment_behavior", [])
+        payment_behaviors = data.get("payment_behavior", {}).values()
 
         # Predict collections
         forecasted_collections = []
         for invoice in unpaid_invoices:
             publisher_id = invoice.get("publisher_id")
-            behavior = _find_one(payment_behaviors, "publisher_id", publisher_id)
+            behavior = _find_one(list(payment_behaviors.values()), "publisher_id", publisher_id)
 
             avg_days = behavior.get("avg_days_to_pay", 30) if behavior else 30
             invoice_date = datetime.fromisoformat(
@@ -50,8 +50,8 @@ class CaV2ForecastCashFlow(Tool):
             )
 
         # Retrieve regular expenses
-        recurring_schedules = data.get("recurring_schedules", [])
-        active_schedules = [sch for sch in recurring_schedules if sch.get("is_active")]
+        recurring_schedules = data.get("recurring_schedules", {}).values()
+        active_schedules = [sch for sch in recurring_schedules.values() if sch.get("is_active")]
 
         # Condense data monthly
         monthly_summary = {}
@@ -91,7 +91,7 @@ class CaV2ForecastCashFlow(Tool):
             forecast_period_months=forecast_months,
             forecasted_collections=forecasted_collections,
             monthly_summary=monthly_summary,
-            total_expected_collections=sum(c["amount"] for c in forecasted_collections),
+            total_expected_collections=sum(c["amount"] for c in forecasted_collections.values()),
         )
 
     @staticmethod

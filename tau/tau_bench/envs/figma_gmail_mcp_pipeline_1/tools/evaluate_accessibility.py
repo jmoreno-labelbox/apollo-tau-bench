@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class EvaluateAccessibility(Tool):  #READ
@@ -20,11 +20,11 @@ class EvaluateAccessibility(Tool):  #READ
             out = json.dumps(payload)
             return out
 
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = data.get("figma_artifacts", {}).values()
 
         #Locate the artifact
         artifact = next(
-            (a for a in artifacts if a.get("artifact_id") == artifact_id), None
+            (a for a in artifacts.values() if a.get("artifact_id") == artifact_id), None
         )
         if not artifact:
             payload = {"error": f"Artifact {artifact_id} not found"}

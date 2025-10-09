@@ -14,7 +14,7 @@ DT_STR_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -26,47 +26,47 @@ def _get_next_id(prefix: str, existing_ids: List[str]) -> str:
 
 
 def _get_next_transaction_id(data: Dict[str, Any]) -> str:
-    transaction_ids = [t['transaction_id'] for t in data.get('transactions', [])]
+    transaction_ids = [t['transaction_id'] for t in data.get("transactions", {}).values()]
     return _get_next_id('txn', transaction_ids)
 
 
 def _get_next_customer_id(data: Dict[str, Any]) -> str:
-    customer_ids = [c['customer_id'] for c in data.get('customers', [])]
+    customer_ids = [c['customer_id'] for c in data.get("customers", {}).values()]
     return _get_next_id('customer', customer_ids)
 
 
 def _get_next_loan_application_id(data: Dict[str, Any]) -> str:
-    app_ids = [app['application_id'] for app in data.get('loan_applications', [])]
+    app_ids = [app['application_id'] for app in data.get("loan_applications", {}).values()]
     return _get_next_id('app', app_ids)
 
 
 def _get_next_beneficiary_id(data: Dict[str, Any]) -> str:
-    bene_ids = [b['beneficiary_id'] for b in data.get('beneficiaries', [])]
+    bene_ids = [b['beneficiary_id'] for b in data.get("beneficiaries", {}).values()]
     return _get_next_id('bene', bene_ids)
 
 
 def _get_next_scheduled_payment_id(data: Dict[str, Any]) -> str:
-    payment_ids = [p['payment_id'] for p in data.get('scheduled_payments', [])]
+    payment_ids = [p['payment_id'] for p in data.get("scheduled_payments", {}).values()]
     return _get_next_id('sp', payment_ids)
 
 
 def _get_next_support_ticket_id(data: Dict[str, Any]) -> str:
-    ticket_ids = [t['ticket_id'] for t in data.get('support_tickets', [])]
+    ticket_ids = [t['ticket_id'] for t in data.get("support_tickets", {}).values()]
     return _get_next_id('tkt', ticket_ids)
 
 
 def _get_next_account_id(data: Dict[str, Any]) -> str:
-    account_ids = [a['account_id'] for a in data.get('accounts', [])]
+    account_ids = [a['account_id'] for a in data.get("accounts", {}).values()]
     return _get_next_id('acc', account_ids)
 
 
 class SearchCustomerByName(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], first_name: str = None, last_name: str = None) -> str:
-        customers = data.get("customers", [])
+        customers = data.get("customers", {}).values()
         results = []
-        for customer in customers:
-            pi = customer.get("personal_info", {})
+        for customer in customers.values():
+            pi = customer.get("personal_info", {}).values()
             if pi.get("first_name", "").lower().strip() == first_name.lower().strip() and \
                     pi.get("last_name", "").lower().strip() == last_name.lower().strip():
                 results.append(customer)
@@ -93,8 +93,8 @@ class SearchCustomerByName(Tool):
 class GetCustomerAccounts(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        accounts = data.get("accounts", [])
-        customer_accounts = [acc for acc in accounts if acc.get("customer_id") == customer_id]
+        accounts = data.get("accounts", {}).values()
+        customer_accounts = [acc for acc in accounts.values() if acc.get("customer_id") == customer_id]
         return json.dumps(customer_accounts)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -117,8 +117,8 @@ class GetCustomerAccounts(Tool):
 class GetAccountBalance(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str = None) -> str:
-        accounts = data.get("accounts", [])
-        for account in accounts:
+        accounts = data.get("accounts", {}).values()
+        for account in accounts.values():
             if account.get("account_id") == account_id:
                 return json.dumps({"account_id": account_id, "balance": account.get("balance"), "currency": account.get("currency")})
         return json.dumps({"error": "Account not found"})
@@ -169,7 +169,7 @@ class CalculateSum(Tool):
 class UpdateCustomerAddress(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None, street_address: str = None, city: str = None, state: str = None, postal_code: str = None, country: str = None) -> str:
-        for customer in data.get("customers", []):
+        for customer in data.get("customers", {}).values():
             if customer.get("customer_id") == customer_id:
                 new_address = {
                     "street_address": street_address,
@@ -208,9 +208,9 @@ class UpdateCustomerAddress(Tool):
 class UpdateCustomerPhone(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None, new_phone_number: str = None) -> str:
-        for customer in data.get("customers", []):
+        for customer in data.get("customers", {}).values():
             if customer.get("customer_id") == customer_id:
-                for phone in customer.get("contact_info", {}).get("phone_numbers", []):
+                for phone in customer.get("contact_info", {}).values().get("phone_numbers", []):
                     if phone.get("is_primary"):
                         phone["number"] = new_phone_number
                         return json.dumps(customer)
@@ -241,14 +241,14 @@ class CreateTransaction(Tool):
     def invoke(data: Dict[str, Any], source_account_id: str = None, destination_account_id: str = None, amount: float = 0.0, description: str = "") -> str:
         transaction_id = _get_next_transaction_id(data)
 
-        source_account = next((acc for acc in data["accounts"] if acc["account_id"] == source_account_id), None)
+        source_account = next((acc for acc in data["accounts"].values() if acc["account_id"] == source_account_id), None)
         if not source_account:
             return json.dumps({"error": "Source account not found."})
 
         source_account["balance"] -= amount
 
         if destination_account_id:
-            dest_account = next((acc for acc in data["accounts"] if acc["account_id"] == destination_account_id), None)
+            dest_account = next((acc for acc in data["accounts"].values() if acc["account_id"] == destination_account_id), None)
             if dest_account:
                 dest_account["balance"] += amount
 
@@ -263,7 +263,7 @@ class CreateTransaction(Tool):
                 "status": "Completed",
                 "channel": "Online"
         }
-        data["transactions"].append(new_transaction)
+        data["transactions"][transaction_id] = new_transaction
 
         return json.dumps(new_transaction)
     @staticmethod
@@ -290,7 +290,7 @@ class CreateTransaction(Tool):
 class UpdateAccountStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str = None, new_status: str = None) -> str:
-        account = next((acc for acc in data["accounts"] if acc["account_id"] == account_id), None)
+        account = next((acc for acc in data["accounts"].values() if acc["account_id"] == account_id), None)
         if not account:
             return json.dumps({"error": "Account not found."})
 
@@ -511,7 +511,7 @@ class CreateScheduledPayment(Tool):
 class GetTransactionDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], transaction_id: str = None) -> str:
-        transaction = next((t for t in data.get('transactions', []) if t['transaction_id'] == transaction_id), None)
+        transaction = next((t for t in data.get("transactions", {}).values() if t['transaction_id'] == transaction_id), None)
         if transaction:
             return json.dumps(transaction)
         return json.dumps({"error": "Transaction not found."})
@@ -599,7 +599,7 @@ class GetBeneficiaryByName(Tool):
 class GetBeneficiaryDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], beneficiary_id: str = None) -> str:
-        beneficiary = next((b for b in data.get('beneficiaries', []) if b.get('beneficiary_id') == beneficiary_id), None)
+        beneficiary = next((b for b in data.get("beneficiaries", {}).values() if b.get('beneficiary_id') == beneficiary_id), None)
 
         if beneficiary:
             return json.dumps(beneficiary)
@@ -750,7 +750,7 @@ class ListAccountTypesByCurrency(Tool):
 class GetLoanApplicationDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], application_id: str = None) -> str:
-        application = next((app for app in data.get('loan_applications', []) if app['application_id'] == application_id), None)
+        application = next((app for app in data.get("loan_applications", {}).values() if app['application_id'] == application_id), None)
         if application:
             return json.dumps(application)
         return json.dumps({"error": "Loan application not found."})
@@ -775,7 +775,7 @@ class GetLoanApplicationDetails(Tool):
 class UpdateLoanBalance(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], loan_id: str = None, amount: float = None) -> str:
-        loan = next((l for l in data.get('loans', []) if l['loan_id'] == loan_id), None)
+        loan = next((l for l in data.get("loans", {}).values() if l['loan_id'] == loan_id), None)
         if loan:
             loan['current_balance'] += amount
             return json.dumps(loan)
@@ -852,10 +852,10 @@ class CreateAccount(Tool):
 class RemoveBeneficiary(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], beneficiary_id: str = None) -> str:
-        beneficiaries = data.get('beneficiaries', [])
+        beneficiaries = data.get("beneficiaries", {}).values()
 
         initial_len = len(beneficiaries)
-        data['beneficiaries'] = [b for b in beneficiaries if b['beneficiary_id'] != beneficiary_id]
+        data['beneficiaries'] = [b for b in beneficiaries.values() if b['beneficiary_id'] != beneficiary_id]
 
         if len(data['beneficiaries']) < initial_len:
             return json.dumps({"status": "Success", "beneficiary_id": beneficiary_id, "action": "removed"})
@@ -1010,7 +1010,7 @@ class CreateDeposit(Tool):
     def invoke(data: Dict[str, Any], account_id: str = None, amount: float = None, description: str = None) -> str:
         transaction_id = _get_next_transaction_id(data)
 
-        account = next((acc for acc in data["accounts"] if acc["account_id"] == account_id), None)
+        account = next((acc for acc in data["accounts"].values() if acc["account_id"] == account_id), None)
         if not account:
             return json.dumps({"error": "Account not found."})
 
@@ -1027,7 +1027,7 @@ class CreateDeposit(Tool):
                 "status": "Completed",
                 "channel": "Online"
         }
-        data["transactions"].append(new_transaction)
+        data["transactions"][transaction_id] = new_transaction
 
         return json.dumps(new_transaction)
     @staticmethod
@@ -1055,8 +1055,8 @@ class GetAccountTransactions(Tool):
     def invoke(data: Dict[str, Any], account_id: str, days_history: int = 30, current_date: str = None) -> str:
         current_dt = NOW if not current_date else datetime.combine(date=date.fromisoformat(current_date), time=time(hour=0, minute=0, second=0, tzinfo=timezone.utc))
 
-        transactions = data.get('transactions', [])
-        account_transactions = [t for t in transactions if t['account_id'] == account_id]
+        transactions = data.get("transactions", {}).values()
+        account_transactions = [t for t in transactions.values() if t['account_id'] == account_id]
         cutoff_date = current_dt - timedelta(days=days_history)
 
         recent_transactions = [
@@ -1141,8 +1141,8 @@ class GetScheduledPaymentDetails(Tool):
 class GetScheduledPayments(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        scheduled_payments = data.get("scheduled_payments", [])
-        customer_payments = [pay for pay in scheduled_payments if pay.get("customer_id") == customer_id]
+        scheduled_payments = data.get("scheduled_payments", {}).values()
+        customer_payments = [pay for pay in scheduled_payments.values() if pay.get("customer_id") == customer_id]
         return json.dumps(customer_payments)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1165,7 +1165,7 @@ class GetScheduledPayments(Tool):
 class GetCustomerDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        customer = next((c for c in data.get('customers', []) if c['customer_id'] == customer_id), None)
+        customer = next((c for c in data.get("customers", {}).values() if c['customer_id'] == customer_id), None)
         if customer:
             return json.dumps(customer)
         return json.dumps({"error": "Customer not found."})
@@ -1190,7 +1190,7 @@ class GetCustomerDetails(Tool):
 class UpdateLoanStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], loan_id: str = None, new_status: str = None) -> str:
-        loan = next((l for l in data.get('loans', []) if l['loan_id'] == loan_id), None)
+        loan = next((l for l in data.get("loans", {}).values() if l['loan_id'] == loan_id), None)
         if loan:
             loan['status'] = new_status
             return json.dumps(loan)
@@ -1217,8 +1217,8 @@ class UpdateLoanStatus(Tool):
 class GetCustomerLoanApplications(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        applications = data.get("loan_applications", [])
-        customer_loans = [app for app in applications if app.get("customer_id") == customer_id]
+        applications = data.get("loan_applications", {}).values()
+        customer_loans = [app for app in applications.values() if app.get("customer_id") == customer_id]
         return json.dumps(customer_loans)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1241,8 +1241,8 @@ class GetCustomerLoanApplications(Tool):
 class GetCustomerLoans(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None) -> str:
-        loans = data.get("loans", [])
-        customer_loans = [loan for loan in loans if loan.get("customer_id") == customer_id]
+        loans = data.get("loans", {}).values()
+        customer_loans = [loan for loan in loans.values() if loan.get("customer_id") == customer_id]
         return json.dumps(customer_loans)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1265,7 +1265,7 @@ class GetCustomerLoans(Tool):
 class GetSupportTicketDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], ticket_id: str = None) -> str:
-        ticket = next((t for t in data.get('support_tickets', []) if t['ticket_id'] == ticket_id), None)
+        ticket = next((t for t in data.get("support_tickets", {}).values() if t['ticket_id'] == ticket_id), None)
         if ticket:
             return json.dumps(ticket)
         return json.dumps({"error": "Support ticket not found."})
@@ -1290,7 +1290,7 @@ class GetSupportTicketDetails(Tool):
 class UpdateLoanApplicationStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], application_id: str = None, new_status: str = None) -> str:
-        application = next((app for app in data.get('loan_applications', []) if app['application_id'] == application_id), None)
+        application = next((app for app in data.get("loan_applications", {}).values() if app['application_id'] == application_id), None)
         if not application:
             return json.dumps({"error": "Loan application not found."})
 
@@ -1321,7 +1321,7 @@ class UpdateLoanApplicationStatus(Tool):
 class AddCustomerPhoneNumber(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str, phone_type: str, phone_number: str, is_primary: bool = False) -> str:
-        customer = next((c for c in data.get('customers', []) if c['customer_id'] == customer_id), None)
+        customer = next((c for c in data.get("customers", {}).values() if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found."})
 
@@ -1415,7 +1415,7 @@ class CreateScheduledInternalTransfer(Tool):
 
 class GetTotalAccountsCount(Tool):
     def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("accounts", []))
+        count = len(data.get("accounts", {}))
         return json.dumps({"total_accounts": count})
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1431,7 +1431,7 @@ class GetTotalAccountsCount(Tool):
 
 class GetTotalBeneficiariesCount(Tool):
     def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("beneficiaries", []))
+        count = len(data.get("beneficiaries", {}))
         return json.dumps({"total_beneficiaries": count})
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1447,7 +1447,7 @@ class GetTotalBeneficiariesCount(Tool):
 
 class GetTotalCustomersCount(Tool):
     def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("customers", []))
+        count = len(data.get("customers", {}))
         return json.dumps({"total_customers": count})
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1463,7 +1463,7 @@ class GetTotalCustomersCount(Tool):
 
 class GetTotalLoanApplicationsCount(Tool):
     def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("loan_applications", []))
+        count = len(data.get("loan_applications", {}))
         return json.dumps({"total_loan_applications": count})
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1479,7 +1479,7 @@ class GetTotalLoanApplicationsCount(Tool):
 
 class GetTotalLoansCount(Tool):
     def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("loans", []))
+        count = len(data.get("loans", {}))
         return json.dumps({"total_loans": count})
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1495,7 +1495,7 @@ class GetTotalLoansCount(Tool):
 
 class GetTotalScheduledPaymentsCount(Tool):
     def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("scheduled_payments", []))
+        count = len(data.get("scheduled_payments", {}))
         return json.dumps({"total_scheduled_payments": count})
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1511,7 +1511,7 @@ class GetTotalScheduledPaymentsCount(Tool):
 
 class GetTotalSupportTicketsCount(Tool):
     def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("support_tickets", []))
+        count = len(data.get("support_tickets", {}))
         return json.dumps({"total_support_tickets": count})
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1527,7 +1527,7 @@ class GetTotalSupportTicketsCount(Tool):
 
 class GetTotalTransactionsCount(Tool):
     def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("transactions", []))
+        count = len(data.get("transactions", {}))
         return json.dumps({"total_transactions": count})
     @staticmethod
     def get_info() -> Dict[str, Any]:

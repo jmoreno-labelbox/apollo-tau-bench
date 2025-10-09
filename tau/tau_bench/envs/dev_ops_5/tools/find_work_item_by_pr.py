@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindWorkItemByPr(Tool):
@@ -18,11 +18,11 @@ class FindWorkItemByPr(Tool):
         pass
         # This is a simulated implementation since there is no direct connection in the schema.
         # It will locate a work item that closely corresponds to the PR title.
-        prs = data.get("pull_requests", [])
-        work_items = data.get("work_items", [])
+        prs = data.get("pull_requests", {}).values()
+        work_items = data.get("work_items", {}).values()
 
         pr_title = ""
-        for pr in prs:
+        for pr in prs.values():
             if pr.get("repository_id") == repository_id and pr.get("number") == pr_number:
                 pr_title = pr.get("title", "").lower()
                 break
@@ -32,7 +32,7 @@ class FindWorkItemByPr(Tool):
             out = json.dumps(payload)
             return out
 
-        for item in work_items:
+        for item in work_items.values():
             if item.get("title", "").lower() in pr_title:
                 payload = item
                 out = json.dumps(payload)

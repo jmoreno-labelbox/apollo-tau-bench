@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchCode(Tool):
@@ -28,7 +28,7 @@ class SearchCode(Tool):
         import time
 
         start_time = time.time()
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         all_matches = []
 
         if not query.strip():
@@ -73,7 +73,7 @@ class SearchCode(Tool):
         by_language = {}
         by_repository = {}
 
-        for repo in repositories:
+        for repo in repositories.values():
             repo_name = f"{repo['owner']}/{repo['repo_name']}"
             repositories_searched.append(repo_name)
 

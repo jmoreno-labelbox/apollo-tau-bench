@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SendEmailTool(Tool):
@@ -34,7 +34,7 @@ class SendEmailTool(Tool):
 
         # If the receiver is not specified, attempt to determine it from user_id
         if not receiver and user_id:
-            users: list[dict[str, Any]] = data.get("users", [])
+            users: list[dict[str, Any]] = data.get("users", {}).values()
             user = next((u for u in users if u.get("user_id") == user_id), None)
             if not user or not user.get("email"):
                 payload = {"error": f"Could not resolve email for user_id {user_id}"}

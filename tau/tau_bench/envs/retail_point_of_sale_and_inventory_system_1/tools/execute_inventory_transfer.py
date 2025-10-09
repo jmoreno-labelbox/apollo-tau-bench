@@ -9,17 +9,17 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ExecuteInventoryTransfer(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sku: str = None, quantity: int = None, from_store_id: int = None, to_store_id: int = None) -> str:
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
         from_item = None
         to_item = None
 
-        for item in inventory:
+        for item in inventory.values():
             if item["store_id"] == from_store_id and item["sku"] == sku:
                 from_item = item
             if item["store_id"] == to_store_id and item["sku"] == sku:

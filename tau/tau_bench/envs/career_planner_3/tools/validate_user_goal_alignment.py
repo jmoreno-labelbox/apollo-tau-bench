@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ValidateUserGoalAlignment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        goals = data.get("goals", [])
-        user_goals = [g for g in goals if g["user_id"] == user_id]
+        goals = data.get("goals", {}).values()
+        user_goals = [g for g in goals.values() if g["user_id"] == user_id]
 
         if not user_goals:
             payload = {"valid": False, "reason": "No goals found for user"}

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateOrderSummary(Tool):
@@ -27,8 +27,8 @@ class GenerateOrderSummary(Tool):
         """
         pass
         #Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -37,7 +37,7 @@ class GenerateOrderSummary(Tool):
             return out
 
         #Validate payment methods and prepare payment breakdown
-        payment_methods = user.get("payment_methods", {})
+        payment_methods = user.get("payment_methods", {}).values()
         selected_payments = []
 
         for payment_method_id in payment_methods_source:
@@ -76,7 +76,7 @@ class GenerateOrderSummary(Tool):
             selected_payments.append(payment_info)
 
         #Validate and price all items
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         order_items = []
         subtotal = 0.0
 
@@ -89,8 +89,8 @@ class GenerateOrderSummary(Tool):
             variant_found = None
             product_found = None
 
-            for product in products:
-                variants = product.get("variants", {})
+            for product in products.values():
+                variants = product.get("variants", {}).values()
                 if item_id in variants:
                     variant_found = variants[item_id]
                     product_found = product
@@ -114,7 +114,7 @@ class GenerateOrderSummary(Tool):
                     "quantity": quantity,
                     "unit_price": unit_price,
                     "line_total": line_total,
-                    "options": variant_found.get("options", {}),
+                    "options": variant_found.get("options", {}).values()),
                 }
             )
 
@@ -228,7 +228,7 @@ class GenerateOrderSummary(Tool):
             )
 
         #Rule: Maintain data integrity: order totals must match sum of item prices
-        calculated_subtotal = sum(item["line_total"] for item in order_items)
+        calculated_subtotal = sum(item["line_total"] for item in order_items.values()
         calculated_payment_total = sum(
             payment["allocated_amount"] for payment in payment_breakdown
         )

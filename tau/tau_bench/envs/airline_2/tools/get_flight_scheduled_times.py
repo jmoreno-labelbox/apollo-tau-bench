@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetFlightScheduledTimes(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], flight_number: str) -> str:
-        for f in data.get("flights", []):
+        for f in data.get("flights", {}).values():
             if f.get("flight_number") == flight_number:
                 return _j(
                     {

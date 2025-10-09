@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AssignRoleOnApprovalTool(Tool):
@@ -37,8 +37,8 @@ class AssignRoleOnApprovalTool(Tool):
             )
 
         # Find the access request
-        requests = data.get("access_requests", [])
-        req = next((r for r in requests if r.get("request_id") == request_id), None)
+        requests = data.get("access_requests", {}).values()
+        req = next((r for r in requests.values() if r.get("request_id") == request_id), None)
         if not req:
             return _json.dumps(
                 {"error": f"Access request {request_id} not found"}, indent=2

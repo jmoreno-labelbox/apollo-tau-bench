@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class VerifyOrderPricesAgainstPricebook(Tool):
@@ -20,11 +20,11 @@ class VerifyOrderPricesAgainstPricebook(Tool):
         pass
         order_id = _sid(order_id)
         eff_pb = _sid(pricebook_id) if pricebook_id is not None else None
-        orders = data.get("orders", [])
-        items = data.get("order_items", [])
-        accounts = data.get("accounts", [])
-        pbes = data.get("pricebook_entries", [])
-        order = next((o for o in orders if _eq(o.get("order_id"), order_id)), None)
+        orders = data.get("orders", {}).values()
+        items = data.get("order_items", {}).values()
+        accounts = data.get("accounts", {}).values()
+        pbes = data.get("pricebook_entries", {}).values()
+        order = next((o for o in orders.values() if _eq(o.get("order_id"), order_id)), None)
         if not order:
             payload = {"error": f"order {order_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -33,8 +33,7 @@ class VerifyOrderPricesAgainstPricebook(Tool):
             acct = next(
                 (
                     a
-                    for a in accounts
-                    if _eq(a.get("account_id"), order.get("account_id"))
+                    for a in accounts.values() if _eq(a.get("account_id"), order.get("account_id"))
                 ),
                 None,
             )
@@ -43,14 +42,13 @@ class VerifyOrderPricesAgainstPricebook(Tool):
             payload = {"error": "no pricebook context available"}
             out = json.dumps(payload, indent=2)
             return out
-        lines = [li for li in items if _eq(li.get("order_id"), order_id)]
+        lines = [li for li in items.values() if _eq(li.get("order_id"), order_id)]
         checks = []
         for li in lines:
             pbe = next(
                 (
                     p
-                    for p in pbes
-                    if _eq(p.get("pricebook_id"), eff_pb)
+                    for p in pbes.values() if _eq(p.get("pricebook_id"), eff_pb)
                     and _eq(p.get("product_id"), li.get("product_id"))
                 ),
                 None,
@@ -66,7 +64,7 @@ class VerifyOrderPricesAgainstPricebook(Tool):
                     "matches": (pb is not None and abs(op - pb) < 1e-9),
                 }
             )
-        all_match = all(c["matches"] for c in checks) if checks else False
+        all_match = all(c["matches"] for c in checks.values() if checks else False
         _append_audit(
             data,
             "PRICEBOOK_VERIFICATION",

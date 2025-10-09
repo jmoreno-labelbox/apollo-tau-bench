@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateRepository(Tool):
@@ -17,16 +17,16 @@ class CreateRepository(Tool):
     ) -> str:
         """Create a repository with metadata."""
         pass
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
 
         #Verify the existence of the repository name
-        existing_names = [repo["repo_name"] for repo in repositories]
+        existing_names = [repo["repo_name"] for repo in repositories.values()]
         repo_name = name
         if name in existing_names:
             repo_name = f"{name}_v2"
 
         #Retrieve the authenticated user
-        auth_users = data.get("authentication", [])
+        auth_users = data.get("authentication", {}).values()
         username = auth_users[0]["username"] if auth_users else "default_user"
 
         #Establish a new repository entry
@@ -54,7 +54,7 @@ class CreateRepository(Tool):
             "updated_at": "2023-12-05T12:00:00Z",
         }
 
-        repositories.append(new_repo)
+        data["repositories"][new_repo["repositorie_id"]] = new_repo
         payload = {"name": repo_name, "default_branch": "main"}
         out = json.dumps(payload, indent=2)
         return out

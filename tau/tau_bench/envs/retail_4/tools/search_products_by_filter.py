@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchProductsByFilter(Tool):
@@ -30,14 +30,14 @@ class SearchProductsByFilter(Tool):
         Data Sources: products.json (product_id, name, variants with price/available fields)
         """
         _categoryL = (category or '').lower()
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         matching_products = []
 
         # Rule: Check product availability status before allocation - never allocate unavailable items
-        for product in products:
+        for product in products.values():
             product_name = product.get("name", "").lower()
             product_id = product.get("product_id")
-            variants = product.get("variants", {})
+            variants = product.get("variants", {}).values()
 
             # Filter by category if specified
             if category and category.lower() not in product_name:
@@ -48,7 +48,7 @@ class SearchProductsByFilter(Tool):
             for variant_id, variant in variants.items():
                 variant_price = variant.get("price", 0)
                 variant_available = variant.get("available", False)
-                variant_options = variant.get("options", {})
+                variant_options = variant.get("options", {}).values()
 
                 # Rule: Check product availability status before allocation
                 if not show_all:
@@ -115,8 +115,8 @@ class SearchProductsByFilter(Tool):
                         "name": product.get("name"),
                         "variants_count": len(valid_variants),
                         "price_range": {
-                            "min": min(v["price"] for v in valid_variants),
-                            "max": max(v["price"] for v in valid_variants),
+                            "min": min(v["price"] for v in valid_variants.values()),
+                            "max": max(v["price"] for v in valid_variants.values()),
                         },
                         "sample_variants": valid_variants,
                     }

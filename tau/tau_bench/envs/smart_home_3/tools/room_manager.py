@@ -7,19 +7,18 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RoomManager(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], action: str = "get", room_id: str = None, device_id: str = None, floor: str = None) -> str:
-        rooms = data.get("rooms", [])
+        rooms = data.get("rooms", {}).values()
 
         if action == "get":
             result = [
                 r
-                for r in rooms
-                if (not room_id or r["id"] == room_id)
+                for r in rooms.values() if (not room_id or r["id"] == room_id)
                 and (not floor or r["floor"] == floor)
             ]
             payload = result

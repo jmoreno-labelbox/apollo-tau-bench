@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateSupplierInfo(Tool):
@@ -26,12 +26,12 @@ class UpdateSupplierInfo(Tool):
         Writes to: suppliers.json (updates existing supplier contact_info and adds performance data)
         Data Sources: suppliers.json (supplier_id, name, contact_info)
         """
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         supplier_to_update = None
         supplier_index = None
 
         # Find the supplier
-        for i, supplier in enumerate(suppliers):
+        for i, supplier in enumerate(suppliers.values():
             if supplier.get("supplier_id") == supplier_id:
                 supplier_to_update = supplier
                 supplier_index = i
@@ -46,7 +46,7 @@ class UpdateSupplierInfo(Tool):
         updates_applied = []
 
         if contact_updates:
-            current_contact = supplier_to_update.get("contact_info", {})
+            current_contact = supplier_to_update.get("contact_info", {}).values()
 
             if "phone" in contact_updates:
                 current_contact["phone"] = contact_updates["phone"]
@@ -91,8 +91,8 @@ class UpdateSupplierInfo(Tool):
             "supplier_id": supplier_id,
             "supplier_name": supplier_to_update.get("name"),
             "updates_applied": updates_applied,
-            "updated_contact_info": supplier_to_update.get("contact_info", {}),
-            "performance_rating": supplier_to_update.get("performance_metrics", {}).get(
+            "updated_contact_info": supplier_to_update.get("contact_info", {}).values()),
+            "performance_rating": supplier_to_update.get("performance_metrics", {}).values().get(
                 "rating"
             ),
             "last_updated": supplier_to_update["last_updated"],

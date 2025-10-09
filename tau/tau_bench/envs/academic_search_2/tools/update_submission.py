@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateSubmission(Tool):
@@ -27,7 +27,7 @@ class UpdateSubmission(Tool):
         submission = next(
             (
                 s
-                for s in data.get("submissions", [])
+                for s in data.get("submissions", {}).values()
                 if s.get("proposal_id") == submission_id
             ),
             None,
@@ -39,15 +39,15 @@ class UpdateSubmission(Tool):
 
         if reviewers is not None:
             provided_reviewers = reviewers
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
 
             valid_reviewer_ids = []
             for reviewer_item in provided_reviewers:
-                if any(u.get("person_id") == reviewer_item for u in users):
+                if any(u.get("person_id") == reviewer_item for u in users.values()):
                     valid_reviewer_ids.append(reviewer_item)
                 else:
                     found_user = next(
-                        (u for u in users if u.get("label") == reviewer_item), None
+                        (u for u in users.values() if u.get("label") == reviewer_item), None
                     )
                     if found_user:
                         valid_reviewer_ids.append(found_user["person_id"])

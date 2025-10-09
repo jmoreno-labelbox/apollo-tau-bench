@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchEngine(Tool):
@@ -23,26 +23,26 @@ class SearchEngine(Tool):
         results = {}
 
         if search_type in ["all", "devices"]:
-            devices = data.get("devices", [])
-            results["devices"] = [d for d in devices if search_term in str(d).lower()]
+            devices = data.get("devices", {}).values()
+            results["devices"] = [d for d in devices.values() if search_term in str(d).lower()]
 
         if search_type in ["all", "scenes"]:
-            scenes = data.get("scenes", [])
-            results["scenes"] = [s for s in scenes if search_term in str(s).lower()]
+            scenes = data.get("scenes", {}).values()
+            results["scenes"] = [s for s in scenes.values() if search_term in str(s).lower()]
 
         if search_type in ["all", "lists"]:
-            lists = data.get("custom_lists", [])
-            results["lists"] = [l for l in lists if search_term in str(l).lower()]
+            lists = data.get("custom_lists", {}).values()
+            results["lists"] = [l for l in lists.values() if search_term in str(l).lower()]
 
         if search_type in ["all", "reminders"]:
-            reminders = data.get("reminders", [])
+            reminders = data.get("reminders", {}).values()
             results["reminders"] = [
-                r for r in reminders if search_term in str(r).lower()
+                r for r in reminders.values() if search_term in str(r).lower()
             ]
 
         if search_type in ["all", "members"]:
-            members = data.get("members", [])
-            results["members"] = [m for m in members if search_term in str(m).lower()]
+            members = data.get("members", {}).values()
+            results["members"] = [m for m in members.values() if search_term in str(m).lower()]
         payload = results
         out = json.dumps(payload, indent=2)
         return out

@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class submit_performance_review(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, review_data: dict[str, Any] = None) -> str:
-        employee = find_employee(data.get("employees", []), employee_id)
+        employee = find_employee(data.get("employees", {}).values()), employee_id)
         if not employee:
             payload = {"error": f"employee_id {employee_id} not found"}
             out = json.dumps(
@@ -26,10 +26,10 @@ class submit_performance_review(Tool):
         new_review["employee_id"] = employee_id
         if "review_id" not in new_review:
             new_review["review_id"] = (
-                f"PR_NEW_{len(data.get('performance_reviews', [])) + 1}"
+                f"PR_NEW_{len(data.get('performance_reviews', {})) + 1}"
             )
 
-        data.get("performance_reviews", []).append(new_review)
+        data["performance_reviews"][new_review["performance_review_id"]] = new_review
 
         if "performance_review_ids" not in employee:
             employee["performance_review_ids"] = []

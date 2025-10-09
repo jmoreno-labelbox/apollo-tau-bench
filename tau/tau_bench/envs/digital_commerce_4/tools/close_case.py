@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CloseCase(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], case_id: str, resolution: str) -> str:
         case_id = _sid(case_id)
-        cases = data.get("cases", [])
-        c = next((x for x in cases if x.get("case_id") == case_id), None)
+        cases = data.get("cases", {}).values()
+        c = next((x for x in cases.values() if x.get("case_id") == case_id), None)
         if not c:
             payload = {"error": f"case {case_id} not found"}
             out = json.dumps(payload, indent=2)

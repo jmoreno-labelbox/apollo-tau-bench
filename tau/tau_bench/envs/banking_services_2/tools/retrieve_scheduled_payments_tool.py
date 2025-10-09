@@ -7,7 +7,7 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RetrieveScheduledPaymentsTool(Tool):
@@ -16,10 +16,10 @@ class RetrieveScheduledPaymentsTool(Tool):
         # Support source_account_ids parameter
         if source_account_ids and not source_account_id:
             source_account_id = source_account_ids[0] if source_account_ids else None
-        scheduled_payments = data.get('scheduled_payments', [])
+        scheduled_payments = data.get('scheduled_payments', {}).values()
         results = []
 
-        for payment in scheduled_payments:
+        for payment in scheduled_payments.values()):
             if payment.get('customer_id') != customer_id:
                 continue
             if payment.get('from_account_id', None) != source_account_id:

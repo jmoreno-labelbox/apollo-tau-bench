@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class VerifyGiftCardBalance(Tool):
@@ -34,8 +34,8 @@ class VerifyGiftCardBalance(Tool):
             return out
 
         #Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -44,7 +44,7 @@ class VerifyGiftCardBalance(Tool):
             return out
 
         #Verify name matches user record
-        user_name = user.get("name", {})
+        user_name = user.get("name", {}).values()
         stored_first_name = user_name.get("first_name", "").lower().strip()
         stored_last_name = user_name.get("last_name", "").lower().strip()
 
@@ -64,7 +64,7 @@ class VerifyGiftCardBalance(Tool):
             return out
 
         #Rule: Payment methods must be valid type: credit_card, paypal, or gift_card
-        payment_methods = user.get("payment_methods", {})
+        payment_methods = user.get("payment_methods", {}).values()
         gift_cards = []
 
         for method_id, method_details in payment_methods.items():
@@ -91,7 +91,7 @@ class VerifyGiftCardBalance(Tool):
             return out
 
         #Calculate total gift card balance
-        total_balance = sum(card["balance"] for card in gift_cards)
+        total_balance = sum(card["balance"] for card in gift_cards.values()
 
         result = {
             "status": "success",

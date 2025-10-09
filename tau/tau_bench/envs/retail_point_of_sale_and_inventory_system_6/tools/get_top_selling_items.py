@@ -8,20 +8,20 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class get_top_selling_items(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], n_values: int = None, store_id: str = None, payment_method: str = None, customer_id: str = None) -> str:
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
 
         filter_cols = ["store_id", "payment_method", "customer_id"]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
         filter_values = {k: params_dict.get(k) for k in filter_cols if params_dict.get(k) is not None}
 
         item_tracker = defaultdict(int)
-        for transaction in transactions:
+        for transaction in transactions.values()):
             # Apply filters based on any provided values
             if all([filter_values[k] == transaction[k] for k in filter_values.keys()]):
                 line_items = transaction["line_items"]

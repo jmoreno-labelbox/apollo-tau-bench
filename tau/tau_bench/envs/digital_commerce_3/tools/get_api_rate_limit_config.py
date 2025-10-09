@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetApiRateLimitConfig(Tool):
@@ -18,8 +18,8 @@ class GetApiRateLimitConfig(Tool):
         if not api_endpoint:
             return _error("api_endpoint is required.")
 
-        rate_limits = data.get("api_rate_limits", [])
-        configs = [rl for rl in rate_limits if rl.get("api_endpoint") == api_endpoint]
+        rate_limits = data.get("api_rate_limits", {}).values()
+        configs = [rl for rl in rate_limits.values() if rl.get("api_endpoint") == api_endpoint]
         if not configs:
             return _error(f"Rate limit for '{api_endpoint}' not found.")
         latest = configs[-1]

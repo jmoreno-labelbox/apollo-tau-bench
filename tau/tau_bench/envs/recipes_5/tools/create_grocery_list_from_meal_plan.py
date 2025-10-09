@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateGroceryListFromMealPlan(Tool):
@@ -39,12 +39,12 @@ class CreateGroceryListFromMealPlan(Tool):
                 meal_plan_id = int(mp["meal_plan_id"])
         entries = [
             e
-            for e in data.get("meal_plan_entries", [])
+            for e in data.get("meal_plan_entries", {}).values()
             if e.get("meal_plan_id") == meal_plan_id
         ]
         recipe_ids = [int(e.get("recipe_id")) for e in entries]
         items = _sum_grocery_items(data, recipe_ids)
-        gl_tbl = data.get("grocery_lists", [])
+        gl_tbl = data.get("grocery_lists", {}).values()
         next_list = _max_id(gl_tbl, "list_id", 8000) + 1
         new_gl = {
             "list_id": next_list,
@@ -54,8 +54,8 @@ class CreateGroceryListFromMealPlan(Tool):
             "created_at": "2025-01-01T12:00:00Z",
             "status_enum": "initialized",
         }
-        gl_tbl.append(new_gl)
-        gli_tbl = data.get("grocery_list_items", [])
+        data["grocery_lists"][new_gl["grocery_list_id"]] = new_gl
+        gli_tbl = data.get("grocery_list_items", {}).values()
         next_item = _max_id(gli_tbl, "item_id", 8100)
         created_items = []
         for it in items:
@@ -73,7 +73,7 @@ class CreateGroceryListFromMealPlan(Tool):
                 ),
                 "overlap_last_month_flag": False,
             }
-            gli_tbl.append(gli)
+            data["grocery_list_items"][gli["grocery_list_item_id"]] = gli
             created_items.append(next_item)
         return _json_dump({"list_id": next_list, "created_item_ids": created_items})
     @staticmethod

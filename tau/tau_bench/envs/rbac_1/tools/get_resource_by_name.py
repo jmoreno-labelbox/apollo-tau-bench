@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetResourceByName(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None) -> str:
-        for res in data.get("resources", []):
+        for res in data.get("resources", {}).values():
             if res.get("name") == name:
                 payload = res
                 out = json.dumps(payload)

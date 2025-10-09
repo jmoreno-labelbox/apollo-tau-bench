@@ -7,7 +7,7 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSupportTicketsForAccountsTool(Tool):
@@ -18,13 +18,13 @@ class GetSupportTicketsForAccountsTool(Tool):
             account_ids = [account_id]
         elif customer_id and not account_ids:
             # Find accounts for this customer
-            accounts = data.get('accounts', [])
-            account_ids = [acc.get('account_id') for acc in accounts if acc.get('customer_id') == customer_id]
+            accounts = data.get('accounts', {}).values()
+            account_ids = [acc.get('account_id') for acc in accounts.values() if acc.get('customer_id') == customer_id]
         account_ids = account_ids or []
-        support_tickets = data.get('support_tickets', [])
+        support_tickets = data.get('support_tickets', {}).values()
         results = []
 
-        for ticket in support_tickets:
+        for ticket in support_tickets.values()):
             ticket_account_id = ticket.get('account_id', None)
             if ticket_account_id not in account_ids:
                 continue
@@ -32,7 +32,7 @@ class GetSupportTicketsForAccountsTool(Tool):
                 subject = ticket.get('subject', '').lower()
                 description = ticket.get('description', '').lower()
                 category = ticket.get('category', '').lower()
-                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields):
+                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields.values()):
                     continue
             created_date = ticket.get('created_date', '')
             resolved_date = ticket.get('resolved_date', '')

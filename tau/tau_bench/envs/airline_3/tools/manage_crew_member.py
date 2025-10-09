@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ManageCrewMember(Tool):
@@ -62,11 +62,11 @@ class ManageCrewMember(Tool):
             return out
 
         #Locate the crew member
-        crew_members = data.get("crew_members", [])
+        crew_members = data.get("crew_members", {}).values()
         target_crew = None
         crew_index = None
 
-        for i, crew in enumerate(crew_members):
+        for i, crew in enumerate(crew_members.values():
             if crew.get("crew_member_id") == crew_id:
                 target_crew = crew
                 crew_index = i
@@ -112,12 +112,12 @@ class ManageCrewMember(Tool):
                 return out
 
             #Verify if the crew member is currently assigned to this flight
-            flight_crew_assignments = data.get("flight_crew_assignments", [])
+            flight_crew_assignments = data.get("flight_crew_assignments", {}).values()
             existing_assignment = None
-            for assignment in flight_crew_assignments:
+            for assignment in flight_crew_assignments.values()):
                 if (
-                    assignment.get("flight", {}).get("flight_number") == flight_number
-                    and assignment.get("crew_member", {}).get("crew_member_id")
+                    assignment.get("flight", {}).values().get("flight_number") == flight_number
+                    and assignment.get("crew_member", {}).values().get("crew_member_id")
                     == crew_id
                 ):
                     existing_assignment = assignment
@@ -168,13 +168,13 @@ class ManageCrewMember(Tool):
                 return out
 
             #Locate and eliminate the assignment
-            flight_crew_assignments = data.get("flight_crew_assignments", [])
+            flight_crew_assignments = data.get("flight_crew_assignments", {}).values()
             assignment_removed = False
 
-            for i, assignment in enumerate(flight_crew_assignments):
+            for i, assignment in enumerate(flight_crew_assignments.values():
                 if (
-                    assignment.get("flight", {}).get("flight_number") == flight_number
-                    and assignment.get("crew_member", {}).get("crew_member_id")
+                    assignment.get("flight", {}).values().get("flight_number") == flight_number
+                    and assignment.get("crew_member", {}).values().get("crew_member_id")
                     == crew_id
                 ):
                     removed_assignment = flight_crew_assignments.pop(i)
@@ -219,7 +219,7 @@ class ManageCrewMember(Tool):
                 return out
 
             #Establish a new certification
-            crew_certifications = data.get("crew_certifications", [])
+            crew_certifications = data.get("crew_certifications", {}).values()
             new_certification = {
                 "crew_certification_id": f"CC{len(crew_certifications) + 1:03d}",
                 "crew_member": {
@@ -296,7 +296,7 @@ class ManageCrewMember(Tool):
                     payload)
                 return out
 
-            old_home_base = target_crew.get("home_base", {}).get("iata_code")
+            old_home_base = target_crew.get("home_base", {}).values().get("iata_code")
             data["crew_members"][crew_index]["home_base"] = {
                 "airport_id": f"ARP_{new_home_base}",
                 "iata_code": new_home_base,
@@ -312,15 +312,15 @@ class ManageCrewMember(Tool):
 
         elif action == "get_assignments":
             #Retrieve all active assignments for the crew member
-            flight_crew_assignments = data.get("flight_crew_assignments", [])
+            flight_crew_assignments = data.get("flight_crew_assignments", {}).values()
             crew_assignments = []
 
-            for assignment in flight_crew_assignments:
-                if assignment.get("crew_member", {}).get("crew_member_id") == crew_id:
+            for assignment in flight_crew_assignments.values():
+                if assignment.get("crew_member", {}).values().get("crew_member_id") == crew_id:
                     crew_assignments.append(
                         {
                             "assignment_id": assignment.get("assignment_id"),
-                            "flight_number": assignment.get("flight", {}).get(
+                            "flight_number": assignment.get("flight", {}).values().get(
                                 "flight_number"
                             ),
                             "assigned_role": assignment.get("assigned_role"),
@@ -335,17 +335,17 @@ class ManageCrewMember(Tool):
 
         elif action == "get_schedule":
             #Obtain the flight schedule for the crew member
-            flight_crew_assignments = data.get("flight_crew_assignments", [])
+            flight_crew_assignments = data.get("flight_crew_assignments", {}).values()
             crew_schedule = []
 
-            for assignment in flight_crew_assignments:
-                if assignment.get("crew_member", {}).get("crew_member_id") == crew_id:
-                    flight_number = assignment.get("flight", {}).get("flight_number")
+            for assignment in flight_crew_assignments.values():
+                if assignment.get("crew_member", {}).values().get("crew_member_id") == crew_id:
+                    flight_number = assignment.get("flight", {}).values().get("flight_number")
 
                     #Retrieve details about the flight
-                    flights = data.get("flights", [])
+                    flights = data.get("flights", {}).values()
                     flight_details = None
-                    for flight in flights:
+                    for flight in flights.values():
                         if flight.get("flight_number") == flight_number:
                             flight_details = flight
                             break

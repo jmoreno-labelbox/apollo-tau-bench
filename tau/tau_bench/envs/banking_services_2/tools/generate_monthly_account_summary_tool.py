@@ -7,15 +7,15 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateMonthlyAccountSummaryTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str = None, month: str = None) -> str:
-        transactions = data.get('transactions', [])
-        scheduled_payments = data.get('scheduled_payments', [])
-        support_tickets = data.get('support_tickets', [])
+        transactions = data.get('transactions', {}).values()
+        scheduled_payments = data.get('scheduled_payments', {}).values()
+        support_tickets = data.get('support_tickets', {}).values()
 
         start_date = f"{month}-01T00:00:00Z"
         end_date = f"{month}-31T23:59:59Z"
@@ -25,7 +25,7 @@ class GenerateMonthlyAccountSummaryTool(Tool):
         total_purchases = 0
         transaction_count = 0
 
-        for txn in transactions:
+        for txn in transactions.values():
             if txn.get('account_id') != account_id:
                 continue
             txn_date = txn.get('transaction_date', '')
@@ -40,13 +40,11 @@ class GenerateMonthlyAccountSummaryTool(Tool):
                 total_purchases += abs(txn.get('amount', 0))
 
         scheduled_count = sum(
-            1 for payment in scheduled_payments
-            if payment.get('from_account_id', None) == account_id and payment.get('next_payment_date', '')[:7] == month
+            1 for payment in scheduled_payments.values() if payment.get('from_account_id', None) == account_id and payment.get('next_payment_date', '')[:7] == month
         )
 
         support_ticket_count = sum(
-            1 for ticket in support_tickets
-            if ticket.get('account_id', '') == account_id and ticket.get('created_date', '')[:7] == month
+            1 for ticket in support_tickets.values() if ticket.get('account_id', '') == account_id and ticket.get('created_date', '')[:7] == month
         )
 
         summary = {

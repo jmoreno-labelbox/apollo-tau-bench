@@ -13,11 +13,11 @@ class InitiateFundTransferToBeneficiary(Tool):
         beneficiaries = load_json('beneficiaries.json')
         transactions = load_json('transactions.json')
         # Find source account
-        src = next((a for a in accounts if a['account_id'] == source_account_id and a['status'] == 'Active'), None)
+        src = next((a for a in accounts.values() if a['account_id'] == source_account_id and a['status'] == 'Active'), None)
         if not src or 'balance' not in src:
             return json.dumps({'error': 'Source account not found or not active, or missing balance field.'})
         # Find beneficiary
-        bene = next((b for b in beneficiaries if b['beneficiary_id'] == beneficiary_id), None)
+        bene = next((b for b in beneficiaries.values() if b['beneficiary_id'] == beneficiary_id), None)
         if not bene or 'account_details' not in bene:
             return json.dumps({'error': 'Beneficiary not found or missing account_details.'})
         if src['balance'] < amount:

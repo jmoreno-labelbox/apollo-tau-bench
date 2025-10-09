@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetReviewApprovalsSummary(Tool):
@@ -26,18 +26,18 @@ class GetReviewApprovalsSummary(Tool):
         """
         Obtains review approvals with filtering and summarization features.
         """
-        review_approvals = data.get("review_approvals", [])
-        review_cycles = data.get("review_cycles", [])
+        review_approvals = data.get("review_approvals", {}).values()
+        review_cycles = data.get("review_cycles", {}).values()
 
         # Return the specific approval if approval_id is given
         if approval_id:
-            for approval in review_approvals:
+            for approval in review_approvals.values():
                 if approval.get("approval_id") == approval_id:
                     # Enhance with details from the cycle
                     approval_copy = approval.copy()
                     cycle_id_ref = approval.get("cycle_id")
                     if cycle_id_ref:
-                        for cycle in review_cycles:
+                        for cycle in review_cycles.values():
                             if cycle.get("cycle_id") == cycle_id_ref:
                                 approval_copy["review_cycle"] = cycle
                                 break
@@ -50,7 +50,7 @@ class GetReviewApprovalsSummary(Tool):
 
         # Sort approvals based on specified criteria
         results = []
-        for approval in review_approvals:
+        for approval in review_approvals.values():
             # Implement filters
             if cycle_id:
                 if approval.get("cycle_id") != cycle_id:
@@ -79,7 +79,7 @@ class GetReviewApprovalsSummary(Tool):
             approval_copy = approval.copy()
             cycle_id_ref = approval.get("cycle_id")
             if cycle_id_ref:
-                for cycle in review_cycles:
+                for cycle in review_cycles.values():
                     if cycle.get("cycle_id") == cycle_id_ref:
                         approval_copy["review_cycle"] = cycle
                         break

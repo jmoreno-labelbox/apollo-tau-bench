@@ -11,7 +11,7 @@ class GetPublisherByName(Tool):
         Returns publisher_id for a given publisher name.
         """
         name = publisher_name
-        pub = next((p for p in data["publishers"] if p["name"] == name), None)
+        pub = next((p for p in data["publishers"].values() if p["name"] == name), None)
         return json.dumps(pub["publisher_id"] if pub else None)
     @staticmethod
     def get_info() -> Dict[str, Any]:

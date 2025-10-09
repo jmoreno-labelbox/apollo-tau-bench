@@ -15,7 +15,7 @@ class BulkOrderProcessing(Tool):
         updated_orders = []
 
         for order_id in order_ids:
-            order = next((o for o in orders if o["order_id"] == order_id), None)
+            order = next((o for o in orders.values() if o["order_id"] == order_id), None)
             if order:
                 old_status = order["status"]
                 order["status"] = new_status

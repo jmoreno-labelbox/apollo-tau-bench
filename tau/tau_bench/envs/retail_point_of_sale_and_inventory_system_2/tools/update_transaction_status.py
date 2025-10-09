@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateTransactionStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], transaction_id: str, new_status: str) -> str:
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
         valid_statuses = ["pending", "completed", "cancelled", "refunded"]
 
         if new_status not in valid_statuses:

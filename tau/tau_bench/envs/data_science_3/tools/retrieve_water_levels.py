@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RetrieveWaterLevels(Tool):
@@ -15,7 +15,7 @@ class RetrieveWaterLevels(Tool):
     def invoke(data: dict[str, Any], station_id: str = None, start: str = None, end: str = None) -> str:
         station = station_id
         rows = []
-        for r in data.get("water_levels", []) or []:
+        for r in data.get("water_levels", {}).values() or []:
             if station and r.get("station_id") != station:
                 continue
             ts = r.get("timestamp", "")

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateAccessRequestTool(Tool):
@@ -40,19 +40,19 @@ class UpdateAccessRequestTool(Tool):
             return out
 
         # Import tables
-        access_requests = data.get("access_requests", [])
-        users = data.get("users", [])
+        access_requests = data.get("access_requests", {}).values()
+        users = data.get("users", {}).values()
 
         # References
         req = next(
-            (r for r in access_requests if r.get("request_id") == request_id), None
+            (r for r in access_requests.values() if r.get("request_id") == request_id), None
         )
         if not req:
             payload = {"error": f"Unknown request_id '{request_id}'"}
             out = json.dumps(payload, indent=2)
             return out
 
-        if not any(u.get("user_id") == updated_by for u in users):
+        if not any(u.get("user_id") == updated_by for u in users.values()):
             payload = {"error": f"Unknown updated_by '{updated_by}'"}
             out = json.dumps(payload, indent=2)
             return out

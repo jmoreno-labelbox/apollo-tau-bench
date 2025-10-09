@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchDashboardSnapshot(Tool):
@@ -16,16 +16,16 @@ class FetchDashboardSnapshot(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], snapshot_id: str = None, snapshot_date: str = None) -> str:
-        snaps = data.get("dashboard_snapshots", [])
+        snaps = data.get("dashboard_snapshots", {}).values()
         sid = snapshot_id
         sdate = snapshot_date
         row = None
         if sid is not None:
             row = next(
-                (s for s in snaps if str(s.get("snapshot_id")) == str(sid)), None
+                (s for s in snaps.values() if str(s.get("snapshot_id")) == str(sid)), None
             )
         elif sdate:
-            row = next((s for s in snaps if s.get("snapshot_date") == sdate), None)
+            row = next((s for s in snaps.values() if s.get("snapshot_date") == sdate), None)
         if not row:
             payload = {"error": "snapshot not found"}
             out = json.dumps(payload, indent=2)

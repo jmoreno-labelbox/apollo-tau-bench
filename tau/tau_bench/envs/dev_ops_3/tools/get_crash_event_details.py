@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class get_crash_event_details(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], crash_id: str) -> str:
         pass
-        crash_events = data.get("crash_events", [])
-        for event in crash_events:
+        crash_events = data.get("crash_events", {}).values()
+        for event in crash_events.values():
             if event.get("id") == crash_id:
                 payload = event
                 out = json.dumps(payload, indent=2)

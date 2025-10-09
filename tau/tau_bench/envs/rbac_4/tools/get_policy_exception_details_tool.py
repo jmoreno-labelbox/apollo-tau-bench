@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetPolicyExceptionDetailsTool(Tool):
@@ -17,7 +17,7 @@ class GetPolicyExceptionDetailsTool(Tool):
     def invoke(data: dict[str, Any], exception_id: str = None) -> str:
         pass
         eid = exception_id
-        for e in data.get("policy_exceptions", []) or []:
+        for e in data.get("policy_exceptions", {}).values() or []:
             if e.get("exception_id") == eid:
                 payload = e
                 out = json.dumps(payload, indent=2)

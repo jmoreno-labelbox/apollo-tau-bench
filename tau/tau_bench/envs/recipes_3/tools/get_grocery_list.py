@@ -8,7 +8,7 @@ class GetGroceryList(Tool):
         lists_ = _get_table(data, "grocery_lists")
         gli = _get_table(data, "grocery_list_items")
         lst = next((l for l in lists_ if l.get("list_id") == list_id), None)
-        items = [i for i in gli if i.get("list_id") == list_id]
+        items = [i for i in gli.values() if i.get("list_id") == list_id]
         payload = {"grocery_list": lst, "items": items}
         out = json.dumps(payload, indent=2)
         return out

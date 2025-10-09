@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class MergeChangeRequests(Tool):
@@ -24,11 +24,11 @@ class MergeChangeRequests(Tool):
                 payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        change_history = data.get("change_history", [])
+        change_requests = data.get("change_requests", {}).values()
+        change_history = data.get("change_history", {}).values()
 
         primary_cr = next(
-            (c for c in change_requests if c.get("cr_id") == primary_cr_id), None
+            (c for c in change_requests.values() if c.get("cr_id") == primary_cr_id), None
         )
         if not primary_cr:
             payload = {"error": f"Primary change request '{primary_cr_id}' not found"}
@@ -42,7 +42,7 @@ class MergeChangeRequests(Tool):
 
         for cr_id in secondary_cr_ids:
             secondary_cr = next(
-                (c for c in change_requests if c.get("cr_id") == cr_id), None
+                (c for c in change_requests.values() if c.get("cr_id") == cr_id), None
             )
             if not secondary_cr:
                 payload = {"error": f"Secondary change request '{cr_id}' not found"}
@@ -71,7 +71,7 @@ class MergeChangeRequests(Tool):
                 "performed_by": merged_by,
                 "timestamp": datetime.now().isoformat(),
             }
-            change_history.append(history_entry)
+            data["change_history"][history_entry["change_history_id"]] = history_entry
 
         primary_cr["affected_deliverables"] = list(merged_deliverables)
         primary_cr["business_justification"] = (

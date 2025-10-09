@@ -8,7 +8,7 @@ from decimal import ROUND_HALF_UP, Decimal
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateOrderStatus(Tool):
@@ -16,8 +16,8 @@ class UpdateOrderStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], order_id: Any, new_status: Any) -> str:
         order_id = _idstr(order_id)
-        orders = data.get("orders", [])
-        for order in orders:
+        orders = data.get("orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 order["status"] = new_status
                 payload = order

@@ -11,7 +11,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SetTopicInterest(Tool):
@@ -22,11 +22,11 @@ class SetTopicInterest(Tool):
             out = json.dumps(payload)
             return out
 
-        subscriptions = data.get("subscriptions", [])
+        subscriptions = data.get("subscriptions", {}).values()
         if action.lower() == "add":
             if any(
                 s.get("person_id") == user_id and s.get("topic") == topic
-                for s in subscriptions
+                for s in subscriptions.values()
             ):
                 payload = {
                         "success": False,
@@ -40,7 +40,7 @@ class SetTopicInterest(Tool):
                 "user_id": user_id,
                 "topic": topic,
             }
-            subscriptions.append(new_sub)
+            data["subscriptions"][subscription_id] = new_sub
             payload = {"success": True, "subscription": new_sub}
             out = json.dumps(payload)
             return out
@@ -48,8 +48,7 @@ class SetTopicInterest(Tool):
             initial_count = len(subscriptions)
             data["subscriptions"] = [
                 s
-                for s in subscriptions
-                if not (s.get("person_id") == user_id and s.get("topic") == topic)
+                for s in subscriptions.values() if not (s.get("person_id") == user_id and s.get("topic") == topic)
             ]
             if len(data["subscriptions"]) < initial_count:
                 payload = {

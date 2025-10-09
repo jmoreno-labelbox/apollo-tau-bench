@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -68,13 +68,13 @@ def _match(rows, filters):
 
     if isinstance(filters, list):
         #OR condition for lists; return true if any of them match
-        return any(_match(rows, single_filter) for single_filter in filters)
+        return any(_match(rows, single_filter) for single_filter in filters.values()
 
     elif isinstance(filters, dict):
         for filter_key, filter_value in filters.items():
             #AND condition for dictionaries; any filter may yield false
             #It only passes and returns true if none return false
-            if not any(_match(row.get(filter_key), filter_value) for row in rows):
+            if not any(_match(row.get(filter_key), filter_value) for row in rows.values()):
                 return False
 
     else:
@@ -109,15 +109,15 @@ def _apply_update(row, update_params):
 #filter_values = [filter_values]
 #if not isinstance(row.get(filter), list):
 #row_values = [row.get(filter)]
-#if not any(row_value in filter_values for row_value in row_values):
+#if not any(row_value in filter_values for row_value in row_values.values()):
 #return False
 #return True
-#return [row for row in db if match(row)]
+#return [row for row in db.values() if match(row)]
 
 #class GetUsersInfoByParam(Tool): # READ
 #@staticmethod
 #def invoke(data: Dict[str, Any], filter_params: Dict[str, Any], info_items: List[str] = None) -> str:
-#db = _convert_db_to_list(data.get("users", {}))
+#db = _convert_db_to_list(data.get("users", {}).values()
 #filtered_db = _filter_db(db, filter_params)
 #if info_items is None:
 #return json.dumps(filtered_db)
@@ -154,7 +154,7 @@ class GetInfoFromDB(Tool):  #READ
         pass
         db = _convert_db_to_list(data.get(database_name, {}))
 
-        filtered_db = [row for row in db if _match(row, filter_params)]
+        filtered_db = [row for row in db.values() if _match(row, filter_params)]
         if not filtered_db:
             payload = {"error": "No entries found matching the filter parameters."}
             out = json.dumps(
@@ -201,7 +201,7 @@ class GetInfoFromDB(Tool):  #READ
                             "description": "A list of all the keys of the infomation that should be returned by the function for the filtered database entries.",
                         },
                     },
-                    "required": ["filter_params"],
+                    "required": ["database_name", "filter_params"],
                 },
             },
         }
@@ -219,7 +219,7 @@ class UpdateDB(Tool):  #WRITE
     ) -> str:
         pass
         db = _convert_db_to_list(data.get(database_name, {}))
-        filtered_db = [row for row in db if _match(row, filter_params)]
+        filtered_db = [row for row in db.values() if _match(row, filter_params)]
         for row in filtered_db:
             _apply_update(row, update_params)
         payload = filtered_db
@@ -249,7 +249,7 @@ class UpdateDB(Tool):  #WRITE
                             "description": "Dictionary of fields to update and their new values.",
                         },
                     },
-                    "required": ["filter_params", "update_params"],
+                    "required": ["database_name", "filter_params", "update_params"],
                 },
             },
         }
@@ -277,8 +277,8 @@ class UpdatePaymentHistory(Tool):  #WRITE
         payment_info_to_update: dict[str, Any],
     ) -> str:
         pass
-        db = _convert_db_to_list(data.get("orders", {}))
-        order = [row for row in db if row["order_id"] == order_id]
+        db = _convert_db_to_list(data.get("orders", {}).values()
+        order = [row for row in db.values() if row["order_id"] == order_id]
 
         if len(order) > 1:
             payload = {"error": f"More than one order found with id: {order_id}"}
@@ -349,7 +349,7 @@ class DeleteFromDB(Tool):  #WRITE
     ) -> str:
         pass
         db = _convert_db_to_list(data.get(database_name, {}))
-        filtered_db = [row for row in db if _match(row, filter_params)]
+        filtered_db = [row for row in db.values() if _match(row, filter_params)]
         filtered_db = _apply_delete(filtered_db, delete_params)
         payload = filtered_db
         out = json.dumps(payload)
@@ -388,12 +388,12 @@ class GetUserIdFromFullNameAndZip(Tool):  #READ
     @staticmethod
     def invoke(data: dict[str, Any], first_name: str, last_name: str, zip: str) -> str:
         pass
-        db = _convert_db_to_list(data.get("users", {}))
+        db = _convert_db_to_list(data.get("users", {}).values()
         filter_params = {
             "name": {"first_name": first_name, "last_name": last_name},
             "address": {"zip": zip},
         }
-        user = [row for row in db if _match(row, filter_params)]
+        user = [row for row in db.values() if _match(row, filter_params)]
         if len(user) > 1:
             payload = {"error": "Multiple users found"}
             out = json.dumps(payload)
@@ -437,10 +437,10 @@ class GetUserIdFromEmail(Tool):  #READ
     @staticmethod
     def invoke(data: dict[str, Any], email: str) -> str:
         pass
-        db = _convert_db_to_list(data.get("users", {}))
+        db = _convert_db_to_list(data.get("users", {}).values()
         filter_params = {"email": email}
 
-        user = [row for row in db if _match(row, filter_params)]
+        user = [row for row in db.values() if _match(row, filter_params)]
         if len(user) > 1:
             payload = {"error": "Multiple users found"}
             out = json.dumps(payload)
@@ -488,7 +488,7 @@ class CreateOrder(Tool):
 
         items = []
 
-        for product in products:
+        for product in products.values():
             for item_id, item in product["variants"].items():
                 if item_id in item_ids:
                     item_info = {
@@ -501,7 +501,7 @@ class CreateOrder(Tool):
                     items.append(item_info)
 
         #Verify if the user is present
-        user = [row for row in users if row["user_id"] == user_id]
+        user = [row for row in users.values() if row["user_id"] == user_id]
         if len(user) > 1:
             payload = {"error": "Multiple users found"}
             out = json.dumps(payload)
@@ -547,7 +547,7 @@ class CreateOrder(Tool):
             "order_id": order_id,
             "user_id": user_id,
             "items": items,
-            "address": user.get("address", {}),
+            "address": user.get("address", {}).values()),
             "fulfilments": [],
             "status": "pending",
             "payment_history": [payment],
@@ -555,7 +555,7 @@ class CreateOrder(Tool):
         }
 
         #Include the order in the user's orders and the overall orders list
-        orders.append(order)
+        data["orders"][order_id] = order
         user.setdefault("orders", []).append(order_id)
         payload = order
         out = json.dumps(payload)
@@ -603,7 +603,7 @@ class CreateBulkOrder(Tool):
     def invoke(
         data: dict[str, Any],
         user_id: str,
-        item_ids: list[dict[str, Any]],
+        item_ids: dict[str, int],
         payment_method_id: str,
     ) -> str:
         pass
@@ -613,9 +613,9 @@ class CreateBulkOrder(Tool):
 
         items = []
 
-        for product in products:
+        for product in products.values():
             for item_id, item in product["variants"].items():
-                if item_id in item_ids.keys():
+                if item_id in item_ids:
                     item_info = {
                         "item_id": item_id,
                         "product_id": product["product_id"],
@@ -629,7 +629,7 @@ class CreateBulkOrder(Tool):
                         items.append(item_info)
 
         #Verify if the user is present
-        user = [row for row in users if row["user_id"] == user_id]
+        user = [row for row in users.values() if row["user_id"] == user_id]
         if len(user) > 1:
             payload = {"error": "Multiple users found"}
             out = json.dumps(payload)
@@ -675,7 +675,7 @@ class CreateBulkOrder(Tool):
             "order_id": order_id,
             "user_id": user_id,
             "items": items,
-            "address": user.get("address", {}),
+            "address": user.get("address", {}).values()),
             "fulfilments": [],
             "status": "pending",
             "payment_history": [payment],
@@ -683,7 +683,7 @@ class CreateBulkOrder(Tool):
         }
 
         #Include the order in the user's orders and the overall orders list
-        orders.append(order)
+        data["orders"][order_id] = order
         user.setdefault("orders", []).append(order_id)
         payload = order
         out = json.dumps(payload)
@@ -704,23 +704,9 @@ class CreateBulkOrder(Tool):
                             "description": "The user id, such as 'sara_doe_496'.",
                         },
                         "item_ids": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "item_id": {
-                                        "type": "string",
-                                        "description": "The item id, such as 'item_0001'."
-                                    },
-                                    "quantity": {
-                                        "type": "integer",
-                                        "description": "The quantity of the item to be included in the order."
-                                    }
-                                },
-                                "required": ["item_id", "quantity"]
-                            },
+                            "type": "object",
                             "description": (
-                                "The item ids to be included in the order."
+                                "A dictionary mapping item IDs to quantities. Keys are item_ids (strings), values are quantities (integers)."
                             ),
                         },
                         "payment_method_id": {
@@ -731,7 +717,7 @@ class CreateBulkOrder(Tool):
                             ),
                         },
                     },
-                    "required": ["user_id", "items", "payment_method_id"],
+                    "required": ["user_id", "item_ids", "payment_method_id"],
                 },
             },
         }
@@ -749,11 +735,11 @@ class CreateTracking(Tool):  #WRITE
     ) -> str:
         pass
         orders = data["orders"]
-        order = [row for row in orders if row["order_id"] == order_id]
+        order = [row for row in orders.values() if row["order_id"] == order_id]
 
         couriers = data["couriers"]
         #Verify if the delivery carrier is present
-        courier_id_list = [row["courier_id"] for row in couriers]
+        courier_id_list = [row["courier_id"] for row in couriers.values()]
         if courier_id not in courier_id_list:
             payload = {
                     "error": "Delivery carrier not found. It must be the id of a courier from the couriers database."
@@ -783,13 +769,13 @@ class CreateTracking(Tool):  #WRITE
         tracking_dict["tracking_id"] = [tracking_id]
         tracking_dict["item_ids"] = item_ids
         tracking_dict["order_id"] = order_id
-        tracking_dict["address"] = order.get("address", {})
+        tracking_dict["address"] = order.get("address", {}).values()
         tracking_dict["delivery_carrier"] = courier_id
-        tracking_dict["delivery_options"] = delivery_option
+        tracking_dict["delivery_option"] = delivery_option
         tracking_dict["tracking_history"] = {"received": "2025-01-30T10:26:19.115651"}
-        data["tracking"].append(tracking_dict)
+        data["tracking"][tracking_id] = tracking_dict
 
-        courier = [row for row in couriers if row["courier_id"] == courier_id]
+        courier = [row for row in couriers.values() if row["courier_id"] == courier_id]
         courier[0]["tracking_ids"].append(tracking_id)
         payload = tracking_dict
         out = json.dumps(payload)
@@ -818,9 +804,9 @@ class CreateTracking(Tool):  #WRITE
                             "type": "string",
                             "description": "The delivery carrier for the tracking.",
                         },
-                        "delivery_options": {
+                        "delivery_option": {
                             "type": "string",
-                            "description": "Delivery options for the tracking.",
+                            "description": "Delivery option for the tracking.",
                         },
                     },
                     "required": ["order_id", "item_ids"],
@@ -844,7 +830,7 @@ class CreateSupplyOrder(Tool):  #WRITE
         supply_orders = data["supply_orders"]
         products = data["products"]
 
-        product = [row for row in products if item_id in row["variants"].keys()]
+        product = [row for row in products.values() if item_id in row["variants"].keys()]
         if not product:
             payload = {"error": "Product not found"}
             out = json.dumps(payload)
@@ -852,7 +838,7 @@ class CreateSupplyOrder(Tool):  #WRITE
         product = product[0]
 
         #Verify if the supplier is present
-        supplier = [row for row in suppliers if row["supplier_id"] == supplier_id]
+        supplier = [row for row in suppliers.values() if row["supplier_id"] == supplier_id]
         if len(supplier) > 1:
             payload = {"error": "Multiple suppliers found"}
             out = json.dumps(payload)
@@ -879,7 +865,7 @@ class CreateSupplyOrder(Tool):  #WRITE
         }
 
         #Insert the supply order into the database
-        supply_orders.append(supply_order)
+        data["supply_orders"][supply_order_id] = supply_order
         payload = supply_order
         out = json.dumps(payload)
         return out
@@ -921,8 +907,8 @@ class GetItemInfoFromId(Tool):  #READ
     @staticmethod
     def invoke(data: dict[str, Any], item_id: str) -> str:
         pass
-        products = data.get("products", [])
-        for product in products:
+        products = data.get("products", {}).values()
+        for product in products.values():
             if item_id in product["variants"]:
                 payload = product["variants"][item_id]
                 out = json.dumps(payload)
@@ -963,7 +949,7 @@ class ProcessItemExchange(Tool):  #WRITE
     ) -> str:
         pass
         orders = data["orders"]
-        order = [row for row in orders if row["order_id"] == order_id]
+        order = [row for row in orders.values() if row["order_id"] == order_id]
 
         if len(order) > 1:
             payload = {"error": "Multiple orders found"}
@@ -990,7 +976,7 @@ class ProcessItemExchange(Tool):  #WRITE
         products = data["products"]
 
         added_price = 0.0
-        for product in products:
+        for product in products.values():
             for item_id, item in product["variants"].items():
                 if item_id in new_item_ids:
                     item_info = {
@@ -1008,7 +994,7 @@ class ProcessItemExchange(Tool):  #WRITE
         #Verify if the gift card has sufficient balance
         user_id = order["user_id"]
         users = data["users"]
-        user = [row for row in users if row["user_id"] == user_id]
+        user = [row for row in users.values() if row["user_id"] == user_id]
         if len(user) > 1:
             payload = {"error": "Multiple users found"}
             out = json.dumps(payload)
@@ -1083,7 +1069,7 @@ class ProcessItemReturn(Tool):  #WRITE
     ) -> str:
         pass
         orders = data["orders"]
-        order = [row for row in orders if row["order_id"] == order_id]
+        order = [row for row in orders.values() if row["order_id"] == order_id]
 
         if len(order) > 1:
             payload = {"error": "Multiple orders found"}
@@ -1110,7 +1096,7 @@ class ProcessItemReturn(Tool):  #WRITE
         #Verify if the gift card has sufficient balance
         user_id = order["user_id"]
         users = data["users"]
-        user = [row for row in users if row["user_id"] == user_id]
+        user = [row for row in users.values() if row["user_id"] == user_id]
         if len(user) > 1:
             payload = {"error": "Multiple users found"}
             out = json.dumps(payload)
@@ -1185,7 +1171,7 @@ class AddPaymentMethod(Tool):
         pass
         users = data["users"]
         #Verify if the user is present
-        user = [row for row in users if row["user_id"] == user_id]
+        user = [row for row in users.values() if row["user_id"] == user_id]
         if len(user) > 1:
             payload = {"error": "Multiple users found"}
             out = json.dumps(payload)
@@ -1278,7 +1264,7 @@ class AddMoneyToGiftCard(Tool):
         pass
         users = data["users"]
         #Verify if the user is present
-        user = [row for row in users if row["user_id"] == user_id]
+        user = [row for row in users.values() if row["user_id"] == user_id]
         if len(user) > 1:
             payload = {"error": "Multiple users found"}
             out = json.dumps(payload)

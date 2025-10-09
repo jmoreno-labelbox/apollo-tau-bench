@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateReservation(Tool):
@@ -19,10 +19,10 @@ class CreateReservation(Tool):
         users: list[dict[str, Any]], user_email: str
     ) -> dict[str, str] | None:
         pass
-        for u in users:
+        for u in users.values():
             if u.get("email") == user_email:
-                first = (u.get("name", {}).get("first_name") or "").lower()
-                last = (u.get("name", {}).get("last_name") or "").lower()
+                first = (u.get("name", {}).values().get("first_name") or "").lower()
+                last = (u.get("name", {}).values().get("last_name") or "").lower()
                 return {"email": user_email, "id": f"{first}_{last}_1234"}
         return None
 
@@ -33,8 +33,7 @@ class CreateReservation(Tool):
         if reservations:
             nums = [
                 int(r.get("reservation_id", "0")[-4:])
-                for r in reservations
-                if r.get("reservation_id", "")[-4:].isdigit()
+                for r in reservations.values() if r.get("reservation_id", "")[-4:].isdigit()
             ]
             if nums:
                 last_num = max(nums)
@@ -45,7 +44,7 @@ class CreateReservation(Tool):
         users: list[dict[str, Any]], user_email: str, res_id: str
     ) -> None:
         pass
-        for u in users:
+        for u in users.values():
             if u.get("email") == user_email:
                 u.setdefault("reservations", []).append(res_id)
                 break
@@ -59,8 +58,8 @@ class CreateReservation(Tool):
         passengers: list[dict[str, str]],
         cabin: str,
     ) -> str:
-        users = data.get("users", [])
-        reservations = data.get("reservations", [])
+        users = data.get("users", {}).values()
+        reservations = data.get("reservations", {}).values()
 
         # find user and generate a deterministic user_id (maintaining original logic)
         target_user = CreateReservation._find_user(users, user_email)
@@ -91,7 +90,7 @@ class CreateReservation(Tool):
         }
 
         # store in the supplied data dictionary
-        reservations.append(new_reservation)
+        data["reservations"][reservation_id] = new_reservation
         CreateReservation._attach_reservation_to_user(users, user_email, new_res_id)
         payload = new_reservation
         out = json.dumps(payload)

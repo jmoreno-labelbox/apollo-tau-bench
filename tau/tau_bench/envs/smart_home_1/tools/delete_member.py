@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DeleteMember(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], member_id: str) -> str:
-        members = data.get("members", [])
-        new_members = [m for m in members if m["id"] != member_id]
+        members = data.get("members", {}).values()
+        new_members = [m for m in members.values() if m["id"] != member_id]
         if len(new_members) == len(members):
             payload = {"error": "Member not found"}
             out = json.dumps(payload, indent=2)

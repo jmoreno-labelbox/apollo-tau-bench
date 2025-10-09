@@ -11,12 +11,12 @@ class CheckFundsForNextScheduledPayment(Tool):
             return json.dumps({'error': 'payment_id is required'})
 
         payments = load_json('scheduled_payments.json')
-        payment = next((p for p in payments if p['payment_id'] == payment_id), None)
+        payment = next((p for p in payments.values() if p['payment_id'] == payment_id), None)
         if not payment:
             return json.dumps({'error': 'Scheduled payment not found.'})
 
         accounts = load_json('accounts.json')
-        source_account = next((a for a in accounts if a['account_id'] == payment['source_account_id']), None)
+        source_account = next((a for a in accounts.values() if a['account_id'] == payment['source_account_id']), None)
         if not source_account:
             return json.dumps({'error': 'Source account for payment not found.'})
 

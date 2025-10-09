@@ -9,13 +9,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetMentor(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], mentor_id: str) -> str:
-        user_mentorship = data.get("user_mentorship", [])
+        user_mentorship = data.get("user_mentorship", {}).values()
         for mentor in user_mentorship:
             if mentor.get("mentor_id") == mentor_id:
                 payload = mentor

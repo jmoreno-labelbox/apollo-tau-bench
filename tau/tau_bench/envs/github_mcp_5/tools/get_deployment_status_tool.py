@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetDeploymentStatusTool(Tool):
@@ -42,8 +42,8 @@ class GetDeploymentStatusTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], repo_name: str) -> str:
         repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-        deploys = data.get("deployments", [])
-        repo_deploys = [d for d in deploys if d.get("repo") == repo_name]
+        deploys = data.get("deployments", {}).values()
+        repo_deploys = [d for d in deploys.values() if d.get("repo") == repo_name]
 
         if not repo_deploys:
             return _response(

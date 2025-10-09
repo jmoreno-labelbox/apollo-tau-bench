@@ -19,7 +19,7 @@ class AppendMaintenanceLog(Tool):
         next_due: str | None = None,
     ) -> str:
         logs = data.setdefault("MaintenanceLogs", [])
-        new_id = _next_numeric_suffix("ML", logs, "log_id")
+        new_id = _next_numeric_suffix("ML", list(logs.values()), "log_id")
         rec = {
             "log_id": new_id,
             "aircraft": {"aircraft_id": aircraft_id},

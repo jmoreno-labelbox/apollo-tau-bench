@@ -9,7 +9,7 @@ class GetAlertSeverityDistribution(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
         alerts = _alerts(data)
-        counter = Counter(a.get("severity", "Unknown") for a in alerts)
+        counter = Counter(a.get("severity", "Unknown") for a in alerts.values()
         payload = dict(counter)
         out = json.dumps(payload, indent=2)
         return out

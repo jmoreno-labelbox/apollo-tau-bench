@@ -11,7 +11,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -22,7 +22,7 @@ class GetPublisherByName(Tool):
         Returns publisher_id for a given publisher name.
         """
         name = publisher_name
-        pub = next((p for p in data["publishers"] if p["name"] == name), None)
+        pub = next((p for p in data["publishers"].values() if p["name"] == name), None)
         return json.dumps(pub["publisher_id"] if pub else None)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -48,7 +48,7 @@ class GetPublisherInvoices(Tool):
         """
         Returns all invoice_ids for a given publisher_id.
         """
-        invoices = [inv for inv in data["invoices"] if inv["publisher_id"] == publisher_id]
+        invoices = [inv for inv in data["invoices"].values() if inv["publisher_id"] == publisher_id]
         return json.dumps([inv["invoice_id"] for inv in invoices])
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -114,7 +114,7 @@ class GetInvoiceLines(Tool):
         """
         Returns invoice_line_ids for a given invoice_id.
         """
-        lines = [ln for ln in data["invoice_lines"] if ln["invoice_id"] == invoice_id]
+        lines = [ln for ln in data["invoice_lines"].values() if ln["invoice_id"] == invoice_id]
         return json.dumps([ln["line_id"] for ln in lines])
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -137,7 +137,7 @@ class GetInvoiceLines(Tool):
 class GetProjectTimeEntries(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], project_id: int) -> str:
-        entries = [te['hours_worked'] for te in data["time_entries"] if te["project_id"] == project_id]
+        entries = [te['hours_worked'] for te in data["time_entries"].values() if te["project_id"] == project_id]
         return json.dumps({'project_id': project_id, 'hours': sum(entries)})
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -199,7 +199,7 @@ class CreateInvoice(Tool):
             "currency": currency,
             "notes": notes
         }
-        data["invoices"].append(new_invoice)
+        data["invoices"][invoice_id] = new_invoice
         return json.dumps(new_invoice["invoice_id"])
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -245,7 +245,7 @@ class UpdateInvoicePayment(Tool):
         Marks an invoice as paid by updating paid_at field.
         """
         updated = None
-        for inv in data["invoices"]:
+        for inv in data["invoices"].values():
             if inv["invoice_id"] == invoice_id:
                 inv["paid_at"] = paid_at
                 updated = inv
@@ -317,7 +317,7 @@ class GetDashboardSnapshot(Tool):
         """
         Returns the snapshot_id if found.
         """
-        snapshot = next((s for s in data["dashboard_snapshots"] if s["snapshot_id"] == snapshot_id), None)
+        snapshot = next((s for s in data["dashboard_snapshots"].values() if s["snapshot_id"] == snapshot_id), None)
         return json.dumps(snapshot["snapshot_id"] if snapshot else None)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -343,7 +343,7 @@ class GetMonthlyRevenueBySnapshot(Tool):
         """
         Returns row_ids of monthly revenue for a given snapshot_id.
         """
-        records = [mr["row_id"] for mr in data["monthly_revenue"] if mr["snapshot_id"] == snapshot_id]
+        records = [mr["row_id"] for mr in data["monthly_revenue"].values() if mr["snapshot_id"] == snapshot_id]
         return json.dumps(records)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -369,7 +369,7 @@ class GetProjectRevenueSummary(Tool):
         """
         Returns row_ids of project revenue for a given snapshot_id.
         """
-        records = [pr["row_id"] for pr in data["project_revenue"] if pr["snapshot_id"] == snapshot_id]
+        records = [pr["row_id"] for pr in data["project_revenue"].values() if pr["snapshot_id"] == snapshot_id]
         return json.dumps(records)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -524,7 +524,7 @@ class AddProjectRevenue(Tool):
         """
         Insert or update project revenue for a given snapshot.
         """
-        record = next((pr for pr in data["project_revenue"]
+        record = next((pr for pr in data["project_revenue"].values()
                        if pr["snapshot_id"] == snapshot_id and pr["project_id"] == project_id),
                       None)
 
@@ -563,7 +563,7 @@ class AddProjectRevenue(Tool):
 class GetProjectPublisher(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], name: str) -> str:
-        record = next((pr for pr in data["pipeline_opportunities"]
+        record = next((pr for pr in data["pipeline_opportunities"].values()
                        if pr["project_title"] == name),
                       None)
 
@@ -592,7 +592,7 @@ class GetExpensesByCategory(Tool):
         """
         Returns expense_ids for all expenses under a given category_code.
         """
-        expense_ids = [exp["expense_id"] for exp in data["expenses"] if exp["category_code"] == category_code]
+        expense_ids = [exp["expense_id"] for exp in data["expenses"].values() if exp["category_code"] == category_code]
         return json.dumps(expense_ids)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -620,7 +620,7 @@ class GetRecurringExpenses(Tool):
         """
         recs = data["recurring_schedules"]
         if category_code:
-            recs = [r for r in recs if r["category_code"] == category_code]
+            recs = [r for r in recs.values() if r["category_code"] == category_code]
         recurring_ids = [r["recurring_id"] for r in recs]
         return json.dumps(recurring_ids)
     @staticmethod
@@ -671,7 +671,7 @@ class AddExpenseRecord(Tool):
             "category_code": category_code,
             "created_at": created_at
         }
-        data["expenses"].append(new_exp)
+        data["expenses"][expense_id] = new_exp
         return json.dumps(new_exp["expense_id"])
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -785,7 +785,7 @@ class AddMonthlyExpense(Tool):
 class GetMonthlyExpenseBySnapshot(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], snapshot_id: str) -> str:
-        for record in data.get("monthly_expenses", []):
+        for record in data.get("monthly_expenses", {}).values():
             if record["snapshot_id"] == snapshot_id:
                 return json.dumps(record["row_id"])
         return None
@@ -851,7 +851,7 @@ class GetMonthlyAuditBySnapshot(Tool):
         """
         Returns row_ids of monthly expenses for a given snapshot_id.
         """
-        records = [me["row_id"] for me in data.get("monthly_expenses", []) if me["snapshot_id"] == snapshot_id]
+        records = [me["row_id"] for me in data.get("monthly_expenses", {}).values() if me["snapshot_id"] == snapshot_id]
         return json.dumps(records)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -876,7 +876,7 @@ class GetInvoiceAuditTrail(Tool):
         """
         Returns audit_ids for all audit events tied to a given invoice_id.
         """
-        audit_ids = [a["audit_id"] for a in data["invoice_audit"] if a["invoice_id"] == invoice_id]
+        audit_ids = [a["audit_id"] for a in data["invoice_audit"].values() if a["invoice_id"] == invoice_id]
         return json.dumps(audit_ids)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -902,7 +902,7 @@ class GetPaymentBehavior(Tool):
         """
         Returns payment_behavior_id(s) for a given publisher_id.
         """
-        behaviors = [pb["behavior_id"] for pb in data["payment_behavior"] if pb["publisher_id"] == publisher_id]
+        behaviors = [pb["behavior_id"] for pb in data["payment_behavior"].values() if pb["publisher_id"] == publisher_id]
         return json.dumps(behaviors)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -931,7 +931,7 @@ class ComputeInvoiceAging(Tool):
         """
         as_of_date = datetime.strptime(as_of_date, "%Y-%m-%d")
 
-        invoice = next((inv for inv in data["invoices"] if inv["invoice_id"] == invoice_id), None)
+        invoice = next((inv for inv in data["invoices"].values() if inv["invoice_id"] == invoice_id), None)
         if not invoice:
             return json.dumps({"error": "invoice not found"})
 
@@ -1033,7 +1033,7 @@ class UpdatePaymentBehavior(Tool):
         """
         Updates or inserts a payment behavior record for a publisher.
         """
-        record = next((pb for pb in data["payment_behavior"] if pb["publisher_id"] == publisher_id), None)
+        record = next((pb for pb in data["payment_behavior"].values() if pb["publisher_id"] == publisher_id), None)
 
         if record:
             if avg_days_to_pay is not None:
@@ -1069,7 +1069,7 @@ class GetConsultantProfile(Tool):
         """
         Returns consultant_id(s) (usually only one profile exists).
         """
-        for c in data["consultants"]:
+        for c in data["consultants"].values():
             if c["name"] == name:
                 return json.dumps(c['consultant_id'])
         return json.dumps(None)
@@ -1096,9 +1096,9 @@ class GetTaxRate(Tool):
         Returns tax_rate_id(s). Optionally filter by year.
         """
         if year:
-            ids = [t["tax_rate_id"] for t in data["tax_rates"] if t.get("year") == year]
+            ids = [t["tax_rate_id"] for t in data["tax_rates"].values() if t.get("year") == year]
         else:
-            ids = [t["tax_rate_id"] for t in data["tax_rates"]]
+            ids = [t["tax_rate_id"] for t in data["tax_rates"].values()]
         return json.dumps(ids)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1125,9 +1125,9 @@ class GetBankAccountDetails(Tool):
         Returns bank_account_id(s). Optionally filter by account_type (chequing/savings).
         """
         if account_type:
-            ids = [b["account_id"] for b in data["bank_accounts"] if b["account_type"] == account_type]
+            ids = [b["account_id"] for b in data["bank_accounts"].values() if b["account_type"] == account_type]
         else:
-            ids = [b["account_id"] for b in data["bank_accounts"]]
+            ids = [b["account_id"] for b in data["bank_accounts"].values()]
         return json.dumps(ids)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1195,7 +1195,7 @@ class UpdateBankAccountBalance(Tool):
         """
         Updates or inserts balance for a given bank account.
         """
-        account = next((b for b in data["bank_accounts"] if b["account_id"] == account_id), None)
+        account = next((b for b in data["bank_accounts"].values() if b["account_id"] == account_id), None)
 
         if account:
             account["balance"] = balance
@@ -1232,10 +1232,10 @@ class ListInvoiceAudit(Tool):
     def invoke(data: Dict[str, Any], audit_id: str = None, invoice_id: str = None) -> str:
         results = []
         if audit_id:
-            results = [a for a in data["invoice_audit"] if a["audit_id"] == audit_id]
+            results = [a for a in data["invoice_audit"].values() if a["audit_id"] == audit_id]
 
         if invoice_id:
-            results = [a for a in data["invoice_audit"] if a["invoice_id"] == invoice_id]
+            results = [a for a in data["invoice_audit"].values() if a["invoice_id"] == invoice_id]
 
         return json.dumps(results)
     @staticmethod
@@ -1276,13 +1276,13 @@ class FilterInvoices(Tool):
         results = invoices
 
         if publisher_id is not None:
-            results = [inv for inv in results if inv["publisher_id"] == publisher_id]
+            results = [inv for inv in results.values() if inv["publisher_id"] == publisher_id]
 
         if invoice_number is not None:
-            results = [inv for inv in results if inv["invoice_number"] == invoice_number]
+            results = [inv for inv in results.values() if inv["invoice_number"] == invoice_number]
 
         if invoice_date is not None:
-            results = [inv for inv in results if inv["invoice_date"] == invoice_date]
+            results = [inv for inv in results.values() if inv["invoice_date"] == invoice_date]
 
         if start_date is not None and end_date is not None:
             start = datetime.strptime(start_date, "%Y-%m-%d")
@@ -1293,12 +1293,12 @@ class FilterInvoices(Tool):
             ]
 
         if unpaid_only:
-            results = [inv for inv in results if inv.get("paid_at") is None]
+            results = [inv for inv in results.values() if inv.get("paid_at") is None]
 
         if min_amount is not None:
-            results = [inv for inv in results if float(inv["total_due"]) >= min_amount]
+            results = [inv for inv in results.values() if float(inv["total_due"]) >= min_amount]
         if max_amount is not None:
-            results = [inv for inv in results if float(inv["total_due"]) <= max_amount]
+            results = [inv for inv in results.values() if float(inv["total_due"]) <= max_amount]
 
         return json.dumps([inv["invoice_id"] for inv in results])
     @staticmethod
@@ -1370,7 +1370,7 @@ class CalculateTotalInflows(Tool):
         invoices_to_consider_list = []
 
         for id in invoices_to_consider:
-            invoices_to_consider_list.append(next((inv for inv in data["invoices"] if inv["invoice_id"] == id), None))
+            invoices_to_consider_list.append(next((inv for inv in data["invoices"].values() if inv["invoice_id"] == id), None))
 
         total_inflow = sum(
             inv["total_due"] for inv in invoices_to_consider_list
@@ -1406,7 +1406,7 @@ class CalculateTotalOutflows(Tool):
         end_date_obj = datetime.strptime(end_date, "%Y-%m-%d")
         total_outflow = 0
 
-        for schedule in data["recurring_schedules"]:
+        for schedule in data["recurring_schedules"].values():
             if not schedule.get("is_active"):
                 continue
 
@@ -1453,7 +1453,7 @@ class CreatePublisher(Tool):
             "created_at": "2024-08-08T12:00:00",
             "updated_at": "2024-08-08T12:00:00",
         }
-        data["publishers"].append(new_publisher)
+        data["publishers"][publisher_id] = new_publisher
         return json.dumps(new_publisher["publisher_id"])
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1477,7 +1477,7 @@ class GetPublisherInfo(Tool):
         """
         Retrieves the full details for a given publisher_id.
         """
-        publisher = next((p for p in data["publishers"] if p["publisher_id"] == publisher_id), None)
+        publisher = next((p for p in data["publishers"].values() if p["publisher_id"] == publisher_id), None)
         return json.dumps(publisher)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1510,7 +1510,7 @@ class CreateProject(Tool):
             "created_at": datetime.now().isoformat(),
             "updated_at": datetime.now().isoformat()
         }
-        data["projects"].append(new_project)
+        data["projects"][project_id] = new_project
         return json.dumps(new_project["project_id"])
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1537,7 +1537,7 @@ class GetProjectDetails(Tool):
         """
         Retrieves the full details for a given project_id.
         """
-        project = next((p for p in data["projects"] if p["project_id"] == project_id), None)
+        project = next((p for p in data["projects"].values() if p["project_id"] == project_id), None)
         return json.dumps(project)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1557,9 +1557,9 @@ class GetProjectDetails(Tool):
 class ComputeCollectionKPIs(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], window_months: int = 12) -> str:
-        invs = data.get("invoices", []) or []
-        total_ar = sum(float(i.get("total_due", 0)) for i in invs if i.get("paid_at") is None)
-        avg_daily_sales = round((sum(float(i.get("subtotal", 0)) for i in invs) / max(1, window_months * 30)), 2)
+        invs = data.get("invoices", {}).values() or []
+        total_ar = sum(float(i.get("total_due", 0)) for i in invs.values() if i.get("paid_at") is None)
+        avg_daily_sales = round((sum(float(i.get("subtotal", 0)) for i in invs.values() / max(1, window_months * 30)), 2)
         dso = round((total_ar / max(0.01, avg_daily_sales)), 2)
         return json.dumps({
             "window_months": window_months,
@@ -1593,7 +1593,7 @@ class CalculateInvoiceTotals(Tool):
         """
         if lines is None:
             lines = []
-        subtotal = sum(line.get("hours", 0) * line.get("rate", 0) for line in lines)
+        subtotal = sum(line.get("hours", 0) * line.get("rate", 0) for line in lines.values()
         hst_amount = round(subtotal * hst_rate, 2)
         total_due = round(subtotal + hst_amount, 2)
         return json.dumps({"subtotal": subtotal, "hst_amount": hst_amount, "total_due": total_due})
@@ -1652,7 +1652,7 @@ class SendInvoiceEmail(Tool):
         """
         sent_time = '2025-09-05T00:00:00Z'
 
-        invoice = next((inv for inv in data["invoices"] if inv["invoice_number"] == invoice_number), None)
+        invoice = next((inv for inv in data["invoices"].values() if inv["invoice_number"] == invoice_number), None)
         if invoice:
             invoice["sent_at"] = sent_time
             return json.dumps({"status": "success", "invoice_id": invoice["invoice_id"], "sent_at": sent_time})
@@ -1684,7 +1684,7 @@ class GetInvoiceDetails(Tool):
         """
         Retrieves the full details for a given invoice_number.
         """
-        invoice = next((inv for inv in data["invoices"] if inv["invoice_number"] == invoice_number), None)
+        invoice = next((inv for inv in data["invoices"].values() if inv["invoice_number"] == invoice_number), None)
         return json.dumps(invoice)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1708,7 +1708,7 @@ class RecordInvoiceAudit(Tool):
         """
         Finds an invoice by number and logs an audit event for it.
         """
-        invoice = next((inv for inv in data["invoices"] if inv["invoice_number"] == invoice_number), None)
+        invoice = next((inv for inv in data["invoices"].values() if inv["invoice_number"] == invoice_number), None)
         if not invoice:
             return json.dumps({"error": "Invoice not found"})
 
@@ -1783,7 +1783,7 @@ class GetProjectByName(Tool):
         Returns project_id for a given project_title.
         """
         project_title = project_name
-        project = next((p for p in data["projects"] if p["project_title"] == project_title), None)
+        project = next((p for p in data["projects"].values() if p["project_title"] == project_title), None)
         return json.dumps(project["project_id"] if project else None)
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -1808,7 +1808,7 @@ class GetTimeEntryDetails(Tool):
         """
         Retrieves the full details for a given time_entry_id.
         """
-        entry = next((t for t in data["time_entries"] if t["time_entry_id"] == time_entry_id), None)
+        entry = next((t for t in data["time_entries"].values() if t["time_entry_id"] == time_entry_id), None)
         return json.dumps(entry)
     @staticmethod
     def get_info() -> Dict[str, Any]:

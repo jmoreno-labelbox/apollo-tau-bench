@@ -7,13 +7,13 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CancelScheduledPaymentTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], payment_id: str, reason: str = 'Customer request') -> str:
-        scheduled_payments = data.get('scheduled_payments', [])
+        scheduled_payments = data.get('scheduled_payments', {}).values()
 
         for payment in scheduled_payments:
             if payment['payment_id'] == payment_id:

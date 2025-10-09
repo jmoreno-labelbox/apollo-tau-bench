@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetComparableProperties(Tool):
@@ -21,8 +21,8 @@ class GetComparableProperties(Tool):
             return out
 
         #Retrieve comparable properties for the specific property
-        comparables = data.get("comparables", [])
-        property_comps = [c for c in comparables if c.get("property_id") == property_id]
+        comparables = data.get("comparables", {}).values()
+        property_comps = [c for c in comparables.values() if c.get("property_id") == property_id]
         payload = {
                 "property_id": property_id,
                 "comparable_count": len(property_comps),

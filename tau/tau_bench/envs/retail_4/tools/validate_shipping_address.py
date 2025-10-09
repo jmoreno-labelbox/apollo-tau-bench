@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ValidateShippingAddress(Tool):
@@ -22,8 +22,8 @@ class ValidateShippingAddress(Tool):
         Validate shipping address for order fulfillment
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -31,7 +31,7 @@ class ValidateShippingAddress(Tool):
             return out
 
         # Use custom address if provided, otherwise use user's stored address
-        address = custom_address if custom_address else user.get("address", {})
+        address = custom_address if custom_address else user.get("address", {}).values()
 
         # Rule: Validate all required address fields: address1, city, country, state, zip
         required_fields = ["address1", "city", "country", "state", "zip"]
@@ -50,9 +50,9 @@ class ValidateShippingAddress(Tool):
             return out
 
         # Additional validation for supported countries
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         supported_countries = set()
-        for courier in couriers:
+        for courier in couriers.values():
             supported_countries.update(courier.get("coverage_area", []))
 
         destination_country = address.get("country")

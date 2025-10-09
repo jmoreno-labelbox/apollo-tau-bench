@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetServerStatusByHostname(Tool):
@@ -15,7 +15,7 @@ class GetServerStatusByHostname(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], hostname: str = None) -> str:
-        for server in data.get("remote_servers", []):
+        for server in data.get("remote_servers", {}).values():
             if server.get("hostname") == hostname:
                 payload = {"hostname": hostname, "status": server.get("status")}
                 out = json.dumps(payload)

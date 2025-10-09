@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class EventsAtAirportOn(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], airport_id: str, date: str) -> str:
         out = []
-        for e in data.get("operational_events", []):
+        for e in data.get("operational_events", {}).values():
             ap = (e.get("airport") or {}).get("airport_id")
             ts = e.get("event_timestamp_utc", "")
             if ap == airport_id and isinstance(ts, str) and ts[:10] == date:

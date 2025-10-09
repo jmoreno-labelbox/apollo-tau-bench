@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CompareBeforeAfterVisuals(Tool):
@@ -27,7 +27,7 @@ class CompareBeforeAfterVisuals(Tool):
             )
             return out
 
-        release_diffs: list[dict[str, Any]] = data.get("release_diffs", [])
+        release_diffs: list[dict[str, Any]] = data.get("release_diffs", {}).values()
         diff_by_id = {d.get("release_id"): d for d in release_diffs}
 
         def lineage(rid: str) -> list[str]:
@@ -46,7 +46,7 @@ class CompareBeforeAfterVisuals(Tool):
                 return []
             s = set()
             for lr in lineage(rid):
-                d = diff_by_id.get(lr, {})
+                d = diff_by_id.get(lr, {}).values()
                 for a in d.get("frames_added") or []:
                     s.add(a)
                 for u in d.get("frames_updated") or []:

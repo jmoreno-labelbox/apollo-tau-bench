@@ -7,18 +7,18 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ProcessLoanPaymentTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], loan_id: str = None, payment_amount: float = None, from_account_id: str = None) -> str:
-        loans = data.get('loans', [])
-        accounts = data.get('accounts', [])
-        transactions = data.get('transactions', [])
+        loans = data.get('loans', {}).values()
+        accounts = data.get('accounts', {}).values()
+        transactions = data.get('transactions', {}).values()
 
         loan = None
-        for l in loans:
+        for l in loans.values():
             if l['loan_id'] == loan_id:
                 loan = l
                 break
@@ -27,7 +27,7 @@ class ProcessLoanPaymentTool(Tool):
             return json.dumps({"error": f"Loan {loan_id} not found"}, indent=2)
 
         account = None
-        for a in accounts:
+        for a in accounts.values():
             if a['account_id'] == from_account_id:
                 account = a
                 break
@@ -50,7 +50,7 @@ class ProcessLoanPaymentTool(Tool):
             "channel": "Online"
         }
 
-        transactions.append(transaction)
+        data["transactions"][transaction_id] = transaction
 
         return json.dumps({
             "loan_id": loan_id,

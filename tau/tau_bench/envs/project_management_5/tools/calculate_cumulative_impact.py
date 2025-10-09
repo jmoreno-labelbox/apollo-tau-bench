@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateCumulativeImpact(Tool):
@@ -25,10 +25,10 @@ class CalculateCumulativeImpact(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
+        change_requests = data.get("change_requests", {}).values()
 
         project_crs = [
-            cr for cr in change_requests if cr.get("project_id") == project_id
+            cr for cr in change_requests.values() if cr.get("project_id") == project_id
         ]
 
         if from_date:
@@ -43,7 +43,7 @@ class CalculateCumulativeImpact(Tool):
                 if cr.get("status") in ["approved", "pending_approval", "in_review"]
             ]
         else:
-            relevant_crs = [cr for cr in project_crs if cr.get("status") == "approved"]
+            relevant_crs = [cr for cr in project_crs.values() if cr.get("status") == "approved"]
 
         total_budget_impact = 0
         total_timeline_impact = 0
@@ -103,10 +103,10 @@ class CalculateCumulativeImpact(Tool):
                 "change_summary": {
                     "total_changes": len(relevant_crs),
                     "approved": len(
-                        [cr for cr in relevant_crs if cr.get("status") == "approved"]
+                        [cr for cr in relevant_crs.values() if cr.get("status") == "approved"]
                     ),
                     "pending": len(
-                        [cr for cr in relevant_crs if cr.get("status") != "approved"]
+                        [cr for cr in relevant_crs.values() if cr.get("status") != "approved"]
                     ),
                     "by_type": {
                         "scope_additions": scope_additions,

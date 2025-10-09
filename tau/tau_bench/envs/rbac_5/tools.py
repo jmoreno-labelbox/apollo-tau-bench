@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -26,7 +26,7 @@ def _find_by_id(
 
 def _next_user_role_id(data: dict[str, Any], user_id: str) -> str:
     pass
-    user_roles = data.get("user_roles", [])
+    user_roles = data.get("user_roles", {}).values()
     if not user_roles:
         return "UR-001"
     last = user_roles[-1].get("user_role_id")
@@ -42,7 +42,7 @@ def _next_user_role_id(data: dict[str, Any], user_id: str) -> str:
 
 def _next_id(data: dict[str, Any], collection: str, prefix: str) -> str:
     pass
-    n = len(data.get(collection, [])) + 1
+    n = len(data.get(collection, {})) + 1
     return f"{prefix}-{n:03d}"
 
 
@@ -86,8 +86,8 @@ class CreateUser(Tool):
             return out
 
         # Verify if the username is already taken
-        users = data.get("users", [])
-        for user in users:
+        users = data.get("users", {}).values()
+        for user in users.values()):
             if user.get("username") == username:
                 payload = {"error": f"username {username} already exists"}
                 out = json.dumps(payload)
@@ -184,9 +184,9 @@ class UpdateUser(Tool):
             return out
 
         # Locate the user
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         user_index = None
-        for i, user in enumerate(users):
+        for i, user in enumerate(users.values():
             if user.get("user_id") == user_id:
                 user_index = i
                 break
@@ -257,7 +257,7 @@ class UpdateUser(Tool):
             new_email = f"{new_email_local}@sigmatech.com"
 
             # Guarantee username uniqueness (excluding the current user)
-            for u in users:
+            for u in users.values():
                 if u.get("user_id") == user_id:
                     continue
                 if str(u.get("username", "")).strip().lower() == new_username:
@@ -343,7 +343,7 @@ class GetUser(Tool):
 
         # If user_id is given, perform a search using user_id
         if user_id:
-            user = _find_by_id(data.get("users", []), "user_id", user_id)
+            user = _find_by_id(data.get("users", {}).values()), "user_id", user_id)
             return (
                 json.dumps(user) if user else _not_found(f"user_id {user_id} not found")
             )
@@ -351,7 +351,7 @@ class GetUser(Tool):
         # If a username is supplied, conduct a search using the username
         if username:
             username_lower = username.strip().lower()
-            for u in data.get("users", []):
+            for u in data.get("users", {}).values():
                 if u.get("username", "").lower() == username_lower:
                     payload = u
                     out = json.dumps(payload)
@@ -363,7 +363,7 @@ class GetUser(Tool):
             first_name_clean = first_name.strip().lower()
             last_name_clean = last_name.strip().lower()
             username_to_search = first_name_clean[0] + last_name_clean
-            for u in data.get("users", []):
+            for u in data.get("users", {}).values():
                 if u.get("username", "").lower() == username_to_search:
                     payload = u
                     out = json.dumps(payload)
@@ -372,9 +372,9 @@ class GetUser(Tool):
 
         # If department or status is supplied (without a specific identifier), return a filtered list
         if department or status or mfa_enabled is not None:
-            users = data.get("users", [])
+            users = data.get("users", {}).values()
             filtered: list[dict[str, Any]] = []
-            for u in users:
+            for u in users.values():
                 if department and u.get("department") != department:
                     continue
                 if status and u.get("status") != status:
@@ -383,11 +383,10 @@ class GetUser(Tool):
                     continue
                 filtered.append(u)
             if role_id:
-                user_roles = data.get("user_roles", [])
+                user_roles = data.get("user_roles", {}).values()
                 user_ids_with_role = {
                     ur.get("user_id")
-                    for ur in user_roles
-                    if ur.get("role_id") == role_id
+                    for ur in user_roles.values() if ur.get("role_id") == role_id
                 }
                 filtered = [
                     u for u in filtered if u.get("user_id") in user_ids_with_role
@@ -396,13 +395,13 @@ class GetUser(Tool):
             out = json.dumps(payload)
             return out
         if role_id:
-            user_roles = data.get("user_roles", [])
+            user_roles = data.get("user_roles", {}).values()
             user_ids_with_role = {
-                ur.get("user_id") for ur in user_roles if ur.get("role_id") == role_id
+                ur.get("user_id") for ur in user_roles.values() if ur.get("role_id") == role_id
             }
             users = [
                 u
-                for u in data.get("users", [])
+                for u in data.get("users", {}).values()
                 if u.get("user_id") in user_ids_with_role
             ]
             payload = {"ok": True, "users": users}
@@ -492,7 +491,7 @@ class GetRole(Tool):
             out = json.dumps(payload)
             return out
 
-        roles = data.get("roles", [])
+        roles = data.get("roles", {}).values()
 
         # Perform a search using role_id
         if role_id:
@@ -504,7 +503,7 @@ class GetRole(Tool):
         # Conduct a search using role_name (case-insensitive)
         if role_name:
             name_lower = role_name.strip().lower()
-            for r in roles:
+            for r in roles.values():
                 if str(r.get("role_name", "")).strip().lower() == name_lower:
                     payload = r
                     out = json.dumps(payload)
@@ -559,9 +558,9 @@ class UpdateRole(Tool):
             out = json.dumps(payload)
             return out
 
-        roles = data.get("roles", [])
+        roles = data.get("roles", {}).values()
         role_index = None
-        for i, role in enumerate(roles):
+        for i, role in enumerate(roles.values():
             if role.get("role_id") == role_id:
                 role_index = i
                 break
@@ -642,7 +641,7 @@ class GetUserRoles(Tool):
         on_dt = _parse_iso(on_date_iso) or datetime.now(tz=timezone.utc)
 
         assignments = [
-            ur for ur in data.get("user_roles", []) if ur.get("user_id") == user_id
+            ur for ur in data.get("user_roles", {}).values() if ur.get("user_id") == user_id
         ]
 
         def is_active(ur: dict[str, Any]) -> bool:
@@ -650,19 +649,19 @@ class GetUserRoles(Tool):
             return (exp is None) or (exp > on_dt)
 
         if only_active:
-            assignments = [ur for ur in assignments if is_active(ur)]
+            assignments = [ur for ur in assignments.values() if is_active(ur)]
 
         # Construct a role mapping
-        role_map = {r["role_id"]: r for r in data.get("roles", []) if "role_id" in r}
+        role_map = {r["role_id"]: r for r in data.get("roles", {}).values() if "role_id" in r}
         out = []
 
-        for ur in assignments:
+        for ur in assignments.values()):
             entry = {"role_id": ur.get("role_id")}
             if include_role_details:
-                entry["role_name"] = role_map.get(ur.get("role_id"), {}).get(
+                entry["role_name"] = role_map.get(ur.get("role_id"), {}).values().get(
                     "role_name"
                 )
-                entry["description"] = role_map.get(ur.get("role_id"), {}).get(
+                entry["description"] = role_map.get(ur.get("role_id"), {}).values().get(
                     "description"
                 )
 
@@ -735,8 +734,8 @@ class CreateRole(Tool):
             return out
 
         # Ensure uniqueness based on role_name (case-insensitive)
-        existing_roles = data.get("roles", [])
-        for r in existing_roles:
+        existing_roles = data.get("roles", {}).values()
+        for r in existing_roles.values():
             if str(r.get("role_name", "")).strip().lower() == role_name.lower():
                 payload = {"error": f"role_name '{role_name}' already exists"}
                 out = json.dumps(payload)
@@ -806,7 +805,7 @@ class IsAdmin(Tool):
             return out
 
         # Confirm the existence of the user
-        if not _find_by_id(data.get("users", []), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
@@ -825,14 +824,14 @@ class IsAdmin(Tool):
         # Current assignments for the user
         assignments = [
             ur
-            for ur in data.get("user_roles", [])
+            for ur in data.get("user_roles", {}).values()
             if ur.get("user_id") == user_id and is_active(ur)
         ]
 
-        role_map = {r.get("role_id"): r for r in data.get("roles", [])}
+        role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
 
         admin_role_ids: list[str] = []
-        for ur in assignments:
+        for ur in assignments.values():
             rid = ur.get("role_id")
             role = role_map.get(rid) or {}
             name = str(role.get("role_name", "")).strip().lower()
@@ -842,7 +841,7 @@ class IsAdmin(Tool):
         if include_role_details:
             admin_roles_out: list[dict[str, Any]] = []
             for rid in admin_role_ids:
-                r = role_map.get(rid, {})
+                r = role_map.get(rid, {}).values()
                 admin_roles_out.append(
                     {
                         "role_id": rid,
@@ -947,14 +946,14 @@ class CreateResource(Tool):
                 return out
 
         # Confirm the existence of the owner
-        if not _find_by_id(data.get("users", []), "user_id", owner_id):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", owner_id):
             payload = {"error": f"owner_id {owner_id} not found"}
             out = json.dumps(payload)
             return out
 
         # Ensure uniqueness based on name (case-insensitive)
-        existing_resources = data.get("resources", [])
-        for r in existing_resources:
+        existing_resources = data.get("resources", {}).values()
+        for r in existing_resources.values():
             if str(r.get("name", "")).strip().lower() == name.lower():
                 payload = {"error": f"resource name '{name}' already exists"}
                 out = json.dumps(payload)
@@ -1030,7 +1029,7 @@ class GetResource(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], resource_id: str = None, name: str = None, owner_id: str = None, criticality: str = None, compliance_scope: str = None) -> str:
-        resources = data.get("resources", [])
+        resources = data.get("resources", {}).values()
 
         # If resource_id is given, return the specific resource
         if resource_id:
@@ -1045,7 +1044,7 @@ class GetResource(Tool):
 
         # Narrow down resources according to the supplied criteria
         filtered_resources = []
-        for resource in resources:
+        for resource in resources.values():
             # Narrow down by name
             if name and name not in resource.get("name", ""):
                 continue
@@ -1060,7 +1059,7 @@ class GetResource(Tool):
                 resource_scope = resource.get("compliance_scope")
                 if resource_scope != compliance_scope:
                     continue
-            filtered_resources.append(resource)
+            filtered_data["resources"][resource_id] = resource
         payload = {"ok": True, "resources": filtered_resources}
         out = json.dumps(payload)
         return out
@@ -1129,19 +1128,19 @@ class ListUsersWithAccessToResource(Tool):
         # Construct mappings for permissions and roles
         perms = [
             p
-            for p in data.get("permissions", [])
+            for p in data.get("permissions", {}).values()
             if p.get("resource_id") == resource_id
         ]
         perm_ids = {p.get("permission_id") for p in perms if p.get("permission_id")}
         role_ids = {
             rp.get("role_id")
-            for rp in data.get("role_permissions", [])
+            for rp in data.get("role_permissions", {}).values()
             if rp.get("permission_id") in perm_ids
         }
 
         # Create utility functions
-        user_map = {u.get("user_id"): u for u in data.get("users", [])}
-        role_map = {r.get("role_id"): r for r in data.get("roles", [])}
+        user_map = {u.get("user_id"): u for u in data.get("users", {}).values()}
+        role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
 
         def is_active(ur: dict[str, Any]) -> bool:
             exp = _parse_iso(ur.get("expires_on"))
@@ -1149,7 +1148,7 @@ class ListUsersWithAccessToResource(Tool):
 
         # Collect users with corresponding roles
         acc: dict[str, dict[str, Any]] = {}
-        for ur in data.get("user_roles", []):
+        for ur in data.get("user_roles", {}).values():
             if ur.get("role_id") in role_ids and (not only_active or is_active(ur)):
                 uid = ur.get("user_id")
                 if uid not in acc:
@@ -1165,7 +1164,7 @@ class ListUsersWithAccessToResource(Tool):
                         rinfo["role_name"] = r.get("role_name")
                         rinfo["description"] = r.get("description")
                 acc[uid]["roles"].append(rinfo)
-        payload = {"resource_id": resource_id, "users": list(acc.values())}
+        payload = {"resource_id": resource_id, "users": list(acc.values()}
         out = json.dumps(payload)
         return out
     @staticmethod
@@ -1238,13 +1237,13 @@ class CanAccessResource(Tool):
             return out
 
         # Confirm the user is present
-        if not _find_by_id(data.get("users", []), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
 
         # Confirm the resource is present
-        if not _find_by_id(data.get("resources", []), "resource_id", resource_id):
+        if not _find_by_id(data.get("resources", {}).values()), "resource_id", resource_id):
             payload = {"error": f"resource_id {resource_id} not found"}
             out = json.dumps(payload)
             return out
@@ -1259,7 +1258,7 @@ class CanAccessResource(Tool):
         # Step 1: Retrieve all permissions associated with the resource
         resource_permissions = [
             p
-            for p in data.get("permissions", [])
+            for p in data.get("permissions", {}).values()
             if p.get("resource_id") == resource_id
         ]
 
@@ -1280,7 +1279,7 @@ class CanAccessResource(Tool):
         # Step 2: Retrieve all roles that possess those permissions
         roles_with_permissions = [
             rp
-            for rp in data.get("role_permissions", [])
+            for rp in data.get("role_permissions", {}).values()
             if rp.get("permission_id") in resource_permission_ids
         ]
 
@@ -1301,7 +1300,7 @@ class CanAccessResource(Tool):
         # Step 3: Verify if the user holds any of those roles (and they are active)
         user_assignments = [
             ur
-            for ur in data.get("user_roles", [])
+            for ur in data.get("user_roles", {}).values()
             if ur.get("user_id") == user_id and is_active(ur)
         ]
 
@@ -1322,15 +1321,15 @@ class CanAccessResource(Tool):
 
         if include_details:
             # Create a comprehensive breakdown
-            role_map = {r.get("role_id"): r for r in data.get("roles", [])}
+            role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
             permission_map = {
-                p.get("permission_id"): p for p in data.get("permissions", [])
+                p.get("permission_id"): p for p in data.get("permissions", {}).values()
             }
 
             # Identify which permissions are assigned by the roles held by the user
             granting_details = []
             for role_id in granting_role_ids:
-                role = role_map.get(role_id, {})
+                role = role_map.get(role_id, {}).values()
 
                 # Determine which permissions this role grants for the specified resource
                 role_permissions_for_resource = [
@@ -1341,7 +1340,7 @@ class CanAccessResource(Tool):
 
                 permissions_detail = []
                 for perm_id in role_permissions_for_resource:
-                    perm = permission_map.get(perm_id, {})
+                    perm = permission_map.get(perm_id, {}).values()
                     permissions_detail.append(
                         {
                             "permission_id": perm_id,
@@ -1437,7 +1436,7 @@ class GetAccessRequest(Tool):
         include_role: bool = False,
         include_resource: bool = False
     ) -> str:
-        access_requests = data.get("access_requests", [])
+        access_requests = data.get("access_requests", {}).values()
 
         # If request_id is supplied, return the specific access request
         if request_id:
@@ -1451,17 +1450,17 @@ class GetAccessRequest(Tool):
             out = {"access_request": ar}
             if include_user:
                 uid = ar.get("user_id") or ""
-                user = _find_by_id(data.get("users", []), "user_id", uid)
+                user = _find_by_id(data.get("users", {}).values()), "user_id", uid)
                 if user is not None:
                     out["user"] = user
             if include_role:
                 rid = ar.get("requested_role_id") or ""
-                role = _find_by_id(data.get("roles", []), "role_id", rid)
+                role = _find_by_id(data.get("roles", {}).values()), "role_id", rid)
                 if role is not None:
                     out["role"] = role
             if include_resource:
                 res_id = ar.get("resource_id") or ""
-                resource = _find_by_id(data.get("resources", []), "resource_id", res_id)
+                resource = _find_by_id(data.get("resources", {}).values()), "resource_id", res_id)
                 if resource is not None:
                     out["resource"] = resource
             payload = out
@@ -1470,7 +1469,7 @@ class GetAccessRequest(Tool):
 
         # Narrow down access requests according to the supplied criteria
         filtered_requests = []
-        for request in access_requests:
+        for request in access_requests.values():
             if user_id and request.get("user_id") != user_id:
                 continue
             if status and request.get("status") != status:
@@ -1482,7 +1481,7 @@ class GetAccessRequest(Tool):
                 and request.get("requested_role_id") != requested_role_id
             ):
                 continue
-            filtered_requests.append(request)
+            filtered_data["access_requests"][request["access_request_id"]] = request
         payload = {"ok": True, "access_requests": filtered_requests}
         out = json.dumps(payload)
         return out
@@ -1578,7 +1577,7 @@ class DecideAccessRequest(Tool):
             return out
 
         # Retrieve the request
-        requests = data.get("access_requests", [])
+        requests = data.get("access_requests", {}).values()
         req = _find_by_id(requests, "request_id", request_id)
         if not req:
             payload = {"error": f"request_id {request_id} not found"}
@@ -1589,10 +1588,10 @@ class DecideAccessRequest(Tool):
         if enforce_admin:
             # Locate the role_id for Administrator
             admin_roles = []
-            for r in data.get("roles", []):
+            for r in data.get("roles", {}).values():
                 role_name = str(r.get("role_name", "")).strip().lower()
                 if role_name.endswith("admin") or role_name.endswith("lead"):
-                    admin_roles.append(r)
+                    admin_data["roles"][role_id] = r
             if not admin_roles:
                 payload = {"error": "Administrator role not defined in roles.json"}
                 out = json.dumps(payload)
@@ -1601,7 +1600,7 @@ class DecideAccessRequest(Tool):
             has_admin = any(
                 ur.get("user_id") == reviewer_id
                 and ur.get("role_id") in [r.get("role_id") for r in admin_roles]
-                for ur in data.get("user_roles", [])
+                for ur in data.get("user_roles", {}).values()
             )
             if not has_admin:
                 payload = {"error": f"reviewer_id {reviewer_id} lacks Administrator role"}
@@ -1615,9 +1614,9 @@ class DecideAccessRequest(Tool):
             return out
 
         # Ensure the target user and role are present
-        user = _find_by_id(data.get("users", []), "user_id", req.get("user_id") or "")
+        user = _find_by_id(data.get("users", {}).values()), "user_id", req.get("user_id") or "")
         role = _find_by_id(
-            data.get("roles", []), "role_id", req.get("requested_role_id") or ""
+            data.get("roles", {}).values()), "role_id", req.get("requested_role_id") or ""
         )
         if not user or not role:
             payload = {"error": "target user or requested role does not exist"}
@@ -1654,7 +1653,7 @@ class DecideAccessRequest(Tool):
         )
 
         # Save the update
-        for i, r in enumerate(requests):
+        for i, r in enumerate(requests.values():
             if r.get("request_id") == request_id:
                 data["access_requests"][i] = updated
                 break
@@ -1739,19 +1738,19 @@ class EnsureUserRole(Tool):
         assigned_on = assigned_on or get_current_timestamp()
 
         # Presence validations
-        if not _find_by_id(data.get("users", []), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
-        if not _find_by_id(data.get("roles", []), "role_id", role_id):
+        if not _find_by_id(data.get("roles", {}).values()), "role_id", role_id):
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload)
             return out
 
-        assignments = data.get("user_roles", [])
+        assignments = data.get("user_roles", {}).values()
         existing = None
         existing_index = None
-        for i, ur in enumerate(assignments):
+        for i, ur in enumerate(assignments.values():
             if ur.get("user_id") == user_id and ur.get("role_id") == role_id:
                 existing = ur
                 existing_index = i
@@ -1839,18 +1838,18 @@ class UpdateUserRole(Tool):
             return out
 
         # Presence validations
-        if not _find_by_id(data.get("users", []), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
-        if not _find_by_id(data.get("roles", []), "role_id", role_id):
+        if not _find_by_id(data.get("roles", {}).values()), "role_id", role_id):
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload)
             return out
 
-        assignments = data.get("user_roles", [])
+        assignments = data.get("user_roles", {}).values()
         existing_index = None
-        for i, ur in enumerate(assignments):
+        for i, ur in enumerate(assignments.values():
             if ur.get("user_id") == user_id and ur.get("role_id") == role_id:
                 existing_index = i
                 break
@@ -1975,8 +1974,8 @@ class GetBaseRoleByDepartment(Tool):
             return out
 
         # Identify the role
-        roles = data.get("roles", [])
-        for role in roles:
+        roles = data.get("roles", {}).values()
+        for role in roles.values():
             if role.get("role_name") == role_name:
                 payload = {"role": role}
                 out = json.dumps(payload)
@@ -2039,7 +2038,7 @@ class CheckSoDConflicts(Tool):
             return out
 
         # Confirm the user is present
-        if not _find_by_id(data.get("users", []), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
@@ -2054,11 +2053,11 @@ class CheckSoDConflicts(Tool):
         # Retrieve the user's current role assignments
         assignments = [
             ur
-            for ur in data.get("user_roles", [])
+            for ur in data.get("user_roles", {}).values()
             if ur.get("user_id") == user_id and is_active(ur)
         ]
 
-        active_role_ids = {ur.get("role_id") for ur in assignments}
+        active_role_ids = {ur.get("role_id") for ur in assignments.values()}
         # If test_role_id is supplied, simulate its addition
         if test_role_id:
             active_role_ids = set(active_role_ids)
@@ -2165,12 +2164,12 @@ class CheckSoDConflicts(Tool):
 
         # Verify for conflicts
         detected_conflicts = []
-        role_map = {r.get("role_id"): r for r in data.get("roles", [])}
+        role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
 
         for conflict in sod_conflicts:
             conflicting_role_ids = conflict["conflicting_roles"]
             # Determine if the user possesses ALL roles in the conflicting group
-            if all(role_id in active_role_ids for role_id in conflicting_role_ids):
+            if all(role_id in active_role_ids for role_id in conflicting_role_ids.values()):
                 conflict_entry = {
                     "conflict_id": conflict["conflict_id"],
                     "name": conflict["name"],
@@ -2182,7 +2181,7 @@ class CheckSoDConflicts(Tool):
                 if include_role_details:
                     conflict_entry["conflicting_roles"] = []
                     for role_id in conflicting_role_ids:
-                        role = role_map.get(role_id, {})
+                        role = role_map.get(role_id, {}).values()
                         conflict_entry["conflicting_roles"].append(
                             {
                                 "role_id": role_id,
@@ -2255,7 +2254,7 @@ class GetCertification(Tool):
     def invoke(data: dict[str, Any], certification_id: str = None, reviewer_id: str = None, resource_id: str = None, status: str = None,
     user_id: Any = None,
     ) -> str:
-        certifications = data.get("certifications", [])
+        certifications = data.get("certifications", {}).values()
 
         # If certification_id is supplied, return the specific certification
         if certification_id:
@@ -2270,14 +2269,14 @@ class GetCertification(Tool):
 
         # Narrow down certifications according to the supplied criteria
         filtered_certifications = []
-        for cert in certifications:
+        for cert in certifications.values():
             if reviewer_id and cert.get("reviewer_id") != reviewer_id:
                 continue
             if resource_id and cert.get("resource_id") != resource_id:
                 continue
             if status and cert.get("status") != status:
                 continue
-            filtered_certifications.append(cert)
+            filtered_data["certifications"][certification_id] = cert
         payload = {"ok": True, "certifications": filtered_certifications}
         out = json.dumps(payload)
         return out
@@ -2326,7 +2325,7 @@ class CompleteCertification(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], certification_id: str = "", reviewer_id: str = "") -> str:
-        certs = data.get("certifications", [])
+        certs = data.get("certifications", {}).values()
         cert = _find_by_id(certs, "certification_id", certification_id)
         if not cert:
             payload = {"error": f"certification_id {certification_id} not found"}
@@ -2422,11 +2421,11 @@ class CreateCertification(Tool):
             return out
 
         # Confirm the presence of the reviewer and resource
-        if not _find_by_id(data.get("users", []), "user_id", reviewer_id):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", reviewer_id):
             payload = {"error": f"reviewer_id {reviewer_id} not found"}
             out = json.dumps(payload)
             return out
-        if not _find_by_id(data.get("resources", []), "resource_id", resource_id):
+        if not _find_by_id(data.get("resources", {}).values()), "resource_id", resource_id):
             payload = {"error": f"resource_id {resource_id} not found"}
             out = json.dumps(payload)
             return out
@@ -2519,7 +2518,7 @@ class GetPolicyException(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], exception_id: str = None, user_id: str = None, 
                permission_id: str = None, reviewed_by: str = None, status: str = None) -> str:
-        exceptions = data.get("policy_exceptions", [])
+        exceptions = data.get("policy_exceptions", {}).values()
 
         # If exception_id is supplied, return the specific exception
         if exception_id:
@@ -2534,7 +2533,7 @@ class GetPolicyException(Tool):
 
         # Narrow down exceptions according to the supplied criteria
         filtered_exceptions = []
-        for exception in exceptions:
+        for exception in exceptions.values():
             if user_id and exception.get("user_id") != user_id:
                 continue
             if permission_id and exception.get("permission_id") != permission_id:
@@ -2543,7 +2542,7 @@ class GetPolicyException(Tool):
                 continue
             if status and exception.get("status") != status:
                 continue
-            filtered_exceptions.append(exception)
+            filtered_data["policy_exceptions"][exception["policy_exception_id"]] = exception
         payload = {"ok": True, "policy_exceptions": filtered_exceptions}
         out = json.dumps(payload)
         return out
@@ -2608,19 +2607,19 @@ class CreatePolicyException(Tool):
             return out
 
         #Confirm the user is present
-        if not _find_by_id(data.get("users", []), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
 
         #Confirm the permission is present
-        if not _find_by_id(data.get("permissions", []), "permission_id", permission_id):
+        if not _find_by_id(data.get("permissions", {}).values()), "permission_id", permission_id):
             payload = {"error": f"permission_id {permission_id} not found"}
             out = json.dumps(payload)
             return out
 
         #Confirm the reviewer is present
-        if not _find_by_id(data.get("users", []), "user_id", reviewed_by):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", reviewed_by):
             payload = {"error": f"reviewed_by {reviewed_by} not found"}
             out = json.dumps(payload)
             return out
@@ -2702,7 +2701,7 @@ class DecidePolicyException(Tool):
             return out
 
         # Retrieve the exception
-        exceptions = data.get("policy_exceptions", [])
+        exceptions = data.get("policy_exceptions", {}).values()
         exception = _find_by_id(exceptions, "exception_id", exception_id)
         if not exception:
             payload = {"error": f"exception_id {exception_id} not found"}
@@ -2737,7 +2736,7 @@ class DecidePolicyException(Tool):
             updated["expires_on"] = None
 
         # Save the update
-        for i, exc in enumerate(exceptions):
+        for i, exc in enumerate(exceptions.values():
             if exc.get("exception_id") == exception_id:
                 data["policy_exceptions"][i] = updated
                 break
@@ -2791,7 +2790,7 @@ class GetPermission(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], permission_id: str = None, action: str = None, resource_id: str = None, description: str = None) -> str:
-        permissions = data.get("permissions", [])
+        permissions = data.get("permissions", {}).values()
 
         # If permission_id is supplied, return the specific permission
         if permission_id:
@@ -2806,14 +2805,14 @@ class GetPermission(Tool):
 
         # Narrow down permissions according to the supplied criteria
         filtered_permissions = []
-        for permission in permissions:
+        for permission in permissions.values():
             if action and permission.get("action") != action:
                 continue
             if resource_id and permission.get("resource_id") != resource_id:
                 continue
             if description and permission.get("description") != description:
                 continue
-            filtered_permissions.append(permission)
+            filtered_data["permissions"][permission_id] = permission
         payload = {"ok": True, "permissions": filtered_permissions}
         out = json.dumps(payload)
         return out
@@ -2872,13 +2871,13 @@ class CreatePermission(Tool):
             return out
 
         # Confirm the resource is present
-        if not _find_by_id(data.get("resources", []), "resource_id", resource_id):
+        if not _find_by_id(data.get("resources", {}).values()), "resource_id", resource_id):
             payload = {"error": f"resource_id {resource_id} not found"}
             out = json.dumps(payload)
             return out
 
         # Ensure uniqueness based on (action, resource_id)
-        for p in data.get("permissions", []):
+        for p in data.get("permissions", {}).values():
             if (
                 str(p.get("action", "")).strip().lower() == action.lower()
                 and p.get("resource_id") == resource_id
@@ -2948,11 +2947,11 @@ class GetRolePermissions(Tool):
             out = json.dumps(payload)
             return out
 
-        mappings = data.get("role_permissions", [])
+        mappings = data.get("role_permissions", {}).values()
 
         # Narrow down
         out = []
-        for rp in mappings:
+        for rp in mappings.values():
             if role_id and rp.get("role_id") != role_id:
                 continue
             if permission_id and rp.get("permission_id") != permission_id:
@@ -2961,8 +2960,8 @@ class GetRolePermissions(Tool):
 
         # Optional extensions
         if include_role or include_permission:
-            role_map = {r.get("role_id"): r for r in data.get("roles", [])}
-            perm_map = {p.get("permission_id"): p for p in data.get("permissions", [])}
+            role_map = {r.get("role_id"): r for r in data.get("roles", {}).values()}
+            perm_map = {p.get("permission_id"): p for p in data.get("permissions", {}).values()}
             for item in out:
                 if include_role:
                     rid = item.get("role_id")
@@ -3033,18 +3032,18 @@ class AssignPermissionToRole(Tool):
             return out
 
         # Confirm presence
-        if not _find_by_id(data.get("roles", []), "role_id", role_id):
+        if not _find_by_id(data.get("roles", {}).values()), "role_id", role_id):
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload)
             return out
-        if not _find_by_id(data.get("permissions", []), "permission_id", permission_id):
+        if not _find_by_id(data.get("permissions", {}).values()), "permission_id", permission_id):
             payload = {"error": f"permission_id {permission_id} not found"}
             out = json.dumps(payload)
             return out
 
         # Verify if the mapping is present
-        mappings = data.get("role_permissions", [])
-        for rp in mappings:
+        mappings = data.get("role_permissions", {}).values()
+        for rp in mappings.values()):
             if (
                 rp.get("role_id") == role_id
                 and rp.get("permission_id") == permission_id
@@ -3207,7 +3206,7 @@ class CreateHubSpotTicket(Tool):
             return out
 
         # Confirm the assignee is present
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         assignee = _find_by_id(users, "user_id", assignee_id)
         if not assignee:
             payload = {"error": f"Assignee {assignee_id} not found"}
@@ -3339,9 +3338,9 @@ class UpdateHubSpotTicket(Tool):
             out = json.dumps(payload)
             return out
 
-        tickets = data.get("hubspot_tickets", [])
+        tickets = data.get("hubspot_tickets", {}).values()
         idx = None
-        for i, t in enumerate(tickets):
+        for i, t in enumerate(tickets.values():
             if t.get("ticket_id") == ticket_id:
                 idx = i
                 break
@@ -3363,7 +3362,7 @@ class UpdateHubSpotTicket(Tool):
 
         # Confirm the assignee
         if assignee_id is not None:
-            if not _find_by_id(data.get("users", []), "user_id", assignee_id):
+            if not _find_by_id(data.get("users", {}).values()), "user_id", assignee_id):
                 payload = {"error": f"assignee_id {assignee_id} not found"}
                 out = json.dumps(payload)
                 return out
@@ -3463,7 +3462,7 @@ class GetHubSpotTicket(Tool):
         assignee_id: str = None,
         requester_id: str = None
     ) -> str:
-        tickets = data.get("hubspot_tickets", [])
+        tickets = data.get("hubspot_tickets", {}).values()
 
         # If ticket_id is supplied, return the specific ticket
         if ticket_id:
@@ -3478,7 +3477,7 @@ class GetHubSpotTicket(Tool):
 
         # If not, narrow down
         out: list[dict[str, Any]] = []
-        for t in tickets:
+        for t in tickets.values():
             if status and t.get("status") != status:
                 continue
             if priority and t.get("priority") != priority:
@@ -3726,7 +3725,7 @@ class CreateSiemAlert(Tool):
             return out
 
         # Confirm the user is present
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         user = _find_by_id(users, "user_id", user_id)
         if not user:
             payload = {"error": f"User {user_id} not found"}
@@ -3734,7 +3733,7 @@ class CreateSiemAlert(Tool):
             return out
 
         # Confirm the resource is present
-        resources = data.get("resources", [])
+        resources = data.get("resources", {}).values()
         resource = _find_by_id(resources, "resource_id", resource_id)
         if not resource:
             payload = {"error": f"Resource {resource_id} not found"}
@@ -3809,7 +3808,7 @@ class GetSiemAlert(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], alert_id: str = None, user_id: str = None, resource_id: str = None, severity: str = None) -> str:
-        siem_alerts = data.get("siem_alerts", [])
+        siem_alerts = data.get("siem_alerts", {}).values()
 
         # If alert_id is supplied, return the specific alert
         if alert_id:
@@ -3824,7 +3823,7 @@ class GetSiemAlert(Tool):
 
         # Narrow down alerts according to the supplied criteria
         filtered_alerts = []
-        for alert in siem_alerts:
+        for alert in siem_alerts.values():
             if user_id and alert.get("user_id") != user_id:
                 continue
             if resource_id and alert.get("resource_id") != resource_id:
@@ -3890,9 +3889,9 @@ class UpdateSession(Tool):
             return out
 
         # Locate the session
-        sessions = data.get("sessions", [])
+        sessions = data.get("sessions", {}).values()
         session_index = None
-        for i, session in enumerate(sessions):
+        for i, session in enumerate(sessions.values():
             if session.get("session_id") == session_id:
                 session_index = i
                 break
@@ -3968,7 +3967,7 @@ class GetSession(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], session_id: str = None, user_id: str = None, ip_address: str = None, only_active: bool = False) -> str:
-        sessions = data.get("sessions", [])
+        sessions = data.get("sessions", {}).values()
 
         # If session_id is supplied, return the specific session
         if session_id:
@@ -3983,7 +3982,7 @@ class GetSession(Tool):
 
         # Narrow down sessions according to the supplied criteria
         filtered_sessions = []
-        for session in sessions:
+        for session in sessions.values()):
             # Narrow down by user_id if supplied
             if user_id and session.get("user_id") != user_id:
                 continue
@@ -3993,7 +3992,7 @@ class GetSession(Tool):
             # Narrow down by active status if requested
             if only_active and session.get("end_time") is not None:
                 continue
-            filtered_sessions.append(session)
+            filtered_data["sessions"][session_id] = session
         payload = {
             "ok": True,
             "sessions": (

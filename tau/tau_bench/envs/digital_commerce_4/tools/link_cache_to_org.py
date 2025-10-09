@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LinkCacheToOrg(Tool):
@@ -17,8 +17,8 @@ class LinkCacheToOrg(Tool):
     ) -> str:
         org_id, cluster_id = _sid(org_id), _sid(cluster_id)
         partition_key = _sid(partition_key)
-        clusters = data.get("aws_elasticache_clusters", [])
-        cl = next((c for c in clusters if c.get("cluster_id") == cluster_id), None)
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        cl = next((c for c in clusters.values() if c.get("cluster_id") == cluster_id), None)
         if not cl:
             payload = {"error": f"cluster {cluster_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -30,12 +30,11 @@ class LinkCacheToOrg(Tool):
             payload = {"error": "cluster not usable"}
             out = json.dumps(payload, indent=2)
             return out
-        settings = data.get("custom_settings", [])
+        settings = data.get("custom_settings", {}).values()
         url_setting = next(
             (
                 s
-                for s in settings
-                if s.get("org_id") == org_id
+                for s in settings.values() if s.get("org_id") == org_id
                 and s.get("setting_name") == "CacheAPI.ExternalSystemURL"
             ),
             None,
@@ -45,8 +44,7 @@ class LinkCacheToOrg(Tool):
         pk_setting = next(
             (
                 s
-                for s in settings
-                if s.get("org_id") == org_id
+                for s in settings.values() if s.get("org_id") == org_id
                 and s.get("setting_name") == "CacheAPI.ExternalSystemPartitionKey"
             ),
             None,

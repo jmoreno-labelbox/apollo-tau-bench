@@ -30,7 +30,7 @@ class UpsertPricebookEntriesBatch(Tool):
                     "name": code,
                     "product_code": code,
                 }
-                products.append(prod)
+                data["products"][product_id] = prod
 
             pbe_id = _stable_id("pbe", pb["pricebook_id"], code)
             row = _find_one(pbes, pbe_id=pbe_id)
@@ -72,7 +72,7 @@ class UpsertPricebookEntriesBatch(Tool):
                     "name": code,
                     "product_code": code,
                 }
-                products.append(prod)
+                data["products"][product_id] = prod
 
             pbe_id = _stable_id("pbe", pb["pricebook_id"], code)
             row = _find_one(pbes, pbe_id=pbe_id)

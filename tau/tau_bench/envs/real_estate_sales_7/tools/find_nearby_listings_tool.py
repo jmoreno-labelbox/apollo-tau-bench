@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindNearbyListingsTool(Tool):
@@ -83,7 +83,7 @@ class FindNearbyListingsTool(Tool):
 
         lat1, lon1 = subj_ll
         candidates = []
-        for l in data.get("listings", []):
+        for l in data.get("listings", {}).values():
             pid = str(l.get("property_id"))
             if not pid or pid == subject_property_id:
                 continue

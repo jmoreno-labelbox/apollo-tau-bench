@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class BulkUpdateChangeStatus(Tool):
@@ -24,13 +24,13 @@ class BulkUpdateChangeStatus(Tool):
                 payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        change_history = data.get("change_history", [])
+        change_requests = data.get("change_requests", {}).values()
+        change_history = data.get("change_history", {}).values()
 
         results = {"successful": [], "failed": []}
 
         for cr_id in cr_ids:
-            cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+            cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
             if not cr:
                 results["failed"].append({"cr_id": cr_id})
                 continue
@@ -67,7 +67,7 @@ class BulkUpdateChangeStatus(Tool):
                 "performed_by": updated_by,
                 "timestamp": datetime.now().isoformat(),
             }
-            change_history.append(history_entry)
+            data["change_history"][history_entry["change_history_id"]] = history_entry
 
             results["successful"].append(
                 {"cr_id": cr_id, "old_status": old_status, "new_status": new_status}

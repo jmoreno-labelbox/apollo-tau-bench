@@ -12,7 +12,7 @@ from datetime import date as _date
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAircraftProfile(Tool):
@@ -39,7 +39,7 @@ class GetAircraftProfile(Tool):
 
         # locate aircraft
         ac = None
-        for a in data.get("aircraft", []):
+        for a in data.get("aircraft", {}).values():
             if aircraft_id and a.get("aircraft_id") == aircraft_id:
                 ac = a
                 break
@@ -93,7 +93,7 @@ class GetAircraftProfile(Tool):
 
         #locate aircraft
         ac = None
-        for a in data.get("aircraft", []):
+        for a in data.get("aircraft", {}).values():
             if aircraft_id and a.get("aircraft_id") == aircraft_id:
                 ac = a
                 break

@@ -9,61 +9,61 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
 def get_next_order_id(data):
     pass
-    orders = data.get("orders", [])
+    orders = data.get("orders", {}).values()
     next_num = len(orders) + 1
     return f"order_{next_num}"
 
 
 def get_next_case_id(data):
     pass
-    cases = data.get("cases", [])
+    cases = data.get("cases", {}).values()
     next_num = len(cases) + 1
     return f"case_{next_num}"
 
 
 def get_next_offer_id(data):
     pass
-    offers = data.get("offers", [])
+    offers = data.get("offers", {}).values()
     next_num = len(offers) + 1
     return f"offer_{next_num}"
 
 
 def get_next_order_item_id(data):
     pass
-    order_items = data.get("order_items", [])
+    order_items = data.get("order_items", {}).values()
     return len(order_items) + 1
 
 
 def get_next_cart_id(data):
     pass
-    carts = data.get("carts", [])
+    carts = data.get("carts", {}).values()
     next_num = len(carts) + 1
     return f"cart_{next_num}"
 
 
 def get_next_cart_item_id(data):
     pass
-    cart_items = data.get("cart_items", [])
+    cart_items = data.get("cart_items", {}).values()
     next_num = len(cart_items) + 1
     return f"item_{next_num}"
 
 
 def get_next_account_id(data):
     pass
-    accounts = data.get("accounts", [])
+    accounts = data.get("accounts", {}).values()
     next_num = len(accounts) + 1
     return f"acc_{next_num}"
 
 
 def get_next_contact_id(data):
     pass
-    contacts = data.get("contacts", [])
+    contacts = data.get("contacts", {}).values()
     next_num = len(contacts) + 1
     return f"cont_{next_num}"
 
@@ -135,8 +135,8 @@ class GetAccountById(Tool):
             payload = {"error": "Missing required field: account_id"}
             out = json.dumps(payload, indent=2)
             return out
-        accounts = data.get("accounts", [])
-        for account in accounts:
+        accounts = data.get("accounts", {}).values()
+        for account in accounts.values():
             if account.get("account_id") == account_id:
                 payload = account
                 out = json.dumps(payload, indent=2)
@@ -174,8 +174,8 @@ class GetAccountByName(Tool):
             payload = {"error": "Missing required field: name"}
             out = json.dumps(payload, indent=2)
             return out
-        accounts = data.get("accounts", [])
-        for account in accounts:
+        accounts = data.get("accounts", {}).values()
+        for account in accounts.values():
             if account.get("account_name") == account_name:
                 payload = account
                 out = json.dumps(payload, indent=2)
@@ -226,8 +226,8 @@ class UpdateStreetAddress(Tool):
                 payload, indent=2,
             )
             return out
-        accounts = data.get("accounts", [])
-        for account in accounts:
+        accounts = data.get("accounts", {}).values()
+        for account in accounts.values():
             if account.get("account_id") == account_id:
                 account["shipping_street"] = new_shipping_street
                 if new_billing_street:
@@ -279,8 +279,8 @@ class GetContactByName(Tool):
                 payload, indent=2,
             )
             return out
-        contacts = data.get("contacts", [])
-        for contact in contacts:
+        contacts = data.get("contacts", {}).values()
+        for contact in contacts.values():
             if (
                 contact.get("first_name") == first_name
                 and contact.get("last_name") == last_name
@@ -328,8 +328,8 @@ class GetOrdersByContactId(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        orders = data.get("orders", [])
-        contact_orders = [o for o in orders if o.get("contact_id") == contact_id]
+        orders = data.get("orders", {}).values()
+        contact_orders = [o for o in orders.values() if o.get("contact_id") == contact_id]
         payload = contact_orders
         out = json.dumps(payload, indent=2)
         return out
@@ -367,7 +367,7 @@ class AddStockQuantities(Tool):
             )
             return out
 
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         results = []
         for it in items:
             pid = it.get("product_id")
@@ -379,7 +379,7 @@ class AddStockQuantities(Tool):
                 )
                 return out
 
-            prod = next((p for p in products if p.get("product_id") == pid), None)
+            prod = next((p for p in products.values() if p.get("product_id") == pid), None)
             if not prod:
                 results.append({"product_id": pid, "error": "Product not found"})
                 continue
@@ -438,7 +438,7 @@ class GetPriceOfProduct(Tool):
                 payload, indent=2,
             )
             return out
-        pricebook_entries = data.get("pricebook_entries", [])
+        pricebook_entries = data.get("pricebook_entries", {}).values()
         results = []
         for item in items:
             product_id = item.get("product_id")
@@ -449,8 +449,7 @@ class GetPriceOfProduct(Tool):
             match = next(
                 (
                     e
-                    for e in pricebook_entries
-                    if e.get("product_id") == product_id
+                    for e in pricebook_entries.values() if e.get("product_id") == product_id
                     and e.get("pricebook_id") == pricebook_id
                 ),
                 None,
@@ -518,7 +517,7 @@ class CreateNewOffer(Tool):
                 payload, indent=2,
             )
             return out
-        offers = data.get("offers", [])
+        offers = data.get("offers", {}).values()
         offer_id = get_next_offer_id(data)
         new_offer = {
             "offer_id": offer_id,
@@ -527,7 +526,7 @@ class CreateNewOffer(Tool):
             "discount_value": float(discount_value),
             "is_active": True,
         }
-        offers.append(new_offer)
+        data["offers"][offer_id] = new_offer
         payload = new_offer
         out = json.dumps(payload, indent=2)
         return out
@@ -570,8 +569,8 @@ class DeactivateOffer(Tool):
             payload = {"error": "Missing required field: offer_code"}
             out = json.dumps(payload, indent=2)
             return out
-        offers = data.get("offers", [])
-        for offer in offers:
+        offers = data.get("offers", {}).values()
+        for offer in offers.values():
             if offer.get("offer_code") == offer_code:
                 offer["is_active"] = False
                 payload = offer
@@ -610,8 +609,8 @@ class GetOfferDetails(Tool):
             payload = {"error": "Missing required field: offer_id"}
             out = json.dumps(payload, indent=2)
             return out
-        offers = data.get("offers", [])
-        for offer in offers:
+        offers = data.get("offers", {}).values()
+        for offer in offers.values():
             if offer.get("offer_id") == offer_id:
                 payload = offer
                 out = json.dumps(payload, indent=2)
@@ -649,8 +648,8 @@ class GetCartByContactId(Tool):
             payload = {"error": "Missing required field: contact_id"}
             out = json.dumps(payload, indent=2)
             return out
-        carts = carts or data.get("carts", [])
-        for cart in carts:
+        carts = carts or data.get("carts", {}).values()
+        for cart in carts.values():
             if cart.get("contact_id") == contact_id:
                 payload = cart
                 out = json.dumps(payload, indent=2)
@@ -692,7 +691,7 @@ class GetAllItemsInCart(Tool):
             return out
         cart_items = cart_items or []
         items_list = []
-        for item in cart_items:
+        for item in cart_items.values():
             if item.get("cart_id") == cart_id:
                 items_list.append(
                     {
@@ -741,7 +740,7 @@ class ClearCart(Tool):
             payload = {"error": "Missing required field: cart_id"}
             out = json.dumps(payload, indent=2)
             return out
-        cart_items = data.get("cart_items", [])
+        cart_items = data.get("cart_items", {}).values()
         removed_count = 0
         for item in list(cart_items):  # duplicate to prevent changes while iterating
             if item.get("cart_id") == cart_id:
@@ -792,8 +791,8 @@ class GetOrderDetailsById(Tool):
             payload = {"error": "Missing required field: order_id"}
             out = json.dumps(payload, indent=2)
             return out
-        orders = data.get("orders", [])
-        for order in orders:
+        orders = data.get("orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 payload = order
                 out = json.dumps(payload, indent=2)
@@ -827,8 +826,8 @@ class UpdateOrderStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], order_id: Any, new_status: Any) -> str:
         order_id = _idstr(order_id)
-        orders = data.get("orders", [])
-        for order in orders:
+        orders = data.get("orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 order["status"] = new_status
                 payload = order
@@ -871,8 +870,8 @@ class GetAllOrderItemsByOrderId(Tool):
             payload = {"error": "Missing required field: order_id"}
             out = json.dumps(payload, indent=2)
             return out
-        order_items = order_items or data.get("order_items", [])
-        items = [item for item in order_items if item.get("order_id") == order_id]
+        order_items = order_items or data.get("order_items", {}).values()
+        items = [item for item in order_items.values() if item.get("order_id") == order_id]
         payload = items
         out = json.dumps(payload, indent=2)
         return out
@@ -923,7 +922,7 @@ class CreateNewCase(Tool):
                 payload, indent=2,
             )
             return out
-        cases = data.get("cases", [])
+        cases = data.get("cases", {}).values()
         case_id = get_next_case_id(data)
         new_case = {
             "case_id": case_id,
@@ -934,7 +933,7 @@ class CreateNewCase(Tool):
             "status": "New",
             "priority": priority,
         }
-        cases.append(new_case)
+        data["cases"][case_id] = new_case
         payload = new_case
         out = json.dumps(payload, indent=2)
         return out
@@ -985,8 +984,8 @@ class UpdateCaseStatus(Tool):
             payload = {"error": "Missing required fields: case_id and/or status"}
             out = json.dumps(payload, indent=2)
             return out
-        cases = data.get("cases", [])
-        for case in cases:
+        cases = data.get("cases", {}).values()
+        for case in cases.values():
             if case.get("case_id") == case_id:
                 case["status"] = status
                 payload = case
@@ -1199,10 +1198,10 @@ class GetProductsByNames(Tool):
                 payload, indent=2,
             )
             return out
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         results: list[dict[str, Any]] = []
         for n in names:
-            match = next((p for p in products if p.get("name") == n), None)
+            match = next((p for p in products.values() if p.get("name") == n), None)
             results.append(
                 match if match else {"name": n, "error": "Product not found"}
             )
@@ -1243,7 +1242,7 @@ class AddItemsToCartBatch(Tool):
                 payload, indent=2,
             )
             return out
-        cart_items = data.get("cart_items", [])
+        cart_items = data.get("cart_items", {}).values()
         created = []
         next_num = len(cart_items) + 1
         for it in items:
@@ -1261,7 +1260,7 @@ class AddItemsToCartBatch(Tool):
                 "product_id": pid,
                 "quantity": int(qty),
             }
-            cart_items.append(rec)
+            data["cart_items"][rec["cart_item_id"]] = rec
             created.append(rec)
             next_num += 1
         payload = created
@@ -1308,7 +1307,7 @@ class UpdateItemsInCartBatch(Tool):
                 payload, indent=2,
             )
             return out
-        cart_items = data.get("cart_items", [])
+        cart_items = data.get("cart_items", {}).values()
         updated = []
         for it in items:
             pid = it.get("product_id")
@@ -1319,7 +1318,7 @@ class UpdateItemsInCartBatch(Tool):
                     payload, indent=2,
                 )
                 return out
-            for row in cart_items:
+            for row in cart_items.values():
                 if row.get("cart_id") == cart_id and row.get("product_id") == pid:
                     row["quantity"] = int(new_q)
                     updated.append(row)
@@ -1372,12 +1371,11 @@ class RemoveItemsFromCartBatch(Tool):
                 payload, indent=2,
             )
             return out
-        cart_items = data.get("cart_items", [])
+        cart_items = data.get("cart_items", {}).values()
         before = len(cart_items)
         cart_items[:] = [
             r
-            for r in cart_items
-            if not (r.get("cart_id") == cart_id and r.get("product_id") in product_ids)
+            for r in cart_items.values() if not (r.get("cart_id") == cart_id and r.get("product_id") in product_ids)
         ]
         removed = before - len(cart_items)
         payload = {
@@ -1420,7 +1418,7 @@ class VerifyOrderFromStock(Tool):
                 payload, indent=2,
             )
             return out
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         results = []
         is_valid = True
         for it in items:
@@ -1434,7 +1432,7 @@ class VerifyOrderFromStock(Tool):
                     payload, indent=2,
                 )
                 return out
-            match = next((p for p in products if p.get("product_id") == pid), None)
+            match = next((p for p in products.values() if p.get("product_id") == pid), None)
             if not match:
                 results.append({"product_id": pid, "error": "Product not found"})
                 is_valid = False
@@ -1498,8 +1496,8 @@ class ApplyOfferToSubtotal(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        offers = data.get("offers", [])
-        match = next((o for o in offers if o.get("offer_code") == offer_code), None)
+        offers = data.get("offers", {}).values()
+        match = next((o for o in offers.values() if o.get("offer_code") == offer_code), None)
         if not match:
             payload = {"valid": False, "reason": "Offer not found"}
             out = json.dumps(payload, indent=2)
@@ -1563,7 +1561,7 @@ class GetOrCreateCart(Tool):
             out = json.dumps(payload, indent=2)
             return out
         carts = data.setdefault("carts", [])
-        for cart in carts:
+        for cart in carts.values():
             if cart.get("contact_id") == contact_id:
                 payload = cart
                 out = json.dumps(payload, indent=2)
@@ -1574,7 +1572,7 @@ class GetOrCreateCart(Tool):
             "contact_id": contact_id,
             "last_updated_at": get_current_timestamp(),
         }
-        carts.append(new_cart)
+        data["carts"][cart_id] = new_cart
         payload = new_cart
         out = json.dumps(payload, indent=2)
         return out
@@ -1609,7 +1607,7 @@ class InventorySecurityGroupRules(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], aws_security_group_rules: list[dict[str, Any]] = None) -> str:
         rules = aws_security_group_rules or []
-        payload = {"rule_ids": [r.get("rule_id") for r in rules]}
+        payload = {"rule_ids": [r.get("rule_id") for r in rules.values()]}
         out = json.dumps(payload, indent=2)
         return out
     @staticmethod
@@ -1630,7 +1628,7 @@ class GetSecurityGroupRuleById(Tool):
     def invoke(data: dict[str, Any], rule_id: Any, aws_security_group_rules: list = None) -> str:
         rule_id = _idstr(rule_id)
         rules = aws_security_group_rules if aws_security_group_rules is not None else []
-        for r in rules:
+        for r in rules.values()):
             if r.get("rule_id") == rule_id:
                 payload = r
                 out = json.dumps(payload, indent=2)
@@ -1667,8 +1665,8 @@ class AttachSecurityGroupToCacheCluster(Tool):
     def invoke(data: dict[str, Any], cluster_id: Any, security_group_id: Any) -> str:
         cluster_id = _idstr(cluster_id)
         security_group_id = _idstr(security_group_id)
-        clusters = data.get("aws_elasticache_clusters", [])
-        for c in clusters:
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        for c in clusters.values():
             if c.get("cluster_id") == cluster_id:
                 c["security_group_id"] = security_group_id
                 payload = c
@@ -1703,8 +1701,8 @@ class RenameElastiCacheCluster(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cluster_id: Any, new_cluster_name: Any) -> str:
         cluster_id = _idstr(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", [])
-        for c in clusters:
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        for c in clusters.values():
             if c.get("cluster_id") == cluster_id:
                 c["cluster_name"] = new_cluster_name
                 payload = c
@@ -1739,8 +1737,8 @@ class SetElastiCacheClusterStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cluster_id: Any, new_status: Any) -> str:
         cluster_id = _idstr(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", [])
-        for c in clusters:
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        for c in clusters.values():
             if c.get("cluster_id") == cluster_id:
                 c["status"] = new_status
                 payload = c
@@ -1775,8 +1773,8 @@ class SetElastiCacheEndpointUrl(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cluster_id: Any, endpoint_url: Any) -> str:
         cluster_id = _idstr(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", [])
-        for c in clusters:
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        for c in clusters.values():
             if c.get("cluster_id") == cluster_id:
                 c["endpoint_url"] = endpoint_url
                 payload = c
@@ -1818,7 +1816,7 @@ class SetElastiCacheSubnetGroup(Tool):
 
         # Check if the subnet group is present
         groups = aws_subnet_groups or []
-        if not any(g.get("subnet_group_id") == subnet_group_id for g in groups):
+        if not any(g.get("subnet_group_id") == subnet_group_id for g in groups.values()):
             payload = {"error": f"No subnet group found with ID '{subnet_group_id}'"}
             out = json.dumps(
                 payload, indent=2,
@@ -1826,7 +1824,7 @@ class SetElastiCacheSubnetGroup(Tool):
             return out
 
         clusters = aws_elasticache_clusters or []
-        for c in clusters:
+        for c in clusters.values():
             if c.get("cluster_id") == cluster_id:
                 c["subnet_group_id"] = subnet_group_id
                 payload = c
@@ -1861,8 +1859,8 @@ class UpdateSubnetGroupDescription(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], subnet_group_id: Any, new_description: Any) -> str:
         subnet_group_id = _idstr(subnet_group_id)
-        groups = data.get("aws_subnet_groups", [])
-        for g in groups:
+        groups = data.get("aws_subnet_groups", {}).values()
+        for g in groups.values():
             if g.get("subnet_group_id") == subnet_group_id:
                 g["description"] = new_description
                 payload = g
@@ -1897,8 +1895,8 @@ class SetClusterInstanceTypeNote(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cluster_id: Any, note: Any) -> str:
         cluster_id = _idstr(cluster_id)
-        clusters = data.get("aws_elasticache_clusters", [])
-        for c in clusters:
+        clusters = data.get("aws_elasticache_clusters", {}).values()
+        for c in clusters.values():
             if c.get("cluster_id") == cluster_id:
                 c["instance_type_note"] = note
                 payload = c
@@ -1953,7 +1951,7 @@ class CreateIngressChangePlan(Tool):
         env_tag = str(env_tag)
         # locate the rule
         rule = None
-        for r in data.get("aws_security_group_rules", []):
+        for r in data.get("aws_security_group_rules", {}).values():
             if r.get("rule_id") == rule_id:
                 rule = r
                 break
@@ -2019,7 +2017,7 @@ class ApplyIngressPlanStep(Tool):
         step_index = int(step_index)
         #retrieve plan
         plan = None
-        for p in data.get("aws_plans", []):
+        for p in data.get("aws_plans", {}).values():
             if p.get("plan_id") == plan_id and p.get("type") == "ingress":
                 plan = p
                 break
@@ -2034,7 +2032,7 @@ class ApplyIngressPlanStep(Tool):
             return out
 
         sg_id = plan["security_group_id"]
-        rules = data.get("aws_security_group_rules", [])
+        rules = data.get("aws_security_group_rules", {}).values()
         step = steps[step_index]
 
         def _append_tag(desc: str, tag: str) -> str:
@@ -2046,7 +2044,7 @@ class ApplyIngressPlanStep(Tool):
 
         if step == "update_rule":
             #assign source and description to the original rule
-            for r in rules:
+            for r in rules.values():
                 if r.get("rule_id") == plan["rule_id"]:
                     r["source_ip"] = plan["target_cidr"]
                     r["description"] = plan["final_description"]
@@ -2062,7 +2060,7 @@ class ApplyIngressPlanStep(Tool):
             keep = None
             removed = []
             remain = []
-            for r in rules:
+            for r in rules.values():
                 if r.get("security_group_id") == sg_id and r.get("port") == 6379:
                     if keep is None:
                         keep = r
@@ -2100,7 +2098,7 @@ class ApplyIngressPlanStep(Tool):
             #add environment tag to every 6379 rule in this Security Group
             updated = []
             tag = plan["env_tag"]
-            for r in rules:
+            for r in rules.values():
                 if r.get("security_group_id") == sg_id and r.get("port") == 6379:
                     before = r.get("description", "")
                     after = _append_tag(before, tag)
@@ -2137,7 +2135,7 @@ class GetElastiCacheClusterById(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], cluster_id: Any) -> str:
         cluster_id = _idstr(cluster_id)
-        for c in data.get("aws_elasticache_clusters", []):
+        for c in data.get("aws_elasticache_clusters", {}).values():
             if c.get("cluster_id") == cluster_id:
                 payload = c
                 out = json.dumps(payload, indent=2)
@@ -2184,7 +2182,7 @@ class CreateClusterChangePlan(Tool):
         subnet_group_id = _idstr(subnet_group_id)
         # does the cluster exist?
         cluster = None
-        for c in data.get("aws_elasticache_clusters", []):
+        for c in data.get("aws_elasticache_clusters", {}).values():
             if c.get("cluster_id") == cluster_id:
                 cluster = c
                 break
@@ -2198,7 +2196,7 @@ class CreateClusterChangePlan(Tool):
         sg_id = None
         proto = None
         port = None
-        for r in data.get("aws_security_group_rules", []):
+        for r in data.get("aws_security_group_rules", {}).values():
             if r.get("rule_id") == reference_rule_id:
                 sg_id = r.get("security_group_id")
                 proto = r.get("protocol")
@@ -2212,7 +2210,7 @@ class CreateClusterChangePlan(Tool):
             return out
         # is the subnet group present?
         ok = False
-        for g in data.get("aws_subnet_groups", []):
+        for g in data.get("aws_subnet_groups", {}).values():
             if g.get("subnet_group_id") == subnet_group_id:
                 ok = True
                 break
@@ -2302,7 +2300,7 @@ class ApplyClusterPlanStep(Tool):
         step_index = int(step_index)
         # retrieve the plan
         plan = None
-        for p in data.get("aws_plans", []):
+        for p in data.get("aws_plans", {}).values():
             if p.get("plan_id") == plan_id and p.get("type") == "cluster":
                 plan = p
                 break
@@ -2318,7 +2316,7 @@ class ApplyClusterPlanStep(Tool):
 
         # find the cluster
         cl = None
-        for c in data.get("aws_elasticache_clusters", []):
+        for c in data.get("aws_elasticache_clusters", {}).values():
             if c.get("cluster_id") == plan["cluster_id"]:
                 cl = c
                 break
@@ -2363,14 +2361,14 @@ class ApplyClusterPlanStep(Tool):
         if step == "standardize_env_on_sg" or step == "consolidate_redis_on_sg":
             # manage rules for this Security Group
             sg_id = plan["security_group_id"]
-            rules = data.get("aws_security_group_rules", [])
+            rules = data.get("aws_security_group_rules", {}).values()
             if step == "standardize_env_on_sg":
                 tag = plan["env_tag"]
                 changed = []
                 tag_norm = (
                     tag if tag.startswith("[") and tag.endswith("]") else f"[{tag}]"
                 )
-                for r in rules:
+                for r in rules.values()):
                     if r.get("security_group_id") == sg_id and r.get("port") == 6379:
                         d = r.get("description", "")
                         if tag_norm not in d:
@@ -2384,7 +2382,7 @@ class ApplyClusterPlanStep(Tool):
                 keep = None
                 removed = []
                 remain = []
-                for r in rules:
+                for r in rules.values():
                     if r.get("security_group_id") == sg_id and r.get("port") == 6379:
                         if keep is None:
                             keep = r

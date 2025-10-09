@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RecordAccessibilityAuditFindings(Tool):  #WRITE
@@ -67,15 +67,15 @@ class RecordAccessibilityAuditFindings(Tool):  #WRITE
             return out
 
         #Check if the audit_id is present
-        audits = data.get("audits", [])
-        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits)
+        audits = data.get("audits", {}).values()
+        audit_exists = any(audit.get("audit_id") == audit_id for audit in audits.values()
         if not audit_exists:
             payload = {"error": f"Audit with ID '{audit_id}' not found"}
             out = json.dumps(payload)
             return out
 
         #Retrieve audit_findings_a11y data
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
+        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
 
         #Create a new finding_id
         next_num = len(audit_findings_a11y) + 1
@@ -94,7 +94,7 @@ class RecordAccessibilityAuditFindings(Tool):  #WRITE
         }
 
         #Include in data
-        audit_findings_a11y.append(new_finding)
+        data["audit_findings_a11y"][new_finding["audit_findings_a11y_id"]] = new_finding
         payload = {"new_finding": new_finding}
         out = json.dumps(payload)
         return out

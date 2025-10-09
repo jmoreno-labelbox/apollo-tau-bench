@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetLoanInformationByLoanId(Tool):
@@ -25,10 +25,9 @@ class GetLoanInformationByLoanId(Tool):
             return json.dumps({"error": "customer_id and loan_id are required."}, indent=2)
 
         # Verify and fetch the loan
-        loans = data.get("loans", [])
+        loans = data.get("loans", {}).values()
         loan = next(
-            (ln for ln in loans
-             if ln.get("loan_id") == loan_id and ln.get("customer_id") == customer_id),
+            (ln for ln in loans.values() if ln.get("loan_id") == loan_id and ln.get("customer_id") == customer_id),
             None
         )
         if not loan:

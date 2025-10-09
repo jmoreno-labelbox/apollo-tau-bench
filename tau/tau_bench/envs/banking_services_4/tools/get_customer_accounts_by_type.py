@@ -10,7 +10,7 @@ class GetCustomerAccountsByType(Tool):
         if not customer_id or not account_type:
             return json.dumps({'error': 'customer_id and account_type are required'})
         accounts = load_json('accounts.json')
-        filtered = [a for a in accounts if a['customer_id'] == customer_id and a['account_type'].lower() == account_type.lower()]
+        filtered = [a for a in accounts.values() if a['customer_id'] == customer_id and a['account_type'].lower() == account_type.lower()]
         return json.dumps(filtered, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:

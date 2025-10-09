@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCustomerDetailsByName(Tool):
@@ -26,9 +26,9 @@ class GetCustomerDetailsByName(Tool):
                 "error": "first_name and last_name are required."
             }, indent=2)
 
-        customers = data.get("customers", [])
-        for customer in customers:
-            pi = customer.get("personal_info", {})
+        customers = data.get("customers", {}).values()
+        for customer in customers.values():
+            pi = customer.get("personal_info", {}).values()
             if (
                 pi.get("first_name", "").strip().lower() == first_name and
                 pi.get("last_name", "").strip().lower() == last_name

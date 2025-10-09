@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateMemberPreferencesTool(Tool):
@@ -94,7 +94,7 @@ class UpdateMemberPreferencesTool(Tool):
 
         #2. Find the member record
         member_record = next(
-            (m for m in data.get("members", []) if m.get("member_id") == member_id),
+            (m for m in data.get("members", {}).values() if m.get("member_id") == member_id),
             None,
         )
 

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetHouseholdInventoryTool(Tool):
@@ -62,7 +62,7 @@ class GetHouseholdInventoryTool(Tool):
 
         #2. Pre-condition Check: Ensure the household exists
         if not any(
-            h.get("household_id") == household_id for h in data.get("households", [])
+            h.get("household_id") == household_id for h in data.get("households", {}).values()
         ):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Household", "entity_id": household_id}
@@ -71,18 +71,17 @@ class GetHouseholdInventoryTool(Tool):
         #3. Data Retrieval and Enrichment (Hydration)
         inventory_items = [
             i
-            for i in data.get("inventory_items", [])
+            for i in data.get("inventory_items", {}).values()
             if i.get("household_id") == household_id
         ]
 
         enriched_items = []
-        all_ingredients_meta = data.get("ingredients", [])
+        all_ingredients_meta = data.get("ingredients", {}).values()
         for item in inventory_items:
             ingredient_meta = next(
                 (
                     i
-                    for i in all_ingredients_meta
-                    if i.get("ingredient_id") == item.get("ingredient_id")
+                    for i in all_ingredients_meta.values() if i.get("ingredient_id") == item.get("ingredient_id")
                 ),
                 None,
             )

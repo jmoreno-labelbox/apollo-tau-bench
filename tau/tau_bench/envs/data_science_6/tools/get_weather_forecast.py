@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetWeatherForecast(Tool):
@@ -35,8 +35,8 @@ class GetWeatherForecast(Tool):
             out = json.dumps(payload)
             return out
 
-        items = data.get("weather_forecasts", [])
-        for rec in items:
+        items = data.get("weather_forecasts", {}).values()
+        for rec in items.values():
             if rec.get("city") != city:
                 continue
             rec_start = GetWeatherForecast._parse_iso(rec.get("start_ts", ""))
@@ -52,7 +52,7 @@ class GetWeatherForecast(Tool):
                     dt = GetWeatherForecast._parse_iso(ts)
                     return dt is not None and (start_dt <= dt <= end_dt)
 
-                out_ts = [t for t in ts_list if in_range(t)]
+                out_ts = [t for t in ts_list.values() if in_range(t)]
                 # align series (nullable may exist)
                 precip = rec.get("precipitation_mm_hr_nullable") or []
                 temp = rec.get("temperature_2m_c_nullable") or []

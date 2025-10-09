@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCrewMemberDetails(Tool):
@@ -27,11 +27,11 @@ class GetCrewMemberDetails(Tool):
                 payload)
             return out
 
-        crew_members = data.get("crew_members", [])
+        crew_members = data.get("crew_members", {}).values()
 
         #Locate the crew member
         target_crew_member = None
-        for crew_member in crew_members:
+        for crew_member in crew_members.values():
             if (
                 crew_member_id and crew_member.get("crew_member_id") == crew_member_id
             ) or (employee_code and crew_member.get("employee_code") == employee_code):
@@ -58,7 +58,7 @@ class GetCrewMemberDetails(Tool):
         aircraft_types = set()
 
         for flight_entry in flight_log:
-            hours = flight_entry.get("hours_flown", {})
+            hours = flight_entry.get("hours_flown", {}).values()
             for hour_type in total_hours:
                 total_hours[hour_type] += hours.get(hour_type, 0)
 

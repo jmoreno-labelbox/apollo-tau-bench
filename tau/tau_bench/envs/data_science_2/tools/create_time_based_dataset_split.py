@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateTimeBasedDatasetSplit(Tool):
@@ -21,7 +21,7 @@ class CreateTimeBasedDatasetSplit(Tool):
         split_summary_json_path: str,
         split_ts: str,
     ) -> str:
-        pts = data.get("processed_timeseries", [])
+        pts = data.get("processed_timeseries", {}).values()
         row = None
         for r in pts:
             if r.get("csv_path") == processed_csv_path:

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListStoreProducts(Tool):
@@ -19,7 +19,7 @@ class ListStoreProducts(Tool):
             return _json_dump({"error": "store_id is required"})
         rows = [
             p
-            for p in data.get("store_products", [])
+            for p in data.get("store_products", {}).values()
             if int(p.get("store_id")) == int(store_id)
         ]
         if ingredient_id is not None:

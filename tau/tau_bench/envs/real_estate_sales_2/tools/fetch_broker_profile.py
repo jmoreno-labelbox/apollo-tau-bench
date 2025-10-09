@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchBrokerProfile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], broker_id: str = None) -> str:
         br = next(
-            (b for b in data.get("brokers", []) if b.get("broker_id") == broker_id),
+            (b for b in data.get("brokers", {}).values() if b.get("broker_id") == broker_id),
             None,
         )
         if not br:

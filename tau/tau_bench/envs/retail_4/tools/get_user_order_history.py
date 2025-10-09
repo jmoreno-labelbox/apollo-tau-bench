@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUserOrderHistory(Tool):
@@ -22,8 +22,8 @@ class GetUserOrderHistory(Tool):
         Data Sources: users.json (user_id, orders, payment_methods, name, email, address), orders.json (order details), products.json (product names for filtering)
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -32,9 +32,9 @@ class GetUserOrderHistory(Tool):
 
         # Extract user information from users.json structure
         user_orders = user.get("orders", [])
-        payment_methods = user.get("payment_methods", {})
-        user_name = user.get("name", {})
-        user_address = user.get("address", {})
+        payment_methods = user.get("payment_methods", {}).values()
+        user_name = user.get("name", {}).values()
+        user_address = user.get("address", {}).values()
 
         # Get detailed order information if product_type filter is specified
         filtered_orders = user_orders
@@ -46,22 +46,22 @@ class GetUserOrderHistory(Tool):
             filter_applied = True
 
             # Get product information for filtering
-            products = data.get("products", [])
+            products = data.get("products", {}).values()
             product_name_map = {}
-            for product in products:
+            for product in products.values():
                 product_id = product.get("product_id")
                 product_name = product.get("name", "").lower()
                 if product_id:
                     product_name_map[product_id] = product_name
 
             # Get order details to filter by product type
-            orders = data.get("orders", [])
+            orders = data.get("orders", {}).values()
             filtered_orders = []
 
             for order_id in user_orders:
                 # Find the order details
                 order_details = None
-                for order in orders:
+                for order in orders.values():
                     if (
                         order.get("order_id") == order_id
                         and order.get("user_id") == user_id
@@ -89,7 +89,7 @@ class GetUserOrderHistory(Tool):
 
                     # Include order if it has matching products
                     if order_has_matching_products:
-                        filtered_orders.append(order_id)
+                        filtered_data["orders"][order_id] = order_id
 
         # Rule: Payment methods must be valid type: credit_card, paypal, or gift_card
         valid_payment_methods = []
@@ -115,19 +115,19 @@ class GetUserOrderHistory(Tool):
 
         # Get detailed information about filtered orders (both with and without product type filter)
         order_details_summary = []
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
 
         # Get product information for item_ids mapping
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         product_name_map = {}
-        for product in products:
+        for product in products.values():
             product_id = product.get("product_id")
             product_name = product.get("name", "").lower()
             if product_id:
                 product_name_map[product_id] = product_name
 
         for order_id in filtered_orders:
-            for order in orders:
+            for order in orders.values():
                 if (
                     order.get("order_id") == order_id
                     and order.get("user_id") == user_id

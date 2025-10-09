@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LogInvoiceEvent(Tool):
     """Add an audit record for an invoice (generated, emailed, etc.)."""
     @staticmethod
     def invoke(data: dict[str, Any], invoice_id: str = None, invoice_number: str = None, event_type: str = None, notes: str = None) -> str:
-        audits = data.get("invoice_audit", [])
+        audits = data.get("invoice_audit", {}).values()
         # Generate new audit IDs like AUD001, AUD002 ...
         prefix, max_num = "AUD", 0
         for a in audits:
@@ -34,7 +34,7 @@ class LogInvoiceEvent(Tool):
             "event_timestamp": _now_iso(),
             "notes": notes,
         }
-        audits.append(row)
+        data["invoice_audit"][row["invoice_audit_id"]] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out

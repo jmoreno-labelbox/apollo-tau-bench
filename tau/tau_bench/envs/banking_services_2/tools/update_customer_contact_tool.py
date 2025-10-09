@@ -7,15 +7,15 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateCustomerContactTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], customer_id: str = None, email: str = None, phone: str = None) -> str:
-        customers = data.get('customers', [])
+        customers = data.get('customers', {}).values()
 
-        for customer in customers:
+        for customer in customers.values():
             if customer['customer_id'] == customer_id:
                 if email:
                     customer['contact_info']['email_address'] = email

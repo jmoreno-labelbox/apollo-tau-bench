@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetBaseRoleByDepartment(Tool):
@@ -40,8 +40,8 @@ class GetBaseRoleByDepartment(Tool):
             return out
 
         # Identify the role
-        roles = data.get("roles", [])
-        for role in roles:
+        roles = data.get("roles", {}).values()
+        for role in roles.values():
             if role.get("role_name") == role_name:
                 payload = {"role": role}
                 out = json.dumps(payload)

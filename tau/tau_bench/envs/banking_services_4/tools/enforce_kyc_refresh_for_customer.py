@@ -16,7 +16,7 @@ class EnforceKYCRefreshForCustomer(Tool):
         for c in customers:
             if c['customer_id'] == customer_id:
                 # Ensure 'compliance' dict exists
-                compliance = c.setdefault('compliance', {})
+                compliance = c.setdefault('compliance', {}).values()
                 # Always set 'kyc_status' to 'Refresh Required'
                 compliance['kyc_status'] = 'Refresh Required'
                 updated = True

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AssignCourierToOrder(Tool):
@@ -25,9 +25,9 @@ class AssignCourierToOrder(Tool):
         item_ids: list[str]
     ) -> str:
         # Check if the courier is present and possesses all tracking_ids
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         courier = None
-        for c in couriers:
+        for c in couriers.values()):
             if c.get("courier_id") == courier_id:
                 courier = c
                 break
@@ -47,8 +47,8 @@ class AssignCourierToOrder(Tool):
                 return out
 
         # Revise order fulfillments
-        orders = data.get("orders", [])
-        for order in orders:
+        orders = data.get("orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 fulfillments = order.get("fulfillments", [])
                 fulfillments.append({"tracking_id": tracking_ids, "item_ids": item_ids})
@@ -66,9 +66,9 @@ class AssignCourierToOrder(Tool):
         return out
         pass
         #Check if the courier is present and possesses all tracking_ids
-        couriers = data.get("couriers", [])
+        couriers = data.get("couriers", {}).values()
         courier = None
-        for c in couriers:
+        for c in couriers.values()):
             if c.get("courier_id") == courier_id:
                 courier = c
                 break
@@ -89,8 +89,8 @@ class AssignCourierToOrder(Tool):
                 return out
 
         #Revise order fulfillments
-        orders = data.get("orders", [])
-        for order in orders:
+        orders = data.get("orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 fulfillments = order.get("fulfillments", [])
                 fulfillments.append({"tracking_id": tracking_ids, "item_ids": item_ids})

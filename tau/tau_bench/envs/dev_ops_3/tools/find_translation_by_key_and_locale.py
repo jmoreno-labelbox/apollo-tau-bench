@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class find_translation_by_key_and_locale(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], string_key: str, locale: str) -> str:
         pass
-        translations = data.get("translations", [])
-        for t in translations:
+        translations = data.get("translations", {}).values()
+        for t in translations.values():
             if t.get("string_key") == string_key and t.get("locale") == locale:
                 payload = t
                 out = json.dumps(payload, indent=2)

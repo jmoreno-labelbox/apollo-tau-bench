@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetFleetUtilization(Tool):
@@ -22,7 +22,7 @@ class GetFleetUtilization(Tool):
     ) -> str:
         pass
         #Retrieve data about the aircraft
-        aircraft_data = data.get("aircraft", [])
+        aircraft_data = data.get("aircraft", {}).values()
 
         if not aircraft_data:
             payload = {"error": "No aircraft data available"}
@@ -45,10 +45,10 @@ class GetFleetUtilization(Tool):
 
         #Apply filters to aircraft
         filtered_aircraft = []
-        for aircraft in aircraft_data:
+        for aircraft in aircraft_data.values():
             #Implement the model filter
             if model_filter:
-                model_info = aircraft.get("model", {})
+                model_info = aircraft.get("model", {}).values()
                 if (
                     model_info.get("model_id") != model_filter
                     and model_info.get("model_name") != model_filter
@@ -74,7 +74,7 @@ class GetFleetUtilization(Tool):
             status_breakdown[status] = status_breakdown.get(status, 0) + 1
 
             #Analysis of model
-            model_info = aircraft.get("model", {})
+            model_info = aircraft.get("model", {}).values()
             model_name = model_info.get("model_name", "Unknown")
             if model_name not in model_breakdown:
                 model_breakdown[model_name] = {
@@ -92,7 +92,7 @@ class GetFleetUtilization(Tool):
             )
 
             #Analysis of location
-            location = aircraft.get("location", {})
+            location = aircraft.get("location", {}).values()
             location_key = location.get("iata_code", "Unknown")
             location_breakdown[location_key] = (
                 location_breakdown.get(location_key, 0) + 1
@@ -138,15 +138,15 @@ class GetFleetUtilization(Tool):
             }
 
         #Locate maintenance and operational events associated with the aircraft
-        maintenance_logs = data.get("maintenance_logs", [])
-        operational_events = data.get("operational_events", [])
+        maintenance_logs = data.get("maintenance_logs", {}).values()
+        operational_events = data.get("operational_events", {}).values()
 
         #Latest maintenance activities
         aircraft_ids = [a.get("aircraft_id") for a in filtered_aircraft]
         recent_maintenance = []
 
-        for log in maintenance_logs:
-            aircraft_info = log.get("aircraft", {})
+        for log in maintenance_logs.values():
+            aircraft_info = log.get("aircraft", {}).values()
             if aircraft_info.get("aircraft_id") in aircraft_ids:
                 recent_maintenance.append(
                     {
@@ -167,8 +167,8 @@ class GetFleetUtilization(Tool):
         #Latest operational events concerning the aircraft
         recent_aircraft_events = []
 
-        for event in operational_events:
-            aircraft_info = event.get("aircraft", {})
+        for event in operational_events.values():
+            aircraft_info = event.get("aircraft", {}).values()
             if aircraft_info.get("aircraft_id") in aircraft_ids:
                 recent_aircraft_events.append(
                     {
@@ -232,7 +232,7 @@ class GetFleetUtilization(Tool):
                     {
                         "aircraft_id": aircraft_id,
                         "tail_number": aircraft.get("tail_number"),
-                        "model": aircraft.get("model", {}),
+                        "model": aircraft.get("model", {}).values()),
                         "status": aircraft.get("status"),
                         "issues": issues,
                     }

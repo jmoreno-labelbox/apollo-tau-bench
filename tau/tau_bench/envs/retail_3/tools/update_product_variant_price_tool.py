@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateProductVariantPriceTool(Tool):
@@ -53,8 +53,8 @@ class UpdateProductVariantPriceTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        products = data.get("products", [])
-        product = next((p for p in products if p.get("product_id") == product_id), None)
+        products = data.get("products", {}).values()
+        product = next((p for p in products.values() if p.get("product_id") == product_id), None)
         if not product:
             payload = {"error": f"product_id '{product_id}' not found in products"}
             out = json.dumps(

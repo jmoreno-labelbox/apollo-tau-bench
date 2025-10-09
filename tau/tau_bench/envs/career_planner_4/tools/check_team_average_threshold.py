@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckTeamAverageThreshold(Tool):
@@ -17,22 +17,22 @@ class CheckTeamAverageThreshold(Tool):
     def invoke(
         data: dict[str, Any], team_id: str, threshold: int, comparison: str
     ) -> str:
-        teams = data.get("teams", [])
-        team = next((t for t in teams if t.get("team_id") == team_id), None)
+        teams = data.get("teams", {}).values()
+        team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
         if not team:
             payload = {"error": "Team not found"}
             out = json.dumps(payload, indent=2)
             return out
 
         members = team.get("team_members", [])
-        progress_data = data.get("user_course_progress", [])
+        progress_data = data.get("user_course_progress", {}).values()
 
         # Compute the average for the team
         total_progress = 0
         member_count = 0
 
         for member_id in members:
-            member_courses = [p for p in progress_data if p.get("user_id") == member_id]
+            member_courses = [p for p in progress_data.values() if p.get("user_id") == member_id]
             if member_courses:
                 avg_progress = sum(
                     c.get("current_progress_percent", 0) for c in member_courses

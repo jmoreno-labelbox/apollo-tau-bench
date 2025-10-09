@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ManageMemberInDatabase(Tool):
@@ -22,13 +22,13 @@ class ManageMemberInDatabase(Tool):
         updates: dict[str, Any] | None = None,
         filters: dict[str, Any] | None = None
     ) -> str:
-        members = data.get("members", [])
+        members = data.get("members", {}).values()
         if action == "get":
             if member_id:
-                result = [m for m in members if m.get("id") == member_id]
+                result = [m for m in members.values() if m.get("id") == member_id]
             elif filters:
                 result = [
-                    m for m in members if all(m.get(k) == v for k, v in filters.items())
+                    m for m in members.values() if all(m.get(k) == v for k, v in filters.items())
                 ]
             else:
                 result = members
@@ -42,13 +42,13 @@ class ManageMemberInDatabase(Tool):
                     payload, indent=2
                 )
                 return out
-            if any(m["id"] == member.get("id") for m in members):
+            if any(m["id"] == member.get("id") for m in members.values()):
                 payload = {"error": "Member with this id already exists"}
                 out = json.dumps(
                     payload, indent=2
                 )
                 return out
-            members.append(member)
+            data["members"][member_id] = member
             payload = {"success": "Member added", "member": member, "members": members}
             out = json.dumps(
                 payload, indent=2,
@@ -64,7 +64,7 @@ class ManageMemberInDatabase(Tool):
                 )
                 return out
             found = False
-            for m in members:
+            for m in members.values():
                 if m["id"] == member_id:
                     for k, v in updates.items():
                         m[k] = v
@@ -91,7 +91,7 @@ class ManageMemberInDatabase(Tool):
                     payload, indent=2
                 )
                 return out
-            new_list = [m for m in members if m["id"] != member_id]
+            new_list = [m for m in members.values() if m["id"] != member_id]
             if len(new_list) == len(members):
                 payload = {"error": "Member not found"}
                 out = json.dumps(payload, indent=2)

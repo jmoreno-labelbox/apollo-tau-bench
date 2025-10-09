@@ -13,7 +13,7 @@ DYNAMIC_NOW = None
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -27,9 +27,9 @@ class GetEmployeeId(Tool):
             )
             return out
 
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
 
-        for employee in employees:
+        for employee in employees.values():
             if (
                 employee["first_name"] == first_name
                 and employee["last_name"] == last_name
@@ -80,9 +80,9 @@ class EmployeeAccountExists(Tool):
             )
             return out
 
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
 
-        for employee in employees:
+        for employee in employees.values():
             if (
                 employee["first_name"] == first_name
                 and employee["last_name"] == last_name
@@ -128,9 +128,9 @@ class GetEmployeeInfo(Tool):
             )
             return out
 
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
 
-        for employee in employees:
+        for employee in employees.values():
             if employee["employee_id"] == employee_id:
                 payload = employee
                 out = json.dumps(payload)
@@ -171,9 +171,9 @@ class MailboxExists(Tool):
             )
             return out
 
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
 
-        for employee in employees:
+        for employee in employees.values():
             if employee["employee_id"] == employee_id:
                 payload = {"mailbox_exists": True}
                 out = json.dumps(payload, indent=2)
@@ -212,10 +212,10 @@ class GetEmployeeLicenses(Tool):
             )
             return out
 
-        license_assignments = data.get("license_assignments", [])
+        license_assignments = data.get("license_assignments", {}).values()
         licenses = []
 
-        for assignment in license_assignments:
+        for assignment in license_assignments.values():
             if assignment["employee_id"] == employee_id:
                 licenses.append(assignment["license_id"])
         payload = licenses
@@ -377,7 +377,7 @@ class GetLicenseAvailability(Tool):
             )
             return out
 
-        for license in inventory:
+        for license in inventory.values():
             if license["license_id"] == license_id:
                 if (
                     license["total_seats"]
@@ -431,21 +431,21 @@ class AssignLicenses(Tool):
 
         licenses = set()
 
-        license_assignments = data.get("license_assignments", [])
-        for assignment in license_assignments:
+        license_assignments = data.get("license_assignments", {}).values()
+        for assignment in license_assignments.values():
             if assignment["employee_id"] == employee_id:
                 licenses.add(assignment["license_id"])
 
-        group_map = data.get("rbac_group_map", [])
+        group_map = data.get("rbac_group_map", {}).values()
         if job_title is None:
-            for group in group_map:
+            for group in group_map.values():
                 if group["job_title"] == job_title:
                     for license in group["default_license_bundle"]:
                         licenses.add(license)
 
         inventory = data.get("license_inventory")
 
-        for license in inventory:
+        for license in inventory.values():
             if license["license_id"] in licenses:
                 license["used_seats"] += 1
                 last_id = license_assignments[-1]["assignment_id"]
@@ -459,7 +459,7 @@ class AssignLicenses(Tool):
                     "status": "active",
                     "assigned_at": FIXED_NOW,
                 }
-                license_assignments.append(new_license_assignment)
+                license_data["license_assignments"][new_license_assignment["license_assignment_id"]] = new_license_assignment
         payload = {
             "status": "ok",
             "reason": f"Licenses successfully added for {employee_id}.",
@@ -511,12 +511,12 @@ class GetLicenseInfo(Tool):
         inventory = data.get("license_inventory")
         assignments = data.get("license_assignments")
 
-        for license in inventory:
+        for license in inventory.values():
             if license["name"] == license_name:
                 assigned_licenses = []
-                for assignment in assignments:
+                for assignment in assignments.values():
                     if assignment["license_id"] == license["license_id"]:
-                        assigned_licenses.append(assignment)
+                        assigned_data["license_inventory"][assignment["license_inventory_id"]] = assignment
                 license_overview = {"info": license, "assignments": assigned_licenses}
                 payload = license_overview
                 out = json.dumps(payload, indent=2)
@@ -559,7 +559,7 @@ class GetJobLicenses(Tool):
 
         group_data = data.get("rbac_group_map")
 
-        for group in group_data:
+        for group in group_data.values():
             if group["job_title"] == job_title:
                 payload = group["default_license_bundle"]
                 out = json.dumps(payload, indent=2)
@@ -634,7 +634,7 @@ class CreateJiraTicket(Tool):
             "updated_at": "2025-07-14T15:30:00+00:00",
         }
 
-        jira_tickets.append(new_jira_ticket)
+        jira_data["tickets"][ticket_id] = new_jira_ticket
         payload = {
                 "status": "ok",
                 "reason": f"Successfully created a new Jira ticket {new_jira_id}.",
@@ -685,7 +685,7 @@ class FilterHRMemos(Tool):
 
         if first_name is None or last_name is None:
             if memo_type is not None:
-                temp_memos = [memo for memo in memos if memo["type"] == memo_type]
+                temp_memos = [memo for memo in memos.values() if memo["type"] == memo_type]
             else:
                 payload = {
                     "status": "error",
@@ -698,8 +698,7 @@ class FilterHRMemos(Tool):
         else:
             temp_memos = [
                 memo
-                for memo in memos
-                if memo["first_name"] == first_name and memo["last_name"] == last_name
+                for memo in memos.values() if memo["first_name"] == first_name and memo["last_name"] == last_name
             ]
 
         if len(temp_memos) == 0:
@@ -752,12 +751,12 @@ class DeviceAssignment(Tool):
         assets = data.get("it_assets")
         assigned_assets = []
 
-        for asset in assets:
+        for asset in assets.values():
             if asset["assigned_to"] == employee_id:
                 if unassign:
                     asset["status"] = "in_stock"
                     asset["assigned_to"] = None
-                assigned_assets.append(asset)
+                assigned_data["it_assets"][asset["it_asset_id"]] = asset
 
         if unassign:
             payload = {
@@ -812,7 +811,7 @@ class LicenseRequiresRenewal(Tool):
 
         dt_now = datetime.fromisoformat(FIXED_NOW)
 
-        for license in inventory:
+        for license in inventory.values():
             dt_audit = datetime.fromisoformat(license["last_audit_at"])
             if (dt_now - dt_audit).days > num_days:
                 licenses.append(license["license_id"])
@@ -857,7 +856,7 @@ class GetEmployeeByLicense(Tool):
 
         assignment_data = []
 
-        for license in license_assignments:
+        for license in license_assignments.values():
             if license["license_id"] == license_id and license["status"] == status:
                 assignment_data.append(license["employee_id"])
         payload = assignment_data
@@ -904,7 +903,7 @@ class FilterLicenses(Tool):
         licenses = data.get("license_inventory")
         filtered_licenses = []
 
-        for license in licenses:
+        for license in licenses.values():
             util = (license["used_seats"] + license["reserved_seats"]) / license[
                 "total_seats"
             ]
@@ -982,7 +981,7 @@ class UpdateLicenseAudit(Tool):
 
         inventory = data.get("license_inventory")
 
-        for license in inventory:
+        for license in inventory.values():
             if license["license_id"] == license_id:
                 license["last_audit_at"] = FIXED_NOW
                 payload = {
@@ -1035,7 +1034,7 @@ class ArchiveMailbox(Tool):
         mailboxes = data.get("mailboxes")
         archives = data.get("data_archives")
 
-        for mailbox in mailboxes:
+        for mailbox in mailboxes.values():
             if mailbox["employee_id"] == employee_id:
                 archive = {
                     "archive_id": "arch_000000",
@@ -1050,7 +1049,7 @@ class ArchiveMailbox(Tool):
                 else:
                     archive["retention_policy"] = "std_2y"
 
-                archives.append(archive)
+                data["archives"][archive_id] = archive
                 payload = {"status": "ok", "description": "Successfully created mailbox"}
                 out = json.dumps(
                     payload, indent=2,
@@ -1113,7 +1112,7 @@ class LogLifecycle(Tool):
             "created_at": FIXED_NOW,
         }
 
-        lifecycle_items.append(lifecycle)
+        data["lifecycle_queue"][lifecycle["lifecycle_queue_id"]] = lifecycle
         payload = {
                 "status": "ok",
                 "description": "Successfully added log to lifecycle_queue",
@@ -1165,19 +1164,19 @@ class MissingLicenses(Tool):
             return out
 
         employee_licenses = []
-        license_assignments = data.get("license_assignments", [])
+        license_assignments = data.get("license_assignments", {}).values()
 
-        for assignment in license_assignments:
+        for assignment in license_assignments.values():
             if assignment["employee_id"] == employee_id:
                 employee_licenses.append(assignment["license_id"])
 
         group_map = data.get("rbac_group_map")
         missing = []
 
-        for group in group_map:
+        for group in group_map.values():
             if group["job_title"] == job_title:
                 licenses = group["default_license_bundle"]
-                for license in licenses:
+                for license in licenses.values():
                     if license not in employee_licenses:
                         missing.append(license)
                 payload = missing
@@ -1232,8 +1231,8 @@ class GenerateReviewandLog(Tool):
             "output_path_pdf": f"s3://reports/Report_{formatted_date}.pdf",
         }
 
-        reports = data.get("validation_issues", [])
-        reports.append(new_report)
+        reports = data.get("validation_issues", {}).values()
+        data["report_runs"][new_report["report_run_id"]] = new_report
         payload = {
                 "status": "ok",
                 "description": "Successfully created pdf and added report to validation_issues.",
@@ -1274,7 +1273,7 @@ class GetTicketInfo(Tool):
 
         tickets = data.get("tickets")
 
-        for ticket in tickets:
+        for ticket in tickets.values():
             if ticket["ticket_id"] == ticket_id:
                 payload = ticket
                 out = json.dumps(payload, indent=2)
@@ -1324,7 +1323,7 @@ class GetTicketsBacklog(Tool):
                 return out
         else:
             target_snapshot = None
-            for snapshot in snapshots:
+            for snapshot in snapshots.values():
                 if snapshot["snapshot_id"] == snapshot_id:
                     target_snapshot = snapshot
             if target_snapshot is None:
@@ -1490,7 +1489,7 @@ class AssignAppAccount(Tool):
             "created_at": FIXED_NOW,
         }
 
-        accounts.append(new_account)
+        data["accounts"][account_id] = new_account
         payload = {
                 "status": "ok",
                 "description": f"Added {app_id} account for {employee_id}",
@@ -1539,7 +1538,7 @@ class AssignRBACLicense(Tool):
 
         group_map = data.get("rbac_group_map")
 
-        for group in group_map:
+        for group in group_map.values():
             if group["job_title"] == job_title:
                 group["default_license_bundle"].append(license_id)
                 payload = group["default_license_bundle"]
@@ -1601,7 +1600,7 @@ class ReportRun(Tool):
         }
 
         reports = data.get("report_runs")
-        reports.append(new_report)
+        data["report_runs"][new_report["report_run_id"]] = new_report
         payload = {
             "status": "ok",
             "description": "Successfully created report pdf and saved a log in report_runs.",
@@ -1662,7 +1661,7 @@ class UpdateDirectoryAccount(Tool):
 
         directory_accounts = data.get("directory_accounts")
 
-        for account in directory_accounts:
+        for account in directory_accounts.values():
             if account["employee_id"] == employee_id:
                 if status is not None:
                     account["status"] = status
@@ -1716,7 +1715,7 @@ class UnassignLicenses(Tool):
         assignments = data.get("license_assignments")
         inventory = data.get("license_inventory")
 
-        for assignment in assignments:
+        for assignment in assignments.values():
             if assignment["employee_id"] == employee_id and (
                 len(license_ids) == 0 or assignment["license_id"] in license_ids
             ):
@@ -1725,7 +1724,7 @@ class UnassignLicenses(Tool):
 
         license_ids = set(license_ids)
 
-        for license in inventory:
+        for license in inventory.values():
             if license["license_id"] in license_ids:
                 license["used_seats"] -= 1
         payload = {
@@ -1851,7 +1850,7 @@ class TicketStatistics(Tool):
         daily_metrics = data.get("daily_metrics")
 
         pulled_data = []
-        for metrics in daily_metrics:
+        for metrics in daily_metrics.values():
             pulled_data.append(metrics[field])
 
         if stat_type == "sum":
@@ -1902,7 +1901,7 @@ class AssignDevice(Tool):
 
         assets = data.get("it_assets")
 
-        for asset in assets:
+        for asset in assets.values():
             if asset["asset_type"] == asset_type and asset["status"] == "in_stock":
                 asset["status"] = "assigned"
                 asset["assigned_to"] = employee_id

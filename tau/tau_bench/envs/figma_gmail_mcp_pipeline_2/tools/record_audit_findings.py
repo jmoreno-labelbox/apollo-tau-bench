@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RecordAuditFindings(Tool):
@@ -34,8 +34,8 @@ class RecordAuditFindings(Tool):
         ds_findings_in: list[dict[str, Any]] = ds_findings or []
         a11y_findings_in: list[dict[str, Any]] = a11y_findings or []
 
-        ds_table: list[dict[str, Any]] = data.get("audit_findings_ds", [])
-        a11y_table: list[dict[str, Any]] = data.get("audit_findings_a11y", [])
+        ds_table: list[dict[str, Any]] = data.get("audit_findings_ds", {}).values()
+        a11y_table: list[dict[str, Any]] = data.get("audit_findings_a11y", {}).values()
 
         ds_ids: list[str] = []
         for item in ds_findings_in:

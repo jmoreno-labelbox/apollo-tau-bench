@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateRotationSchedule(Tool):
@@ -33,14 +33,13 @@ class CreateRotationSchedule(Tool):
             out = json.dumps(payload)
             return out
 
-        rotation_schedules = data.get("rotation_schedules", [])
-        allocations = data.get("allocations", [])
-        projects = data.get("projects", [])
+        rotation_schedules = data.get("rotation_schedules", {}).values()
+        allocations = data.get("allocations", {}).values()
+        projects = data.get("projects", {}).values()
 
         from_project_allocations = [
             alloc
-            for alloc in allocations
-            if alloc.get("project_id") == from_project
+            for alloc in allocations.values() if alloc.get("project_id") == from_project
             and alloc.get("status") == "active"
         ]
 
@@ -59,7 +58,7 @@ class CreateRotationSchedule(Tool):
             return out
 
         from_project_data = next(
-            (p for p in projects if p.get("project_id") == from_project), None
+            (p for p in projects.values() if p.get("project_id") == from_project), None
         )
         if from_project_data:
             required_hours = from_project_data.get("required_hours_per_week", 0)
@@ -108,12 +107,11 @@ class CreateRotationSchedule(Tool):
             "status": "scheduled",
         }
 
-        rotation_schedules.append(new_rotation)
+        data["rotation_schedules"][new_rotation["rotation_schedule_id"]] = new_rotation
 
         existing_rotations = [
             rot
-            for rot in rotation_schedules
-            if rot.get("status") == "scheduled"
+            for rot in rotation_schedules.values() if rot.get("status") == "scheduled"
             and skill_development_rotation.lower() == "true"
         ]
 

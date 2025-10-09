@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateAndDeliverFixPlan(Tool):  #WRITE
@@ -21,9 +21,9 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
             return out
 
         #Identify the fix plan
-        fix_plans = data.get("fix_plans", [])
+        fix_plans = data.get("fix_plans", {}).values()
         fix_plan = next(
-            (plan for plan in fix_plans if plan.get("plan_id") == plan_id), None
+            (plan for plan in fix_plans.values() if plan.get("plan_id") == plan_id), None
         )
 
         if not fix_plan:
@@ -36,8 +36,8 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
         owner_email = fix_plan.get("owner_email")
 
         #Locate the audit to retrieve artifact_id
-        audits = data.get("audits", [])
-        audit = next((a for a in audits if a.get("audit_id") == audit_id), None)
+        audits = data.get("audits", {}).values()
+        audit = next((a for a in audits.values() if a.get("audit_id") == audit_id), None)
 
         if not audit:
             payload = {"error": f"Audit with ID '{audit_id}' not found"}
@@ -53,9 +53,9 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
             ticket_id = f"JIRA-{ticket_digits}"
 
             #Modify all fix_items associated with this plan_id to establish external_ticket_ref_nullable
-            fix_items = data.get("fix_items", [])
+            fix_items = data.get("fix_items", {}).values()
             updated_count = 0
-            for item in fix_items:
+            for item in fix_items.values():
                 if item.get("plan_id") == plan_id:
                     item["external_ticket_ref_nullable"] = ticket_id
                     updated_count += 1
@@ -70,7 +70,7 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
 
         elif delivery_method == "COMMENTS":
             #Establish a new figma comment
-            figma_comments = data.get("figma_comments", [])
+            figma_comments = data.get("figma_comments", {}).values()
             next_num = len(figma_comments) + 1
             comment_id = f"comment_{next_num:03d}"
 
@@ -84,7 +84,7 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
                 "resolved_flag": False,
             }
 
-            figma_comments.append(new_comment)
+            data["figma_comments"][new_comment["figma_comment_id"]] = new_comment
             payload = {
                     "comment_id": comment_id,
                     "message": f"{comment_id} created",
@@ -96,7 +96,7 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
 
         elif delivery_method == "PDF":
             #Establish a new asset
-            assets = data.get("assets", [])
+            assets = data.get("assets", {}).values()
             next_num = len(assets) + 1
             asset_id = f"asset_{next_num:03d}"
 
@@ -111,7 +111,7 @@ class CreateAndDeliverFixPlan(Tool):  #WRITE
                 "dlp_scan_details_nullable": None,
             }
 
-            assets.append(new_asset)
+            data["assets"][asset_id] = new_asset
             payload = {
                     "asset_id": asset_id,
                     "message": f"{asset_id} created",

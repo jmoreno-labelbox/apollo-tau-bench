@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class add_employee_benefit_if_missing(Tool):
@@ -18,8 +18,8 @@ class add_employee_benefit_if_missing(Tool):
         benefit_plan_id: str,
         current_benefit_plan_ids: list[str]
     ) -> str:
-        employees = data.get("employees", [])
-        employee = next((e for e in employees if e["employee_id"] == employee_id), None)
+        employees = data.get("employees", {}).values()
+        employee = next((e for e in employees.values() if e["employee_id"] == employee_id), None)
 
         if not employee:
             payload = {"error": f"Employee {employee_id} not found"}
@@ -51,8 +51,8 @@ class add_employee_benefit_if_missing(Tool):
         )
         return out
         pass
-        employees = data.get("employees", [])
-        employee = next((e for e in employees if e["employee_id"] == employee_id), None)
+        employees = data.get("employees", {}).values()
+        employee = next((e for e in employees.values() if e["employee_id"] == employee_id), None)
 
         if not employee:
             payload = {"error": f"Employee {employee_id} not found"}

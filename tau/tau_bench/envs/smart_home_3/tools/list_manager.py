@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListManager(Tool):
@@ -28,15 +28,14 @@ class ListManager(Tool):
         if list_data is None:
             list_data = {}
 
-        lists = data.get("custom_lists", [])
+        lists = data.get("custom_lists", {}).values()
 
         if action == "get":
             result = [
                 l
-                for l in lists
-                if (not list_id or l["list_id"] == list_id)
+                for l in lists.values() if (not list_id or l["list_id"] == list_id)
                 and (not list_name or l["name"] == list_name)
-                and (not tags or any(tag in l.get("tags", []) for tag in tags))
+                and (not tags or any(tag in l.get("tags", []) for tag in tags)
             ]
             payload = result
             out = json.dumps(payload, indent=2)
@@ -46,7 +45,7 @@ class ListManager(Tool):
                 payload = {"error": "list_id and item_data required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            for lst in lists:
+            for lst in lists.values():
                 if lst["list_id"] == list_id:
                     lst["items"].append(item_data)
                     lst["updated_at"] = _now_iso()
@@ -58,7 +57,7 @@ class ListManager(Tool):
                 payload = {"error": "list_id and item name required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            for lst in lists:
+            for lst in lists.values():
                 if lst["list_id"] == list_id:
                     lst["items"] = [
                         i for i in lst["items"] if i["item"] != item_data["item"]
@@ -74,7 +73,7 @@ class ListManager(Tool):
                 payload = {"error": "list_data required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            lists.append(list_data)
+            data["custom_lists"][list_data["custom_list_id"]] = list_data
             payload = {"success": f"Created list {list_data.get('list_id')}"}
             out = json.dumps(
                 payload, indent=2
@@ -85,7 +84,7 @@ class ListManager(Tool):
                 payload = {"error": "list_id required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            lists[:] = [l for l in lists if l["list_id"] != list_id]
+            lists[:] = [l for l in lists.values() if l["list_id"] != list_id]
             payload = {"success": f"Deleted list {list_id}"}
             out = json.dumps(payload, indent=2)
             return out

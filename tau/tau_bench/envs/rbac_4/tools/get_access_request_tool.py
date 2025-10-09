@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAccessRequestTool(Tool):
@@ -17,7 +17,7 @@ class GetAccessRequestTool(Tool):
     def invoke(data: dict[str, Any], request_id: str = None) -> str:
         pass
         # Anticipate: data["access_requests"] is a collection of dicts sourced from /mnt/data/access_requests.json
-        access_requests = data.get("access_requests", [])
+        access_requests = data.get("access_requests", {}).values()
         if not isinstance(access_requests, list):
             payload = {"error": "access_requests must be a list"}
             out = json.dumps(payload, indent=2)
@@ -31,7 +31,7 @@ class GetAccessRequestTool(Tool):
             return out
 
         # Lookup in read-only mode
-        for row in access_requests:
+        for row in access_requests.values():
             if isinstance(row, dict) and row.get("request_id") == request_id:
                 payload = {"access_request": row}
                 out = json.dumps(payload, indent=2)

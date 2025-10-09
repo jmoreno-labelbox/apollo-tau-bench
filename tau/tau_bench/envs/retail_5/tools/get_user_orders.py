@@ -14,7 +14,7 @@ class GetUserOrders(Tool):
         orders = data["orders"]
         user_orders = []
 
-        for order in orders:
+        for order in orders.values():
             if order["user_id"] == user_id:
                 if status and order["status"] != status:
                     continue

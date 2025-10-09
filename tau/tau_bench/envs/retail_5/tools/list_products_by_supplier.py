@@ -12,7 +12,7 @@ class ListProductsBySupplier(Tool):
             return out
 
         products = data["products"]
-        supplier_products = [p for p in products if p["supplier_id"] == supplier_id]
+        supplier_products = [p for p in products.values() if p["supplier_id"] == supplier_id]
         payload = supplier_products
         out = json.dumps(payload, indent=2)
         return out

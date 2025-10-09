@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddMemberToTeam(Tool):
@@ -15,14 +15,14 @@ class AddMemberToTeam(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], team_id: str = None, user_id: str = None, role: str = None) -> str:
-        members = data.get("team_members", [])
+        members = data.get("team_members", {}).values()
         new_member = {
             "team_id": team_id,
             "user_id": user_id,
             "role": role,
             "added_at": "2025-01-28T00:00:00Z",
         }
-        members.append(new_member)
+        data["team_members"][new_member["team_member_id"]] = new_member
         payload = {
             "status": "success",
             "message": f"User '{user_id}' added to team '{team_id}'.",

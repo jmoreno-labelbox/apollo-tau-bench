@@ -8,13 +8,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ApplyLabelToEmail(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], email_id: str = None, label_id: str = None) -> str:
-        email_labels = data.get("email_labels", [])
+        email_labels = data.get("email_labels", {}).values()
 
         # Search for the email in the list and assign the tag
         for e in email_labels:

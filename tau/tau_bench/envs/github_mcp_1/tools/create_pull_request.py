@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreatePullRequest(Tool):
@@ -70,7 +70,7 @@ class CreatePullRequest(Tool):
             return out
 
         # Load PR DB (supports dict with 'pull_requests' or top-level list)
-        pr_db = _convert_db_to_list(data.get("pull_requests", {}))
+        pr_db = _convert_db_to_list(data.get("pull_requests", {}).values()
 
         # Find or create repo bucket
         rec = next(

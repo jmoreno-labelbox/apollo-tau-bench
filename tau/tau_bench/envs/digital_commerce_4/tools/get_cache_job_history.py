@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCacheJobHistory(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], org_id: str) -> str:
         org_id = _sid(org_id)
-        jobs = data.get("cache_jobs", [])
-        result = [j for j in jobs if j.get("org_id") == org_id]
+        jobs = data.get("cache_jobs", {}).values()
+        result = [j for j in jobs.values() if j.get("org_id") == org_id]
         payload = result
         out = json.dumps(payload, indent=2)
         return out

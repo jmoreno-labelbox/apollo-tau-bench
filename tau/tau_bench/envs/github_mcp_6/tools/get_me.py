@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetMe(Tool):
@@ -22,8 +22,8 @@ class GetMe(Tool):
         pass
         import re
 
-        auth_users = data.get("authentication", [])
-        repositories = data.get("repositories", [])
+        auth_users = data.get("authentication", {}).values()
+        repositories = data.get("repositories", {}).values()
 
         if not auth_users:
             payload = {
@@ -63,7 +63,7 @@ class GetMe(Tool):
         if username and auth_key:
             #Complete authentication: ensure both username and auth_key are correct
             auth_method = "username_and_key"
-            for auth_user in auth_users:
+            for auth_user in auth_users.values():
                 if (
                     auth_user.get("username") == username
                     and auth_user.get("auth_key") == auth_key
@@ -97,7 +97,7 @@ class GetMe(Tool):
         elif auth_key and not username:
             #Auth key only: locate user by matching AUTH_KEY
             auth_method = "auth_key_only"
-            for auth_user in auth_users:
+            for auth_user in auth_users.values():
                 if auth_user.get("auth_key") == auth_key:
                     user = auth_user
                     break
@@ -127,7 +127,7 @@ class GetMe(Tool):
         elif username and not auth_key:
             #Username only: identify user by username (not as secure)
             auth_method = "username_only"
-            for auth_user in auth_users:
+            for auth_user in auth_users.values():
                 if auth_user.get("username") == username:
                     user = auth_user
                     break
@@ -161,7 +161,7 @@ class GetMe(Tool):
         final_username = user["username"]
 
         #Compute statistics for the repository
-        owned_repos = [repo for repo in repositories if repo["owner"] == final_username]
+        owned_repos = [repo for repo in repositories.values() if repo["owner"] == final_username]
         total_owned = len(owned_repos)
 
         #Retrieve organization memberships (users sharing email domains)
@@ -169,8 +169,7 @@ class GetMe(Tool):
         organizations = list(
             {
                 auth_user["email"].split("@")[1]
-                for auth_user in auth_users
-                if auth_user["email"].split("@")[1] == user_domain
+                for auth_user in auth_users.values() if auth_user["email"].split("@")[1] == user_domain
                 and auth_user["username"] != final_username
             }
         )
@@ -211,8 +210,7 @@ class GetMe(Tool):
                 "repositories_count": len(
                     [
                         repo
-                        for repo in repositories
-                        if final_username in [repo["owner"]]
+                        for repo in repositories.values() if final_username in [repo["owner"]]
                         or final_username in str(repo)
                     ]
                 ),

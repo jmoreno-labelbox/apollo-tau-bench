@@ -41,7 +41,7 @@ class CreateCandidate(Tool):
                 payload = updated
                 out = json.dumps(payload, indent=2)
                 return out
-        data["candidates"].append(c)
+        data["candidates"][candidate_id] = c
         payload = c
         out = json.dumps(payload, indent=2)
         return out

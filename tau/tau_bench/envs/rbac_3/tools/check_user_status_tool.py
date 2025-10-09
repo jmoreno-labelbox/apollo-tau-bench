@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckUserStatusTool(Tool):
@@ -34,9 +34,9 @@ class CheckUserStatusTool(Tool):
     @staticmethod
     def _admin_like_roles(data: dict[str, Any]) -> set:
         pass
-        roles = data.get("roles", [])
+        roles = data.get("roles", {}).values()
         admin_like = set()
-        for r in roles:
+        for r in roles.values():
             name = (r.get("role_name") or "").lower()
             rid = r.get("role_id")
             if not rid or not name:
@@ -58,7 +58,7 @@ class CheckUserStatusTool(Tool):
         pass
         role_permissions = [
             rp.get("permission_id")
-            for rp in data.get("role_permissions", [])
+            for rp in data.get("role_permissions", {}).values()
             if rp.get("role_id") == role_id
         ]
 
@@ -66,7 +66,7 @@ class CheckUserStatusTool(Tool):
             permission = next(
                 (
                     p
-                    for p in data.get("permissions", [])
+                    for p in data.get("permissions", {}).values()
                     if p.get("permission_id") == perm_id
                 ),
                 None,
@@ -85,7 +85,7 @@ class CheckUserStatusTool(Tool):
         if resource_id:
             required_certs = [
                 cert
-                for cert in data.get("certifications", [])
+                for cert in data.get("certifications", {}).values()
                 if cert.get("resource_id") == resource_id
             ]
 
@@ -110,15 +110,14 @@ class CheckUserStatusTool(Tool):
     ) -> tuple:
         """Verify certifications either linked to role_id (if available) or implied through the role's resources. Returns (has_requirements, all_completed, reviewer_id)."""
         pass
-        certs = data.get("certifications", [])
+        certs = data.get("certifications", {}).values()
         required = []
         if role_id:
-            required = [c for c in certs if c.get("role_id") == role_id]
+            required = [c for c in certs.values() if c.get("role_id") == role_id]
         if not required and role_permissions_resource_ids:
             required = [
                 c
-                for c in certs
-                if c.get("resource_id") in role_permissions_resource_ids
+                for c in certs.values() if c.get("resource_id") in role_permissions_resource_ids
             ]
         if not required:
             return (False, True, None)
@@ -141,7 +140,7 @@ class CheckUserStatusTool(Tool):
             ur.get("user_id") == reviewer_id
             and ur.get("role_id") in lead_roles
             and not ur.get("expires_on")
-            for ur in data.get("user_roles", [])
+            for ur in data.get("user_roles", {}).values()
         )
 
     @staticmethod
@@ -153,7 +152,7 @@ class CheckUserStatusTool(Tool):
         #Retrieve permissions for the specified role
         role_permissions = [
             rp.get("permission_id")
-            for rp in data.get("role_permissions", [])
+            for rp in data.get("role_permissions", {}).values()
             if rp.get("role_id") == role_id
         ]
 
@@ -162,7 +161,7 @@ class CheckUserStatusTool(Tool):
             exception = next(
                 (
                     pe
-                    for pe in data.get("policy_exceptions", [])
+                    for pe in data.get("policy_exceptions", {}).values()
                     if (
                         pe.get("user_id") == user_id
                         and pe.get("permission_id") == perm_id
@@ -206,7 +205,7 @@ class CheckUserStatusTool(Tool):
                 ur.get("user_id") == user_id
                 and ur.get("role_id") == role_id
                 and not ur.get("expires_on")
-                for ur in data.get("user_roles", [])
+                for ur in data.get("user_roles", {}).values()
             )
             if not active_assignment:
                 payload = {
@@ -224,12 +223,12 @@ class CheckUserStatusTool(Tool):
             # Identify resource IDs for role permissions
             role_perm_ids = [
                 rp.get("permission_id")
-                for rp in data.get("role_permissions", [])
+                for rp in data.get("role_permissions", {}).values()
                 if rp.get("role_id") == role_id
             ]
             perm_resource_ids = [
                 p.get("resource_id")
-                for p in data.get("permissions", [])
+                for p in data.get("permissions", {}).values()
                 if p.get("permission_id") in role_perm_ids
             ]
 
@@ -301,7 +300,7 @@ class CheckUserStatusTool(Tool):
         req = next(
             (
                 r
-                for r in data.get("access_requests", [])
+                for r in data.get("access_requests", {}).values()
                 if r.get("request_id") == request_id
             ),
             None,
@@ -347,7 +346,7 @@ class CheckUserStatusTool(Tool):
         # Roles currently from the database
         current_roles = [
             ur.get("role_id")
-            for ur in data.get("user_roles", [])
+            for ur in data.get("user_roles", {}).values()
             if ur.get("user_id") == user_id and not ur.get("expires_on")
         ]
 

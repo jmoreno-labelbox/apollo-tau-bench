@@ -10,7 +10,7 @@ class GetDashboardSnapshot(Tool):
         """
         Returns the snapshot_id if found.
         """
-        snapshot = next((s for s in data["dashboard_snapshots"] if s["snapshot_id"] == snapshot_id), None)
+        snapshot = next((s for s in data["dashboard_snapshots"].values() if s["snapshot_id"] == snapshot_id), None)
         return json.dumps(snapshot["snapshot_id"] if snapshot else None)
     @staticmethod
     def get_info() -> Dict[str, Any]:

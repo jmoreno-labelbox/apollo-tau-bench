@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ValidateAllocationsAgainstPolicy(Tool):
@@ -18,7 +18,7 @@ class ValidateAllocationsAgainstPolicy(Tool):
         if allocations is None:
             allocations = []
         params = {
-            p["param_name"]: p["param_value"] for p in data.get("policy_params", [])
+            p["param_name"]: p["param_value"] for p in data.get("policy_params", {}).values()
         }
         min_alloc = float(params.get("min_budget_allocation", "0"))
         max_total = float(params.get("max_daily_budget_total", "1e15"))

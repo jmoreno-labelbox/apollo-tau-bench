@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ConsolidateEmailThreadsAndCleanupTool(Tool):
@@ -17,9 +17,9 @@ class ConsolidateEmailThreadsAndCleanupTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str = None, draft_cleanup_age_days: int = 30) -> str:
-        all_emails = data.get("emails", [])
+        all_emails = data.get("emails", {}).values()
         candidate_emails = [
-            e for e in all_emails if e.get("candidate_id_nullable") == candidate_id
+            e for e in all_emails.values() if e.get("candidate_id_nullable") == candidate_id
         ]
         updated_emails = []
 

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DeviceManager(Tool):
@@ -22,13 +22,12 @@ class DeviceManager(Tool):
         updates: dict = None,
         schedule_updates: dict = None,
         device_data: dict = {}) -> str:
-        devices = data.get("devices", [])
+        devices = data.get("devices", {}).values()
 
         if action == "get":
             result = [
                 d
-                for d in devices
-                if (not device_id or d["id"] == device_id)
+                for d in devices.values() if (not device_id or d["id"] == device_id)
                 and (not type or d["type"] == type)
                 and (not location or d["location"] == location)
             ]
@@ -78,7 +77,7 @@ class DeviceManager(Tool):
                     payload, indent=2
                 )
                 return out
-            devices.append(device_data)
+            data["devices"][device_id] = device_data
             payload = {"success": f"Created device {device_data.get('id')}"}
             out = json.dumps(
                 payload, indent=2
@@ -91,7 +90,7 @@ class DeviceManager(Tool):
                     payload, indent=2
                 )
                 return out
-            devices[:] = [d for d in devices if d["id"] != device_id]
+            devices[:] = [d for d in devices.values() if d["id"] != device_id]
             payload = {"success": f"Deleted device {device_id}"}
             out = json.dumps(payload, indent=2)
             return out

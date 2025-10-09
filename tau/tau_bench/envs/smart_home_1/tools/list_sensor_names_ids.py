@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListSensorNamesIds(Tool):
@@ -16,7 +16,7 @@ class ListSensorNamesIds(Tool):
     def invoke(data: dict[str, Any]) -> str:
         payload = [
             {"name": s["name"], "sensor_id": s["id"]}
-            for s in data.get("sensors", [])
+            for s in data.get("sensors", {}).values()
         ]
         out = json.dumps(
             payload, indent=2,

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetInsightbyreportid(Tool):
@@ -22,10 +22,10 @@ class GetInsightbyreportid(Tool):
             return out
 
         #2) Retrieve DB
-        insights: list[dict[str, Any]] = data.get("curated_insights", [])
+        insights: list[dict[str, Any]] = data.get("curated_insights", {}).values()
 
         #3) Lookup for exact matches (without normalization)
-        matches = [i for i in insights if i.get("report_id") == report_id]
+        matches = [i for i in insights.values() if i.get("report_id") == report_id]
 
         if not matches:
             payload = {"error": f"No insights found for report_id {report_id}"}

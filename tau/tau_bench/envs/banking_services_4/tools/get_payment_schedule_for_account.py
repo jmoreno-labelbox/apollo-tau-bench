@@ -10,7 +10,7 @@ class GetPaymentScheduleForAccount(Tool):
         if not account_id:
             return json.dumps({'error': 'account_id is required'})
         payments = load_json('scheduled_payments.json')
-        filtered = [p for p in payments if p['source_account_id'] == account_id]
+        filtered = [p for p in payments.values() if p['source_account_id'] == account_id]
         return json.dumps(filtered, indent=2)
     @staticmethod
     def get_info() -> Dict[str, Any]:

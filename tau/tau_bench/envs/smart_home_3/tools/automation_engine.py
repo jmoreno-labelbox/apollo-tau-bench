@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AutomationEngine(Tool):
@@ -24,7 +24,7 @@ class AutomationEngine(Tool):
                 for r in rules
                 if (not rule_id or r.get("id") == rule_id)
                 and (
-                    not trigger_type or r.get("trigger", {}).get("type") == trigger_type
+                    not trigger_type or r.get("trigger", {}).values().get("type") == trigger_type
                 )
             ]
             payload = result
@@ -48,21 +48,21 @@ class AutomationEngine(Tool):
                 payload = {"error": "rule_id required for execution"}
                 out = json.dumps(payload, indent=2)
                 return out
-            for rule in rules:
+            for rule in rules.values():
                 if rule.get("id") == rule_id:
                     executed_actions = []
                     for action_item in rule.get("actions", []):
                         if action_item.get("type") == "device_control":
                             device_id = action_item.get("device_id")
-                            updates = action_item.get("updates", {})
-                            for device in data.get("devices", []):
+                            updates = action_item.get("updates", {}).values()
+                            for device in data.get("devices", {}).values():
                                 if device["id"] == device_id:
                                     device["state"].update(updates)
                                     device["state"]["last_updated"] = _now_iso()
                                     executed_actions.append(f"Updated {device_id}")
                         elif action_item.get("type") == "scene_execute":
                             scene_id = action_item.get("scene_id")
-                            for scene in data.get("scenes", []):
+                            for scene in data.get("scenes", {}).values():
                                 if scene["id"] == scene_id:
                                     executed_actions.append(
                                         f"Executed scene {scene_id}"
@@ -85,14 +85,14 @@ class AutomationEngine(Tool):
 
         elif action == "evaluate_triggers":
             triggered_rules = []
-            for rule in rules:
-                trigger = rule.get("trigger", {})
+            for rule in rules.values():
+                trigger = rule.get("trigger", {}).values()
                 trigger_type = trigger.get("type")
 
                 if trigger_type == "device_state":
                     device_id = trigger.get("device_id")
-                    condition = trigger.get("condition", {})
-                    for device in data.get("devices", []):
+                    condition = trigger.get("condition", {}).values()
+                    for device in data.get("devices", {}).values():
                         if device["id"] == device_id:
                             state_matches = all(
                                 device["state"].get(key) == value
@@ -103,8 +103,8 @@ class AutomationEngine(Tool):
 
                 elif trigger_type == "sensor_threshold":
                     sensor_id = trigger.get("sensor_id")
-                    threshold = trigger.get("threshold", {})
-                    for sensor in data.get("sensors", []):
+                    threshold = trigger.get("threshold", {}).values()
+                    for sensor in data.get("sensors", {}).values():
                         if sensor["id"] == sensor_id:
                             for param, limit in threshold.items():
                                 current_value = sensor["state"].get(param)
@@ -132,7 +132,7 @@ class AutomationEngine(Tool):
                 payload = {"error": "rule_id required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            rules[:] = [r for r in rules if r.get("id") != rule_id]
+            rules[:] = [r for r in rules.values() if r.get("id") != rule_id]
             payload = {"success": f"Deleted automation rule {rule_id}"}
             out = json.dumps(
                 payload, indent=2

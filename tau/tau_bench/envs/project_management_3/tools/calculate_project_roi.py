@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateProjectROI(Tool):
@@ -26,15 +26,15 @@ class CalculateProjectROI(Tool):
             out = json.dumps(payload)
             return out
 
-        projects = data.get("projects", [])
-        budgets = data.get("budgets", [])
-        expenses = data.get("expenses", [])
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
-        task_logs = data.get("task_logs", [])
-        tasks = data.get("tasks", [])
+        projects = data.get("projects", {}).values()
+        budgets = data.get("budgets", {}).values()
+        expenses = data.get("expenses", {}).values()
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
+        task_logs = data.get("task_logs", {}).values()
+        tasks = data.get("tasks", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project {project_id} not found"}
             out = json.dumps(payload)
@@ -43,8 +43,7 @@ class CalculateProjectROI(Tool):
         project_budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -55,18 +54,16 @@ class CalculateProjectROI(Tool):
 
         project_tasks = [
             t
-            for t in tasks
-            if any(
+            for t in tasks.values() if any(
                 a.get("project_id") == project_id
-                for a in allocations
-                if a.get("employee_id") == t.get("assignee_id")
+                for a in allocations.values() if a.get("employee_id") == t.get("assignee_id")
             )
         ]
 
         actual_personnel_cost = 0
         for task in project_tasks:
             task_time_logs = [
-                log for log in task_logs if log.get("task_id") == task["task_id"]
+                log for log in task_logs.values() if log.get("task_id") == task["task_id"]
             ]
 
             for log in task_time_logs:
@@ -74,7 +71,7 @@ class CalculateProjectROI(Tool):
                 hours = log.get("hours", 0)
 
                 employee = next(
-                    (e for e in employees if e.get("employee_id") == employee_id), None
+                    (e for e in employees.values() if e.get("employee_id") == employee_id), None
                 )
                 if employee:
                     hourly_rate = (
@@ -84,11 +81,10 @@ class CalculateProjectROI(Tool):
 
         project_expenses = [
             e
-            for e in expenses
-            if e.get("project_id") == project_id and e.get("status") == "approved"
+            for e in expenses.values() if e.get("project_id") == project_id and e.get("status") == "approved"
         ]
 
-        total_expense_cost = sum(e.get("amount", 0) for e in project_expenses)
+        total_expense_cost = sum(e.get("amount", 0) for e in project_expenses.values()
 
         total_actual_cost = actual_personnel_cost + total_expense_cost
 

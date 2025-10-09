@@ -22,7 +22,7 @@ class AddPlan(Tool):
             out = json.dumps(payload)
             return out
 
-        total_budget = sum(alloc.get("budget", 0) for alloc in allocations)
+        total_budget = sum(alloc.get("budget", 0) for alloc in allocations.values()
 
         new_plan = {
             "plan_id": plan_id,

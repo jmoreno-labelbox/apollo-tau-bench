@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class get_performance_reviews(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str) -> str:
-        reviews = data.get("performance_reviews", [])
-        filtered = [r for r in reviews if r.get("employee_id") == employee_id]
+        reviews = data.get("performance_reviews", {}).values()
+        filtered = [r for r in reviews.values() if r.get("employee_id") == employee_id]
         payload = filtered
         out = json.dumps(payload, indent=2)
         return out

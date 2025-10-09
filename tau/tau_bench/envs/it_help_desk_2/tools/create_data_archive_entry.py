@@ -15,7 +15,7 @@ class CreateDataArchiveEntry(Tool):
             "retention_label": retention_label,
             "created_at": FIXED_NOW,
         }
-        archives.append(new_archive)
+        data["archives"][archive_id] = new_archive
         payload = new_archive
         out = json.dumps(payload, indent=2)
         return out

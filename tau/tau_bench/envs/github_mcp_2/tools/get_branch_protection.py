@@ -18,7 +18,7 @@ class GetBranchProtection(Tool):
             repo["branch_protection_rules"] = {}
 
         protection = repo.get("branch_protections", [{}])[idx]
-        rules = repo.get("branch_protection_rules", {})[idx]
+        rules = repo.get("branch_protection_rules", {}).values()[idx]
         payload = {"protected": protection if protection else "false", "rules": rules}
         out = json.dumps(
             payload, indent=2,

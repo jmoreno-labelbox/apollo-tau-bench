@@ -46,7 +46,7 @@ class PlaceSupplyOrder(Tool):
         if existing:
             existing.update(record)
         else:
-            so_list.append(record)
+            data["supply_orders"][record["supply_order_id"]] = record
         payload = {"success": True, "supply_order_id": supply_order_id}
         out = json.dumps(
             payload, indent=2

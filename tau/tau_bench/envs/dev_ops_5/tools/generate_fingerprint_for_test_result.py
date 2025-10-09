@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateFingerprintForTestResult(Tool):
@@ -15,7 +15,7 @@ class GenerateFingerprintForTestResult(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], test_result_id: str = None) -> str:
-        test_results = data.get("test_results", [])
+        test_results = data.get("test_results", {}).values()
 
         test_result = None
         for result in test_results:

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetJobByTitle(Tool):
@@ -17,7 +17,7 @@ class GetJobByTitle(Tool):
     def invoke(data: dict[str, Any], job_title: str = "", keywords: str = "") -> str:
         _keywordsL = keywords or ''.lower()
         pass
-        jobs = data.get("job_postings", [])
+        jobs = data.get("job_postings", {}).values()
 
         search_term = job_title or keywords
         if not search_term:
@@ -29,13 +29,13 @@ class GetJobByTitle(Tool):
 
         # Attempt an exact match initially
         job = next(
-            (j for j in jobs if j.get("title", "").lower() == search_term.lower()), None
+            (j for j in jobs.values() if j.get("title", "").lower() == search_term.lower()), None
         )
 
         # If an exact match is not found, attempt a partial match
         if not job:
             job = next(
-                (j for j in jobs if search_term.lower() in j.get("title", "").lower()),
+                (j for j in jobs.values() if search_term.lower() in j.get("title", "").lower()),
                 None,
             )
 
@@ -45,8 +45,7 @@ class GetJobByTitle(Tool):
             job = next(
                 (
                     j
-                    for j in jobs
-                    if any(
+                    for j in jobs.values() if any(
                         keyword in j.get("title", "").lower()
                         for keyword in keyword_list
                     )

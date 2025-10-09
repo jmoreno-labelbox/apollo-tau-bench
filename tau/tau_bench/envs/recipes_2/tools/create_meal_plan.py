@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateMealPlan(Tool):
@@ -16,10 +16,10 @@ class CreateMealPlan(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int = None, week_start_date: str = None, created_by_user_id: int = None) -> str:
-        meal_plans = data.get("meal_plans", [])
+        meal_plans = data.get("meal_plans", {}).values()
         # Automatically create the subsequent meal_plan_id
         new_id = (
-            max([plan.get("meal_plan_id", 0) for plan in meal_plans]) + 1
+            max([plan.get("meal_plan_id", 0) for plan in meal_plans.values()]) + 1
             if meal_plans
             else 6001
         )
@@ -31,7 +31,7 @@ class CreateMealPlan(Tool):
             "created_by_user_id": created_by_user_id,
             "created_at": "2025-08-20T11:00:00Z",  # Employing a constant timestamp for uniformity
         }
-        data["meal_plans"].append(new_plan)
+        data["meal_plans"][meal_plan_id] = new_plan
         payload = new_plan
         out = json.dumps(payload)
         return out

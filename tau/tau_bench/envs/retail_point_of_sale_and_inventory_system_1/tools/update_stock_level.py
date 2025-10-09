@@ -9,16 +9,16 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateStockLevel(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], inventory_id: str = None, quantity_to_add: int = None) -> str:
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
 
         found_item = None
-        for item in inventory:
+        for item in inventory.values():
             if item.get("id") == inventory_id:
                 found_item = item
                 break

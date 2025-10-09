@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class EscalateChangeRequest(Tool):
@@ -20,11 +20,11 @@ class EscalateChangeRequest(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        approval_workflows = data.get("approval_workflows", [])
-        change_history = data.get("change_history", [])
+        change_requests = data.get("change_requests", {}).values()
+        approval_workflows = data.get("approval_workflows", {}).values()
+        change_history = data.get("change_history", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
@@ -43,8 +43,7 @@ class EscalateChangeRequest(Tool):
         workflow = next(
             (
                 w
-                for w in approval_workflows
-                if w.get("cr_id") == cr_id and w.get("status") == "active"
+                for w in approval_workflows.values() if w.get("cr_id") == cr_id and w.get("status") == "active"
             ),
             None,
         )
@@ -73,7 +72,7 @@ class EscalateChangeRequest(Tool):
             "priority_change": f"{old_priority} -> {cr.get('priority')}",
             "timestamp": datetime.now().isoformat(),
         }
-        change_history.append(history_entry)
+        data["change_history"][history_entry["change_history_id"]] = history_entry
         payload = {
             "success": True,
             "escalation": {

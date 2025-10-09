@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class make_transaction(Tool):
@@ -26,10 +26,10 @@ class make_transaction(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        products = data.get("products", [])
-        promotions = data.get("promotions", [])
+        products = data.get("products", {}).values()
+        promotions = data.get("promotions", {}).values()
 
-        for product in products:
+        for product in products.values():
             if ((sku is not None) and (product["sku"] == sku)) or (
                 (barcode is not None) and (product["barcode"] == barcode)
             ):
@@ -37,7 +37,7 @@ class make_transaction(Tool):
                 sku = product["sku"]
 
                 #Acquire the promotional information
-                for promotion in promotions:
+                for promotion in promotions.values()):
                     if sku in promotion["applicable_skus"]:
                         break
 
@@ -95,7 +95,7 @@ class make_transaction(Tool):
             out = json.dumps(payload)
             return out
 
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
 
         # Items that are appropriate for a transaction record
         line_items = []
@@ -164,7 +164,7 @@ class make_transaction(Tool):
 
         # Retrieve the most recent transaction id and increase it by one
         transaction_id = (
-            max([int(x["transaction_id"].split("-")[1]) for x in transactions]) + 1
+            max([int(x["transaction_id"].split("-")[1]) for x in transactions.values()]) + 1
         )
 
         total_amount = round(total_amount, 2)
@@ -191,7 +191,7 @@ class make_transaction(Tool):
 
         # Insert into the database and return the item
         if commit_transaction:
-            transactions.append(transaction_row)
+            data["transactions"][transaction_id] = transaction_row
         payload = transaction_row
         out = json.dumps(payload, indent=2)
         return out

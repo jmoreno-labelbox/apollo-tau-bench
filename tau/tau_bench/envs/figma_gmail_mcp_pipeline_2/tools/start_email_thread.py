@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class StartEmailThread(Tool):
@@ -33,7 +33,7 @@ class StartEmailThread(Tool):
         ]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -41,8 +41,8 @@ class StartEmailThread(Tool):
             )
             return out
 
-        threads: list[dict[str, Any]] = data.get("gmail_threads", [])
-        messages: list[dict[str, Any]] = data.get("gmail_messages", [])
+        threads: list[dict[str, Any]] = data.get("gmail_threads", {}).values()
+        messages: list[dict[str, Any]] = data.get("gmail_messages", {}).values()
 
         thread_id = get_next_thread_id(data)
         message_id = get_next_message_id(data)
@@ -76,7 +76,7 @@ class StartEmailThread(Tool):
             "attachments_asset_ids": attachments_asset_ids,
         }
 
-        threads.append(new_thread)
+        thredata["ads"][ad_id] = new_thread
         messages.append(new_message)
         data["gmail_threads"] = threads
         data["gmail_messages"] = messages

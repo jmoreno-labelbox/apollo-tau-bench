@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class IdentifyCustomGroupsAndMapToDsComponents(Tool):  #READ
@@ -20,11 +20,11 @@ class IdentifyCustomGroupsAndMapToDsComponents(Tool):  #READ
             out = json.dumps(payload)
             return out
 
-        audits = data.get("audits", [])
-        artifacts = data.get("figma_artifacts", [])
+        audits = data.get("audits", {}).values()
+        artifacts = data.get("figma_artifacts", {}).values()
 
         #Identify the audit
-        audit = next((a for a in audits if a.get("audit_id") == audit_id), None)
+        audit = next((a for a in audits.values() if a.get("audit_id") == audit_id), None)
         if not audit:
             payload = {"error": f"Audit {audit_id} not found"}
             out = json.dumps(payload)
@@ -38,7 +38,7 @@ class IdentifyCustomGroupsAndMapToDsComponents(Tool):  #READ
 
         #Locate the artifact
         artifact = next(
-            (a for a in artifacts if a.get("artifact_id") == artifact_id), None
+            (a for a in artifacts.values() if a.get("artifact_id") == artifact_id), None
         )
         if not artifact:
             payload = {"error": f"Artifact {artifact_id} not found"}

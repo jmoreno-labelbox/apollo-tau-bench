@@ -9,16 +9,16 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
 class GetUserId(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_name: str = None) -> str:
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
 
-        for user in users:
+        for user in users.values():
             if user.get("name") == user_name:
                 payload = {"user_id": user.get("user_id")}
                 out = json.dumps(payload)
@@ -51,8 +51,8 @@ class GetUserId(Tool):
 class GetUserGoals(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        goals = data.get("goals", [])
-        result = [g for g in goals if g["user_id"] == user_id]
+        goals = data.get("goals", {}).values()
+        result = [g for g in goals.values() if g["user_id"] == user_id]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -80,8 +80,8 @@ class GetUserGoals(Tool):
 class GetRoleRequirements(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], role_name: str = None) -> str:
-        role_catalog = data.get("role_skill_catalog", [])
-        result = [r for r in role_catalog if r["role"] == role_name]
+        role_catalog = data.get("role_skill_catalog", {}).values()
+        result = [r for r in role_catalog.values() if r["role"] == role_name]
 
         if not result:
             payload = {
@@ -120,11 +120,10 @@ class GetRoleRequirements(Tool):
 class GetUserSkillGap(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        gaps = data.get("skill_gap_analysis", [])
+        gaps = data.get("skill_gap_analysis", {}).values()
         result = [
             g
-            for g in gaps
-            if g["user_id"] == user_id and g["target_role"] == target_role
+            for g in gaps.values() if g["user_id"] == user_id and g["target_role"] == target_role
         ]
 
         if not result:
@@ -171,11 +170,10 @@ class GetUserSkillGap(Tool):
 class RecommendCourseForGap(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        gaps = data.get("skill_gap_analysis", [])
+        gaps = data.get("skill_gap_analysis", {}).values()
         user_gaps = [
             g
-            for g in gaps
-            if g["user_id"] == user_id and g["target_role"] == target_role
+            for g in gaps.values() if g["user_id"] == user_id and g["target_role"] == target_role
         ]
 
         if not user_gaps:
@@ -261,9 +259,9 @@ class RecommendCourseForGap(Tool):
 class GetTeamMembers(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], team_id: str = None) -> str:
-        teams = data.get("teams", [])
+        teams = data.get("teams", {}).values()
 
-        for t in teams:
+        for t in teams.values():
             if t["team_id"] == team_id:
                 payload = {"user_ids": t.get("team_members", [])}
                 out = json.dumps(payload, indent=2)
@@ -303,10 +301,10 @@ class GetUsersWithLeadershipGoals(Tool):
     def invoke(data: dict[str, Any], user_ids: list[int] = None) -> str:
         if user_ids is None:
             user_ids = []
-        goals = data.get("goals", [])
+        goals = data.get("goals", {}).values()
         leadership_users = []
 
-        for g in goals:
+        for g in goals.values():
             if g["user_id"] in user_ids:
                 for goal in g.get("goals", []):
                     goal_desc = goal.get("goal_description", "").lower()
@@ -368,11 +366,11 @@ class GetUsersWithLeadershipGoals(Tool):
 class AssessSoftSkillAlignment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        soft_skills = data.get("soft_skills", [])
+        soft_skills = data.get("soft_skills", {}).values()
 
         # Identify relevant soft skills for the desired position
         applicable_skills = []
-        for s in soft_skills:
+        for s in soft_skills.values():
             if target_role in s.get("applicable_roles", []):
                 applicable_skills.append(s["skill"])
 
@@ -470,9 +468,9 @@ class ShortlistSuccessorCandidate(Tool):
 class GetUserTargetRole(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        goals_data = data.get("goals", [])
+        goals_data = data.get("goals", {}).values()
 
-        user_goals = [g for g in goals_data if g.get("user_id") == user_id]
+        user_goals = [g for g in goals_data.values() if g.get("user_id") == user_id]
 
         if not user_goals:
             payload = {"error": f"No goals found for user {user_id}."}
@@ -567,8 +565,8 @@ class AssignCourseToUser(Tool):
 class ValidateUserGoalAlignment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        goals = data.get("goals", [])
-        user_goals = [g for g in goals if g["user_id"] == user_id]
+        goals = data.get("goals", {}).values()
+        user_goals = [g for g in goals.values() if g["user_id"] == user_id]
 
         if not user_goals:
             payload = {"valid": False, "reason": "No goals found for user"}
@@ -625,11 +623,10 @@ class ValidateUserGoalAlignment(Tool):
 class CheckTrainingNeeded(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        gaps = data.get("skill_gap_analysis", [])
+        gaps = data.get("skill_gap_analysis", {}).values()
         user_gaps = [
             g
-            for g in gaps
-            if g["user_id"] == user_id and g["target_role"] == target_role
+            for g in gaps.values() if g["user_id"] == user_id and g["target_role"] == target_role
         ]
 
         if not user_gaps:
@@ -689,9 +686,9 @@ class CheckTrainingNeeded(Tool):
 class ValidateTeamMembership(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, team_id: str = None) -> str:
-        teams = data.get("teams", [])
+        teams = data.get("teams", {}).values()
 
-        for team in teams:
+        for team in teams.values():
             if team["team_id"] == team_id:
                 members = team.get("team_members", [])
                 if user_id in members:
@@ -737,10 +734,10 @@ class ValidateTeamMembership(Tool):
 class ValidateCourseSkillMapping(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], course_id: str = None, skill_name: str = None) -> str:
-        courses = data.get("course_catalog", [])
+        courses = data.get("course_catalog", {}).values()
 
         course = None
-        for c in courses:
+        for c in courses.values():
             if c["course_id"] == course_id:
                 course = c
                 break
@@ -807,9 +804,9 @@ class ValidateCourseSkillMapping(Tool):
 class GetUserPreferences(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        preferences = data.get("user_preferences", [])
+        preferences = data.get("user_preferences", {}).values()
 
-        for pref in preferences:
+        for pref in preferences.values():
             if pref.get("user_id") == user_id:
                 payload = pref
                 out = json.dumps(payload, indent=2)
@@ -817,7 +814,7 @@ class GetUserPreferences(Tool):
         payload = {
                 "error": "User preferences not found",
                 "user_id": user_id,
-                "available_users_with_prefs": [p.get("user_id") for p in preferences],
+                "available_users_with_prefs": [p.get("user_id") for p in preferences.values()],
             }
         out = json.dumps(
             payload, indent=2,
@@ -847,9 +844,9 @@ class GetUserPreferences(Tool):
 class GetUserCourseProgress(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        progress_data = data.get("user_course_progress", [])
+        progress_data = data.get("user_course_progress", {}).values()
 
-        user_progress = [p for p in progress_data if p.get("user_id") == user_id]
+        user_progress = [p for p in progress_data.values() if p.get("user_id") == user_id]
         payload = user_progress
         out = json.dumps(payload, indent=2)
         return out
@@ -937,9 +934,9 @@ class LogTeamTraining(Tool):
 class GetUserProfile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
 
-        for user in users:
+        for user in users.values():
             if user.get("user_id") == user_id:
                 profile_data = {
                     "user_id": user.get("user_id"),

@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ExportRecentTickets(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], days: int = 30) -> str:
-        tickets = data.get("tickets", [])
+        tickets = data.get("tickets", {}).values()
         report_path = f"\\\\IT\\Reports\\DailyReports\\{FIXED_NOW.split('T')[0]}\\Tickets_Export.csv"
         payload = {"export_path": report_path, "ticket_count": len(tickets)}
         out = json.dumps(payload, indent=2)

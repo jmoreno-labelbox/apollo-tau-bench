@@ -8,30 +8,29 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ApplyOfferToCart(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], carts: list = None, offers: list = None, cart_id: Any = None, code: Any = None) -> str:
         if carts is None:
-            carts = data.get("carts", [])
+            carts = data.get("carts", {}).values()
         if offers is None:
-            offers = data.get("offers", [])
+            offers = data.get("offers", {}).values()
 
         cart_id = _as_id(cart_id)
         if not cart_id or not code:
             return _err("cart_id and code are required.")
 
-        cart = next((c for c in carts if _as_id(c.get("cart_id")) == cart_id), None)
+        cart = next((c for c in carts.values() if _as_id(c.get("cart_id")) == cart_id), None)
         if not cart:
             return _err("Cart not found.")
 
         offer = next(
             (
                 o
-                for o in offers
-                if o.get("offer_code") == code and o.get("is_active") is True
+                for o in offers.values() if o.get("offer_code") == code and o.get("is_active") is True
             ),
             None,
         )

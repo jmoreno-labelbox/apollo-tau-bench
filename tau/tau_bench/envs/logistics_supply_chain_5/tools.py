@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -30,11 +30,10 @@ def generate_unique_id() -> str:
 class GetInventoryBySkuWarehouse(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], sku: str, warehouse_id: str) -> str:
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
 
         inventory_item = next(
-            (item for item in inventory
-             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
+            (item for item in inventory.values() if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
             None
         )
 
@@ -85,23 +84,23 @@ class CreatePurchaseOrder(Tool):
                 "error": "supplier_id, sku, quantity, and destination_warehouse are required"
             })
 
-        suppliers = data.get("supplier_master", [])
-        products = data.get("product_master", [])
-        warehouses = data.get("warehouses", [])
+        suppliers = data.get("supplier_master", {}).values()
+        products = data.get("product_master", {}).values()
+        warehouses = data.get("warehouses", {}).values()
 
-        supplier = next((s for s in suppliers if s.get("supplier_id") == supplier_id), None)
+        supplier = next((s for s in suppliers.values() if s.get("supplier_id") == supplier_id), None)
         if not supplier:
             return json.dumps({"error": f"Supplier {supplier_id} not found"})
 
-        product = next((p for p in products if p.get("sku") == sku), None)
+        product = next((p for p in products.values() if p.get("sku") == sku), None)
         if not product:
             return json.dumps({"error": f"Product {sku} not found"})
 
-        warehouse = next((w for w in warehouses if w.get("warehouse_id") == destination_warehouse), None)
+        warehouse = next((w for w in warehouses.values() if w.get("warehouse_id") == destination_warehouse), None)
         if not warehouse:
             return json.dumps({"error": f"Warehouse {destination_warehouse} not found"})
 
-        existing_pos = data.get("purchase_orders", [])
+        existing_pos = data.get("purchase_orders", {}).values()
         po_counter = len(existing_pos) + 1
         po_id = f"PO-{supplier_id}-{sku}-{po_counter:03d}"
 
@@ -165,13 +164,12 @@ class CreatePurchaseOrder(Tool):
 class SearchInboundShipments(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], sku: str = None, destination_warehouse_id: str = None, status: str = None) -> str:
-        inbound_shipments = data.get("inbound_shipments", [])
-        inventory = data.get("inventory", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
+        inventory = data.get("inventory", {}).values()
 
         # Retrieve the existing stock for the SKU/warehouse
         current_inventory = next(
-            (item for item in inventory
-             if item.get("sku") == sku and item.get("warehouse_id") == destination_warehouse_id),
+            (item for item in inventory.values() if item.get("sku") == sku and item.get("warehouse_id") == destination_warehouse_id),
             None
         )
 
@@ -180,7 +178,7 @@ class SearchInboundShipments(Tool):
 
         # Narrow down the shipments that match
         results = []
-        for shipment in inbound_shipments:
+        for shipment in inbound_shipments.values()):
             match = True
             # Verify if the shipment includes the SKU by searching the data structure
             if sku and not any(sku in str(value) for value in shipment.values()):
@@ -223,9 +221,9 @@ class SearchInboundShipments(Tool):
 class GetOrderDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str) -> str:
-        orders = data.get("outbound_orders", [])
+        orders = data.get("outbound_orders", {}).values()
 
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
 
         if not order:
             return json.dumps({"error": f"Order {order_id} not found"})
@@ -251,10 +249,10 @@ class GetOrderDetails(Tool):
 class VerifyInventoryAllocation(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str, outbound_orders: list = None, inventory: list = None) -> str:
-        orders = outbound_orders if outbound_orders is not None else data.get("outbound_orders", [])
-        inventory = inventory if inventory is not None else data.get("inventory", [])
+        orders = outbound_orders if outbound_orders is not None else data.get("outbound_orders", {}).values()
+        inventory = inventory if inventory is not None else data.get("inventory", {}).values()
 
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             return json.dumps({"error": f"Order {order_id} not found"})
 
@@ -262,8 +260,8 @@ class VerifyInventoryAllocation(Tool):
         total_units = order.get("total_units", 0)
 
         # Basic allocation verification - a real system would assess line items
-        warehouse_inventory = [item for item in inventory if item.get("warehouse_id") == warehouse_id]
-        total_available = sum(item.get("quantity_available", 0) for item in warehouse_inventory)
+        warehouse_inventory = [item for item in inventory.values() if item.get("warehouse_id") == warehouse_id]
+        total_available = sum(item.get("quantity_available", 0) for item in warehouse_inventory.values()
 
         allocation_status = "fully_allocated" if total_available >= total_units else "insufficient_inventory"
 
@@ -303,16 +301,16 @@ class SelectOptimalCarrier(Tool):
         weight_kg: Any = None,
         max_transit_days: Any = None,
     ) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
 
         # Select only the active carriers
-        active_carriers = [c for c in carriers if c.get("active_status", False)]
+        active_carriers = [c for c in carriers.values() if c.get("active_status", False)]
 
         # Implement business guidelines for choosing carriers
         suitable_carriers = []
         for carrier in active_carriers:
             # Guideline: Carriers with less than 95% on-time delivery are not eligible for Critical priority
-            if priority_level == "Critical" and carrier.get("performance_metrics", {}).get("on_time_delivery_percentage", 0) < 95:
+            if priority_level == "Critical" and carrier.get("performance_metrics", {}).values().get("on_time_delivery_percentage", 0) < 95:
                 continue
 
             if carriers_list:
@@ -321,7 +319,7 @@ class SelectOptimalCarrier(Tool):
 
             # Guideline: Assess regional coverage and the ability to service cities
             coverage = carrier.get("regional_coverage", "")
-            carrier_address = carrier.get("contact_information", {}).get("address", {})
+            carrier_address = carrier.get("contact_information", {}).values().get("address", {}).values()
             carrier_country = carrier_address.get("country", "")
             carrier_city = carrier_address.get("city", "")
 
@@ -354,7 +352,7 @@ class SelectOptimalCarrier(Tool):
                     coverage_match = True
 
             if coverage_match:
-                suitable_carriers.append(carrier)
+                suitable_data["carriers"][carrier["carrier_id"]] = carrier
 
         if not suitable_carriers:
             return json.dumps({"error": "No suitable carriers found for the specified criteria"})
@@ -367,19 +365,19 @@ class SelectOptimalCarrier(Tool):
                 # For urgent shipments, give precedence to performance
                 best_carrier = max(suitable_carriers,
                                 key=lambda c: (
-                                    c.get("performance_metrics", {}).get("on_time_delivery_percentage", 0),
-                                    c.get("performance_metrics", {}).get("average_rating", 0)
+                                    c.get("performance_metrics", {}).values().get("on_time_delivery_percentage", 0),
+                                    c.get("performance_metrics", {}).values().get("average_rating", 0)
                                 ))
             else:
                 # For regular shipments, find a balance between performance and cost
                 best_carrier = max(suitable_carriers,
-                                key=lambda c: c.get("performance_metrics", {}).get("average_rating", 0))
+                                key=lambda c: c.get("performance_metrics", {}).values().get("average_rating", 0))
 
         return json.dumps({
             "selected_carrier": best_carrier.get("scac"),
             "carrier_name": best_carrier.get("carrier_name"),
-            "performance_rating": best_carrier.get("performance_metrics", {}).get("average_rating"),
-            "on_time_delivery": best_carrier.get("performance_metrics", {}).get("on_time_delivery_percentage"),
+            "performance_rating": best_carrier.get("performance_metrics", {}).values().get("average_rating"),
+            "on_time_delivery": best_carrier.get("performance_metrics", {}).values().get("on_time_delivery_percentage"),
             "coverage": best_carrier.get("regional_coverage")
         })
     @staticmethod
@@ -418,14 +416,14 @@ class SelectOptimalCarrier(Tool):
 class GenerateShippingLabels(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str, carrier_scac: str, outbound_orders: list = None, carriers: list = None) -> str:
-        orders = outbound_orders if outbound_orders is not None else data.get("outbound_orders", [])
-        carriers = carriers if carriers is not None else data.get("carriers", [])
+        orders = outbound_orders if outbound_orders is not None else data.get("outbound_orders", {}).values()
+        carriers = carriers if carriers is not None else data.get("carriers", {}).values()
 
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             return json.dumps({"error": f"Order {order_id} not found"})
 
-        carrier = next((c for c in carriers if c.get("scac") == carrier_scac), None)
+        carrier = next((c for c in carriers.values() if c.get("scac") == carrier_scac), None)
 
         # UPDATED: Manage carriers mentioned in orders that are absent from carriers.json
         tracking = ""
@@ -488,9 +486,9 @@ class GenerateShippingLabels(Tool):
 class UpdateOrderStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str, new_status: str) -> str:
-        orders = data.get("outbound_orders", [])
+        orders = data.get("outbound_orders", {}).values()
 
-        order = next((o for o in orders if o.get("order_id") == order_id), None)
+        order = next((o for o in orders.values() if o.get("order_id") == order_id), None)
         if not order:
             return json.dumps({"error": f"Order {order_id} not found"})
 
@@ -530,9 +528,9 @@ class GetShipmentDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], shipment_id: str, inbound_shipments: list = None) -> str:
         if inbound_shipments is None:
-            inbound_shipments = data.get("inbound_shipments", [])
+            inbound_shipments = data.get("inbound_shipments", {}).values()
 
-        shipment = next((s for s in inbound_shipments if s.get("shipment_id") == shipment_id), None)
+        shipment = next((s for s in inbound_shipments.values() if s.get("shipment_id") == shipment_id), None)
 
         if not shipment:
             return json.dumps({"error": f"Shipment {shipment_id} not found"})
@@ -558,9 +556,9 @@ class GetShipmentDetails(Tool):
 class VerifyCustomsDocumentation(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], shipment_id: str, customs_clearance_status: str = None, duty_paid: bool = False) -> str:
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
 
-        shipment = next((s for s in inbound_shipments if s.get("shipment_id") == shipment_id), None)
+        shipment = next((s for s in inbound_shipments.values() if s.get("shipment_id") == shipment_id), None)
         if not shipment:
             return json.dumps({"error": f"Shipment {shipment_id} not found"})
 
@@ -645,9 +643,9 @@ class CalculateCustomsDuty(Tool):
 class ProcessDutyPayment(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], shipment_id: str, duty_amount: float) -> str:
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
 
-        shipment = next((s for s in inbound_shipments if s.get("shipment_id") == shipment_id), None)
+        shipment = next((s for s in inbound_shipments.values() if s.get("shipment_id") == shipment_id), None)
         if not shipment:
             return json.dumps({"error": f"Shipment {shipment_id} not found"})
 
@@ -697,9 +695,9 @@ class ProcessDutyPayment(Tool):
 class UpdateCustomsStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], shipment_id: str, status: str) -> str:
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
 
-        shipment = next((s for s in inbound_shipments if s.get("shipment_id") == shipment_id), None)
+        shipment = next((s for s in inbound_shipments.values() if s.get("shipment_id") == shipment_id), None)
         if not shipment:
             return json.dumps({"error": f"Shipment {shipment_id} not found"})
 
@@ -737,9 +735,9 @@ class UpdateCustomsStatus(Tool):
 class UpdateShipmentStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], shipment_id: str, status: str) -> str:
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
 
-        shipment = next((s for s in inbound_shipments if s.get("shipment_id") == shipment_id), None)
+        shipment = next((s for s in inbound_shipments.values() if s.get("shipment_id") == shipment_id), None)
         if not shipment:
             return json.dumps({"error": f"Shipment {shipment_id} not found"})
 
@@ -779,9 +777,9 @@ class GetSupplierPerformance(Tool):
     def invoke(data: Dict[str, Any], supplier_id: str, supplier_name: str = None, performance_rating: float = None, 
                on_time_delivery_percentage: float = None, relationship_status: str = None, 
                certifications: list = None, standard_lead_time_days: int = None, payment_terms: str = None) -> str:
-        suppliers = data.get("supplier_master", [])
+        suppliers = data.get("supplier_master", {}).values()
 
-        supplier = next((s for s in suppliers if s.get("supplier_id") == supplier_id), None)
+        supplier = next((s for s in suppliers.values() if s.get("supplier_id") == supplier_id), None)
 
         if not supplier:
             return json.dumps({"error": f"Supplier {supplier_id} not found"})
@@ -820,8 +818,8 @@ class CreateSupplierImprovementPlan(Tool):
     def invoke(data: Dict[str, Any], supplier_id: str, review_cycle_days: int = 90, recommendation: str = "maintain_active",
     reason: Any = None,
     ) -> str:
-        suppliers = data.get("supplier_master", [])
-        supplier = next((s for s in suppliers if s.get("supplier_id") == supplier_id), None)
+        suppliers = data.get("supplier_master", {}).values()
+        supplier = next((s for s in suppliers.values() if s.get("supplier_id") == supplier_id), None)
 
         if not supplier:
             return json.dumps({"error": f"Supplier {supplier_id} not found"})
@@ -883,10 +881,10 @@ class SearchPurchaseOrders(Tool):
     def invoke(data: Dict[str, Any], supplier_id: str = None, status: str = None) -> str:
         # Due to the absence of purchase_orders data, we will look into inbound_shipments
         # that signify orders that have been made and are currently being processed
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
         results = []
 
-        for shipment in inbound_shipments:
+        for shipment in inbound_shipments.values():
             match = True
 
             if supplier_id and shipment.get("supplier_id") != supplier_id:
@@ -936,11 +934,10 @@ class SearchPurchaseOrders(Tool):
 class GetInventoryDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], sku: str, warehouse_id: str) -> str:
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
 
         inventory_item = next(
-            (item for item in inventory
-             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
+            (item for item in inventory.values() if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
             None
         )
 
@@ -971,11 +968,10 @@ class GetInventoryDetails(Tool):
 class PerformPhysicalCount(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], sku: str, warehouse_id: str, instruction_amount: int = 0, quantity_available_flag: bool = False) -> str:
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
 
         inventory_item = next(
-            (item for item in inventory
-             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
+            (item for item in inventory.values() if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
             None
         )
 
@@ -1085,11 +1081,10 @@ class CreateInventoryAdjustment(Tool):
     variance_percentage: Any = None,
     unit_cost: Any = None,
     ) -> str:
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
 
         inventory_item = next(
-            (item for item in inventory
-             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
+            (item for item in inventory.values() if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id),
             None
         )
 
@@ -1123,8 +1118,8 @@ class CreateInventoryAdjustment(Tool):
         data["inventory_adjustments"].append(adjustment_record)
 
         # Compute the overall adjustment value
-        product_master = data.get("inventory", [])
-        product = next((p for p in product_master if p.get("sku") == sku), None)
+        product_master = data.get("inventory", {}).values()
+        product = next((p for p in product_master.values() if p.get("sku") == sku), None)
         unit_price = product.get("unit_cost", 0) if product else 0
 
         total_adjustment_value = abs(adjustment_quantity) * unit_price
@@ -1159,20 +1154,20 @@ class CreateInventoryAdjustment(Tool):
 class UpdateAccuracyMetrics(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str, warehouses: list = None, inventory: list = None, cycle_counts: list = None) -> str:
-        warehouses = warehouses if warehouses is not None else data.get("warehouses", [])
-        inventory = inventory if inventory is not None else data.get("inventory", [])
-        cycle_counts = cycle_counts if cycle_counts is not None else data.get("cycle_counts", [])
+        warehouses = warehouses if warehouses is not None else data.get("warehouses", {}).values()
+        inventory = inventory if inventory is not None else data.get("inventory", {}).values()
+        cycle_counts = cycle_counts if cycle_counts is not None else data.get("cycle_counts", {}).values()
 
-        warehouse = next((w for w in warehouses if w.get("warehouse_id") == warehouse_id), None)
+        warehouse = next((w for w in warehouses.values() if w.get("warehouse_id") == warehouse_id), None)
         if not warehouse:
             return json.dumps({"error": f"Warehouse {warehouse_id} not found"})
 
         # Determine accuracy metrics
-        warehouse_inventory = [item for item in inventory if item.get("warehouse_id") == warehouse_id]
-        warehouse_counts = [count for count in cycle_counts if count.get("warehouse_id") == warehouse_id]
+        warehouse_inventory = [item for item in inventory.values() if item.get("warehouse_id") == warehouse_id]
+        warehouse_counts = [count for count in cycle_counts.values() if count.get("warehouse_id") == warehouse_id]
 
         total_items = len(warehouse_inventory)
-        accurate_counts = len([count for count in warehouse_counts if abs(count.get("variance", 0)) <= count.get("system_count", 1) * 0.02])
+        accurate_counts = len([count for count in warehouse_counts.values() if abs(count.get("variance", 0)) <= count.get("system_count", 1) * 0.02])
 
         accuracy_percentage = (accurate_counts / max(len(warehouse_counts), 1)) * 100 if warehouse_counts else 99.5
 
@@ -1205,16 +1200,16 @@ class UpdateAccuracyMetrics(Tool):
 class GetCarrierPerformance(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], carrier_scac: str = None, route: str = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
 
-        carrier = next((c for c in carriers if c.get("scac") == carrier_scac), None)
+        carrier = next((c for c in carriers.values() if c.get("scac") == carrier_scac), None)
         if not carrier:
             return json.dumps({"error": f"Carrier {carrier_scac} not found"})
 
         performance_data = {
             "carrier_scac": carrier_scac,
             "carrier_name": carrier.get("carrier_name"),
-            "performance_metrics": carrier.get("performance_metrics", {}),
+            "performance_metrics": carrier.get("performance_metrics", {}).values()),
             "supported_modes": carrier.get("supported_modes", []),
             "service_levels": carrier.get("service_levels", []),
             "regional_coverage": carrier.get("regional_coverage"),
@@ -1244,9 +1239,9 @@ class GetCarrierPerformance(Tool):
 class RequestShippingQuote(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], carrier_scac: str = None, weight_kg: float = None, destination: str = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
 
-        carrier = next((c for c in carriers if c.get("scac") == carrier_scac), None)
+        carrier = next((c for c in carriers.values() if c.get("scac") == carrier_scac), None)
         if not carrier:
             return json.dumps({"error": f"Carrier {carrier_scac} not found"})
 
@@ -1309,8 +1304,8 @@ class RequestShippingQuote(Tool):
 class GetWarehouseCapacity(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str, total_storage_capacity_cbm: float = 0, current_utilization_percentage: float = 0) -> str:
-        warehouses = data.get("warehouses", [])
-        warehouse = next((w for w in warehouses if w.get("warehouse_id") == warehouse_id), None)
+        warehouses = data.get("warehouses", {}).values()
+        warehouse = next((w for w in warehouses.values() if w.get("warehouse_id") == warehouse_id), None)
 
         if not warehouse:
             return json.dumps({"error": f"Warehouse {warehouse_id} not found"})
@@ -1345,8 +1340,8 @@ class GetWarehouseCapacity(Tool):
 class CalculateUtilizationPercentage(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str) -> str:
-        warehouses = data.get("warehouses", [])
-        warehouse = next((w for w in warehouses if w.get("warehouse_id") == warehouse_id), None)
+        warehouses = data.get("warehouses", {}).values()
+        warehouse = next((w for w in warehouses.values() if w.get("warehouse_id") == warehouse_id), None)
 
         if not warehouse:
             return json.dumps({"error": f"Warehouse {warehouse_id} not found"})
@@ -1378,15 +1373,15 @@ class CalculateUtilizationPercentage(Tool):
 class AnalyzeInventoryByCategory(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str, inventory: list = None, product_master: list = None) -> str:
-        inventory = inventory if inventory is not None else data.get("inventory", [])
-        product_master = product_master if product_master is not None else data.get("product_master", [])
+        inventory = inventory if inventory is not None else data.get("inventory", {}).values()
+        product_master = product_master if product_master is not None else data.get("product_master", {}).values()
 
-        warehouse_inventory = [item for item in inventory if item.get("warehouse_id") == warehouse_id]
+        warehouse_inventory = [item for item in inventory.values() if item.get("warehouse_id") == warehouse_id]
 
         category_analysis = {}
         for item in warehouse_inventory:
             sku = item.get("sku")
-            product = next((p for p in product_master if p.get("sku") == sku), None)
+            product = next((p for p in product_master.values() if p.get("sku") == sku), None)
             if product:
                 category = product.get("category", "Unknown")
                 if category not in category_analysis:
@@ -1419,15 +1414,15 @@ class AnalyzeInventoryByCategory(Tool):
 class IdentifyOverflowOptions(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str, required_capacity: int) -> str:
-        warehouses = data.get("warehouses", [])
-        current_warehouse = next((w for w in warehouses if w["warehouse_id"] == warehouse_id), None)
+        warehouses = data.get("warehouses", {}).values()
+        current_warehouse = next((w for w in warehouses.values() if w["warehouse_id"] == warehouse_id), None)
 
         if not current_warehouse:
             return json.dumps({"error": f"Warehouse {warehouse_id} not found"})
 
         # Locate nearby warehouses that have available space
         overflow_options = []
-        for warehouse in warehouses:
+        for warehouse in warehouses.values():
             if warehouse["warehouse_id"] != warehouse_id:
                 total_capacity = warehouse["total_storage_capacity_cbm"]
                 utilization = warehouse["current_utilization_percentage"]
@@ -1547,8 +1542,8 @@ class CheckTemperatureLogs(Tool):
     def invoke(data: Dict[str, Any], shipment_id: str = None, required_temp_range: str = None, excursions_flag: bool = False,
     required_range: Any = None,
     ) -> str:
-        shipments = data.get("inbound_shipments", [])
-        shipment = next((s for s in shipments if s.get("shipment_id") == shipment_id), None)
+        shipments = data.get("inbound_shipments", {}).values()
+        shipment = next((s for s in shipments.values() if s.get("shipment_id") == shipment_id), None)
 
         excursions_detected = False
         temperature_compliance = "compliant"
@@ -1723,9 +1718,9 @@ class CreateIncidentReport(Tool):
 class NotifySupplier(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], supplier_id: str, notification_type: str) -> str:
-        suppliers = data.get("supplier_master", [])
+        suppliers = data.get("supplier_master", {}).values()
 
-        supplier = next((s for s in suppliers if s.get("supplier_id") == supplier_id), None)
+        supplier = next((s for s in suppliers.values() if s.get("supplier_id") == supplier_id), None)
         if not supplier:
             return json.dumps({"error": f"Supplier {supplier_id} not found"})
 
@@ -1736,8 +1731,8 @@ class NotifySupplier(Tool):
             "supplier_id": supplier_id,
             "supplier_name": supplier.get("supplier_name"),
             "notification_type": notification_type,
-            "contact_email": supplier.get("contact_information", {}).get("email"),
-            "contact_phone": supplier.get("contact_information", {}).get("phone"),
+            "contact_email": supplier.get("contact_information", {}).values().get("email"),
+            "contact_phone": supplier.get("contact_information", {}).values().get("phone"),
             "notification_date": get_current_timestamp(),
             "delivery_status": "Sent",
             "urgency": "High" if notification_type == "quality_incident" else "Medium"
@@ -1773,11 +1768,11 @@ class NotifySupplier(Tool):
 class GetApprovedSuppliers(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], sku: str, preferred_supplier: str = None) -> str:
-        suppliers = data.get("supplier_master", [])
-        product_master = data.get("product_master", [])
+        suppliers = data.get("supplier_master", {}).values()
+        product_master = data.get("product_master", {}).values()
 
         # Identify the product to determine its category
-        product = next((p for p in product_master if p.get("sku") == sku), None)
+        product = next((p for p in product_master.values() if p.get("sku") == sku), None)
         if not product:
             return json.dumps({"error": f"Product {sku} not found"})
 
@@ -1785,7 +1780,7 @@ class GetApprovedSuppliers(Tool):
 
         # Locate suppliers that offer products within this category
         approved_suppliers = []
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             supplier_categories = supplier.get("product_categories", [])
 
             if preferred_supplier and supplier.get("supplier_id") == preferred_supplier:
@@ -1802,7 +1797,7 @@ class GetApprovedSuppliers(Tool):
                 break
             else:
                 # Verify if the supplier caters to this product category and is operational
-                if (any(cat in product_category for cat in supplier_categories) and
+                if (any(cat in product_category for cat in supplier_categories.values() and
                     supplier.get("relationship_status") == "Active" and
                     supplier.get("performance_rating", 0) >= 4.0):
 
@@ -1896,7 +1891,7 @@ class EscalateToQualityTeam(Tool):
 
         if "escalations" not in data:
             data["escalations"] = []
-        data["escalations"].append(escalation)
+        data["escalations"][escalation_id] = escalation
 
         return json.dumps({
             "escalation_id": escalation_id,
@@ -1925,8 +1920,8 @@ class EscalateToQualityTeam(Tool):
 class VerifyStorageCompliance(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str, storage_type: str, compliant_flag: bool = True) -> str:
-        warehouses = data.get("warehouses", [])
-        warehouse = next((w for w in warehouses if w.get("warehouse_id") == warehouse_id), None)
+        warehouses = data.get("warehouses", {}).values()
+        warehouse = next((w for w in warehouses.values() if w.get("warehouse_id") == warehouse_id), None)
 
         if not warehouse:
             return json.dumps({"error": f"Warehouse {warehouse_id} not found"})

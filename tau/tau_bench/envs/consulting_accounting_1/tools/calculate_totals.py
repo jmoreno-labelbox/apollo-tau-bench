@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateTotals(Tool):
@@ -20,11 +20,11 @@ class CalculateTotals(Tool):
             and invoice_lines
             and isinstance(invoice_lines[0], dict)
         ):
-            subtotal = sum(float(l.get("line_amount", 0.0)) for l in invoice_lines)
+            subtotal = sum(float(l.get("line_amount", 0.0)) for l in invoice_lines.values()
         else:
             subtotal = 0.0
             lines_index = {
-                l["invoice_line_id"]: l for l in data.get("invoice_lines", [])
+                l["invoice_line_id"]: l for l in data.get("invoice_lines", {}).values()
             }
             for lid in invoice_lines:
                 line = lines_index.get(lid)

@@ -45,7 +45,7 @@ class AssignUserRoleTool(Tool):
                     "assigned_on": _HARD_TS,
                     "expires_on": expires_on,
                 }
-                roles.append(record)
+                data["roles"][role_id] = record
         payload = record
         out = json.dumps(payload, indent=2)
         return out

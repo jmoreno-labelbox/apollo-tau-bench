@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AnalyzeAllocationEfficiency(Tool):
@@ -23,9 +23,9 @@ class AnalyzeAllocationEfficiency(Tool):
         if projects is None:
             projects = []
 
-        allocations = data.get("allocations", [])
-        employees = data.get("employees", [])
-        projects_data = data.get("projects", [])
+        allocations = data.get("allocations", {}).values()
+        employees = data.get("employees", {}).values()
+        projects_data = data.get("projects", {}).values()
 
         partial_allocations_found = 0
         skill_mismatches_found = 0
@@ -34,7 +34,7 @@ class AnalyzeAllocationEfficiency(Tool):
         if check_partial_allocations:
 
             employee_allocations = {}
-            for alloc in allocations:
+            for alloc in allocations.values():
                 if (
                     alloc.get("project_id") in projects
                     and alloc.get("status") == "active"
@@ -54,14 +54,14 @@ class AnalyzeAllocationEfficiency(Tool):
 
         if check_skill_mismatch:
 
-            for alloc in allocations:
+            for alloc in allocations.values():
                 if (
                     alloc.get("project_id") in projects
                     and alloc.get("status") == "active"
                 ):
                     emp_id = alloc.get("employee_id")
                     employee = next(
-                        (e for e in employees if e.get("employee_id") == emp_id), None
+                        (e for e in employees.values() if e.get("employee_id") == emp_id), None
                     )
 
                     if employee:
@@ -69,8 +69,7 @@ class AnalyzeAllocationEfficiency(Tool):
                         project = next(
                             (
                                 p
-                                for p in projects_data
-                                if p.get("project_id") == alloc.get("project_id")
+                                for p in projects_data.values() if p.get("project_id") == alloc.get("project_id")
                             ),
                             None,
                         )

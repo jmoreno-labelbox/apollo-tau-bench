@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListIssues(Tool):
@@ -21,13 +21,13 @@ class ListIssues(Tool):
     ) -> str:
         """List issues filtered by label/state. When no labels are provided, returns all issues."""
         pass
-        issues_data = data.get("issues", [])
+        issues_data = data.get("issues", {}).values()
 
         #Treat None or empty labels as "retrieve all"
         if labels is None:
             labels = []
 
-        for issue_entry in issues_data:
+        for issue_entry in issues_data.values():
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 issues = []
                 for i, issue_number in enumerate(issue_entry["issue_numbers"]):
@@ -39,7 +39,7 @@ class ListIssues(Tool):
                         continue
 
                     #Apply filter based on labels (if provided and not empty)
-                    if labels and not any(label in issue_labels for label in labels):
+                    if labels and not any(label in issue_labels for label in labels.values()):
                         continue
 
                     issues.append(

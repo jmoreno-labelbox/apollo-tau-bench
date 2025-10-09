@@ -45,7 +45,7 @@ class export_assets(Tool):
             "day": day_iso,
             "export_id": export_id,
         }
-        assets.append(row)
+        data["assets"][asset_id] = row
         payload = {"asset_id": asset_id, "export_id": export_id}
         out = json.dumps(payload, indent=2)
         return out

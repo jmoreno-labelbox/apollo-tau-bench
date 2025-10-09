@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateRiskAssessment(Tool):
@@ -29,17 +29,17 @@ class CreateRiskAssessment(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        risk_assessments = data.get("risk_assessments", [])
+        change_requests = data.get("change_requests", {}).values()
+        risk_assessments = data.get("risk_assessments", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
             return out
 
         if cr.get("requires_risk_assessment") or (
-            cr.get("impact_assessment", {}).get("affects_critical_path")
+            cr.get("impact_assessment", {}).values().get("affects_critical_path")
         ):
             if not mitigation_strategies:
                 payload = {
@@ -104,7 +104,7 @@ class CreateRiskAssessment(Tool):
             "monitoring_frequency": monitoring_frequency,
         }
 
-        risk_assessments.append(risk_assessment)
+        data["risk_assessments"][risk_assessment["risk_assessment_id"]] = risk_assessment
 
         if cr.get("status") == "in_review":
             cr["risk_assessment_id"] = assessment_id

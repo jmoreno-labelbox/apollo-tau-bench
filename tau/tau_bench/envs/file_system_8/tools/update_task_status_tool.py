@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateTaskStatusTool(Tool):
@@ -36,7 +36,7 @@ class UpdateTaskStatusTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str, completed: bool) -> str:
         task = next(
-            (t for t in data.get("file_check_db", []) if t["task_id"] == task_id), None
+            (t for t in data.get("file_check_db", {}).values() if t["task_id"] == task_id), None
         )
         if task:
             task["completed"] = completed

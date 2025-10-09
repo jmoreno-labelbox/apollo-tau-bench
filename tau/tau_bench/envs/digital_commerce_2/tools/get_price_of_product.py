@@ -8,7 +8,7 @@ from decimal import ROUND_HALF_UP, Decimal
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetPriceOfProduct(Tool):
@@ -22,7 +22,7 @@ class GetPriceOfProduct(Tool):
                 payload, indent=2,
             )
             return out
-        pricebook_entries = data.get("pricebook_entries", [])
+        pricebook_entries = data.get("pricebook_entries", {}).values()
         results = []
         for item in items:
             product_id = item.get("product_id")
@@ -33,8 +33,7 @@ class GetPriceOfProduct(Tool):
             match = next(
                 (
                     e
-                    for e in pricebook_entries
-                    if e.get("product_id") == product_id
+                    for e in pricebook_entries.values() if e.get("product_id") == product_id
                     and e.get("pricebook_id") == pricebook_id
                 ),
                 None,

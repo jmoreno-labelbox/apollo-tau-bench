@@ -6,7 +6,7 @@ from typing import Any, Dict, List
 class UpdateAccountStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str = None, new_status: str = None) -> str:
-        account = next((acc for acc in data["accounts"] if acc["account_id"] == account_id), None)
+        account = next((acc for acc in data["accounts"].values() if acc["account_id"] == account_id), None)
         if not account:
             return json.dumps({"error": "Account not found."})
 

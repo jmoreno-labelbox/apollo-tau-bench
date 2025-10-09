@@ -14,7 +14,7 @@ class CreateRecommendations(Tool):
         products = data["products"]
         recommendations = []
 
-        for product in products:
+        for product in products.values():
             if (
                 not preferred_category
                 or preferred_category.lower() in product["name"].lower()

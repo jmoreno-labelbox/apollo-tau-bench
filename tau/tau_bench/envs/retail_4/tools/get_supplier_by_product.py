@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSupplierByProduct:
@@ -27,9 +27,9 @@ class GetSupplierByProduct:
             return out
 
         # Get product information for type filtering
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         product_name_map = {}
-        for product in products:
+        for product in products.values():
             product_id = product.get("product_id")
             product_name = product.get("name", "").lower()
             if product_id:
@@ -69,22 +69,22 @@ class GetSupplierByProduct:
             out = json.dumps(payload)
             return out
 
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         matching_suppliers = []
         product_supplier_map = {}
 
         # Search through all suppliers to find matches for filtered products
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             supplier_id = supplier.get("supplier_id")
             supplier_name = supplier.get("name")
             supplier_products = supplier.get("products", [])
-            contact_info = supplier.get("contact_info", {})
+            contact_info = supplier.get("contact_info", {}).values()
 
             # Check which filtered products this supplier has
             matching_products = []
             for product_id in filtered_product_ids:
                 if product_id in supplier_products:
-                    matching_products.append(product_id)
+                    matching_data["products"][product_id] = product_id
 
                     # Build product to supplier mapping
                     if product_id not in product_supplier_map:
@@ -101,12 +101,12 @@ class GetSupplierByProduct:
                     "contact_info": contact_info,
                     "matching_products": matching_products,
                     "total_matching_products": len(matching_products),
-                    "performance_metrics": supplier.get("performance_metrics", {}),
+                    "performance_metrics": supplier.get("performance_metrics", {}).values()),
                     "last_updated": supplier.get("last_updated", "Never"),
                 }
 
                 # Add stock information for matching products if available
-                item_stock = supplier.get("item_stock", {})
+                item_stock = supplier.get("item_stock", {}).values()
                 if item_stock:
                     stock_summary = {
                         "total_items_in_stock": len(item_stock),
@@ -128,7 +128,7 @@ class GetSupplierByProduct:
 
                     supplier_info["stock_summary"] = stock_summary
 
-                matching_suppliers.append(supplier_info)
+                matching_data["suppliers"][supplier_id] = supplier_info
 
         # Find products with no suppliers
         products_not_found = []

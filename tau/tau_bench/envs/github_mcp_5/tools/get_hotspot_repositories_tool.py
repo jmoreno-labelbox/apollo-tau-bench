@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetHotspotRepositoriesTool(Tool):
@@ -42,14 +42,14 @@ class GetHotspotRepositoriesTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        issues = data.get("issues", [])
-        alerts = data.get("code_scanning_alerts", [])
+        issues = data.get("issues", {}).values()
+        alerts = data.get("code_scanning_alerts", {}).values()
 
         repo_hotspots = {}
-        for i in issues:
+        for i in issues.values():
             if i.get("state") == "open":
                 repo_hotspots[i.get("repo")] = repo_hotspots.get(i.get("repo"), 0) + 1
-        for a in alerts:
+        for a in alerts.values():
             if a.get("state") == "open":
                 repo_hotspots[a.get("repo")] = repo_hotspots.get(a.get("repo"), 0) + 1
 

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateHubSpotTicket(Tool):
@@ -58,7 +58,7 @@ class CreateHubSpotTicket(Tool):
             return out
 
         # Confirm the assignee is present
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
         assignee = _find_by_id(users, "user_id", assignee_id)
         if not assignee:
             payload = {"error": f"Assignee {assignee_id} not found"}

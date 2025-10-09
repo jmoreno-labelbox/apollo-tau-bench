@@ -7,19 +7,19 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateMonthlySpendingTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str = None, month: int = None, year: int = None) -> str:
-        transactions = data.get('transactions', [])
+        transactions = data.get('transactions', {}).values()
 
         total_spending = 0
         spending_by_category = {}
         transaction_count = 0
 
-        for transaction in transactions:
+        for transaction in transactions.values():
             if transaction['account_id'] != account_id:
                 continue
             if transaction['amount'] >= 0:

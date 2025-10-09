@@ -9,7 +9,7 @@ class GetCourierInfo(Tool):
         couriers = data["couriers"]
 
         if courier_id:
-            courier = next((c for c in couriers if c["courier_id"] == courier_id), None)
+            courier = next((c for c in couriers.values() if c["courier_id"] == courier_id), None)
             if not courier:
                 payload = {"error": "Courier not found"}
                 out = json.dumps(payload)
@@ -20,7 +20,7 @@ class GetCourierInfo(Tool):
 
         if tracking_id:
             courier = next(
-                (c for c in couriers if tracking_id in c["tracking_ids"]), None
+                (c for c in couriers.values() if tracking_id in c["tracking_ids"]), None
             )
             if not courier:
                 payload = {"error": "Courier not found for tracking ID"}
@@ -38,7 +38,7 @@ class GetCourierInfo(Tool):
 
         if coverage_area:
             matching_couriers = []
-            for courier in couriers:
+            for courier in couriers.values():
                 if coverage_area in courier["coverage_area"]:
                     matching_couriers.append(
                         {

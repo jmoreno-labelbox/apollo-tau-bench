@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DeleteAllocation(Tool):
@@ -20,9 +20,9 @@ class DeleteAllocation(Tool):
             out = json.dumps(payload)
             return out
 
-        allocations = data.get("allocations", [])
+        allocations = data.get("allocations", {}).values()
 
-        for i, allocation in enumerate(allocations):
+        for i, allocation in enumerate(allocations.values():
             if allocation.get("allocation_id") == allocation_id:
                 removed_allocation = allocations.pop(i)
                 payload = {"success": True, "removed_allocation": removed_allocation}

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddItemToInventoryTool(Tool):
@@ -107,13 +107,13 @@ class AddItemToInventoryTool(Tool):
 
         #2. Pre-condition Checks
         if not any(
-            h.get("household_id") == household_id for h in data.get("households", [])
+            h.get("household_id") == household_id for h in data.get("households", {}).values()
         ):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Household", "entity_id": household_id}
             )
         if not any(
-            i.get("ingredient_id") == ingredient_id for i in data.get("ingredients", [])
+            i.get("ingredient_id") == ingredient_id for i in data.get("ingredients", {}).values()
         ):
             return _build_error_response(
                 "NOT_FOUND", {"entity": "Ingredient", "entity_id": ingredient_id}
@@ -131,7 +131,7 @@ class AddItemToInventoryTool(Tool):
             None,
         )
 
-        context = {"ingredients": data.get("ingredients", [])}
+        context = {"ingredients": data.get("ingredients", {}).values()}
 
         if existing_item:
             action = "update"
@@ -167,7 +167,7 @@ class AddItemToInventoryTool(Tool):
             )
 
             max_id = max(
-                (i.get("inv_item_id", 0) for i in inventory_table), default=7000
+                (i.get("inv_item_id", 0) for i in inventory_table.values()), default=7000
             )
             new_item_id = max_id + 1
 

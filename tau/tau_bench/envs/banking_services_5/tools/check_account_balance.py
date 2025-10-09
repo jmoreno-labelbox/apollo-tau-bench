@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckAccountBalance(Tool):
@@ -26,7 +26,7 @@ class CheckAccountBalance(Tool):
 
         # find the account and verify ownership
         acct = next(
-            (a for a in data.get("accounts", [])
+            (a for a in data.get("accounts", {}).values()
              if a.get("account_id") == account_id
              and a.get("customer_id") == customer_id),
             None

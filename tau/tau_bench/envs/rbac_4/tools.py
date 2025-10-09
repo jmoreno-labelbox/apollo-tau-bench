@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -19,10 +19,10 @@ class ListUsersTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], department: str = None, status: str = None, mfa_enabled: bool = None) -> str:
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
 
         results = []
-        for u in users:
+        for u in users.values():
             if department and u["department"] != department:
                 continue
             if status and u["status"] != status:
@@ -59,7 +59,7 @@ class GetUserDetailsTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
         uid = user_id
-        for u in data.get("users", []):
+        for u in data.get("users", {}).values():
             if u["user_id"] == uid:
                 payload = u
                 out = json.dumps(payload, indent=2)
@@ -89,12 +89,12 @@ class ListRolesTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], is_temporary: bool = None) -> str:
-        roles = data.get("roles", [])
+        roles = data.get("roles", {}).values()
         if is_temporary is None:
             payload = roles
             out = json.dumps(payload, indent=2)
             return out
-        payload = [r for r in roles if r["is_temporary"] == is_temporary]
+        payload = [r for r in roles.values() if r["is_temporary"] == is_temporary]
         out = json.dumps(
             payload, indent=2
         )
@@ -122,9 +122,9 @@ class RevokeRoleFromUserTool(Tool):
     def invoke(data: dict[str, Any], user_id: str = None, role_id: str = None) -> str:
         uid = user_id
         rid = role_id
-        user_roles = data.get("user_roles", [])
+        user_roles = data.get("user_roles", {}).values()
         to_remove = [
-            ur for ur in user_roles if ur["user_id"] == uid and ur["role_id"] == rid
+            ur for ur in user_roles.values() if ur["user_id"] == uid and ur["role_id"] == rid
         ]
         if not to_remove:
             payload = {"error": "Role not found for user"}
@@ -160,9 +160,9 @@ class ListAccessRequestsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], status: str = None, resource_id: str = None) -> str:
-        reqs = data.get("access_requests", [])
+        reqs = data.get("access_requests", {}).values()
         results = []
-        for r in reqs:
+        for r in reqs.values():
             if status and r["status"] != status:
                 continue
             if resource_id and r["resource_id"] != resource_id:
@@ -198,7 +198,7 @@ class ApproveAccessRequestTool(Tool):
         rid = request_id
         reviewer = reviewer_id
         decision_at = decision_at  #<-- additional mandatory argument!
-        for req in data.get("access_requests", []):
+        for req in data.get("access_requests", {}).values():
             if req["request_id"] == rid:
                 req["status"] = "APPROVED"
                 req["reviewed_by"] = reviewer
@@ -244,7 +244,7 @@ class RejectAccessRequestTool(Tool):
         rid = request_id
         reviewer = reviewer_id
         decision_at = decision_at
-        for req in data.get("access_requests", []):
+        for req in data.get("access_requests", {}).values():
             if req["request_id"] == rid:
                 req["status"] = "REJECTED"
                 req["reviewed_by"] = reviewer
@@ -284,7 +284,7 @@ class GetCertificationDetailsTool(Tool):
     user_id: Any = None,
     ) -> str:
         cid = certification_id
-        for c in data.get("certifications", []):
+        for c in data.get("certifications", {}).values():
             if c["certification_id"] == cid:
                 payload = c
                 out = json.dumps(payload, indent=2)
@@ -314,7 +314,7 @@ class CompleteCertificationTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], certification_id: str = None, completed_on: str = None) -> str:
-        for c in data.get("certifications", []):
+        for c in data.get("certifications", {}).values():
             if c["certification_id"] == certification_id:
                 c["status"] = "COMPLETED"
                 c["completed_on"] = completed_on
@@ -353,9 +353,9 @@ class ListPolicyExceptionsTool(Tool):
     def invoke(data: dict[str, Any], status: str = None, user_id: str = None, completed_on: Any = None,
     permission_id: Any = None,
     ) -> str:
-        exes = data.get("policy_exceptions", [])
+        exes = data.get("policy_exceptions", {}).values()
         results = []
-        for e in exes:
+        for e in exes.values():
             if status and e["status"] != status:
                 continue
             if user_id and e["user_id"] != user_id:
@@ -388,7 +388,7 @@ class ApprovePolicyExceptionTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], exception_id: str = None, reviewed_by: str = None, expires_on: str = None, reviewed_on: str = None, permission_id: Any = None) -> str:
-        for e in data.get("policy_exceptions", []):
+        for e in data.get("policy_exceptions", {}).values():
             if e["exception_id"] == exception_id:
                 e["status"] = "ACTIVE"
                 e["reviewed_by"] = reviewed_by
@@ -432,7 +432,7 @@ class DenyPolicyExceptionTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], exception_id: str = None, reviewed_by: str = None, reviewed_on: str = None) -> str:
-        for e in data.get("policy_exceptions", []):
+        for e in data.get("policy_exceptions", {}).values():
             if e["exception_id"] == exception_id:
                 e["status"] = "DENIED"
                 e["reviewed_by"] = reviewed_by
@@ -471,7 +471,7 @@ class GetPolicyExceptionDetailsTool(Tool):
     def invoke(data: dict[str, Any], exception_id: str = None) -> str:
         pass
         eid = exception_id
-        for e in data.get("policy_exceptions", []) or []:
+        for e in data.get("policy_exceptions", {}).values() or []:
             if e.get("exception_id") == eid:
                 payload = e
                 out = json.dumps(payload, indent=2)
@@ -506,7 +506,7 @@ class RequestPolicyExceptionTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, permission_id: str = None, reason: str = None, requested_on: str = None) -> str:
-        exceptions = data.get("policy_exceptions", [])
+        exceptions = data.get("policy_exceptions", {}).values()
 
         new_id = f"PE-{len(exceptions) + 1:03d}"
         record = {
@@ -520,7 +520,7 @@ class RequestPolicyExceptionTool(Tool):
             "reason": reason,
             "status": "PENDING_REVIEW",
         }
-        exceptions.append(record)
+        data["policy_exceptions"][record["policy_exception_id"]] = record
         payload = {"success": f"Policy exception {new_id} requested"}
         out = json.dumps(payload, indent=2)
         return out
@@ -553,9 +553,9 @@ class ListSiemAlertsTool(Tool):
     def invoke(data: dict[str, Any], resource_id: str = None, severity: str = None,
     severity_in: Any = None,
     ) -> str:
-        alerts = data.get("siem_alerts", [])
+        alerts = data.get("siem_alerts", {}).values()
         results = []
-        for a in alerts:
+        for a in alerts.values():
             if resource_id and a["resource_id"] != resource_id:
                 continue
             if severity and a["severity"] != severity:
@@ -589,7 +589,7 @@ class GetSiemAlertDetailsTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], alert_id: str, severity_in: Any = None) -> str:
         aid = alert_id
-        for a in data.get("siem_alerts", []):
+        for a in data.get("siem_alerts", {}).values():
             if a["alert_id"] == aid:
                 payload = a
                 out = json.dumps(payload, indent=2)
@@ -622,7 +622,7 @@ class CreateSiemRuleTool(Tool):
     created_on: Any = None,
     notes: str = None
     ) -> str:
-        rules = data.get("siem_rules", [])
+        rules = data.get("siem_rules", {}).values()
         new_id = f"RULE-{len(rules) + 1:03d}"
         rules.append(
             {
@@ -661,7 +661,7 @@ class InvestigateSiemIncidentTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], alert_id: str = None, analyst_id: str = None, notes: str = None, investigated_on: str = None, created_on: Any = None) -> str:
-        investigations = data.get("siem_investigations", [])
+        investigations = data.get("siem_investigations", {}).values()
         new_id = f"INV-{len(investigations) + 1:03d}"
         investigations.append(
             {
@@ -702,9 +702,9 @@ class ListSessionsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, active_only: bool = None) -> str:
-        sessions = data.get("sessions", [])
+        sessions = data.get("sessions", {}).values()
         results = []
-        for s in sessions:
+        for s in sessions.values():
             if user_id and s["user_id"] != user_id:
                 continue
             if active_only and s.get("end_time") is not None:
@@ -739,7 +739,7 @@ class TerminateSessionTool(Tool):
     def invoke(data: dict[str, Any], session_id: str = None, terminated_on: str = None) -> str:
         sid = session_id
         term_time = terminated_on
-        for s in data.get("sessions", []):
+        for s in data.get("sessions", {}).values():
             if s["session_id"] == sid:
                 s["end_time"] = term_time
                 payload = {"success": f"Session {sid} terminated"}
@@ -773,11 +773,10 @@ class AuditIamAccessTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], start_time: str = None, end_time: str = None) -> str:
-        logs = data.get("audit_logs", [])
+        logs = data.get("audit_logs", {}).values()
         results = [
             l
-            for l in logs
-            if start_time <= l["timestamp"] <= end_time and "IAM" in l.get("details", "")
+            for l in logs.values() if start_time <= l["timestamp"] <= end_time and "IAM" in l.get("details", "")
         ]
         payload = results
         out = json.dumps(payload, indent=2)
@@ -807,9 +806,9 @@ class SearchLogsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], query: str = "", resource_id: str = None, since: str = None) -> str:
-        logs = data.get("audit_logs", [])
+        logs = data.get("audit_logs", {}).values()
         results = []
-        for l in logs:
+        for l in logs.values():
             details_val = l.get("details")
             # Perform the containment check solely if both are strings
             if not (
@@ -852,7 +851,7 @@ class ExportLogsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], format: str = None, start_time: Any = None, end_time: Any = None) -> str:
-        logs = [l for l in data.get("audit_logs", []) if start_time <= l["timestamp"] <= end_time]
+        logs = [l for l in data.get("audit_logs", {}).values() if start_time <= l["timestamp"] <= end_time]
         if not format or not isinstance(format, str) or format.upper() not in ["CSV", "JSON"]:
             payload = {"error": "Invalid format"}
             out = json.dumps(payload, indent=2)
@@ -888,9 +887,9 @@ class GetUserRolesTool(Tool):
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
         uid = user_id
         roles_map = [
-            ur["role_id"] for ur in data.get("user_roles", []) if ur["user_id"] == uid
+            ur["role_id"] for ur in data.get("user_roles", {}).values() if ur["user_id"] == uid
         ]
-        roles = [r for r in data.get("roles", []) if r["role_id"] in roles_map]
+        roles = [r for r in data.get("roles", {}).values() if r["role_id"] in roles_map]
         payload = roles
         out = json.dumps(payload, indent=2)
         return out
@@ -916,7 +915,7 @@ class GetPermissionDetailsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], permission_id: str = None) -> str:
-        for p in data.get("permissions", []):
+        for p in data.get("permissions", {}).values():
             if p["permission_id"] == permission_id:
                 payload = p
                 out = json.dumps(payload, indent=2)
@@ -947,7 +946,7 @@ class GetResourceDetailsTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], resource_id: str = None) -> str:
         rid = resource_id
-        for res in data.get("resources", []):
+        for res in data.get("resources", {}).values():
             if res["resource_id"] == rid:
                 payload = res
                 out = json.dumps(payload, indent=2)
@@ -978,7 +977,7 @@ class GetRoleDetailsTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], role_id: str = None) -> str:
         rid = role_id
-        for r in data.get("roles", []):
+        for r in data.get("roles", {}).values():
             if r["role_id"] == rid:
                 payload = r
                 out = json.dumps(payload, indent=2)
@@ -1018,11 +1017,11 @@ class CreateUserTool(Tool):
     actor_id: Any = None,
     created_at: str = None
     ) -> str:
-        users = data.get("users", [])
-        audit_logs = data.get("audit_logs", [])
+        users = data.get("users", {}).values()
+        audit_logs = data.get("audit_logs", {}).values()
 
         # Validation: confirm that username/email are distinct
-        for u in users:
+        for u in users.values():
             if u["username"] == username:
                 payload = {"error": f"Username {username} already exists"}
                 out = json.dumps(payload, indent=2)
@@ -1103,11 +1102,11 @@ class CreateAccessRequestTool(Tool):
         # Support requester_id and subject_id as aliases for user_id
         user_id = user_id or requester_id or subject_id
         pass
-        access_requests = data.get("access_requests", [])
-        audit_logs = data.get("audit_logs", [])
+        access_requests = data.get("access_requests", {}).values()
+        audit_logs = data.get("audit_logs", {}).values()
 
         # Avoid duplicate PENDING requests
-        for ar in access_requests:
+        for ar in access_requests.values():
             if (
                 ar["user_id"] == user_id
                 and ar["resource_id"] == resource_id
@@ -1190,7 +1189,7 @@ class CreateHubspotTicketTool(Tool):
         created_at: str = None
     ) -> str:
         pass
-        tickets = data.get("hubspot_tickets", [])
+        tickets = data.get("hubspot_tickets", {}).values()
 
         # Predictable ticket ID
         new_id = f"TI-{len(tickets) + 1:03d}"
@@ -1258,12 +1257,12 @@ class UpdateUserStatusTool(Tool):
         mfa_enabled: bool = None,
         updated_by: str = None
     ) -> str:
-        users = data.get("users", [])
-        audit_logs = data.get("audit_logs", [])
-        sessions = data.get("sessions", [])
+        users = data.get("users", {}).values()
+        audit_logs = data.get("audit_logs", {}).values()
+        sessions = data.get("sessions", {}).values()
 
         # Find user
-        user = next((u for u in users if u["user_id"] == user_id), None)
+        user = next((u for u in users.values() if u["user_id"] == user_id), None)
         if not user:
             payload = {"error": f"User {user_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -1273,7 +1272,7 @@ class UpdateUserStatusTool(Tool):
         if status:
             user["status"] = status
             if status in ["SUSPENDED", "DISABLED"]:
-                for s in sessions:
+                for s in sessions.values():
                     if s["user_id"] == user_id and s.get("end_time") is None:
                         s["end_time"] = "2025-08-11 13:00:00+00:00"
         if department:
@@ -1324,9 +1323,9 @@ class EscalateSiemAlertTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], alert_id: str = None, severity: str = None, reason: str = None) -> str:
-        alerts = data.get("siem_alerts", [])
+        alerts = data.get("siem_alerts", {}).values()
 
-        alert = next((a for a in alerts if a["alert_id"] == alert_id), None)
+        alert = next((a for a in alerts.values() if a["alert_id"] == alert_id), None)
         if not alert:
             payload = {"error": f"Alert {alert_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -1389,11 +1388,11 @@ class SearchSlackMessagesTool(Tool):
         regex: str = None,
         thread_id: str = None
     ) -> str:
-        messages = data.get("slack_messages", [])
+        messages = data.get("slack_messages", {}).values()
         import re
 
         results = []
-        for msg in messages:
+        for msg in messages.values():
             if channel and msg["channel"] != channel:
                 continue
             if username and msg["username"] != username:
@@ -1402,7 +1401,7 @@ class SearchSlackMessagesTool(Tool):
                 continue
             if end_time and msg["timestamp"] > end_time:
                 continue
-            if keywords and not any(kw in msg["message"] for kw in keywords):
+            if keywords and not any(kw in msg["message"] for kw in keywords.values()):
                 continue
             if regex and not re.search(regex, msg["message"]):
                 continue
@@ -1441,10 +1440,10 @@ class ModerateSlackChannelTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], channel: str, action: str, message_ids: list[str] = [], target_channel: str = None, moderator_id: str = None) -> str:
-        messages = data.get("slack_messages", [])
+        messages = data.get("slack_messages", {}).values()
 
         updated = []
-        for msg in messages:
+        for msg in messages.values():
             if msg["message_id"] in message_ids and msg["channel"] == channel:
                 if action == "archive":
                     msg["archived"] = True
@@ -1490,7 +1489,7 @@ class CreateIncidentRecordTool(Tool):
 
     @staticmethod
     def invoke(data, timestamp, created_by, summary, linked_alerts=None, linked_users=None, linked_resources=None, severity=None):
-        incident_id = f"INC-{len(data.get('incidents', [])) + 1:03d}"
+        incident_id = f"INC-{len(data.get("incidents", {})) + 1:03d}"
         record = {
             "incident_id": incident_id,
             "timestamp": timestamp,
@@ -1553,7 +1552,7 @@ class CreateAuditLogTool(Tool):
         pass
         # Mandatory fields
         # Create log_id in a deterministic manner (e.g., sequentially or by hashing inputs)
-        logs = data.get("audit_logs", [])
+        logs = data.get("audit_logs", {}).values()
         next_id = f"L-{len(logs) + 1:03d}"
 
         log = {
@@ -1564,7 +1563,7 @@ class CreateAuditLogTool(Tool):
             "timestamp": timestamp,
             "details": details,
         }
-        logs.append(log)
+        data["audit_logs"][log["audit_log_id"]] = log
         data["audit_logs"] = logs
         payload = log
         out = json.dumps(payload, indent=2)
@@ -1619,7 +1618,7 @@ class SendEmailTool(Tool):
     def invoke(data, sender, receiver, subject, body, timestamp):
         # Confirm sender's existence
         sender_user = next(
-            (u for u in data.get("users", []) if u.get("user_id") == sender), None
+            (u for u in data.get("users", {}).values() if u.get("user_id") == sender), None
         )
         if not sender_user:
             payload = {"error": f"Sender '{sender}' not found in users.json."}
@@ -1630,7 +1629,7 @@ class SendEmailTool(Tool):
 
         # Confirm receiver's existence
         receiver_user = next(
-            (u for u in data.get("users", []) if u.get("user_id") == receiver), None
+            (u for u in data.get("users", {}).values() if u.get("user_id") == receiver), None
         )
         if not receiver_user:
             payload = {"error": f"Receiver '{receiver}' not found in users.json."}
@@ -1672,7 +1671,7 @@ class SendEmailTool(Tool):
             "subject": subject,
             "text_content": body,
         }
-        emails.append(record)
+        data["emails"][record["email_id"]] = record
         payload = {"success": f"Email {email_id} sent to {receiver}", "email_id": email_id}
         out = json.dumps(
             payload, indent=2,
@@ -1727,7 +1726,7 @@ class GetAccessRequestTool(Tool):
     def invoke(data: dict[str, Any], request_id: str = None) -> str:
         pass
         # Anticipate: data["access_requests"] is a collection of dicts sourced from /mnt/data/access_requests.json
-        access_requests = data.get("access_requests", [])
+        access_requests = data.get("access_requests", {}).values()
         if not isinstance(access_requests, list):
             payload = {"error": "access_requests must be a list"}
             out = json.dumps(payload, indent=2)
@@ -1741,7 +1740,7 @@ class GetAccessRequestTool(Tool):
             return out
 
         # Lookup in read-only mode
-        for row in access_requests:
+        for row in access_requests.values():
             if isinstance(row, dict) and row.get("request_id") == request_id:
                 payload = {"access_request": row}
                 out = json.dumps(payload, indent=2)
@@ -1777,7 +1776,7 @@ class PostSlackMessageTool(Tool):
     def invoke(data: dict[str, Any], channel: str = None, message: str = None) -> str:
         pass
         # Anticipate: data["slack_messages"] is a collection of dicts sourced from /mnt/data/slack_messages.json
-        slack_messages = data.get("slack_messages", [])
+        slack_messages = data.get("slack_messages", {}).values()
         if not isinstance(slack_messages, list):
             payload = {"error": "slack_messages must be a list"}
             out = json.dumps(payload, indent=2)
@@ -1797,7 +1796,7 @@ class PostSlackMessageTool(Tool):
             "channel": channel,
             "message": message,
         }
-        slack_messages.append(new_entry)
+        data["slack_messages"][new_entry["slack_message_id"]] = new_entry
         payload = {"success": f"Message posted to {channel}", "message": new_entry}
         out = json.dumps(
             payload, indent=2
@@ -1833,8 +1832,8 @@ class GetRoleMembersTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], role_id: str, status: str = None) -> str:
-        users = data.get("users", [])
-        user_roles = data.get("user_roles", [])
+        users = data.get("users", {}).values()
+        user_roles = data.get("user_roles", {}).values()
 
         if not isinstance(user_roles, list) or not isinstance(users, list):
             payload = {"error": "users and user_roles must be lists"}
@@ -1846,10 +1845,10 @@ class GetRoleMembersTool(Tool):
             return out
 
         member_user_ids = {
-            ur["user_id"] for ur in user_roles if ur.get("role_id") == role_id
+            ur["user_id"] for ur in user_roles.values() if ur.get("role_id") == role_id
         }
         results = []
-        for u in users:
+        for u in users.values()):
             if u.get("user_id") in member_user_ids:
                 if status and u.get("status") != status:
                     continue
@@ -1887,8 +1886,8 @@ class AssignCertificationTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], certification_id: str, user_id: str, assigned_on: str = None, status: str = "ASSIGNED") -> str:
-        certifications = data.get("certifications", [])
-        users = data.get("users", [])
+        certifications = data.get("certifications", {}).values()
+        users = data.get("users", {}).values()
 
         if not isinstance(certifications, list):
             payload = {"error": "certifications must be a list"}
@@ -1921,7 +1920,7 @@ class AssignCertificationTool(Tool):
             return out
 
         #Confirm user existence
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
         if not user:
             payload = {"error": f"user_id {user_id} not found in users"}
             out = json.dumps(
@@ -1930,7 +1929,7 @@ class AssignCertificationTool(Tool):
             return out
 
         #Verify that certification_id is distinct
-        if any(c.get("certification_id") == certification_id for c in certifications):
+        if any(c.get("certification_id") == certification_id for c in certifications.values()):
             payload = {"error": f"certification_id {certification_id} already exists"}
             out = json.dumps(
                 payload, indent=2,
@@ -1948,7 +1947,7 @@ class AssignCertificationTool(Tool):
                 assigned_on  #field name is present in project datasets (e.g., user_roles)
             )
 
-        certifications.append(new_record)
+        data["certifications"][certification_id] = new_record
         payload = {
                 "success": f"Certification {certification_id} assigned to user {user_id}",
                 "certification": new_record,
@@ -1992,7 +1991,7 @@ class RevokeCertificationTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], certification_id: str, expires_on: str = None) -> str:
-        certifications = data.get("certifications", [])
+        certifications = data.get("certifications", {}).values()
         if not isinstance(certifications, list):
             payload = {"error": "certifications must be a list"}
             out = json.dumps(payload, indent=2)
@@ -2014,8 +2013,7 @@ class RevokeCertificationTool(Tool):
         cert = next(
             (
                 c
-                for c in certifications
-                if c.get("certification_id") == certification_id
+                for c in certifications.values() if c.get("certification_id") == certification_id
             ),
             None,
         )
@@ -2065,8 +2063,8 @@ class LinkAlertToIncidentTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], incident_id: str = None, alert_id: str = None) -> str:
-        incidents = data.get("incidents", [])
-        alerts = data.get("siem_alerts", [])
+        incidents = data.get("incidents", {}).values()
+        alerts = data.get("siem_alerts", {}).values()
 
         if not isinstance(incidents, list):
             payload = {"error": "incidents must be a list"}
@@ -2091,14 +2089,14 @@ class LinkAlertToIncidentTool(Tool):
             return out
 
         incident = next(
-            (i for i in incidents if i.get("incident_id") == incident_id), None
+            (i for i in incidents.values() if i.get("incident_id") == incident_id), None
         )
         if not incident:
             payload = {"error": f"Incident {incident_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
 
-        alert = next((a for a in alerts if a.get("alert_id") == alert_id), None)
+        alert = next((a for a in alerts.values() if a.get("alert_id") == alert_id), None)
         if not alert:
             payload = {"error": f"Alert {alert_id} not found"}
             out = json.dumps(payload, indent=2)
@@ -2140,7 +2138,7 @@ class ListCertificationsForReviewerTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], reviewer_id: str = None) -> str:
-        certifications = data.get("certifications", [])
+        certifications = data.get("certifications", {}).values()
         if not isinstance(certifications, list):
             payload = {"error": "certifications must be a list"}
             out = json.dumps(payload, indent=2)
@@ -2153,7 +2151,7 @@ class ListCertificationsForReviewerTool(Tool):
             )
             return out
 
-        results = [c for c in certifications if c.get("reviewer_id") == reviewer_id]
+        results = [c for c in certifications.values() if c.get("reviewer_id") == reviewer_id]
         payload = results
         out = json.dumps(payload, indent=2)
         return out
@@ -2184,7 +2182,7 @@ class GetTicketDetailsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], ticket_id: str = None) -> str:
-        tickets = data.get("hubspot_tickets", [])
+        tickets = data.get("hubspot_tickets", {}).values()
         if not isinstance(tickets, list):
             payload = {"error": "hubspot_tickets must be a list"}
             out = json.dumps(payload, indent=2)
@@ -2197,7 +2195,7 @@ class GetTicketDetailsTool(Tool):
             )
             return out
 
-        for t in tickets:
+        for t in tickets.values():
             if t.get("ticket_id") == ticket_id:
                 payload = t
                 out = json.dumps(payload, indent=2)
@@ -2227,7 +2225,7 @@ class GetAuditLogsForTargetTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], target_id: str = None) -> str:
-        audit_logs = data.get("audit_logs", [])
+        audit_logs = data.get("audit_logs", {}).values()
         if not isinstance(audit_logs, list):
             payload = {"error": "audit_logs must be a list"}
             out = json.dumps(payload, indent=2)
@@ -2240,7 +2238,7 @@ class GetAuditLogsForTargetTool(Tool):
             )
             return out
 
-        results = [log for log in audit_logs if log.get("target_id") == target_id]
+        results = [log for log in audit_logs.values() if log.get("target_id") == target_id]
         payload = results
         out = json.dumps(payload, indent=2)
         return out
@@ -2271,7 +2269,7 @@ class GetSiemAlertTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], alert_id: str) -> str:
-        alerts = data.get("siem_alerts", [])
+        alerts = data.get("siem_alerts", {}).values()
         if not isinstance(alerts, list):
             payload = {"error": "siem_alerts must be a list"}
             out = json.dumps(payload, indent=2)
@@ -2284,7 +2282,7 @@ class GetSiemAlertTool(Tool):
             )
             return out
 
-        for a in alerts:
+        for a in alerts.values():
             if a.get("alert_id") == alert_id:
                 payload = a
                 out = json.dumps(payload, indent=2)
@@ -2314,7 +2312,7 @@ class ListUserSessionsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str, active_only: bool = False) -> str:
-        sessions = data.get("sessions", [])
+        sessions = data.get("sessions", {}).values()
         if not isinstance(sessions, list):
             payload = {"error": "sessions must be a list"}
             out = json.dumps(payload, indent=2)
@@ -2333,7 +2331,7 @@ class ListUserSessionsTool(Tool):
             return out
 
         results = []
-        for s in sessions:
+        for s in sessions.values()):
             if s.get("user_id") != user_id:
                 continue
             if active_only and s.get("end_time") is not None:
@@ -2378,9 +2376,9 @@ class AssignRoleToUserTool(Tool):
 ,
     expiry_policy: Any = None,
     ) -> str:
-        user_roles = data.get("user_roles", [])
-        users = data.get("users", [])
-        roles = data.get("roles", [])
+        user_roles = data.get("user_roles", {}).values()
+        users = data.get("users", {}).values()
+        roles = data.get("roles", {}).values()
         if not isinstance(user_roles, list):
             payload = {"error": "user_roles must be a list"}
             out = json.dumps(payload, indent=2)
@@ -2406,11 +2404,11 @@ class AssignRoleToUserTool(Tool):
                 out = json.dumps(payload, indent=2)
                 return out
 
-        if not any(u.get("user_id") == user_id for u in users):
+        if not any(u.get("user_id") == user_id for u in users.values()):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
-        if not any(r.get("role_id") == role_id for r in roles):
+        if not any(r.get("role_id") == role_id for r in roles.values()):
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
@@ -2418,8 +2416,7 @@ class AssignRoleToUserTool(Tool):
         # Avoid duplicate active assignments (no expires_on or expires_on set in the future)
         existing = [
             ur
-            for ur in user_roles
-            if ur.get("user_id") == user_id and ur.get("role_id") == role_id
+            for ur in user_roles.values() if ur.get("user_id") == user_id and ur.get("role_id") == role_id
         ]
         if existing:
             # If any current record remains active (no expiration or expiration set for later), prevent
@@ -2452,7 +2449,7 @@ class AssignRoleToUserTool(Tool):
             "assigned_on": assigned_on,
             "expires_on": expires_on,  # not mandatory
         }
-        user_roles.append(record)
+        user_data["roles"][role_id] = record
         payload = {
             "success": f"Role {role_id} assigned to {user_id}",
             "user_role_id": new_id,
@@ -2489,8 +2486,8 @@ class ListPermissionsForRoleTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], role_id: str = None) -> str:
-        role_permissions = data.get("role_permissions", [])
-        permissions = data.get("permissions", [])
+        role_permissions = data.get("role_permissions", {}).values()
+        permissions = data.get("permissions", {}).values()
         if not isinstance(role_permissions, list):
             payload = {"error": "role_permissions must be a list"}
             out = json.dumps(payload, indent=2)
@@ -2500,8 +2497,8 @@ class ListPermissionsForRoleTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        roles = data.get("roles", [])
-        if not any(r.get("role_id") == role_id for r in roles):
+        roles = data.get("roles", {}).values()
+        if not any(r.get("role_id") == role_id for r in roles.values()):
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
@@ -2512,10 +2509,9 @@ class ListPermissionsForRoleTool(Tool):
 
         perm_ids = [
             rp.get("permission_id")
-            for rp in role_permissions
-            if rp.get("role_id") == role_id
+            for rp in role_permissions.values() if rp.get("role_id") == role_id
         ]
-        results = [p for p in permissions if p.get("permission_id") in perm_ids]
+        results = [p for p in permissions.values() if p.get("permission_id") in perm_ids]
         payload = results
         out = json.dumps(payload, indent=2)
         return out
@@ -2540,7 +2536,7 @@ class GetCertificationTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], certification_id: str = None) -> str:
-        certifications = data.get("certifications", [])
+        certifications = data.get("certifications", {}).values()
         if not isinstance(certifications, list):
             payload = {"error": "certifications must be a list"}
             out = json.dumps(payload, indent=2)
@@ -2553,7 +2549,7 @@ class GetCertificationTool(Tool):
             )
             return out
 
-        for c in certifications:
+        for c in certifications.values():
             if c.get("certification_id") == certification_id:
                 payload = c
                 out = json.dumps(payload, indent=2)
@@ -2584,7 +2580,7 @@ class RemoveRoleFromUserTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, role_id: str = None) -> str:
-        user_roles = data.get("user_roles", [])
+        user_roles = data.get("user_roles", {}).values()
         if not isinstance(user_roles, list):
             payload = {"error": "user_roles must be a list"}
             out = json.dumps(payload, indent=2)
@@ -2601,8 +2597,7 @@ class RemoveRoleFromUserTool(Tool):
         before = len(user_roles)
         data["user_roles"] = [
             ur
-            for ur in user_roles
-            if not (ur.get("user_id") == user_id and ur.get("role_id") == role_id)
+            for ur in user_roles.values() if not (ur.get("user_id") == user_id and ur.get("role_id") == role_id)
         ]
         removed = before - len(data["user_roles"])
 
@@ -2641,7 +2636,7 @@ class UpdateTicketStatusTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], ticket_id: str = None, status: str = None, updated_at: str = None) -> str:
-        tickets = data.get("hubspot_tickets", [])
+        tickets = data.get("hubspot_tickets", {}).values()
 
         if not isinstance(ticket_id, str):
             payload = {"error": "ticket_id must be provided"}
@@ -2652,7 +2647,7 @@ class UpdateTicketStatusTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        for t in tickets:
+        for t in tickets.values():
             if t.get("ticket_id") == ticket_id:
                 t["status"] = status
                 if updated_at:
@@ -2699,7 +2694,7 @@ class UpdateCertificationStatusTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], certification_id: str = None, status: str = None, completed_on: str = None) -> str:
-        certs = data.get("certifications", [])
+        certs = data.get("certifications", {}).values()
 
         if not isinstance(certification_id, str):
             payload = {"error": "certification_id must be provided"}
@@ -2710,7 +2705,7 @@ class UpdateCertificationStatusTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        for c in certs:
+        for c in certs.values():
             if c.get("certification_id") == certification_id:
                 c["status"] = status
                 if completed_on:
@@ -2757,14 +2752,14 @@ class EnableUserMFATool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        users = data.get("users", [])
+        users = data.get("users", {}).values()
 
         if not isinstance(user_id, str):
             payload = {"error": "user_id must be provided"}
             out = json.dumps(payload, indent=2)
             return out
 
-        for u in users:
+        for u in users.values():
             if u.get("user_id") == user_id:
                 u["mfa_enabled"] = True
                 payload = {"success": f"MFA enabled for {user_id}", "user": u}
@@ -2829,19 +2824,19 @@ class UpdateAccessRequestTool(Tool):
             return out
 
         # Import tables
-        access_requests = data.get("access_requests", [])
-        users = data.get("users", [])
+        access_requests = data.get("access_requests", {}).values()
+        users = data.get("users", {}).values()
 
         # References
         req = next(
-            (r for r in access_requests if r.get("request_id") == request_id), None
+            (r for r in access_requests.values() if r.get("request_id") == request_id), None
         )
         if not req:
             payload = {"error": f"Unknown request_id '{request_id}'"}
             out = json.dumps(payload, indent=2)
             return out
 
-        if not any(u.get("user_id") == updated_by for u in users):
+        if not any(u.get("user_id") == updated_by for u in users.values()):
             payload = {"error": f"Unknown updated_by '{updated_by}'"}
             out = json.dumps(payload, indent=2)
             return out
@@ -2889,10 +2884,10 @@ class ExportAuditLogsTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], actor_id: str = None, action_type: str = None, 
                target_id: str = None, start_time: str = None, end_time: str = None) -> str:
-        logs = data.get("audit_logs", [])
+        logs = data.get("audit_logs", {}).values()
         results = []
 
-        for log in logs:
+        for log in logs.values():
             if actor_id and log.get("actor_id") != actor_id:
                 continue
             if action_type and log.get("action_type") != action_type:

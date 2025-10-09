@@ -45,7 +45,7 @@ class GeneratePromotionalCampaign(Tool):
             "start_date": FIXED_NOW,
             "status": "active",
         }
-        promotions.append(promotion)
+        data["promotions"][promotion["promotion_id"]] = promotion
 
         result = {
             "promotion_id": promotion_id,
@@ -97,7 +97,7 @@ class GeneratePromotionalCampaign(Tool):
             "start_date": FIXED_NOW,
             "status": "active",
         }
-        promotions.append(promotion)
+        data["promotions"][promotion["promotion_id"]] = promotion
 
         result = {
             "promotion_id": promotion_id,

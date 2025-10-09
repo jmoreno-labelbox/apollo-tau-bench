@@ -16,7 +16,7 @@ class AddProjectRevenue(Tool):
         """
         Insert or update project revenue for a given snapshot.
         """
-        record = next((pr for pr in data["project_revenue"]
+        record = next((pr for pr in data["project_revenue"].values()
                        if pr["snapshot_id"] == snapshot_id and pr["project_id"] == project_id),
                       None)
 

@@ -19,7 +19,7 @@ class RevokeLicense(Tool):
             return out
         #locate the current assignment
         row = None
-        for a in data["license_assignments"]:
+        for a in data["license_assignments"].values():
             if (
                 a["account_id"] == account_id
                 and a["employee_id"] == employee_id

@@ -13,7 +13,7 @@ class EnumerateSuspects(Tool):
         candidate_refs = [failing_sha]
         if last_green_sha:
             candidate_refs.append(last_green_sha)
-        candidate = [c for c in source_changes if c.get("commit_sha") in candidate_refs]
+        candidate = [c for c in source_changes.values() if c.get("commit_sha") in candidate_refs]
         suspects = []
         for ch in candidate:
             files = ch.get("files_changed") or []

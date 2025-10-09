@@ -10,7 +10,7 @@ class GetInvoiceDetails(Tool):
         """
         Retrieves the full details for a given invoice_number.
         """
-        invoice = next((inv for inv in data["invoices"] if inv["invoice_number"] == invoice_number), None)
+        invoice = next((inv for inv in data["invoices"].values() if inv["invoice_number"] == invoice_number), None)
         return json.dumps(invoice)
     @staticmethod
     def get_info() -> Dict[str, Any]:

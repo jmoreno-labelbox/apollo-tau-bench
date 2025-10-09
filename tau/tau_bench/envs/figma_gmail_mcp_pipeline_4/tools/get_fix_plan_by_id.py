@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetFixPlanById(Tool):
@@ -23,11 +23,11 @@ class GetFixPlanById(Tool):
             out = json.dumps(payload)
             return out
 
-        fix_plans = data.get("fix_plans", [])
-        fix_items = data.get("fix_items", [])
+        fix_plans = data.get("fix_plans", {}).values()
+        fix_items = data.get("fix_items", {}).values()
 
         # Locate the requested fix plan
-        plan = next((p for p in fix_plans if p.get("plan_id") == plan_id), None)
+        plan = next((p for p in fix_plans.values() if p.get("plan_id") == plan_id), None)
         if not plan:
             payload = {"error": f"Fix plan with ID '{plan_id}' not found"}
             out = json.dumps(payload)
@@ -38,7 +38,7 @@ class GetFixPlanById(Tool):
         # Add related items if requested
         if include_items:
             result["items"] = [
-                item for item in fix_items if item.get("plan_id") == plan_id
+                item for item in fix_items.values() if item.get("plan_id") == plan_id
             ]
 
         # Include extra metadata

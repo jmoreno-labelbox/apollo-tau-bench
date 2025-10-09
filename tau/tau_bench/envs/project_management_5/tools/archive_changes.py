@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ArchiveChanges(Tool):
@@ -20,7 +20,7 @@ class ArchiveChanges(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
+        change_requests = data.get("change_requests", {}).values()
 
         if "archived_changes" not in data:
             data["archived_changes"] = []
@@ -30,7 +30,7 @@ class ArchiveChanges(Tool):
             archive_before_date = (datetime.now() - timedelta(days=90)).isoformat()
 
         to_archive = []
-        for cr in change_requests:
+        for cr in change_requests.values():
             if (
                 cr.get("project_id") == project_id
                 and cr.get("status") in ["completed", "cancelled", "rejected"]

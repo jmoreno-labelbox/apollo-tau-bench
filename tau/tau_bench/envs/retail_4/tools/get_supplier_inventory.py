@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSupplierInventory:
@@ -26,9 +26,9 @@ class GetSupplierInventory:
         Get supplier inventory filtered by product types, item IDs, stock availability, and stock level with comparison options
         """
         # Find supplier
-        suppliers = data.get("suppliers", [])
+        suppliers = data.get("suppliers", {}).values()
         target_supplier = next(
-            (s for s in suppliers if s.get("supplier_id") == supplier_id), None
+            (s for s in suppliers.values() if s.get("supplier_id") == supplier_id), None
         )
 
         if not target_supplier:
@@ -62,14 +62,14 @@ class GetSupplierInventory:
             return out
 
         # Get product mapping
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         item_to_product_map = {}
         product_details_map = {}
 
-        for product in products:
+        for product in products.values():
             product_id = product.get("product_id")
             product_name = product.get("name", "").lower()
-            variants = product.get("variants", {})
+            variants = product.get("variants", {}).values()
 
             if product_id:
                 product_details_map[product_id] = {
@@ -82,7 +82,7 @@ class GetSupplierInventory:
                     item_to_product_map[item_id] = product_id
 
         # Filter supplier inventory
-        supplier_item_stock = target_supplier.get("item_stock", {})
+        supplier_item_stock = target_supplier.get("item_stock", {}).values()
         matching_items = []
 
         for item_id, stock_level_value in supplier_item_stock.items():
@@ -142,7 +142,7 @@ class GetSupplierInventory:
             product_id = item_to_product_map.get(item_id)
             if product_types and product_id:
                 product_name = (
-                    product_details_map.get(product_id, {})
+                    product_details_map.get(product_id, {}).values()
                     .get("product_name", "")
                     .lower()
                 )
@@ -159,13 +159,12 @@ class GetSupplierInventory:
                 # Get variant details
                 product_variants = next(
                     (
-                        p.get("variants", {})
-                        for p in products
-                        if p.get("product_id") == product_id
+                        p.get("variants", {}).values()
+                        for p in products.values() if p.get("product_id") == product_id
                     ),
                     {},
                 )
-                variant_info = product_variants.get(item_id, {})
+                variant_info = product_variants.get(item_id, {}).values()
 
                 matching_items.append(
                     {
@@ -182,7 +181,7 @@ class GetSupplierInventory:
                         ),
                         "price": variant_info.get("price", 0),
                         "available": variant_info.get("available", False),
-                        "options": variant_info.get("options", {}),
+                        "options": variant_info.get("options", {}).values()),
                     }
                 )
 

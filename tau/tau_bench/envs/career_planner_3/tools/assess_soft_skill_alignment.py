@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AssessSoftSkillAlignment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, target_role: str = None) -> str:
-        soft_skills = data.get("soft_skills", [])
+        soft_skills = data.get("soft_skills", {}).values()
 
         # Identify relevant soft skills for the desired position
         applicable_skills = []

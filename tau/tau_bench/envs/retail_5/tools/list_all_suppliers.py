@@ -10,7 +10,7 @@ class ListAllSuppliers(Tool):
 
         # Provide basic supplier information without extensive inventory details
         supplier_list = []
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             supplier_list.append(
                 {
                     "supplier_id": supplier["supplier_id"],

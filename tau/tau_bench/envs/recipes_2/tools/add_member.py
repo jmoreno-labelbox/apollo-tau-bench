@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddMember(Tool):
@@ -16,8 +16,8 @@ class AddMember(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int = None, full_name: str = None, birthdate: str = None, is_child: bool = None) -> str:
-        members = data.get("members", [])
-        new_id = max([m.get("member_id", 0) for m in members]) + 1 if members else 301
+        members = data.get("members", {}).values()
+        new_id = max([m.get("member_id", 0) for m in members.values()]) + 1 if members else 301
         new_member = {
             "member_id": new_id,
             "household_id": household_id,

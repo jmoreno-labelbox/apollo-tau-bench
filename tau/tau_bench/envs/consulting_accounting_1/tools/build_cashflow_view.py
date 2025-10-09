@@ -7,21 +7,21 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class BuildCashflowView(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], horizon_months: int = 3, granularity: str = "monthly") -> str:
         opening = 0.0
-        for a in data.get("bank_accounts", []):
+        for a in data.get("bank_accounts", {}).values():
             opening += float(a.get("current_balance", 0.0))
         import datetime as _dt
 
         today = _dt.datetime.fromisoformat("2024-11-30")
         inv_ids = [
             i.get("invoice_id")
-            for i in data.get("invoices", [])
+            for i in data.get("invoices", {}).values()
             if i.get("invoice_id") in ("INV008", "INV009", "INV010")
         ]
         inflows_tool = ForecastInflows()

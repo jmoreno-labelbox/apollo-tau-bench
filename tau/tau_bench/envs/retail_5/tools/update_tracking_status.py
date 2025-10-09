@@ -13,7 +13,7 @@ class UpdateTrackingStatus(Tool):
 
         tracking_data = data["tracking"]
         tracking_info = next(
-            (t for t in tracking_data if tracking_id in t["tracking_id"]), None
+            (t for t in tracking_data.values() if tracking_id in t["tracking_id"]), None
         )
 
         if not tracking_info:

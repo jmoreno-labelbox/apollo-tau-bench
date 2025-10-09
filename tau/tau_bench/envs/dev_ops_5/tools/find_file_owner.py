@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindFileOwner(Tool):
@@ -15,7 +15,7 @@ class FindFileOwner(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], file_path: str) -> str:
-        ownership_map = data.get("ownership_map", [])
+        ownership_map = data.get("ownership_map", {}).values()
         most_specific_owner = None
         longest_match = -1
 

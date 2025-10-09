@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckOrderStatus(Tool):
@@ -31,10 +31,10 @@ class CheckOrderStatus(Tool):
             order_id = f"#{order_id}"
 
         # Find the order
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         target_order = None
 
-        for order in orders:
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 target_order = order
                 break
@@ -84,7 +84,7 @@ class CheckOrderStatus(Tool):
         }
 
         # Get delivery address
-        delivery_address = target_order.get("address", {})
+        delivery_address = target_order.get("address", {}).values()
 
         # Check for cancellation info
         cancellation_info = target_order.get("cancellation_info")

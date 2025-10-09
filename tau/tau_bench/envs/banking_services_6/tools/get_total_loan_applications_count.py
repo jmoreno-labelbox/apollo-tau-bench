@@ -8,12 +8,12 @@ from typing import Any, Dict, List
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTotalLoanApplicationsCount(Tool):
     def invoke(data: Dict[str, Any], unexpected: Any = None) -> str:
-        count = len(data.get("loan_applications", []))
+        count = len(data.get("loan_applications", {}))
         return json.dumps({"total_loan_applications": count})
     @staticmethod
     def get_info() -> Dict[str, Any]:

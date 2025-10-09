@@ -8,15 +8,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RemoveEmployee(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str) -> str:
-        employees = data.get("employees", [])
+        employees = data.get("employees", {}).values()
         original_len = len(employees)
-        employees[:] = [e for e in employees if e.get("employee_id") != employee_id]
+        employees[:] = [e for e in employees.values() if e.get("employee_id") != employee_id]
 
         if len(employees) == original_len:
             payload = {"error": f"Employee with ID {employee_id} not found."}

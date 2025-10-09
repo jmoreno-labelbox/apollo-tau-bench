@@ -31,7 +31,7 @@ class CreateSupplyOrder(Tool):
             "total_cost": total_cost,
         }
 
-        supply_orders.append(new_order)
+        supply_data["orders"][order_id] = new_order
         payload = {
                 "success": True,
                 "supply_order_id": supply_order_id,

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class MergeBranch(Tool):
@@ -60,7 +60,7 @@ class MergeBranch(Tool):
             return out
 
         #Load repositories DB
-        repos: list[dict[str, Any]] = data.get("repositories", [])
+        repos: list[dict[str, Any]] = data.get("repositories", {}).values()
         if not isinstance(repos, list):
             payload = {"error": "Invalid database: 'repositories' must be a list."}
             out = json.dumps(

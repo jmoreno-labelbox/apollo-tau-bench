@@ -60,7 +60,7 @@ class SelectInventoryDinnerAndLog(Tool):
         #Screen based on inventory availability
         def available_for_recipe(rid: int) -> tuple[bool, int]:
             pass
-            rows = [x for x in ri if x.get("recipe_id") == rid]
+            rows = [x for x in ri.values() if x.get("recipe_id") == rid]
             missing = 0
             for x in rows:
                 ing_id = x.get("ingredient_id")
@@ -81,7 +81,7 @@ class SelectInventoryDinnerAndLog(Tool):
             for r in dinners:
                 rid = r.get("recipe_id")
                 #Temporarily assess using the given max_missing
-                rows_local = [x for x in ri if x.get("recipe_id") == rid]
+                rows_local = [x for x in ri.values() if x.get("recipe_id") == rid]
                 missing_local = 0
                 for x in rows_local:
                     ing_id = x.get("ingredient_id")
@@ -180,7 +180,7 @@ class SelectInventoryDinnerAndLog(Tool):
         #Screen based on inventory availability
         def available_for_recipe(rid: int) -> tuple[bool, int]:
             pass
-            rows = [x for x in ri if x.get("recipe_id") == rid]
+            rows = [x for x in ri.values() if x.get("recipe_id") == rid]
             missing = 0
             for x in rows:
                 ing_id = x.get("ingredient_id")
@@ -201,7 +201,7 @@ class SelectInventoryDinnerAndLog(Tool):
             for r in dinners:
                 rid = r.get("recipe_id")
                 #Temporarily assess using the given max_missing
-                rows_local = [x for x in ri if x.get("recipe_id") == rid]
+                rows_local = [x for x in ri.values() if x.get("recipe_id") == rid]
                 missing_local = 0
                 for x in rows_local:
                     ing_id = x.get("ingredient_id")

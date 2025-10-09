@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateResource(Tool):
@@ -60,14 +60,14 @@ class CreateResource(Tool):
                 return out
 
         # Confirm the existence of the owner
-        if not _find_by_id(data.get("users", []), "user_id", owner_id):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", owner_id):
             payload = {"error": f"owner_id {owner_id} not found"}
             out = json.dumps(payload)
             return out
 
         # Ensure uniqueness based on name (case-insensitive)
-        existing_resources = data.get("resources", [])
-        for r in existing_resources:
+        existing_resources = data.get("resources", {}).values()
+        for r in existing_resources.values():
             if str(r.get("name", "")).strip().lower() == name.lower():
                 payload = {"error": f"resource name '{name}' already exists"}
                 out = json.dumps(payload)

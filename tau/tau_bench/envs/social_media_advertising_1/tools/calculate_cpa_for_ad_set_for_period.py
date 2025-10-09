@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateCPAForAdSetForPeriod(Tool):
@@ -16,7 +16,7 @@ class CalculateCPAForAdSetForPeriod(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], adset_id: str = None, start_date: str = None, end_date: str = None) -> str:
-        insights = data.get("f_insights", [])
+        insights = data.get("f_insights", {}).values()
         total_spend = 0
         total_purchases = 0
 

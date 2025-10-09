@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddSecurityGroupRule(Tool):
@@ -23,7 +23,7 @@ class AddSecurityGroupRule(Tool):
         port = int(port)
         protocol = f"{protocol}"
         source_ip = f"{source_ip}"
-        rules = data.get("aws_security_group_rules", [])
+        rules = data.get("aws_security_group_rules", {}).values()
         new_id = f"sgr-{_next_numeric_id(rules, 'rule_seq')}"
         rules.append(
             {
@@ -44,7 +44,7 @@ class AddSecurityGroupRule(Tool):
         port = int(port)
         protocol = f"{protocol}"
         source_ip = f"{source_ip}"
-        rules = data.get("aws_security_group_rules", [])
+        rules = data.get("aws_security_group_rules", {}).values()
         new_id = f"sgr-{_next_numeric_id(rules, 'rule_seq')}"
         rules.append(
             {

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddSceneToDatabase(Tool):
@@ -23,15 +23,15 @@ class AddSceneToDatabase(Tool):
             payload = {"error": "'scene' parameter is required"}
             out = json.dumps(payload, indent=2)
             return out
-        scenes = data.get("scenes", [])
-        if any(s["id"] == scene.get("id") for s in scenes):
+        scenes = data.get("scenes", {}).values()
+        if any(s["id"] == scene.get("id") for s in scenes.values()):
             payload = {"error": "Scene with this id already exists"}
             out = json.dumps(payload, indent=2)
             return out
         if not threshold:
-            scenes.append(scene)
+            data["scenes"][scene["scene_id"]] = scene
         else:
-            for sensor in data.get("sensors", []):
+            for sensor in data.get("sensors", {}).values():
                 if sensor.get("id") == threshold.get("sensor_id"):
                     for param, limit in threshold.items():
                         current_value = sensor["state"].get(param)
@@ -42,7 +42,7 @@ class AddSceneToDatabase(Tool):
                             limit.get("operator") == "lt"
                             and current_value < limit.get("value")
                         ):
-                            scenes.append(scene)
+                            data["scenes"][scene["scene_id"]] = scene
         payload = {"success": "Scene added", "scene": scene, "scenes": scenes}
         out = json.dumps(
             payload, indent=2

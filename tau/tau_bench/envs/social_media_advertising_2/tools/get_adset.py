@@ -10,7 +10,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAdset(Tool):
@@ -19,7 +19,7 @@ class GetAdset(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], adset_id: str = None) -> str:
         aid = adset_id
-        for a in data.get("adsets", []):
+        for a in data.get("adsets", {}).values():
             if a.get("adset_id") == aid:
                 payload = a
                 out = json.dumps(payload)

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetOverdueChecklistItemsTool(Tool):
@@ -20,10 +20,10 @@ class GetOverdueChecklistItemsTool(Tool):
         if days_overdue_threshold is None:
             return _err("days_overdue_threshold must be an integer.")
 
-        checklist_items = data.get("checklist_items", [])
+        checklist_items = data.get("checklist_items", {}).values()
 
         overdue_items = []
-        for item in checklist_items:
+        for item in checklist_items.values():
             due_date = item.get("due_date")
             if not due_date or item.get("status") == "Completed":
                 continue

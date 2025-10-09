@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindTemplateFilesByTypeTool(Tool):
@@ -20,17 +20,16 @@ class FindTemplateFilesByTypeTool(Tool):
         if not template_category:
             return _err("template_category is required")
 
-        files = data.get("onboarding_files", [])
+        files = data.get("onboarding_files", {}).values()
 
         # Templates are recognized by their path.
         templates = [
             f
-            for f in files
-            if f"/templates/{template_category}/" in f.get("file_path", "")
+            for f in files.values() if f"/templates/{template_category}/" in f.get("file_path", "")
         ]
 
         if mime_type:
-            templates = [t for t in templates if t.get("mime_type") == mime_type]
+            templates = [t for t in templates.values() if t.get("mime_type") == mime_type]
         payload = templates
         out = json.dumps(payload, indent=2)
         return out

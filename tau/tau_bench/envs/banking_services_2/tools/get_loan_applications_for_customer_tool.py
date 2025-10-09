@@ -7,7 +7,7 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetLoanApplicationsForCustomerTool(Tool):
@@ -28,7 +28,7 @@ class GetLoanApplicationsForCustomerTool(Tool):
         notes: str = None,
         before_date: str = None
     ) -> str:
-        loan_applications = data.get('loan_applications', [])
+        loan_applications = data.get('loan_applications', {}).values()
         result = []
 
         for application in loan_applications:

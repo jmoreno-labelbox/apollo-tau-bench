@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2CalculateInvoiceAging(Tool):
@@ -16,8 +16,8 @@ class CaV2CalculateInvoiceAging(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], current_date: str = "2024-12-10") -> str:
-        invoices = data.get("invoices", [])
-        unpaid_invoices = [inv for inv in invoices if not inv.get("paid_at")]
+        invoices = data.get("invoices", {}).values()
+        unpaid_invoices = [inv for inv in invoices.values() if not inv.get("paid_at")]
 
         aging_buckets = {
             "current": [],  # 0 to 30 days

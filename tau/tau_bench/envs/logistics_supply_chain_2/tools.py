@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -19,8 +19,8 @@ class GetCarrierBySCAC(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], carrier_scac: str) -> str:
-        carriers = data.get("carriers", [])
-        for carrier in carriers:
+        carriers = data.get("carriers", {}).values()
+        for carrier in carriers.values():
             if carrier["scac"] == carrier_scac:
                 payload = carrier
                 out = json.dumps(payload, indent=2)
@@ -56,16 +56,15 @@ class GetActiveCarriers(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], list_of_scacs: list[str] = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
         if list_of_scacs:
             active_carriers = [
                 carrier["scac"]
-                for carrier in carriers
-                if carrier.get("active_status") and carrier["scac"] in list_of_scacs
+                for carrier in carriers.values() if carrier.get("active_status") and carrier["scac"] in list_of_scacs
             ]
         else:
             active_carriers = [
-                carrier["scac"] for carrier in carriers if carrier.get("active_status")
+                carrier["scac"] for carrier in carriers.values() if carrier.get("active_status")
             ]
         payload = active_carriers
         out = json.dumps(payload, indent=2)
@@ -96,17 +95,16 @@ class GetCarriersByRegion(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], region: str = None, list_of_scacs: list[str] = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
         if region:
             active_carriers = [
                 carrier["scac"]
-                for carrier in carriers
-                if carrier.get("active_status")
+                for carrier in carriers.values() if carrier.get("active_status")
                 and region.lower() in carrier.get("regional_coverage").lower()
             ]
         else:
             active_carriers = [
-                carrier["scac"] for carrier in carriers if carrier.get("active_status")
+                carrier["scac"] for carrier in carriers.values() if carrier.get("active_status")
             ]
         if list_of_scacs:
             active_carriers = [
@@ -145,17 +143,16 @@ class GetCarriersByMode(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], mode: str = None, list_of_scacs: list[str] = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
         if mode:
             active_carriers = [
                 carrier["scac"]
-                for carrier in carriers
-                if carrier.get("active_status")
+                for carrier in carriers.values() if carrier.get("active_status")
                 and mode in carrier.get("supported_modes")
             ]
         else:
             active_carriers = [
-                carrier["scac"] for carrier in carriers if carrier.get("active_status")
+                carrier["scac"] for carrier in carriers.values() if carrier.get("active_status")
             ]
         if list_of_scacs:
             active_carriers = [
@@ -194,10 +191,10 @@ class GetTopRatedCarriers(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], list_of_scacs: list[str] = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
         sorted_carriers = sorted(
             carriers,
-            key=lambda c: c.get("performance_metrics", {}).get("average_rating", 0),
+            key=lambda c: c.get("performance_metrics", {}).values().get("average_rating", 0),
             reverse=True,
         )
         if list_of_scacs:
@@ -244,15 +241,15 @@ class GetOnTimeDeliveryStats(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], list_of_scacs: list[str] = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
         if not carriers:
             payload = {"average_on_time_delivery": 0.0}
             out = json.dumps(payload, indent=2)
             return out
         if list_of_scacs:
-            carriers = [c for c in carriers if c["scac"] in list_of_scacs]
+            carriers = [c for c in carriers.values() if c["scac"] in list_of_scacs]
         total = sum(
-            c.get("performance_metrics", {}).get("on_time_delivery_percentage", 0)
+            c.get("performance_metrics", {}).values().get("on_time_delivery_percentage", 0)
             for c in carriers
         )
         average = total / len(carriers)
@@ -285,9 +282,9 @@ class UpdateCarrier(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], carrier_scac: str = None, updates: dict[str, Any] = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
 
-        for carrier in carriers:
+        for carrier in carriers.values():
             if carrier["scac"] == carrier_scac:
                 carrier.update(updates)
                 payload = {"success": f"carrier {carrier_scac} updated"}
@@ -328,8 +325,8 @@ class GetShipmentById(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], shipment_id: str) -> str:
-        shipments = data.get("inbound_shipments", [])
-        for shipment in shipments:
+        shipments = data.get("inbound_shipments", {}).values()
+        for shipment in shipments.values():
             if shipment["shipment_id"] == shipment_id:
                 payload = shipment
                 out = json.dumps(payload, indent=2)
@@ -367,12 +364,12 @@ class GetShipmentsByStatus(Tool):
     def invoke(data: dict[str, Any], status: str = "", list_of_ids: list = None) -> str:
         status = status.lower()
         list_of_shipments = list_of_ids
-        shipments = data.get("inbound_shipments", [])
+        shipments = data.get("inbound_shipments", {}).values()
         filtered = [
-            s["shipment_id"] for s in shipments if s.get("status", "").lower() == status
+            s["shipment_id"] for s in shipments.values() if s.get("status", "").lower() == status
         ]
         if list_of_shipments:
-            filtered = [s for s in filtered if s in list_of_shipments]
+            filtered = [s for s in filtered.values() if s in list_of_shipments]
         payload = filtered
         out = json.dumps(payload, indent=2)
         return out
@@ -409,10 +406,10 @@ class GetDelayedShipments(Tool):
     def invoke(data: dict[str, Any], list_of_ids: list = None, today: str = None) -> str:
         from datetime import datetime
 
-        shipments = data.get("inbound_shipments", [])
+        shipments = data.get("inbound_shipments", {}).values()
         today_date = datetime.strptime(today, "%Y-%m-%d").date()
         delayed = []
-        for s in shipments:
+        for s in shipments.values():
             expected_arrival = s.get("expected_arrival_date")
             actual_arrival = s.get("actual_arrival_date")
             if expected_arrival and actual_arrival is None:
@@ -425,7 +422,7 @@ class GetDelayedShipments(Tool):
                 except Exception:
                     pass
         if list_of_ids:
-            delayed = [d for d in delayed if d in list_of_ids]
+            delayed = [d for d in delayed.values() if d in list_of_ids]
         payload = delayed
         out = json.dumps(payload, indent=2)
         return out
@@ -457,14 +454,13 @@ class FilterInboundShipments(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], key: str, value: str, list_of_ids: list[str] = None) -> str:
-        shipments = data.get("inbound_shipments", [])
+        shipments = data.get("inbound_shipments", {}).values()
         result = [
             item["shipment_id"]
-            for item in shipments
-            if item[key].lower() == value.lower()
+            for item in shipments.values() if item[key].lower() == value.lower()
         ]
         if list_of_ids:
-            result = [r for r in result if r in list_of_ids]
+            result = [r for r in result.values() if r in list_of_ids]
         if result:
             payload = {key: value, "result": result}
             out = json.dumps(payload, indent=2)
@@ -508,9 +504,9 @@ class UpdateInboundShipment(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], shipment_id: str = None, updates: dict[str, Any] = None) -> str:
-        shipments = data.get("inbound_shipments", [])
+        shipments = data.get("inbound_shipments", {}).values()
 
-        for shipment in shipments:
+        for shipment in shipments.values():
             if shipment["shipment_id"] == shipment_id:
                 shipment.update(updates)
                 payload = {"success": f"inbound shipment {shipment_id} updated"}
@@ -551,8 +547,8 @@ class GetInventoryById(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], inventory_id: str = None) -> str:
-        inventories = data.get("inventory", [])
-        for item in inventories:
+        inventories = data.get("inventory", {}).values()
+        for item in inventories.values():
             if item["inventory_id"] == inventory_id:
                 payload = item
                 out = json.dumps(payload, indent=2)
@@ -588,14 +584,13 @@ class GetInventoryBelowReorderPoint(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], list_of_ids: list[str] = None) -> str:
-        inventories = data.get("inventory", [])
+        inventories = data.get("inventory", {}).values()
         low_stock = [
             item["inventory_id"]
-            for item in inventories
-            if item["quantity_available"] < item["reorder_point"]
+            for item in inventories.values() if item["quantity_available"] < item["reorder_point"]
         ]
         if list_of_ids:
-            low_stock = [ls for ls in low_stock if ls in list_of_ids]
+            low_stock = [ls for ls in low_stock.values() if ls in list_of_ids]
         payload = low_stock
         out = json.dumps(payload, indent=2)
         return out
@@ -625,14 +620,13 @@ class GetInventoryByWarehouse(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], warehouse_id: str, list_of_ids: list[str] = None) -> str:
-        inventories = data.get("inventory", [])
+        inventories = data.get("inventory", {}).values()
         filtered = [
             item["inventory_id"]
-            for item in inventories
-            if item["warehouse_id"] == warehouse_id
+            for item in inventories.values() if item["warehouse_id"] == warehouse_id
         ]
         if list_of_ids:
-            filtered = [f for f in filtered if f in list_of_ids]
+            filtered = [f for f in filtered.values() if f in list_of_ids]
         payload = filtered
         out = json.dumps(payload, indent=2)
         return out
@@ -668,9 +662,9 @@ class GetExpiredInventory(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], today: str, list_of_ids: list[str] = None) -> str:
         today_date = datetime.strptime(today, "%Y-%m-%d").date()
-        inventories = data.get("inventory", [])
+        inventories = data.get("inventory", {}).values()
         expired = []
-        for item in inventories:
+        for item in inventories.values():
             exp_date = item.get("expiration_date")
             if exp_date:
                 try:
@@ -679,7 +673,7 @@ class GetExpiredInventory(Tool):
                 except Exception:
                     continue
         if list_of_ids:
-            expired = [e for e in expired if e in list_of_ids]
+            expired = [e for e in expired.values() if e in list_of_ids]
         payload = expired
         out = json.dumps(payload, indent=2)
         return out
@@ -716,35 +710,31 @@ class GetInventoryWithDamage(Tool):
         less_than_threshold: str = "False",
         list_of_ids: list = None
     ) -> str:
-        inventories = data.get("inventory", [])
+        inventories = data.get("inventory", {}).values()
         if threshold:
             if less_than_threshold == "True":
                 damaged = [
                     [item["inventory_id"], item["quantity_damaged"]]
-                    for item in inventories
-                    if item["quantity_damaged"] < threshold
+                    for item in inventories.values() if item["quantity_damaged"] < threshold
                 ]
             else:
                 damaged = [
                     [item["inventory_id"], item["quantity_damaged"]]
-                    for item in inventories
-                    if item["quantity_damaged"] > threshold
+                    for item in inventories.values() if item["quantity_damaged"] > threshold
                 ]
         else:
             if less_than_threshold == "True":
                 damaged = [
                     [item["inventory_id"], item["quantity_damaged"]]
-                    for item in inventories
-                    if item["quantity_damaged"] < 0
+                    for item in inventories.values() if item["quantity_damaged"] < 0
                 ]
             else:
                 damaged = [
                     [item["inventory_id"], item["quantity_damaged"]]
-                    for item in inventories
-                    if item["quantity_damaged"] > 0
+                    for item in inventories.values() if item["quantity_damaged"] > 0
                 ]
         if list_of_ids:
-            damaged = [d for d in damaged if d[0] in list_of_ids]
+            damaged = [d for d in damaged.values() if d[0] in list_of_ids]
         payload = damaged
         out = json.dumps(payload, indent=2)
         return out
@@ -782,14 +772,13 @@ class FilterInventory(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], key: str, value: str, list_of_ids: list[str] = None) -> str:
-        inventories = data.get("inventory", [])
+        inventories = data.get("inventory", {}).values()
         result = [
             item["inventory_id"]
-            for item in inventories
-            if item[key].lower() == value.lower()
+            for item in inventories.values() if item[key].lower() == value.lower()
         ]
         if list_of_ids:
-            result = [r for r in result if r in list_of_ids]
+            result = [r for r in result.values() if r in list_of_ids]
         if result:
             payload = {key: value, "result": result}
             out = json.dumps(payload, indent=2)
@@ -833,9 +822,9 @@ class UpdateInventory(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], inventory_id: str = None, updates: dict[str, Any] = None) -> str:
-        inventories = data.get("inventory", [])
+        inventories = data.get("inventory", {}).values()
 
-        for inv in inventories:
+        for inv in inventories.values():
             if inv["inventory_id"] == inventory_id:
                 inv.update(updates)
                 payload = {"success": f"inventory {inventory_id} updated"}
@@ -876,8 +865,8 @@ class GetOutboundOrderById(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str) -> str:
-        orders = data.get("outbound_orders", [])
-        for order in orders:
+        orders = data.get("outbound_orders", {}).values()
+        for order in orders.values():
             if order["order_id"] == order_id:
                 payload = order
                 out = json.dumps(payload, indent=2)
@@ -911,14 +900,13 @@ class GetOrdersByStatus(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], status: str, list_of_ids: list[str] = None) -> str:
-        orders = data.get("outbound_orders", [])
+        orders = data.get("outbound_orders", {}).values()
         result = [
             order["order_id"]
-            for order in orders
-            if order["status"].lower() == status.lower()
+            for order in orders.values() if order["status"].lower() == status.lower()
         ]
         if list_of_ids:
-            result = [r for r in result if r in list_of_ids]
+            result = [r for r in result.values() if r in list_of_ids]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -953,14 +941,13 @@ class GetHighValueOutboundOrders(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], min_value: int = 100000, list_of_ids: list = None) -> str:
-        orders = data.get("outbound_orders", [])
+        orders = data.get("outbound_orders", {}).values()
         result = [
             order["order_id"]
-            for order in orders
-            if order.get("total_value", 0) >= min_value
+            for order in orders.values() if order.get("total_value", 0) >= min_value
         ]
         if list_of_ids:
-            result = [r for r in result if r in list_of_ids]
+            result = [r for r in result.values() if r in list_of_ids]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -994,14 +981,13 @@ class GetOrdersRequiringTemperatureControl(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], list_of_ids: list[str] = None) -> str:
-        orders = data.get("outbound_orders", [])
+        orders = data.get("outbound_orders", {}).values()
         result = [
             order["order_id"]
-            for order in orders
-            if order.get("temperature_control_required")
+            for order in orders.values() if order.get("temperature_control_required")
         ]
         if list_of_ids:
-            result = [r for r in result if r in list_of_ids]
+            result = [r for r in result.values() if r in list_of_ids]
         if len(result) == 0:
             payload = "No temperature control required"
             out = json.dumps(payload, indent=2)
@@ -1035,9 +1021,9 @@ class UpdateOutboundOrder(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str = None, updates: dict[str, Any] = None) -> str:
-        orders = data.get("outbound_orders", [])
+        orders = data.get("outbound_orders", {}).values()
 
-        for order in orders:
+        for order in orders.values():
             if order["order_id"] == order_id:
                 order.update(updates)
                 payload = {"success": f"outbound order {order_id} updated"}
@@ -1078,8 +1064,8 @@ class GetProductBySKU(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], sku: str) -> str:
-        products = data.get("product_master", [])
-        for product in products:
+        products = data.get("product_master", {}).values()
+        for product in products.values():
             if product["sku"] == sku:
                 payload = product
                 out = json.dumps(payload, indent=2)
@@ -1113,14 +1099,13 @@ class GetHazmatProducts(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], list_of_ids: list[str] = None) -> str:
-        products = data.get("product_master", [])
+        products = data.get("product_master", {}).values()
         result = [
             p["sku"]
-            for p in products
-            if p.get("hazmat_information", {}).get("is_hazmat")
+            for p in products.values() if p.get("hazmat_information", {}).values().get("is_hazmat")
         ]
         if list_of_ids:
-            result = [r for r in result if r in list_of_ids]
+            result = [r for r in result.values() if r in list_of_ids]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -1152,10 +1137,10 @@ class GetProductsByCategory(Tool):
     def invoke(data: dict[str, Any], category: str = "", list_of_ids: list = None) -> str:
         category = category.lower()
         list_of_products = list_of_ids
-        products = data.get("product_master", [])
-        result = [p["sku"] for p in products if p["category"].lower() == category]
+        products = data.get("product_master", {}).values()
+        result = [p["sku"] for p in products.values() if p["category"].lower() == category]
         if list_of_products:
-            result = [r for r in result if r in list_of_products]
+            result = [r for r in result.values() if r in list_of_products]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -1192,14 +1177,13 @@ class GetProductsByStorageRequirement(Tool):
     def invoke(data: dict[str, Any], keyword: str = "", list_of_ids: list = None) -> str:
         keyword = keyword.lower()
         list_of_products = list_of_ids
-        products = data.get("product_master", [])
+        products = data.get("product_master", {}).values()
         result = [
             p["sku"]
-            for p in products
-            if keyword in p.get("storage_requirements", "").lower()
+            for p in products.values() if keyword in p.get("storage_requirements", "").lower()
         ]
         if list_of_products:
-            result = [r for r in result if r in list_of_products]
+            result = [r for r in result.values() if r in list_of_products]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -1234,9 +1218,9 @@ class UpdateProduct(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], sku: str = None, updates: dict[str, Any] = None) -> str:
-        products = data.get("product_master", [])
+        products = data.get("product_master", {}).values()
 
-        for product in products:
+        for product in products.values():
             if product["sku"] == sku:
                 product.update(updates)
                 payload = {"success": f"product {sku} updated"}
@@ -1272,13 +1256,13 @@ class GetSupplierByID(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supplier_id: str, list_of_ids: list = None) -> str:
-        suppliers = data.get("supplier_master", [])
-        for supplier in suppliers:
+        suppliers = data.get("supplier_master", {}).values()
+        for supplier in suppliers.values():
             if supplier["supplier_id"] == supplier_id:
                 payload = supplier
                 out = json.dumps(payload, indent=2)
                 return out
-        suppliers = [s for s in suppliers if s in list_of_ids]
+        suppliers = [s for s in suppliers.values() if s in list_of_ids]
         payload = {"error": f"Supplier ID '{supplier_id}' not found."}
         out = json.dumps(
             payload, indent=2
@@ -1315,14 +1299,13 @@ class GetPreferredSuppliers(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], list_of_ids: list[str] = None) -> str:
-        suppliers = data.get("supplier_master", [])
+        suppliers = data.get("supplier_master", {}).values()
         result = [
             s["supplier_id"]
-            for s in suppliers
-            if s["relationship_status"].lower() == "preferred"
+            for s in suppliers.values() if s["relationship_status"].lower() == "preferred"
         ]
         if list_of_ids:
-            result = [r for r in result if r in list_of_ids]
+            result = [r for r in result.values() if r in list_of_ids]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -1354,14 +1337,13 @@ class GetCertifiedSuppliers(Tool):
     def invoke(data: dict[str, Any], certification: str = "", list_of_ids: list = None) -> str:
         keyword = certification.lower()
         list_of_suppliers = list_of_ids
-        suppliers = data.get("supplier_master", [])
+        suppliers = data.get("supplier_master", {}).values()
         result = [
             s["supplier_id"]
-            for s in suppliers
-            if any(keyword in cert.lower() for cert in s.get("certifications", []))
+            for s in suppliers.values() if any(keyword in cert.lower() for cert in s.get("certifications", []))
         ]
         if list_of_suppliers:
-            result = [r for r in result if r in list_of_suppliers]
+            result = [r for r in result.values() if r in list_of_suppliers]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -1396,9 +1378,9 @@ class UpdateSupplier(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], supplier_id: str = None, updates: dict[str, Any] = None) -> str:
-        suppliers = data.get("supplier_master", [])
+        suppliers = data.get("supplier_master", {}).values()
 
-        for supplier in suppliers:
+        for supplier in suppliers.values():
             if supplier["supplier_id"] == supplier_id:
                 supplier.update(updates)
                 payload = {"success": f"supplier {supplier_id} updated"}
@@ -1438,8 +1420,8 @@ class GetWarehouseByID(Tool):
     """Utility for obtaining complete details of a warehouse via its ID."""
     @staticmethod
     def invoke(data: dict[str, Any], warehouse_id: str = None) -> str:
-        warehouses = data.get("warehouses", [])
-        for warehouse in warehouses:
+        warehouses = data.get("warehouses", {}).values()
+        for warehouse in warehouses.values():
             if warehouse["warehouse_id"] == warehouse_id:
                 payload = warehouse
                 out = json.dumps(payload, indent=2)
@@ -1477,13 +1459,13 @@ class GetWarehousesByOwnershipStatus(Tool):
     def invoke(data: dict[str, Any], ownership_status: str, list_of_ids: list = None) -> str:
         if list_of_ids is None:
             list_of_ids = []
-        warehouses = data.get("warehouses", [])
+        warehouses = data.get("warehouses", {}).values()
         result = []
-        for warehouse in warehouses:
+        for warehouse in warehouses.values():
             if warehouse["ownership_status"].lower() == ownership_status.lower():
                 result.append(warehouse["warehouse_id"])
         if list_of_ids:
-            result = [r for r in result if r in list_of_ids]
+            result = [r for r in result.values() if r in list_of_ids]
         payload = result
         out = json.dumps(payload, indent=2)
         return out
@@ -1518,9 +1500,9 @@ class UpdateWarehouse(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], warehouse_id: str = None, updates: dict[str, Any] = None) -> str:
-        warehouses = data.get("warehouses", [])
+        warehouses = data.get("warehouses", {}).values()
 
-        for warehouse in warehouses:
+        for warehouse in warehouses.values():
             if warehouse["warehouse_id"] == warehouse_id:
                 warehouse.update(updates)
                 payload = {"success": f"warehouse {warehouse_id} updated"}
@@ -1563,7 +1545,7 @@ class CalculateTotal(Tool):
     def invoke(data: dict[str, Any], json: str = None, value: str = None, key: str = None, list_of_ids: list = None, json_name: str = None) -> str:
         # Support both 'json' and 'json_name' for backward compatibility
         data_key = json_name or json
-        dataset = data.get(data_key, [])
+        dataset = data.get(data_key, {}).values()
 
         total = 0
         if list_of_ids:
@@ -1619,7 +1601,7 @@ class CalculateAggregate(Tool):
         import json as json_module
         # Support both 'json' and 'json_name' for backward compatibility
         data_key = json_name or json
-        dataset = data.get(data_key, [])
+        dataset = data.get(data_key, {}).values()
 
         result = []
         for instance in dataset:
@@ -1628,7 +1610,7 @@ class CalculateAggregate(Tool):
             else:
                 result.append([instance[key], instance[value]])
         if list_of_ids:
-            result = [r for r in result if r[0] in list_of_ids]
+            result = [r for r in result.values() if r[0] in list_of_ids]
         result = sorted(result, key=lambda x: x[1])
         min_value = min([result[i][1] for i in range(len(result))])
         min_keys = [r[0] for r in result if r[1] == min_value]

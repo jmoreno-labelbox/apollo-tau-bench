@@ -8,13 +8,13 @@ from typing import Any, Dict, List
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSupportTicketDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], ticket_id: str = None) -> str:
-        ticket = next((t for t in data.get('support_tickets', []) if t['ticket_id'] == ticket_id), None)
+        ticket = next((t for t in data.get('support_tickets', {}).values() if t['ticket_id'] == ticket_id), None)
         if ticket:
             return json.dumps(ticket)
         return json.dumps({"error": "Support ticket not found."})

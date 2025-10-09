@@ -7,7 +7,7 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchTransactionsTool(Tool):
@@ -15,10 +15,10 @@ class SearchTransactionsTool(Tool):
     def invoke(data: Dict[str, Any], account_id: str = None, start_date: str = None, 
                end_date: str = None, min_amount: float = None, max_amount: float = None, description_keywords: str = None, 
                transaction_type: str = None) -> str:
-        transactions = data.get('transactions', [])
+        transactions = data.get('transactions', {}).values()
         filtered_transactions = []
 
-        for transaction in transactions:
+        for transaction in transactions.values():
             if transaction['account_id'] != account_id:
                 continue
 

@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -41,7 +41,7 @@ def _j(v):
 class GetAirportByCode(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], iata_code: str) -> str:
-        for a in data.get("airports", []):
+        for a in data.get("airports", {}).values():
             if a.get("iata_code") == iata_code:
                 return _j(a)
         return _j(
@@ -69,7 +69,7 @@ class GetAirportByCode(Tool):
 class GetAircraftByTail(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], tail_number: str) -> str:
-        for a in data.get("aircraft", []):
+        for a in data.get("aircraft", {}).values():
             if a.get("tail_number") == tail_number:
                 return _j(a)
         return _j({})
@@ -93,7 +93,7 @@ class GetAircraftByAirport(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], airport_id: str) -> str:
         res = []
-        for a in data.get("aircraft", []):
+        for a in data.get("aircraft", {}).values():
             if a.get("location").get("airport_id") == airport_id:
                 res.append(_j(a))
         return _j(res)
@@ -118,7 +118,7 @@ class LookupFlightDay(Tool):
     def invoke(
         data: dict[str, Any], date: str, flight_number: str | None = None
     ) -> str:
-        for f in data.get("flights", []):
+        for f in data.get("flights", {}).values():
             if flight_number and f.get("flight_number") != flight_number:
                 continue
             day = (f.get("dates") or {}).get(date)
@@ -169,7 +169,7 @@ class ScanFlightsByDate(Tool):
         status: list[str] | None = None,
     ) -> str:
         out = []
-        for f in data.get("flights", []):
+        for f in data.get("flights", {}).values():
             day = (f.get("dates") or {}).get(date)
             if not isinstance(day, dict):
                 continue
@@ -230,7 +230,7 @@ class ScanFlightsByDate(Tool):
 class GetFlightScheduledTimes(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], flight_number: str) -> str:
-        for f in data.get("flights", []):
+        for f in data.get("flights", {}).values():
             if f.get("flight_number") == flight_number:
                 return _j(
                     {
@@ -265,7 +265,7 @@ class GetFlightScheduledTimes(Tool):
 class FindReservationsByUser(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str) -> str:
-        res = [r for r in data.get("reservations", []) if r.get("user_id") == user_id]
+        res = [r for r in data.get("reservations", {}).values() if r.get("user_id") == user_id]
         return _j(res)
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -287,7 +287,7 @@ class FindReservationsByFlightDay(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], flight_number: str, date: str) -> str:
         out = []
-        for r in data.get("reservations", []):
+        for r in data.get("reservations", {}).values():
             for seg in r.get("flights", []):
                 if (
                     seg.get("flight_number") == flight_number
@@ -319,7 +319,7 @@ class FindReservationsByFlightDay(Tool):
 class GetCrewMemberByEmployeeCode(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_code: str) -> str:
-        for c in data.get("crew_members", []):
+        for c in data.get("crew_members", {}).values():
             if c.get("employee_code") == employee_code:
                 return _j(c)
         return _j({})
@@ -347,7 +347,7 @@ class GetCrewAssignments(Tool):
         flight_number: str | None = None,
     ) -> str:
         out = []
-        for a in data.get("flight_crew_assignments", []):
+        for a in data.get("flight_crew_assignments", {}).values():
             if (
                 crew_member_id
                 and (a.get("crew_member") or {}).get("crew_member_id") != crew_member_id
@@ -385,7 +385,7 @@ class GetCrewCertifications(Tool):
         data: dict[str, Any], crew_member_id: str, certification_code: str | None = None
     ) -> str:
         out = []
-        for c in data.get("crew_certifications", []):
+        for c in data.get("crew_certifications", {}).values():
             cmid = (c.get("crew_member") or {}).get("crew_member_id")
             if cmid != crew_member_id:
                 continue
@@ -417,7 +417,7 @@ class EventsAtAirportOn(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], airport_id: str, date: str) -> str:
         out = []
-        for e in data.get("operational_events", []):
+        for e in data.get("operational_events", {}).values():
             ap = (e.get("airport") or {}).get("airport_id")
             ts = e.get("event_timestamp_utc", "")
             if ap == airport_id and isinstance(ts, str) and ts[:10] == date:
@@ -447,7 +447,7 @@ class MaintenanceLogsForAircraft(Tool):
     def invoke(data: dict[str, Any], aircraft_id: str) -> str:
         out = [
             m
-            for m in data.get("MaintenanceLogs", [])
+            for m in data.get("MaintenanceLogs", {}).values()
             if (m.get("aircraft") or {}).get("aircraft_id") == aircraft_id
         ]
         return _j(out)
@@ -474,7 +474,7 @@ class MaintenanceLogs(Tool):
         MaintenanceLogs: list = None
     ) -> str:
         return _j(MaintenanceLogs or [])
-        return _j(data.get("MaintenanceLogs", []))
+        return _j(data.get("MaintenanceLogs", {}))
 
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -502,7 +502,7 @@ class ComputeCrewDutyCounts(Tool):
         }
         counts = {"24h": 0, "30d": 0, "365d": 0}
         # Derived from flight_log
-        for c in data["crew_members"]:
+        for c in data["crew_members"].values():
             if c["crew_member_id"] != crew_member_id:
                 continue
             for entry in c["flight_log"]:
@@ -552,7 +552,7 @@ class CreateOperationalEvent(Tool):
         aircraft_id: str | None = None,
     ) -> str:
         events = data.setdefault("operational_events", [])
-        new_id = _next_numeric_suffix("OE", events, "event_id")
+        new_id = _next_numeric_suffix("OE", list(events.values()), "event_id")
         rec = {
             "event_id": new_id,
             "flight": {"flight_id": flight_id} if flight_id else None,
@@ -599,7 +599,7 @@ class SetAircraftStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], aircraft_id: str, new_status: str) -> str:
         new_status = new_status[:1].upper() + new_status[1:]
-        for a in data.get("aircraft", []):
+        for a in data.get("aircraft", {}).values():
             if a.get("aircraft_id") == aircraft_id:
                 a["status"] = new_status
                 return _j(a)
@@ -631,7 +631,7 @@ class RelocateAircraft(Tool):
         new_location_airport_id: str,
         new_location_iata: str | None = None,
     ) -> str:
-        for a in data.get("aircraft", []):
+        for a in data.get("aircraft", {}).values():
             if a.get("aircraft_id") == aircraft_id:
                 a["location"] = (
                     {
@@ -681,7 +681,7 @@ class AppendMaintenanceLog(Tool):
         next_due: str | None = None,
     ) -> str:
         logs = data.setdefault("MaintenanceLogs", [])
-        new_id = _next_numeric_suffix("ML", logs, "log_id")
+        new_id = _next_numeric_suffix("ML", list(logs.values()), "log_id")
         rec = {
             "log_id": new_id,
             "aircraft": {"aircraft_id": aircraft_id},
@@ -735,7 +735,7 @@ class AppendMaintenanceLog(Tool):
 class UpdateCrewMemberStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], crew_member_id: str, new_status: str) -> str:
-        for c in data.get("crew_members", []):
+        for c in data.get("crew_members", {}).values():
             if c.get("crew_member_id") == crew_member_id:
                 c["status"] = new_status
                 return _j(c)
@@ -768,7 +768,7 @@ class CreateCrewAssignment(Tool):
         assigned_role: str,
     ) -> str:
         assigns = data.setdefault("flight_crew_assignments", [])
-        new_id = _next_numeric_suffix("AS", assigns, "assignment_id")
+        new_id = _next_numeric_suffix("AS", list(assigns.values()), "assignment_id")
         rec = {
             "assignment_id": new_id,
             "flight": {"flight_number": flight_number},
@@ -808,7 +808,7 @@ class UpdateFlightStatusForDate(Tool):
         new_status: str,
     ) -> str:
         _new_statusL = new_status or ''.lower()
-        for f in data.get("flights", []):
+        for f in data.get("flights", {}).values():
             if f.get("flight_number") not in set(flight_numbers):
                 continue
             day = (f.get("dates") or {}).get(date)
@@ -863,7 +863,7 @@ class DelayFlightActualTimesForDate(Tool):
         also_mark_status: str | None = None,
     ) -> str:
         pass
-        for f in data.get("flights", []):
+        for f in data.get("flights", {}).values():
             if f.get("flight_number") != flight_number:
                 continue
             dates = f.get("dates") or {}
@@ -930,9 +930,9 @@ class CancelReservation(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], reservation_id: str) -> str:
         """If a reservation exists, cancel it and return either a success or error message."""
-        reservations = data.get("reservations", [])
+        reservations = data.get("reservations", {}).values()
 
-        for reservation in reservations:
+        for reservation in reservations.values():
             if reservation.get("reservation_id") == reservation_id:
                 reservation["status"] = "cancelled"
                 payload = {"success": f"Reservation {reservation_id} has been cancelled."}
@@ -972,9 +972,9 @@ class RefundReservation(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], reservation_id: str) -> str:
         """If a reservation is present, refund it and return a success or error message."""
-        reservations = data.get("reservations", [])
+        reservations = data.get("reservations", {}).values()
 
-        for reservation in reservations:
+        for reservation in reservations.values():
             if reservation.get("reservation_id") == reservation_id:
                 reservation["status"] = "refunded"
                 payload = {"success": f"Reservation {reservation_id} has been refunded."}
@@ -1013,7 +1013,7 @@ class RefundReservationsByFlightDay(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], flight_number: str, date: str) -> str:
         out = []
-        for r in data.get("reservations", []):
+        for r in data.get("reservations", {}).values():
             for seg in r.get("flights", []):
                 if (
                     seg.get("flight_number") == flight_number
@@ -1075,9 +1075,9 @@ class FindAvailableCrew(Tool):
         home_base_iata: str | None = None,
         status: str | None = None,
     ) -> str:
-        crew = data.get("crew_members", [])
+        crew = data.get("crew_members", {}).values()
         out = []
-        for m in crew:
+        for m in crew.values():
             if m.get("role") != role:
                 continue
             if home_base_iata and (
@@ -1112,8 +1112,8 @@ class FindAvailableCrew(Tool):
 class UpdateReservationStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], reservation_id: str, new_status: str) -> str:
-        reservations = data.get("reservations", [])
-        for r in reservations:
+        reservations = data.get("reservations", {}).values()
+        for r in reservations.values():
             if r.get("reservation_id") == reservation_id:
                 r["status"] = new_status
                 return _j(r)
@@ -1152,8 +1152,8 @@ class UpdateReservationDetails(Tool):
         total_baggages: int | None = None,
         nonfree_baggages: int | None = None,
     ) -> str:
-        reservations = data.get("reservations", [])
-        for r in reservations:
+        reservations = data.get("reservations", {}).values()
+        for r in reservations.values():
             if r.get("reservation_id") == reservation_id:
                 if cabin is not None:
                     r["cabin"] = cabin
@@ -1171,9 +1171,9 @@ class UpdateReservationDetails(Tool):
                 if passengers is not None:
                     r["passengers"] = passengers
                 if contact_email is not None:
-                    r.setdefault("contact", {})["email"] = contact_email
+                    r.setdefault("contact", {}).values()["email"] = contact_email
                 if contact_phone is not None:
-                    r.setdefault("contact", {})["phone"] = contact_phone
+                    r.setdefault("contact", {}).values()["phone"] = contact_phone
                 return _j(r)
         return _j({"error": "reservation_not_found", "reservation_id": reservation_id})
                 
@@ -1299,15 +1299,15 @@ class FindFlights(Tool):
             date_range.append(d.strftime("%Y-%m-%d"))
             d += timedelta(days=1)
 
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         matching_flights: list[dict[str, Any]] = []
 
         # Route and scan within the date range
-        for f in flights:
+        for f in flights.values():
             if f.get("origin") != origin or f.get("destination") != destination:
                 continue
 
-            per_day = f.get("dates", {})
+            per_day = f.get("dates", {}).values()
             for day in date_range:
                 if day not in per_day:
                     continue
@@ -1354,7 +1354,7 @@ class FindFlights(Tool):
                             "actual_arrival_time_est"
                         ]
 
-                matching_flights.append(result)
+                matching_data["flights"][flight_id] = result
 
         matching_flights.sort(
             key=lambda x: (x["date"], x["scheduled_departure_time_est"])
@@ -1373,7 +1373,7 @@ class FindFlights(Tool):
         if avail_with_prices:
             all_prices = []
             for r in avail_with_prices:
-                for cabin_class, price in r.get("prices", {}).items():
+                for cabin_class, price in r.get("prices", {}).values().items():
                     all_prices.append(
                         {
                             "cabin_class": cabin_class,
@@ -1449,10 +1449,10 @@ class CreateReservation(Tool):
         users: list[dict[str, Any]], user_email: str
     ) -> dict[str, str] | None:
         pass
-        for u in users:
+        for u in users.values():
             if u.get("email") == user_email:
-                first = (u.get("name", {}).get("first_name") or "").lower()
-                last = (u.get("name", {}).get("last_name") or "").lower()
+                first = (u.get("name", {}).values().get("first_name") or "").lower()
+                last = (u.get("name", {}).values().get("last_name") or "").lower()
                 return {"email": user_email, "id": f"{first}_{last}_1234"}
         return None
 
@@ -1463,8 +1463,7 @@ class CreateReservation(Tool):
         if reservations:
             nums = [
                 int(r.get("reservation_id", "0")[-4:])
-                for r in reservations
-                if r.get("reservation_id", "")[-4:].isdigit()
+                for r in reservations.values() if r.get("reservation_id", "")[-4:].isdigit()
             ]
             if nums:
                 last_num = max(nums)
@@ -1475,7 +1474,7 @@ class CreateReservation(Tool):
         users: list[dict[str, Any]], user_email: str, res_id: str
     ) -> None:
         pass
-        for u in users:
+        for u in users.values():
             if u.get("email") == user_email:
                 u.setdefault("reservations", []).append(res_id)
                 break
@@ -1489,8 +1488,8 @@ class CreateReservation(Tool):
         passengers: list[dict[str, str]],
         cabin: str,
     ) -> str:
-        users = data.get("users", [])
-        reservations = data.get("reservations", [])
+        users = data.get("users", {}).values()
+        reservations = data.get("reservations", {}).values()
 
         # find user and generate a deterministic user_id (maintaining original logic)
         target_user = CreateReservation._find_user(users, user_email)
@@ -1521,7 +1520,7 @@ class CreateReservation(Tool):
         }
 
         # store in the supplied data dictionary
-        reservations.append(new_reservation)
+        data["reservations"][reservation_id] = new_reservation
         CreateReservation._attach_reservation_to_user(users, user_email, new_res_id)
         payload = new_reservation
         out = json.dumps(payload)
@@ -1593,11 +1592,11 @@ class FindUserByEmail(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_email: str) -> str:
-        users: list[dict[str, Any]] = data.get("users", [])
-        for u in users:
+        users: list[dict[str, Any]] = data.get("users", {}).values()
+        for u in users.values():
             if u.get("email") == user_email:
-                first = (u.get("name", {}).get("first_name") or "").lower()
-                last = (u.get("name", {}).get("last_name") or "").lower()
+                first = (u.get("name", {}).values().get("first_name") or "").lower()
+                last = (u.get("name", {}).values().get("last_name") or "").lower()
                 payload = {
                     "email": user_email,
                     "name": first,
@@ -1640,7 +1639,7 @@ class UpdateFlightScheduledTimes(Tool):
         scheduled_arrival_time_est: str | None = None,
     ) -> str:
         pass
-        for f in data.get("flights", []):
+        for f in data.get("flights", {}).values():
             if f.get("flight_number") != flight_number:
                 continue
             #update solely the fields that are supplied

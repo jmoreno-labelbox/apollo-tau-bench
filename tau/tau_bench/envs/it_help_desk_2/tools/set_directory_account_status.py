@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SetDirectoryAccountStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], account_id: str = None, status: str = None) -> str:
-        accounts = data.get("directory_accounts", [])
-        account = next((a for a in accounts if a.get("account_id") == account_id), None)
+        accounts = data.get("directory_accounts", {}).values()
+        account = next((a for a in accounts.values() if a.get("account_id") == account_id), None)
         if not account:
             payload = {"error": f"Account {account_id} not found."}
             out = json.dumps(payload, indent=2)

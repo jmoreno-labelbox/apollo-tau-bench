@@ -19,7 +19,7 @@ class ProposeSubstituteProducts(Tool):
             # Primary: same ingredient with the best availability
             prods = _store_products_for_ingredient(data, int(store_id), iid)
             best = _lowest_price_pref_stock(
-                [p for p in prods if p.get("stock_status_enum") in ("in_stock", "low")]
+                [p for p in prods.values() if p.get("stock_status_enum") in ("in_stock", "low")]
             )
             if best:
                 suggestions.append(

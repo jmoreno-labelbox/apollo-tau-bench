@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListArtifactsTool(Tool):
@@ -22,7 +22,7 @@ class ListArtifactsTool(Tool):
         artifact_type: str = None,
         modified_since: str = None
     ) -> str:
-        rows = data.get("figma_artifacts", [])
+        rows = data.get("figma_artifacts", {}).values()
         out: list[dict[str, Any]] = []
         for r in rows:
             if owner_email and r.get("owner_email") != owner_email:

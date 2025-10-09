@@ -11,7 +11,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AdjustUserSettings(Tool):
@@ -35,10 +35,10 @@ class AdjustUserSettings(Tool):
                 payload)
             return out
 
-        preferences = data.get("user_preferences", [])
+        preferences = data.get("user_preferences", {}).values()
 
         pref_found = False
-        for pref in preferences:
+        for pref in preferences.values():
             if pref.get("person_id") == user_id:
                 if notification_channel:
                     pref["notification_channel"] = notification_channel
@@ -64,7 +64,7 @@ class AdjustUserSettings(Tool):
             pref_found = True
 
         user_obj = None
-        for user in data.get("users", []):
+        for user in data.get("users", {}).values():
             if user.get("person_id") == user_id:
                 if research_field:
                     user["research_field"] = research_field

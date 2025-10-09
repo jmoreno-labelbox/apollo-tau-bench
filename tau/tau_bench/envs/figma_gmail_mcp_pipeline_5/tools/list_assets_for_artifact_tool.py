@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ListAssetsForArtifactTool(Tool):
@@ -22,9 +22,9 @@ class ListAssetsForArtifactTool(Tool):
             out = json.dumps(payload)
             return out
 
-        assets = data.get("assets", [])
+        assets = data.get("assets", {}).values()
         out = []
-        for a in assets:
+        for a in assets.values():
             if a.get("artifact_id_nullable") == artifact_id:
                 out.append(
                     _small_fields(a, ["asset_id", "profile", "file_name", "mime_type"])

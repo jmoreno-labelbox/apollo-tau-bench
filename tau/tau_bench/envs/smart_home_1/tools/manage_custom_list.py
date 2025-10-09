@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ManageCustomList(Tool):
@@ -20,7 +20,7 @@ class ManageCustomList(Tool):
         tags: list[str],
         name: str = None
     ) -> str:
-        lists_doc: list[dict[str, Any]] = data.get("custom_lists", [])
+        lists_doc: list[dict[str, Any]] = data.get("custom_lists", {}).values()
         if action == "list_all_names_ids":
             payload = {
                 "lists": [
@@ -39,7 +39,7 @@ class ManageCustomList(Tool):
             )
             return out
         if action == "delete":
-            new_doc = [l for l in lists_doc if l["list_id"] != list_id]
+            new_doc = [l for l in lists_doc.values() if l["list_id"] != list_id]
             if len(new_doc) == len(lists_doc):
                 payload = {"error": "List not found"}
                 out = json.dumps(payload, indent=2)
@@ -53,7 +53,7 @@ class ManageCustomList(Tool):
                 payload = {"error": "name and list_id required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            if any(l["list_id"] == list_id for l in lists_doc):
+            if any(l["list_id"] == list_id for l in lists_doc.values()):
                 payload = {"error": "Duplicate list_id"}
                 out = json.dumps(payload, indent=2)
                 return out
@@ -75,7 +75,7 @@ class ManageCustomList(Tool):
         out = json.dumps(payload, indent=2)
         return out
         pass
-        lists_doc: list[dict[str, Any]] = data.get("custom_lists", [])
+        lists_doc: list[dict[str, Any]] = data.get("custom_lists", {}).values()
         if action == "list_all_names_ids":
             payload = {
                     "lists": [
@@ -94,7 +94,7 @@ class ManageCustomList(Tool):
             )
             return out
         if action == "delete":
-            new_doc = [l for l in lists_doc if l["list_id"] != list_id]
+            new_doc = [l for l in lists_doc.values() if l["list_id"] != list_id]
             if len(new_doc) == len(lists_doc):
                 payload = {"error": "List not found"}
                 out = json.dumps(payload, indent=2)
@@ -108,7 +108,7 @@ class ManageCustomList(Tool):
                 payload = {"error": "name and list_id required"}
                 out = json.dumps(payload, indent=2)
                 return out
-            if any(l["list_id"] == list_id for l in lists_doc):
+            if any(l["list_id"] == list_id for l in lists_doc.values()):
                 payload = {"error": "Duplicate list_id"}
                 out = json.dumps(payload, indent=2)
                 return out

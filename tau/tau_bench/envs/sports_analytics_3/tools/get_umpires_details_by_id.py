@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUmpiresDetailsById(Tool):
@@ -22,7 +22,7 @@ class GetUmpiresDetailsById(Tool):
             return out
 
         #2) Retrieve DB
-        umpires: list[dict[str, Any]] = data.get("umpires", [])
+        umpires: list[dict[str, Any]] = data.get("umpires", {}).values()
 
         #3) Lookup for exact matches
         for ump in umpires:

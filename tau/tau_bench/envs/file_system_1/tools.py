@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -18,7 +18,7 @@ class GetArchiveInstructionsByID(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], archive_id: str = None) -> str:
-        for instruction in data.get("archive_instructions", []):
+        for instruction in data.get("archive_instructions", {}).values():
             if instruction.get("archive_id") == archive_id:
                 payload = instruction
                 out = json.dumps(payload)
@@ -52,7 +52,7 @@ class GetFileCheckTaskByID(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str = None) -> str:
-        for task in data.get("file_check_db", []):
+        for task in data.get("file_check_db", {}).values():
             if task.get("task_id") == task_id:
                 payload = task
                 out = json.dumps(payload)
@@ -86,7 +86,7 @@ class GetDirectoryOperationByID(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], operation_id: str = None) -> str:
-        for op in data.get("directories", []):
+        for op in data.get("directories", {}).values():
             if op.get("operation_id") == operation_id:
                 payload = op
                 out = json.dumps(payload)
@@ -120,7 +120,7 @@ class GetServerStatusByHostname(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], hostname: str = None) -> str:
-        for server in data.get("remote_servers", []):
+        for server in data.get("remote_servers", {}).values():
             if server.get("hostname") == hostname:
                 payload = {"hostname": hostname, "status": server.get("status")}
                 out = json.dumps(payload)
@@ -154,9 +154,9 @@ class CheckRemoteDiskSpace(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], hostname: str = None) -> str:
-        for server_resources in data.get("system_resources", []):
+        for server_resources in data.get("system_resources", {}).values():
             if server_resources.get("hostname") == hostname:
-                disk_info = server_resources.get("disk", {})
+                disk_info = server_resources.get("disk", {}).values()
                 payload = {
                     "hostname": hostname,
                     "available_gb": disk_info.get("available_gb"),
@@ -194,7 +194,7 @@ class GetServerResourceUsage(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], hostname: str = None) -> str:
-        for server in data.get("system_resources", []):
+        for server in data.get("system_resources", {}).values():
             if server.get("hostname") == hostname:
                 payload = server
                 out = json.dumps(payload)
@@ -223,7 +223,7 @@ class GetSecurityPolicyByName(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], policy_name: str = None) -> str:
-        for policy in data.get("security_policies", []):
+        for policy in data.get("security_policies", {}).values():
             if policy.get("name") == policy_name:
                 payload = policy
                 out = json.dumps(payload)
@@ -257,7 +257,7 @@ class GetUserInfoByID(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        for user in data.get("user_preferences", []):
+        for user in data.get("user_preferences", {}).values():
             if user.get("user_id") == user_id:
                 payload = user
                 out = json.dumps(payload)
@@ -291,7 +291,7 @@ class GetUserContactInfo(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        for contact in data.get("user_contacts", []):
+        for contact in data.get("user_contacts", {}).values():
             if contact.get("user_id") == user_id:
                 payload = contact
                 out = json.dumps(payload)
@@ -320,7 +320,7 @@ class GetSshKeyByID(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], key_id: str = None) -> str:
-        for key in data.get("ssh_keys", []):
+        for key in data.get("ssh_keys", {}).values():
             if key.get("key_id") == key_id:
                 payload = key
                 out = json.dumps(payload)
@@ -354,7 +354,7 @@ class GetUserDefaultSshKey(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None) -> str:
-        for user in data.get("user_preferences", []):
+        for user in data.get("user_preferences", {}).values():
             if user.get("user_id") == user_id and "default_ssh_key" in user:
                 payload = {"user_id": user_id, "default_ssh_key": user["default_ssh_key"]}
                 out = json.dumps(payload)
@@ -383,7 +383,7 @@ class CheckRemoteFileExists(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], hostname: str = None, filepath: str = None) -> str:
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == hostname:
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
@@ -421,7 +421,7 @@ class GetErrorLogDetails(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str = None) -> str:
-        for log in data.get("error_logs", []):
+        for log in data.get("error_logs", {}).values():
             if log.get("task_id") == task_id:
                 payload = log
                 out = json.dumps(payload)
@@ -457,16 +457,16 @@ class FindPendingTasksByType(Tool):
     def invoke(data: dict[str, Any], task_type: str = None) -> str:
         pending_tasks = []
         if task_type == "archive":
-            db = _convert_db_to_list(data.get("archive_instructions", {}))
-            pending_tasks = [t for t in db if t.get("status") == "pending"]
+            db = _convert_db_to_list(data.get("archive_instructions", {}).values()
+            pending_tasks = [t for t in db.values() if t.get("status") == "pending"]
         elif task_type == "file_check":
-            db = _convert_db_to_list(data.get("file_check_db", {}))
-            pending_tasks = [t for t in db if not t.get("completed")]
+            db = _convert_db_to_list(data.get("file_check_db", {}).values()
+            pending_tasks = [t for t in db.values() if not t.get("completed")]
         elif task_type == "file_organization":
-            db = _convert_db_to_list(data.get("file_lists", {}))
+            db = _convert_db_to_list(data.get("file_lists", {}).values()
             op_ids = {f["operation_id"] for f in db if f.get("status") == "pending"}
-            all_ops = data.get("directories", [])
-            pending_tasks = [op for op in all_ops if op["operation_id"] in op_ids]
+            all_ops = data.get("directories", {}).values()
+            pending_tasks = [op for op in all_ops.values() if op["operation_id"] in op_ids]
         payload = {"pending_tasks": pending_tasks, "count": len(pending_tasks)}
         out = json.dumps(payload)
         return out
@@ -498,7 +498,7 @@ class GetFilesForDirectoryOperation(Tool):
     def invoke(data: dict[str, Any], operation_id: str = None) -> str:
         files = [
             f
-            for f in data.get("file_lists", [])
+            for f in data.get("file_lists", {}).values()
             if f.get("operation_id") == operation_id
         ]
         payload = {"files": files, "count": len(files)}
@@ -527,7 +527,7 @@ class GetLastSuccessfulTaskRun(Tool):
     def invoke(data: dict[str, Any], task_type: str = None) -> str:
         successful_runs = [
             log
-            for log in data.get("task_logs", [])
+            for log in data.get("task_logs", {}).values()
             if log.get("task_type") == task_type and log.get("result") == "success"
         ]
         if not successful_runs:
@@ -578,7 +578,7 @@ class ScanRemoteDirectory(Tool):
         if directory is not None:
             directory_path = directory
         found_files = []
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == hostname:
                 for directory in server.get("directories", []):
                     if directory.get("path") == directory_path:
@@ -787,7 +787,7 @@ class GetRemoteFileChecksum(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], hostname: str = None, filepath: str = None) -> str:
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             if server.get("hostname") == hostname:
                 for directory in server.get("directories", []):
                     for file in directory.get("files", []):
@@ -831,7 +831,7 @@ class UpdateArchiveTaskStatus(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], archive_id: str = None, status: str = None) -> str:
-        for instruction in data.get("archive_instructions", []):
+        for instruction in data.get("archive_instructions", {}).values():
             if instruction.get("archive_id") == archive_id:
                 instruction["status"] = status
                 payload = {"status": "success", "updated_task": instruction}
@@ -867,7 +867,7 @@ class UpdateFileCheckTaskStatus(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], task_id: str = None, completed: bool = None) -> str:
-        for task in data.get("file_check_db", []):
+        for task in data.get("file_check_db", {}).values():
             if task.get("task_id") == task_id:
                 task["completed"] = completed
                 payload = {"status": "success", "updated_task": task}
@@ -900,7 +900,7 @@ class UpdateDirectoryOperationStatus(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], file_id: str = None, status: str = None) -> str:
-        for file in data.get("file_lists", []):
+        for file in data.get("file_lists", {}).values():
             if file.get("file_id") == file_id:
                 file["status"] = status
                 payload = {"status": "success", "updated_file": file}
@@ -948,8 +948,8 @@ class LogErrorMessage(Tool):
         severity: str = None,
         details_json: str = None
     ) -> str:
-        error_logs = data.get("error_messages", [])
-        new_id = f"err_msg_{max((int(e['msg_id'].split('_')[-1]) for e in error_logs), default=0) + 1:03d}"
+        error_logs = data.get("error_messages", {}).values()
+        new_id = f"err_msg_{max((int(e['msg_id'].split('_')[-1]) for e in error_logs.values()), default=0) + 1:03d}"
 
         # Automatically create a message according to the error type and task specifics
         # Create a suitable message depending on the error type
@@ -977,7 +977,7 @@ class LogErrorMessage(Tool):
             "severity": severity,
             "details": details_json,
         }
-        error_logs.append(new_log)
+        data["error_messages"][new_log["error_message_id"]] = new_log
         data["error_messages"] = error_logs
         payload = new_log
         out = json.dumps(payload)
@@ -1019,7 +1019,7 @@ class LogTaskCompletion(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], task_type: str = None, task_id: str = None, user_id: str = None) -> str:
-        task_logs = data.get("task_logs", [])
+        task_logs = data.get("task_logs", {}).values()
 
         # Automatically create notes according to the type of task
         if task_type == "archive":
@@ -1039,7 +1039,7 @@ class LogTaskCompletion(Tool):
             "completed_at": "2024-01-20T13:00:00Z",
             "notes": notes,
         }
-        task_logs.append(new_log)
+        data["task_logs"][new_log["task_log_id"]] = new_log
         data["task_logs"] = task_logs
         payload = new_log
         out = json.dumps(payload)
@@ -1074,8 +1074,8 @@ class SendSlackMessage(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], channel_name: str = None, message: str = None) -> str:
-        messages = data.get("slack_messages", [])
-        new_id = f"msg_{max((int(m['message_id'].split('_')[-1]) for m in messages), default=0) + 1:03d}"
+        messages = data.get("slack_messages", {}).values()
+        new_id = f"msg_{max((int(m['message_id'].split('_')[-1]) for m in messages.values()), default=0) + 1:03d}"
 
         # Automatically create a relevant message based on the channel name
         if channel_name == "System Alerts":
@@ -1094,7 +1094,7 @@ class SendSlackMessage(Tool):
             )
 
         channel_id = ""
-        for channel in data.get("slack_channels", []):
+        for channel in data.get("slack_channels", {}).values():
             if channel.get("name") == channel_name:
                 channel_id = channel.get("channel_id")
                 break
@@ -1112,7 +1112,7 @@ class SendSlackMessage(Tool):
             "timestamp": "2024-01-20T14:00:00Z",
             "type": "notification",
         }
-        messages.append(new_message)
+        data["slack_messages"][new_message["slack_message_id"]] = new_message
         data["slack_messages"] = messages
         payload = new_message
         out = json.dumps(payload)

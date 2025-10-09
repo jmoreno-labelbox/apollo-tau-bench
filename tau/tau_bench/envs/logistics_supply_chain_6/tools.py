@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -20,8 +20,8 @@ class GetProductBySku(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sku: str) -> str:
         """Run the tool using the specified parameters."""
-        products = data.get("product_master", [])
-        for product in products:
+        products = data.get("product_master", {}).values()
+        for product in products.values():
             if product.get("sku") == sku:
                 payload = product
                 out = json.dumps(payload, indent=2)
@@ -63,9 +63,9 @@ class FindProducts(Tool):
         brand: str | None = None
     ) -> str:
         """Run the tool with the provided parameters."""
-        products = data.get("product_master", [])
+        products = data.get("product_master", {}).values()
         results = []
-        for product in products:
+        for product in products.values():
             if (
                 (not category or product.get("category") == category)
                 and (not subcategory or product.get("subcategory") == subcategory)
@@ -77,9 +77,9 @@ class FindProducts(Tool):
         return out
         """Run the tool with the provided parameters."""
         pass
-        products = data.get("product_master", [])
+        products = data.get("product_master", {}).values()
         results = []
-        for product in products:
+        for product in products.values():
             if (
                 (not category or product.get("category") == category)
                 and (not subcategory or product.get("subcategory") == subcategory)
@@ -126,8 +126,8 @@ class GetInventoryBySku(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sku: str) -> str:
         """Run the tool using the specified parameters."""
-        inventory = data.get("inventory", [])
-        results = [item for item in inventory if item.get("sku") == sku]
+        inventory = data.get("inventory", {}).values()
+        results = [item for item in inventory.values() if item.get("sku") == sku]
         if not results:
             payload = {"error": f"No inventory found for SKU {sku}"}
             out = json.dumps(payload, indent=2)
@@ -164,9 +164,9 @@ class GetInventoryInWarehouse(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], warehouse_id: str, sku: str | None = None) -> str:
         """Run the tool with the provided parameters."""
-        inventory = data.get("inventory", [])
+        inventory = data.get("inventory", {}).values()
         results = []
-        for item in inventory:
+        for item in inventory.values():
             if item.get("warehouse_id") == warehouse_id:
                 if not sku or item.get("sku") == sku:
                     results.append(item)
@@ -218,8 +218,8 @@ class AdjustInventory(Tool):
         reason: str
     ) -> str:
         """Run the tool using the specified parameters."""
-        inventory = data.get("inventory", [])
-        for item in inventory:
+        inventory = data.get("inventory", {}).values()
+        for item in inventory.values():
             if item.get("warehouse_id") == warehouse_id and item.get("sku") == sku:
                 original_qty = item["quantity_on_hand"]
                 item["quantity_on_hand"] += quantity_change
@@ -250,8 +250,8 @@ class AdjustInventory(Tool):
         return out
         """Run the tool using the specified parameters."""
         pass
-        inventory = data.get("inventory", [])
-        for item in inventory:
+        inventory = data.get("inventory", {}).values()
+        for item in inventory.values():
             if item.get("warehouse_id") == warehouse_id and item.get("sku") == sku:
                 original_qty = item["quantity_on_hand"]
                 item["quantity_on_hand"] += quantity_change
@@ -331,14 +331,14 @@ class CreateOutboundOrder(Tool):
     ) -> str:
         """Run the tool with the provided parameters."""
         pass
-        outbound_orders = data.get("outbound_orders", [])
-        inventory = data.get("inventory", [])
+        outbound_orders = data.get("outbound_orders", {}).values()
+        inventory = data.get("inventory", {}).values()
 
         # Verify stock for all items initially
         for order_item in items:
             sku = order_item["sku"]
             quantity = order_item["quantity"]
-            for inv_item in inventory:
+            for inv_item in inventory.values():
                 if inv_item["warehouse_id"] == warehouse_id and inv_item["sku"] == sku:
                     if inv_item["quantity_available"] < quantity:
                         payload = {
@@ -357,7 +357,7 @@ class CreateOutboundOrder(Tool):
         for order_item in items:
             sku = order_item["sku"]
             quantity = order_item["quantity"]
-            for inv_item in inventory:
+            for inv_item in inventory.values():
                 if inv_item["warehouse_id"] == warehouse_id and inv_item["sku"] == sku:
                     inv_item["quantity_allocated"] += quantity
                     inv_item["quantity_available"] -= quantity
@@ -381,20 +381,20 @@ class CreateOutboundOrder(Tool):
             "carrier_id": None,
             "tracking_number": None,
         }
-        outbound_orders.append(new_order)
+        outbound_data["orders"][order_id] = new_order
         payload = new_order
         out = json.dumps(payload, indent=2)
         return out
         """Run the tool with the provided parameters."""
         pass
-        outbound_orders = data.get("outbound_orders", [])
-        inventory = data.get("inventory", [])
+        outbound_orders = data.get("outbound_orders", {}).values()
+        inventory = data.get("inventory", {}).values()
 
         #Verify stock for all items initially
         for order_item in items:
             sku = order_item["sku"]
             quantity = order_item["quantity"]
-            for inv_item in inventory:
+            for inv_item in inventory.values():
                 if inv_item["warehouse_id"] == warehouse_id and inv_item["sku"] == sku:
                     if inv_item["quantity_available"] < quantity:
                         payload = {
@@ -413,7 +413,7 @@ class CreateOutboundOrder(Tool):
         for order_item in items:
             sku = order_item["sku"]
             quantity = order_item["quantity"]
-            for inv_item in inventory:
+            for inv_item in inventory.values():
                 if inv_item["warehouse_id"] == warehouse_id and inv_item["sku"] == sku:
                     inv_item["quantity_allocated"] += quantity
                     inv_item["quantity_available"] -= quantity
@@ -437,7 +437,7 @@ class CreateOutboundOrder(Tool):
             "carrier_id": None,
             "tracking_number": None,
         }
-        outbound_orders.append(new_order)
+        outbound_data["orders"][order_id] = new_order
         payload = new_order
         out = json.dumps(payload, indent=2)
         return out
@@ -506,8 +506,8 @@ class GetOutboundOrderStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str) -> str:
         """Run the tool using the specified parameters."""
-        orders = data.get("outbound_orders", [])
-        for order in orders:
+        orders = data.get("outbound_orders", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 payload = order
                 out = json.dumps(payload, indent=2)
@@ -552,9 +552,9 @@ class UpdateOutboundOrderStatus(Tool):
         """Run the tool with the provided parameters."""
         _new_statusL = new_status or ''.lower()
         pass
-        orders = data.get("outbound_orders", [])
-        inventory = data.get("inventory", [])
-        for order in orders:
+        orders = data.get("outbound_orders", {}).values()
+        inventory = data.get("inventory", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 order["status"] = new_status
                 if tracking_number:
@@ -568,7 +568,7 @@ class UpdateOutboundOrderStatus(Tool):
                     for item in order["items"]:
                         sku = item["sku"]
                         quantity = item["quantity"]
-                        for inv_item in inventory:
+                        for inv_item in inventory.values():
                             if (
                                 inv_item["warehouse_id"] == warehouse_id
                                 and inv_item["sku"] == sku
@@ -587,9 +587,9 @@ class UpdateOutboundOrderStatus(Tool):
         """Run the tool with the provided parameters."""
         _new_statusL = new_status or ''.lower()
         pass
-        orders = data.get("outbound_orders", [])
-        inventory = data.get("inventory", [])
-        for order in orders:
+        orders = data.get("outbound_orders", {}).values()
+        inventory = data.get("inventory", {}).values()
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 order["status"] = new_status
                 if tracking_number:
@@ -603,7 +603,7 @@ class UpdateOutboundOrderStatus(Tool):
                     for item in order["items"]:
                         sku = item["sku"]
                         quantity = item["quantity"]
-                        for inv_item in inventory:
+                        for inv_item in inventory.values():
                             if (
                                 inv_item["warehouse_id"] == warehouse_id
                                 and inv_item["sku"] == sku
@@ -661,9 +661,9 @@ class CancelOutboundOrder(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], order_id: str, outbound_orders: list = None, inventory: list = None) -> str:
         """Run the tool using the specified parameters."""
-        orders = outbound_orders if outbound_orders is not None else data.get("outbound_orders", [])
-        inventory = inventory if inventory is not None else data.get("inventory", [])
-        for order in orders:
+        orders = outbound_orders if outbound_orders is not None else data.get("outbound_orders", {}).values()
+        inventory = inventory if inventory is not None else data.get("inventory", {}).values()
+        for order in orders.values()):
             if order.get("order_id") == order_id:
                 # if order["status"] is in ["Shipped", "Delivered"]:
                 # return json.dumps({"error": f"Order {order_id} cannot be canceled due to status '{order['status']}'"}, indent=2)
@@ -673,7 +673,7 @@ class CancelOutboundOrder(Tool):
                 # for item in order["items"]:
                 # sku is assigned from item["sku"]
                 # quantity is taken from item["quantity"]
-                # for inv_item in inventory:
+                # for inv_item in inventory.values():
                 # if inv_item["warehouse_id"] matches warehouse_id and inv_item["sku"] matches sku:
                 # inv_item["quantity_allocated"] is decreased by quantity
                 # inv_item["quantity_available"] is increased by quantity
@@ -718,8 +718,8 @@ class GetInboundShipmentDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], shipment_id: str) -> str:
         """Run the tool with the provided parameters."""
-        shipments = data.get("inbound_shipments", [])
-        for shipment in shipments:
+        shipments = data.get("inbound_shipments", {}).values()
+        for shipment in shipments.values():
             if shipment.get("shipment_id") == shipment_id:
                 payload = shipment
                 out = json.dumps(payload, indent=2)
@@ -763,9 +763,9 @@ class FindInboundShipments(Tool):
         warehouse_id: str | None = None
     ) -> str:
         """Run the tool using the specified parameters."""
-        shipments = data.get("inbound_shipments", [])
+        shipments = data.get("inbound_shipments", {}).values()
         results = []
-        for shipment in shipments:
+        for shipment in shipments.values():
             if (
                 (not status or shipment.get("status") == status)
                 and (not supplier_id or shipment.get("supplier_id") == supplier_id)
@@ -780,9 +780,9 @@ class FindInboundShipments(Tool):
         return out
         """Run the tool using the specified parameters."""
         pass
-        shipments = data.get("inbound_shipments", [])
+        shipments = data.get("inbound_shipments", {}).values()
         results = []
-        for shipment in shipments:
+        for shipment in shipments.values():
             if (
                 (not status or shipment.get("status") == status)
                 and (not supplier_id or shipment.get("supplier_id") == supplier_id)
@@ -841,7 +841,7 @@ class CreateInboundShipment(Tool):
     supplier_name: Any = None,
     ) -> str:
         """Run the tool with the provided parameters."""
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
 
         new_shipment_id = f"SHIP-{len(inbound_shipments) + 1:04d}"
 
@@ -855,16 +855,16 @@ class CreateInboundShipment(Tool):
             "estimated_arrival_date": estimated_arrival_date,
             "actual_arrival_date": None,
             "customs_status": "Cleared",
-            "hazmat": any(item.get("hazmat", False) for item in items),
+            "hazmat": any(item.get("hazmat", False) for item in items.values()),
         }
 
-        inbound_shipments.append(new_shipment)
+        inbound_data["shipments"][shipment_id] = new_shipment
         payload = new_shipment
         out = json.dumps(payload, indent=2)
         return out
         """Run the tool with the provided parameters."""
         pass
-        inbound_shipments = data.get("inbound_shipments", [])
+        inbound_shipments = data.get("inbound_shipments", {}).values()
 
         new_shipment_id = f"SHIP-{len(inbound_shipments) + 1:04d}"
 
@@ -878,10 +878,10 @@ class CreateInboundShipment(Tool):
             "estimated_arrival_date": estimated_arrival_date,
             "actual_arrival_date": None,
             "customs_status": "Cleared",
-            "hazmat": any(item.get("hazmat", False) for item in items),
+            "hazmat": any(item.get("hazmat", False) for item in items.values()),
         }
 
-        inbound_shipments.append(new_shipment)
+        inbound_data["shipments"][shipment_id] = new_shipment
         payload = new_shipment
         out = json.dumps(payload, indent=2)
         return out
@@ -953,10 +953,10 @@ class ReceiveInboundShipment(Tool):
         data: dict[str, Any], shipment_id: str, items_received: list[dict[str, Any]]
     ) -> str:
         """Run the tool using the specified parameters."""
-        shipments = data.get("inbound_shipments", [])
-        inventory = data.get("inventory", [])
+        shipments = data.get("inbound_shipments", {}).values()
+        inventory = data.get("inventory", {}).values()
         shipment_found = False
-        for shipment in shipments:
+        for shipment in shipments.values():
             if shipment.get("shipment_id") == shipment_id:
                 shipment_found = True
                 if shipment["status"] == "Received":
@@ -977,7 +977,7 @@ class ReceiveInboundShipment(Tool):
                     sku = received_item["sku"]
                     quantity = received_item["quantity"]
                     inv_item_found = False
-                    for inv_item in inventory:
+                    for inv_item in inventory.values():
                         if (
                             inv_item["warehouse_id"] == warehouse_id
                             and inv_item["sku"] == sku
@@ -1010,10 +1010,10 @@ class ReceiveInboundShipment(Tool):
         """Run the tool using the specified parameters."""
         pass
 
-        shipments = data.get("inbound_shipments", [])
-        inventory = data.get("inventory", [])
+        shipments = data.get("inbound_shipments", {}).values()
+        inventory = data.get("inventory", {}).values()
         shipment_found = False
-        for shipment in shipments:
+        for shipment in shipments.values():
             if shipment.get("shipment_id") == shipment_id:
                 shipment_found = True
                 if shipment["status"] == "Received":
@@ -1034,7 +1034,7 @@ class ReceiveInboundShipment(Tool):
                     sku = received_item["sku"]
                     quantity = received_item["quantity"]
                     inv_item_found = False
-                    for inv_item in inventory:
+                    for inv_item in inventory.values():
                         if (
                             inv_item["warehouse_id"] == warehouse_id
                             and inv_item["sku"] == sku
@@ -1112,8 +1112,8 @@ class GetCarrierDetails(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], carrier_id: str) -> str:
         """Run the tool with the provided parameters."""
-        carriers = data.get("carriers", [])
-        for carrier in carriers:
+        carriers = data.get("carriers", {}).values()
+        for carrier in carriers.values():
             if carrier.get("carrier_id") == carrier_id:
                 payload = carrier
                 out = json.dumps(payload, indent=2)
@@ -1156,11 +1156,10 @@ class FindCarriers(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], transport_mode: str, carriers: list = None) -> str:
         """Run the tool using the specified parameters."""
-        carriers = carriers if carriers is not None else data.get("carriers", [])
+        carriers = carriers if carriers is not None else data.get("carriers", {}).values()
         results = [
             carrier
-            for carrier in carriers
-            if transport_mode in carrier.get("supported_modes", [])
+            for carrier in carriers.values() if transport_mode in carrier.get("supported_modes", [])
             and carrier.get("active_status")
         ]
         payload = results
@@ -1196,8 +1195,8 @@ class GetSupplierInfo(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], supplier_id: str) -> str:
         """Run the tool with the provided parameters."""
-        suppliers = data.get("supplier_master", [])
-        for supplier in suppliers:
+        suppliers = data.get("supplier_master", {}).values()
+        for supplier in suppliers.values():
             if supplier.get("supplier_id") == supplier_id:
                 payload = supplier
                 out = json.dumps(payload, indent=2)
@@ -1239,8 +1238,7 @@ class FindSuppliers(Tool):
         suppliers = supplier_master if supplier_master is not None else []
         results = [
             supplier
-            for supplier in suppliers
-            if set(product_categories).issubset(supplier.get("product_categories", []))
+            for supplier in suppliers.values() if set(product_categories).issubset(supplier.get("product_categories", []))
         ]
         payload = results
         out = json.dumps(payload, indent=2)
@@ -1275,8 +1273,8 @@ class GetWarehouseInfo(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], warehouse_id: str) -> str:
         """Run the tool with the provided parameters."""
-        warehouses = data.get("warehouses", [])
-        for warehouse in warehouses:
+        warehouses = data.get("warehouses", {}).values()
+        for warehouse in warehouses.values():
             if warehouse.get("warehouse_id") == warehouse_id:
                 payload = warehouse
                 out = json.dumps(payload, indent=2)
@@ -1321,9 +1319,9 @@ class FindWarehouses(Tool):
         special_capabilities: list | None = None
     ) -> str:
         """Run the tool using the specified parameters."""
-        warehouses = data.get("warehouses", [])
+        warehouses = data.get("warehouses", {}).values()
         results = []
-        for warehouse in warehouses:
+        for warehouse in warehouses.values():
             has_capability = False
             if special_capability:
                 if (
@@ -1350,9 +1348,9 @@ class FindWarehouses(Tool):
         return out
         """Run the tool using the specified parameters."""
         pass
-        warehouses = data.get("warehouses", [])
+        warehouses = data.get("warehouses", {}).values()
         results = []
-        for warehouse in warehouses:
+        for warehouse in warehouses.values():
             has_capability = False
             if special_capability:
                 if (
@@ -1421,10 +1419,10 @@ class UpdateOutboundOrderItems(Tool):
         items_to_remove: list[dict[str, Any]] | None = None
     ) -> str:
         """Run the tool with the provided parameters."""
-        orders = data.get("outbound_orders", [])
-        inventory = data.get("inventory", [])
+        orders = data.get("outbound_orders", {}).values()
+        inventory = data.get("inventory", {}).values()
         order_found = False
-        for order in orders:
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 order_found = True
                 if order["status"] != "Pending":
@@ -1445,7 +1443,7 @@ class UpdateOutboundOrderItems(Tool):
                         quantity = item_to_add["quantity"]
                         # Verify stock
                         stock_found = False
-                        for inv_item in inventory:
+                        for inv_item in inventory.values():
                             if (
                                 inv_item["warehouse_id"] == warehouse_id
                                 and inv_item["sku"] == sku
@@ -1470,7 +1468,7 @@ class UpdateOutboundOrderItems(Tool):
                             return out
 
                         # Distribute stock and include item
-                        for inv_item in inventory:
+                        for inv_item in inventory.values():
                             if (
                                 inv_item["warehouse_id"] == warehouse_id
                                 and inv_item["sku"] == sku
@@ -1502,7 +1500,7 @@ class UpdateOutboundOrderItems(Tool):
                                     return out
 
                                 # Release stock allocation
-                                for inv_item in inventory:
+                                for inv_item in inventory.values():
                                     if (
                                         inv_item["warehouse_id"] == warehouse_id
                                         and inv_item["sku"] == sku_to_remove
@@ -1553,10 +1551,10 @@ class UpdateOutboundOrderItems(Tool):
         return ""
         """Run the tool with the provided parameters."""
         pass
-        orders = data.get("outbound_orders", [])
-        inventory = data.get("inventory", [])
+        orders = data.get("outbound_orders", {}).values()
+        inventory = data.get("inventory", {}).values()
         order_found = False
-        for order in orders:
+        for order in orders.values():
             if order.get("order_id") == order_id:
                 order_found = True
                 if order["status"] != "Pending":
@@ -1577,7 +1575,7 @@ class UpdateOutboundOrderItems(Tool):
                         quantity = item_to_add["quantity"]
                         #Verify stock
                         stock_found = False
-                        for inv_item in inventory:
+                        for inv_item in inventory.values():
                             if (
                                 inv_item["warehouse_id"] == warehouse_id
                                 and inv_item["sku"] == sku
@@ -1602,7 +1600,7 @@ class UpdateOutboundOrderItems(Tool):
                             return out
 
                         #Distribute stock and include item
-                        for inv_item in inventory:
+                        for inv_item in inventory.values():
                             if (
                                 inv_item["warehouse_id"] == warehouse_id
                                 and inv_item["sku"] == sku
@@ -1634,7 +1632,7 @@ class UpdateOutboundOrderItems(Tool):
                                     return out
 
                                 #Release stock allocation
-                                for inv_item in inventory:
+                                for inv_item in inventory.values():
                                     if (
                                         inv_item["warehouse_id"] == warehouse_id
                                         and inv_item["sku"] == sku_to_remove
@@ -1761,8 +1759,8 @@ class UpdateInboundShipment(Tool):
         carrier_scac: str | None = None
     ) -> str:
         """Run the tool using the specified parameters."""
-        shipments = data.get("inbound_shipments", [])
-        for shipment in shipments:
+        shipments = data.get("inbound_shipments", {}).values()
+        for shipment in shipments.values():
             if shipment.get("shipment_id") == shipment_id:
                 # if shipment["status"] is not among ["In Transit", "Delayed"]:
                 # return json.dumps({"error": f"Shipment {shipment_id} cannot be modified due to status '{shipment['status']}'"}, indent=2)
@@ -1796,8 +1794,8 @@ class UpdateInboundShipment(Tool):
         return out
         """Run the tool using the specified parameters."""
         pass
-        shipments = data.get("inbound_shipments", [])
-        for shipment in shipments:
+        shipments = data.get("inbound_shipments", {}).values()
+        for shipment in shipments.values():
             if shipment.get("shipment_id") == shipment_id:
                 #if shipment["status"] is not among ["In Transit", "Delayed"]:
                 #return json.dumps({"error": f"Shipment {shipment_id} cannot be modified due to status '{shipment['status']}'"}, indent=2)

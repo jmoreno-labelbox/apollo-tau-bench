@@ -17,7 +17,7 @@ class RecordTranslations(Tool):
             e = {k: v for k, v in e_in.items() if k in ALLOWED}
             eid = f"translation_{len(translations) + 1:04d}"
             e["id"] = eid
-            if any(t.get("id") == eid for t in translations):
+            if any(t.get("id") == eid for t in translations.values()):
                 continue
 
             translations.append(e)
@@ -32,8 +32,8 @@ class RecordTranslations(Tool):
                     if (lsid and row.get("id") == lsid) or (
                         skey and row.get("string_key") == skey
                     ):
-                        row.setdefault("translations", {})
-                        loc_entry = row["translations"].setdefault(locale, {})
+                        row.setdefault("translations", {}).values()
+                        loc_entry = row["translations"].setdefault(locale, {}).values()
                         loc_entry["translation"] = target
                         loc_entry["status"] = loc_entry.get("status", "translated")
                         loc_entry["validation_status"] = loc_entry.get(

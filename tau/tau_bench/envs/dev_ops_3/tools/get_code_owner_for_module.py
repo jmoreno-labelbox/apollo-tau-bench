@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class get_code_owner_for_module(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], module_name: str) -> str:
         pass
-        ownership_map = data.get("ownership_map", [])
+        ownership_map = data.get("ownership_map", {}).values()
         path_map = {"GameEngine.dll": "src/game/engine/renderer.cpp"}
         file_path = path_map.get(module_name)
         if not file_path:
@@ -24,7 +24,7 @@ class get_code_owner_for_module(Tool):
             )
             return out
 
-        for owner_info in ownership_map:
+        for owner_info in ownership_map.values():
             if owner_info.get("file_path") in file_path:
                 payload = owner_info
                 out = json.dumps(payload, indent=2)

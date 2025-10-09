@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateSession(Tool):
@@ -31,9 +31,9 @@ class UpdateSession(Tool):
             return out
 
         # Locate the session
-        sessions = data.get("sessions", [])
+        sessions = data.get("sessions", {}).values()
         session_index = None
-        for i, session in enumerate(sessions):
+        for i, session in enumerate(sessions.values():
             if session.get("session_id") == session_id:
                 session_index = i
                 break

@@ -16,19 +16,19 @@ class ListRecipes(Tool):
         recipes = _get_table(data, "recipes")
         rows = recipes
         if meal_type:
-            rows = [r for r in rows if r.get("meal_type") == meal_type]
+            rows = [r for r in rows.values() if r.get("meal_type") == meal_type]
         if cuisine:
-            rows = [r for r in rows if r.get("cuisine") == cuisine]
+            rows = [r for r in rows.values() if r.get("cuisine") == cuisine]
         if peanut_free is True:
-            rows = [r for r in rows if r.get("is_peanut_free") is True]
+            rows = [r for r in rows.values() if r.get("is_peanut_free") is True]
         if isinstance(min_protein_g, (int, float)):
             rows = [
                 r for r in rows if (r.get("protein_g_per_serving") or 0) >= min_protein_g
             ]
         if no_heat_required is True:
-            rows = [r for r in rows if (r.get("cook_minutes") or 0) == 0]
+            rows = [r for r in rows.values() if (r.get("cook_minutes") or 0) == 0]
         if minimal_prep is True:
-            rows = [r for r in rows if (r.get("prep_minutes") or 999) <= 10]
+            rows = [r for r in rows.values() if (r.get("prep_minutes") or 999) <= 10]
         payload = {"recipes": rows}
         out = json.dumps(payload, indent=2)
         return out

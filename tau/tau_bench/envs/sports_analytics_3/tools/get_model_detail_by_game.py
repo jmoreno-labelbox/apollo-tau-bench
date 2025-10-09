@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetModelDetailByGame(Tool):
@@ -32,10 +32,10 @@ class GetModelDetailByGame(Tool):
             return out
 
         #2) Retrieve DB
-        models: list[dict[str, Any]] = data.get("umpire_game_models", [])
+        models: list[dict[str, Any]] = data.get("umpire_game_models", {}).values()
 
         #3) Gather matches
-        matches = [row for row in models if row.get("game_pk") == game_pk]
+        matches = [row for row in models.values() if row.get("game_pk") == game_pk]
 
         if not matches:
             payload = {"error": f"No model details found for game_pk {game_pk}"}

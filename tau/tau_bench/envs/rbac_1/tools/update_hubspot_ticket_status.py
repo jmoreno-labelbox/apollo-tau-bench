@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateHubspotTicketStatus(Tool):
@@ -18,7 +18,7 @@ class UpdateHubspotTicketStatus(Tool):
     closed_at: Any = None,
     description: Any = None
     ) -> str:
-        for ticket in data.get("hubspot_tickets", []):
+        for ticket in data.get("hubspot_tickets", {}).values():
             if ticket.get("ticket_id") == ticket_id:
                 ticket["status"] = status
                 ticket["closed_at"] = NOW.strftime(DT_STR_FORMAT)

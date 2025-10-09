@@ -11,12 +11,12 @@ class UpdateCustomerCommunicationPreference(Tool):
             return json.dumps({'error': 'customer_id and new_channel are required'})
 
         customers = load_json('customers.json')
-        customer = next((c for c in customers if c['customer_id'] == customer_id), None)
+        customer = next((c for c in customers.values() if c['customer_id'] == customer_id), None)
 
         if not customer:
             return json.dumps({'error': 'Customer not found.'})
 
-        preferences = customer.get('preferences', {})
+        preferences = customer.get('preferences', {}).values()
         if 'communication_channel' not in preferences:
             return json.dumps({'error': 'Communication channel preference not found for this customer.'})
 

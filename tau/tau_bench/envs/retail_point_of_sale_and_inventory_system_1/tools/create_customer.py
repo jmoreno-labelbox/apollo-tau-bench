@@ -9,17 +9,17 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateCustomer(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], name: str = None, membership_level: str = None, 
                opt_in_marketing: bool = None, loyalty_points: int = None) -> str:
-        customers = data.get("customers", [])
+        customers = data.get("customers", {}).values()
 
         max_customer_id_num = 0
-        for customer in customers:
+        for customer in customers.values():
             if isinstance(customer.get("customer_id"), str):
                 match = re.match(r"CUST-(\d+)", customer["customer_id"])
                 if match:
@@ -42,7 +42,7 @@ class CreateCustomer(Tool):
             "status": "active",
         }
 
-        customers.append(new_customer)
+        data["customers"][customer_id] = new_customer
         data["customers"] = customers
         payload = {"customer_id": new_customer_id}
         out = json.dumps(payload)

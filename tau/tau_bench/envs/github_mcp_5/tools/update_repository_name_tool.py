@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateRepositoryNameTool(Tool):
@@ -33,8 +33,8 @@ class UpdateRepositoryNameTool(Tool):
 
         if repo_already_exists:
             new_target_name = target_name + "_v2"
-            repos = data.get("repositories", [])
-            repo = next((c for c in repos if c["repo_name"] == new_target_name), None)
+            repos = data.get("repositories", {}).values()
+            repo = next((c for c in repos.values() if c["repo_name"] == new_target_name), None)
             #repo = get_data(repos, new_target_name)
 
             if not repo:

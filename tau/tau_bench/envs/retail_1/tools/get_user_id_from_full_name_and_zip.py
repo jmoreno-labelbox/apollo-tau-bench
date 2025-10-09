@@ -9,19 +9,19 @@ from tau_bench.envs.retail_1.tools import _match
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUserIdFromFullNameAndZip(Tool):  #READ
     @staticmethod
     def invoke(data: dict[str, Any], first_name: str, last_name: str, zip: str) -> str:
         pass
-        db = _convert_db_to_list(data.get("users", {}))
+        db = _convert_db_to_list(data.get("users", {}).values()
         filter_params = {
             "name": {"first_name": first_name, "last_name": last_name},
             "address": {"zip": zip},
         }
-        user = [row for row in db if _match(row, filter_params)]
+        user = [row for row in db.values() if _match(row, filter_params)]
         if len(user) > 1:
             payload = {"error": "Multiple users found"}
             out = json.dumps(payload)

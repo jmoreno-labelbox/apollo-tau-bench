@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchCourses(Tool):
@@ -20,7 +20,7 @@ class SearchCourses(Tool):
         # Adjusted to look for 'related_skills' and conduct a case-insensitive check
         courses = [
             c
-            for c in data.get("course_catalog", [])
+            for c in data.get("course_catalog", {}).values()
             if skill_query.lower() in [s.lower() for s in c.get("related_skills", [])]
         ]
         payload = courses

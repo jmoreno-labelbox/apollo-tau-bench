@@ -11,7 +11,7 @@ import random
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ProcessLoanApplicationId(Tool):
@@ -23,17 +23,16 @@ class ProcessLoanApplicationId(Tool):
         if not customer_id or not application_id:
             return json.dumps({"error": "customer_id and application_id are required."}, indent=2)
 
-        loan_applications = data.get("loan_applications", [])
-        customers = data.get("customers", [])
+        loan_applications = data.get("loan_applications", {}).values()
+        customers = data.get("customers", {}).values()
 
         # verify customer exists
-        if not any(c.get("customer_id") == customer_id for c in customers):
+        if not any(c.get("customer_id") == customer_id for c in customers.values()):
             return json.dumps({"error": "Customer not found."}, indent=2)
 
         # Find loan application
         loan_application = next(
-            (l for l in loan_applications
-             if l.get("application_id") == application_id
+            (l for l in loan_applications.values() if l.get("application_id") == application_id
              and l.get("customer_id") == customer_id),
             None
         )
@@ -41,8 +40,8 @@ class ProcessLoanApplicationId(Tool):
             return json.dumps({"error": "Loan application not found for this customer."}, indent=2)
 
         # Extract loan and customer financial info
-        loan_details = loan_application.get("loan_details", {})
-        financials = loan_application.get("financial_snapshot", {})
+        loan_details = loan_application.get("loan_details", {}).values()
+        financials = loan_application.get("financial_snapshot", {}).values()
         annual_income = financials.get("annual_income", 0)
         monthly_debt = financials.get("monthly_debt_payments", 0)
         employment_status = financials.get("employment_status", "").strip().lower()

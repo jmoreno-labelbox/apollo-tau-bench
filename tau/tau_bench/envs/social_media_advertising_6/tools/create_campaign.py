@@ -12,7 +12,7 @@ class CreateCampaign(Tool):
         if err:
             return _fail(err)
         rows = _assert_table(data, "campaigns")
-        if any(r.get("name") == name for r in rows):
+        if any(r.get("name") == name for r in rows.values()):
             return _fail("name_exists")
         new_id = _next_numeric_id(rows, "campaign_id")
         rec = {

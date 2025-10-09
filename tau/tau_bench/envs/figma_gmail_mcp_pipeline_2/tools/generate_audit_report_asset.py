@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateAuditReportAsset(Tool):
@@ -18,7 +18,7 @@ class GenerateAuditReportAsset(Tool):
         required = ["audit_id", "report_storage_ref", "file_size_bytes"]
         params_dict = {k: v for k, v in locals().items() if k != "data"}
 
-        missing = [f for f in required if params_dict.get(f) is None]
+        missing = [f for f in required.values() if params_dict.get(f) is None]
         if missing:
             payload = {"error": f"Missing required fields: {', '.join(missing)}"}
             out = json.dumps(
@@ -26,7 +26,7 @@ class GenerateAuditReportAsset(Tool):
             )
             return out
 
-        assets: list[dict[str, Any]] = data.get("assets", [])
+        assets: list[dict[str, Any]] = data.get("assets", {}).values()
         asset_id = get_next_asset_id(data)
         created_ts = get_now_timestamp()
 
@@ -41,7 +41,7 @@ class GenerateAuditReportAsset(Tool):
             "dlp_scan_details_nullable": None,
         }
 
-        assets.append(new_asset)
+        data["assets"][asset_id] = new_asset
         data["assets"] = assets
         payload = new_asset
         out = json.dumps(payload, indent=2)

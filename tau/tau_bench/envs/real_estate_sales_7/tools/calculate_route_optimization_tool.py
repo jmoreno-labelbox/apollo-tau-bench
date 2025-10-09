@@ -43,7 +43,7 @@ class CalculateRouteOptimizationTool(Tool):
             "route_segments": segments,
             "total_time_minutes": total_time_minutes,
             "max_hop_time": (
-                max(s["travel_minutes"] for s in segments) if segments else 0
+                max(s["travel_minutes"] for s in segments.values() if segments else 0
             ),
             "constraint_satisfied": all(
                 s["travel_minutes"] <= max_constraint for s in segments

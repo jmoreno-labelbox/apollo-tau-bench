@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ValidatePurchaseOrder(Tool):
@@ -20,12 +20,12 @@ class ValidatePurchaseOrder(Tool):
             out = json.dumps(payload)
             return out
 
-        budgets = data.get("budgets", [])
-        vendors = data.get("vendors", [])
-        data.get("purchase_orders", [])
-        projects = data.get("projects", [])
+        budgets = data.get("budgets", {}).values()
+        vendors = data.get("vendors", {}).values()
+        data.get("purchase_orders", {}).values()
+        projects = data.get("projects", {}).values()
 
-        vendor = next((v for v in vendors if v.get("vendor_id") == vendor_id), None)
+        vendor = next((v for v in vendors.values() if v.get("vendor_id") == vendor_id), None)
         if not vendor:
             payload = {"error": f"Vendor {vendor_id} not found"}
             out = json.dumps(payload)
@@ -41,8 +41,7 @@ class ValidatePurchaseOrder(Tool):
         budget = next(
             (
                 b
-                for b in budgets
-                if b.get("project_id") == project_id
+                for b in budgets.values() if b.get("project_id") == project_id
                 and b.get("fiscal_year") == fiscal_year
             ),
             None,
@@ -59,7 +58,7 @@ class ValidatePurchaseOrder(Tool):
             - budget.get("committed_amount", 0)
         )
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         approval_required = []
 
         if project:

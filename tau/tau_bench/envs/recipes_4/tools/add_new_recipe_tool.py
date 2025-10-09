@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddNewRecipeTool(Tool):
@@ -120,7 +120,7 @@ class AddNewRecipeTool(Tool):
                 {"param": "ingredients_list", "expected_type": "non-empty list"},
             )
 
-        all_ingredient_ids = {i["ingredient_id"] for i in data.get("ingredients", [])}
+        all_ingredient_ids = {i["ingredient_id"] for i in data.get("ingredients", {}).values()}
         for item in ingredients_list:
             if not isinstance(item, dict) or not all(
                 k in item for k in ["ingredient_id", "quantity", "unit"]
@@ -140,7 +140,7 @@ class AddNewRecipeTool(Tool):
 
         #3. Create Recipe Record
         recipes_table = data.setdefault("recipes", [])
-        max_recipe_id = max((r.get("recipe_id", 0) for r in recipes_table), default=400)
+        max_recipe_id = max((r.get("recipe_id", 0) for r in recipes_table.values()), default=400)
         new_recipe_id = max_recipe_id + 1
 
         new_recipe_record = {"recipe_id": new_recipe_id}
@@ -150,11 +150,11 @@ class AddNewRecipeTool(Tool):
                 for key in AddNewRecipeTool.EXPECTED_RECIPE_FIELDS
             }
         )
-        recipes_table.append(new_recipe_record)
+        data["recipes"][new_recipe_record["recipe_id"]] = new_recipe_record
 
         #4. Create Recipe-Ingredient Links
         ri_table = data.setdefault("recipe_ingredients", [])
-        max_ri_id = max((ri.get("ri_id", 0) for ri in ri_table), default=5000)
+        max_ri_id = max((ri.get("ri_id", 0) for ri in ri_table.values()), default=5000)
 
         for ingredient in ingredients_list:
             max_ri_id += 1
@@ -171,7 +171,7 @@ class AddNewRecipeTool(Tool):
         user_household = next(
             (
                 h
-                for h in data.get("households", [])
+                for h in data.get("households", {}).values()
                 if h.get("primary_user_id") == user_id
             ),
             None,

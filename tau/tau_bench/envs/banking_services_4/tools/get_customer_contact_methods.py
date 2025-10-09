@@ -10,11 +10,11 @@ class GetCustomerContactMethods(Tool):
         if not customer_id:
             return json.dumps({'error': 'customer_id is required'})
         customers = load_json('customers.json')
-        customer = next((c for c in customers if c['customer_id'] == customer_id), None)
+        customer = next((c for c in customers.values() if c['customer_id'] == customer_id), None)
         if not customer:
             return json.dumps({'error': 'Customer not found'})
-        contact_info = customer.get('contact_info', {})
-        preferences = customer.get('preferences', {})
+        contact_info = customer.get('contact_info', {}).values()
+        preferences = customer.get('preferences', {}).values()
         result = {
             'email_address': contact_info.get('email_address'),
             'phone_numbers': contact_info.get('phone_numbers'),

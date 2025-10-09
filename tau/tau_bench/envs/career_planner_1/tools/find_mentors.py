@@ -8,14 +8,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindMentors(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], mentee_id: str, focus_areas: list[str]) -> str:
         pass
-        mentors = data.get("user_mentorship", [])
+        mentors = data.get("user_mentorship", {}).values()
 
         # Adopt a wider definition of expertise, encompassing roles and general knowledge
         def get_mentor_expertise_set(mentor):
@@ -28,7 +28,7 @@ class FindMentors(Tool):
         # and who are clearly suitable for the mentee.
         matches = []
         focus_set = set(focus_areas)
-        for mentor in mentors:
+        for mentor in mentors.values():
             if mentor.get("availability") == "Full":
                 continue
 

@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CompleteCertificationsAndAuditTool(Tool):
@@ -32,7 +32,7 @@ class CompleteCertificationsAndAuditTool(Tool):
             return out
 
         completed: list[str] = []
-        for cert in data.get("certifications", []):
+        for cert in data.get("certifications", {}).values():
             if cert.get("status") == "IN_PROGRESS":
                 cert["status"] = "COMPLETED"
                 cert["completed_on"] = _HARD_TS

@@ -9,13 +9,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateInventoryRecord(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sku: str = None, store_id: str = None, location: str = None) -> str:
-        inventory_list = data.get("inventory", [])
+        inventory_list = data.get("inventory", {}).values()
 
         for item in inventory_list:
             if item.get("sku") == sku and item.get("store_id") == store_id:
@@ -49,7 +49,7 @@ class CreateInventoryRecord(Tool):
             "last_stock_count": "2025-07-28",
         }
 
-        inventory_list.append(new_record)
+        data["inventory"][new_record["inventory_id"]] = new_record
         data["inventory"] = inventory_list
         payload = {"status": "created", "inventory_id": new_inv_id}
         out = json.dumps(payload)

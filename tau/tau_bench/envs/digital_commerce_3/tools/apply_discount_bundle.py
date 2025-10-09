@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ApplyDiscountBundle(Tool):
@@ -30,19 +30,19 @@ class ApplyDiscountBundle(Tool):
         if not cart_id or not offer_code:
             return _error("cart_id and offer_code are required.")
 
-        carts = carts if carts is not None else data.get("carts", [])
+        carts = carts if carts is not None else data.get("carts", {}).values()
         cart = _find_one(carts, "cart_id", cart_id)
         if not cart:
             return _error(f"Cart '{cart_id}' not found.")
 
-        offers = offers if offers is not None else data.get("offers", [])
+        offers = offers if offers is not None else data.get("offers", {}).values()
         offer = _find_one(offers, "offer_code", offer_code)
         if not offer or not offer.get("is_active"):
             return _error(f"Offer '{offer_code}' not found or inactive.")
 
-        cart_items = cart_items if cart_items is not None else data.get("cart_items", [])
-        pricebook_entries = pricebook_entries if pricebook_entries is not None else data.get("pricebook_entries", [])
-        accounts = accounts if accounts is not None else data.get("accounts", [])
+        cart_items = cart_items if cart_items is not None else data.get("cart_items", {}).values()
+        pricebook_entries = pricebook_entries if pricebook_entries is not None else data.get("pricebook_entries", {}).values()
+        accounts = accounts if accounts is not None else data.get("accounts", {}).values()
 
         cart_line_items = [
             ci for ci in cart_items if f"{ci.get('cart_id')}" == f"{cart_id}"

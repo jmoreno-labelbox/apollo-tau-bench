@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AnalyzeCustomerBehavior(Tool):
@@ -22,18 +22,18 @@ class AnalyzeCustomerBehavior(Tool):
         if not contact_id:
             return _error("contact_id is required.")
 
-        contacts = data.get("contacts", [])
-        contact = _find_one(contacts, "contact_id", contact_id)
+        contacts = data.get("contacts", {}).values()
+        contact = _find_one(list(contacts.values()), "contact_id", contact_id)
         if not contact:
             return _error(f"Contact '{contact_id}' not found.")
 
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         customer_orders = [
-            o for o in orders if f"{o.get('contact_id')}" == f"{contact_id}"
+            o for o in orders.values() if f"{o.get('contact_id')}" == f"{contact_id}"
         ]
 
         total_orders = len(customer_orders)
-        total_value = sum(float(o.get("total_amount", 0.0)) for o in customer_orders)
+        total_value = sum(float(o.get("total_amount", 0.0)) for o in customer_orders.values()
         avg_order_value = (
             round(total_value / total_orders, 2) if total_orders > 0 else 0.0
         )
@@ -63,18 +63,18 @@ class AnalyzeCustomerBehavior(Tool):
         if not contact_id:
             return _error("contact_id is required.")
 
-        contacts = data.get("contacts", [])
-        contact = _find_one(contacts, "contact_id", contact_id)
+        contacts = data.get("contacts", {}).values()
+        contact = _find_one(list(contacts.values()), "contact_id", contact_id)
         if not contact:
             return _error(f"Contact '{contact_id}' not found.")
 
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         customer_orders = [
-            o for o in orders if f"{o.get('contact_id')}" == f"{contact_id}"
+            o for o in orders.values() if f"{o.get('contact_id')}" == f"{contact_id}"
         ]
 
         total_orders = len(customer_orders)
-        total_value = sum(float(o.get("total_amount", 0.0)) for o in customer_orders)
+        total_value = sum(float(o.get("total_amount", 0.0)) for o in customer_orders.values()
         avg_order_value = (
             round(total_value / total_orders, 2) if total_orders > 0 else 0.0
         )

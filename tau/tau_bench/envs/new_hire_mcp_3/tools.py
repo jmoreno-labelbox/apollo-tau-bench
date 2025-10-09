@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -24,10 +24,10 @@ class ModifyCandidate(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], updates: dict = None, candidate_id: str = None) -> str:
         updates = updates or {}
-        candidates = data.get("candidates", [])
+        candidates = data.get("candidates", {}).values()
 
         # Locate the candidate within the list and modify
-        for c in candidates:
+        for c in candidates.values():
             if c.get("candidate_id") == candidate_id:
                 c.update(updates)
                 c["updated_at"] = _fixed_now_iso()
@@ -64,8 +64,8 @@ class AddCandidate(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], candidate: dict = None) -> str:
         new_candidate = candidate or {}
-        candidates = data.get("candidates", [])
-        candidates.append(new_candidate)
+        candidates = data.get("candidates", {}).values()
+        data["candidates"][candidate_id] = new_candidate
         data["candidates"] = candidates
         payload = {"added_candidate": new_candidate}
         out = json.dumps(payload, indent=2)
@@ -89,9 +89,9 @@ class AddCandidate(Tool):
 class RemoveCandidate(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str = None) -> str:
-        candidates = data.get("candidates", [])
+        candidates = data.get("candidates", {}).values()
         data["candidates"] = [
-            c for c in candidates if c.get("candidate_id") != candidate_id
+            c for c in candidates.values() if c.get("candidate_id") != candidate_id
         ]
         payload = {"removed_candidate_id": candidate_id}
         out = json.dumps(payload, indent=2)
@@ -117,8 +117,8 @@ class ModifyAssetRequest(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], updates: dict[str, Any] = None, request_id: str = None) -> str:
         updates = updates or {}
-        requests = data.get("asset_requests", [])
-        for r in requests:
+        requests = data.get("asset_requests", {}).values()
+        for r in requests.values():
             if r.get("request_id") == request_id:
                 r.update(updates)
                 r["updated_at"] = _fixed_now_iso()
@@ -150,8 +150,8 @@ class AddAssetRequest(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], request: dict = None) -> str:
         new_request = request or {}
-        requests = data.get("asset_requests", [])
-        requests.append(new_request)
+        requests = data.get("asset_requests", {}).values()
+        data["asset_requests"][new_request["asset_request_id"]] = new_request
         data["asset_requests"] = requests
         payload = {"added_request": new_request}
         out = json.dumps(payload, indent=2)
@@ -175,9 +175,9 @@ class AddAssetRequest(Tool):
 class RemoveAssetRequest(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], request_id: str = None) -> str:
-        requests = data.get("asset_requests", [])
+        requests = data.get("asset_requests", {}).values()
         data["asset_requests"] = [
-            r for r in requests if r.get("request_id") != request_id
+            r for r in requests.values() if r.get("request_id") != request_id
         ]
         payload = {"removed_request_id": request_id}
         out = json.dumps(payload, indent=2)
@@ -203,8 +203,8 @@ class ModifyAccessCheck(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], updates: dict[str, Any] = None, check_id: str = None) -> str:
         updates = updates or {}
-        checks = data.get("access_checks", [])
-        for c in checks:
+        checks = data.get("access_checks", {}).values()
+        for c in checks.values():
             if c.get("check_id") == check_id:
                 c.update(updates)
                 c["updated_at"] = _fixed_now_iso()
@@ -234,8 +234,8 @@ class AddAccessCheck(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], check: dict = None) -> str:
         new_check = check or {}
-        checks = data.get("access_checks", [])
-        checks.append(new_check)
+        checks = data.get("access_checks", {}).values()
+        data["access_checks"][new_check["access_check_id"]] = new_check
         data["access_checks"] = checks
         payload = {"added_check": new_check}
         out = json.dumps(payload, indent=2)
@@ -259,8 +259,8 @@ class AddAccessCheck(Tool):
 class RemoveAccessCheck(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], check_id: str = None) -> str:
-        checks = data.get("access_checks", [])
-        data["access_checks"] = [c for c in checks if c.get("check_id") != check_id]
+        checks = data.get("access_checks", {}).values()
+        data["access_checks"] = [c for c in checks.values() if c.get("check_id") != check_id]
         payload = {"removed_check_id": check_id}
         out = json.dumps(payload, indent=2)
         return out
@@ -285,8 +285,8 @@ class ModifyChecklistItem(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], updates: dict[str, Any] = None, item_id: str = None) -> str:
         updates = updates or {}
-        items = data.get("checklist_items", [])
-        for i in items:
+        items = data.get("checklist_items", {}).values()
+        for i in items.values():
             if i.get("item_id") == item_id:
                 i.update(updates)
                 i["updated_at"] = _fixed_now_iso()
@@ -316,8 +316,8 @@ class AddChecklistItem(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], item: dict = None) -> str:
         new_item = item or {}
-        items = data.get("checklist_items", [])
-        items.append(new_item)
+        items = data.get("checklist_items", {}).values()
+        data["checklist_items"][new_item["checklist_item_id"]] = new_item
         data["checklist_items"] = items
         payload = {"added_item": new_item}
         out = json.dumps(payload, indent=2)
@@ -341,8 +341,8 @@ class AddChecklistItem(Tool):
 class RemoveChecklistItem(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], item_id: str = None) -> str:
-        items = data.get("checklist_items", [])
-        data["checklist_items"] = [i for i in items if i.get("item_id") != item_id]
+        items = data.get("checklist_items", {}).values()
+        data["checklist_items"] = [i for i in items.values() if i.get("item_id") != item_id]
         payload = {"removed_item_id": item_id}
         out = json.dumps(payload, indent=2)
         return out
@@ -368,8 +368,8 @@ class ModifyAttachment(Tool):
     def invoke(data: dict[str, Any], updates: dict[str, Any] = None, attachment_id: str = None) -> str:
         updates = updates or {}
         attach_id = attachment_id
-        attachments = data.get("attachments", [])
-        for a in attachments:
+        attachments = data.get("attachments", {}).values()
+        for a in attachments.values():
             if a.get("attachment_id") == attach_id:
                 a.update(updates)
                 a["updated_at"] = _fixed_now_iso()
@@ -401,8 +401,8 @@ class AddAttachment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], attachment: dict = None) -> str:
         new_attach = attachment or {}
-        attachments = data.get("attachments", [])
-        attachments.append(new_attach)
+        attachments = data.get("attachments", {}).values()
+        data["attachments"][attachment_id] = new_attach
         data["attachments"] = attachments
         payload = {"added_attachment": new_attach}
         out = json.dumps(payload, indent=2)
@@ -426,9 +426,9 @@ class AddAttachment(Tool):
 class RemoveAttachment(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], attachment_id: str = None) -> str:
-        attachments = data.get("attachments", [])
+        attachments = data.get("attachments", {}).values()
         data["attachments"] = [
-            a for a in attachments if a.get("attachment_id") != attachment_id
+            a for a in attachments.values() if a.get("attachment_id") != attachment_id
         ]
         payload = {"removed_attachment_id": attachment_id}
         out = json.dumps(payload, indent=2)
@@ -459,8 +459,8 @@ class ModifyEmailLabel(Tool):
         email_id: str = None
     ) -> str:
         updates = updates or {}
-        labels = data.get("email_labels", [])
-        for l in labels:
+        labels = data.get("email_labels", {}).values()
+        for l in labels.values():
             if l.get("label_id") == label_id:
                 l.update(updates)
                 l["updated_at"] = _fixed_now_iso()
@@ -490,8 +490,8 @@ class AddEmailLabel(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], label: dict = None) -> str:
         new_label = label or {}
-        labels = data.get("email_labels", [])
-        labels.append(new_label)
+        labels = data.get("email_labels", {}).values()
+        data["email_labels"][new_label["email_label_id"]] = new_label
         data["email_labels"] = labels
         payload = {"added_label": new_label}
         out = json.dumps(payload, indent=2)
@@ -515,8 +515,8 @@ class AddEmailLabel(Tool):
 class RemoveEmailLabel(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], label_id: str = None) -> str:
-        labels = data.get("email_labels", [])
-        data["email_labels"] = [l for l in labels if l.get("label_id") != label_id]
+        labels = data.get("email_labels", {}).values()
+        data["email_labels"] = [l for l in labels.values() if l.get("label_id") != label_id]
         payload = {"removed_label_id": label_id}
         out = json.dumps(payload, indent=2)
         return out
@@ -541,8 +541,8 @@ class ModifyEmail(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], updates: dict = None, message_id: str = None, email_id: str = None) -> str:
         updates = updates or {}
-        emails = data.get("emails", [])
-        for e in emails:
+        emails = data.get("emails", {}).values()
+        for e in emails.values():
             if e.get("message_id") == message_id:
                 e.update(updates)
                 e["updated_at"] = _fixed_now_iso()
@@ -576,8 +576,8 @@ class SendEmail(Tool):
     updates: Any = None,
     ) -> str:
         new_email = email or {}
-        emails = data.get("emails", [])
-        emails.append(new_email)
+        emails = data.get("emails", {}).values()
+        data["emails"][email_id] = new_email
         data["emails"] = emails
         payload = {"sent_email": new_email}
         out = json.dumps(payload, indent=2)
@@ -601,8 +601,8 @@ class SendEmail(Tool):
 class DeleteEmail(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], message_id: str = None, email_id: Any = None) -> str:
-        emails = data.get("emails", [])
-        data["emails"] = [e for e in emails if e.get("message_id") != message_id]
+        emails = data.get("emails", {}).values()
+        data["emails"] = [e for e in emails.values() if e.get("message_id") != message_id]
         payload = {"deleted_message_id": message_id}
         out = json.dumps(payload, indent=2)
         return out
@@ -627,8 +627,8 @@ class ModifyAsset(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], updates: dict = None, asset_tag: str = None) -> str:
         updates = updates or {}
-        assets = data.get("inventory_assets", [])
-        for a in assets:
+        assets = data.get("inventory_assets", {}).values()
+        for a in assets.values():
             if a.get("asset_tag") == asset_tag:
                 a.update(updates)
                 a["updated_at"] = _fixed_now_iso()
@@ -659,8 +659,8 @@ class ModifyAsset(Tool):
 class AssignAsset(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], asset_tag: str = None, candidate_id: str = None) -> str:
-        assets = data.get("inventory_assets", [])
-        for a in assets:
+        assets = data.get("inventory_assets", {}).values()
+        for a in assets.values():
             if a.get("asset_tag") == asset_tag:
                 a["assigned_candidate_id_nullable"] = candidate_id
                 a["status"] = "Assigned"
@@ -692,8 +692,8 @@ class AssignAsset(Tool):
 class ReleaseAsset(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], asset_tag: str = None) -> str:
-        assets = data.get("inventory_assets", [])
-        for a in assets:
+        assets = data.get("inventory_assets", {}).values()
+        for a in assets.values():
             if a.get("asset_tag") == asset_tag:
                 a["assigned_candidate_id_nullable"] = None
                 a["status"] = "Available"
@@ -724,8 +724,8 @@ class ModifyOnboardingFile(Tool):
     candidate_id: Any = None,
     ) -> str:
         updates = updates or {}
-        files = data.get("onboarding_files", [])
-        for f in files:
+        files = data.get("onboarding_files", {}).values()
+        for f in files.values():
             if f.get("file_path") == file_path:
                 f.update(updates)
                 f["updated_at"] = _fixed_now_iso()
@@ -757,8 +757,8 @@ class AddOnboardingFile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], file: dict = None, candidate_id: Any = None, file_name: str = None, file_path: str = None) -> str:
         new_file = file or {}
-        files = data.get("onboarding_files", [])
-        files.append(new_file)
+        files = data.get("onboarding_files", {}).values()
+        data["onboarding_files"][new_file["onboarding_file_id"]] = new_file
         data["onboarding_files"] = files
         payload = {"added_file": new_file}
         out = json.dumps(payload, indent=2)
@@ -782,8 +782,8 @@ class AddOnboardingFile(Tool):
 class RemoveOnboardingFile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], file_path: str = None) -> str:
-        files = data.get("onboarding_files", [])
-        data["onboarding_files"] = [f for f in files if f.get("file_path") != file_path]
+        files = data.get("onboarding_files", {}).values()
+        data["onboarding_files"] = [f for f in files.values() if f.get("file_path") != file_path]
         payload = {"removed_file_path": file_path}
         out = json.dumps(payload, indent=2)
         return out
@@ -840,14 +840,14 @@ class RecordTerminalLog(Tool):
 class ApplyLabelToEmail(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], email_id: str = None, label_id: str = None) -> str:
-        email_labels = data.get("email_labels", [])
+        email_labels = data.get("email_labels", {}).values()
 
         # Search for the email in the list and assign the tag
-        for e in email_labels:
+        for e in email_labels.values():
             if e.get("email_id") == email_id:
                 applied_labels = e.setdefault("labels", [])
                 if label_id not in applied_labels:
-                    applied_labels.append(label_id)
+                    applied_data["email_labels"][label_id["email_label_id"]] = label_id
                 break
         else:
             # If the email is not located, you may create a new record

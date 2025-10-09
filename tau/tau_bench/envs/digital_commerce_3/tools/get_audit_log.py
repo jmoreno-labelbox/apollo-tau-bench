@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAuditLog(Tool):
@@ -24,10 +24,10 @@ class GetAuditLog(Tool):
         resource_id = f"{resource_id}" if resource_id is not None else None
         time_range = f"{time_range}" if time_range is not None else None
 
-        audit_log = data.get("audit_log", [])
+        audit_log = data.get("audit_log", {}).values()
         filtered = audit_log
         if action_type:
-            filtered = [e for e in filtered if e.get("event_type") == action_type]
+            filtered = [e for e in filtered.values() if e.get("event_type") == action_type]
         if resource_id:
             filtered = [
                 e for e in filtered if f"{e.get('subject_id')}" == f"{resource_id}"
@@ -46,10 +46,10 @@ class GetAuditLog(Tool):
         resource_id = f"{resource_id}" if resource_id is not None else None
         time_range = f"{time_range}" if time_range is not None else None
 
-        audit_log = data.get("audit_log", [])
+        audit_log = data.get("audit_log", {}).values()
         filtered = audit_log
         if action_type:
-            filtered = [e for e in filtered if e.get("event_type") == action_type]
+            filtered = [e for e in filtered.values() if e.get("event_type") == action_type]
         if resource_id:
             filtered = [
                 e for e in filtered if f"{e.get('subject_id')}" == f"{resource_id}"

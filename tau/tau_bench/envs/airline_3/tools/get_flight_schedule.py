@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetFlightSchedule(Tool):
@@ -72,17 +72,17 @@ class GetFlightSchedule(Tool):
             date_range.append(current_date.strftime("%Y-%m-%d"))
             current_date += timedelta(days=1)
 
-        flights = data.get("flights", [])
+        flights = data.get("flights", {}).values()
         scheduled_flights = []
 
-        for flight in flights:
+        for flight in flights.values():
             # Implement origin/destination filters if they are supplied
             if origin and flight.get("origin") != origin:
                 continue
             if destination and flight.get("destination") != destination:
                 continue
 
-            flight_dates = flight.get("dates", {})
+            flight_dates = flight.get("dates", {}).values()
             for date in date_range:
                 if date in flight_dates:
                     date_info = flight_dates[date]

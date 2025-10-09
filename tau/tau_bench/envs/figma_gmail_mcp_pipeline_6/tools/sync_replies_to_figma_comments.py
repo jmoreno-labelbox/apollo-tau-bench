@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class sync_replies_to_figma_comments(Tool):
@@ -19,11 +19,11 @@ class sync_replies_to_figma_comments(Tool):
         - Generates Figma comments for any messages that are not yet included.
         - Connects comments to the corresponding original Gmail message.
         """
-        gmail_messages = data.get("gmail_messages", [])
-        figma_comments = data.get("figma_comments", [])
+        gmail_messages = data.get("gmail_messages", {}).values()
+        figma_comments = data.get("figma_comments", {}).values()
 
         synced_count = 0
-        for msg in gmail_messages:
+        for msg in gmail_messages.values():
             if msg.get("thread_id") != thread_id:
                 continue
 
@@ -32,7 +32,7 @@ class sync_replies_to_figma_comments(Tool):
             already_synced = any(
                 c.get("source_message_id_nullable") == msg_id
                 and c.get("artifact_id") == artifact_id
-                for c in figma_comments
+                for c in figma_comments.values()
             )
 
             if not already_synced:
@@ -45,7 +45,7 @@ class sync_replies_to_figma_comments(Tool):
                     "created_ts": msg.get("sent_ts"),
                     "resolved_flag": False,
                 }
-                figma_comments.append(new_comment)
+                data["figma_comments"][new_comment["figma_comment_id"]] = new_comment
                 synced_count += 1
         payload = {"synced_count": synced_count, "total_comments": len(figma_comments)}
         out = json.dumps(

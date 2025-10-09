@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUsersByRoleTool(Tool):
@@ -19,7 +19,7 @@ class GetUsersByRoleTool(Tool):
     def invoke(data: dict[str, Any], role_id: str = None) -> str:
         result = [
             ur.get("user_id")
-            for ur in data.get("user_roles", [])
+            for ur in data.get("user_roles", {}).values()
             if ur.get("role_id") == role_id and not ur.get("expires_on")
         ]
         payload = {"role_id": role_id, "user_ids": sorted(result)}

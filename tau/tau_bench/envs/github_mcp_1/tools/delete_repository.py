@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DeleteRepository(Tool):
@@ -29,7 +29,7 @@ class DeleteRepository(Tool):
         # Support either {"repositories": [...]} or a direct list
         repos = None
         if isinstance(data, dict) and "repositories" in data:
-            repos = data.get("repositories", [])
+            repos = data.get("repositories", {}).values()
         elif isinstance(data, list):
             repos = data
         else:

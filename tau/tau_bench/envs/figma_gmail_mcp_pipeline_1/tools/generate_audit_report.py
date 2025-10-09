@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateAuditReport(Tool):  #WRITE
@@ -21,12 +21,12 @@ class GenerateAuditReport(Tool):  #WRITE
             return out
 
         #Retrieve audits and assets data
-        audits = data.get("audits", [])
-        assets = data.get("assets", [])
-        figma_artifacts = data.get("figma_artifacts", [])
+        audits = data.get("audits", {}).values()
+        assets = data.get("assets", {}).values()
+        figma_artifacts = data.get("figma_artifacts", {}).values()
 
         #Identify the audit
-        audit = next((a for a in audits if a.get("audit_id") == audit_id), None)
+        audit = next((a for a in audits.values() if a.get("audit_id") == audit_id), None)
         if not audit:
             payload = {"error": f"Audit with ID '{audit_id}' not found"}
             out = json.dumps(payload)
@@ -41,7 +41,7 @@ class GenerateAuditReport(Tool):  #WRITE
 
         #Locate the artifact to retrieve the layer_name
         artifact = next(
-            (a for a in figma_artifacts if a.get("artifact_id") == artifact_id), None
+            (a for a in figma_artifacts.values() if a.get("artifact_id") == artifact_id), None
         )
         if not artifact:
             payload = {"error": f"Artifact with ID '{artifact_id}' not found"}
@@ -76,7 +76,7 @@ class GenerateAuditReport(Tool):  #WRITE
         }
 
         #Include in assets data
-        assets.append(new_asset)
+        data["assets"][asset_id] = new_asset
         payload = {"new_asset": new_asset}
         out = json.dumps(payload)
         return out

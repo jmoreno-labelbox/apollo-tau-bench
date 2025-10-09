@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateAccessRequestTool(Tool):
@@ -28,11 +28,11 @@ class CreateAccessRequestTool(Tool):
         # Support requester_id and subject_id as aliases for user_id
         user_id = user_id or requester_id or subject_id
         pass
-        access_requests = data.get("access_requests", [])
-        audit_logs = data.get("audit_logs", [])
+        access_requests = data.get("access_requests", {}).values()
+        audit_logs = data.get("audit_logs", {}).values()
 
         # Avoid duplicate PENDING requests
-        for ar in access_requests:
+        for ar in access_requests.values():
             if (
                 ar["user_id"] == user_id
                 and ar["resource_id"] == resource_id

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateCrashEventStatus(Tool):
@@ -24,8 +24,8 @@ class UpdateCrashEventStatus(Tool):
         # Support 'status' as an alternative to 'new_status'
         if status is not None:
             new_status = status
-        crashes = data.get("crash_events", [])
-        for crash in crashes:
+        crashes = data.get("crash_events", {}).values()
+        for crash in crashes.values():
             if crash.get("id") == crash_id:
                 crash["status"] = new_status
                 payload = {

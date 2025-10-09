@@ -11,7 +11,7 @@ FIXED_NOW = "2025-08-15T13:00:00Z"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -33,8 +33,8 @@ def _get_next_id(table: list[dict[str, Any]], key: str, prefix: str) -> str:
 class GetUserByUpnOrHrId(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_lookup: str = None) -> str:
-        accounts = data.get("directory_accounts", [])
-        for acc in accounts:
+        accounts = data.get("directory_accounts", {}).values()
+        for acc in accounts.values():
             if (
                 acc.get("hr_id") == user_lookup
                 or acc.get("upn") == user_lookup
@@ -72,7 +72,7 @@ class CreateDirectoryAccount(Tool):
         job_title: Any = None,
         default_email: str = None
     ) -> str:
-        accounts = data.get("directory_accounts", [])
+        accounts = data.get("directory_accounts", {}).values()
         username = legal_name.lower().replace(" ", ".")
         upn = f"{username}@company.com"
         name_part = "".join(filter(str.isalnum, legal_name.split()[0])).lower()
@@ -89,7 +89,7 @@ class CreateDirectoryAccount(Tool):
             "created_at": FIXED_NOW,
             "disabled_at": None,
         }
-        accounts.append(new_account)
+        data["accounts"][account_id] = new_account
         payload = new_account
         out = json.dumps(payload, indent=2)
         return out
@@ -117,8 +117,8 @@ class CreateDirectoryAccount(Tool):
 class SetDirectoryAccountStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], account_id: str = None, status: str = None, department: Any = None) -> str:
-        accounts = data.get("directory_accounts", [])
-        account = next((a for a in accounts if a.get("account_id") == account_id), None)
+        accounts = data.get("directory_accounts", {}).values()
+        account = next((a for a in accounts.values() if a.get("account_id") == account_id), None)
         if not account:
             payload = {"error": f"Account {account_id} not found."}
             out = json.dumps(payload, indent=2)
@@ -158,12 +158,11 @@ class SetDirectoryAccountStatus(Tool):
 class LookupRoleProfile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], department: str = None, job_title: str = None) -> str:
-        profiles = data.get("rbac_group_map", [])
+        profiles = data.get("rbac_group_map", {}).values()
         profile = next(
             (
                 p
-                for p in profiles
-                if p.get("department") == department and p.get("job_title") == job_title
+                for p in profiles.values() if p.get("department") == department and p.get("job_title") == job_title
             ),
             None,
         )
@@ -244,9 +243,9 @@ class AddUserToGroups(Tool):
 class CheckLicenseAvailability(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], license_id: str = None) -> str:
-        inventory = data.get("license_inventory", [])
+        inventory = data.get("license_inventory", {}).values()
         license_info = next(
-            (lic for lic in inventory if lic.get("license_id") == license_id), None
+            (lic for lic in inventory.values() if lic.get("license_id") == license_id), None
         )
         if not license_info:
             payload = {"error": f"License ID {license_id} not found in inventory."}
@@ -295,7 +294,7 @@ class AssignLicense(Tool):
             "status": "active",
             "assigned_at": FIXED_NOW,
         }
-        assignments.append(new_assignment)
+        data["license_assignments"][new_assignment["license_assignment_id"]] = new_assignment
         payload = new_assignment
         out = json.dumps(payload, indent=2)
         return out
@@ -322,9 +321,9 @@ class AssignLicense(Tool):
 class UpdateLicenseInventory(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], license_id: str = None, operation: str = None) -> str:
-        inventory = data.get("license_inventory", [])
+        inventory = data.get("license_inventory", {}).values()
         license_info = next(
-            (lic for lic in inventory if lic.get("license_id") == license_id), None
+            (lic for lic in inventory.values() if lic.get("license_id") == license_id), None
         )
         if not license_info:
             payload = {"error": f"License ID {license_id} not found in inventory."}
@@ -373,12 +372,11 @@ class UpdateLicenseInventory(Tool):
 class FindAvailableAsset(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], asset_type: str = None) -> str:
-        assets = data.get("it_assets", [])
+        assets = data.get("it_assets", {}).values()
         asset = next(
             (
                 a
-                for a in assets
-                if a.get("asset_type") == asset_type and a.get("status") == "in_stock"
+                for a in assets.values() if a.get("asset_type") == asset_type and a.get("status") == "in_stock"
             ),
             None,
         )
@@ -408,8 +406,8 @@ class FindAvailableAsset(Tool):
 class AssignAsset(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], asset_id: str = None, employee_id: str = None, timestamp: str = None) -> str:
-        assets = data.get("it_assets", [])
-        asset = next((a for a in assets if a.get("asset_id") == asset_id), None)
+        assets = data.get("it_assets", {}).values()
+        asset = next((a for a in assets.values() if a.get("asset_id") == asset_id), None)
         if not asset:
             payload = {"error": f"Asset {asset_id} not found."}
             out = json.dumps(payload, indent=2)
@@ -513,7 +511,7 @@ class CreateJiraTicket(Tool):
             "created_at": FIXED_NOW,
             "updated_at": FIXED_NOW,
         }
-        tickets.append(new_ticket)
+        data["tickets"][new_ticket["ticket_id"]] = new_ticket
         payload = new_ticket
         out = json.dumps(payload, indent=2)
         return out
@@ -593,11 +591,10 @@ class CreateAuditRecord(Tool):
 class GetUserLicenseAssignments(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        assignments = data.get("license_assignments", [])
+        assignments = data.get("license_assignments", {}).values()
         user_licenses = [
             a
-            for a in assignments
-            if a.get("employee_id") == employee_id and a.get("status") == "active"
+            for a in assignments.values() if a.get("employee_id") == employee_id and a.get("status") == "active"
         ]
         payload = user_licenses
         out = json.dumps(payload, indent=2)
@@ -621,12 +618,11 @@ class GetUserLicenseAssignments(Tool):
 class GetLicenseAssignmentByType(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None, license_type: str = None) -> str:
-        assignments = data.get("license_assignments", [])
+        assignments = data.get("license_assignments", {}).values()
         assignment = next(
             (
                 a
-                for a in assignments
-                if a.get("employee_id") == employee_id
+                for a in assignments.values() if a.get("employee_id") == employee_id
                 and a.get("license_id") == license_type
                 and a.get("status") == "active"
             ),
@@ -665,9 +661,9 @@ class GetLicenseAssignmentByType(Tool):
 class RevokeLicense(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], assignment_id: str = None) -> str:
-        assignments = data.get("license_assignments", [])
+        assignments = data.get("license_assignments", {}).values()
         assignment = next(
-            (a for a in assignments if a.get("assignment_id") == assignment_id), None
+            (a for a in assignments.values() if a.get("assignment_id") == assignment_id), None
         )
         if not assignment:
             payload = {"error": f"Assignment {assignment_id} not found."}
@@ -745,10 +741,10 @@ class RemoveUserFromGroups(Tool):
 class ArchiveMailbox(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str) -> str:
-        mailboxes = data.get("mailboxes", [])
+        mailboxes = data.get("mailboxes", {}).values()
         archives = data.setdefault("data_archives", [])
         mailbox = next(
-            (m for m in mailboxes if m.get("employee_id") == employee_id), None
+            (m for m in mailboxes.values() if m.get("employee_id") == employee_id), None
         )
         if not mailbox:
             payload = {"error": f"Mailbox for employee {employee_id} not found."}
@@ -766,7 +762,7 @@ class ArchiveMailbox(Tool):
             "retention_policy": mailbox["retention_policy"],
             "created_at": FIXED_NOW,
         }
-        archives.append(new_archive)
+        data["archives"][archive_id] = new_archive
         payload = new_archive
         out = json.dumps(payload, indent=2)
         return out
@@ -789,8 +785,8 @@ class ArchiveMailbox(Tool):
 class GetUserAsset(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        assets = data.get("it_assets", [])
-        asset = next((a for a in assets if a.get("assigned_to") == employee_id), None)
+        assets = data.get("it_assets", {}).values()
+        asset = next((a for a in assets.values() if a.get("assigned_to") == employee_id), None)
         if not asset:
             payload = {"employee_id": employee_id, "asset": None}
             out = json.dumps(payload, indent=2)
@@ -817,7 +813,7 @@ class GetUserAsset(Tool):
 class ExportServiceDeskTickets(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], start_date: str = None, end_date: str = None, export_path: str = None) -> str:
-        tickets = data.get("tickets", [])
+        tickets = data.get("tickets", {}).values()
         payload = {
                 "export_path": export_path,
                 "ticket_count": len(tickets),
@@ -1010,7 +1006,7 @@ class NotifyManagementTeam(Tool):
 class ExportRecentTickets(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], days: int = 30) -> str:
-        tickets = data.get("tickets", [])
+        tickets = data.get("tickets", {}).values()
         report_path = f"\\\\IT\\Reports\\DailyReports\\{FIXED_NOW.split('T')[0]}\\Tickets_Export.csv"
         payload = {"export_path": report_path, "ticket_count": len(tickets)}
         out = json.dumps(
@@ -1211,7 +1207,7 @@ class ReadOnboardingMemo(Tool):
         memo = next(
             (
                 m
-                for m in data.get("hr_memos", [])
+                for m in data.get("hr_memos", {}).values()
                 if m.get("memo_id") == memo_id and m.get("type") == "onboarding"
             ),
             None,
@@ -1251,7 +1247,7 @@ class ValidateMemoFields(Tool):
             "manager_id",
             "start_date",
         ]
-        missing_fields = [field for field in required_fields if field not in memo]
+        missing_fields = [field for field in required_fields.values() if field not in memo]
         if missing_fields:
             payload = {"is_valid": False, "missing_fields": missing_fields}
             out = json.dumps(
@@ -1290,7 +1286,7 @@ class CreateMailbox(Tool):
             "retention_policy": "std_2y",
             "created_at": FIXED_NOW,
         }
-        mailboxes.append(new_mailbox)
+        data["mailboxes"][new_mailbox["mailboxe_id"]] = new_mailbox
         payload = new_mailbox
         out = json.dumps(payload, indent=2)
         return out
@@ -1317,7 +1313,7 @@ class EnrollDeviceInMDM(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], asset_id: str = None) -> str:
         asset = next(
-            (a for a in data.get("it_assets", []) if a.get("asset_id") == asset_id),
+            (a for a in data.get("it_assets", {}).values() if a.get("asset_id") == asset_id),
             None,
         )
         if asset:
@@ -1421,7 +1417,7 @@ class AddMemoToLifecycleQueue(Tool):
             "status": "queued",
             "created_at": FIXED_NOW,
         }
-        queue.append(new_entry)
+        data["lifecycle_queue"][new_entry["lifecycle_queue_id"]] = new_entry
         payload = new_entry
         out = json.dumps(payload, indent=2)
         return out
@@ -1450,10 +1446,10 @@ class CalculateTicketMetrics(Tool):
     def invoke(data: dict[str, Any], tickets: list[dict[str, Any]]) -> str:
         pass
         calculated_tickets = []
-        for ticket in tickets:
+        for ticket in tickets.values():
             ticket["age_hours"] = 72  # Simulated computation
             ticket["ttr_mins"] = 240  # Simulated computation
-            calculated_tickets.append(ticket)
+            calculated_data["tickets"][ticket["ticket_id"]] = ticket
         payload = calculated_tickets
         out = json.dumps(payload, indent=2)
         return out
@@ -1516,7 +1512,7 @@ class GetUserGroupMemberships(Tool):
         account = next(
             (
                 a
-                for a in data.get("directory_accounts", [])
+                for a in data.get("directory_accounts", {}).values()
                 if a.get("account_id") == account_id
             ),
             None,
@@ -1580,9 +1576,9 @@ class ScheduleDeviceMDMRemoval(Tool):
 class ArchiveUserAppAccounts(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], employee_id: str = None) -> str:
-        app_accounts = data.get("app_accounts", [])
+        app_accounts = data.get("app_accounts", {}).values()
         archived_count = 0
-        for acc in app_accounts:
+        for acc in app_accounts.values():
             if acc.get("employee_id") == employee_id:
                 acc["status"] = "archived"
                 archived_count += 1
@@ -1610,8 +1606,8 @@ class ArchiveUserAppAccounts(Tool):
 class UpdateLifecycleQueueStatus(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], lifecycle_id: str = None, status: str = None) -> str:
-        queue = data.get("lifecycle_queue", [])
-        entry = next((e for e in queue if e.get("lifecycle_id") == lifecycle_id), None)
+        queue = data.get("lifecycle_queue", {}).values()
+        entry = next((e for e in queue.values() if e.get("lifecycle_id") == lifecycle_id), None)
         if not entry:
             payload = {"error": f"Lifecycle entry {lifecycle_id} not found."}
             out = json.dumps(
@@ -1647,7 +1643,7 @@ class ReadOffboardingMemo(Tool):
         memo = next(
             (
                 m
-                for m in data.get("hr_memos", [])
+                for m in data.get("hr_memos", {}).values()
                 if m.get("memo_id") == memo_id and m.get("type") == "offboarding"
             ),
             None,
@@ -1691,7 +1687,7 @@ class CreateDataArchiveEntry(Tool):
             "retention_label": retention_label,
             "created_at": FIXED_NOW,
         }
-        archives.append(new_archive)
+        data["archives"][archive_id] = new_archive
         payload = new_archive
         out = json.dumps(payload, indent=2)
         return out
@@ -1724,9 +1720,9 @@ class CreateDataArchiveEntry(Tool):
 class FilterOpenTickets(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        tickets = data.get("tickets", [])
+        tickets = data.get("tickets", {}).values()
         open_statuses = ["New", "In Progress", "On Hold", "Open"]
-        open_tickets = [t for t in tickets if t.get("status") in open_statuses]
+        open_tickets = [t for t in tickets.values() if t.get("status") in open_statuses]
         payload = open_tickets
         out = json.dumps(payload, indent=2)
         return out
@@ -1772,8 +1768,8 @@ class BuildOpenTicketsCSV(Tool):
 class UnassignAsset(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], asset_id: str = None) -> str:
-        assets = data.get("it_assets", [])
-        asset = next((a for a in assets if a.get("asset_id") == asset_id), None)
+        assets = data.get("it_assets", {}).values()
+        asset = next((a for a in assets.values() if a.get("asset_id") == asset_id), None)
         if not asset:
             payload = {"error": f"Asset {asset_id} not found."}
             out = json.dumps(payload, indent=2)
@@ -1802,7 +1798,7 @@ class UnassignAsset(Tool):
 class GetLastReportRun(Tool):
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        report_runs = data.get("report_runs", [])
+        report_runs = data.get("report_runs", {}).values()
         if not report_runs:
             payload = {"error": "No previous report runs found."}
             out = json.dumps(payload, indent=2)
@@ -1966,7 +1962,7 @@ class FindAssets(Tool):
         mdm_enrolled: bool | None = None,
     ) -> str:
         results = []
-        for a in data["it_assets"]:
+        for a in data["it_assets"].values():
             if asset_type and a["asset_type"] != asset_type:
                 continue
             if status and a["status"] != status:
@@ -2013,7 +2009,7 @@ class GetLicenseAssignments(Tool):
         account_id: str | None = None,
     ) -> str:
         results: list[dict[str, Any]] = []
-        for a in data["license_assignments"]:
+        for a in data["license_assignments"].values():
             if employee_id and a["employee_id"] != employee_id:
                 continue
             if account_id and a["account_id"] != account_id:

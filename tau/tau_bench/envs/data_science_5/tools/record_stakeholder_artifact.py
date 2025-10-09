@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RecordStakeholderArtifact(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], output_label: str = None, audience: str = None, artifact_path: str = None) -> str:
-        outs = data.get("stakeholder_outputs", [])
+        outs = data.get("stakeholder_outputs", {}).values()
         max_id = 0
         for o in outs:
             try:
@@ -30,7 +30,7 @@ class RecordStakeholderArtifact(Tool):
             "artifact_path": artifact_path,
             "created_at": _now_iso_fixed(),
         }
-        outs.append(row)
+        data["stakeholder_outputs"][row["stakeholder_output_id"]] = row
         payload = {"output_id": new_id, "output_label": row["output_label"]}
         out = json.dumps(
             payload, indent=2

@@ -11,7 +11,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -23,8 +23,8 @@ class GetMilestoneDetails(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        for milestone in milestones:
+        milestones = data.get("milestones", {}).values()
+        for milestone in milestones.values():
             if milestone.get("milestone_id") == milestone_id:
                 payload = milestone
                 out = json.dumps(payload, indent=2)
@@ -87,7 +87,7 @@ class CreateMilestone(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
+        milestones = data.get("milestones", {}).values()
 
         if not start_date:
             target_dt = datetime.fromisoformat(target_date.replace("Z", "+00:00"))
@@ -125,7 +125,7 @@ class CreateMilestone(Tool):
             "resource_allocation": 100,
         }
 
-        milestones.append(new_milestone)
+        data["milestones"][milestone_id] = new_milestone
         payload = {"success": True, "milestone": new_milestone}
         out = json.dumps(payload)
         return out
@@ -209,10 +209,10 @@ class UpdateMilestoneStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        milestone_updates = data.get("milestone_updates", [])
+        milestones = data.get("milestones", {}).values()
+        milestone_updates = data.get("milestone_updates", {}).values()
 
-        for milestone in milestones:
+        for milestone in milestones.values():
             if milestone.get("milestone_id") == milestone_id:
                 milestone.get("status")
                 old_health = milestone.get("health")
@@ -262,7 +262,7 @@ class UpdateMilestoneStatus(Tool):
                     "health_change": f"{old_health} -> {milestone['health']}",
                     "updated_date": datetime.now(timezone.utc).isoformat(),
                 }
-                milestone_updates.append(update_record)
+                data["milestone_updates"][update_record["milestone_update_id"]] = update_record
                 payload = {"success": True, "milestone": milestone, "update": update_record}
                 out = json.dumps(payload)
                 return out
@@ -318,10 +318,10 @@ class CreateMilestoneDependency(Tool):
     ) -> bool:
         """Verify whether including this dependency would result in a circular dependency"""
         pass
-        dependencies = data.get("milestone_dependencies", [])
+        dependencies = data.get("milestone_dependencies", {}).values()
 
         graph = {}
-        for dep in dependencies:
+        for dep in dependencies.values():
             pred = dep.get("predecessor_id")
             succ = dep.get("successor_id")
             if pred not in graph:
@@ -392,11 +392,11 @@ class CreateMilestoneDependency(Tool):
             out = json.dumps(payload)
             return out
 
-        milestone_dependencies = data.get("milestone_dependencies", [])
-        milestones = data.get("milestones", [])
+        milestone_dependencies = data.get("milestone_dependencies", {}).values()
+        milestones = data.get("milestones", {}).values()
 
-        pred_exists = any(m.get("milestone_id") == predecessor_id for m in milestones)
-        succ_exists = any(m.get("milestone_id") == successor_id for m in milestones)
+        pred_exists = any(m.get("milestone_id") == predecessor_id for m in milestones.values()
+        succ_exists = any(m.get("milestone_id") == successor_id for m in milestones.values()
 
         if not pred_exists or not succ_exists:
             payload = {"error": "One or both milestones not found"}
@@ -406,7 +406,7 @@ class CreateMilestoneDependency(Tool):
         existing = any(
             d.get("predecessor_id") == predecessor_id
             and d.get("successor_id") == successor_id
-            for d in milestone_dependencies
+            for d in milestone_dependencies.values()
         )
 
         if existing:
@@ -428,9 +428,9 @@ class CreateMilestoneDependency(Tool):
             "created_date": datetime.now(timezone.utc).isoformat(),
         }
 
-        milestone_dependencies.append(new_dependency)
+        data["milestone_dependencies"][new_dependency["milestone_dependencie_id"]] = new_dependency
 
-        for milestone in milestones:
+        for milestone in milestones.values():
             if milestone.get("milestone_id") == successor_id:
                 milestone["is_critical_path"] = True
                 break
@@ -438,8 +438,7 @@ class CreateMilestoneDependency(Tool):
         project_id = next(
             (
                 m.get("project_id")
-                for m in milestones
-                if m.get("milestone_id") == predecessor_id
+                for m in milestones.values() if m.get("milestone_id") == predecessor_id
             ),
             None,
         )
@@ -506,12 +505,12 @@ class CalculateCriticalPath(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        data.get("milestone_dependencies", [])
-        critical_paths = data.get("critical_paths", [])
+        milestones = data.get("milestones", {}).values()
+        data.get("milestone_dependencies", {}).values()
+        critical_paths = data.get("critical_paths", {}).values()
 
         project_milestones = [
-            m for m in milestones if m.get("project_id") == project_id
+            m for m in milestones.values() if m.get("project_id") == project_id
         ]
 
         if not project_milestones:
@@ -523,7 +522,7 @@ class CalculateCriticalPath(Tool):
         critical_milestone_ids = []
         total_duration = 0
 
-        for milestone in project_milestones:
+        for milestone in project_milestones.values():
             if milestone.get("float_days", 0) == 0:
                 critical_milestone_ids.append(milestone.get("milestone_id"))
 
@@ -553,7 +552,7 @@ class CalculateCriticalPath(Tool):
 
         path_id = f"cp_{uuid.uuid4().hex[:8]}"
         existing_path = next(
-            (cp for cp in critical_paths if cp.get("project_id") == project_id), None
+            (cp for cp in critical_paths.values() if cp.get("project_id") == project_id), None
         )
 
         if existing_path:
@@ -570,7 +569,7 @@ class CalculateCriticalPath(Tool):
                 "slack_time": 0,
                 "last_calculated": datetime.now(timezone.utc).isoformat(),
             }
-            critical_paths.append(new_path)
+            data["critical_paths"][new_path["critical_path_id"]] = new_path
             result = new_path
         payload = {
                 "success": True,
@@ -617,16 +616,15 @@ class CreateScheduleBaseline(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        schedule_baselines = data.get("schedule_baselines", [])
+        milestones = data.get("milestones", {}).values()
+        schedule_baselines = data.get("schedule_baselines", {}).values()
 
         current_quarter = (datetime.now(timezone.utc).month - 1) // 3 + 1
         current_year = datetime.now(timezone.utc).year
 
         quarterly_baselines = [
             b
-            for b in schedule_baselines
-            if b.get("project_id") == project_id
+            for b in schedule_baselines.values() if b.get("project_id") == project_id
             and b.get("year") == current_year
             and b.get("quarter") == current_quarter
             and b.get("baseline_type") != "initial"
@@ -640,7 +638,7 @@ class CreateScheduleBaseline(Tool):
             return out
 
         project_milestones = [
-            m for m in milestones if m.get("project_id") == project_id
+            m for m in milestones.values() if m.get("project_id") == project_id
         ]
 
         if not project_milestones:
@@ -652,12 +650,11 @@ class CreateScheduleBaseline(Tool):
         create_date = create_date or datetime.now(timezone.utc).isoformat()
 
         downstream_impacts = []
-        for milestone in project_milestones:
-            deps = data.get("milestone_dependencies", [])
+        for milestone in project_milestones.values():
+            deps = data.get("milestone_dependencies", {}).values()
             successors = [
                 d.get("successor_id")
-                for d in deps
-                if d.get("predecessor_id") == milestone.get("milestone_id")
+                for d in deps.values() if d.get("predecessor_id") == milestone.get("milestone_id")
             ]
 
             if successors:
@@ -673,7 +670,7 @@ class CreateScheduleBaseline(Tool):
         milestone_snapshots = []
         max_variance = 0
 
-        for milestone in project_milestones:
+        for milestone in project_milestones.values():
             original_baseline_start = milestone.get(
                 "original_baseline_start",
                 milestone.get("baseline_start", milestone.get("start_date")),
@@ -741,9 +738,9 @@ class CreateScheduleBaseline(Tool):
             "quarter": (datetime.now(timezone.utc).month - 1) // 3 + 1,
         }
 
-        schedule_baselines.append(new_baseline)
+        data["schedule_baselines"][new_baseline["schedule_baseline_id"]] = new_baseline
 
-        for milestone in project_milestones:
+        for milestone in project_milestones.values():
             if "original_baseline_start" not in milestone:
                 milestone["original_baseline_start"] = milestone.get(
                     "baseline_start", milestone.get("start_date")
@@ -815,12 +812,12 @@ class UpdateMilestoneDates(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        schedule_changes = data.get("schedule_changes", [])
-        milestone_dependencies = data.get("milestone_dependencies", [])
+        milestones = data.get("milestones", {}).values()
+        schedule_changes = data.get("schedule_changes", {}).values()
+        milestone_dependencies = data.get("milestone_dependencies", {}).values()
 
         milestone = next(
-            (m for m in milestones if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
         )
         if not milestone:
             payload = {"error": f"Milestone '{milestone_id}' not found"}
@@ -839,17 +836,16 @@ class UpdateMilestoneDates(Tool):
             slippage_days = (new_target_dt - old_target_dt).days
 
             if slippage_days > 5:
-                schedule_impact_analyses = data.get("schedule_impact_analyses", [])
+                schedule_impact_analyses = data.get("schedule_impact_analyses", {}).values()
                 analysis_id = f"sia_{uuid.uuid4().hex[:8]}"
 
                 downstream_milestones = []
-                for dep in milestone_dependencies:
+                for dep in milestone_dependencies.values():
                     if dep.get("predecessor_id") == milestone_id:
                         succ_milestone = next(
                             (
                                 m
-                                for m in milestones
-                                if m.get("milestone_id") == dep.get("successor_id")
+                                for m in milestones.values() if m.get("milestone_id") == dep.get("successor_id")
                             ),
                             None,
                         )
@@ -874,7 +870,7 @@ class UpdateMilestoneDates(Tool):
                     "status": "mandatory_review_required",
                 }
 
-                schedule_impact_analyses.append(impact_analysis)
+                data["schedule_impact_analyses"][impact_analysis["schedule_impact_analyse_id"]] = impact_analysis
                 payload = {
                     "error": f"Critical path milestone slippage of {slippage_days} days exceeds 5-day threshold. Mandatory schedule impact analysis created.",
                     "impact_analysis": impact_analysis,
@@ -883,7 +879,7 @@ class UpdateMilestoneDates(Tool):
                 return out
 
         impacted_milestones = []
-        for dep in milestone_dependencies:
+        for dep in milestone_dependencies.values():
             if dep.get("predecessor_id") == milestone_id:
                 impacted_milestones.append(dep.get("successor_id"))
 
@@ -899,7 +895,7 @@ class UpdateMilestoneDates(Tool):
             "is_critical_path": is_critical,
             "change_date": datetime.now(timezone.utc).isoformat(),
         }
-        schedule_changes.append(change_record)
+        schedule_data["changes"][change_id] = change_record
 
         if new_start_date:
             milestone["start_date"] = new_start_date
@@ -973,11 +969,11 @@ class CreateGateReview(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        gate_reviews = data.get("gate_reviews", [])
+        milestones = data.get("milestones", {}).values()
+        gate_reviews = data.get("gate_reviews", {}).values()
 
         milestone = next(
-            (m for m in milestones if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
         )
         if not milestone:
             payload = {"error": f"Milestone '{milestone_id}' not found"}
@@ -1008,7 +1004,7 @@ class CreateGateReview(Tool):
         review_id = f"gate_{uuid.uuid4().hex[:8]}"
 
         previous_reviews = [
-            r for r in gate_reviews if r.get("milestone_id") == milestone_id
+            r for r in gate_reviews.values() if r.get("milestone_id") == milestone_id
         ]
         consecutive_failures = 0
 
@@ -1035,7 +1031,7 @@ class CreateGateReview(Tool):
             "created_date": datetime.now(timezone.utc).isoformat(),
         }
 
-        gate_reviews.append(new_review)
+        gate_data["reviews"][review_id] = new_review
 
         if overall_decision == "pass":
             milestone["gate_passed"] = True
@@ -1051,7 +1047,7 @@ class CreateGateReview(Tool):
             milestone["remediation_period"] = True
 
             if new_review["consecutive_failures"] >= 3:
-                escalations = data.get("escalations", [])
+                escalations = data.get("escalations", {}).values()
                 escalation_id = f"esc_{uuid.uuid4().hex[:8]}"
                 escalations.append(
                     {
@@ -1147,11 +1143,11 @@ class AddExternalDependency(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        external_dependencies = data.get("external_dependencies", [])
+        milestones = data.get("milestones", {}).values()
+        external_dependencies = data.get("external_dependencies", {}).values()
 
         milestone = next(
-            (m for m in milestones if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
         )
         if not milestone:
             payload = {"error": f"Milestone '{milestone_id}' not found"}
@@ -1178,7 +1174,7 @@ class AddExternalDependency(Tool):
             "status": "pending",
         }
 
-        external_dependencies.append(new_dependency)
+        data["external_dependencies"][new_dependency["external_dependencie_id"]] = new_dependency
 
         if criticality == "critical" and not new_dependency["confirmed"]:
             milestone["health"] = (
@@ -1270,11 +1266,11 @@ class CreateRecoveryPlan(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        recovery_plans = data.get("recovery_plans", [])
+        milestones = data.get("milestones", {}).values()
+        recovery_plans = data.get("recovery_plans", {}).values()
 
         milestone = next(
-            (m for m in milestones if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
         )
         if not milestone:
             payload = {"error": f"Milestone '{milestone_id}' not found"}
@@ -1323,7 +1319,7 @@ class CreateRecoveryPlan(Tool):
             "is_critical_path": milestone.get("is_critical_path", False),
         }
 
-        recovery_plans.append(new_plan)
+        data["recovery_plans"][new_plan["recovery_plan_id"]] = new_plan
         payload = {
             "success": True,
             "recovery_plan": new_plan,
@@ -1400,11 +1396,11 @@ class AnalyzeScheduleCompression(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        compression_analyses = data.get("compression_analyses", [])
+        milestones = data.get("milestones", {}).values()
+        compression_analyses = data.get("compression_analyses", {}).values()
 
         project_milestones = [
-            m for m in milestones if m.get("project_id") == project_id
+            m for m in milestones.values() if m.get("project_id") == project_id
         ]
 
         if not project_milestones:
@@ -1420,7 +1416,7 @@ class AnalyzeScheduleCompression(Tool):
         total_cost = 0
         affected_milestones = 0
 
-        for milestone in project_milestones:
+        for milestone in project_milestones.values():
             if achieved_reduction >= target_reduction:
                 break
 
@@ -1495,7 +1491,7 @@ class AnalyzeScheduleCompression(Tool):
             "created_date": datetime.now(timezone.utc).isoformat(),
         }
 
-        compression_analyses.append(new_analysis)
+        data["compression_analyses"][new_analysis["compression_analyse_id"]] = new_analysis
         payload = {
                 "success": True,
                 "analysis": new_analysis,
@@ -1553,10 +1549,10 @@ class UpdateBufferConsumption(Tool):
             out = json.dumps(payload)
             return out
 
-        schedule_buffers = data.get("schedule_buffers", [])
+        schedule_buffers = data.get("schedule_buffers", {}).values()
 
         buffer = next(
-            (b for b in schedule_buffers if b.get("project_id") == project_id), None
+            (b for b in schedule_buffers.values() if b.get("project_id") == project_id), None
         )
         if not buffer:
             total_project_days = 180
@@ -1571,7 +1567,7 @@ class UpdateBufferConsumption(Tool):
                 "integration_consumed": 0,
                 "buffer_history": [],
             }
-            schedule_buffers.append(buffer)
+            data["schedule_buffers"][buffer["schedule_buffer_id"]] = buffer
 
         if buffer_type == "project":
             buffer["project_consumed"] = (
@@ -1632,7 +1628,7 @@ class UpdateBufferConsumption(Tool):
         risk_review_required = total_consumption_percentage > 60
 
         if risk_review_required:
-            risk_reviews = data.get("risk_reviews", [])
+            risk_reviews = data.get("risk_reviews", {}).values()
             review_id = f"risk_{uuid.uuid4().hex[:8]}"
             risk_reviews.append(
                 {
@@ -1712,19 +1708,18 @@ class GetMilestoneDependencies(Tool):
             out = json.dumps(payload)
             return out
 
-        milestone_dependencies = data.get("milestone_dependencies", [])
-        milestones = data.get("milestones", [])
+        milestone_dependencies = data.get("milestone_dependencies", {}).values()
+        milestones = data.get("milestones", {}).values()
 
         predecessors = []
         successors = []
 
-        for dep in milestone_dependencies:
+        for dep in milestone_dependencies.values():
             if dep.get("successor_id") == milestone_id:
                 pred_milestone = next(
                     (
                         m
-                        for m in milestones
-                        if m.get("milestone_id") == dep.get("predecessor_id")
+                        for m in milestones.values() if m.get("milestone_id") == dep.get("predecessor_id")
                     ),
                     None,
                 )
@@ -1747,8 +1742,7 @@ class GetMilestoneDependencies(Tool):
                 succ_milestone = next(
                     (
                         m
-                        for m in milestones
-                        if m.get("milestone_id") == dep.get("successor_id")
+                        for m in milestones.values() if m.get("milestone_id") == dep.get("successor_id")
                     ),
                     None,
                 )
@@ -1805,14 +1799,14 @@ class CheckMilestoneFloat(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
+        milestones = data.get("milestones", {}).values()
         project_milestones = [
-            m for m in milestones if m.get("project_id") == project_id
+            m for m in milestones.values() if m.get("project_id") == project_id
         ]
 
         float_analysis = []
 
-        for milestone in project_milestones:
+        for milestone in project_milestones.values()):
             float_days = milestone.get("float_days", 0)
             is_critical = milestone.get("is_critical_path", False)
 
@@ -1847,17 +1841,17 @@ class CheckMilestoneFloat(Tool):
 
         summary = {
             "negative_float": len(
-                [f for f in float_analysis if f["float_status"] == "negative"]
+                [f for f in float_analysis.values() if f["float_status"] == "negative"]
             ),
             "zero_float": len(
-                [f for f in float_analysis if f["float_status"] == "zero"]
+                [f for f in float_analysis.values() if f["float_status"] == "zero"]
             ),
-            "low_float": len([f for f in float_analysis if f["float_status"] == "low"]),
+            "low_float": len([f for f in float_analysis.values() if f["float_status"] == "low"]),
             "comfortable_float": len(
-                [f for f in float_analysis if f["float_status"] == "comfortable"]
+                [f for f in float_analysis.values() if f["float_status"] == "comfortable"]
             ),
             "critical_path_count": len(
-                [f for f in float_analysis if f["is_critical_path"]]
+                [f for f in float_analysis.values() if f["is_critical_path"]]
             ),
         }
         payload = {
@@ -1902,11 +1896,11 @@ class ApplyResourceLeveling(Tool):
                 payload)
             return out
 
-        milestones = data.get("milestones", [])
-        leveling_results = data.get("leveling_results", [])
+        milestones = data.get("milestones", {}).values()
+        leveling_results = data.get("leveling_results", {}).values()
 
         project_milestones = [
-            m for m in milestones if m.get("project_id") == project_id
+            m for m in milestones.values() if m.get("project_id") == project_id
         ]
 
         if not project_milestones:
@@ -2002,7 +1996,7 @@ class ApplyResourceLeveling(Tool):
             "created_date": datetime.now(timezone.utc).isoformat(),
         }
 
-        leveling_results.append(new_result)
+        data["leveling_results"][new_result["leveling_result_id"]] = new_result
         payload = {
                 "success": True,
                 "leveling_result": new_result,
@@ -2049,18 +2043,18 @@ class GetProjectTimeline(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        milestone_dependencies = data.get("milestone_dependencies", [])
-        projects = data.get("projects", [])
+        milestones = data.get("milestones", {}).values()
+        milestone_dependencies = data.get("milestone_dependencies", {}).values()
+        projects = data.get("projects", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project '{project_id}' not found"}
             out = json.dumps(payload)
             return out
 
         project_milestones = [
-            m for m in milestones if m.get("project_id") == project_id
+            m for m in milestones.values() if m.get("project_id") == project_id
         ]
 
         project_milestones.sort(key=lambda x: x.get("start_date"))
@@ -2073,7 +2067,7 @@ class GetProjectTimeline(Tool):
             "milestones": [],
         }
 
-        for milestone in project_milestones:
+        for milestone in project_milestones.values():
             milestone_info = {
                 "milestone_id": milestone.get("milestone_id"),
                 "milestone_name": milestone.get("milestone_name"),
@@ -2094,7 +2088,7 @@ class GetProjectTimeline(Tool):
 
             if include_dependencies:
                 deps = []
-                for dep in milestone_dependencies:
+                for dep in milestone_dependencies.values():
                     if dep.get("successor_id") == milestone.get("milestone_id"):
                         deps.append(
                             {
@@ -2109,22 +2103,22 @@ class GetProjectTimeline(Tool):
             timeline["milestones"].append(milestone_info)
 
         if project_milestones:
-            earliest_start = min(m.get("start_date") for m in project_milestones)
-            latest_end = max(m.get("target_date") for m in project_milestones)
+            earliest_start = min(m.get("start_date") for m in project_milestones.values()
+            latest_end = max(m.get("target_date") for m in project_milestones.values()
 
             timeline["timeline_metrics"] = {
                 "total_milestones": len(project_milestones),
                 "completed": len(
-                    [m for m in project_milestones if m.get("status") == "completed"]
+                    [m for m in project_milestones.values() if m.get("status") == "completed"]
                 ),
                 "in_progress": len(
-                    [m for m in project_milestones if m.get("status") == "in_progress"]
+                    [m for m in project_milestones.values() if m.get("status") == "in_progress"]
                 ),
                 "delayed": len(
-                    [m for m in project_milestones if m.get("status") == "delayed"]
+                    [m for m in project_milestones.values() if m.get("status") == "delayed"]
                 ),
                 "critical_path_count": len(
-                    [m for m in project_milestones if m.get("is_critical_path")]
+                    [m for m in project_milestones.values() if m.get("is_critical_path")]
                 ),
                 "timeline_span": f"{earliest_start} to {latest_end}",
                 "major_milestones_without_criteria": len(
@@ -2169,14 +2163,13 @@ class UpdateExternalDependencyStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        external_dependencies = data.get("external_dependencies", [])
-        milestones = data.get("milestones", [])
+        external_dependencies = data.get("external_dependencies", {}).values()
+        milestones = data.get("milestones", {}).values()
 
         dependency = next(
             (
                 d
-                for d in external_dependencies
-                if d.get("dependency_id") == dependency_id
+                for d in external_dependencies.values() if d.get("dependency_id") == dependency_id
             ),
             None,
         )
@@ -2204,8 +2197,7 @@ class UpdateExternalDependencyStatus(Tool):
                 milestone = next(
                     (
                         m
-                        for m in milestones
-                        if m.get("milestone_id") == dependency.get("milestone_id")
+                        for m in milestones.values() if m.get("milestone_id") == dependency.get("milestone_id")
                     ),
                     None,
                 )
@@ -2217,8 +2209,7 @@ class UpdateExternalDependencyStatus(Tool):
             milestone = next(
                 (
                     m
-                    for m in milestones
-                    if m.get("milestone_id") == dependency.get("milestone_id")
+                    for m in milestones.values() if m.get("milestone_id") == dependency.get("milestone_id")
                 ),
                 None,
             )
@@ -2281,11 +2272,11 @@ class CreateMilestoneFromTemplate(Tool):
             out = json.dumps(payload)
             return out
 
-        milestone_templates = data.get("milestone_templates", [])
-        milestones = data.get("milestones", [])
+        milestone_templates = data.get("milestone_templates", {}).values()
+        milestones = data.get("milestones", {}).values()
 
         template = next(
-            (t for t in milestone_templates if t.get("template_id") == template_id),
+            (t for t in milestone_templates.values() if t.get("template_id") == template_id),
             None,
         )
         if not template:
@@ -2334,7 +2325,7 @@ class CreateMilestoneFromTemplate(Tool):
             "resource_allocation": 100,
         }
 
-        milestones.append(new_milestone)
+        data["milestones"][milestone_id] = new_milestone
         payload = {
             "success": True,
             "milestone": new_milestone,
@@ -2391,12 +2382,12 @@ class ArchiveMilestone(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        archived_milestones = data.get("archived_milestones", [])
+        milestones = data.get("milestones", {}).values()
+        archived_milestones = data.get("archived_milestones", {}).values()
 
         milestone_index = None
         milestone_to_archive = None
-        for i, milestone in enumerate(milestones):
+        for i, milestone in enumerate(milestones.values():
             if milestone.get("milestone_id") == milestone_id:
                 milestone_index = i
                 milestone_to_archive = milestone
@@ -2415,7 +2406,7 @@ class ArchiveMilestone(Tool):
         milestones.pop(milestone_index)
 
         milestone_to_archive["archived_date"] = datetime.now(timezone.utc).isoformat()
-        archived_milestones.append(milestone_to_archive)
+        archived_data["milestones"][milestone_id] = milestone_to_archive
         payload = {
                 "success": True,
                 "archived_milestone": {
@@ -2450,19 +2441,19 @@ class ArchiveMilestone(Tool):
 class GetDelayedMilestones(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], project_id: str = None, include_recovery_plans: bool = False) -> str:
-        milestones = data.get("milestones", [])
-        recovery_plans = data.get("recovery_plans", [])
+        milestones = data.get("milestones", {}).values()
+        recovery_plans = data.get("recovery_plans", {}).values()
 
         if project_id:
             project_milestones = [
-                m for m in milestones if m.get("project_id") == project_id
+                m for m in milestones.values() if m.get("project_id") == project_id
             ]
         else:
             project_milestones = milestones
 
         delayed_milestones = []
 
-        for milestone in project_milestones:
+        for milestone in project_milestones.values():
 
             is_delayed = (
                 milestone.get("float_days", 0) < 0
@@ -2488,15 +2479,14 @@ class GetDelayedMilestones(Tool):
 
                     milestone_recovery_plans = [
                         rp
-                        for rp in recovery_plans
-                        if rp.get("milestone_id") == milestone.get("milestone_id")
+                        for rp in recovery_plans.values() if rp.get("milestone_id") == milestone.get("milestone_id")
                     ]
                     delayed_info["recovery_plans"] = milestone_recovery_plans
                     delayed_info["has_recovery_plan"] = (
                         len(milestone_recovery_plans) > 0
                     )
 
-                delayed_milestones.append(delayed_info)
+                delayed_data["milestones"][milestone_id] = delayed_info
 
         delayed_milestones.sort(key=lambda x: x["float_days"])
 
@@ -2509,7 +2499,7 @@ class GetDelayedMilestones(Tool):
                 "delayed_count": len(delayed_milestones),
                 "delayed_milestones": delayed_milestones,
                 "critical_delays": len(
-                    [m for m in delayed_milestones if m["is_critical_path"]]
+                    [m for m in delayed_milestones.values() if m["is_critical_path"]]
                 ),
                 "critical_delays_requiring_impact_analysis": len(
                     critical_delays_over_5
@@ -2551,12 +2541,12 @@ class ValidateMilestoneReadiness(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        milestone_dependencies = data.get("milestone_dependencies", [])
-        external_dependencies = data.get("external_dependencies", [])
+        milestones = data.get("milestones", {}).values()
+        milestone_dependencies = data.get("milestone_dependencies", {}).values()
+        external_dependencies = data.get("external_dependencies", {}).values()
 
         milestone = next(
-            (m for m in milestones if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
         )
         if not milestone:
             payload = {"error": f"Milestone '{milestone_id}' not found"}
@@ -2589,15 +2579,14 @@ class ValidateMilestoneReadiness(Tool):
                     )
 
         predecessor_deps = [
-            d for d in milestone_dependencies if d.get("successor_id") == milestone_id
+            d for d in milestone_dependencies.values() if d.get("successor_id") == milestone_id
         ]
         for dep in predecessor_deps:
             if dep.get("is_mandatory"):
                 pred_milestone = next(
                     (
                         m
-                        for m in milestones
-                        if m.get("milestone_id") == dep.get("predecessor_id")
+                        for m in milestones.values() if m.get("milestone_id") == dep.get("predecessor_id")
                     ),
                     None,
                 )
@@ -2612,7 +2601,7 @@ class ValidateMilestoneReadiness(Tool):
                     )
 
         ext_deps = [
-            d for d in external_dependencies if d.get("milestone_id") == milestone_id
+            d for d in external_dependencies.values() if d.get("milestone_id") == milestone_id
         ]
         for ext_dep in ext_deps:
             if ext_dep.get("status") not in ["delivered", "confirmed"]:
@@ -2691,21 +2680,21 @@ class GetScheduleVariance(Tool):
             out = json.dumps(payload)
             return out
 
-        milestones = data.get("milestones", [])
-        schedule_baselines = data.get("schedule_baselines", [])
+        milestones = data.get("milestones", {}).values()
+        schedule_baselines = data.get("schedule_baselines", {}).values()
 
         project_milestones = [
-            m for m in milestones if m.get("project_id") == project_id
+            m for m in milestones.values() if m.get("project_id") == project_id
         ]
 
         if baseline_id:
             baseline = next(
-                (b for b in schedule_baselines if b.get("baseline_id") == baseline_id),
+                (b for b in schedule_baselines.values() if b.get("baseline_id") == baseline_id),
                 None,
             )
         else:
             project_baselines = [
-                b for b in schedule_baselines if b.get("project_id") == project_id
+                b for b in schedule_baselines.values() if b.get("project_id") == project_id
             ]
             baseline = (
                 max(project_baselines, key=lambda x: x.get("created_date"))
@@ -2721,7 +2710,7 @@ class GetScheduleVariance(Tool):
         variance_analysis = []
         total_variance_days = 0
 
-        for milestone in project_milestones:
+        for milestone in project_milestones.values():
             baseline_snapshot = next(
                 (
                     s
@@ -2796,7 +2785,7 @@ class GetScheduleVariance(Tool):
         ]
         payload = {
                 "delayed_milestones": len(
-                    [v for v in variance_analysis if v["variance_days"] > 0]
+                    [v for v in variance_analysis.values() if v["variance_days"] > 0]
                 ),
                 "project_id": project_id,
                 "baseline_id": baseline.get("baseline_id"),
@@ -2806,17 +2795,17 @@ class GetScheduleVariance(Tool):
                 "summary": {
                     "total_milestones": len(variance_analysis),
                     "delayed_milestones": len(
-                        [v for v in variance_analysis if v["variance_days"] > 0]
+                        [v for v in variance_analysis.values() if v["variance_days"] > 0]
                     ),
                     "ahead_milestones": len(
-                        [v for v in variance_analysis if v["variance_days"] < 0]
+                        [v for v in variance_analysis.values() if v["variance_days"] < 0]
                     ),
                     "on_track_milestones": len(
-                        [v for v in variance_analysis if v["variance_days"] == 0]
+                        [v for v in variance_analysis.values() if v["variance_days"] == 0]
                     ),
                     "average_variance_days": round(avg_variance, 1),
                     "max_delay_days": max(
-                        (v["variance_days"] for v in variance_analysis), default=0
+                        (v["variance_days"] for v in variance_analysis.values()), default=0
                     ),
                     "milestones_requiring_executive_approval": len(requiring_approval),
                 },
@@ -2855,10 +2844,10 @@ class ApproveRecoveryPlan(Tool):
             out = json.dumps(payload)
             return out
 
-        recovery_plans = data.get("recovery_plans", [])
-        milestones = data.get("milestones", [])
+        recovery_plans = data.get("recovery_plans", {}).values()
+        milestones = data.get("milestones", {}).values()
 
-        plan = next((p for p in recovery_plans if p.get("plan_id") == plan_id), None)
+        plan = next((p for p in recovery_plans.values() if p.get("plan_id") == plan_id), None)
         if not plan:
             payload = {"error": f"Recovery plan '{plan_id}' not found"}
             out = json.dumps(payload)
@@ -2878,8 +2867,7 @@ class ApproveRecoveryPlan(Tool):
             milestone = next(
                 (
                     m
-                    for m in milestones
-                    if m.get("milestone_id") == plan.get("milestone_id")
+                    for m in milestones.values() if m.get("milestone_id") == plan.get("milestone_id")
                 ),
                 None,
             )

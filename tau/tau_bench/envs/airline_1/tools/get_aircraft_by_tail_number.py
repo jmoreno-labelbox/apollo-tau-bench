@@ -9,14 +9,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAircraftByTailNumber(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], tail_number: str) -> str:
-        aircraft_list = data.get("aircraft", [])
+        aircraft_list = data.get("aircraft", {}).values()
         for aircraft in aircraft_list:
             if aircraft.get("tail_number") == tail_number:
                 payload = aircraft

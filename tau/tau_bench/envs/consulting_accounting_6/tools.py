@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -35,7 +35,7 @@ class ListProjectsCatalog(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        payload = {"projects": data.get("projects", [])}
+        payload = {"projects": data.get("projects", {}).values()}
         out = json.dumps(payload, indent=2)
         return out
     @staticmethod
@@ -57,7 +57,7 @@ class FetchProjectCard(Tool):
     def invoke(data: dict[str, Any], project_id: str = None) -> str:
         pid = project_id
         row = next(
-            (p for p in data.get("projects", []) if p.get("project_id") == pid), None
+            (p for p in data.get("projects", {}).values() if p.get("project_id") == pid), None
         )
         if not row:
             payload = {"error": f"project_id '{pid}' not found"}
@@ -97,7 +97,7 @@ class AddProjectCard(Tool):
         account_code: str = None,
         is_active: bool = True
     ) -> str:
-        projects = data.get("projects", [])
+        projects = data.get("projects", {}).values()
         row = {
             "project_id": project_id,
             "publisher_id": publisher_id,
@@ -110,7 +110,7 @@ class AddProjectCard(Tool):
             "created_at": _now_iso(),
             "updated_at": _now_iso(),
         }
-        projects.append(row)
+        data["projects"][project_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -150,11 +150,11 @@ class MapHourlyRates(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], project_id_list: list[str] = None) -> str:
         project_ids = project_id_list or []
-        projects = _by_key(data.get("projects", []), "project_id")
+        projects = _by_key(data.get("projects", {}).values()), "project_id")
         rate_map = {
             pid: (
-                projects.get(pid, {}).get("override_hourly_rate")
-                or projects.get(pid, {}).get("default_hourly_rate")
+                projects.get(pid, {}).values().get("override_hourly_rate")
+                or projects.get(pid, {}).values().get("default_hourly_rate")
                 or 0
             )
             for pid in project_ids
@@ -197,7 +197,7 @@ class ReadTimeEntries(Tool):
         start = period_start
         end = period_end
         out = []
-        for t in data.get("time_entries", []) or []:
+        for t in data.get("time_entries", {}).values() or []:
             if prj_ids and t.get("project_id") not in prj_ids:
                 continue
             if start and t.get("entry_date", "") < start:
@@ -239,8 +239,7 @@ class AuditTimeEntries(Tool):
         rows = rows or []
         missing = [
             r
-            for r in rows
-            if not r.get("description")
+            for r in rows.values() if not r.get("description")
             or not r.get("isbn")
             or not r.get("account_code")
         ]
@@ -274,7 +273,7 @@ class AggregateHoursByISBN(Tool):
     def invoke(data: dict[str, Any], rows: list[dict[str, Any]] = None) -> str:
         rows = rows or []
         grouped: dict[str, float] = {}
-        for r in rows:
+        for r in rows.values():
             isbn = r.get("isbn")
             if not isbn:
                 continue
@@ -356,10 +355,10 @@ class CreateInvoiceRecord(Tool):
         total_due: float = None,
         pdf_path: str = None,
     ) -> str:
-        invoices = data.get("invoices", [])
+        invoices = data.get("invoices", {}).values()
         # Create sequential invoice IDs such as INV001, INV002 ...
         prefix, max_num = "INV", 0
-        for inv in invoices:
+        for inv in invoices.values():
             s = str(inv.get("invoice_id", ""))
             if s.startswith(prefix):
                 try:
@@ -383,7 +382,7 @@ class CreateInvoiceRecord(Tool):
             "paid_at": None,
             "created_at": _now_iso(),
         }
-        invoices.append(row)
+        data["invoices"][invoice_id] = row
         payload = {"invoice_id": new_id, "invoice_number": row["invoice_number"]}
         out = json.dumps(payload, indent=2)
         return out
@@ -428,15 +427,15 @@ class FetchInvoiceRecord(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], invoice_id: str = None, invoice_number: str = None) -> str:
-        invs = data.get("invoices", [])
+        invs = data.get("invoices", {}).values()
         row = None
         if invoice_id is not None:
             row = next(
-                (i for i in invs if str(i.get("invoice_id")) == str(invoice_id)), None
+                (i for i in invs.values() if str(i.get("invoice_id")) == str(invoice_id)), None
             )
         elif invoice_number:
             row = next(
-                (i for i in invs if i.get("invoice_number") == invoice_number), None
+                (i for i in invs.values() if i.get("invoice_number") == invoice_number), None
             )
         if not row:
             payload = {"error": "invoice not found"}
@@ -469,11 +468,11 @@ class CreateInvoiceLines(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], invoice_id: str = None, invoice_number: str = None, lines: list[dict[str, Any]] = None) -> str:
-        invoice_lines = data.get("invoice_lines", [])
-        invs = data.get("invoices", [])
+        invoice_lines = data.get("invoice_lines", {}).values()
+        invs = data.get("invoices", {}).values()
         if invoice_id is None and invoice_number:
             inv = next(
-                (i for i in invs if i.get("invoice_number") == invoice_number), None
+                (i for i in invs.values() if i.get("invoice_number") == invoice_number), None
             )
             if inv:
                 invoice_id = inv.get("invoice_id")
@@ -486,7 +485,7 @@ class CreateInvoiceLines(Tool):
 
         new_ids = []
         max_line_id = 0
-        for line in invoice_lines:
+        for line in invoice_lines.values():
             try:
                 max_line_id = max(max_line_id, int(line.get("invoice_line_id", 0)))
             except (ValueError, TypeError):
@@ -538,17 +537,17 @@ class ListInvoiceLinesByInvoice(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], invoice_id: str = None, invoice_number: str = None) -> str:
-        invs = data.get("invoices", [])
+        invs = data.get("invoices", {}).values()
         if invoice_id is None and invoice_number:
             inv = next(
-                (i for i in invs if i.get("invoice_number") == invoice_number), None
+                (i for i in invs.values() if i.get("invoice_number") == invoice_number), None
             )
             if inv:
                 invoice_id = inv.get("invoice_id")
         rows = (
             [
                 l
-                for l in data.get("invoice_lines", [])
+                for l in data.get("invoice_lines", {}).values()
                 if str(l.get("invoice_id")) == str(invoice_id)
             ]
             if invoice_id
@@ -580,10 +579,10 @@ class LogInvoiceEvent(Tool):
     """Add an audit record for an invoice (generated, emailed, etc.)."""
     @staticmethod
     def invoke(data: dict[str, Any], invoice_id: str = None, invoice_number: str = None, event_type: str = None, notes: str = None) -> str:
-        audits = data.get("invoice_audit", [])
+        audits = data.get("invoice_audit", {}).values()
         # Generate new audit IDs like AUD001, AUD002 ...
         prefix, max_num = "AUD", 0
-        for a in audits:
+        for a in audits.values():
             s = str(a.get("audit_id", ""))
             if s.startswith(prefix):
                 try:
@@ -599,7 +598,7 @@ class LogInvoiceEvent(Tool):
             "event_timestamp": _now_iso(),
             "notes": notes,
         }
-        audits.append(row)
+        data["invoice_audit"][row["invoice_audit_id"]] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -630,7 +629,7 @@ class ListInvoiceEvents(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], invoice_id: str = None, invoice_number: str = None) -> str:
         events = []
-        for a in data.get("invoice_audit", []) or []:
+        for a in data.get("invoice_audit", {}).values() or []:
             if invoice_id and str(a.get("invoice_id")) == str(invoice_id):
                 events.append(a)
             elif invoice_number and a.get("invoice_number") == invoice_number:
@@ -674,7 +673,7 @@ class DispatchInvoiceEmail(Tool):
             inv = next(
                 (
                     i
-                    for i in data.get("invoices", [])
+                    for i in data.get("invoices", {}).values()
                     if i.get("invoice_number") == invoice_number
                 ),
                 None,
@@ -726,9 +725,9 @@ class QueryInvoices(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], status: str = None, publisher_id: str = None, date_from: str = None, date_to: str = None) -> str:
-        rows = data.get("invoices", []) or []
+        rows = data.get("invoices", {}).values() or []
         out = []
-        for r in rows:
+        for r in rows.values():
             if status == "open" and r.get("paid_at") is not None:
                 continue
             if publisher_id and r.get("publisher_id") != publisher_id:
@@ -773,7 +772,7 @@ class FetchConsultantProfile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], consultant_id: str = None) -> str:
         row = next(
-            (c for c in data.get("consultants", []) if c.get("consultant_id") == consultant_id),
+            (c for c in data.get("consultants", {}).values() if c.get("consultant_id") == consultant_id),
             None,
         )
         if not row:
@@ -810,7 +809,7 @@ class MutateConsultantContact(Tool):
             if v is not None
         }
         row = next(
-            (c for c in data.get("consultants", []) if c.get("consultant_id") == consultant_id),
+            (c for c in data.get("consultants", {}).values() if c.get("consultant_id") == consultant_id),
             None,
         )
         if not row:
@@ -851,7 +850,7 @@ class FetchClientProfile(Tool):
     def invoke(data: dict[str, Any], publisher_id: str = None) -> str:
         pid = publisher_id
         row = next(
-            (p for p in data.get("publishers", []) if p.get("publisher_id") == pid),
+            (p for p in data.get("publishers", {}).values() if p.get("publisher_id") == pid),
             None,
         )
         if not row:
@@ -882,7 +881,7 @@ class AddClientProfile(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], publisher_id: str = None, name: str = None, address: str = None, contact_email: str = None, gst_number: str = None) -> str:
-        tbl = data.get("publishers", [])
+        tbl = data.get("publishers", {}).values()
         row = {
             "publisher_id": publisher_id,
             "name": name,
@@ -892,7 +891,7 @@ class AddClientProfile(Tool):
             "created_at": _now_iso(),
             "updated_at": _now_iso(),
         }
-        tbl.append(row)
+        data["publishers"][publisher_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -930,7 +929,7 @@ class MutateClientContact(Tool):
         gst_number: str = None
     ) -> str:
         row = next(
-            (p for p in data.get("publishers", []) if p.get("publisher_id") == publisher_id),
+            (p for p in data.get("publishers", {}).values() if p.get("publisher_id") == publisher_id),
             None,
         )
         if not row:
@@ -985,7 +984,7 @@ class DeriveDaysOutstanding(Tool):
         if invoices is None:
             invoices = []
         out = []
-        for r in invoices:
+        for r in invoices.values():
             due = r.get("period_end") or r.get("invoice_date")
             due_iso = due[:10] if isinstance(due, str) and len(due) > 10 else due
             ds = (datetime.fromisoformat(today) - datetime.fromisoformat(due_iso)).days
@@ -1064,11 +1063,11 @@ class SummarizeReceivablesByClient(Tool):
     def invoke(data: dict[str, Any], invoices: list[dict[str, Any]] = None) -> str:
         invoices = invoices or []
         summary: dict[str, dict[str, float]] = {}
-        for inv in invoices:
+        for inv in invoices.values():
             pid = inv.get("publisher_id")
             bucket = inv.get("aging_bucket", "0-30")
             amt = float(inv.get("total_due", 0))
-            summary.setdefault(pid, {})
+            summary.setdefault(pid, {}).values()
             summary[pid][bucket] = summary[pid].get(bucket, 0.0) + amt
         payload = {"summary_by_publisher": summary}
         out = json.dumps(payload, indent=2)
@@ -1096,13 +1095,13 @@ class DeriveCollectionKPIs(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], window_months: int = 12) -> str:
-        invs = data.get("invoices", []) or []
+        invs = data.get("invoices", {}).values() or []
         total_ar = sum(
-            float(i.get("total_due", 0)) for i in invs if i.get("paid_at") is None
+            float(i.get("total_due", 0)) for i in invs.values() if i.get("paid_at") is None
         )
         avg_daily_sales = round(
             (
-                sum(float(i.get("subtotal", 0)) for i in invs)
+                sum(float(i.get("subtotal", 0)) for i in invs.values()
                 / max(1, window_months * 30)
             ),
             2,
@@ -1177,9 +1176,9 @@ class CreateDashboardSnapshot(Tool):
         ytd_tax_reserve: float = None,
         pdf_path: str = None
     ) -> str:
-        snaps = data.get("dashboard_snapshots", [])
+        snaps = data.get("dashboard_snapshots", {}).values()
         max_id = 0
-        for s in snaps:
+        for s in snaps.values():
             try:
                 max_id = max(max_id, int(s.get("snapshot_id", 0)))
             except (ValueError, TypeError):
@@ -1192,7 +1191,7 @@ class CreateDashboardSnapshot(Tool):
             "ytd_tax_reserve": ytd_tax_reserve,
             "pdf_path": pdf_path,
         }
-        snaps.append(row)
+        data["dashboard_snapshots"][row["dashboard_snapshot_id"]] = row
         payload = {"snapshot_id": new_id, "snapshot_date": row["snapshot_date"]}
         out = json.dumps(
             payload, indent=2
@@ -1224,16 +1223,16 @@ class FetchDashboardSnapshot(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], snapshot_id: str = None, snapshot_date: str = None) -> str:
-        snaps = data.get("dashboard_snapshots", [])
+        snaps = data.get("dashboard_snapshots", {}).values()
         sid = snapshot_id
         sdate = snapshot_date
         row = None
         if sid is not None:
             row = next(
-                (s for s in snaps if str(s.get("snapshot_id")) == str(sid)), None
+                (s for s in snaps.values() if str(s.get("snapshot_id")) == str(sid)), None
             )
         elif sdate:
-            row = next((s for s in snaps if s.get("snapshot_date") == sdate), None)
+            row = next((s for s in snaps.values() if s.get("snapshot_date") == sdate), None)
         if not row:
             payload = {"error": "snapshot not found"}
             out = json.dumps(payload, indent=2)
@@ -1265,12 +1264,12 @@ class AppendProjectRevenueRows(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], snapshot_id: str = None, items: list = None) -> str:
-        rows_tbl = data.get("project_revenue", [])
+        rows_tbl = data.get("project_revenue", {}).values()
         items = items or []
         inserted = []
 
         max_id = 0
-        for r in rows_tbl:
+        for r in rows_tbl.values():
             try:
                 max_id = max(max_id, int(r.get("row_id", 0)))
             except (ValueError, TypeError):
@@ -1316,12 +1315,12 @@ class AppendMonthlyRevenueRows(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], snapshot_id: str = None, items: list[dict[str, Any]] = None) -> str:
-        rows_tbl = data.get("monthly_revenue", [])
+        rows_tbl = data.get("monthly_revenue", {}).values()
         items = items or []
         inserted = []
 
         max_id = 0
-        for r in rows_tbl:
+        for r in rows_tbl.values():
             try:
                 max_id = max(max_id, int(r.get("row_id", 0)))
             except (ValueError, TypeError):

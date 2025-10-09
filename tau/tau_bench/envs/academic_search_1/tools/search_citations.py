@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchCitations(Tool):
@@ -26,19 +26,18 @@ class SearchCitations(Tool):
             out = json.dumps(payload)
             return out
 
-        citations = data.get("citations", [])
+        citations = data.get("citations", {}).values()
         results = []
 
         if direction.lower() == "to":
             keyword = context_keyword.lower() if context_keyword else None
             results = [
                 c
-                for c in citations
-                if c.get("referenced_paper_id") == article_id
+                for c in citations.values() if c.get("referenced_paper_id") == article_id
                 and (not keyword or keyword in c.get("citation_context", "").lower())
             ]
         elif direction.lower() == "from":
-            results = [c for c in citations if c.get("source_article_id") == article_id]
+            results = [c for c in citations.values() if c.get("source_article_id") == article_id]
         else:
             payload = {"error": "Invalid direction. Must be 'to' or 'from'."}
             out = json.dumps(payload)

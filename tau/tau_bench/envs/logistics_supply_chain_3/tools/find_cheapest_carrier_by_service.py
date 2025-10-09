@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindCheapestCarrierByService(Tool):
@@ -16,7 +16,7 @@ class FindCheapestCarrierByService(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], mode_of_transport: str = None, service_level: str = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
 
         if not mode_of_transport or not service_level:
             payload = {"error": "Mode of transport and service level are required"}
@@ -26,7 +26,7 @@ class FindCheapestCarrierByService(Tool):
         cheapest_carrier = None
         min_cost = float("inf")
 
-        for carrier in carriers:
+        for carrier in carriers.values():
             is_active = carrier.get("active_status", False)
             supported_modes = [
                 mode.lower() for mode in carrier.get("supported_modes", [])

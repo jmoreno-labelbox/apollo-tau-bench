@@ -7,17 +7,17 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateTotalExpenditureTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], account_id: str, start_date: str = None, end_date: str = None, transaction_type: str = 'Purchase') -> str:
-        transactions = data.get('transactions', [])
+        transactions = data.get('transactions', {}).values()
         total = 0
         matching = []
 
-        for transaction in transactions:
+        for transaction in transactions.values():
             if transaction.get('account_id') != account_id:
                 continue
             if transaction.get('transaction_type') != transaction_type:

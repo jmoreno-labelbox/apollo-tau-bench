@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdatePlayerDetails(Tool):
@@ -32,10 +32,10 @@ class UpdatePlayerDetails(Tool):
             return out
 
         #2) Retrieve DB using provided data
-        players = data.get("players", [])
+        players = data.get("players", {}).values()
 
         #3) Locate and modify player
-        for player in players:
+        for player in players.values():
             if player.get("player_id") == player_id:
                 if primary_position is not None:
                     player["primary_position"] = primary_position

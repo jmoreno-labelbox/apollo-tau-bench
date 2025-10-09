@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GenerateNextCompReportUriTool(Tool):
@@ -21,7 +21,7 @@ class GenerateNextCompReportUriTool(Tool):
         pass
         # Locate the current maximum report_id
         max_id = 0
-        for r in data.get("comp_reports", []):
+        for r in data.get("comp_reports", {}).values():
             rid = _as_int(r.get("report_id") or r.get("id") or r.get("entity_id"))
             if rid is not None and rid > max_id:
                 max_id = rid

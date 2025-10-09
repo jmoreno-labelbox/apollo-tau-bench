@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CalculateTransactionTotals(Tool):
@@ -20,8 +20,8 @@ class CalculateTransactionTotals(Tool):
         if promotion_ids is None:
             promotion_ids = []
 
-        products = data.get("products", [])
-        promotions = data.get("promotions", [])
+        products = data.get("products", {}).values()
+        promotions = data.get("promotions", {}).values()
 
         subtotal = 0.0
         total_discount = 0.0
@@ -30,7 +30,7 @@ class CalculateTransactionTotals(Tool):
         for item in line_items:
             sku = item.get("sku")
             quantity = item.get("quantity")
-            product_details = next((p for p in products if p["sku"] == sku), None)
+            product_details = next((p for p in products.values() if p["sku"] == sku), None)
 
             if not product_details:
                 continue
@@ -43,7 +43,7 @@ class CalculateTransactionTotals(Tool):
 
             for promo_id in promotion_ids:
                 promo = next(
-                    (p for p in promotions if p["promotion_id"] == promo_id), None
+                    (p for p in promotions.values() if p["promotion_id"] == promo_id), None
                 )
                 if promo and sku in promo.get("applicable_skus", []):
                     if promo.get("type") == "percentage":

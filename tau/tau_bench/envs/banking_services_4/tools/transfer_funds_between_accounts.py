@@ -12,8 +12,8 @@ class TransferFundsBetweenAccounts(Tool):
 
         accounts = load_json("accounts.json")
 
-        from_account = next((acc for acc in accounts if acc["account_id"] == from_account_id), None)
-        to_account = next((acc for acc in accounts if acc["account_id"] == to_account_id), None)
+        from_account = next((acc for acc in accounts.values() if acc["account_id"] == from_account_id), None)
+        to_account = next((acc for acc in accounts.values() if acc["account_id"] == to_account_id), None)
 
         if from_account is None:
             return json.dumps({"error": f"from_account_id {from_account_id} not found"})

@@ -9,19 +9,19 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RenderOnboardingWelcome(Tool):
     @staticmethod
     def _candidate_exists(data: dict[str, Any], cand_id: str) -> bool:
         pass
-        return any(r.get("candidate_id") == cand_id for r in data.get("candidates", []))
+        return any(r.get("candidate_id") == cand_id for r in data.get("candidates", {}).values()
 
     @staticmethod
     def _get_template_text(data: dict[str, Any]) -> str:
         pass
-        for f in data.get("onboarding_files", []):
+        for f in data.get("onboarding_files", {}).values():
             if f.get("file_path") == TEMPLATE_WELCOME_PATH:
                 return f.get("content_text", "")
         return ""

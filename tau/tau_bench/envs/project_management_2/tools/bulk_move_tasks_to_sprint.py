@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class BulkMoveTasksToSprint(Tool):
@@ -23,12 +23,12 @@ class BulkMoveTasksToSprint(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        sprints = data.get("sprints", [])
-        teams = data.get("teams", [])
+        tasks = data.get("tasks", {}).values()
+        sprints = data.get("sprints", {}).values()
+        teams = data.get("teams", {}).values()
 
         sprint = next(
-            (s for s in sprints if s.get("sprint_id") == target_sprint_id), None
+            (s for s in sprints.values() if s.get("sprint_id") == target_sprint_id), None
         )
         if not sprint:
             payload = {"error": f"Sprint '{target_sprint_id}' not found"}
@@ -44,7 +44,7 @@ class BulkMoveTasksToSprint(Tool):
             return out
 
         team = next(
-            (t for t in teams if t.get("team_id") == sprint.get("team_id")), None
+            (t for t in teams.values() if t.get("team_id") == sprint.get("team_id")), None
         )
         if not team:
             payload = {"error": "Sprint team not found"}
@@ -55,8 +55,7 @@ class BulkMoveTasksToSprint(Tool):
 
         completed_sprints = [
             s
-            for s in sprints
-            if s.get("team_id") == team.get("team_id")
+            for s in sprints.values() if s.get("team_id") == team.get("team_id")
             and s.get("status") == "completed"
         ]
 
@@ -64,13 +63,13 @@ class BulkMoveTasksToSprint(Tool):
             recent_sprints = sorted(
                 completed_sprints, key=lambda x: x.get("end_date", ""), reverse=True
             )[:3]
-            avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints) / 3
+            avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints.values() / 3
             capacity_limit = avg_velocity * 0.8
         else:
             capacity_limit = len(team_members) * 20
 
-        sprint_tasks = [t for t in tasks if t.get("sprint_id") == target_sprint_id]
-        current_points = sum(t.get("story_points", 0) for t in sprint_tasks)
+        sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == target_sprint_id]
+        current_points = sum(t.get("story_points", 0) for t in sprint_tasks.values()
 
         moved_tasks = []
         failed_tasks = []
@@ -86,7 +85,7 @@ class BulkMoveTasksToSprint(Tool):
             )
 
         for task_id in task_ids:
-            task = next((t for t in tasks if t.get("task_id") == task_id), None)
+            task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
             if not task:
                 failed_tasks.append({"task_id": task_id, "reason": "Task not found"})
                 continue

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetReleaseDiffSummaryTool(Tool):
@@ -22,9 +22,9 @@ class GetReleaseDiffSummaryTool(Tool):
             out = json.dumps(payload)
             return out
 
-        diffs = data.get("release_diffs", [])
+        diffs = data.get("release_diffs", {}).values()
         adds = updates = removes = 0
-        for d in diffs:
+        for d in diffs.values():
             if d.get("release_id") != release_id:
                 continue
             t = d.get("change_type")

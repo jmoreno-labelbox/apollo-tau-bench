@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class get_open_positions(Tool):
@@ -16,13 +16,13 @@ class get_open_positions(Tool):
     def invoke(data: dict[str, Any], department_id: str = None, level: str = None) -> str:
         filled_position_ids = {
             e.get("position_id")
-            for e in data.get("employees", [])
+            for e in data.get("employees", {}).values()
             if e.get("status") == "Active"
         }
-        all_positions = data.get("positions", [])
+        all_positions = data.get("positions", {}).values()
 
         open_positions = [
-            p for p in all_positions if p.get("position_id") not in filled_position_ids
+            p for p in all_positions.values() if p.get("position_id") not in filled_position_ids
         ]
 
         if department_id:
@@ -30,7 +30,7 @@ class get_open_positions(Tool):
                 p for p in open_positions if p.get("department_id") == department_id
             ]
         if level:
-            open_positions = [p for p in open_positions if p.get("level_id") == level]
+            open_positions = [p for p in open_positions.values() if p.get("level_id") == level]
         payload = open_positions
         out = json.dumps(payload, indent=2)
         return out

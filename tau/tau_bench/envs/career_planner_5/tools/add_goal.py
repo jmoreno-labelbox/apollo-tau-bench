@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddGoal(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str, goal: dict[str, Any]) -> str:
         """Add a new goal to a user's profile."""
-        for entry in data.get("goals", []):
+        for entry in data.get("goals", {}).values():
             if entry["user_id"] == user_id:
                 entry["goals"].append(goal)
                 break

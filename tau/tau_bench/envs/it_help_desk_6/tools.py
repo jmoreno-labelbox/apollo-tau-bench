@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -743,7 +743,7 @@ class AssignLicense(Tool):
             return out
 
         #Alter the dictionary within the list directly
-        for item in data["license_inventory"]:
+        for item in data["license_inventory"].values():
             if item["license_id"] == license_id:
                 item["used_seats"] += 1
                 break
@@ -806,7 +806,7 @@ class RevokeLicense(Tool):
             return out
         #locate the current assignment
         row = None
-        for a in data["license_assignments"]:
+        for a in data["license_assignments"].values():
             if (
                 a["account_id"] == account_id
                 and a["employee_id"] == employee_id
@@ -999,7 +999,7 @@ class GetLicenseAssignments(Tool):
     ) -> str:
         pass
         results: list[dict[str, Any]] = []
-        for a in data["license_assignments"]:
+        for a in data["license_assignments"].values():
             if employee_id and a["employee_id"] != employee_id:
                 continue
             if account_id and a["account_id"] != account_id:
@@ -1040,7 +1040,7 @@ class FindAssets(Tool):
     ) -> str:
         pass
         results = []
-        for a in data["it_assets"]:
+        for a in data["it_assets"].values():
             if asset_type and a["asset_type"] != asset_type:
                 continue
             if status and a["status"] != status:
@@ -1419,7 +1419,7 @@ class FindTickets(Tool):
     ) -> str:
         pass
         results = []
-        for t in data["tickets"]:
+        for t in data["tickets"].values():
             if status and t["status"] != status:
                 continue
             if priority and t["priority"] != priority:
@@ -1464,7 +1464,7 @@ class TakeBacklogSnapshot(Tool):
     ) -> str:
         pass
         open_ids = [
-            t["ticket_id"] for t in data["tickets"] if t["status"] in statuses_in_scope
+            t["ticket_id"] for t in data["tickets"].values() if t["status"] in statuses_in_scope
         ]
         row = {
             "snapshot_id": snapshot_id,
@@ -1503,17 +1503,17 @@ class RecomputeDailyMetrics(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], date: str) -> str:
         pass
-        opened = len([t for t in data["tickets"] if t["opened_at"].startswith(date)])
+        opened = len([t for t in data["tickets"].values() if t["opened_at"].startswith(date)])
         closed = len(
             [
                 t
-                for t in data["tickets"]
+                for t in data["tickets"].values()
                 if t.get("closed_at") and t["closed_at"].startswith(date)
             ]
         )
         closed_24 = 0
         #Estimate: consider any closures on the same date as occurring within 24 hours
-        for t in data["tickets"]:
+        for t in data["tickets"].values():
             if (
                 t.get("closed_at")
                 and t["closed_at"].startswith(date)
@@ -1653,7 +1653,7 @@ class FindJiraTickets(Tool):
     ) -> str:
         pass
         results = []
-        for j in data["jira_tickets"]:
+        for j in data["jira_tickets"].values():
             if issue_type and j["issue_type"] != issue_type:
                 continue
             if status and j["status"] != status:
@@ -1875,7 +1875,7 @@ class GetAppAccounts(Tool):
     ) -> str:
         pass
         results = []
-        for a in data["app_accounts"]:
+        for a in data["app_accounts"].values():
             if a["employee_id"] != employee_id:
                 continue
             if app_id and a["app_id"] != app_id:

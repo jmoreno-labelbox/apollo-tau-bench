@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class apply_gmail_labels(Tool):
@@ -18,7 +18,7 @@ class apply_gmail_labels(Tool):
         add_labels: list[str],
         remove_labels: list[str],
     ) -> str:
-        threads = data.get("gmail_threads", [])
+        threads = data.get("gmail_threads", {}).values()
         for thread in threads:
             if thread.get("thread_id") == thread_id:
                 labels = set(thread.get("current_labels", []))

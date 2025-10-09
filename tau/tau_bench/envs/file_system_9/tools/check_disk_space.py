@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CheckDiskSpace(Tool):
@@ -15,7 +15,7 @@ class CheckDiskSpace(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], server_hostname: str = None) -> str:
-        for server in data.get("system_resources", []):
+        for server in data.get("system_resources", {}).values():
             if server.get("hostname") == server_hostname:
                 payload = server.get("disk")
                 out = json.dumps(payload)

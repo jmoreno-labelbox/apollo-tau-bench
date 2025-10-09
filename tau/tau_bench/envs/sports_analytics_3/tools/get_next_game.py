@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetNextGame(Tool):
@@ -37,7 +37,7 @@ class GetNextGame(Tool):
             return out
 
         #2) Retrieve DB
-        games: list[dict[str, Any]] = data.get("games", [])
+        games: list[dict[str, Any]] = data.get("games", {}).values()
 
         #3) Filter future games that are eligible
         def is_eligible(g: dict[str, Any]) -> bool:
@@ -49,7 +49,7 @@ class GetNextGame(Tool):
                 return True
             return g.get("home_team_id") == team_id or g.get("away_team_id") == team_id
 
-        future = [g for g in games if is_eligible(g)]
+        future = [g for g in games.values() if is_eligible(g)]
 
         if not future:
             target = (

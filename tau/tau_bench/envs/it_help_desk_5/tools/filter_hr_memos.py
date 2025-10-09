@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FilterHRMemos(Tool):
@@ -24,7 +24,7 @@ class FilterHRMemos(Tool):
 
         if first_name is None or last_name is None:
             if memo_type is not None:
-                temp_memos = [memo for memo in memos if memo["type"] == memo_type]
+                temp_memos = [memo for memo in memos.values() if memo["type"] == memo_type]
             else:
                 payload = {
                     "status": "error",
@@ -37,8 +37,7 @@ class FilterHRMemos(Tool):
         else:
             temp_memos = [
                 memo
-                for memo in memos
-                if memo["first_name"] == first_name and memo["last_name"] == last_name
+                for memo in memos.values() if memo["first_name"] == first_name and memo["last_name"] == last_name
             ]
 
         if len(temp_memos) == 0:

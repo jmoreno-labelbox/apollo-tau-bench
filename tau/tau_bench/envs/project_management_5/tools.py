@@ -11,7 +11,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -45,11 +45,11 @@ class CreateChangeRequest(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        projects = data.get("projects", [])
-        scope_baselines = data.get("scope_baselines", [])
+        change_requests = data.get("change_requests", {}).values()
+        projects = data.get("projects", {}).values()
+        scope_baselines = data.get("scope_baselines", {}).values()
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project '{project_id}' not found"}
             out = json.dumps(payload)
@@ -58,8 +58,7 @@ class CreateChangeRequest(Tool):
         project_baseline = next(
             (
                 b
-                for b in scope_baselines
-                if b.get("project_id") == project_id and b.get("status") == "approved"
+                for b in scope_baselines.values() if b.get("project_id") == project_id and b.get("status") == "approved"
             ),
             None,
         )
@@ -87,8 +86,7 @@ class CreateChangeRequest(Tool):
 
         active_crs = [
             cr
-            for cr in change_requests
-            if cr.get("project_id") == project_id
+            for cr in change_requests.values() if cr.get("project_id") == project_id
             and cr.get("status")
             in [
                 "draft",
@@ -113,8 +111,7 @@ class CreateChangeRequest(Tool):
 
         rejected_crs = [
             cr
-            for cr in change_requests
-            if cr.get("project_id") == project_id
+            for cr in change_requests.values() if cr.get("project_id") == project_id
             and cr.get("status") == "rejected"
             and cr.get("requester_id") == requester_id
         ]
@@ -172,9 +169,9 @@ class CreateChangeRequest(Tool):
             "approvals_received": [],
         }
 
-        change_requests.append(new_cr)
+        data["change_requests"][new_cr["change_request_id"]] = new_cr
 
-        change_history = data.get("change_history", [])
+        change_history = data.get("change_history", {}).values()
         history_entry = {
             "history_id": f"hist_ch_{uuid.uuid4().hex[:8]}",
             "cr_id": cr_id,
@@ -182,7 +179,7 @@ class CreateChangeRequest(Tool):
             "performed_by": requester_id,
             "timestamp": datetime.now().isoformat(),
         }
-        change_history.append(history_entry)
+        data["change_history"][history_entry["change_history_id"]] = history_entry
         payload = {"success": True, "change_request": new_cr}
         out = json.dumps(payload)
         return out
@@ -263,17 +260,17 @@ class PerformImpactAssessment(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        budgets = data.get("budgets", [])
+        change_requests = data.get("change_requests", {}).values()
+        budgets = data.get("budgets", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
             return out
 
         project_budget = next(
-            (b for b in budgets if b.get("project_id") == cr.get("project_id")), None
+            (b for b in budgets.values() if b.get("project_id") == cr.get("project_id")), None
         )
         budget_impact_percentage = 0
         if project_budget and budget_impact:
@@ -282,25 +279,23 @@ class PerformImpactAssessment(Tool):
                 (budget_impact / total_budget * 100) if total_budget > 0 else 0
             )
 
-        allocations = data.get("allocations", [])
+        allocations = data.get("allocations", {}).values()
         resource_conflicts = []
         for req in resource_requirements:
             emp_id = req.get("employee_id")
             emp_allocations = [
                 a
-                for a in allocations
-                if a.get("employee_id") == emp_id and a.get("status") == "active"
+                for a in allocations.values() if a.get("employee_id") == emp_id and a.get("status") == "active"
             ]
-            total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations)
+            total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values()
             if total_hours + req.get("hours_per_week", 0) > 40:
                 resource_conflicts.append(emp_id)
 
-        critical_paths = data.get("critical_paths", [])
+        critical_paths = data.get("critical_paths", {}).values()
         project_critical_path = next(
             (
                 cp
-                for cp in critical_paths
-                if cp.get("project_id") == cr.get("project_id")
+                for cp in critical_paths.values() if cp.get("project_id") == cr.get("project_id")
             ),
             None,
         )
@@ -424,11 +419,11 @@ class UpdateChangeRequestStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        change_history = data.get("change_history", [])
-        risk_assessments = data.get("risk_assessments", [])
+        change_requests = data.get("change_requests", {}).values()
+        change_history = data.get("change_history", {}).values()
+        risk_assessments = data.get("risk_assessments", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
@@ -464,13 +459,13 @@ class UpdateChangeRequestStatus(Tool):
             return out
 
         if new_status == "pending_approval":
-            impact = cr.get("impact_assessment", {})
+            impact = cr.get("impact_assessment", {}).values()
             if impact.get("affects_critical_path") or impact.get("overall_risk") in [
                 "high",
                 "critical",
             ]:
                 has_risk_assessment = any(
-                    ra.get("cr_id") == cr_id for ra in risk_assessments
+                    ra.get("cr_id") == cr_id for ra in risk_assessments.values()
                 )
                 if not has_risk_assessment:
                     payload = {
@@ -481,7 +476,7 @@ class UpdateChangeRequestStatus(Tool):
                     return out
 
                 risk_assessment = next(
-                    (ra for ra in risk_assessments if ra.get("cr_id") == cr_id), None
+                    (ra for ra in risk_assessments.values() if ra.get("cr_id") == cr_id), None
                 )
                 if risk_assessment:
                     if not all(
@@ -524,7 +519,7 @@ class UpdateChangeRequestStatus(Tool):
             "performed_by": performed_by,
             "timestamp": datetime.now().isoformat(),
         }
-        change_history.append(history_entry)
+        data["change_history"][history_entry["change_history_id"]] = history_entry
 
         if new_status == "approved":
             cr["artifacts_pending"] = [
@@ -580,19 +575,19 @@ class ProcessEmergencyChange(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        emergency_logs = data.get("emergency_logs", [])
-        approval_workflows = data.get("approval_workflows", [])
-        stakeholders = data.get("stakeholders", [])
+        change_requests = data.get("change_requests", {}).values()
+        emergency_logs = data.get("emergency_logs", {}).values()
+        approval_workflows = data.get("approval_workflows", {}).values()
+        stakeholders = data.get("stakeholders", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
             return out
 
         authorizer = next(
-            (s for s in stakeholders if s.get("stakeholder_id") == authorized_by), None
+            (s for s in stakeholders.values() if s.get("stakeholder_id") == authorized_by), None
         )
         if not authorizer or "emergency" not in str(
             authorizer.get("approval_authority", [])
@@ -625,7 +620,7 @@ class ProcessEmergencyChange(Tool):
             "requires_automatic_rollback": True,
         }
 
-        emergency_logs.append(emergency_log)
+        data["emergency_logs"][emergency_log_id] = emergency_log
 
         cr["status"] = "approved"
         cr["approval_date"] = current_time.isoformat()
@@ -658,7 +653,7 @@ class ProcessEmergencyChange(Tool):
             "retroactive_deadline": retroactive_approval_deadline,
         }
 
-        approval_workflows.append(emergency_workflow)
+        data["approval_workflows"][emergency_workflow["approval_workflow_id"]] = emergency_workflow
         payload = {
             "success": True,
             "emergency_approval": {
@@ -725,11 +720,11 @@ class RecordRetroactiveApproval(Tool):
             out = json.dumps(payload)
             return out
 
-        emergency_logs = data.get("emergency_logs", [])
-        change_requests = data.get("change_requests", [])
+        emergency_logs = data.get("emergency_logs", {}).values()
+        change_requests = data.get("change_requests", {}).values()
 
         log = next(
-            (e for e in emergency_logs if e.get("log_id") == emergency_log_id), None
+            (e for e in emergency_logs.values() if e.get("log_id") == emergency_log_id), None
         )
         if not log:
             payload = {"error": f"Emergency log '{emergency_log_id}' not found"}
@@ -754,7 +749,7 @@ class RecordRetroactiveApproval(Tool):
             log["rollback_trigger_date"] = current_time.isoformat()
 
             cr = next(
-                (c for c in change_requests if c.get("cr_id") == log.get("cr_id")), None
+                (c for c in change_requests.values() if c.get("cr_id") == log.get("cr_id")), None
             )
             if cr:
                 cr["requires_rollback"] = True
@@ -783,7 +778,7 @@ class RecordRetroactiveApproval(Tool):
             log["rejection_comments"] = comments
 
             cr = next(
-                (c for c in change_requests if c.get("cr_id") == log.get("cr_id")), None
+                (c for c in change_requests.values() if c.get("cr_id") == log.get("cr_id")), None
             )
             if cr:
                 cr["requires_rollback"] = True
@@ -845,9 +840,9 @@ class CheckChangeConflicts(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
+        change_requests = data.get("change_requests", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
@@ -859,8 +854,7 @@ class CheckChangeConflicts(Tool):
         if compare_to_cr_id:
             active_crs = [
                 c
-                for c in change_requests
-                if c.get("project_id") == project_id
+                for c in change_requests.values() if c.get("project_id") == project_id
                 and c.get("cr_id") == compare_to_cr_id
                 and c.get("status")
                 in ["pending_approval", "in_review", "approved", "draft"]
@@ -868,8 +862,7 @@ class CheckChangeConflicts(Tool):
         else:
             active_crs = [
                 c
-                for c in change_requests
-                if c.get("project_id") == project_id
+                for c in change_requests.values() if c.get("project_id") == project_id
                 and c.get("cr_id") != cr_id
                 and c.get("status")
                 in ["pending_approval", "in_review", "approved", "draft"]
@@ -940,7 +933,7 @@ class CheckChangeConflicts(Tool):
                         }
                     )
 
-        has_rule_violations = any(c.get("rule_violation") for c in conflicts)
+        has_rule_violations = any(c.get("rule_violation") for c in conflicts.values()
         payload = {
                 "cr_id": cr_id,
                 "conflicts_found": len(conflicts),
@@ -1021,8 +1014,8 @@ class SaveChangeRequestsConflicts(Tool):
         if recommendation:
             conflict_cr_id_1["recommendation"] = recommendation
 
-        change_requests = data.get("change_requests", [])
-        for change_request in change_requests:
+        change_requests = data.get("change_requests", {}).values()
+        for change_request in change_requests.values():
             if change_request.get("cr_id") == cr_id:
                 if "conflicts" in change_request:
                     change_request["conflicts"].append(conflict_cr_id_1)
@@ -1105,12 +1098,12 @@ class ValidateChangeCompliance(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        emergency_logs = data.get("emergency_logs", [])
-        risk_assessments = data.get("risk_assessments", [])
-        scope_baselines = data.get("scope_baselines", [])
+        change_requests = data.get("change_requests", {}).values()
+        emergency_logs = data.get("emergency_logs", {}).values()
+        risk_assessments = data.get("risk_assessments", {}).values()
+        scope_baselines = data.get("scope_baselines", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
@@ -1149,8 +1142,8 @@ class ValidateChangeCompliance(Tool):
                     violations.append("Missing impact assessment")
 
             elif check == "has_risk_assessment":
-                risk_assessments = data.get("risk_assessments", [])
-                has_risk = any(ra.get("cr_id") == cr_id for ra in risk_assessments)
+                risk_assessments = data.get("risk_assessments", {}).values()
+                has_risk = any(ra.get("cr_id") == cr_id for ra in risk_assessments.values()
                 if cr.get("priority") in ["high", "critical"] and not has_risk:
                     warnings.append("High priority change without risk assessment")
 
@@ -1190,8 +1183,7 @@ class ValidateChangeCompliance(Tool):
                 project_baseline = next(
                     (
                         b
-                        for b in scope_baselines
-                        if b.get("project_id") == cr.get("project_id")
+                        for b in scope_baselines.values() if b.get("project_id") == cr.get("project_id")
                         and b.get("status") == "approved"
                     ),
                     None,
@@ -1224,7 +1216,7 @@ class ValidateChangeCompliance(Tool):
             elif check == "emergency_deadlines_met":
                 if cr.get("requires_emergency_approval"):
                     log = next(
-                        (e for e in emergency_logs if e.get("cr_id") == cr_id), None
+                        (e for e in emergency_logs.values() if e.get("cr_id") == cr_id), None
                     )
                     if log:
                         current_time = datetime.now()
@@ -1262,7 +1254,7 @@ class ValidateChangeCompliance(Tool):
                         and cr.get("status") != "draft"
                     ):
                         risk_assessment = next(
-                            (ra for ra in risk_assessments if ra.get("cr_id") == cr_id),
+                            (ra for ra in risk_assessments.values() if ra.get("cr_id") == cr_id),
                             None,
                         )
                         if not risk_assessment:
@@ -1332,11 +1324,11 @@ class CreateApprovalWorkflow(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        approval_workflows = data.get("approval_workflows", [])
-        stakeholders = data.get("stakeholders", [])
+        change_requests = data.get("change_requests", {}).values()
+        approval_workflows = data.get("approval_workflows", {}).values()
+        stakeholders = data.get("stakeholders", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
@@ -1366,7 +1358,7 @@ class CreateApprovalWorkflow(Tool):
                 mapping = approval_mapping[approval_level]
 
                 approver = next(
-                    (s for s in stakeholders if mapping["role"] in s.get("role", "")),
+                    (s for s in stakeholders.values() if mapping["role"] in s.get("role", "")),
                     None,
                 )
 
@@ -1395,7 +1387,7 @@ class CreateApprovalWorkflow(Tool):
             "created_date": datetime.now().isoformat(),
         }
 
-        approval_workflows.append(new_workflow)
+        data["approval_workflows"][new_workflow["approval_workflow_id"]] = new_workflow
 
         if cr.get("status") == "pending_approval" and not steps:
             cr["status"] = "approved"
@@ -1433,10 +1425,10 @@ class CheckWorkflowExistsForChangeRequest(Tool):
             out = json.dumps(payload)
             return out
 
-        approval_workflows = data.get("approval_workflows", [])
+        approval_workflows = data.get("approval_workflows", {}).values()
 
         existing = next(
-            (w for w in approval_workflows if w.get("cr_id") == cr_id), None
+            (w for w in approval_workflows.values() if w.get("cr_id") == cr_id), None
         )
         if existing:
             payload = {"success": True, "exists": True}
@@ -1486,11 +1478,11 @@ class RecordApprovalDecision(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        approval_workflows = data.get("approval_workflows", [])
-        change_approvals = data.get("change_approvals", [])
+        change_requests = data.get("change_requests", {}).values()
+        approval_workflows = data.get("approval_workflows", {}).values()
+        change_approvals = data.get("change_approvals", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
@@ -1499,8 +1491,7 @@ class RecordApprovalDecision(Tool):
         workflow = next(
             (
                 w
-                for w in approval_workflows
-                if w.get("cr_id") == cr_id and w.get("status") == "active"
+                for w in approval_workflows.values() if w.get("cr_id") == cr_id and w.get("status") == "active"
             ),
             None,
         )
@@ -1539,7 +1530,7 @@ class RecordApprovalDecision(Tool):
             "action_date": datetime.now().isoformat(),
         }
 
-        change_approvals.append(approval_record)
+        data["change_approvals"][approval_record["change_approval_id"]] = approval_record
 
         current_step["status"] = "approved" if decision != "reject" else "rejected"
         current_step["action_date"] = datetime.now().isoformat()
@@ -1623,10 +1614,10 @@ class SearchChangeRequests(Tool):
         requester_id: str = None,
         include_impact: bool = False
     ) -> str:
-        change_requests = data.get("change_requests", [])
+        change_requests = data.get("change_requests", {}).values()
         results = []
 
-        for cr in change_requests:
+        for cr in change_requests.values():
             match = True
 
             if project_id and cr.get("project_id") != project_id:
@@ -1644,7 +1635,7 @@ class SearchChangeRequests(Tool):
                 result = cr.copy()
                 if not include_impact and "impact_assessment" in result:
                     result["has_impact_assessment"] = True
-                    result["overall_risk"] = cr.get("impact_assessment", {}).get(
+                    result["overall_risk"] = cr.get("impact_assessment", {}).values().get(
                         "overall_risk"
                     )
                     del result["impact_assessment"]
@@ -1710,10 +1701,10 @@ class TrackArtifactUpdates(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        artifact_updates = data.get("artifact_updates", [])
+        change_requests = data.get("change_requests", {}).values()
+        artifact_updates = data.get("artifact_updates", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
@@ -1737,7 +1728,7 @@ class TrackArtifactUpdates(Tool):
             "update_date": datetime.now().isoformat(),
         }
 
-        artifact_updates.append(artifact_update)
+        data["artifact_updates"][artifact_update["artifact_update_id"]] = artifact_update
 
         if "artifacts_updated" not in cr:
             cr["artifacts_updated"] = []
@@ -1834,13 +1825,12 @@ class CreateScopeBaseline(Tool):
             out = json.dumps(payload)
             return out
 
-        scope_baselines = data.get("scope_baselines", [])
+        scope_baselines = data.get("scope_baselines", {}).values()
 
         existing = next(
             (
                 b
-                for b in scope_baselines
-                if b.get("project_id") == project_id and b.get("status") == "approved"
+                for b in scope_baselines.values() if b.get("project_id") == project_id and b.get("status") == "approved"
             ),
             None,
         )
@@ -1854,7 +1844,7 @@ class CreateScopeBaseline(Tool):
         if baseline_id is None:
             baseline_id = f"bl_{uuid.uuid4().hex[:8]}"
 
-        total_hours = sum(d.get("estimated_hours", 0) for d in deliverables)
+        total_hours = sum(d.get("estimated_hours", 0) for d in deliverables.values()
 
         new_baseline = {
             "baseline_id": baseline_id,
@@ -1877,7 +1867,7 @@ class CreateScopeBaseline(Tool):
             "change_history": [],
         }
 
-        scope_baselines.append(new_baseline)
+        data["scope_baselines"][new_baseline["scope_baseline_id"]] = new_baseline
         payload = {"success": True, "baseline": new_baseline}
         out = json.dumps(payload)
         return out
@@ -1950,16 +1940,15 @@ class CompareAgainstBaseline(Tool):
             out = json.dumps(payload)
             return out
 
-        scope_baselines = data.get("scope_baselines", [])
-        change_requests = data.get("change_requests", [])
-        deliverables = data.get("deliverables", [])
+        scope_baselines = data.get("scope_baselines", {}).values()
+        change_requests = data.get("change_requests", {}).values()
+        deliverables = data.get("deliverables", {}).values()
 
         if baseline_version:
             baseline = next(
                 (
                     b
-                    for b in scope_baselines
-                    if b.get("project_id") == project_id
+                    for b in scope_baselines.values() if b.get("project_id") == project_id
                     and b.get("version") == baseline_version
                 ),
                 None,
@@ -1968,8 +1957,7 @@ class CompareAgainstBaseline(Tool):
             baseline = next(
                 (
                     b
-                    for b in scope_baselines
-                    if b.get("project_id") == project_id
+                    for b in scope_baselines.values() if b.get("project_id") == project_id
                     and b.get("status") == "approved"
                 ),
                 None,
@@ -1983,8 +1971,7 @@ class CompareAgainstBaseline(Tool):
         baseline_date = baseline.get("approved_date", baseline.get("created_date"))
         approved_changes = [
             cr
-            for cr in change_requests
-            if cr.get("project_id") == project_id
+            for cr in change_requests.values() if cr.get("project_id") == project_id
             and cr.get("status") == "approved"
             and cr.get("approval_date", "") > baseline_date
         ]
@@ -1999,7 +1986,7 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": cr.get("impact_assessment", {}),
+                        "impact": cr.get("impact_assessment", {}).values()),
                     }
                 )
             elif cr.get("change_type") == "scope_reduction":
@@ -2007,7 +1994,7 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": cr.get("impact_assessment", {}),
+                        "impact": cr.get("impact_assessment", {}).values()),
                     }
                 )
             elif cr.get("change_type") == "requirement_change":
@@ -2015,16 +2002,16 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": cr.get("impact_assessment", {}),
+                        "impact": cr.get("impact_assessment", {}).values()),
                     }
                 )
 
         total_budget_impact = sum(
-            cr.get("impact_assessment", {}).get("budget_impact", 0)
+            cr.get("impact_assessment", {}).values().get("budget_impact", 0)
             for cr in approved_changes
         )
         total_timeline_impact = sum(
-            cr.get("impact_assessment", {}).get("timeline_impact_weeks", 0)
+            cr.get("impact_assessment", {}).values().get("timeline_impact_weeks", 0)
             for cr in approved_changes
         )
 
@@ -2033,8 +2020,7 @@ class CompareAgainstBaseline(Tool):
         ]
         current_deliverable_ids = [
             d.get("deliverable_id")
-            for d in deliverables
-            if d.get("project_id") == project_id
+            for d in deliverables.values() if d.get("project_id") == project_id
         ]
 
         added_deliverables = list(
@@ -2115,15 +2101,14 @@ class ScheduleChangeReview(Tool):
             out = json.dumps(payload)
             return out
 
-        change_reviews = data.get("change_reviews", [])
-        change_requests = data.get("change_requests", [])
-        emergency_logs = data.get("emergency_logs", [])
+        change_reviews = data.get("change_reviews", {}).values()
+        change_requests = data.get("change_requests", {}).values()
+        emergency_logs = data.get("emergency_logs", {}).values()
 
         existing = next(
             (
                 r
-                for r in change_reviews
-                if r.get("project_id") == project_id
+                for r in change_reviews.values() if r.get("project_id") == project_id
                 and r.get("review_date") == review_date
             ),
             None,
@@ -2135,24 +2120,22 @@ class ScheduleChangeReview(Tool):
 
         pending_changes = [
             cr
-            for cr in change_requests
-            if cr.get("project_id") == project_id
+            for cr in change_requests.values() if cr.get("project_id") == project_id
             and cr.get("status") in ["pending_approval", "in_review"]
         ]
 
         approved_changes = [
             cr
-            for cr in change_requests
-            if cr.get("project_id") == project_id and cr.get("status") == "approved"
+            for cr in change_requests.values() if cr.get("project_id") == project_id and cr.get("status") == "approved"
         ]
 
         emergency_changes_pending = []
-        for cr in change_requests:
+        for cr in change_requests.values()):
             if cr.get("project_id") == project_id and cr.get(
                 "requires_emergency_approval"
             ):
                 log = next(
-                    (e for e in emergency_logs if e.get("cr_id") == cr.get("cr_id")),
+                    (e for e in emergency_logs.values() if e.get("cr_id") == cr.get("cr_id")),
                     None,
                 )
                 if log and log.get("retroactive_status") == "pending":
@@ -2228,7 +2211,7 @@ class ScheduleChangeReview(Tool):
             t for t in new_review["agenda"]["topics"] if t
         ]
 
-        change_reviews.append(new_review)
+        change_data["reviews"][review_id] = new_review
         payload = {"success": True, "review": new_review}
         out = json.dumps(payload)
         return out
@@ -2280,10 +2263,10 @@ class CalculateCumulativeImpact(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
+        change_requests = data.get("change_requests", {}).values()
 
         project_crs = [
-            cr for cr in change_requests if cr.get("project_id") == project_id
+            cr for cr in change_requests.values() if cr.get("project_id") == project_id
         ]
 
         if from_date:
@@ -2298,7 +2281,7 @@ class CalculateCumulativeImpact(Tool):
                 if cr.get("status") in ["approved", "pending_approval", "in_review"]
             ]
         else:
-            relevant_crs = [cr for cr in project_crs if cr.get("status") == "approved"]
+            relevant_crs = [cr for cr in project_crs.values() if cr.get("status") == "approved"]
 
         total_budget_impact = 0
         total_timeline_impact = 0
@@ -2358,10 +2341,10 @@ class CalculateCumulativeImpact(Tool):
                 "change_summary": {
                     "total_changes": len(relevant_crs),
                     "approved": len(
-                        [cr for cr in relevant_crs if cr.get("status") == "approved"]
+                        [cr for cr in relevant_crs.values() if cr.get("status") == "approved"]
                     ),
                     "pending": len(
-                        [cr for cr in relevant_crs if cr.get("status") != "approved"]
+                        [cr for cr in relevant_crs.values() if cr.get("status") != "approved"]
                     ),
                     "by_type": {
                         "scope_additions": scope_additions,
@@ -2432,13 +2415,13 @@ class GenerateChangeReport(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        change_approvals = data.get("change_approvals", [])
-        projects = data.get("projects", [])
-        emergency_logs = data.get("emergency_logs", [])
+        change_requests = data.get("change_requests", {}).values()
+        change_approvals = data.get("change_approvals", {}).values()
+        projects = data.get("projects", {}).values()
+        emergency_logs = data.get("emergency_logs", {}).values()
         report = {}
 
-        project = next((p for p in projects if p.get("project_id") == project_id), None)
+        project = next((p for p in projects.values() if p.get("project_id") == project_id), None)
         if not project:
             payload = {"error": f"Project '{project_id}' not found"}
             out = json.dumps(payload)
@@ -2458,7 +2441,7 @@ class GenerateChangeReport(Tool):
                 return None
 
         project_crs = [
-            cr for cr in change_requests if cr.get("project_id") == project_id
+            cr for cr in change_requests.values() if cr.get("project_id") == project_id
         ]
 
         if report_type == "summary":
@@ -2492,8 +2475,7 @@ class GenerateChangeReport(Tool):
                     log = next(
                         (
                             e
-                            for e in emergency_logs
-                            if e.get("cr_id") == cr.get("cr_id")
+                            for e in emergency_logs.values() if e.get("cr_id") == cr.get("cr_id")
                         ),
                         None,
                     )
@@ -2617,7 +2599,7 @@ class GenerateChangeReport(Tool):
                         }
 
                     cr_approvals = [
-                        a for a in change_approvals if a.get("cr_id") == cr.get("cr_id")
+                        a for a in change_approvals.values() if a.get("cr_id") == cr.get("cr_id")
                     ]
                     cr_detail["approvals"] = [
                         {
@@ -2643,10 +2625,10 @@ class GenerateChangeReport(Tool):
             missing_risk_assessments = 0
             non_compliant_items = []
 
-            scope_baselines = data.get("scope_baselines", [])
+            scope_baselines = data.get("scope_baselines", {}).values()
             baseline_exists = any(
                 b.get("project_id") == project_id and b.get("status") == "approved"
-                for b in scope_baselines
+                for b in scope_baselines.values()
             )
             no_baseline = not baseline_exists
 
@@ -2688,8 +2670,7 @@ class GenerateChangeReport(Tool):
                     log = next(
                         (
                             e
-                            for e in emergency_logs
-                            if e.get("cr_id") == cr.get("cr_id")
+                            for e in emergency_logs.values() if e.get("cr_id") == cr.get("cr_id")
                         ),
                         None,
                     )
@@ -2742,17 +2723,17 @@ class CreateRiskAssessment(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        risk_assessments = data.get("risk_assessments", [])
+        change_requests = data.get("change_requests", {}).values()
+        risk_assessments = data.get("risk_assessments", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
             return out
 
         if cr.get("requires_risk_assessment") or (
-            cr.get("impact_assessment", {}).get("affects_critical_path")
+            cr.get("impact_assessment", {}).values().get("affects_critical_path")
         ):
             if not mitigation_strategies:
                 payload = {
@@ -2817,7 +2798,7 @@ class CreateRiskAssessment(Tool):
             "monitoring_frequency": monitoring_frequency,
         }
 
-        risk_assessments.append(risk_assessment)
+        data["risk_assessments"][risk_assessment["risk_assessment_id"]] = risk_assessment
 
         if cr.get("status") == "in_review":
             cr["risk_assessment_id"] = assessment_id
@@ -2877,12 +2858,12 @@ class LinkChangeToMilestone(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        milestones = data.get("milestones", [])
+        change_requests = data.get("change_requests", {}).values()
+        milestones = data.get("milestones", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         milestone = next(
-            (m for m in milestones if m.get("milestone_id") == milestone_id), None
+            (m for m in milestones.values() if m.get("milestone_id") == milestone_id), None
         )
 
         if not cr:
@@ -2967,10 +2948,10 @@ class ApproveBaselineUpdate(Tool):
             out = json.dumps(payload)
             return out
 
-        scope_baselines = data.get("scope_baselines", [])
+        scope_baselines = data.get("scope_baselines", {}).values()
 
         baseline = next(
-            (b for b in scope_baselines if b.get("baseline_id") == baseline_id), None
+            (b for b in scope_baselines.values() if b.get("baseline_id") == baseline_id), None
         )
         if not baseline:
             payload = {"error": f"Baseline '{baseline_id}' not found"}
@@ -2999,8 +2980,7 @@ class ApproveBaselineUpdate(Tool):
         existing_approved = next(
             (
                 b
-                for b in scope_baselines
-                if b.get("project_id") == project_id
+                for b in scope_baselines.values() if b.get("project_id") == project_id
                 and b.get("status") == "approved"
                 and b.get("baseline_id") != baseline_id
             ),
@@ -3029,8 +3009,8 @@ class ApproveBaselineUpdate(Tool):
             }
         )
 
-        change_requests = data.get("change_requests", [])
-        for cr in change_requests:
+        change_requests = data.get("change_requests", {}).values()
+        for cr in change_requests.values():
             if cr.get("project_id") == project_id and cr.get("status") in [
                 "completed",
                 "approved",
@@ -3085,11 +3065,11 @@ class EscalateChangeRequest(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        approval_workflows = data.get("approval_workflows", [])
-        change_history = data.get("change_history", [])
+        change_requests = data.get("change_requests", {}).values()
+        approval_workflows = data.get("approval_workflows", {}).values()
+        change_history = data.get("change_history", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
@@ -3108,8 +3088,7 @@ class EscalateChangeRequest(Tool):
         workflow = next(
             (
                 w
-                for w in approval_workflows
-                if w.get("cr_id") == cr_id and w.get("status") == "active"
+                for w in approval_workflows.values() if w.get("cr_id") == cr_id and w.get("status") == "active"
             ),
             None,
         )
@@ -3138,7 +3117,7 @@ class EscalateChangeRequest(Tool):
             "priority_change": f"{old_priority} -> {cr.get('priority')}",
             "timestamp": datetime.now().isoformat(),
         }
-        change_history.append(history_entry)
+        data["change_history"][history_entry["change_history_id"]] = history_entry
         payload = {
             "success": True,
             "escalation": {
@@ -3192,11 +3171,11 @@ class MergeChangeRequests(Tool):
                 payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        change_history = data.get("change_history", [])
+        change_requests = data.get("change_requests", {}).values()
+        change_history = data.get("change_history", {}).values()
 
         primary_cr = next(
-            (c for c in change_requests if c.get("cr_id") == primary_cr_id), None
+            (c for c in change_requests.values() if c.get("cr_id") == primary_cr_id), None
         )
         if not primary_cr:
             payload = {"error": f"Primary change request '{primary_cr_id}' not found"}
@@ -3210,7 +3189,7 @@ class MergeChangeRequests(Tool):
 
         for cr_id in secondary_cr_ids:
             secondary_cr = next(
-                (c for c in change_requests if c.get("cr_id") == cr_id), None
+                (c for c in change_requests.values() if c.get("cr_id") == cr_id), None
             )
             if not secondary_cr:
                 payload = {"error": f"Secondary change request '{cr_id}' not found"}
@@ -3239,7 +3218,7 @@ class MergeChangeRequests(Tool):
                 "performed_by": merged_by,
                 "timestamp": datetime.now().isoformat(),
             }
-            change_history.append(history_entry)
+            data["change_history"][history_entry["change_history_id"]] = history_entry
 
         primary_cr["affected_deliverables"] = list(merged_deliverables)
         primary_cr["business_justification"] = (
@@ -3304,7 +3283,7 @@ class ArchiveChanges(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
+        change_requests = data.get("change_requests", {}).values()
 
         if "archived_changes" not in data:
             data["archived_changes"] = []
@@ -3314,7 +3293,7 @@ class ArchiveChanges(Tool):
             archive_before_date = (datetime.now() - timedelta(days=90)).isoformat()
 
         to_archive = []
-        for cr in change_requests:
+        for cr in change_requests.values():
             if (
                 cr.get("project_id") == project_id
                 and cr.get("status") in ["completed", "cancelled", "rejected"]
@@ -3397,7 +3376,7 @@ class CreateChangeTemplate(Tool):
         change_templates = data["change_templates"]
 
         existing = next(
-            (t for t in change_templates if t.get("template_name") == template_name),
+            (t for t in change_templates.values() if t.get("template_name") == template_name),
             None,
         )
         if existing:
@@ -3500,13 +3479,13 @@ class BulkUpdateChangeStatus(Tool):
                 payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        change_history = data.get("change_history", [])
+        change_requests = data.get("change_requests", {}).values()
+        change_history = data.get("change_history", {}).values()
 
         results = {"successful": [], "failed": []}
 
         for cr_id in cr_ids:
-            cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+            cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
             if not cr:
                 results["failed"].append({"cr_id": cr_id})
                 continue
@@ -3543,7 +3522,7 @@ class BulkUpdateChangeStatus(Tool):
                 "performed_by": updated_by,
                 "timestamp": datetime.now().isoformat(),
             }
-            change_history.append(history_entry)
+            data["change_history"][history_entry["change_history_id"]] = history_entry
 
             results["successful"].append(
                 {"cr_id": cr_id, "old_status": old_status, "new_status": new_status}
@@ -3604,15 +3583,15 @@ class CalculateChangeROI(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
+        change_requests = data.get("change_requests", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
             return out
 
-        impact = cr.get("impact_assessment", {})
+        impact = cr.get("impact_assessment", {}).values()
         total_cost = impact.get("budget_impact", 0)
 
         for resource in impact.get("resource_requirements", []):
@@ -3726,22 +3705,22 @@ class TrackChangeDependencies(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
+        change_requests = data.get("change_requests", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
             return out
 
         for dep_id in depends_on:
-            if not any(c.get("cr_id") == dep_id for c in change_requests):
+            if not any(c.get("cr_id") == dep_id for c in change_requests.values()):
                 payload = {"error": f"Dependency CR '{dep_id}' not found"}
                 out = json.dumps(payload)
                 return out
 
         for block_id in blocks:
-            if not any(c.get("cr_id") == block_id for c in change_requests):
+            if not any(c.get("cr_id") == block_id for c in change_requests.values()):
                 payload = {"error": f"Blocked CR '{block_id}' not found"}
                 out = json.dumps(payload)
                 return out
@@ -3754,7 +3733,7 @@ class TrackChangeDependencies(Tool):
             visited.add(start_id)
 
             cr_to_check = next(
-                (c for c in change_requests if c.get("cr_id") == start_id), None
+                (c for c in change_requests.values() if c.get("cr_id") == start_id), None
             )
             if not cr_to_check:
                 return False
@@ -3780,12 +3759,12 @@ class TrackChangeDependencies(Tool):
         if "blocks" not in cr:
             cr["blocks"] = []
 
-        cr["depends_on"].extend([d for d in depends_on if d not in cr["depends_on"]])
-        cr["blocks"].extend([b for b in blocks if b not in cr["blocks"]])
+        cr["depends_on"].extend([d for d in depends_on.values() if d not in cr["depends_on"]])
+        cr["blocks"].extend([b for b in blocks.values() if b not in cr["blocks"]])
 
         for block_id in blocks:
             blocked_cr = next(
-                (c for c in change_requests if c.get("cr_id") == block_id), None
+                (c for c in change_requests.values() if c.get("cr_id") == block_id), None
             )
             if blocked_cr:
                 if "blocked_by" not in blocked_cr:
@@ -3803,7 +3782,7 @@ class TrackChangeDependencies(Tool):
         blocking_crs = []
         for dep_id in cr.get("depends_on", []):
             dep_cr = next(
-                (c for c in change_requests if c.get("cr_id") == dep_id), None
+                (c for c in change_requests.values() if c.get("cr_id") == dep_id), None
             )
             if dep_cr and dep_cr.get("status") not in [
                 "completed",
@@ -3866,14 +3845,14 @@ class GenerateAuditTrail(Tool):
             out = json.dumps(payload)
             return out
 
-        change_requests = data.get("change_requests", [])
-        change_history = data.get("change_history", [])
-        change_approvals = data.get("change_approvals", [])
-        artifact_updates = data.get("artifact_updates", [])
-        risk_assessments = data.get("risk_assessments", [])
-        emergency_logs = data.get("emergency_logs", [])
+        change_requests = data.get("change_requests", {}).values()
+        change_history = data.get("change_history", {}).values()
+        change_approvals = data.get("change_approvals", {}).values()
+        artifact_updates = data.get("artifact_updates", {}).values()
+        risk_assessments = data.get("risk_assessments", {}).values()
+        emergency_logs = data.get("emergency_logs", {}).values()
 
-        cr = next((c for c in change_requests if c.get("cr_id") == cr_id), None)
+        cr = next((c for c in change_requests.values() if c.get("cr_id") == cr_id), None)
         if not cr:
             payload = {"error": f"Change request '{cr_id}' not found"}
             out = json.dumps(payload)
@@ -3896,7 +3875,7 @@ class GenerateAuditTrail(Tool):
             }
         )
 
-        cr_history = [h for h in change_history if h.get("cr_id") == cr_id]
+        cr_history = [h for h in change_history.values() if h.get("cr_id") == cr_id]
         for event in sorted(cr_history, key=lambda x: x.get("timestamp", "")):
             audit_trail["timeline"].append(
                 {
@@ -3924,7 +3903,7 @@ class GenerateAuditTrail(Tool):
             )
 
         risk_assessment = next(
-            (r for r in risk_assessments if r.get("cr_id") == cr_id), None
+            (r for r in risk_assessments.values() if r.get("cr_id") == cr_id), None
         )
         if risk_assessment:
             audit_trail["timeline"].append(
@@ -3937,7 +3916,7 @@ class GenerateAuditTrail(Tool):
             )
 
         if cr.get("requires_emergency_approval"):
-            log = next((e for e in emergency_logs if e.get("cr_id") == cr_id), None)
+            log = next((e for e in emergency_logs.values() if e.get("cr_id") == cr_id), None)
             if log:
                 audit_trail["timeline"].append(
                     {
@@ -3956,7 +3935,7 @@ class GenerateAuditTrail(Tool):
                 )
 
         if include_approvals:
-            cr_approvals = [a for a in change_approvals if a.get("cr_id") == cr_id]
+            cr_approvals = [a for a in change_approvals.values() if a.get("cr_id") == cr_id]
             for approval in sorted(
                 cr_approvals, key=lambda x: x.get("action_date", "")
             ):
@@ -3974,7 +3953,7 @@ class GenerateAuditTrail(Tool):
                 )
 
         if include_artifacts:
-            cr_artifacts = [a for a in artifact_updates if a.get("cr_id") == cr_id]
+            cr_artifacts = [a for a in artifact_updates.values() if a.get("cr_id") == cr_id]
             for artifact in sorted(
                 cr_artifacts, key=lambda x: x.get("update_date", "")
             ):
@@ -4008,7 +3987,7 @@ class GenerateAuditTrail(Tool):
                 )
 
         if cr.get("requires_emergency_approval"):
-            log = next((e for e in emergency_logs if e.get("cr_id") == cr_id), None)
+            log = next((e for e in emergency_logs.values() if e.get("cr_id") == cr_id), None)
             if log and log.get("retroactive_status") == "pending":
                 deadline = log.get("retroactive_approval_deadline", "")
                 if deadline and datetime.now().isoformat() > deadline:

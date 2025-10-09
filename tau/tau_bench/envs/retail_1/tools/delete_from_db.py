@@ -9,7 +9,7 @@ from tau_bench.envs.retail_1.tools import _match, _apply_delete
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DeleteFromDB(Tool):  #WRITE
@@ -22,7 +22,7 @@ class DeleteFromDB(Tool):  #WRITE
     ) -> str:
         pass
         db = _convert_db_to_list(data.get(database_name, {}))
-        filtered_db = [row for row in db if _match(row, filter_params)]
+        filtered_db = [row for row in db.values() if _match(row, filter_params)]
         filtered_db = _apply_delete(filtered_db, delete_params)
         payload = filtered_db
         out = json.dumps(payload)

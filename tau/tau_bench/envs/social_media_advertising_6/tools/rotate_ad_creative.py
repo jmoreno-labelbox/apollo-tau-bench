@@ -75,7 +75,7 @@ class RotateAdCreative(Tool):
             "start_date": date_part,
             "end_date": None,
         }
-        ads.append(new_ad)
+        data["ads"][ad_id] = new_ad
 
         #--- Ensure single-active: suspend all others
         for a in ads:

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetUserRoles(Tool):
@@ -36,7 +36,7 @@ class GetUserRoles(Tool):
         on_dt = _parse_iso(on_date_iso) or datetime.now(tz=timezone.utc)
 
         assignments = [
-            ur for ur in data.get("user_roles", []) if ur.get("user_id") == user_id
+            ur for ur in data.get("user_roles", {}).values() if ur.get("user_id") == user_id
         ]
 
         def is_active(ur: dict[str, Any]) -> bool:
@@ -44,19 +44,19 @@ class GetUserRoles(Tool):
             return (exp is None) or (exp > on_dt)
 
         if only_active:
-            assignments = [ur for ur in assignments if is_active(ur)]
+            assignments = [ur for ur in assignments.values() if is_active(ur)]
 
         # Construct a role mapping
-        role_map = {r["role_id"]: r for r in data.get("roles", []) if "role_id" in r}
+        role_map = {r["role_id"]: r for r in data.get("roles", {}).values() if "role_id" in r}
         out = []
 
         for ur in assignments:
             entry = {"role_id": ur.get("role_id")}
             if include_role_details:
-                entry["role_name"] = role_map.get(ur.get("role_id"), {}).get(
+                entry["role_name"] = role_map.get(ur.get("role_id"), {}).values().get(
                     "role_name"
                 )
-                entry["description"] = role_map.get(ur.get("role_id"), {}).get(
+                entry["description"] = role_map.get(ur.get("role_id"), {}).values().get(
                     "description"
                 )
 

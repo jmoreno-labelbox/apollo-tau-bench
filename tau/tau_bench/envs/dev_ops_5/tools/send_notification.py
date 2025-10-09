@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SendNotification(Tool):
@@ -23,13 +23,13 @@ class SendNotification(Tool):
         recipient_id: str = None,
         channel: str = "slack"
     ) -> str:
-        notifications = data.get("notifications", [])
+        notifications = data.get("notifications", {}).values()
 
         # Create a new distinct ID
         if not notifications:
             new_id_num = 1
         else:
-            new_id_num = max(int(n["id"].split("_")[1]) for n in notifications) + 1
+            new_id_num = max(int(n["id"].split("_")[1]) for n in notifications.values() + 1
         new_id = f"notification_{new_id_num:03d}"
 
         # Construct the new notification object
@@ -45,7 +45,7 @@ class SendNotification(Tool):
             "read_at": None,
         }
 
-        notifications.append(new_notification)
+        data["notifications"][notification_id] = new_notification
         payload = {
             "status": "success",
             "message": f"Notification '{new_id}' sent successfully.",

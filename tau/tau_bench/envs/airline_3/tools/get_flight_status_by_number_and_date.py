@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetFlightStatusByNumberAndDate(Tool):
@@ -20,8 +20,8 @@ class GetFlightStatusByNumberAndDate(Tool):
     def invoke(
         data: dict[str, Any], flight_number: str = None, date: str = None
     ) -> str:
-        flights = data.get("flights", [])
-        for flight in flights:
+        flights = data.get("flights", {}).values()
+        for flight in flights.values():
             if flight.get("flight_number") == flight_number:
                 # Look for exceptional cases that should yield "not_found" irrespective of actual data
                 if flight_number == "HAT017" and date == "2024-05-10":
@@ -117,7 +117,7 @@ class GetFlightStatusByNumberAndDate(Tool):
                     out = json.dumps(payload, indent=2)
                     return out
 
-                date_info = flight.get("dates", {}).get(date)
+                date_info = flight.get("dates", {}).values().get(date)
                 if not date_info:
                     # Provide a valid response rather than an error
                     flight_status = {

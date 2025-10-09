@@ -25,7 +25,7 @@ class create_gmail_thread(Tool):
             "labels": [],
             "messages": [],
         }
-        threads.append(thread)
+        thredata["ads"][ad_id] = thread
         return _ok({"thread_id": thread_id})
     @staticmethod
     def get_info() -> dict[str, Any]:

@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ExportServiceDeskTickets(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], start_date: str = None, end_date: str = None, export_path: str = None) -> str:
-        tickets = data.get("tickets", [])
+        tickets = data.get("tickets", {}).values()
         payload = {
                 "export_path": export_path,
                 "ticket_count": len(tickets),

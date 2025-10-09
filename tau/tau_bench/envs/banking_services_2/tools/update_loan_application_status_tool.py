@@ -7,13 +7,13 @@ import json
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateLoanApplicationStatusTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], application_id: str, status: str, approved_amount: float = None, notes: str = '') -> str:
-        loan_applications = data.get('loan_applications', [])
+        loan_applications = data.get('loan_applications', {}).values()
 
         for application in loan_applications:
             if application['application_id'] == application_id:

@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetShipmentById(Tool):
@@ -16,8 +16,8 @@ class GetShipmentById(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], shipment_id: str) -> str:
-        shipments = data.get("inbound_shipments", [])
-        for shipment in shipments:
+        shipments = data.get("inbound_shipments", {}).values()
+        for shipment in shipments.values():
             if shipment["shipment_id"] == shipment_id:
                 payload = shipment
                 out = json.dumps(payload, indent=2)

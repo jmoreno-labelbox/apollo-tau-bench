@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ProcessOrderWithFulfillment(Tool):
@@ -55,20 +55,20 @@ class ProcessOrderWithFulfillment(Tool):
             return _error("order_id and cart_id are required.")
 
         orders = orders or []
-        existing = _find_one(orders, "order_id", order_id)
+        existing = _find_one(list(orders.values()), "order_id", order_id)
         if existing:
             payload = existing
             out = json.dumps(payload, indent=2)
             return out
 
         carts = carts or []
-        cart = _find_one(carts, "cart_id", cart_id)
+        cart = _find_one(list(carts.values()), "cart_id", cart_id)
         if not cart:
             return _error(f"Cart '{cart_id}' not found.")
 
         cart_items = cart_items or []
         cart_line_items = [
-            ci for ci in cart_items if f"{ci.get('cart_id')}" == f"{cart_id}"
+            ci for ci in cart_items.values() if f"{ci.get('cart_id')}" == f"{cart_id}"
         ]
         if not cart_line_items:
             return _error("Cart has no items.")
@@ -78,7 +78,7 @@ class ProcessOrderWithFulfillment(Tool):
         offers = offers or []
         products = products or []
 
-        account = _find_one(accounts, "account_id", cart.get("account_id"))
+        account = _find_one(list(accounts.values()), "account_id", cart.get("account_id"))
         pricebook_id = account.get("default_pricebook_id") if account else "1"
 
         subtotal = 0.0
@@ -86,8 +86,7 @@ class ProcessOrderWithFulfillment(Tool):
             pbe = next(
                 (
                     p
-                    for p in pricebook_entries
-                    if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
+                    for p in pricebook_entries.values() if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
                     and f"{p.get('pricebook_id')}" == f"{pricebook_id}"
                 ),
                 None,
@@ -96,7 +95,7 @@ class ProcessOrderWithFulfillment(Tool):
                 price = float(pbe.get("price", 0.0))
                 qty = int(ci.get("quantity", 0))
                 subtotal += price * qty
-                product = _find_one(products, "product_id", ci.get("product_id"))
+                product = _find_one(list(products.values()), "product_id", ci.get("product_id"))
                 if product:
                     current_stock = int(product.get("stock_quantity", 0))
                     if current_stock < qty:
@@ -108,7 +107,7 @@ class ProcessOrderWithFulfillment(Tool):
         discount_amount = 0.0
         applied_offer_id = cart.get("applied_offer_id")
         if applied_offer_id:
-            offer = _find_one(offers, "offer_id", applied_offer_id)
+            offer = _find_one(list(offers.values()), "offer_id", applied_offer_id)
             if offer and offer.get("is_active"):
                 if offer.get("discount_type") == "PERCENTAGE":
                     discount_amount = round(
@@ -132,15 +131,14 @@ class ProcessOrderWithFulfillment(Tool):
             "total_amount": total,
             "shipping_method": shipping_method,
         }
-        orders.append(new_order)
+        data["orders"][order_id] = new_order
 
         order_items = data.setdefault("order_items", [])
         for idx, ci in enumerate(cart_line_items, start=1):
             pbe = next(
                 (
                     p
-                    for p in pricebook_entries
-                    if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
+                    for p in pricebook_entries.values() if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
                     and f"{p.get('pricebook_id')}" == f"{pricebook_id}"
                 ),
                 None,
@@ -186,7 +184,7 @@ class ProcessOrderWithFulfillment(Tool):
             shipping_method = "US-Std"
 
         if not shipping_method:
-            rules = data.get("shipping_rules", [])
+            rules = data.get("shipping_rules", {}).values()
             rule = rules[-1] if rules else None
             if rule:
                 shipping_method = rule.get("rule_name") or "US-Std"
@@ -195,31 +193,31 @@ class ProcessOrderWithFulfillment(Tool):
         if not order_id or not cart_id:
             return _error("order_id and cart_id are required.")
 
-        orders = data.get("orders", [])
-        existing = _find_one(orders, "order_id", order_id)
+        orders = data.get("orders", {}).values()
+        existing = _find_one(list(orders.values()), "order_id", order_id)
         if existing:
             payload = existing
             out = json.dumps(payload, indent=2)
             return out
 
-        carts = data.get("carts", [])
-        cart = _find_one(carts, "cart_id", cart_id)
+        carts = data.get("carts", {}).values()
+        cart = _find_one(list(carts.values()), "cart_id", cart_id)
         if not cart:
             return _error(f"Cart '{cart_id}' not found.")
 
-        cart_items = data.get("cart_items", [])
+        cart_items = data.get("cart_items", {}).values()
         cart_line_items = [
-            ci for ci in cart_items if f"{ci.get('cart_id')}" == f"{cart_id}"
+            ci for ci in cart_items.values() if f"{ci.get('cart_id')}" == f"{cart_id}"
         ]
         if not cart_line_items:
             return _error("Cart has no items.")
 
-        pricebook_entries = data.get("pricebook_entries", [])
-        accounts = data.get("accounts", [])
-        offers = data.get("offers", [])
-        products = data.get("products", [])
+        pricebook_entries = data.get("pricebook_entries", {}).values()
+        accounts = data.get("accounts", {}).values()
+        offers = data.get("offers", {}).values()
+        products = data.get("products", {}).values()
 
-        account = _find_one(accounts, "account_id", cart.get("account_id"))
+        account = _find_one(list(accounts.values()), "account_id", cart.get("account_id"))
         pricebook_id = account.get("default_pricebook_id") if account else "1"
 
         subtotal = 0.0
@@ -227,8 +225,7 @@ class ProcessOrderWithFulfillment(Tool):
             pbe = next(
                 (
                     p
-                    for p in pricebook_entries
-                    if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
+                    for p in pricebook_entries.values() if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
                     and f"{p.get('pricebook_id')}" == f"{pricebook_id}"
                 ),
                 None,
@@ -237,7 +234,7 @@ class ProcessOrderWithFulfillment(Tool):
                 price = float(pbe.get("price", 0.0))
                 qty = int(ci.get("quantity", 0))
                 subtotal += price * qty
-                product = _find_one(products, "product_id", ci.get("product_id"))
+                product = _find_one(list(products.values()), "product_id", ci.get("product_id"))
                 if product:
                     current_stock = int(product.get("stock_quantity", 0))
                     if current_stock < qty:
@@ -249,7 +246,7 @@ class ProcessOrderWithFulfillment(Tool):
         discount_amount = 0.0
         applied_offer_id = cart.get("applied_offer_id")
         if applied_offer_id:
-            offer = _find_one(offers, "offer_id", applied_offer_id)
+            offer = _find_one(list(offers.values()), "offer_id", applied_offer_id)
             if offer and offer.get("is_active"):
                 if offer.get("discount_type") == "PERCENTAGE":
                     discount_amount = round(
@@ -273,15 +270,14 @@ class ProcessOrderWithFulfillment(Tool):
             "total_amount": total,
             "shipping_method": shipping_method,
         }
-        orders.append(new_order)
+        data["orders"][order_id] = new_order
 
         order_items = data.setdefault("order_items", [])
         for idx, ci in enumerate(cart_line_items, start=1):
             pbe = next(
                 (
                     p
-                    for p in pricebook_entries
-                    if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
+                    for p in pricebook_entries.values() if f"{p.get('product_id')}" == f"{ci.get('product_id')}"
                     and f"{p.get('pricebook_id')}" == f"{pricebook_id}"
                 ),
                 None,

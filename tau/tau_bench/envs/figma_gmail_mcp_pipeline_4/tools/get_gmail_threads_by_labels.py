@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetGmailThreadsByLabels(Tool):
@@ -26,11 +26,11 @@ class GetGmailThreadsByLabels(Tool):
         """
         Obtains Gmail threads filtered by labels, sender, and additional criteria.
         """
-        gmail_threads = data.get("gmail_threads", [])
+        gmail_threads = data.get("gmail_threads", {}).values()
 
         # Return the specific thread if thread_id is given
         if thread_id:
-            for thread in gmail_threads:
+            for thread in gmail_threads.values():
                 if thread.get("thread_id") == thread_id:
                     payload = thread
                     out = json.dumps(payload, indent=2)
@@ -41,11 +41,11 @@ class GetGmailThreadsByLabels(Tool):
 
         # Sort threads based on specified criteria
         results = []
-        for thread in gmail_threads:
+        for thread in gmail_threads.values():
             # Implement filters
             if labels:
                 thread_labels = thread.get("current_labels", [])
-                if not any(label in thread_labels for label in labels):
+                if not any(label in thread_labels for label in labels.values()):
                     continue
 
             if sender_email:
@@ -54,7 +54,7 @@ class GetGmailThreadsByLabels(Tool):
 
             if subject_keywords:
                 subject = thread.get("subject", "").lower()
-                if not any(keyword.lower() in subject for keyword in subject_keywords):
+                if not any(keyword.lower() in subject for keyword in subject_keywords.values()):
                     continue
 
             # Enforce date filters

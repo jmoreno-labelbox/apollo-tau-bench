@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetDirectoryOperationByID(Tool):
@@ -15,7 +15,7 @@ class GetDirectoryOperationByID(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], operation_id: str = None) -> str:
-        for op in data.get("directories", []):
+        for op in data.get("directories", {}).values():
             if op.get("operation_id") == operation_id:
                 payload = op
                 out = json.dumps(payload)

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateSprintStatus(Tool):
@@ -20,11 +20,11 @@ class UpdateSprintStatus(Tool):
             out = json.dumps(payload)
             return out
 
-        sprints = data.get("sprints", [])
-        tasks = data.get("tasks", [])
-        teams = data.get("teams", [])
+        sprints = data.get("sprints", {}).values()
+        tasks = data.get("tasks", {}).values()
+        teams = data.get("teams", {}).values()
 
-        sprint = next((s for s in sprints if s.get("sprint_id") == sprint_id), None)
+        sprint = next((s for s in sprints.values() if s.get("sprint_id") == sprint_id), None)
         if not sprint:
             payload = {"error": f"Sprint '{sprint_id}' not found"}
             out = json.dumps(payload)
@@ -48,14 +48,13 @@ class UpdateSprintStatus(Tool):
         if new_status == "active":
             team_id = sprint.get("team_id")
 
-            team = next((t for t in teams if t.get("team_id") == team_id), None)
+            team = next((t for t in teams.values() if t.get("team_id") == team_id), None)
             if team:
                 team_members = team.get("members", [])
 
                 completed_sprints = [
                     s
-                    for s in sprints
-                    if s.get("team_id") == team_id and s.get("status") == "completed"
+                    for s in sprints.values() if s.get("team_id") == team_id and s.get("status") == "completed"
                 ]
 
                 if len(completed_sprints) >= 3:
@@ -64,7 +63,7 @@ class UpdateSprintStatus(Tool):
                         key=lambda x: x.get("end_date", ""),
                         reverse=True,
                     )[:3]
-                    avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints) / 3
+                    avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints.values() / 3
                     capacity_limit = avg_velocity * 0.8
                 else:
                     capacity_limit = len(team_members) * 20
@@ -79,7 +78,7 @@ class UpdateSprintStatus(Tool):
                     return out
 
         if new_status == "completed":
-            sprint_tasks = [t for t in tasks if t.get("sprint_id") == sprint_id]
+            sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
             incomplete_tasks = [
                 t for t in sprint_tasks if t.get("status") not in ["done"]
             ]

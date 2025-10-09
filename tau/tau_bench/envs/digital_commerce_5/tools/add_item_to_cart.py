@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddItemToCart(Tool):
@@ -20,13 +20,13 @@ class AddItemToCart(Tool):
         product_id = _as_id(product_id)
         if not cart_id or not product_id or quantity is None:
             return _err("cart_id, product_id, quantity are required.")
-        carts = data.get("carts", [])
-        cart = next((c for c in carts if _as_id(c.get("cart_id")) == cart_id), None)
+        carts = data.get("carts", {}).values()
+        cart = next((c for c in carts.values() if _as_id(c.get("cart_id")) == cart_id), None)
         if not cart:
             return _err("Cart not found.")
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         product = next(
-            (p for p in products if _as_id(p.get("product_id")) == product_id), None
+            (p for p in products.values() if _as_id(p.get("product_id")) == product_id), None
         )
         if not product:
             return _err("Product not found.")
@@ -56,7 +56,7 @@ class AddItemToCart(Tool):
             "product_id": product_id,
             "quantity": qty,
         }
-        items.append(cart_item)
+        data["cart_items"][cart_item["cart_item_id"]] = cart_item
         payload = {"cart_item_id": cart_item["cart_item_id"], "updated": False}
         out = json.dumps(
             payload, indent=2

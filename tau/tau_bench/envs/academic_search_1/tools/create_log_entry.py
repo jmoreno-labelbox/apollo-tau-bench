@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateLogEntry(Tool):
@@ -27,24 +27,24 @@ class CreateLogEntry(Tool):
             out = json.dumps(payload)
             return out
         users, articles, logs = (
-            data.get("users", []),
-            data.get("articles", []),
-            data.get("research_logs", []),
+            data.get("users", {}).values()),
+            data.get("articles", {}).values()),
+            data.get("research_logs", {}).values()),
         )
-        if not any(u["person_id"] == user_id for u in users):
+        if not any(u["person_id"] == user_id for u in users.values()):
             payload = {"error": f"User with ID '{user_id}' not found."}
             out = json.dumps(payload)
             return out
 
         if article_id:
-            if not any(a["paper_id"] == article_id for a in articles):
+            if not any(a["paper_id"] == article_id for a in articles.values()):
                 payload = {"error": f"Article with ID '{article_id}' not found."}
                 out = json.dumps(payload)
                 return out
         new_log_id = (
             log_id_override if log_id_override else f"log_{uuid.uuid4().hex[:4]}"
         )
-        if log_id_override and any(log["record_log_id"] == log_id_override for log in logs):
+        if log_id_override and any(log["record_log_id"] == log_id_override for log in logs.values()):
             payload = {
                 "error": f"A log entry with the override ID '{log_id_override}' already exists."
             }

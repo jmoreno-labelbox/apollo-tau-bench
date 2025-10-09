@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LicenseRequiresRenewal(Tool):
@@ -26,7 +26,7 @@ class LicenseRequiresRenewal(Tool):
 
         dt_now = datetime.fromisoformat(FIXED_NOW)
 
-        for license in inventory:
+        for license in inventory.values():
             dt_audit = datetime.fromisoformat(license["last_audit_at"])
             if (dt_now - dt_audit).days > num_days:
                 licenses.append(license["license_id"])

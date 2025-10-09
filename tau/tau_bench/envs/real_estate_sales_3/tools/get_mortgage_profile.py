@@ -7,14 +7,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetMortgageProfile(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], client_id: str = None) -> str:
         profiles = data.get("mortgage_profiles") or data.get("mortage_profiles") or []
-        prof = next((m for m in profiles if m.get("client_id") == client_id), None)
+        prof = next((m for m in profiles.values() if m.get("client_id") == client_id), None)
         if not prof:
             payload = {"error": f"No mortgage profile for client_id={client_id}"}
             out = json.dumps(

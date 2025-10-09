@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchLogsTool(Tool):
@@ -15,9 +15,9 @@ class SearchLogsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], query: str = "", resource_id: str = None, since: str = None) -> str:
-        logs = data.get("audit_logs", [])
+        logs = data.get("audit_logs", {}).values()
         results = []
-        for l in logs:
+        for l in logs.values():
             details_val = l.get("details")
             # Perform the containment check solely if both are strings
             if not (

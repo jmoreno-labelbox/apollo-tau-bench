@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetReservationDetails(Tool):
@@ -25,10 +25,10 @@ class GetReservationDetails(Tool):
             return out
 
         #Locate the reservation
-        reservations = data.get("reservations", [])
+        reservations = data.get("reservations", {}).values()
         target_reservation = None
 
-        for reservation in reservations:
+        for reservation in reservations.values():
             if reservation.get("reservation_id") == reservation_id:
                 target_reservation = reservation
                 break
@@ -44,8 +44,8 @@ class GetReservationDetails(Tool):
         user_details = None
 
         if user_id:
-            users = data.get("users", [])
-            for user in users:
+            users = data.get("users", {}).values()
+            for user in users.values():
                 #Attempt to match the user by verifying if any reservation in their list corresponds
                 user_reservations = user.get("reservations", [])
                 if reservation_id in user_reservations:
@@ -61,7 +61,7 @@ class GetReservationDetails(Tool):
         flights = target_reservation.get("flights", [])
         #Utilize the reservation's total_cost if present (includes upgrades), otherwise total the flight prices
         calculated_total = target_reservation.get(
-            "total_cost", sum(flight.get("price", 0) for flight in flights)
+            "total_cost", sum(flight.get("price", 0) for flight in flights.values()
         )
         trip_summary = {
             "total_flights": len(flights),
@@ -80,7 +80,7 @@ class GetReservationDetails(Tool):
 
         #Retrieve payment information
         payment_history = target_reservation.get("payment_history", [])
-        total_paid = sum(payment.get("amount", 0) for payment in payment_history)
+        total_paid = sum(payment.get("amount", 0) for payment in payment_history.values()
 
         #Formulate an improved response
         response = {

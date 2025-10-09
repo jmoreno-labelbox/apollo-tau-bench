@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SearchListingsByCriteriaTool(Tool):
@@ -55,7 +55,7 @@ class SearchListingsByCriteriaTool(Tool):
 
         # Note: Neighborhood filtering has been eliminated - no mapping from property to neighborhood in the data
         matches: list[dict[str, Any]] = []
-        for l in data.get("listings", []):
+        for l in data.get("listings", {}).values():
             pid = str(l.get("property_id"))
 
             # Omit listings that lack a property_id

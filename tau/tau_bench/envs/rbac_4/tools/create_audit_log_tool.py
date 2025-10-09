@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateAuditLogTool(Tool):
@@ -20,7 +20,7 @@ class CreateAuditLogTool(Tool):
         pass
         # Mandatory fields
         # Create log_id in a deterministic manner (e.g., sequentially or by hashing inputs)
-        logs = data.get("audit_logs", [])
+        logs = data.get("audit_logs", {}).values()
         next_id = f"L-{len(logs) + 1:03d}"
 
         log = {
@@ -31,7 +31,7 @@ class CreateAuditLogTool(Tool):
             "timestamp": timestamp,
             "details": details,
         }
-        logs.append(log)
+        data["audit_logs"][log["audit_log_id"]] = log
         data["audit_logs"] = logs
         payload = log
         out = json.dumps(payload, indent=2)

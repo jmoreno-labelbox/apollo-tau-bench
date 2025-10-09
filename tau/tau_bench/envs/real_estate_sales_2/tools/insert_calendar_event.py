@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class InsertCalendarEvent(Tool):
@@ -24,7 +24,7 @@ class InsertCalendarEvent(Tool):
         notes: str = None,
         source: str = None
     ) -> str:
-        events = data.get("calendar_events", [])
+        events = data.get("calendar_events", {}).values()
         new_id = _next_auto_id(events, "event_id")
         row = {
             "event_id": new_id,
@@ -37,7 +37,7 @@ class InsertCalendarEvent(Tool):
             "notes": notes,
             "source": source,
         }
-        events.append(row)
+        data["calendar_events"][row["calendar_event_id"]] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out

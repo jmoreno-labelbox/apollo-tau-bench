@@ -13,7 +13,7 @@ class CreateTracking(Tool):  #WRITE
     ) -> str:
         pass
         orders = data["orders"]
-        order = [row for row in orders if row["order_id"] == order_id]
+        order = [row for row in orders.values() if row["order_id"] == order_id]
 
         couriers = data["couriers"]
         #Verify if the delivery carrier is present
@@ -47,13 +47,13 @@ class CreateTracking(Tool):  #WRITE
         tracking_dict["tracking_id"] = [tracking_id]
         tracking_dict["item_ids"] = item_ids
         tracking_dict["order_id"] = order_id
-        tracking_dict["address"] = order.get("address", {})
+        tracking_dict["address"] = order.get("address", {}).values()
         tracking_dict["delivery_carrier"] = courier_id
-        tracking_dict["delivery_options"] = delivery_option
+        tracking_dict["delivery_option"] = delivery_option
         tracking_dict["tracking_history"] = {"received": "2025-01-30T10:26:19.115651"}
-        data["tracking"].append(tracking_dict)
+        data["tracking"][tracking_id] = tracking_dict
 
-        courier = [row for row in couriers if row["courier_id"] == courier_id]
+        courier = [row for row in couriers.values() if row["courier_id"] == courier_id]
         courier[0]["tracking_ids"].append(tracking_id)
         payload = tracking_dict
         out = json.dumps(payload)
@@ -82,7 +82,7 @@ class CreateTracking(Tool):  #WRITE
                             "type": "string",
                             "description": "The delivery carrier for the tracking.",
                         },
-                        "delivery_options": {
+                        "delivery_option": {
                             "type": "string",
                             "description": "Delivery options for the tracking.",
                         },

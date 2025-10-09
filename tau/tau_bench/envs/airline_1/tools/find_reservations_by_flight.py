@@ -9,14 +9,14 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FindReservationsByFlight(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], flight_number: str, date: str) -> str:
-        reservations = data.get("reservations", [])
+        reservations = data.get("reservations", {}).values()
         matching_reservations = []
         for res in reservations:
             for flight in res.get("flights", []):
@@ -24,7 +24,7 @@ class FindReservationsByFlight(Tool):
                     flight.get("flight_number") == flight_number
                     and flight.get("date") == date
                 ):
-                    matching_reservations.append(res)
+                    matching_data["reservations"][res["reservation_id"]] = res
                     break
         payload = matching_reservations
         out = json.dumps(payload)

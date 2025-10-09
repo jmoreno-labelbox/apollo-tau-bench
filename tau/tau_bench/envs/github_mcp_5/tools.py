@@ -18,7 +18,7 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -36,7 +36,7 @@ def load_json(filename):
 def get_repo_with_owner(repositories, repo, owner):
     pass
     return next(
-        (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+        (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
         None,
     )
 
@@ -84,8 +84,8 @@ class AuthenticateUserTool(Tool):
             )
             return out
 
-        users = data.get("authentication", [])
-        user = next((c for c in users if c["username"] == user_name), None)
+        users = data.get("authentication", {}).values()
+        user = next((c for c in users.values() if c["username"] == user_name), None)
         #user = get_data(users, user_name)
 
         if not user:
@@ -174,8 +174,8 @@ class SearchRepositoriesTool(Tool):
             )
             return out
 
-        repos = data.get("repositories", [])
-        repo = next((c for c in repos if c["repo_name"] == query), None)
+        repos = data.get("repositories", {}).values()
+        repo = next((c for c in repos.values() if c["repo_name"] == query), None)
         #repo = get_data(repos, query)
 
         if not repo:
@@ -232,8 +232,8 @@ class UpdateRepositoryNameTool(Tool):
 
         if repo_already_exists:
             new_target_name = target_name + "_v2"
-            repos = data.get("repositories", [])
-            repo = next((c for c in repos if c["repo_name"] == new_target_name), None)
+            repos = data.get("repositories", {}).values()
+            repo = next((c for c in repos.values() if c["repo_name"] == new_target_name), None)
             #repo = get_data(repos, new_target_name)
 
             if not repo:
@@ -295,7 +295,7 @@ class UpdateRepositoryNameTool(Tool):
 class CreateRepositoryTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], target_name: str = None, description: str = None, private_flag: bool = None, auto_init_flag: bool = None) -> str:
-        repos = data.get("repositories", [])
+        repos = data.get("repositories", {}).values()
 
         new_repo = {
             "owner": "maya-w",
@@ -308,7 +308,7 @@ class CreateRepositoryTool(Tool):
             "file_contents": [],
         }
 
-        repos.append(new_repo)
+        data["repositories"][new_repo["repositorie_id"]] = new_repo
         payload = {"repo_name": target_name, "status": "Created"}
         out = json.dumps(payload, indent=2)
         return out
@@ -380,9 +380,9 @@ class CreateOrUpdateFileTool(Tool):
             )
             return out
 
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         repository = next(
-            (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
             None,
         )
         #repository = get_repo_with_owner(repositories, repo, owner)
@@ -492,9 +492,9 @@ class GetFileContentsTool(Tool):
             )
             return out
 
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         repository = next(
-            (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
             None,
         )
 
@@ -508,7 +508,7 @@ class GetFileContentsTool(Tool):
             )
             return out
 
-        if path in repository.get("file_contents", {}):
+        if path in repository.get("file_contents", {}).values():
             payload = {
                     "status": "success",
                     "content": repository["file_contents"][path],
@@ -582,9 +582,9 @@ class ListCommitsTool(Tool):
             )
             return out
 
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         repository = next(
-            (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
             None,
         )
 
@@ -646,9 +646,9 @@ class SearchCodeTool(Tool):
             )
             return out
 
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         repository = next(
-            (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
             None,
         )
 
@@ -665,7 +665,7 @@ class SearchCodeTool(Tool):
         # Search code based on file contents
         found_occurrences = []
         for file_path, file_content in zip(
-            repository.get("file_paths", {}), repository.get("file_contents", {})
+            repository.get("file_paths", {}).values()), repository.get("file_contents", {}).values()
         ):
             if query in file_content:
                 # Code snippet contains the keyword
@@ -727,9 +727,9 @@ class ListCodeScanningAlertsTool(Tool):
             )
             return out
 
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         repository = next(
-            (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
             None,
         )
 
@@ -743,11 +743,10 @@ class ListCodeScanningAlertsTool(Tool):
             )
             return out
 
-        alerts = data.get("code_scanning_alerts", [])
+        alerts = data.get("code_scanning_alerts", {}).values()
         repo_alerts = [
             alert
-            for alert in alerts
-            if alert["owner"] == owner and alert["repo_name"] == repo
+            for alert in alerts.values() if alert["owner"] == owner and alert["repo_name"] == repo
         ]
         payload = {"status": "success", "alerts": repo_alerts}
         out = json.dumps(payload, indent=2)
@@ -793,9 +792,9 @@ class CreateBranchTool(Tool):
             )
             return out
 
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         repository = next(
-            (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
             None,
         )
 
@@ -884,9 +883,9 @@ class CreatePullRequestTool(Tool):
             )
             return out
 
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         repository = next(
-            (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
             None,
         )
 
@@ -990,9 +989,9 @@ class GetPullRequestTool(Tool):
             )
             return out
 
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         repository = next(
-            (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
             None,
         )
 
@@ -1067,9 +1066,9 @@ class GetPullRequestFilesTool(Tool):
             )
             return out
 
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         repository = next(
-            (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
             None,
         )
 
@@ -1169,9 +1168,9 @@ class ListPullRequestsTool(Tool):
             )
             return out
 
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         repository = next(
-            (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
             None,
         )
 
@@ -1231,9 +1230,9 @@ class GetPullRequestStatusTool(Tool):
             )
             return out
 
-        repositories = data.get("repositories", [])
+        repositories = data.get("repositories", {}).values()
         repository = next(
-            (r for r in repositories if r["repo_name"] == repo and r["owner"] == owner),
+            (r for r in repositories.values() if r["repo_name"] == repo and r["owner"] == owner),
             None,
         )
 
@@ -1568,8 +1567,8 @@ class GetRepositoryMetadataTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        repos = data.get("repositories", [])
-        repo_info = next((r for r in repos if r.get("name") == repo_name), None)
+        repos = data.get("repositories", {}).values()
+        repo_info = next((r for r in repos.values() if r.get("name") == repo_name), None)
 
         if not repo_info:
             return _response(
@@ -1624,8 +1623,8 @@ class ListRepositoriesTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        repos = data.get("repositories", [])
-        result = [{**r, "report_date": CURRENT_DATE} for r in repos]
+        repos = data.get("repositories", {}).values()
+        result = [{**r, "report_date": CURRENT_DATE} for r in repos.values()]
         return _response("ok", result)
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -1676,8 +1675,8 @@ class CreateRepositoryTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        repos = data.get("repositories", [])
-        if any(r.get("name") == repo_name for r in repos):
+        repos = data.get("repositories", {}).values()
+        if any(r.get("name") == repo_name for r in repos.values()):
             return _response(
                 "error",
                 ERROR_MESSAGES["ALREADY_EXISTS"].format(
@@ -1695,7 +1694,7 @@ class CreateRepositoryTool(Tool):
             "default_branch": "main",
         }
         new_repo["repo_id"] = _safe_id(new_repo, "repo_id", "REPO_", ["name"])
-        repos.append(new_repo)
+        data["repositories"][new_repo["repositorie_id"]] = new_repo
 
         return _response("ok", new_repo)
     @staticmethod
@@ -1752,8 +1751,8 @@ class UpdateRepositoryDescriptionTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        repos = data.get("repositories", [])
-        repo = next((r for r in repos if r.get("name") == repo_name), None)
+        repos = data.get("repositories", {}).values()
+        repo = next((r for r in repos.values() if r.get("name") == repo_name), None)
 
         if not repo:
             return _response(
@@ -1822,26 +1821,23 @@ class GetRepositoryHealthSummaryTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", [])
-        prs = data.get("pull_requests", [])
-        alerts = data.get("code_scanning_alerts", [])
+        issues = data.get("issues", {}).values()
+        prs = data.get("pull_requests", {}).values()
+        alerts = data.get("code_scanning_alerts", {}).values()
 
         result = {
             "repo": repo_name,
             "open_issues": sum(
                 1
-                for i in issues
-                if i.get("repo") == repo_name and i.get("state") == "open"
+                for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "open"
             ),
             "open_prs": sum(
                 1
-                for p in prs
-                if p.get("repo") == repo_name and p.get("state") == "open"
+                for p in prs.values() if p.get("repo") == repo_name and p.get("state") == "open"
             ),
             "open_alerts": sum(
                 1
-                for a in alerts
-                if a.get("repo") == repo_name and a.get("state") == "open"
+                for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
             ),
             "report_date": CURRENT_DATE,
         }
@@ -1908,7 +1904,7 @@ class ListCommitsByBranchTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", [])
+        commits = data.get("commits", {}).values()
         branch_commits = [
             {
                 "commit_id": c.get("sha"),
@@ -1919,8 +1915,7 @@ class ListCommitsByBranchTool(Tool):
                 "timestamp": c.get("timestamp"),
                 "report_date": CURRENT_DATE,
             }
-            for c in commits
-            if c.get("repo") == repo_name and c.get("branch") == branch
+            for c in commits.values() if c.get("repo") == repo_name and c.get("branch") == branch
         ]
         return _response("ok", branch_commits)
     @staticmethod
@@ -1984,12 +1979,11 @@ class GetCommitMetadataTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", [])
+        commits = data.get("commits", {}).values()
         commit = next(
             (
                 c
-                for c in commits
-                if c.get("repo") == repo_name and c.get("sha") == commit_sha
+                for c in commits.values() if c.get("repo") == repo_name and c.get("sha") == commit_sha
             ),
             None,
         )
@@ -2072,12 +2066,12 @@ class AddCommitToBranchTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", [])
+        commits = data.get("commits", {}).values()
         if any(
             c.get("repo") == repo_name
             and c.get("message") == message
             and c.get("branch") == branch
-            for c in commits
+            for c in commits.values()
         ):
             return _response(
                 "error",
@@ -2097,7 +2091,7 @@ class AddCommitToBranchTool(Tool):
             "created_at": CURRENT_DATE,
             "updated_at": CURRENT_DATE,
         }
-        commits.append(new_commit)
+        data["commits"][commit_id] = new_commit
         return _response("ok", new_commit)
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -2154,9 +2148,9 @@ class CountCommitsByAuthorTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", [])
+        commits = data.get("commits", {}).values()
         author_counts = {}
-        for c in commits:
+        for c in commits.values():
             if c.get("repo") == repo_name:
                 author = _normalize_user(c.get("author"))
                 author_counts[author] = author_counts.get(author, 0) + 1
@@ -2226,7 +2220,7 @@ class ListCommitsByDateRangeTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", [])
+        commits = data.get("commits", {}).values()
         filtered = [
             {
                 "commit_id": c.get("sha"),
@@ -2236,8 +2230,7 @@ class ListCommitsByDateRangeTool(Tool):
                 "timestamp": c.get("timestamp"),
                 "report_date": CURRENT_DATE,
             }
-            for c in commits
-            if c.get("repo") == repo_name
+            for c in commits.values() if c.get("repo") == repo_name
             and start_date <= c.get("timestamp", "") <= end_date
         ]
         return _response("ok", filtered)
@@ -2300,7 +2293,7 @@ class GetOpenIssuesTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", [])
+        issues = data.get("issues", {}).values()
         open_issues = [
             {
                 "issue_id": _safe_id(
@@ -2313,8 +2306,7 @@ class GetOpenIssuesTool(Tool):
                 "created_at": i.get("created_at"),
                 "report_date": CURRENT_DATE,
             }
-            for i in issues
-            if i.get("repo") == repo_name and i.get("state") == "open"
+            for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "open"
         ]
         return _response("ok", open_issues)
     @staticmethod
@@ -2368,7 +2360,7 @@ class GetClosedIssuesTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", [])
+        issues = data.get("issues", {}).values()
         closed_issues = [
             {
                 "issue_id": _safe_id(
@@ -2380,8 +2372,7 @@ class GetClosedIssuesTool(Tool):
                 "closed_at": i.get("closed_at") or CURRENT_DATE,
                 "report_date": CURRENT_DATE,
             }
-            for i in issues
-            if i.get("repo") == repo_name and i.get("state") == "closed"
+            for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "closed"
         ]
         return _response("ok", closed_issues)
     @staticmethod
@@ -2449,8 +2440,8 @@ class CreateIssueTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", [])
-        if any(i.get("repo") == repo_name and i.get("title") == title for i in issues):
+        issues = data.get("issues", {}).values()
+        if any(i.get("repo") == repo_name and i.get("title") == title for i in issues.values()):
             return _response(
                 "error",
                 ERROR_MESSAGES["ALREADY_EXISTS"].format(
@@ -2474,7 +2465,7 @@ class CreateIssueTool(Tool):
         new_issue["issue_id"] = _safe_id(
             new_issue, "issue_id", f"ISSUE_{repo_name}_", ["title", "body"]
         )
-        issues.append(new_issue)
+        data["issues"][issue_id] = new_issue
         return _response("ok", new_issue)
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -2527,12 +2518,11 @@ class CloseIssueTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", [])
+        issues = data.get("issues", {}).values()
         issue = next(
             (
                 i
-                for i in issues
-                if i.get("repo") == repo_name and i.get("number") == issue_number
+                for i in issues.values() if i.get("repo") == repo_name and i.get("number") == issue_number
             ),
             None,
         )
@@ -2606,12 +2596,11 @@ class AssignIssueTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", [])
+        issues = data.get("issues", {}).values()
         issue = next(
             (
                 i
-                for i in issues
-                if i.get("repo") == repo_name and i.get("number") == issue_number
+                for i in issues.values() if i.get("repo") == repo_name and i.get("number") == issue_number
             ),
             None,
         )
@@ -2683,7 +2672,7 @@ class ListIssuesByLabelTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", [])
+        issues = data.get("issues", {}).values()
         labeled = [
             {
                 "issue_id": _safe_id(
@@ -2694,8 +2683,7 @@ class ListIssuesByLabelTool(Tool):
                 "state": i.get("state"),
                 "report_date": CURRENT_DATE,
             }
-            for i in issues
-            if i.get("repo") == repo_name
+            for i in issues.values() if i.get("repo") == repo_name
             and label.lower() in [lbl.lower() for lbl in i.get("labels", [])]
         ]
         return _response("ok", labeled)
@@ -2751,7 +2739,7 @@ class GetIssueAgingReportTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        issues = data.get("issues", [])
+        issues = data.get("issues", {}).values()
         aging = [
             {
                 "issue_id": _safe_id(
@@ -2767,8 +2755,7 @@ class GetIssueAgingReportTool(Tool):
                 ),
                 "report_date": CURRENT_DATE,
             }
-            for i in issues
-            if i.get("repo") == repo_name
+            for i in issues.values() if i.get("repo") == repo_name
         ]
         return _response("ok", aging)
     @staticmethod
@@ -2826,7 +2813,7 @@ class ListPullRequestsTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", [])
+        prs = data.get("pull_requests", {}).values()
         repo_prs = [
             {
                 "pr_id": _safe_id(
@@ -2840,8 +2827,7 @@ class ListPullRequestsTool(Tool):
                 "created_at": pr.get("created_at"),
                 "report_date": CURRENT_DATE,
             }
-            for pr in prs
-            if pr.get("repo") == repo_name
+            for pr in prs.values() if pr.get("repo") == repo_name
             and (state is None or pr.get("state") == state)
         ]
         return _response("ok", repo_prs)
@@ -2893,12 +2879,11 @@ class GetPullRequestMetadataTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", [])
+        prs = data.get("pull_requests", {}).values()
         pr = next(
             (
                 p
-                for p in prs
-                if p.get("repo") == repo_name and p.get("number") == pr_number
+                for p in prs.values() if p.get("repo") == repo_name and p.get("number") == pr_number
             ),
             None,
         )
@@ -2992,7 +2977,7 @@ class OpenPullRequestTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", [])
+        prs = data.get("pull_requests", {}).values()
         new_number = len(prs) + 1
         new_pr = {
             "repo": repo_name,
@@ -3007,7 +2992,7 @@ class OpenPullRequestTool(Tool):
         new_pr["pr_id"] = _safe_id(
             new_pr, "pr_id", f"PR_{repo_name}_", ["title", "head_branch", "base_branch"]
         )
-        prs.append(new_pr)
+        data["pull_requests"][new_pr["pull_request_id"]] = new_pr
         return _response("ok", new_pr)
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -3067,12 +3052,11 @@ class ClosePullRequestTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", [])
+        prs = data.get("pull_requests", {}).values()
         pr = next(
             (
                 p
-                for p in prs
-                if p.get("repo") == repo_name
+                for p in prs.values() if p.get("repo") == repo_name
                 and _safe_id(
                     p,
                     "pr_id",
@@ -3144,12 +3128,11 @@ class MergePullRequestTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", [])
+        prs = data.get("pull_requests", {}).values()
         pr = next(
             (
                 p
-                for p in prs
-                if p.get("repo") == repo_name and p.get("number") == pr_number
+                for p in prs.values() if p.get("repo") == repo_name and p.get("number") == pr_number
             ),
             None,
         )
@@ -3223,12 +3206,11 @@ class RequestPullRequestReviewTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", [])
+        prs = data.get("pull_requests", {}).values()
         pr = next(
             (
                 p
-                for p in prs
-                if p.get("repo") == repo_name and p.get("number") == pr_number
+                for p in prs.values() if p.get("repo") == repo_name and p.get("number") == pr_number
             ),
             None,
         )
@@ -3298,12 +3280,11 @@ class LinkPullRequestToIssueTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", [])
+        prs = data.get("pull_requests", {}).values()
         pr = next(
             (
                 p
-                for p in prs
-                if p.get("repo") == repo_name and p.get("number") == pr_number
+                for p in prs.values() if p.get("repo") == repo_name and p.get("number") == pr_number
             ),
             None,
         )
@@ -3374,9 +3355,9 @@ class GetPullRequestMergeTimeReportTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", [])
+        prs = data.get("pull_requests", {}).values()
         merged_prs = [
-            p for p in prs if p.get("repo") == repo_name and p.get("state") == "merged"
+            p for p in prs.values() if p.get("repo") == repo_name and p.get("state") == "merged"
         ]
 
         merge_times = []
@@ -3453,7 +3434,7 @@ class GetOpenSecurityAlertsTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", [])
+        alerts = data.get("code_scanning_alerts", {}).values()
         repo_alerts = [
             {
                 "alert_id": _safe_id(
@@ -3466,8 +3447,7 @@ class GetOpenSecurityAlertsTool(Tool):
                 "branch": a.get("branch"),
                 "report_date": CURRENT_DATE,
             }
-            for a in alerts
-            if a.get("repo") == repo_name and a.get("state") == "open"
+            for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
         ]
         return _response("ok", repo_alerts)
     @staticmethod
@@ -3523,7 +3503,7 @@ class GetResolvedSecurityAlertsTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", [])
+        alerts = data.get("code_scanning_alerts", {}).values()
         resolved = [
             {
                 "alert_id": _safe_id(
@@ -3534,8 +3514,7 @@ class GetResolvedSecurityAlertsTool(Tool):
                 "resolved_at": a.get("resolved_at") or CURRENT_DATE,
                 "description": a.get("description"),
             }
-            for a in alerts
-            if a.get("repo") == repo_name and a.get("state") in ["fixed", "dismissed"]
+            for a in alerts.values() if a.get("repo") == repo_name and a.get("state") in ["fixed", "dismissed"]
         ]
         return _response("ok", resolved)
     @staticmethod
@@ -3598,10 +3577,10 @@ class CreateSecurityAlertTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", [])
+        alerts = data.get("code_scanning_alerts", {}).values()
         if any(
             a.get("repo") == repo_name and a.get("description") == description
-            for a in alerts
+            for a in alerts.values()
         ):
             return _response(
                 "error",
@@ -3626,7 +3605,7 @@ class CreateSecurityAlertTool(Tool):
         new_alert["alert_id"] = _safe_id(
             new_alert, "alert_id", f"ALERT_{repo_name}_", ["description", "file"]
         )
-        alerts.append(new_alert)
+        data["code_scanning_alerts"][new_alert["code_scanning_alert_id"]] = new_alert
         return _response("ok", new_alert)
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -3687,12 +3666,11 @@ class FixSecurityAlertTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", [])
+        alerts = data.get("code_scanning_alerts", {}).values()
         alert = next(
             (
                 a
-                for a in alerts
-                if a.get("repo") == repo_name and a.get("number") == alert_number
+                for a in alerts.values() if a.get("repo") == repo_name and a.get("number") == alert_number
             ),
             None,
         )
@@ -3765,7 +3743,7 @@ class ListAlertsBySeverityTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", [])
+        alerts = data.get("code_scanning_alerts", {}).values()
         filtered = [
             {
                 "alert_id": _safe_id(
@@ -3776,8 +3754,7 @@ class ListAlertsBySeverityTool(Tool):
                 "description": a.get("description"),
                 "report_date": CURRENT_DATE,
             }
-            for a in alerts
-            if a.get("repo") == repo_name
+            for a in alerts.values() if a.get("repo") == repo_name
             and (a.get("severity") or "").lower() == severity.lower()
         ]
         return _response("ok", filtered)
@@ -3832,9 +3809,9 @@ class GetRepositoryRiskScoreTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        alerts = data.get("code_scanning_alerts", [])
+        alerts = data.get("code_scanning_alerts", {}).values()
         open_alerts = [
-            a for a in alerts if a.get("repo") == repo_name and a.get("state") == "open"
+            a for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
         ]
 
         score = sum(
@@ -3897,8 +3874,8 @@ class GetDeploymentStatusTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], repo_name: str) -> str:
         repo_name = _validate_param({"repo_name": repo_name}, "repo_name", str)
-        deploys = data.get("deployments", [])
-        repo_deploys = [d for d in deploys if d.get("repo") == repo_name]
+        deploys = data.get("deployments", {}).values()
+        repo_deploys = [d for d in deploys.values() if d.get("repo") == repo_name]
 
         if not repo_deploys:
             return _response(
@@ -3950,8 +3927,8 @@ class ListTerminalLogsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        events = data.get("terminal", [])
-        deterministic_events = [{**e, "report_date": CURRENT_DATE} for e in events]
+        events = data.get("terminal", {}).values()
+        deterministic_events = [{**e, "report_date": CURRENT_DATE} for e in events.values()]
         return _response("ok", deterministic_events)
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -4000,7 +3977,7 @@ class GetReleasesByRepositoryTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        releases = data.get("releases", [])
+        releases = data.get("releases", {}).values()
         filtered = [
             {
                 "release_id": _safe_id(r, "release_id", "REL_", ["repo", "version"]),
@@ -4010,8 +3987,7 @@ class GetReleasesByRepositoryTool(Tool):
                 "created_at": r.get("created_at"),
                 "report_date": CURRENT_DATE,
             }
-            for r in releases
-            if r.get("repo") == repo_name
+            for r in releases.values() if r.get("repo") == repo_name
         ]
         return _response("ok", filtered)
     @staticmethod
@@ -4064,9 +4040,9 @@ class CreateReleaseTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        releases = data.get("releases", [])
+        releases = data.get("releases", {}).values()
         if any(
-            r.get("repo") == repo_name and r.get("version") == version for r in releases
+            r.get("repo") == repo_name and r.get("version") == version for r in releases.values()
         ):
             return _response(
                 "error",
@@ -4086,7 +4062,7 @@ class CreateReleaseTool(Tool):
         new_release["release_id"] = _safe_id(
             new_release, "release_id", "REL_", ["repo", "version"]
         )
-        releases.append(new_release)
+        data["releases"][release_id] = new_release
         return _response("ok", new_release)
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -4138,7 +4114,7 @@ class RegisterDeployEventTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        events = data.get("terminal", [])
+        events = data.get("terminal", {}).values()
 
         new_event = {
             "repo": repo_name,
@@ -4149,7 +4125,7 @@ class RegisterDeployEventTool(Tool):
         new_event["event_id"] = _safe_id(
             new_event, "event_id", "DEPLOY_", ["repo", "environment", "date"]
         )
-        events.append(new_event)
+        data["terminal"][new_event["terminal_id"]] = new_event
         return _response("ok", new_event)
     @staticmethod
     def get_info() -> dict[str, Any]:
@@ -4204,15 +4180,14 @@ class GetDeploymentFrequencyReportTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        events = data.get("terminal", [])
+        events = data.get("terminal", {}).values()
         deploys = [
             d
-            for d in events
-            if d.get("repo") == repo_name and d.get("type") == "deploy"
+            for d in events.values() if d.get("repo") == repo_name and d.get("type") == "deploy"
         ]
         deploys = sorted(deploys, key=lambda d: (d.get("date"), d.get("event_id")))
 
-        deploy_dates = sorted([d.get("date") for d in deploys if d.get("date")])
+        deploy_dates = sorted([d.get("date") for d in deploys.values() if d.get("date")])
 
         intervals = []
         for i in range(1, len(deploy_dates)):
@@ -4230,7 +4205,7 @@ class GetDeploymentFrequencyReportTool(Tool):
                     "date": d["date"],
                     "environment": d["environment"],
                 }
-                for d in deploys
+                for d in deploys.values()
             ],
             "report_date": CURRENT_DATE,
         }
@@ -4281,40 +4256,35 @@ class GetCrossEntityReportTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], repo_name: str) -> str:
-        issues = data.get("issues", [])
-        prs = data.get("pull_requests", [])
-        commits = data.get("commits", [])
-        alerts = data.get("code_scanning_alerts", [])
-        deploys = data.get("deployments", [])
+        issues = data.get("issues", {}).values()
+        prs = data.get("pull_requests", {}).values()
+        commits = data.get("commits", {}).values()
+        alerts = data.get("code_scanning_alerts", {}).values()
+        deploys = data.get("deployments", {}).values()
 
         result = {
             "repo": repo_name,
             "open_issues": sum(
                 1
-                for i in issues
-                if i.get("repo") == repo_name and i.get("state") == "open"
+                for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "open"
             ),
             "merged_prs": sum(
                 1
-                for p in prs
-                if p.get("repo") == repo_name and p.get("state") == "merged"
+                for p in prs.values() if p.get("repo") == repo_name and p.get("state") == "merged"
             ),
             "recent_commits": sum(
                 1
-                for c in commits
-                if c.get("repo") == repo_name
+                for c in commits.values() if c.get("repo") == repo_name
                 and _days_between(c.get("timestamp", CURRENT_DATE), CURRENT_DATE) <= 30
             ),
             "open_alerts": sum(
                 1
-                for a in alerts
-                if a.get("repo") == repo_name and a.get("state") == "open"
+                for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
             ),
             "last_deployment": max(
                 (
                     d.get("deployment_date")
-                    for d in deploys
-                    if d.get("repo") == repo_name
+                    for d in deploys.values() if d.get("repo") == repo_name
                 ),
                 default="none",
             ),
@@ -4367,16 +4337,15 @@ class MapCommitsToPullRequestsTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", [])
-        prs = data.get("pull_requests", [])
+        commits = data.get("commits", {}).values()
+        prs = data.get("pull_requests", {}).values()
 
         mapping = []
-        for pr in prs:
+        for pr in prs.values():
             if pr.get("repo") == repo_name:
                 pr_commits = [
                     c
-                    for c in commits
-                    if c.get("repo") == repo_name
+                    for c in commits.values() if c.get("repo") == repo_name
                     and c.get("branch") == pr.get("head_branch")
                 ]
                 mapping.append(
@@ -4437,7 +4406,7 @@ class MapPullRequestsToIssuesTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        prs = data.get("pull_requests", [])
+        prs = data.get("pull_requests", {}).values()
 
         mapping = [
             {
@@ -4453,8 +4422,7 @@ class MapPullRequestsToIssuesTool(Tool):
                 "linked_issues": pr.get("linked_issues", []),
                 "report_date": CURRENT_DATE,
             }
-            for pr in prs
-            if pr.get("repo") == repo_name
+            for pr in prs.values() if pr.get("repo") == repo_name
         ]
         return _response("ok", mapping)
     @staticmethod
@@ -4508,29 +4476,26 @@ class GetRepositoryActivityDashboardTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", [])
-        issues = data.get("issues", [])
-        prs = data.get("pull_requests", [])
-        alerts = data.get("code_scanning_alerts", [])
+        commits = data.get("commits", {}).values()
+        issues = data.get("issues", {}).values()
+        prs = data.get("pull_requests", {}).values()
+        alerts = data.get("code_scanning_alerts", {}).values()
 
         dashboard = {
             "repo": repo_name,
-            "commits_count": sum(1 for c in commits if c.get("repo") == repo_name),
+            "commits_count": sum(1 for c in commits.values() if c.get("repo") == repo_name),
             "open_issues": sum(
                 1
-                for i in issues
-                if i.get("repo") == repo_name and i.get("state") == "open"
+                for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "open"
             ),
             "open_prs": sum(
                 1
-                for p in prs
-                if p.get("repo") == repo_name and p.get("state") == "open"
+                for p in prs.values() if p.get("repo") == repo_name and p.get("state") == "open"
             ),
             "open_alerts_by_severity": {
                 sev: sum(
                     1
-                    for a in alerts
-                    if a.get("repo") == repo_name
+                    for a in alerts.values() if a.get("repo") == repo_name
                     and a.get("state") == "open"
                     and (a.get("severity") or "unknown").lower() == sev
                 )
@@ -4538,8 +4503,7 @@ class GetRepositoryActivityDashboardTool(Tool):
             },
             "open_alerts": sum(
                 1
-                for a in alerts
-                if a.get("repo") == repo_name and a.get("state") == "open"
+                for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
             ),
             "report_date": CURRENT_DATE,
         }
@@ -4586,22 +4550,22 @@ class GetTeamContributionStatsTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], repo_name: str) -> str:
-        commits = data.get("commits", [])
-        prs = data.get("pull_requests", [])
-        issues = data.get("issues", [])
+        commits = data.get("commits", {}).values()
+        prs = data.get("pull_requests", {}).values()
+        issues = data.get("issues", {}).values()
 
         stats = {}
-        for c in commits:
+        for c in commits.values():
             if c.get("repo") == repo_name:
                 author = _normalize_user(c.get("author"))
                 stats.setdefault(author, {"commits": 0, "prs": 0, "issues": 0})
                 stats[author]["commits"] += 1
-        for p in prs:
+        for p in prs.values():
             if p.get("repo") == repo_name:
                 author = _normalize_user(p.get("author"))
                 stats.setdefault(author, {"commits": 0, "prs": 0, "issues": 0})
                 stats[author]["prs"] += 1
-        for i in issues:
+        for i in issues.values():
             if i.get("repo") == repo_name:
                 for a in [_normalize_user(a) for a in i.get("assignees", [])]:
                     stats.setdefault(a, {"commits": 0, "prs": 0, "issues": 0})
@@ -4650,14 +4614,14 @@ class GetHotspotRepositoriesTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any]) -> str:
-        issues = data.get("issues", [])
-        alerts = data.get("code_scanning_alerts", [])
+        issues = data.get("issues", {}).values()
+        alerts = data.get("code_scanning_alerts", {}).values()
 
         repo_hotspots = {}
-        for i in issues:
+        for i in issues.values():
             if i.get("state") == "open":
                 repo_hotspots[i.get("repo")] = repo_hotspots.get(i.get("repo"), 0) + 1
-        for a in alerts:
+        for a in alerts.values():
             if a.get("state") == "open":
                 repo_hotspots[a.get("repo")] = repo_hotspots.get(a.get("repo"), 0) + 1
 
@@ -4710,31 +4674,28 @@ class GenerateEndToEndReportTool(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], repo_name: str) -> str:
         pass
-        commits = data.get("commits", [])
-        issues = data.get("issues", [])
-        prs = data.get("pull_requests", [])
-        alerts = data.get("code_scanning_alerts", [])
-        releases = data.get("releases", [])
+        commits = data.get("commits", {}).values()
+        issues = data.get("issues", {}).values()
+        prs = data.get("pull_requests", {}).values()
+        alerts = data.get("code_scanning_alerts", {}).values()
+        releases = data.get("releases", {}).values()
 
         report = {
             "repo": repo_name,
-            "commits_count": sum(1 for c in commits if c.get("repo") == repo_name),
+            "commits_count": sum(1 for c in commits.values() if c.get("repo") == repo_name),
             "open_issues": sum(
                 1
-                for i in issues
-                if i.get("repo") == repo_name and i.get("state") == "open"
+                for i in issues.values() if i.get("repo") == repo_name and i.get("state") == "open"
             ),
             "merged_prs": sum(
                 1
-                for p in prs
-                if p.get("repo") == repo_name and p.get("state") == "merged"
+                for p in prs.values() if p.get("repo") == repo_name and p.get("state") == "merged"
             ),
             "open_alerts": sum(
                 1
-                for a in alerts
-                if a.get("repo") == repo_name and a.get("state") == "open"
+                for a in alerts.values() if a.get("repo") == repo_name and a.get("state") == "open"
             ),
-            "releases_count": sum(1 for r in releases if r.get("repo") == repo_name),
+            "releases_count": sum(1 for r in releases.values() if r.get("repo") == repo_name),
             "report_date": CURRENT_DATE,
         }
         return _response("ok", report)

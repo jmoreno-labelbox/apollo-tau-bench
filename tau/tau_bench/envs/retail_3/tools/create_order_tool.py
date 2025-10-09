@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateOrderTool(Tool):
@@ -51,8 +51,8 @@ class CreateOrderTool(Tool):
             )
             return out
 
-        suppliers = data.get("suppliers", [])
-        if not any(s.get("supplier_id") == supplier_id for s in suppliers):
+        suppliers = data.get("suppliers", {}).values()
+        if not any(s.get("supplier_id") == supplier_id for s in suppliers.values()):
             payload = {"error": f"supplier_id '{supplier_id}' not found in suppliers"}
             out = json.dumps(
                 payload, indent=2,
@@ -60,7 +60,7 @@ class CreateOrderTool(Tool):
             return out
 
         resolved_items: list[dict[str, Any]] = []
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         for line in items:
             pid = line.get("product_id")
             iid = line.get("item_id")
@@ -74,7 +74,7 @@ class CreateOrderTool(Tool):
                 )
                 return out
             variant = None
-            for p in products:
+            for p in products.values():
                 if p.get("product_id") == pid:
                     variant_data = (p.get("variants") or {}).get(iid)
                     if variant_data:
@@ -83,7 +83,7 @@ class CreateOrderTool(Tool):
                             "product_id": pid,
                             "item_id": iid,
                             "price": variant_data.get("price"),
-                            "options": variant_data.get("options", {}),
+                            "options": variant_data.get("options", {}).values()),
                         }
                         break
             if not variant:
@@ -107,7 +107,7 @@ class CreateOrderTool(Tool):
             "created_at": _now_iso(),
             "events": [],
         }
-        supply_orders.append(new_so)
+        supply_data["orders"][order_id] = new_so
         payload = {
                 "message": "supply_order_created",
                 "supply_order_id": new_so["supply_order_id"],

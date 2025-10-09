@@ -35,7 +35,7 @@ class UpdateCustomerEmailTool(Tool):
         updated = False
         for acc in accounts:
             if acc["customer_id"] == customer_id:
-                acc.setdefault("contact_info", {})["email_address"] = new_email
+                acc.setdefault("contact_info", {}).values()["email_address"] = new_email
                 acc["contact_info"]["phone_numbers"] = [
                     {"number": new_phone, "is_primary": True}
                 ]

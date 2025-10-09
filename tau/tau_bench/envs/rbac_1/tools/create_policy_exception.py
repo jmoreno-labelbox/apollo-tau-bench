@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreatePolicyException(Tool):
@@ -21,9 +21,9 @@ class CreatePolicyException(Tool):
         reason: str = None,
         expires_on: str = None
     ) -> str:
-        exceptions = data.get("policy_exceptions", [])
+        exceptions = data.get("policy_exceptions", {}).values()
         new_id_num = (
-            max((int(e["exception_id"][3:]) for e in exceptions), default=0) + 1
+            max((int(e["exception_id"][3:]) for e in exceptions.values()), default=0) + 1
         )
         new_exception_id = f"PE-{new_id_num:03d}"
         new_exception = {
@@ -35,7 +35,7 @@ class CreatePolicyException(Tool):
             "expires_on": expires_on,
             "status": "PENDING_REVIEW",
         }
-        exceptions.append(new_exception)
+        data["policy_exceptions"][new_exception["policy_exception_id"]] = new_exception
         data["policy_exceptions"] = exceptions
         payload = new_exception
         out = json.dumps(payload)

@@ -96,10 +96,10 @@ class UpdateFlightSchedule(Tool):
 
         changed = 0
         preview = []
-        f.setdefault("dates", {})
+        f.setdefault("dates", {}).values()
 
         for d in sorted(targets):
-            rec = f["dates"].setdefault(d, {})
+            rec = f["dates"].setdefault(d, {}).values()
             before = {
                 "status": _norm_status(rec.get("status")),
                 "aircraft": rec.get("aircraft"),
@@ -198,10 +198,10 @@ class UpdateFlightSchedule(Tool):
 
         changed = 0
         preview = []
-        f.setdefault("dates", {})
+        f.setdefault("dates", {}).values()
 
         for d in sorted(targets):
-            rec = f["dates"].setdefault(d, {})
+            rec = f["dates"].setdefault(d, {}).values()
             before = {
                 "status": _norm_status(rec.get("status")),
                 "aircraft": rec.get("aircraft"),

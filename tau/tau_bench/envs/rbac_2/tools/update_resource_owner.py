@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class UpdateResourceOwner(Tool):
@@ -20,7 +20,7 @@ class UpdateResourceOwner(Tool):
         new_owner_id = new_owner_id
 
         try:
-            resources = data.get("resources", [])
+            resources = data.get("resources", {}).values()
         except (KeyError, json.JSONDecodeError):
             resources = []
 

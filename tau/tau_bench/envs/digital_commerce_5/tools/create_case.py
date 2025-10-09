@@ -40,7 +40,7 @@ class CreateCase(Tool):
             "status": "New",
             "created_at": created_at,
         }
-        cases.append(case)
+        data["cases"][case["case_id"]] = case
         payload = case
         out = json.dumps(payload, indent=2)
         return out

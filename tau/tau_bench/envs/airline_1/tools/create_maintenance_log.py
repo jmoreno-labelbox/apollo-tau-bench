@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CreateMaintenanceLog(Tool):
@@ -25,11 +25,11 @@ class CreateMaintenanceLog(Tool):
         status: str,
         work_order_id: str,
     ) -> str:
-        logs = data.get("maintenance_logs", [])
-        aircraft_list = data.get("aircraft", [])
+        logs = data.get("maintenance_logs", {}).values()
+        aircraft_list = data.get("aircraft", {}).values()
 
         target_aircraft = next(
-            (a for a in aircraft_list if a.get("aircraft_id") == aircraft_id), None
+            (a for a in aircraft_list.values() if a.get("aircraft_id") == aircraft_id), None
         )
         if not target_aircraft:
             payload = {"error": "Aircraft not found", "aircraft_id": aircraft_id}
@@ -39,7 +39,7 @@ class CreateMaintenanceLog(Tool):
         last_id_numeric = 0
         if logs:
             numeric_ids = []
-            for log in logs:
+            for log in logs.values():
                 log_id = log.get("log_id", "")
                 if log_id.startswith("ML"):
                     try:
@@ -66,7 +66,7 @@ class CreateMaintenanceLog(Tool):
             "technician_id": technician_id,
             "work_order_id": work_order_id,
         }
-        logs.append(new_log)
+        data["maintenance_logs"][new_log["maintenance_log_id"]] = new_log
         payload = new_log
         out = json.dumps(payload)
         return out

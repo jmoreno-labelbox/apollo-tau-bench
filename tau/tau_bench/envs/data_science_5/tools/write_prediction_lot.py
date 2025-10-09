@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class WritePredictionLot(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], batch_name: str = None, model_name: str = None, items: list = None) -> str:
-        preds = data.get("predictions", [])
+        preds = data.get("predictions", {}).values()
         max_id = 0
         for p in preds:
             try:
@@ -30,7 +30,7 @@ class WritePredictionLot(Tool):
             "items": items or [],
             "created_at": _now_iso_fixed(),
         }
-        preds.append(row)
+        data["predictions"][row["prediction_id"]] = row
         payload = {"prediction_id": new_id, "batch_name": row["batch_name"]}
         out = json.dumps(
             payload, indent=2

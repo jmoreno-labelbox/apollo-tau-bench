@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -114,7 +114,7 @@ class ListHouseholdMembers(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int) -> str:
         members = _get_table(data, "members")
-        rows = [m for m in members if m.get("household_id") == household_id]
+        rows = [m for m in members.values() if m.get("household_id") == household_id]
         payload = {"members": rows}
         out = json.dumps(payload, indent=2)
         return out
@@ -176,19 +176,19 @@ class ListRecipes(Tool):
         recipes = _get_table(data, "recipes")
         rows = recipes
         if meal_type:
-            rows = [r for r in rows if r.get("meal_type") == meal_type]
+            rows = [r for r in rows.values() if r.get("meal_type") == meal_type]
         if cuisine:
-            rows = [r for r in rows if r.get("cuisine") == cuisine]
+            rows = [r for r in rows.values() if r.get("cuisine") == cuisine]
         if peanut_free is True:
-            rows = [r for r in rows if r.get("is_peanut_free") is True]
+            rows = [r for r in rows.values() if r.get("is_peanut_free") is True]
         if isinstance(min_protein_g, (int, float)):
             rows = [
                 r for r in rows if (r.get("protein_g_per_serving") or 0) >= min_protein_g
             ]
         if no_heat_required is True:
-            rows = [r for r in rows if (r.get("cook_minutes") or 0) == 0]
+            rows = [r for r in rows.values() if (r.get("cook_minutes") or 0) == 0]
         if minimal_prep is True:
-            rows = [r for r in rows if (r.get("prep_minutes") or 999) <= 10]
+            rows = [r for r in rows.values() if (r.get("prep_minutes") or 999) <= 10]
         payload = {"recipes": rows}
         out = json.dumps(payload, indent=2)
         return out
@@ -236,7 +236,7 @@ class ListRecipeIngredients(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], recipe_id: int) -> str:
         ri = _get_table(data, "recipe_ingredients")
-        rows = [x for x in ri if x.get("recipe_id") == recipe_id]
+        rows = [x for x in ri.values() if x.get("recipe_id") == recipe_id]
         payload = {"recipe_ingredients": rows}
         out = json.dumps(payload, indent=2)
         return out
@@ -260,7 +260,7 @@ class GetInventoryItems(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int) -> str:
         inv = _get_table(data, "inventory_items")
-        items = [x for x in inv if x.get("household_id") == household_id]
+        items = [x for x in inv.values() if x.get("household_id") == household_id]
         payload = {"inventory_items": items}
         out = json.dumps(payload, indent=2)
         return out
@@ -387,7 +387,7 @@ class GetGroceryList(Tool):
         lists_ = _get_table(data, "grocery_lists")
         gli = _get_table(data, "grocery_list_items")
         lst = next((l for l in lists_ if l.get("list_id") == list_id), None)
-        items = [i for i in gli if i.get("list_id") == list_id]
+        items = [i for i in gli.values() if i.get("list_id") == list_id]
         payload = {"grocery_list": lst, "items": items}
         out = json.dumps(payload, indent=2)
         return out
@@ -411,7 +411,7 @@ class GetOrdersForHousehold(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], household_id: int) -> str:
         orders = _get_table(data, "orders")
-        rows = [o for o in orders if o.get("household_id") == household_id]
+        rows = [o for o in orders.values() if o.get("household_id") == household_id]
         payload = {"orders": rows}
         out = json.dumps(payload, indent=2)
         return out
@@ -437,7 +437,7 @@ class GetOrderDetails(Tool):
         orders = _get_table(data, "orders")
         items = _get_table(data, "order_items")
         order = next((o for o in orders if o.get("order_id") == order_id), None)
-        rows = [it for it in items if it.get("order_id") == order_id]
+        rows = [it for it in items.values() if it.get("order_id") == order_id]
         payload = {"order": order, "items": rows}
         out = json.dumps(payload, indent=2)
         return out
@@ -560,7 +560,7 @@ class ScoreAndRankCandidates(Tool):
         pass
         # Deterministic ranking: prioritize higher protein, then lower calories, followed by ascending recipe_id
         recipes = _get_table(data, "recipes")
-        subset = [r for r in recipes if r.get("recipe_id") in (recipe_ids or [])]
+        subset = [r for r in recipes.values() if r.get("recipe_id") in (recipe_ids or [])]
         ranked = sorted(
             subset,
             key=lambda r: (
@@ -575,7 +575,7 @@ class ScoreAndRankCandidates(Tool):
         pass
         #Deterministic ranking: prioritize higher protein, then lower calories, followed by ascending recipe_id
         recipes = _get_table(data, "recipes")
-        subset = [r for r in recipes if r.get("recipe_id") in (recipe_ids or [])]
+        subset = [r for r in recipes.values() if r.get("recipe_id") in (recipe_ids or [])]
         ranked = sorted(
             subset,
             key=lambda r: (
@@ -901,7 +901,7 @@ class ComputePlateBalance(Tool):
         section_map = {
             i["ingredient_id"]: i["grocery_section"] for i in ingredients
         }
-        rows = [r for r in ri if r["recipe_id"] == recipe_id]
+        rows = [r for r in ri.values() if r["recipe_id"] == recipe_id]
         counts = {"veggies": 0, "protein": 0, "carb": 0, "fats": 0}
         for r in rows:
             sec = section_map.get(r["ingredient_id"]) or ""
@@ -967,7 +967,7 @@ class FilterRecipesByInventory(Tool):
         for rid in recipe_ids or []:
             if rid in recent_set:
                 continue
-            rows = [x for x in ri if x.get("recipe_id") == rid]
+            rows = [x for x in ri.values() if x.get("recipe_id") == rid]
             missing = 0
             for x in rows:
                 ing_id = x.get("ingredient_id")
@@ -1007,7 +1007,7 @@ class FilterRecipesByInventory(Tool):
         for rid in recipe_ids or []:
             if rid in recent_set:
                 continue
-            rows = [x for x in ri if x.get("recipe_id") == rid]
+            rows = [x for x in ri.values() if x.get("recipe_id") == rid]
             missing = 0
             for x in rows:
                 ing_id = x.get("ingredient_id")
@@ -1067,7 +1067,7 @@ class ProposeSubstitutionsForRecipe(Tool):
             if row.get("household_id") == household_id
             and float(row.get("quantity") or 0) > 0
         }
-        recipe_rows = [x for x in ri if x.get("recipe_id") == recipe_id]
+        recipe_rows = [x for x in ri.values() if x.get("recipe_id") == recipe_id]
         substitutions: list[dict[str, int]] = []
         # Identify absent non-staple ingredients
         missing_ids: list[int] = []
@@ -1134,7 +1134,7 @@ class ProposeSubstitutionsForRecipe(Tool):
             if row.get("household_id") == household_id
             and float(row.get("quantity") or 0) > 0
         }
-        recipe_rows = [x for x in ri if x.get("recipe_id") == recipe_id]
+        recipe_rows = [x for x in ri.values() if x.get("recipe_id") == recipe_id]
         substitutions: list[dict[str, int]] = []
         #Identify absent non-staple ingredients
         missing_ids: list[int] = []
@@ -1228,7 +1228,7 @@ class ValidateRecipeSubstitutions(Tool):
         ri = _get_table(data, "recipe_ingredients")
         inv = _get_table(data, "inventory_items")
         ing_map = {i.get("ingredient_id"): i for i in ingredients}
-        recipe_rows = [x for x in ri if x.get("recipe_id") == recipe_id]
+        recipe_rows = [x for x in ri.values() if x.get("recipe_id") == recipe_id]
         inv_ids = {
             row.get("ingredient_id")
             for row in inv
@@ -1272,7 +1272,7 @@ class ValidateRecipeSubstitutions(Tool):
         ri = _get_table(data, "recipe_ingredients")
         inv = _get_table(data, "inventory_items")
         ing_map = {i.get("ingredient_id"): i for i in ingredients}
-        recipe_rows = [x for x in ri if x.get("recipe_id") == recipe_id]
+        recipe_rows = [x for x in ri.values() if x.get("recipe_id") == recipe_id]
         inv_ids = {
             row.get("ingredient_id")
             for row in inv
@@ -2060,7 +2060,7 @@ class CreateMealPlanWithAutoEntries(Tool):
             DeriveChildModifications.invoke(
                 data, recipe_ids=chosen, ruleset="low_spice mild_textures bite_size"
             )
-        ).get("child_notes", {})
+        ).get("child_notes", {}).values()
         # generate entries from Mon to Sun beginning at week_start_date
         bulk_res = json.loads(
             AddMealPlanEntriesBulk.invoke(
@@ -2176,7 +2176,7 @@ class CreateMealPlanWithAutoEntries(Tool):
             DeriveChildModifications.invoke(
                 data, recipe_ids=chosen, ruleset="low_spice mild_textures bite_size"
             )
-        ).get("child_notes", {})
+        ).get("child_notes", {}).values()
         #generate entries from Mon to Sun beginning at week_start_date
         bulk_res = json.loads(
             AddMealPlanEntriesBulk.invoke(
@@ -2297,7 +2297,7 @@ class CreateAndPopulateGroceryListFromPlan(Tool):
         list_id = list_res.get("list_id")
         # If the list contains items, avoid duplication
         gli = _get_table(data, "grocery_list_items")
-        if any(i.get("list_id") == list_id for i in gli):
+        if any(i.get("list_id") == list_id for i in gli.values()):
             payload = {"list_id": list_id, "added": 0, "deduplicated_items": True}
             out = json.dumps(
                 payload, indent=2
@@ -2666,7 +2666,7 @@ class CreateOrder(Tool):
             "scheduled_slot_start_ts": slot_start_ts,
             "scheduled_slot_end_ts": slot_end_ts,
         }
-        orders.append(rec)
+        data["orders"][order_id] = rec
         payload = {"order_id": next_id}
         out = json.dumps(payload, indent=2)
         return out
@@ -2685,7 +2685,7 @@ class CreateOrder(Tool):
             "scheduled_slot_start_ts": slot_start_ts,
             "scheduled_slot_end_ts": slot_end_ts,
         }
-        orders.append(rec)
+        data["orders"][order_id] = rec
         payload = {"order_id": next_id}
         out = json.dumps(payload, indent=2)
         return out
@@ -2858,7 +2858,7 @@ class SelectInventoryDinnerAndLog(Tool):
         #Screen based on inventory availability
         def available_for_recipe(rid: int) -> tuple[bool, int]:
             pass
-            rows = [x for x in ri if x.get("recipe_id") == rid]
+            rows = [x for x in ri.values() if x.get("recipe_id") == rid]
             missing = 0
             for x in rows:
                 ing_id = x.get("ingredient_id")
@@ -2879,7 +2879,7 @@ class SelectInventoryDinnerAndLog(Tool):
             for r in dinners:
                 rid = r.get("recipe_id")
                 #Temporarily assess using the given max_missing
-                rows_local = [x for x in ri if x.get("recipe_id") == rid]
+                rows_local = [x for x in ri.values() if x.get("recipe_id") == rid]
                 missing_local = 0
                 for x in rows_local:
                     ing_id = x.get("ingredient_id")
@@ -2978,7 +2978,7 @@ class SelectInventoryDinnerAndLog(Tool):
         #Screen based on inventory availability
         def available_for_recipe(rid: int) -> tuple[bool, int]:
             pass
-            rows = [x for x in ri if x.get("recipe_id") == rid]
+            rows = [x for x in ri.values() if x.get("recipe_id") == rid]
             missing = 0
             for x in rows:
                 ing_id = x.get("ingredient_id")
@@ -2999,7 +2999,7 @@ class SelectInventoryDinnerAndLog(Tool):
             for r in dinners:
                 rid = r.get("recipe_id")
                 #Temporarily assess using the given max_missing
-                rows_local = [x for x in ri if x.get("recipe_id") == rid]
+                rows_local = [x for x in ri.values() if x.get("recipe_id") == rid]
                 missing_local = 0
                 for x in rows_local:
                     ing_id = x.get("ingredient_id")

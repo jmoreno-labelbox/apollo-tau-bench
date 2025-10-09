@@ -8,22 +8,22 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetCarrierPerformance(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], carrier_scac: str = None, route: str = None) -> str:
-        carriers = data.get("carriers", [])
+        carriers = data.get("carriers", {}).values()
 
-        carrier = next((c for c in carriers if c.get("scac") == carrier_scac), None)
+        carrier = next((c for c in carriers.values() if c.get("scac") == carrier_scac), None)
         if not carrier:
             return json.dumps({"error": f"Carrier {carrier_scac} not found"})
 
         performance_data = {
             "carrier_scac": carrier_scac,
             "carrier_name": carrier.get("carrier_name"),
-            "performance_metrics": carrier.get("performance_metrics", {}),
+            "performance_metrics": carrier.get("performance_metrics", {}).values()),
             "supported_modes": carrier.get("supported_modes", []),
             "service_levels": carrier.get("service_levels", []),
             "regional_coverage": carrier.get("regional_coverage"),

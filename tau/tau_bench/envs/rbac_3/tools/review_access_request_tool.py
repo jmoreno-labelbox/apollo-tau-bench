@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ReviewAccessRequestTool(Tool):
@@ -17,7 +17,7 @@ class ReviewAccessRequestTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], request_id: str = None, reviewer_id: str = None, approve: bool = None, notes: str = None) -> str:
-        requests = data.get("access_requests", [])
+        requests = data.get("access_requests", {}).values()
         for req in requests:
             if req.get("request_id") == request_id:
                 req["status"] = "APPROVED" if approve else "REJECTED"

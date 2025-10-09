@@ -12,7 +12,7 @@ LONG = 55
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -22,10 +22,10 @@ class SetProjectConfig(Tool):
         target_city = target_city
         horizon = forecast_horizon_days
         max_radius = max_station_distance_km_nullable
-        configs = data.get("project_config", [])
+        configs = data.get("project_config", {}).values()
 
         timezone = "America/New_York"
-        for config in configs:
+        for config in configs.values():
             if config.get("target_city") == target_city:
                 timezone = config.get("timezone_default")
                 break
@@ -36,7 +36,7 @@ class SetProjectConfig(Tool):
             "forecast_horizon_days": horizon,
             "max_station_distance_km_nullable": max_radius,
         }
-        data.get("project_config", []).append(config)
+        data["project_config"][config["project_config_id"]] = config
         payload = {"config_id": "CONFIG_001", **config}
         out = json.dumps(payload)
         return out
@@ -63,8 +63,8 @@ class SetProjectConfig(Tool):
 class SetGeocodeCity(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], city_name: str) -> str:
-        results = data.get("geocoding_results", [])
-        for result in results:
+        results = data.get("geocoding_results", {}).values()
+        for result in results.values():
             if result.get("query_city") == city_name:
                 payload = result
                 out = json.dumps(payload)
@@ -77,7 +77,7 @@ class SetGeocodeCity(Tool):
             "longitude": LONG,
             "raw_json_path_nullable": f"/data/raw/geocoding_{json_city_path}.json",
         }
-        data.get("geocoding_results", []).append(result)
+        data["geocoding_results"][result["geocoding_result_id"]] = result
         payload = result
         out = json.dumps(payload)
         return out
@@ -112,7 +112,7 @@ class SetProjectDirectories(Tool):
             "paths": files,
             "project_dir_id": project_dir_id,
         }
-        data.get("file_directory", []).append(file_dir)
+        data["file_directory"][file_dir["file_directory_id"]] = file_dir
         payload = {"status": "success", "project_dir_id": project_dir_id}
         out = json.dumps(payload)
         return out
@@ -135,7 +135,7 @@ class FindNoaaStation(Tool):
             "station_ids": station_id,
             "raw_json_path_nullable": f"/data/raw/noaa_station_{station_id}.json",
         }
-        data.get("noaa_station_searches", []).append(noaa_station_json)
+        data["noaa_station_searches"][noaa_station_json["noaa_station_searche_id"]] = noaa_station_json
         payload = noaa_station_json
         out = json.dumps(payload)
         return out
@@ -183,7 +183,7 @@ class SetWeatherForecast(Tool):
             "forecast_id": id,
             "raw_json_path_nullable": f"/data/raw/weather_forecast_{id}.json",
         }
-        data.get("weather_forecasts", []).append(weather_forecast_json)
+        data["weather_forecasts"][weather_forecast_json["weather_forecast_id"]] = weather_forecast_json
         payload = weather_forecast_json
         out = json.dumps(payload)
         return out
@@ -229,7 +229,7 @@ class SetWaterLevels(Tool):
             ],
             "raw_json_path_nullable": f"/data/raw/water_levels_{station_id}.json",
         }
-        data.get("water_level_data", []).append(water_level_data)
+        data["water_level_data"][water_level_data["water_level_data_id"]] = water_level_data
         payload = water_level_data
         out = json.dumps(payload)
         return out
@@ -266,7 +266,7 @@ class SetTidePredictions(Tool):
             ],
             "raw_json_path_nullable": f"/data/raw/tide_predictions_{station_id}.json",
         }
-        data.get("tide_predictions", []).append(tide_prediction_data)
+        data["tide_predictions"][tide_prediction_data["tide_prediction_id"]] = tide_prediction_data
         payload = tide_prediction_data
         out = json.dumps(payload)
         return out
@@ -311,7 +311,7 @@ class SetCoastalMeteorology(Tool):
             ],
             "raw_json_path_nullable": f"/data/raw/coastal_meteorology_{station_id}.json",
         }
-        data.get("coastal_meteorology_data", []).append(coastal_meteorology_data)
+        data["coastal_meteorology_data"][coastal_meteorology_data["coastal_meteorology_data_id"]] = coastal_meteorology_data
         payload = coastal_meteorology_data
         out = json.dumps(payload)
         return out

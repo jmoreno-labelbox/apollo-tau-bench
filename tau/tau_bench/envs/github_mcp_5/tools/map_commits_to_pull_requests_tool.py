@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class MapCommitsToPullRequestsTool(Tool):
@@ -47,16 +47,15 @@ class MapCommitsToPullRequestsTool(Tool):
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 
-        commits = data.get("commits", [])
-        prs = data.get("pull_requests", [])
+        commits = data.get("commits", {}).values()
+        prs = data.get("pull_requests", {}).values()
 
         mapping = []
-        for pr in prs:
+        for pr in prs.values():
             if pr.get("repo") == repo_name:
                 pr_commits = [
                     c
-                    for c in commits
-                    if c.get("repo") == repo_name
+                    for c in commits.values() if c.get("repo") == repo_name
                     and c.get("branch") == pr.get("head_branch")
                 ]
                 mapping.append(

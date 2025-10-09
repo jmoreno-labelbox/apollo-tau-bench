@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class EnforceChangeBudgetForFrameTool(Tool):
@@ -26,11 +26,10 @@ class EnforceChangeBudgetForFrameTool(Tool):
         cfg = _get_config_json(data, "fix_workflow_config")
         budget = int(cfg.get("change_budget_per_frame", 5))
 
-        items = data.get("fix_items", [])
+        items = data.get("fix_items", {}).values()
         count = sum(
             1
-            for r in items
-            if r.get("plan_id") == plan_id and r.get("frame_id") == frame_id
+            for r in items.values() if r.get("plan_id") == plan_id and r.get("frame_id") == frame_id
         )
         payload = {
                 "plan_id": plan_id,

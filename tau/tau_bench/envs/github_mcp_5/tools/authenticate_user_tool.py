@@ -14,7 +14,7 @@ from datetime import datetime
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AuthenticateUserTool(Tool):
@@ -49,8 +49,8 @@ class AuthenticateUserTool(Tool):
             )
             return out
 
-        users = data.get("authentication", [])
-        user = next((c for c in users if c["username"] == user_name), None)
+        users = data.get("authentication", {}).values()
+        user = next((c for c in users.values() if c["username"] == user_name), None)
         #user = get_data(users, user_name)
 
         if not user:

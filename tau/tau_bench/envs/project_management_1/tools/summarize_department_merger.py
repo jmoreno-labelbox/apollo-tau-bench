@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SummarizeDepartmentMerger(Tool):
@@ -35,12 +35,12 @@ class SummarizeDepartmentMerger(Tool):
             return out
 
         if final_utilization is None and employees_affected:
-            employees = data.get("employees", [])
+            employees = data.get("employees", {}).values()
             total_hours = 0
             total_capacity = 0
 
-            for emp_id in employees_affected:
-                for employee in employees:
+            for emp_id in employees_affected.values():
+                for employee in employees.values():
                     if employee.get("employee_id") == emp_id:
                         total_capacity += 40
                         total_hours += (

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class LoadAuditFindings(Tool):  #READ
@@ -21,9 +21,9 @@ class LoadAuditFindings(Tool):  #READ
             return out
 
         #Identify the audit
-        audits = data.get("audits", [])
+        audits = data.get("audits", {}).values()
         audit = None
-        for a in audits:
+        for a in audits.values():
             if a.get("audit_id") == audit_id:
                 audit = a
                 break
@@ -39,8 +39,8 @@ class LoadAuditFindings(Tool):  #READ
 
         #Locate associated DS findings
         ds_findings = []
-        audit_findings_ds = data.get("audit_findings_ds", [])
-        for finding in audit_findings_ds:
+        audit_findings_ds = data.get("audit_findings_ds", {}).values()
+        for finding in audit_findings_ds.values():
             if finding.get("audit_id") == audit_id:
                 ds_findings.append(
                     {
@@ -54,8 +54,8 @@ class LoadAuditFindings(Tool):  #READ
 
         #Locate associated A11Y findings
         a11y_findings = []
-        audit_findings_a11y = data.get("audit_findings_a11y", [])
-        for finding in audit_findings_a11y:
+        audit_findings_a11y = data.get("audit_findings_a11y", {}).values()
+        for finding in audit_findings_a11y.values():
             if finding.get("audit_id") == audit_id:
                 a11y_findings.append(
                     {

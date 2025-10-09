@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RemoveRecipeFromMealPlanTool(Tool):
@@ -68,11 +68,11 @@ class RemoveRecipeFromMealPlanTool(Tool):
                 validation_error["error_code"], validation_error["details"]
             )
 
-        entries_table = data.get("meal_plan_entries", [])
+        entries_table = data.get("meal_plan_entries", {}).values()
 
         #2. Find the entry to remove
         entry_to_remove = next(
-            (e for e in entries_table if e.get("entry_id") == entry_id), None
+            (e for e in entries_table.values() if e.get("entry_id") == entry_id), None
         )
 
         if not entry_to_remove:
@@ -84,7 +84,7 @@ class RemoveRecipeFromMealPlanTool(Tool):
         meal_plan = next(
             (
                 p
-                for p in data.get("meal_plans", [])
+                for p in data.get("meal_plans", {}).values()
                 if p.get("meal_plan_id") == entry_to_remove["meal_plan_id"]
             ),
             None,
@@ -103,7 +103,7 @@ class RemoveRecipeFromMealPlanTool(Tool):
 
         #4. Perform the removal
         data["meal_plan_entries"] = [
-            e for e in entries_table if e.get("entry_id") != entry_id
+            e for e in entries_table.values() if e.get("entry_id") != entry_id
         ]
 
         #5. Response

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTaskCostBreakdown(Tool):
@@ -20,18 +20,18 @@ class GetTaskCostBreakdown(Tool):
             out = json.dumps(payload)
             return out
 
-        tasks = data.get("tasks", [])
-        task_logs = data.get("task_logs", [])
-        employees = data.get("employees", [])
-        expenses = data.get("expenses", [])
+        tasks = data.get("tasks", {}).values()
+        task_logs = data.get("task_logs", {}).values()
+        employees = data.get("employees", {}).values()
+        expenses = data.get("expenses", {}).values()
 
-        task = next((t for t in tasks if t.get("task_id") == task_id), None)
+        task = next((t for t in tasks.values() if t.get("task_id") == task_id), None)
         if not task:
             payload = {"error": f"Task {task_id} not found"}
             out = json.dumps(payload)
             return out
 
-        task_time_logs = [log for log in task_logs if log.get("task_id") == task_id]
+        task_time_logs = [log for log in task_logs.values() if log.get("task_id") == task_id]
 
         personnel_costs = []
         total_hours = 0
@@ -42,7 +42,7 @@ class GetTaskCostBreakdown(Tool):
             hours = log.get("hours", 0)
 
             employee = next(
-                (e for e in employees if e.get("employee_id") == employee_id), None
+                (e for e in employees.values() if e.get("employee_id") == employee_id), None
             )
             if employee:
                 hourly_rate = (
@@ -66,11 +66,10 @@ class GetTaskCostBreakdown(Tool):
 
         task_expenses = [
             e
-            for e in expenses
-            if e.get("task_id") == task_id and e.get("status") == "approved"
+            for e in expenses.values() if e.get("task_id") == task_id and e.get("status") == "approved"
         ]
 
-        total_expense_cost = sum(e.get("amount", 0) for e in task_expenses)
+        total_expense_cost = sum(e.get("amount", 0) for e in task_expenses.values()
 
         story_points = task.get("story_points", 1)
         total_cost = total_personnel_cost + total_expense_cost

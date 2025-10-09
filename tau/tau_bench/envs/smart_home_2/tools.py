@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -27,7 +27,7 @@ def _now_iso() -> str:
 def _load(entity: str, data: dict[str, Any]):
     """Provide a *modifiable copy* of a top-level collection list."""
     pass
-    return [*data.get(entity, [])]
+    return [*data.get(entity, {}).values()]
 
 
 def _find(collection: list[dict[str, Any]], entity_id: str):
@@ -105,7 +105,7 @@ class GetEntity(Tool):
 class QueryEntities(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], entity_type: str, filters: dict[str, Any]) -> str:
-        collection = data.get(entity_type, [])
+        collection = data.get(entity_type, {}).values()
         matches: list[dict[str, Any]] = []
         for item in collection:
             ok = True
@@ -161,7 +161,7 @@ class UpsertDevice(Tool):
             devices[idx].update(device)
             action = "updated"
         else:
-            devices.append(device)
+            data["devices"][device_id] = device
             action = "added"
             data["devices"] = devices
         payload = {"success": f"device {action}", "device": device}
@@ -245,14 +245,14 @@ class ModifyDeviceState(Tool):
         rrule: str | None = None,
         timestamp: str | None = None,
     ) -> str:
-        devices = data.get("devices", [])
+        devices = data.get("devices", {}).values()
         idx, device = _find(devices, device_id)
         if not device:
             payload = {"error": f"device '{device_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
         allowed = set(device.get("state_params", []))
-        if any(k not in allowed for k in update):
+        if any(k not in allowed for k in update.values()):
             payload = {"error": "one or more params not allowed for this device"}
             out = json.dumps(
                 payload, indent=2
@@ -276,7 +276,7 @@ class ModifyDeviceState(Tool):
             )
             return out
         else:
-            device_state = device.get("state", {})
+            device_state = device.get("state", {}).values()
             device_state.update(update)
             device_state["last_updated"] = timestamp or _now_iso()
             payload = {"success": "state updated"}
@@ -338,7 +338,7 @@ class ModifyDeviceStateTimer(Tool):
         rrule: str | None = None,
         timestamp: str | None = None,
     ) -> str:
-        devices = data.get("devices", [])
+        devices = data.get("devices", {}).values()
         idx, device = _find(devices, device_id)
         if not schedule_end:
             payload = {"error": "end time is required"}
@@ -349,7 +349,7 @@ class ModifyDeviceStateTimer(Tool):
             out = json.dumps(payload, indent=2)
             return out
         allowed = set(device.get("state_params", []))
-        if any(k not in allowed for k in update):
+        if any(k not in allowed for k in update.values()):
             payload = {"error": "one or more params not allowed for this device"}
             out = json.dumps(
                 payload, indent=2
@@ -376,7 +376,7 @@ class ModifyDeviceStateTimer(Tool):
             )
             return out
         else:
-            device_state = device.get("state", {})
+            device_state = device.get("state", {}).values()
             device_state.update(update)
             device_state["last_updated"] = timestamp or _now_iso()
             ModifyDeviceState.invoke(
@@ -438,14 +438,14 @@ class AddDeviceToRoom(Tool):
     def invoke(data: dict[str, Any], room_id: str, device_id: str,
     new_device: Any = None,
     ) -> str:
-        rooms = data.get("rooms", [])
+        rooms = data.get("rooms", {}).values()
         _, room = _find(rooms, room_id)
         if not room:
             payload = {"error": f"room '{room_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
         # check if the device is present
-        if not _find(data.get("devices", []), device_id)[1]:
+        if not _find(data.get("devices", {}).values()), device_id)[1]:
             payload = {"error": f"device '{device_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
@@ -483,7 +483,7 @@ class AddDeviceToRoom(Tool):
 class RemoveDeviceFromRoom(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], room_id: str, device_id: str) -> str:
-        _, room = _find(data.get("rooms", []), room_id)
+        _, room = _find(data.get("rooms", {}).values()), room_id)
         if not room:
             payload = {"error": f"room '{room_id}' not found"}
             out = json.dumps(payload, indent=2)
@@ -569,7 +569,7 @@ class UpsertScene(Tool):
 class RunScene(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], scene_id: str) -> str:
-        _, scene = _find(data.get("scenes", []), scene_id)
+        _, scene = _find(data.get("scenes", {}).values()), scene_id)
         if not scene:
             payload = {"error": f"scene '{scene_id}' not found"}
             out = json.dumps(payload, indent=2)
@@ -620,7 +620,7 @@ class UpsertCustomList(Tool):
             lists[idx].update(custom_list)
             msg = "updated"
         else:
-            lists.append(custom_list)
+            data["custom_lists"][custom_list["custom_list_id"]] = custom_list
             msg = "added"
             data["custom_lists"] = lists
         payload = {"success": f"list {msg}", "list": custom_list}
@@ -657,7 +657,7 @@ class ModifyCustomListItem(Tool):
     def invoke(
         data: dict[str, Any], list_id: str, item: dict[str, Any], action: str = "add"
     ) -> str:
-        lists = data.get("custom_lists", [])
+        lists = data.get("custom_lists", {}).values()
         _, lst = _find(lists, list_id)
         if not lst:
             payload = {"error": f"list '{list_id}' not found"}
@@ -858,20 +858,20 @@ class UpsertMember(Tool):
 class ModifySensorState(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sensor_id: str, update: dict[str, Any]) -> str:
-        sensors = data.get("sensors", [])
+        sensors = data.get("sensors", {}).values()
         _, sensor = _find(sensors, sensor_id)
         if not sensor:
             payload = {"error": f"sensor '{sensor_id}' not found"}
             out = json.dumps(payload, indent=2)
             return out
         allowed = set(sensor.get("state_params", []))
-        if any(k not in allowed for k in update):
+        if any(k not in allowed for k in update.values()):
             payload = {"error": "one or more params not allowed for this sensor"}
             out = json.dumps(
                 payload, indent=2
             )
             return out
-        sensor_state = sensor.get("state", {})
+        sensor_state = sensor.get("state", {}).values()
         sensor_state.update(update)
         sensor_state["last_updated"] = _now_iso()
         payload = {"success": "state updated", "state": sensor_state}

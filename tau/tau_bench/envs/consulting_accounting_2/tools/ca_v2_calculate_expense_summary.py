@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class CaV2CalculateExpenseSummary(Tool):
@@ -25,20 +25,19 @@ class CaV2CalculateExpenseSummary(Tool):
         if category_filter is None:
             category_filter = []
 
-        expenses = data.get("expenses", [])
-        expense_categories = data.get("expense_categories", [])
+        expenses = data.get("expenses", {}).values()
+        expense_categories = data.get("expense_categories", {}).values()
 
         # Narrow down expenses by date range
         if start_date and end_date:
             filtered_expenses = [
                 exp
-                for exp in expenses
-                if start_date <= exp.get("expense_date", "") <= end_date
+                for exp in expenses.values() if start_date <= exp.get("expense_date", "") <= end_date
             ]
         else:
             # Narrow down expenses by year
             filtered_expenses = [
-                exp for exp in expenses if exp.get("expense_date", "").startswith(year)
+                exp for exp in expenses.values() if exp.get("expense_date", "").startswith(year)
             ]
 
         # Narrow down by categories if provided

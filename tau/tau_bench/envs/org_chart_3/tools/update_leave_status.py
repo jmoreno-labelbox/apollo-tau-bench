@@ -7,13 +7,13 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class update_leave_status(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], leave_id: str, status: str) -> str:
-        lv = data.get("leave_records", [])
+        lv = data.get("leave_records", {}).values()
 
         for leave_record in lv:
             if leave_record["leave_id"] == leave_id:

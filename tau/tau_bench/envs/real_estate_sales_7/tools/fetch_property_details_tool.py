@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class FetchPropertyDetailsTool(Tool):
@@ -28,7 +28,7 @@ class FetchPropertyDetailsTool(Tool):
         # Available open house times for this property
         open_houses = [
             oh
-            for oh in data.get("open_houses", [])
+            for oh in data.get("open_houses", {}).values()
             if str(oh.get("property_id")) == str(property_id)
         ]
         open_houses_sorted = sorted(

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ProcessBulkProductUpdate(Tool):
@@ -24,12 +24,12 @@ class ProcessBulkProductUpdate(Tool):
         if not update_type or not product_ids:
             return _error("update_type and product_ids are required.")
 
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         bulk_updates = data.setdefault("bulk_updates", [])
         updated_count = 0
 
         for pid in product_ids:
-            product = _find_one(products, "product_id", pid)
+            product = _find_one(list(products.values()), "product_id", pid)
             if product:
                 if update_type == "price" and "list_price" in update_data:
                     product["list_price"] = update_data["list_price"]
@@ -71,12 +71,12 @@ class ProcessBulkProductUpdate(Tool):
         if not update_type or not product_ids:
             return _error("update_type and product_ids are required.")
 
-        products = data.get("products", [])
+        products = data.get("products", {}).values()
         bulk_updates = data.setdefault("bulk_updates", [])
         updated_count = 0
 
         for pid in product_ids:
-            product = _find_one(products, "product_id", pid)
+            product = _find_one(list(products.values()), "product_id", pid)
             if product:
                 if update_type == "price" and "list_price" in update_data:
                     product["list_price"] = update_data["list_price"]

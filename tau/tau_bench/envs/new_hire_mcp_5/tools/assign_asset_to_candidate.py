@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AssignAssetToCandidate(Tool):
@@ -21,8 +21,8 @@ class AssignAssetToCandidate(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], asset_tag: str, candidate_id: str) -> str:
-        inv = data.get("inventory_assets", [])
-        row = next((a for a in inv if a.get("asset_tag") == asset_tag), None)
+        inv = data.get("inventory_assets", {}).values()
+        row = next((a for a in inv.values() if a.get("asset_tag") == asset_tag), None)
         if not row:
             payload = {"error": f"asset_tag {asset_tag} not found"}
             out = json.dumps(payload, indent=2)
@@ -30,7 +30,7 @@ class AssignAssetToCandidate(Tool):
 
         row["assigned_candidate_id_nullable"] = candidate_id
         row["status"] = "allocated"
-        for c in data.get("candidates", []):
+        for c in data.get("candidates", {}).values():
             if c.get("candidate_id") == candidate_id:
                 c["allocated_asset_tag_nullable"] = asset_tag
         payload = {"asset_tag": asset_tag, "assigned_to": candidate_id}

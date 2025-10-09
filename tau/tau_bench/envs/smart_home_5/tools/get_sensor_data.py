@@ -7,15 +7,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetSensorData(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sensor_ids: list[str] | None = None) -> str:
-        sensors = data.get("sensors", [])
+        sensors = data.get("sensors", {}).values()
         if sensor_ids:
-            result = [s for s in sensors if s.get("id") in sensor_ids]
+            result = [s for s in sensors.values() if s.get("id") in sensor_ids]
         else:
             result = sensors
         payload = result

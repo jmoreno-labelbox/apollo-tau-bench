@@ -7,21 +7,20 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class SensorUpdate(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], sensor_id: str = None, sensor_type: str = None, location: str = None, state_param: dict[str, Any] = None, type: Any = None) -> str:
-        sensors = data.get("sensors", [])
+        sensors = data.get("sensors", {}).values()
         if not state_param:
             payload = {"error": "New state ins obligatory"}
             out = json.dumps(payload, indent=2)
             return out
         result = [
             s
-            for s in sensors
-            if (not sensor_id or s["id"] == sensor_id)
+            for s in sensors.values() if (not sensor_id or s["id"] == sensor_id)
             and (not sensor_type or s["type"] == sensor_type)
             and (not location or s["location"] == location)
         ]

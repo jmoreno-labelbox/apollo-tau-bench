@@ -8,17 +8,17 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetTotalSalesByDate(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], date: str) -> str:
-        transactions = data.get("transactions", [])
+        transactions = data.get("transactions", {}).values()
         total_sales = 0.0
         transaction_count = 0
 
-        for transaction in transactions:
+        for transaction in transactions.values():
             if transaction.get("timestamp", "").startswith(date):
                 total_sales += transaction.get("total_amount", 0.0)
                 transaction_count += 1

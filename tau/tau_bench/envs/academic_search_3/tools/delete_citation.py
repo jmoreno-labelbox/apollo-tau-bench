@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class DeleteCitation(Tool):
@@ -16,10 +16,10 @@ class DeleteCitation(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], citation_id: Any = None) -> str:
-        citations = data.get("citations", [])
+        citations = data.get("citations", {}).values()
         original_count = len(citations)
         data["citations"] = [
-            c for c in citations if c.get("citation_id") != citation_id
+            c for c in citations.values() if c.get("citation_id") != citation_id
         ]
         if len(data["citations"]) < original_count:
             payload = {

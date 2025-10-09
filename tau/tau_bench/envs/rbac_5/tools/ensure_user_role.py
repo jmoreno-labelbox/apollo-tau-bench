@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class EnsureUserRole(Tool):
@@ -29,19 +29,19 @@ class EnsureUserRole(Tool):
         assigned_on = assigned_on or get_current_timestamp()
 
         # Presence validations
-        if not _find_by_id(data.get("users", []), "user_id", user_id):
+        if not _find_by_id(data.get("users", {}).values()), "user_id", user_id):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload)
             return out
-        if not _find_by_id(data.get("roles", []), "role_id", role_id):
+        if not _find_by_id(data.get("roles", {}).values()), "role_id", role_id):
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload)
             return out
 
-        assignments = data.get("user_roles", [])
+        assignments = data.get("user_roles", {}).values()
         existing = None
         existing_index = None
-        for i, ur in enumerate(assignments):
+        for i, ur in enumerate(assignments.values():
             if ur.get("user_id") == user_id and ur.get("role_id") == role_id:
                 existing = ur
                 existing_index = i

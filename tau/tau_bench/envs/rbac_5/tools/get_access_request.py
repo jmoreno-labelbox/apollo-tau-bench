@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetAccessRequest(Tool):
@@ -38,7 +38,7 @@ class GetAccessRequest(Tool):
         include_role: bool = False,
         include_resource: bool = False
     ) -> str:
-        access_requests = data.get("access_requests", [])
+        access_requests = data.get("access_requests", {}).values()
 
         # If request_id is supplied, return the specific access request
         if request_id:
@@ -52,17 +52,17 @@ class GetAccessRequest(Tool):
             out = {"access_request": ar}
             if include_user:
                 uid = ar.get("user_id") or ""
-                user = _find_by_id(data.get("users", []), "user_id", uid)
+                user = _find_by_id(data.get("users", {}).values()), "user_id", uid)
                 if user is not None:
                     out["user"] = user
             if include_role:
                 rid = ar.get("requested_role_id") or ""
-                role = _find_by_id(data.get("roles", []), "role_id", rid)
+                role = _find_by_id(data.get("roles", {}).values()), "role_id", rid)
                 if role is not None:
                     out["role"] = role
             if include_resource:
                 res_id = ar.get("resource_id") or ""
-                resource = _find_by_id(data.get("resources", []), "resource_id", res_id)
+                resource = _find_by_id(data.get("resources", {}).values()), "resource_id", res_id)
                 if resource is not None:
                     out["resource"] = resource
             payload = out

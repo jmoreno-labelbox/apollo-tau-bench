@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RequestOrderReturn(Tool):
@@ -29,8 +29,8 @@ class RequestOrderReturn(Tool):
         Writes to: orders.json (adds return request to order)
         """
         # Rule: Validate user identity exists before processing any user requests
-        users = data.get("users", [])
-        user = next((u for u in users if u.get("user_id") == user_id), None)
+        users = data.get("users", {}).values()
+        user = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if not user:
             payload = {"error": f"User {user_id} not found", "status": "failed"}
@@ -91,11 +91,11 @@ class RequestOrderReturn(Tool):
             return out
 
         # Find the order to process return for
-        orders = data.get("orders", [])
+        orders = data.get("orders", {}).values()
         order_to_return = None
         order_index = None
 
-        for i, order in enumerate(orders):
+        for i, order in enumerate(orders.values():
             if order.get("order_id") == order_id and order.get("user_id") == user_id:
                 order_to_return = order
                 order_index = i

@@ -28,7 +28,7 @@ class GenerateClientBriefingDocumentTool(Tool):
             "created_by": int(created_by),
             "created_at": HARD_TS,
         }
-        docs.append(doc_row)
+        data["documents"][doc_row["document_id"]] = doc_row
         payload = {"document": doc_row}
         out = json.dumps(payload, indent=2)
         return out

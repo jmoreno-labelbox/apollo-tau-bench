@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 
@@ -118,7 +118,7 @@ class GuardrailValidateSenderV2(Tool):
         if not run:
             return _error(f"Run '{run_id}' not found.")
         #Check if the branch is present in the branches dataset
-        allowed = any(b.get("name") == run.get("branch") for b in branches)
+        allowed = any(b.get("name") == run.get("branch") for b in branches.values()
         run["validated"] = bool(allowed)
         payload = {"validated": bool(allowed)}
         out = json.dumps(payload, indent=2)

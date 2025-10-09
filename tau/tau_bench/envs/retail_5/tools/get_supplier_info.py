@@ -15,7 +15,7 @@ class GetSupplierInfo(Tool):
 
         if supplier_id:
             supplier = next(
-                (s for s in suppliers if s["supplier_id"] == supplier_id), None
+                (s for s in suppliers.values() if s["supplier_id"] == supplier_id), None
             )
             if not supplier:
                 payload = {"error": "Supplier not found"}
@@ -27,7 +27,7 @@ class GetSupplierInfo(Tool):
 
         if product_id:
             suppliers_for_product = []
-            for supplier in suppliers:
+            for supplier in suppliers.values():
                 if product_id in supplier["products"]:
                     suppliers_for_product.append(
                         {

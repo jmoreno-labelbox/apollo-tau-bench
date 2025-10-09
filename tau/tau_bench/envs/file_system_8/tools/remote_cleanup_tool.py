@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RemoteCleanupTool(Tool):
@@ -50,7 +50,7 @@ class RemoteCleanupTool(Tool):
         # Delete entries from remote_storage by matching either path or basename
         if "remote_storage" in data:
             remaining = []
-            for item in data["remote_storage"]:
+            for item in data["remote_storage"].values():
                 path = item.get("path")
                 basename = path.split("/")[-1] if path else None
                 if path in files_to_delete or basename in files_to_delete:
@@ -60,7 +60,7 @@ class RemoteCleanupTool(Tool):
             data["remote_storage"] = remaining
 
         # Delete files located in server directories
-        for server in data.get("file_system", []):
+        for server in data.get("file_system", {}).values():
             for directory in server.get("directories", []):
                 remaining_files = []
                 for f in directory.get("files", []):

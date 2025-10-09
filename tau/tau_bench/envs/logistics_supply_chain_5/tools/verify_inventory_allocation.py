@@ -8,14 +8,14 @@ from typing import Any, Dict
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class VerifyInventoryAllocation(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str, outbound_orders: list = None, inventory: list = None) -> str:
-        orders = outbound_orders if outbound_orders is not None else data.get("outbound_orders", [])
-        inventory = inventory if inventory is not None else data.get("inventory", [])
+        orders = outbound_orders if outbound_orders is not None else data.get("outbound_orders", {}).values()
+        inventory = inventory if inventory is not None else data.get("inventory", {}).values()
 
         order = next((o for o in orders if o.get("order_id") == order_id), None)
         if not order:
@@ -25,8 +25,8 @@ class VerifyInventoryAllocation(Tool):
         total_units = order.get("total_units", 0)
 
         # Basic allocation verification - a real system would assess line items
-        warehouse_inventory = [item for item in inventory if item.get("warehouse_id") == warehouse_id]
-        total_available = sum(item.get("quantity_available", 0) for item in warehouse_inventory)
+        warehouse_inventory = [item for item in inventory.values() if item.get("warehouse_id") == warehouse_id]
+        total_available = sum(item.get("quantity_available", 0) for item in warehouse_inventory.values()
 
         allocation_status = "fully_allocated" if total_available >= total_units else "insufficient_inventory"
 

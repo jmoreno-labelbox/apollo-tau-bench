@@ -24,7 +24,7 @@ class CreateCampaignEntryTool(Tool):
             "created_by": int(created_by),
             "created_at": HARD_TS,
         }
-        campaign_rows.append(campaign_rec)
+        data["campaigns"][campaign_rec["campaign_id"]] = campaign_rec
 
         #--- Generate Audit Event Entry ---
         audit_rows = data.setdefault("audit_events", [])
@@ -41,7 +41,7 @@ class CreateCampaignEntryTool(Tool):
                 "campaign_type": campaign_type,
             },
         }
-        audit_rows.append(audit_rec)
+        data["audit_events"][audit_rec["audit_event_id"]] = audit_rec
         payload = {"campaign": campaign_rec, "audit_event": audit_rec}
         out = json.dumps(
             payload, indent=2

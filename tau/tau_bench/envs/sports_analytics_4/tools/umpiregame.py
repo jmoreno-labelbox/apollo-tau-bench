@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class Umpiregame(Tool):
@@ -16,7 +16,7 @@ class Umpiregame(Tool):
     def invoke(data: dict[str, Any], game_pk: str = None, zone_shift_x: float = None, zone_shift_z: float = None, calibration_error_pct: float = None) -> str:
         data.setdefault("umpire_game_models", []).append(
             {
-                "umpire_game_id": f"ump_{len(data.get('umpire_game_models', []))+1}",
+                "umpire_game_id": f"ump_{len(data.get('umpire_game_models', {}))+1}",
                 "game_pk": game_pk,
                 "zone_shift_x": zone_shift_x,
                 "zone_shift_z": zone_shift_z,

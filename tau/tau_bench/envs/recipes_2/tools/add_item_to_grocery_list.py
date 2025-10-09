@@ -8,7 +8,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddItemToGroceryList(Tool):
@@ -16,13 +16,13 @@ class AddItemToGroceryList(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], list_id: int = None, ingredient_id: int = None, quantity: float = None, unit: str = None) -> str:
-        items = data.get("grocery_list_items", [])
+        items = data.get("grocery_list_items", {}).values()
         # Automatically create the next item_id
-        new_id = max([item.get("item_id", 0) for item in items]) + 1 if items else 8101
+        new_id = max([item.get("item_id", 0) for item in items.values()]) + 1 if items else 8101
 
-        ingredients = data.get("ingredients", [])
+        ingredients = data.get("ingredients", {}).values()
         ingredient_info = next(
-            (ing for ing in ingredients if ing["ingredient_id"] == ingredient_id), None
+            (ing for ing in ingredients.values() if ing["ingredient_id"] == ingredient_id), None
         )
         if not ingredient_info:
             payload = {"error": f"Ingredient {ingredient_id} not found."}

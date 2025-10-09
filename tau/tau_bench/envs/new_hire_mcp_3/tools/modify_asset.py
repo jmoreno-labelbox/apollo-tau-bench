@@ -8,15 +8,15 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ModifyAsset(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], updates: dict = None, asset_tag: str = None) -> str:
         updates = updates or {}
-        assets = data.get("inventory_assets", [])
-        for a in assets:
+        assets = data.get("inventory_assets", {}).values()
+        for a in assets.values():
             if a.get("asset_tag") == asset_tag:
                 a.update(updates)
                 a["updated_at"] = _fixed_now_iso()

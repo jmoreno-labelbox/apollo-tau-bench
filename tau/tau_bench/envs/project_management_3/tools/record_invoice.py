@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class RecordInvoice(Tool):
@@ -29,11 +29,11 @@ class RecordInvoice(Tool):
             out = json.dumps(payload)
             return out
 
-        invoices = data.get("invoices", [])
-        purchase_orders = data.get("purchase_orders", [])
-        vendors = data.get("vendors", [])
+        invoices = data.get("invoices", {}).values()
+        purchase_orders = data.get("purchase_orders", {}).values()
+        vendors = data.get("vendors", {}).values()
 
-        vendor = next((v for v in vendors if v.get("vendor_id") == vendor_id), None)
+        vendor = next((v for v in vendors.values() if v.get("vendor_id") == vendor_id), None)
         if not vendor:
             payload = {"error": f"Vendor {vendor_id} not found"}
             out = json.dumps(payload)
@@ -41,7 +41,7 @@ class RecordInvoice(Tool):
 
         if po_number:
             po = next(
-                (p for p in purchase_orders if p.get("po_number") == po_number), None
+                (p for p in purchase_orders.values() if p.get("po_number") == po_number), None
             )
             if po:
                 if po.get("vendor_id") != vendor_id:
@@ -71,7 +71,7 @@ class RecordInvoice(Tool):
             "payment_terms": vendor.get("payment_terms", "Net 30"),
         }
 
-        invoices.append(new_invoice)
+        data["invoices"][invoice_id] = new_invoice
 
         due_dt = datetime.fromisoformat(due_date.replace("Z", "+00:00"))
 

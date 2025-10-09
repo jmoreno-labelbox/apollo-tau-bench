@@ -7,7 +7,7 @@ class add_employee(Tool):
     def invoke(data: dict[str, Any], employee_id: str) -> str:
         employees = data.setdefault("employees", [])
         employee = {"employee_id": employee_id}
-        employees.append(employee)
+        data["employees"][employee_id] = employee
         payload = {"success": True, "employee_id": employee_id}
         out = json.dumps(
             payload, indent=2

@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class GetArtifactIdFromName(Tool):  #READ
@@ -21,11 +21,11 @@ class GetArtifactIdFromName(Tool):  #READ
             out = json.dumps(payload)
             return out
 
-        artifacts = data.get("figma_artifacts", [])
+        artifacts = data.get("figma_artifacts", {}).values()
 
         #Look for an exact match initially
         exact_match = None
-        for artifact in artifacts:
+        for artifact in artifacts.values():
             if artifact.get("artifact_name") == artifact_name:
                 exact_match = artifact
                 break
@@ -44,7 +44,7 @@ class GetArtifactIdFromName(Tool):  #READ
         #If an exact match is not found, search for partial matches (case-insensitive)
         partial_matches = []
         artifact_name_lower = artifact_name.lower()
-        for artifact in artifacts:
+        for artifact in artifacts.values():
             artifact_artifact_name = artifact.get("artifact_name", "").lower()
             if (
                 artifact_name_lower in artifact_artifact_name

@@ -9,7 +9,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class AddTerminalLogEntry(Tool):
@@ -38,7 +38,7 @@ class AddTerminalLogEntry(Tool):
             out = json.dumps(payload)
             return out
 
-        terminal_logs = data.get("terminal_logs", [])
+        terminal_logs = data.get("terminal_logs", {}).values()
 
         # Generate a new log entry
         new_log = {
@@ -53,7 +53,7 @@ class AddTerminalLogEntry(Tool):
             new_log["user_email"] = user_email
 
         # Include in logs
-        terminal_logs.append(new_log)
+        data["terminal_logs"][new_log["terminal_log_id"]] = new_log
         payload = {"success": True, "log_entry": new_log, "total_logs": len(terminal_logs)}
         out = json.dumps(payload)
         return out

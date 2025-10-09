@@ -7,7 +7,7 @@ from typing import Any
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db.values())
+        return list(db)
     return db
 
 class ComputeTaxReserve(Tool):
@@ -24,7 +24,7 @@ class ComputeTaxReserve(Tool):
         rate = next(
             (
                 t["rate_percent"]
-                for t in data.get("tax_rates", [])
+                for t in data.get("tax_rates", {}).values()
                 if t.get("tax_year") == year
             ),
             None,
