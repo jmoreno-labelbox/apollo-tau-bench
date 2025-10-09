@@ -13,7 +13,7 @@ random.seed(42)
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
 
 
@@ -302,7 +302,7 @@ class CreateNewAccountForCustomer(Tool):
             if customer.get("customer_id") == customer_id:
                 ids = customer.setdefault("account_ids", [])
                 if account_id not in ids:
-                    ids.append(account_id)
+                    ids[ids] = account_id
                 break
 
         return json.dumps(new_account, indent=2)

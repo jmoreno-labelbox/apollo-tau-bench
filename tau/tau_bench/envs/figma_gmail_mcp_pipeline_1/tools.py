@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
 
 
@@ -910,9 +910,9 @@ class ComputeReleaseDiffs(Tool):  #READ
             if frame_id:
                 if previous_created_ts and artifact_modified_ts:
                     if artifact_modified_ts > previous_created_ts:
-                        frames_updated.append(frame_id)
+                        frames_updated[frame_id] = frame_id
                     else:
-                        frames_added.append(frame_id)
+                        frames_added[frame_id] = frame_id
                 else:
                     #If there is no prior release, treat all as newly added
                     frames_added.append(frame_id)

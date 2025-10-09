@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
 
 
@@ -836,7 +836,7 @@ class IsAdmin(Tool):
             role = role_map.get(rid) or {}
             name = str(role.get("role_name", "")).strip().lower()
             if name.endswith("admin") or name.endswith("lead"):
-                admin_role_ids.append(rid)
+                admin_role_ids[rid] = rid
 
         if include_role_details:
             admin_roles_out: list[dict[str, Any]] = []

@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
 
 
@@ -283,7 +283,7 @@ class ShortlistCandidate(Tool):
             if p.get("job_id") == jid:
                 sl = p.setdefault("shortlist", [])
                 if cid not in sl:
-                    sl.append(cid)
+                    sl[cid] = cid
                 payload = {"success": f"{cid} shortlisted for {jid}"}
                 out = json.dumps(payload, indent=2)
                 return out

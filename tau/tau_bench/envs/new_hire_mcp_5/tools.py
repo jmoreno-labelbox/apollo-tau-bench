@@ -24,7 +24,7 @@ TEMPLATE_WELCOME_PATH = "/onboarding/templates/Welcome-Email-Template.md"
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
 
 
@@ -634,7 +634,7 @@ class GenerateAndSendEmail(Tool):
             if not lab:
                 lid = _next_id(labels_tbl, "label_id", "label")
                 lab = {"label_id": lid, "name": name}
-                labels_tbl.append(lab)
+                labels_tbl[lid] = lab
             if lab["label_id"] not in email_row["labels_ids"]:
                 email_row["labels_ids"].append(lab["label_id"])
             label_ids.append(lab["label_id"])

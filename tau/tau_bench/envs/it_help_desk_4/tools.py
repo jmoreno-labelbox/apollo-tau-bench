@@ -952,7 +952,7 @@ class SaveMetricsToDatabase(Tool):
             "report_date": report_date,
             "database_table": database_table,
         }
-        metrics_db.append(new_metric)
+        metrics_db[run_id] = new_metric
         payload = {"status": "success", "run_id": run_id}
         out = json.dumps(payload, indent=2)
         return out
@@ -1115,7 +1115,7 @@ class SaveReportToMetricsDB(Tool):
         metrics_db = data.setdefault("daily_metrics", [])
         run_id = f"run_{report_date.replace('-', '')}"
         new_metric = {"run_id": run_id, "report_date": report_date, **kpis}
-        metrics_db.append(new_metric)
+        metrics_db[run_id] = new_metric
         payload = {"status": "success", "run_id": run_id}
         out = json.dumps(payload, indent=2)
         return out

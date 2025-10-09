@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
 
 
@@ -325,7 +325,7 @@ class WriteFileToBranch(Tool):
                 i = files.index(path)
                 contents[i] = content
             else:
-                files.append(path)
+                files[idx] = path
                 contents.append(content)
             payload = {
                     "message": "File added or updated",

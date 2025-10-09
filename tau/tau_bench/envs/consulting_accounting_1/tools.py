@@ -9,7 +9,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
 
 
@@ -133,7 +133,7 @@ class CreateAuditEntry(Tool):
             "event_timestamp": ts,
             "notes": notes,
         }
-        audit.append(record)
+        audit[new_id] = record
         payload = record
         out = json.dumps(payload, indent=2)
         return out

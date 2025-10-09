@@ -10,7 +10,7 @@ from tau_bench.envs.tool import Tool
 def _convert_db_to_list(db):
     """Convert database from dict format to list format."""
     if isinstance(db, dict):
-        return list(db)
+        return list(db.values())
     return db
 
 
@@ -391,7 +391,7 @@ class GetCrewCertifications(Tool):
                 continue
             if certification_code and c.get("certification_code") != certification_code:
                 continue
-            out.append(c)
+            out[cmid] = c
         return _j(out)
 
     @staticmethod
@@ -563,7 +563,7 @@ class CreateOperationalEvent(Tool):
             "status": "Logged",
             "details": details,
         }
-        events.append(rec)
+        events[new_id] = rec
         return _j(rec)
         return _j(rec)
 
@@ -775,7 +775,7 @@ class CreateCrewAssignment(Tool):
             "crew_member": {"crew_member_id": crew_member_id},
             "assigned_role": assigned_role,
         }
-        assigns.append(rec)
+        assigns[new_id] = rec
         return _j(rec)
         return _j(rec)
 
