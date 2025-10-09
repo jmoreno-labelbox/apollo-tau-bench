@@ -21,10 +21,10 @@ class GetInventoryAnalytics(Tool):
             inventory = [inv for inv in inventory.values() if inv.get("store_id") == store_id]
 
         total_items = len(inventory)
-        total_quantity = sum(inv.get("quantity", 0) for inv in inventory.values()
+        total_quantity = sum(inv.get("quantity", 0) for inv in inventory.values())
         total_value = 0.0
 
-        for inv_record in inventory.values()):
+        for inv_record in inventory.values():
             product = next(
                 (p for p in products.values() if p.get("sku") == inv_record.get("sku")), None
             )

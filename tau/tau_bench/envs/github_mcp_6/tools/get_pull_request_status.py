@@ -60,7 +60,7 @@ class GetPullRequestStatus(Tool):
                     result = {
                         "state": (
                             "success"
-                            if all(check["state"] == "success" for check in checks.values()
+                            if all(check["state"] == "success" for check in checks.values())
                             else "pending"
                         ),
                         "total_count": len(checks),

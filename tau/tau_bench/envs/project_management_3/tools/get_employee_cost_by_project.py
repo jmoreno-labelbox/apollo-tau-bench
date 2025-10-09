@@ -69,7 +69,7 @@ class GetEmployeeCostByProject(Tool):
                 and log.get("employee_id") == employee_id
             ]
 
-            task_hours = sum(log.get("hours", 0) for log in task_time_logs.values()
+            task_hours = sum(log.get("hours", 0) for log in task_time_logs.values())
             total_hours += task_hours
 
             if task_hours > 0:
@@ -94,7 +94,7 @@ class GetEmployeeCostByProject(Tool):
                 and e.get("project_id") == project_id
                 and e.get("status") == "approved"
             ]
-            total_expense_amount = sum(e.get("amount", 0) for e in employee_expenses.values()
+            total_expense_amount = sum(e.get("amount", 0) for e in employee_expenses.values())
 
         employee_cost = {
             "employee_id": employee_id,

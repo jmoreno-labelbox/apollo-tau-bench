@@ -17,7 +17,7 @@ class BuildRecipeFilters(Tool):
             cuisines_exclude = []
         if not isinstance(cuisines_exclude, list):
             cuisines_exclude = []
-        ex = ",".join(sorted(str(c) for c in cuisines_exclude)
+        ex = ",".join(sorted(str(c) for c in cuisines_exclude))
         token = f"F:{meal_type}:P{min_protein_g}:PF{1 if peanut_free else 0}:EX{ex}"
         return _json_dump({"filter_token": token})
 

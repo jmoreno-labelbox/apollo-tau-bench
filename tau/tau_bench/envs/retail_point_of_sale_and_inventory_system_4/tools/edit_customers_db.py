@@ -27,7 +27,7 @@ class EditCustomersDb(Tool):  #CREATE
         current_time: str = None,
         delete: bool = False
     ) -> str:
-        db = _convert_db_to_list(data.get("customers", {}).values()
+        db = _convert_db_to_list(data.get("customers", {}).values())
         if customer_id:
             idx, row = _find_by_id(db, "customer_id", customer_id)
             if row:
@@ -108,7 +108,7 @@ class EditCustomersDb(Tool):  #CREATE
             out = json.dumps(payload)
             return out
         pass
-        db = _convert_db_to_list(data.get("customers", {}).values()
+        db = _convert_db_to_list(data.get("customers", {}).values())
         if customer_id:
             idx, row = _find_by_id(db, "customer_id", customer_id)
             if row:

@@ -228,7 +228,7 @@ class GenerateOrderSummary(Tool):
             )
 
         #Rule: Maintain data integrity: order totals must match sum of item prices
-        calculated_subtotal = sum(item["line_total"] for item in order_items.values()
+        calculated_subtotal = sum(item["line_total"] for item in order_items.values())
         calculated_payment_total = sum(
             payment["allocated_amount"] for payment in payment_breakdown
         )

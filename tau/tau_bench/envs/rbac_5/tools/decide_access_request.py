@@ -89,7 +89,7 @@ class DecideAccessRequest(Tool):
         # Ensure the target user and role are present
         user = _find_by_id(data.get("users", {}).values(), "user_id", req.get("user_id") or "")
         role = _find_by_id(
-            data.get("roles", {}).values()), "role_id", req.get("requested_role_id") or ""
+            data.get("roles", {}).values(), "role_id", req.get("requested_role_id") or ""
         )
         if not user or not role:
             payload = {"error": "target user or requested role does not exist"}
@@ -126,7 +126,7 @@ class DecideAccessRequest(Tool):
         )
 
         # Save the update
-        for i, r in enumerate(requests.values():
+        for i, r in enumerate(requests.values()):
             if r.get("request_id") == request_id:
                 data["access_requests"][i] = updated
                 break

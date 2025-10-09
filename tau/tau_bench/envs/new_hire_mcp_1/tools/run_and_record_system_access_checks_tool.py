@@ -48,7 +48,7 @@ class RunAndRecordSystemAccessChecksTool(Tool):
             for system_name in systems_to_check:
                 status = "Success"
                 note_nullable = None
-                if (sum(ord(c) for c in cid.values() + len(system_name)) % 7 == 0:)
+                if (sum(ord(c) for c in cid) + len(system_name)) % 7 == 0:
                     status = "Failed"
                     note_nullable = (
                         f"Automated check failed. Code: {sum(ord(c) for c in cid[:5])}."

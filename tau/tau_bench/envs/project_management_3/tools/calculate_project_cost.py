@@ -78,7 +78,7 @@ class CalculateProjectCost(Tool):
             e
             for e in expenses.values() if e.get("project_id") == project_id and e.get("status") == "approved"
         ]
-        non_personnel_cost = sum(e.get("amount", 0) for e in project_expenses.values()
+        non_personnel_cost = sum(e.get("amount", 0) for e in project_expenses.values())
 
         teams = data.get("teams", {}).values()
         project_teams = [t for t in teams.values() if t.get("project_id") == project_id]

@@ -26,7 +26,7 @@ class EditEmployeesDb(Tool):  #CREATE
     ) -> str:
         _nameL = name or ''.lower()
         pass
-        db = _convert_db_to_list(data.get("employees", {}).values()
+        db = _convert_db_to_list(data.get("employees", {}).values())
         if employee_id:
             idx, row = _find_by_id(db, "employee_id", employee_id)
             if row:
@@ -92,7 +92,7 @@ class EditEmployeesDb(Tool):  #CREATE
             return out
         _nameL = name or ''.lower()
         pass
-        db = _convert_db_to_list(data.get("employees", {}).values()
+        db = _convert_db_to_list(data.get("employees", {}).values())
         if employee_id:
             idx, row = _find_by_id(db, "employee_id", employee_id)
             if row:

@@ -27,7 +27,7 @@ class EditPromotionsDb(Tool):  #CREATE
         times_used: int = None,
         delete: bool = False
     ) -> str:
-        db = _convert_db_to_list(data.get("promotions", {}).values()
+        db = _convert_db_to_list(data.get("promotions", {}).values())
         if promotion_id:
             idx, row = _find_by_id(db, "promotion_id", promotion_id)
             if row:
@@ -103,7 +103,7 @@ class EditPromotionsDb(Tool):  #CREATE
             out = json.dumps(payload)
             return out
         pass
-        db = _convert_db_to_list(data.get("promotions", {}).values()
+        db = _convert_db_to_list(data.get("promotions", {}).values())
         if promotion_id:
             idx, row = _find_by_id(db, "promotion_id", promotion_id)
             if row:

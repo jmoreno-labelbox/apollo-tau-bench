@@ -34,7 +34,7 @@ class BulkCheckTeamCourses(Tool):
         for member_id in members:
             member_courses = [p for p in progress_data.values() if p.get("user_id") == member_id]
             avg_progress = (
-                sum(c.get("current_progress_percent", 0) for c in member_courses.values()
+                sum(c.get("current_progress_percent", 0) for c in member_courses.values())
                 / len(member_courses)
                 if member_courses
                 else 0

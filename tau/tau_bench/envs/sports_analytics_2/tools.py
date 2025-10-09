@@ -1326,7 +1326,7 @@ class WriteUmpireGameModel(Tool):
         calibration_error_pct = kwargs.get("calibration_error_pct")
         data.setdefault("umpire_game_models", []).append(
             {
-                "umpire_game_id": f"ump_{len(data.get("umpire_game_models", {}))+1}",
+                "umpire_game_id": f"ump_{len(data.get('umpire_game_models', {}))+1}",
                 "game_pk": game_pk,
                 "zone_shift_x": zone_shift_x,
                 "zone_shift_z": zone_shift_z,

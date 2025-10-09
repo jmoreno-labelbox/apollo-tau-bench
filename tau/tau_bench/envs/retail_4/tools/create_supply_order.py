@@ -350,7 +350,7 @@ class CreateSupplyOrder(Tool):
                 valid_items.append(
                     {
                         "item_id": item,
-                        "variant_options": variants[item].get("options", {}).values()),
+                        "variant_options": list(variants[item].get("options", {}).values()),
                         "current_price": variants[item].get("price", 0),
                         "available": variants[item].get("available", False),
                         "unit_cost": (
@@ -526,7 +526,7 @@ class CreateSupplyOrder(Tool):
                 return order_result  #Return error if any order creation fails
 
         #Calculate totals
-        total_orders_cost = sum(order["total_cost"] for order in created_orders.values()
+        total_orders_cost = sum(order["total_cost"] for order in created_orders.values())
         total_quantity_ordered = sum(
             order["total_quantity"] for order in created_orders
         )

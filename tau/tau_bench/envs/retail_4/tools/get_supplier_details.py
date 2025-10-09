@@ -70,7 +70,7 @@ class GetSupplierDetails(Tool):
             "supplier_info": {
                 "name": supplier_found.get("name"),
                 "contact_info": list(supplier_found.get("contact_info", {}).values()),
-                "performance_metrics": supplier_found.get("performance_metrics", {}).values()),
+                "performance_metrics": list(supplier_found.get("performance_metrics", {}).values()),
                 "notes": supplier_found.get("notes", ""),
             },
             "product_portfolio": {

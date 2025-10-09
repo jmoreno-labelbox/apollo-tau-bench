@@ -2820,10 +2820,10 @@ tasks = [
             }
         ],
         "outputs": [
-                "split_summary_json_path": "/data/splits/sf_time_based_split_20240322.json",
-                "train_index_count": 134,
-                "test_index_count": 34,
-                "test_fraction": 0.2
+                "\"split_summary_json_path\": \"/data/splits/sf_time_based_split_20240322.json\"",
+                "\"train_index_count\": 134",
+                "\"test_index_count\": 34",
+                "\"test_fraction\": 0.2"
         ]
     }
     ,

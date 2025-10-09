@@ -69,7 +69,7 @@ class BulkMoveTasksToSprint(Tool):
             capacity_limit = len(team_members) * 20
 
         sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == target_sprint_id]
-        current_points = sum(t.get("story_points", 0) for t in sprint_tasks.values()
+        current_points = sum(t.get("story_points", 0) for t in sprint_tasks.values())
 
         moved_tasks = []
         failed_tasks = []

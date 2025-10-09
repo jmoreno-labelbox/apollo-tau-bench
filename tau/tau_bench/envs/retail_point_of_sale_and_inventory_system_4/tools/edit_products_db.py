@@ -33,7 +33,7 @@ class EditProductsDb(Tool):  #CREATE
         current_time: str = None,
         delete: bool = False
     ) -> str:
-        db = _convert_db_to_list(data.get("products", {}).values()
+        db = _convert_db_to_list(data.get("products", {}).values())
         if sku:
             idx, row = _find_by_id(db, "sku", sku)
             if row:
@@ -124,7 +124,7 @@ class EditProductsDb(Tool):  #CREATE
             out = json.dumps(payload)
             return out
         pass
-        db = _convert_db_to_list(data.get("products", {}).values()
+        db = _convert_db_to_list(data.get("products", {}).values())
         if sku:
             idx, row = _find_by_id(db, "sku", sku)
             if row:

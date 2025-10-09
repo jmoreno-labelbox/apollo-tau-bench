@@ -142,7 +142,7 @@ class GetAirportOperationalStatus(Tool):
                     {
                         "aircraft_id": aircraft.get("aircraft_id"),
                         "tail_number": aircraft.get("tail_number"),
-                        "model": aircraft.get("model", {}).values()),
+                        "model": list(aircraft.get("model", {}).values()),
                         "status": aircraft.get("status"),
                     }
                 )

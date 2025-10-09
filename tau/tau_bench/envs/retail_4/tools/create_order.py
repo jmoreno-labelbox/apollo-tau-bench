@@ -340,7 +340,7 @@ class CreateOrder(Tool):
         new_order = {
             "order_id": new_order_id,
             "user_id": user_id,
-            "address": user.get("address", {}).values()),
+            "address": list(user.get("address", {}).values()),
             "items": order_items,
             "fulfillments": [],
             "status": "pending",
@@ -372,7 +372,7 @@ class CreateOrder(Tool):
         user["orders"].append(new_order_id)
 
         #Calculate final amounts for response
-        final_payment_amount = sum(p["allocated_amount"] for p in payment_breakdown.values()
+        final_payment_amount = sum(p["allocated_amount"] for p in payment_breakdown.values())
 
         result = {
             "status": "success",

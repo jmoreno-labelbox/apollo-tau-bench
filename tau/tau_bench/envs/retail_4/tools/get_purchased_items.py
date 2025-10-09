@@ -156,7 +156,7 @@ class GetPurchasedItems(Tool):
                 "user_id": user_id,
                 "order_status": order_status,
                 "order_date": order_timestamp,
-                "delivery_address": target_order.get("address", {}).values()),
+                "delivery_address": list(target_order.get("address", {}).values()),
             },
             "financial_summary": {
                 "total_order_value": round(total_order_value, 2),

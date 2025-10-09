@@ -20,10 +20,10 @@ class FindPendingTasksByType(Tool):
             db = _convert_db_to_list(data.get("archive_instructions", {}).values())
             pending_tasks = [t for t in db.values() if t.get("status") == "pending"]
         elif task_type == "file_check":
-            db = _convert_db_to_list(data.get("file_check_db", {}).values()
+            db = _convert_db_to_list(data.get("file_check_db", {}).values())
             pending_tasks = [t for t in db.values() if not t.get("completed")]
         elif task_type == "file_organization":
-            db = _convert_db_to_list(data.get("file_lists", {}).values()
+            db = _convert_db_to_list(data.get("file_lists", {}).values())
             op_ids = {f["operation_id"] for f in db if f.get("status") == "pending"}
             all_ops = data.get("directories", {}).values()
             pending_tasks = [op for op in all_ops.values() if op["operation_id"] in op_ids]

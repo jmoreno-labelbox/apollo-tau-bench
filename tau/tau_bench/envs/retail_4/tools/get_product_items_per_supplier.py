@@ -169,7 +169,7 @@ class GetProductItemsPerSupplier:
                                     "available": item_variant_info.get(
                                         "available", False
                                     ),
-                                    "options": item_variant_info.get("options", {}).values()),
+                                    "options": list(item_variant_info.get("options", {}).values()),
                                 },
                             }
                         )

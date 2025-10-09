@@ -130,7 +130,7 @@ tasks = [
         ],
         "outputs": [
                 "\"street_address\": \"987 Birch St\", \"city\": \"New City\", \"postal_code\": \"L1V 2T7\"",
-                ""number": \"555-999-8888\"",
+                "\"number\": \"555-999-8888\"",
                 "\"transaction_id\": \"txn_5d4e7g1i-5e7c-8d3g-3e6i-9g1e3f7h8d4d\"",
                 "\"transaction_id\": \"txn_4e5f8h2j-6f8d-9e4h-4f7j-1h2f4g8i9e5e\""
         ]
@@ -677,7 +677,7 @@ tasks = [
         ],
         "outputs": [
                 "\"country\": \"United Kingdom\"",
-                ""number": \"+44 7890 123456\"",
+                "\"number\": \"+44 7890 123456\"",
                 "\"currency\": \"GBP\", \"available_account_types\": [\"Checking\", \"Savings\", \"ISA\"]",
                 "\"account_id\": \"acc_generated_40\", \"status\": \"Active\""
         ]
@@ -1973,7 +1973,7 @@ tasks = [
         ],
         "outputs": [
                 "\"last_name\": \"Horvat\", \"marital_status\": \"Married\"",
-                ""number": \"+386 51 987 654\"",
+                "\"number\": \"+386 51 987 654\"",
                 "\"balance\": 3500.0"
         ]
     }
@@ -3974,7 +3974,7 @@ tasks = [
                 "\"overdraft_limit\": \"500.00\"",
                 "\"account_id\": \"acc_sav_1002\", \"balance\": 15780.0",
                 "\"credit_score\": 780",
-                "\"type\": \"Work\", "number": \"310-555-1234\""
+                "\"type\": \"Work\", \"number\": \"310-555-1234\""
         ]
     }
     ,

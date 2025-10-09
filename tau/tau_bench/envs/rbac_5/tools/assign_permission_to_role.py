@@ -42,7 +42,7 @@ class AssignPermissionToRole(Tool):
 
         # Verify if the mapping is present
         mappings = data.get("role_permissions", {}).values()
-        for rp in mappings.values()):
+        for rp in mappings.values():
             if (
                 rp.get("role_id") == role_id
                 and rp.get("permission_id") == permission_id

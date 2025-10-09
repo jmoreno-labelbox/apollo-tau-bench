@@ -674,7 +674,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Issue created\", "number": 1",
+                "\"message\": \"Issue created\", \"number\": 1",
                 "\"message\": \"Label 'ops' added.\"",
                 "\"timestamp\": \"2025-08-21T12:00:00Z\", \"message\": \"Issue #1 closed: Nightly job failed on main\""
         ]
@@ -1113,7 +1113,7 @@ tasks = [
             }
         ],
         "outputs": [
-                ""number": 1",
+                "\"number\": 1",
                 "\"title\": \"Fix crash on startup\"",
                 "\"state\": \"open\"",
                 "\"title\": \"Fix startup crash\""
@@ -1287,7 +1287,7 @@ tasks = [
                 "\"message\": \"Pull request merged.\", \"merged\": \"true\", \"merge_method\": \"merge\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"payments-service\", \"tag_name\": \"v0.3.0\", \"title\": \"Retry policy docs\"",
                 "\"tag_name\": \"v0.3.0\", \"body\": \"Publish retry policy documentation.\"",
-                "\"message\": \"Issue created\", "number": 1",
+                "\"message\": \"Issue created\", \"number\": 1",
                 "\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"payments-service retry policy docs published and released as v0.3.0.\""
         ]
     }
@@ -1553,7 +1553,7 @@ tasks = [
                 "\"message\": \"Topic 'accessibility' added.\"",
                 "\"message\": \"Release created.\", \"repo_name\": \"ui-kit\", \"tag_name\": \"v2.0.0\", \"title\": \"Accessibility docs\"",
                 "\"tag_name\": \"v2.0.0\", \"body\": \"Add accessibility documentation.\"",
-                "\"message\": \"Issue created\", "number": 1",
+                "\"message\": \"Issue created\", \"number\": 1",
                 "\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"ui-kit accessibility docs published and released as v2.0.0.\""
         ]
     }

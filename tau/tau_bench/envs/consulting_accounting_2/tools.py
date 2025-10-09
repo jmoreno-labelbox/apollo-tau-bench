@@ -1471,7 +1471,7 @@ class CaV2CreateSchedulerRun(Tool):
             return _error("Required fields: task_name, status")
 
         scheduler_run = {
-            "run_id": run_id or f"RUN{len(data.get("scheduler_runs", {})) + 1:03d}",
+            "run_id": run_id or f"RUN{len(data.get('scheduler_runs', {})) + 1:03d}",
             "task_name": task_name,
             "scheduled_for": scheduled_for,
             "executed_at": executed_at,

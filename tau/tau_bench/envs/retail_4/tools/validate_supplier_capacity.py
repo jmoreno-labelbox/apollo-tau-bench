@@ -48,12 +48,12 @@ class ValidateSupplierCapacity(Tool):
                 cancelled_orders.append(order)
 
         # Calculate capacity metrics
-        total_pending_quantity = sum(order.get("quantity", 0) for order in pending_orders.values()
+        total_pending_quantity = sum(order.get("quantity", 0) for order in pending_orders.values())
         total_fulfilled_quantity = sum(order.get("quantity", 0) for order in fulfilled_orders.values())
-        total_cancelled_quantity = sum(order.get("quantity", 0) for order in cancelled_orders.values()
+        total_cancelled_quantity = sum(order.get("quantity", 0) for order in cancelled_orders.values())
 
-        total_pending_cost = sum(order.get("total_cost", 0) for order in pending_orders.values()
-        total_fulfilled_cost = sum(order.get("total_cost", 0) for order in fulfilled_orders.values()
+        total_pending_cost = sum(order.get("total_cost", 0) for order in pending_orders.values())
+        total_fulfilled_cost = sum(order.get("total_cost", 0) for order in fulfilled_orders.values())
 
         # Calculate reliability metrics
         total_completed_orders = len(fulfilled_orders) + len(cancelled_orders)

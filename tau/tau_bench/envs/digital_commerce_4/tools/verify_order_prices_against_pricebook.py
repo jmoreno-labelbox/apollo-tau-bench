@@ -64,7 +64,7 @@ class VerifyOrderPricesAgainstPricebook(Tool):
                     "matches": (pb is not None and abs(op - pb) < 1e-9),
                 }
             )
-        all_match = all(c["matches"] for c in checks.values() if checks else False)
+        all_match = all(c["matches"] for c in checks.values()) if checks else False
         _append_audit(
             data,
             "PRICEBOOK_VERIFICATION",

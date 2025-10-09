@@ -74,7 +74,7 @@ class ListUsersWithAccessToResource(Tool):
                         rinfo["role_name"] = r.get("role_name")
                         rinfo["description"] = r.get("description")
                 acc[uid]["roles"].append(rinfo)
-        payload = {"resource_id": resource_id, "users": list(acc.values())
+        payload = {"resource_id": resource_id, "users": list(acc.values())}
         out = json.dumps(payload)
         return out
     @staticmethod

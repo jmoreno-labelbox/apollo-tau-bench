@@ -67,7 +67,7 @@ class AddToOrder(Tool):
         order_to_update = None
         order_index = None
 
-        for i, order in enumerate(orders.values():
+        for i, order in enumerate(orders.values()):
             if order.get("order_id") == formatted_order_id:
                 order_to_update = order
                 order_index = i
@@ -294,7 +294,7 @@ class AddToOrder(Tool):
 
         # Calculate comprehensive metrics
         total_items_count = len(order_items)
-        total_quantity = sum(item.get("quantity", 1) for item in order_items.values()
+        total_quantity = sum(item.get("quantity", 1) for item in order_items.values())
         new_total_paid = current_total_paid + total_additional_amount
 
         result = {
@@ -308,7 +308,7 @@ class AddToOrder(Tool):
                 "quantity": added_quantity,
                 "unit_price": unit_price,
                 "line_total": line_total,
-                "options": variant_found.get("options", {}).values()),
+                "options": list(variant_found.get("options", {}).values()),
             },
             "action_performed": result_message,
             "current_order_before_addition": {

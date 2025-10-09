@@ -120,7 +120,7 @@ class FindFlights(Tool):
             for flight in matching_flights:
                 prices = flight.get("prices", {}).values()
                 if prices:
-                    flight["lowest_price"] = min(prices.values()
+                    flight["lowest_price"] = min(prices.values())
                 else:
                     flight["lowest_price"] = float("inf")
 

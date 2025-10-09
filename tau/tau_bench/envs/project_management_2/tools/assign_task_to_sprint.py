@@ -77,7 +77,7 @@ class AssignTaskToSprint(Tool):
                 capacity_limit = len(team_members) * 20
 
             sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
-            current_points = sum(t.get("story_points", 0) for t in sprint_tasks.values()
+            current_points = sum(t.get("story_points", 0) for t in sprint_tasks.values())
             new_total = current_points + task.get("story_points", 0)
 
             if new_total > capacity_limit:

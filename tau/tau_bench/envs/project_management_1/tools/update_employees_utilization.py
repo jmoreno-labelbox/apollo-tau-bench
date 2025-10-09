@@ -26,7 +26,7 @@ class UpdateEmployeesUtilization(Tool):
                 "index": i,
                 "max_hours_per_week": info["max_hours_per_week"],
             }
-            for i, info in enumerate(employees.values()
+            for i, info in enumerate(employees.values())
         }
 
         allocations = data.get("allocations", {}).values()

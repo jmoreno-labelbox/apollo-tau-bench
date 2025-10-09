@@ -78,7 +78,7 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": cr.get("impact_assessment", {}).values()),
+                        "impact": list(cr.get("impact_assessment", {}).values()),
                     }
                 )
             elif cr.get("change_type") == "requirement_change":
@@ -86,7 +86,7 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": cr.get("impact_assessment", {}).values()),
+                        "impact": list(cr.get("impact_assessment", {}).values()),
                     }
                 )
 

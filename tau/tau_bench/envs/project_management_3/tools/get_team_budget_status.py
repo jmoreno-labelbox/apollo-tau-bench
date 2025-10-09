@@ -70,7 +70,7 @@ class GetTeamBudgetStatus(Tool):
                 member_logs = [
                     log for log in task_logs.values() if log.get("employee_id") == member_id
                 ]
-                total_hours = sum(log.get("hours", 0) for log in member_logs.values()
+                total_hours = sum(log.get("hours", 0) for log in member_logs.values())
                 member_cost = total_hours * hourly_rate
 
                 member_costs[member_id] = {
@@ -89,7 +89,7 @@ class GetTeamBudgetStatus(Tool):
             and e.get("status") == "approved"
         ]
 
-        total_expenses = sum(e.get("amount", 0) for e in team_expenses.values()
+        total_expenses = sum(e.get("amount", 0) for e in team_expenses.values())
 
         status = {
             "budget_utilization": (

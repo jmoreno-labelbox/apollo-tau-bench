@@ -43,7 +43,7 @@ class GetApprovedSuppliers(Tool):
                 break
             else:
                 # Verify if the supplier caters to this product category and is operational
-                if (any(cat in product_category for cat in supplier_categories.values() and))
+                if (any(cat in product_category for cat in supplier_categories.values()) and
                     supplier.get("relationship_status") == "Active" and
                     supplier.get("performance_rating", 0) >= 4.0):
 

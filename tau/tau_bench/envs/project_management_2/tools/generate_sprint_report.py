@@ -75,7 +75,7 @@ class GenerateSprintReport(Tool):
                 ]
                 if task.get("status") == "done":
                     required_hours = task.get("story_points", 0) * 2 * 0.5
-                    logged_hours = sum(log.get("hours", 0) for log in task_logs.values()
+                    logged_hours = sum(log.get("hours", 0) for log in task_logs.values())
                     if logged_hours < required_hours:
                         compliance_issues.append(
                             {

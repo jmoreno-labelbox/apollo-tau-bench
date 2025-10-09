@@ -2961,7 +2961,7 @@ tasks = [
     }
     ,
     {
-        "annotator": shipping manager,
+        "annotator": "shipping manager",
         "user_id": "sc_task_25",
         "instruction": "As a shipping control manager, examine the supply orders waiting for processing and pinpoint those with quantities fewer than 10 units. Adjust their quantities to 50 to optimize shipping costs. Arrange a supply order of 150 units priced at $120 each for item 9385662952, as it is currently out of stock, and confirm that the order placement and supplier mapping were executed accurately.",
         "actions": [
@@ -3653,7 +3653,7 @@ tasks = [
     }
     ,
     {
-        "annotator": Supply chain emergency coordinator,
+        "annotator": "Supply chain emergency coordinator",
         "user_id": "sc_task_36",
         "instruction": "As a Supply Chain Emergency Coordinator, handle the disruption impacting Supplier #SUP0012. Examine their product list along with current stock quantities, identifying any products that are out of stock. For every impacted product, initiate a supply order for 80 units priced at $50 each and confirm the order placement. Upon arrival of the shipment, mark the order as delivered, update the inventory records, and make necessary adjustments to stock quantities.",
         "actions": [
