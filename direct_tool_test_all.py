@@ -80,7 +80,7 @@ def test_environment_tools(env_name):
 
 
 def main():
-    base = Path("/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs")
+    base = Path(__file__).parent / "tau" / "tau_bench" / "envs"
     env_names = sorted([d.name for d in base.iterdir() 
                        if d.is_dir() and not d.name.startswith('_') and d.name != '__pycache__'])
     
