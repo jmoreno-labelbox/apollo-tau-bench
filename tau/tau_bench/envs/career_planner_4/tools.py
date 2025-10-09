@@ -1558,7 +1558,7 @@ class GetUserCourseProgress(Tool):
 #Identification Generation Utilities
 class GenerateUniqueCertId(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any]
+    def invoke(data: dict[str, Any], prefix: str = "CERT"
     ) -> str:
         unique_id = f"{prefix}001"
         payload = {"generated_cert_id": unique_id}

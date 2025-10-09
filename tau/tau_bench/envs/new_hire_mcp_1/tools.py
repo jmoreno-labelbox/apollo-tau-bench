@@ -2481,7 +2481,9 @@ class CreateOrientationInvitationEmailsTool(Tool):
     def invoke(
         data: dict[str, Any], 
         orientation_details: dict[str, Any] = None, 
-        ready_candidate_ids: list[str] = None
+        ready_candidate_ids: list[str] = None,
+        orientation_template_name: str = None,
+        manager_intro_template_name: str = None
     ) -> str:
         pass
         candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", {}).values()}

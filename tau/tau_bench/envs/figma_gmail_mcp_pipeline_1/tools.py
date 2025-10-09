@@ -367,9 +367,10 @@ class CreateGmailMessage(Tool):  #WRITE
     def invoke(
         data: dict[str, Any],
         sender_email: str,
-        workflow_type: str,
+        body_text_stripped: str,
         thread_id: str = None,
         attachments_asset_ids: list[str] = None,
+        workflow_type: str = None,
     ) -> str:
         pass
         #Check the input for validity
@@ -389,10 +390,6 @@ class CreateGmailMessage(Tool):  #WRITE
         next_num = len(gmail_messages) + 1
         message_id = f"msg_{next_num:03d}"
         sent_ts = "2025-08-26T12:00:00Z"  #Utilize the current date/time in production
-        if workflow_type == "review":
-            body_text_stripped = "Hi, please review the attached design."
-        elif workflow_type == "release":
-            body_text_stripped = "Hi, please find the designs for release attached."
         new_message = {
             "message_id": message_id,
             "thread_id": thread_id,
@@ -449,8 +446,9 @@ class CreateGmailThread(Tool):  #WRITE
         data: dict[str, Any],
         sender_email: str,
         recipients_emails: list[str],
-        workflow_type: str,
+        subject: str,
         current_labels: list[str],
+        workflow_type: str = None,
     ) -> str:
         pass
         #Check the input for validity

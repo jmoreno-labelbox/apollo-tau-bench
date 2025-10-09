@@ -943,9 +943,8 @@ class ProcessItemExchange(Tool):  #WRITE
     def invoke(
         data: dict[str, Any],
         order_id: str,
-        item_ids: list[str],
-        new_item_ids: list[str],
-        payment_method_id: str,
+        item_id: str,
+        reason: str,
     ) -> str:
         pass
         orders = data["orders"]
@@ -966,11 +965,11 @@ class ProcessItemExchange(Tool):  #WRITE
 
         removed_price = 0.0
         for item in items:
-            if item["item_id"] in item_ids:
+            if item["item_id"] == item_id:
                 removed_price += item["price"]
 
         for item in items:
-            if item["item_id"] in item_ids:
+            if item["item_id"] == item_id:
                 items.remove(item)
 
         products = data["products"]

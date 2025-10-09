@@ -2734,7 +2734,8 @@ class GetPlayerInsightsByPlayeridAndType(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], player_id: str = None, type_filter: str = None) -> str:
+    def invoke(data: dict[str, Any], player_id: str = None, type: str = None) -> str:
+        type_filter = type
         #1) Confirm validity
         if player_id is None:
             payload = {"error": "Missing required field: player_id"}

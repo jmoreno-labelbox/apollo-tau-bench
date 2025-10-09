@@ -86,7 +86,7 @@ class GetPhysicalCount(Tool):
 
 class CompareInventoryCounts(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], store_id: Any = None, auditor_id: Any = None) -> str:
+    def invoke(data: dict[str, Any], store_id: str = None, sku: str = None, threshold_percent: float = None) -> str:
         payload = {"discrepancy": 6, "percent": 6.0}
         out = json.dumps(payload, indent=2)
         return out

@@ -15,7 +15,7 @@ def _convert_db_to_list(db):
 
 class FindListings(Tool):
     @staticmethod
-    def invoke(data: dict[str, Any], status: str = None, min_price: float = 0, max_price: float = float("inf"), property_id: str = None) -> str:
+    def invoke(data: dict[str, Any], status: str = None, min_price: float = 0, max_price: float = float("inf"), property_id: str = None, neighborhood_ids: list = None) -> str:
         listings = data.get("listings", {}).values()
         results = []
 

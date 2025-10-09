@@ -102,17 +102,17 @@ class CreateOrderTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], supplier_id: str = None, items: list = None) -> str:
-        if not supplier_id or not isinstance(items, list) or not items:
-            payload = {"error": "supplier_id and non-empty items are required"}
+    def invoke(data: dict[str, Any], user_id: str = None, items: list = None) -> str:
+        if not user_id or not isinstance(items, list) or not items:
+            payload = {"error": "user_id and non-empty items are required"}
             out = json.dumps(
                 payload, indent=2
             )
             return out
 
-        suppliers = data.get("suppliers", {}).values()
-        if not any(s.get("supplier_id") == supplier_id for s in suppliers.values()):
-            payload = {"error": f"supplier_id '{supplier_id}' not found in suppliers"}
+        users = data.get("users", {}).values()
+        if not any(u.get("user_id") == user_id for u in users.values()):
+            payload = {"error": f"user_id '{user_id}' not found in users"}
             out = json.dumps(
                 payload, indent=2,
             )
@@ -1390,9 +1390,9 @@ class AttachCourierByNameTool(Tool):
     """
 
     @staticmethod
-    def invoke(data: dict[str, Any], order_id: str = None, courier_name: str = None) -> str:
-        if not order_id or not courier_name:
-            payload = {"error": "order_id and courier_name are required"}
+    def invoke(data: dict[str, Any], order_id: str = None, courier_name: str = None, tracking_id: str = None) -> str:
+        if not order_id or not courier_name or not tracking_id:
+            payload = {"error": "order_id, courier_name and tracking_id are required"}
             out = json.dumps(
                 payload, indent=2
             )

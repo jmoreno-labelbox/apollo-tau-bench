@@ -167,13 +167,16 @@ class ListRecipes(Tool):
     @staticmethod
     def invoke(
         data: dict[str, Any],
-        meal_type: str = None,
-        cuisine: str = None,
-        peanut_free: bool = None,
-        min_protein_g: float = None,
-        no_heat_required: bool = None,
-        minimal_prep: bool = None
+        filters: dict[str, Any] = None
     ) -> str:
+        if filters is None:
+            filters = {}
+        meal_type = filters.get("meal_type")
+        cuisine = filters.get("cuisine")
+        peanut_free = filters.get("peanut_free")
+        min_protein_g = filters.get("min_protein_g")
+        no_heat_required = filters.get("no_heat_required")
+        minimal_prep = filters.get("minimal_prep")
         recipes = _get_table(data, "recipes")
         rows = recipes
         if meal_type:

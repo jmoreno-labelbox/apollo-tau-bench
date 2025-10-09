@@ -1182,13 +1182,12 @@ class UpdateInventoryItem(Tool):  #CREATE
     @staticmethod
     def invoke(
         data: dict[str, Any],
-        sku: str,
-        store_id: str,
+        inventory_id: str,
         quantity_change: int,
         current_time: str
     ) -> str:
         db = _convert_db_to_list(data.get("inventory", {}).values())
-        filtered_db = _filter_db(db, {"sku": sku, "store_id": store_id})
+        filtered_db = _filter_db(db, {"id": inventory_id})
         if len(filtered_db) == 1:
             row = filtered_db[0]
             row["quantity"] = row.get("quantity", 0) + quantity_change
@@ -1197,7 +1196,7 @@ class UpdateInventoryItem(Tool):  #CREATE
             out = json.dumps(payload)
             return out
         else:
-            payload = {"error": f"Inventory item {sku} in store {store_id} not found"}
+            payload = {"error": f"Inventory item {inventory_id} not found"}
             out = json.dumps(payload)
             return out
 
@@ -1888,7 +1887,7 @@ class CreateRefundTransaction(Tool):  #CREATE
         refund_transaction["line_items"] = [item_info]
 
         # Add entry to transactions table
-        data["transactions"][transaction_id] = refund_transaction
+        data["transactions"][original_transaction_id] = refund_transaction
         payload = refund_transaction
         out = json.dumps(payload)
         return out

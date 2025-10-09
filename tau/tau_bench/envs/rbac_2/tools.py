@@ -1105,7 +1105,7 @@ class CreatePolicyException(Tool):
         user_id: str = None,
         permission_id: str = None,
         approved_by: str = None,
-        expires_on: str = None,
+        expires_at: str = None,
         justification: str = None
     ) -> str:
         try:
@@ -1127,7 +1127,7 @@ class CreatePolicyException(Tool):
             "reviewed_by": approved_by,
             "requested_on": timestamp,
             "reviewed_on": timestamp,
-            "expires_on": expires_on,
+            "expires_on": expires_at,
             "reason": justification,
             "status": "ACTIVE",
         }

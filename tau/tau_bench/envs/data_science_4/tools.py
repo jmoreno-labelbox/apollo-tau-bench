@@ -173,7 +173,8 @@ class SetWeatherForecast(Tool):
         data: dict[str, Any],
         city: str = None,
         city_name: str = None,
-        latitude: Any = None
+        latitude: Any = None,
+        longitude: Any = None
     ) -> str:
         # Accept either city or city_name
         if city_name is not None:
