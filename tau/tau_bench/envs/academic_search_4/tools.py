@@ -162,11 +162,11 @@ class CreateReviewSubmission(Tool):
             payload = {"error": "author_user_id and article_id are required."}
             out = json.dumps(payload)
             return out
-        if not any(u["person_id"] == author_user_id for u in data.get("users", {}).values():
+        if not any(u["person_id"] == author_user_id for u in data.get("users", {}).values()):
             payload = {"error": f"Author with ID '{author_user_id}' not found."}
             out = json.dumps(payload)
             return out
-        if not any(a.get("article_id") == article_id or a.get("paper_id") == article_id for a in data.get("articles", {}).values():
+        if not any(a.get("article_id") == article_id or a.get("paper_id") == article_id for a in data.get("articles", {}).values()):
             payload = {"error": f"Article with ID '{article_id}' not found."}
             out = json.dumps(payload)
             return out

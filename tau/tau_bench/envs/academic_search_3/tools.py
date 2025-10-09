@@ -966,13 +966,13 @@ class ModifyRecord(Tool):
             return out
 
         table_map = {
-            "article": (data.get("articles", {}).values()), "article_id"),
-            "project": (data.get("projects", {}).values()), "project_id"),
-            "user": (data.get("users", {}).values()), "user_id"),
-            "submission": (data.get("submissions", {}).values()), "submission_id"),
-            "funding_source": (data.get("funding_sources", {}).values()), "funding_source_id"),
-            "user_preference": (data.get("user_preferences", {}).values()), "preference_id"),
-            "subscription": (data.get("subscriptions", {}).values()), "subscription_id"),
+            "article": (data.get("articles", {}).values(), "article_id"),
+            "project": (data.get("projects", {}).values(), "project_id"),
+            "user": (data.get("users", {}).values(), "user_id"),
+            "submission": (data.get("submissions", {}).values(), "submission_id"),
+            "funding_source": (data.get("funding_sources", {}).values(), "funding_source_id"),
+            "user_preference": (data.get("user_preferences", {}).values(), "preference_id"),
+            "subscription": (data.get("subscriptions", {}).values(), "subscription_id"),
         }
 
         if record_type not in table_map:

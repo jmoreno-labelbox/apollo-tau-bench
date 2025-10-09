@@ -17,7 +17,7 @@ def _index_by(items: list[dict[str, Any]], key: str) -> dict[Any, dict[str, Any]
     pass
     
     if isinstance(items, dict): items = list(items)
-return {i.get(key): i for i in items or []}
+    return {i.get(key): i for i in items or []}
 
 
 def _fixed_now_iso() -> str:

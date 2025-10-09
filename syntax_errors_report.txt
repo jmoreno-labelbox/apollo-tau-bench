@@ -1,49 +1,25 @@
 academic_search_1
-  Line: 107
-  Error: unexpected indent
-  Text: data.get("articles", {}).values()),
+  Line: 613
+  Error: invalid syntax
+  Text: if any(p["study_id"] == new_id for p in data.get("projects", {}).values():
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/academic_search_1/tools.py
 
-academic_search_3
-  Line: 969
-  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 968
-  Text: "article": (data.get("articles", {}).values()), "article_id"),
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/academic_search_3/tools.py
-
-academic_search_4
-  Line: 165
-  Error: invalid syntax
-  Text: if not any(u["person_id"] == author_user_id for u in data.get("users", {}).values():
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/academic_search_4/tools.py
-
-airline_1
-  Line: 1521
-  Error: unmatched ')'
-  Text: payload = list({v["crew_member_id"]: v for v in crew_results}.values()))
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/airline_1/tools.py
-
 airline_3
-  Line: 1406
-  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 1394
-  Text: "prices": date_info.get("prices", {}).values()),
+  Line: 263
+  Error: invalid syntax
+  Text: for i, reservation in enumerate(reservations.values():
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/airline_3/tools.py
 
 airline_4
-  Line: 4371
-  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 4366
-  Text: "location": target_airport.get("location", {}).values()),
+  Line: 4456
+  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 4453
+  Text: "model": aircraft.get("model", {}).values()),
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/airline_4/tools.py
 
-airline_5
-  Line: 5089
-  Error: closing parenthesis ')' does not match opening parenthesis '{' on line 5085
-  Text: "available_seats": date_info.get("available_seats", {}).values()),
-  File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/airline_5/tools.py
-
 banking_services_2
-  Line: 1511
+  Line: 1906
   Error: invalid syntax
-  Text: if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields.values():
+  Text: if any(kw in subject or kw in description or kw in category for kw in keywords.values():
   File: /Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/banking_services_2/tools.py
 
 banking_services_4

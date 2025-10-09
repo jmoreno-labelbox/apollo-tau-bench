@@ -1508,7 +1508,7 @@ class GetSupportTicketsForAccountTool(Tool):
                 subject = ticket.get('subject', '').lower()
                 description = ticket.get('description', '').lower()
                 category = ticket.get('category', '').lower()
-                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields.values():
+                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields.values()):
                     continue
             created_date = ticket.get('created_date', '')
             resolved_date = ticket.get('resolved_date', '')
@@ -1581,7 +1581,7 @@ class GetSupportTicketsForAccountsTool(Tool):
                 subject = ticket.get('subject', '').lower()
                 description = ticket.get('description', '').lower()
                 category = ticket.get('category', '').lower()
-                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields.values():
+                if not any(field.lower() in subject or field.lower() in description or field.lower() in category for field in fields.values()):
                     continue
             created_date = ticket.get('created_date', '')
             resolved_date = ticket.get('resolved_date', '')
