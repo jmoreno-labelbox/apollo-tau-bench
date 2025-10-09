@@ -18,6 +18,12 @@ def _convert_db_to_list(db):
     return db
 
 
+def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    """Get table from data and convert from dict to list if needed."""
+    table = data.get(name, [])
+    return _convert_db_to_list(table)
+
+
 def _get_hardcoded_template_and_render(
     template_name: str, context: dict[str, Any]
 ) -> dict[str, str]:
@@ -610,7 +616,7 @@ class CheckEmailCommunicationGapsTool(Tool):
             )
             if not candidate:
                 return _err(f"Candidate '{candidate_id}' not found", code="not_found")
-            data["candidates"][candidate_id] = candidate
+            _get_table(data, "candidates")[candidate_id] = candidate
         else:
             candidates_to_check = data.get("candidates", {}).values()
 
@@ -1036,7 +1042,7 @@ class GetCandidatesNeedingOrientationSchedulingTool(Tool):
             # Basic priority scoring
             priority_score = 100 - _days_between(HARD_TS.split("T")[0], start_date)
             candidate_copy["scheduling_priority_score"] = priority_score
-            ready_data["candidates"][candidate_id] = candidate_copy
+            ready__get_table(data, "candidates")[candidate_id] = candidate_copy
 
         ready_candidates.sort(
             key=lambda x: x["scheduling_priority_score"], reverse=True
@@ -1407,7 +1413,7 @@ class CreateNewCandidateRecordTool(Tool):
                 "candidate_name, role_title, start_date, and candidate_email are required"
             )
 
-        candidates = data.setdefault("candidates", [])
+        candidates = _get_table(data, "candidates")
 
         # Check for duplicates
         if any(c.get("candidate_email") == candidate_email for c in candidates.values()):
@@ -1432,7 +1438,7 @@ class CreateNewCandidateRecordTool(Tool):
             "welcome_email_message_id_nullable": None,
         }
 
-        data["candidates"][candidate_id] = new_candidate
+        _get_table(data, "candidates")[candidate_id] = new_candidate
         payload = new_candidate
         out = json.dumps(payload, indent=2)
         return out
@@ -1512,7 +1518,7 @@ class UpdateCandidateOnboardingStatusTool(Tool):
                 continue
 
             candidate["onboarding_status"] = new_status
-            updated_data["candidates"][candidate_id] = candidate
+            updated__get_table(data, "candidates")[candidate_id] = candidate
         payload = updated_candidates
         out = json.dumps(payload, indent=2)
         return out
@@ -1566,7 +1572,7 @@ class GeneratePersonalizedWelcomeFileTool(Tool):
         candidates_map = {
             str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
         }
-        onboarding_files = data.setdefault("onboarding_files", [])
+        onboarding_files = _get_table(data, "onboarding_files")
         created_files = []
 
         for cid in ids_to_process:
@@ -1599,8 +1605,8 @@ class GeneratePersonalizedWelcomeFileTool(Tool):
                 "updated_ts": HARD_TS,
                 "candidate_id": cid,
             }
-            data["onboarding_files"][new_file["onboarding_file_id"]] = new_file
-            created_data["onboarding_files"][new_file["onboarding_file_id"]] = new_file
+            _get_table(data, "onboarding_files")[new_file["onboarding_file_id"]] = new_file
+            created__get_table(data, "onboarding_files")[new_file["onboarding_file_id"]] = new_file
         payload = created_files
         out = json.dumps(payload, indent=2)
         return out
@@ -1650,7 +1656,7 @@ class CreateRoleBasedChecklistTasksTool(Tool):
         candidates_map = {
             str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
         }
-        checklist_items = data.setdefault("checklist_items", [])
+        checklist_items = _get_table(data, "checklist_items")
         all_created_tasks = []
 
         for cid in ids_to_process:
@@ -1699,7 +1705,7 @@ class CreateRoleBasedChecklistTasksTool(Tool):
                     "reminder_sent_flag": False,
                     "reminder_email_message_id_nullable": None,
                 }
-                data["checklist_items"][new_task["checklist_item_id"]] = new_task
+                _get_table(data, "checklist_items")[new_task["checklist_item_id"]] = new_task
                 created_tasks.append(new_task)
             all_created_tasks.extend(created_tasks)
         payload = all_created_tasks
@@ -1887,8 +1893,8 @@ class SendEmailWithAttachmentsTool(Tool):
         context.update(template_context)
         rendered_content = _get_hardcoded_template_and_render(template_name, context)
 
-        emails = data.setdefault("emails", [])
-        attachments = data.setdefault("attachments", [])
+        emails = _get_table(data, "emails")
+        attachments = _get_table(data, "attachments")
         onboarding_files = data.get("onboarding_files", {}).values()
 
         new_email = {
@@ -1930,10 +1936,10 @@ class SendEmailWithAttachmentsTool(Tool):
                     "size_bytes": source_file.get("size_bytes", 1024),
                     "stored_ts": HARD_TS,
                 }
-                data["attachments"][attachment_id] = new_attachment
+                _get_table(data, "attachments")[attachment_id] = new_attachment
                 new_email["attachments_ids"].append(new_attachment_id)
 
-        data["emails"][email_id] = new_email
+        _get_table(data, "emails")[email_id] = new_email
 
         result = {
             "email": new_email,
@@ -2001,7 +2007,7 @@ class RunAndRecordSystemAccessChecksTool(Tool):
         candidates_map = {
             str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
         }
-        access_checks = data.setdefault("access_checks", [])
+        access_checks = _get_table(data, "access_checks")
         all_created_records = []
 
         for cid in ids_to_process:
@@ -2033,7 +2039,7 @@ class RunAndRecordSystemAccessChecksTool(Tool):
                     "note_nullable": note_nullable,
                     "checked_ts": HARD_TS,
                 }
-                data["access_checks"][new_check["access_check_id"]] = new_check
+                _get_table(data, "access_checks")[new_check["access_check_id"]] = new_check
                 created_records.append(new_check)
             all_created_records.extend(created_records)
         payload = all_created_records
@@ -2137,8 +2143,8 @@ class CreateAssetRequestWithNotificationTool(Tool):
         candidates_map = {
             str(c.get("candidate_id")): c for c in data.get("candidates", {}).values()
         }
-        asset_requests = data.setdefault("asset_requests", [])
-        emails = data.setdefault("emails", [])
+        asset_requests = _get_table(data, "asset_requests")
+        emails = _get_table(data, "emails")
         all_results = []
 
         for cid in ids_to_process:
@@ -2186,7 +2192,7 @@ class CreateAssetRequestWithNotificationTool(Tool):
                 "thread_id_nullable": None,
                 "in_reply_to_message_id_nullable": None,
             }
-            data["emails"][email_id] = new_email
+            _get_table(data, "emails")[email_id] = new_email
 
             new_request = {
                 "request_id": _next_str_id(asset_requests, "request_id", "asset_req_"),
@@ -2199,7 +2205,7 @@ class CreateAssetRequestWithNotificationTool(Tool):
                 "requested_ts": HARD_TS,
                 "updated_ts": HARD_TS,
             }
-            data["asset_requests"][asset_request_id] = new_request
+            _get_table(data, "asset_requests")[asset_request_id] = new_request
 
             result = {
                 "asset_request": new_request,
@@ -2273,7 +2279,7 @@ class ApplyEmailLabelsAndThreadingTool(Tool):
                     email["labels_ids"] = valid_labels
                 if msg_id in thread_assignments:
                     email["thread_id_nullable"] = thread_assignments[msg_id]
-                updated_data["emails"][email_id] = email
+                updated__get_table(data, "emails")[email_id] = email
         payload = updated_emails
         out = json.dumps(payload, indent=2)
         return out
@@ -2314,7 +2320,7 @@ class SendBatchReminderEmailsTool(Tool):
         if days_overdue_threshold is None:
             return _err("days_overdue_threshold must be an integer.")
 
-        emails = data.setdefault("emails", [])
+        emails = _get_table(data, "emails")
         candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", {}).values()}
         all_checklist_items = data.get("checklist_items", {}).values()
 
@@ -2366,7 +2372,7 @@ class SendBatchReminderEmailsTool(Tool):
                 "thread_id_nullable": None,
                 "in_reply_to_message_id_nullable": None,
             }
-            data["emails"][email_id] = new_email
+            _get_table(data, "emails")[email_id] = new_email
 
             # Refresh checklist items
             updated_items = []
@@ -2487,7 +2493,7 @@ class CreateOrientationInvitationEmailsTool(Tool):
     ) -> str:
         pass
         candidates_map = {c.get("candidate_id"): c for c in data.get("candidates", {}).values()}
-        emails = data.setdefault("emails", [])
+        emails = _get_table(data, "emails")
         results = []
 
         orientation_details = orientation_details or {}
@@ -2525,7 +2531,7 @@ class CreateOrientationInvitationEmailsTool(Tool):
                 "thread_id_nullable": None,
                 "in_reply_to_message_id_nullable": None,
             }
-            data["emails"][email_id] = orient_email
+            _get_table(data, "emails")[email_id] = orient_email
 
             #Manager Introduction Message
             rendered_intro = _get_hardcoded_template_and_render(
@@ -2548,7 +2554,7 @@ class CreateOrientationInvitationEmailsTool(Tool):
                 "thread_id_nullable": None,
                 "in_reply_to_message_id_nullable": None,
             }
-            data["emails"][email_id] = intro_email
+            _get_table(data, "emails")[email_id] = intro_email
 
             candidate["orientation_invite_ts_nullable"] = HARD_TS
             candidate["manager_intro_invite_ts_nullable"] = HARD_TS
@@ -2611,7 +2617,7 @@ class ArchiveCompletedCandidateFilesTool(Tool):
 
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str, archive_path_prefix: str = "/archived") -> str:
-        files = data.setdefault("onboarding_files", [])
+        files = _get_table(data, "onboarding_files")
 
         updated_files = []
         archived_paths = []
@@ -2620,7 +2626,7 @@ class ArchiveCompletedCandidateFilesTool(Tool):
                 old_path = file["file_path"]
                 file["file_path"] = f"{archive_path_prefix}{old_path}"
                 file["updated_ts"] = HARD_TS
-                updated_data["onboarding_files"][file["onboarding_file_id"]] = file
+                updated__get_table(data, "onboarding_files")[file["onboarding_file_id"]] = file
                 archived_paths.append(old_path)
 
         summary_content = (
@@ -2635,7 +2641,7 @@ class ArchiveCompletedCandidateFilesTool(Tool):
             "updated_ts": HARD_TS,
             "candidate_id": candidate_id,
         }
-        data["onboarding_files"][summary_file["onboarding_file_id"]] = summary_file
+        _get_table(data, "onboarding_files")[summary_file["onboarding_file_id"]] = summary_file
         payload = updated_files + [summary_file]
         out = json.dumps(payload, indent=2)
         return out
@@ -2688,7 +2694,7 @@ class ConsolidateEmailThreadsAndCleanupTool(Tool):
                 for email in group:
                     if not email.get("thread_id_nullable"):
                         email["thread_id_nullable"] = thread_id
-                        updated_data["emails"][email_id] = email
+                        updated__get_table(data, "emails")[email_id] = email
 
         # Remove outdated drafts
         for email in candidate_emails:
@@ -2699,7 +2705,7 @@ class ConsolidateEmailThreadsAndCleanupTool(Tool):
                 email["draft_flag"] = False
                 email["sent_flag"] = False  # It was not dispatched
                 if email not in updated_emails:
-                    updated_data["emails"][email_id] = email
+                    updated__get_table(data, "emails")[email_id] = email
         payload = updated_emails
         out = json.dumps(payload, indent=2)
         return out
@@ -2743,7 +2749,7 @@ class UpdateCandidatesRecordTool(Tool):
                 for field, value in fields_to_update.items():
                     if field in candidate:
                         candidate[field] = value
-                updated_data["candidates"][candidate_id] = candidate
+                updated__get_table(data, "candidates")[candidate_id] = candidate
         payload = updated_candidates
         out = json.dumps(payload, indent=2)
         return out
@@ -2806,7 +2812,7 @@ class NotifyManagerTool(Tool):
 
         rendered = _get_hardcoded_template_and_render(template_name, context)
 
-        emails = data.setdefault("emails", [])
+        emails = _get_table(data, "emails")
         new_email = {
             "message_id": _next_str_id(emails, "message_id", "msg_"),
             "subject": rendered["subject"],
@@ -2823,7 +2829,7 @@ class NotifyManagerTool(Tool):
             "thread_id_nullable": _generate_new_thread_id(emails),
             "in_reply_to_message_id_nullable": None,
         }
-        data["emails"][email_id] = new_email
+        _get_table(data, "emails")[email_id] = new_email
         payload = new_email
         out = json.dumps(payload, indent=2)
         return out

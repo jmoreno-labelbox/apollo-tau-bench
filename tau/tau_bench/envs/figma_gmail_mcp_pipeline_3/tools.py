@@ -19,6 +19,12 @@ def _convert_db_to_list(db):
     return db
 
 
+def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    """Get table from data and convert from dict to list if needed."""
+    table = data.get(name, [])
+    return _convert_db_to_list(table)
+
+
 def _export_ext_from_format(fmt: str) -> str:
     s = (fmt or "").lower()
     if "pdf" in s:
@@ -113,7 +119,7 @@ class find_gmail_threads(Tool):
             ok = True
             if label_q:
                 labels = t.get("labels", [])
-                ok &= any(label_q.lower() in (lab or "").lower() for lab in labels.values())
+                ok &= any(label_q.lower() in (lab or "").lower() for lab in labels)
             if subj_q:
                 ok &= subj_q.lower() in (t.get("subject", "").lower())
             if party_q:
@@ -236,7 +242,7 @@ class create_gmail_thread(Tool):
             "labels": [],
             "messages": [],
         }
-        thredata["ads"][ad_id] = thread
+        thre_get_table(data, "ads")[ad_id] = thread
         return _ok({"thread_id": thread_id})
     @staticmethod
     def get_info() -> dict[str, Any]:

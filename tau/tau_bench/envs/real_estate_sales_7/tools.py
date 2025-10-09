@@ -18,6 +18,12 @@ def _convert_db_to_list(db):
     return db
 
 
+def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    """Get table from data and convert from dict to list if needed."""
+    table = data.get(name, [])
+    return _convert_db_to_list(table)
+
+
 def _collect_sales_history(
     data: dict[str, Any], property_id: str
 ) -> list[dict[str, Any]]:
@@ -951,7 +957,7 @@ class SearchCompsAndCreateReportTool(Tool):
         }
 
         #--- Logic for Report Creation (from CreateCompReportEntryTool) ---
-        rows = data.setdefault("comp_reports", [])
+        rows = _get_table(data, "comp_reports")
         report_id = _next_int_id(rows, "report_id")
         report_rec = {
             "report_id": report_id,
@@ -962,7 +968,7 @@ class SearchCompsAndCreateReportTool(Tool):
             "doc_uri": None,
             "status": "draft",
         }
-        data["comp_reports"][report_rec["comp_report_id"]] = report_rec
+        _get_table(data, "comp_reports")[report_rec["comp_report_id"]] = report_rec
         payload = {
                 "report_entry": report_rec,
                 "search_results": search_and_rank_output,
@@ -2143,7 +2149,7 @@ class GenerateClientBriefingDocumentTool(Tool):
         if client_id is None or created_by is None:
             return _err("client_id and created_by are required")
 
-        docs = data.setdefault("documents", [])
+        docs = _get_table(data, "documents")
         document_id = _next_int_id(docs, "document_id")
         padded = str(client_id).zfill(3)
         uri = f"https://storage.example.com/briefings/client_briefing_{padded}.pdf"
@@ -2157,7 +2163,7 @@ class GenerateClientBriefingDocumentTool(Tool):
             "created_by": int(created_by),
             "created_at": HARD_TS,
         }
-        data["documents"][doc_row["document_id"]] = doc_row
+        _get_table(data, "documents")[doc_row["document_id"]] = doc_row
         payload = {"document": doc_row}
         out = json.dumps(payload, indent=2)
         return out
@@ -2257,7 +2263,7 @@ class CreateCompReportEntryTool(Tool):
                 "client_id, subject_property_id, created_by_broker_id are required"
             )
 
-        rows = data.setdefault("comp_reports", [])
+        rows = _get_table(data, "comp_reports")
         report_id = _next_int_id(rows, "report_id")
         rec = {
             "report_id": report_id,
@@ -2268,7 +2274,7 @@ class CreateCompReportEntryTool(Tool):
             "doc_uri": None,
             "status": "draft",
         }
-        data["comp_reports"][rec["comp_report_id"]] = rec
+        _get_table(data, "comp_reports")[rec["comp_report_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -2307,7 +2313,7 @@ class CreateComparableEntryTool(Tool):
         if report_id is None or not comp_property_id or similarity_score is None:
             return _err("report_id, comp_property_id, similarity_score are required")
 
-        rows = data.setdefault("comparables", [])
+        rows = _get_table(data, "comparables")
         comp_id = _next_int_id(rows, "comp_id")
         rec = {
             "comp_id": comp_id,
@@ -2317,7 +2323,7 @@ class CreateComparableEntryTool(Tool):
             "selection_reason": selection_reason,
             "tie_breaker_notes": None,
         }
-        data["comp_reports"][rec["comp_report_id"]] = rec
+        _get_table(data, "comp_reports")[rec["comp_report_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -2354,7 +2360,7 @@ class GenerateAttachCompReportDocumentTool(Tool):
         if report_id is None or created_by is None:
             return _err("report_id and created_by are required")
 
-        reports = data.setdefault("comp_reports", [])
+        reports = _get_table(data, "comp_reports")
         r = next((x for x in reports if _as_int(x.get("report_id")) == report_id), None)
         if not r:
             return _err(f"report_id {report_id} not found", code="not_found")
@@ -2365,7 +2371,7 @@ class GenerateAttachCompReportDocumentTool(Tool):
         r["doc_uri"] = uri
         r["updated_at"] = HARD_TS
 
-        docs = data.setdefault("documents", [])
+        docs = _get_table(data, "documents")
         document_id = _next_int_id(docs, "document_id")
         doc_row = {
             "document_id": document_id,
@@ -2376,10 +2382,10 @@ class GenerateAttachCompReportDocumentTool(Tool):
             "created_by": created_by,
             "created_at": HARD_TS,
         }
-        data["documents"][doc_row["document_id"]] = doc_row
+        _get_table(data, "documents")[doc_row["document_id"]] = doc_row
 
         #--- Generate Audit Event Entry ---
-        audit_rows = data.setdefault("audit_events", [])
+        audit_rows = _get_table(data, "audit_events")
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {
             "event_id": audit_event_id,
@@ -2390,7 +2396,7 @@ class GenerateAttachCompReportDocumentTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"new_uri": uri},
         }
-        audit_data["comp_reports"][audit_rec["comp_report_id"]] = audit_rec
+        audit__get_table(data, "comp_reports")[audit_rec["comp_report_id"]] = audit_rec
         payload = {
                 "document_uri": uri,
                 "report": {
@@ -2439,7 +2445,7 @@ class BulkCreateComparableEntriesTool(Tool):
         if not isinstance(items, list) or not items:
             return _err("comparables must be a non-empty list")
 
-        rows = data.setdefault("comparables", [])
+        rows = _get_table(data, "comparables")
         created = []
         for it in items:
             pid = (it or {}).get("comp_property_id")
@@ -2453,7 +2459,7 @@ class BulkCreateComparableEntriesTool(Tool):
                 "selection_reason": (it or {}).get("selection_reason") or "",
                 "tie_breaker_notes": (it or {}).get("tie_breaker_notes"),
             }
-            data["comp_reports"][rec["comp_report_id"]] = rec
+            _get_table(data, "comp_reports")[rec["comp_report_id"]] = rec
             created.append(rec)
         payload = {"created_count": len(created), "comparables": created}
         out = json.dumps(
@@ -2502,7 +2508,7 @@ class UpdateCompReportStatusTool(Tool):
         rec["updated_at"] = HARD_TS
 
         #--- Generate Audit Event Entry ---
-        audit_rows = data.setdefault("audit_events", [])
+        audit_rows = _get_table(data, "audit_events")
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {
             "event_id": audit_event_id,
@@ -2513,7 +2519,7 @@ class UpdateCompReportStatusTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"new_status": new_status, "previous_status": prev},
         }
-        audit_data["comp_reports"][audit_rec["comp_report_id"]] = audit_rec
+        audit__get_table(data, "comp_reports")[audit_rec["comp_report_id"]] = audit_rec
         payload = {
                 "report_id": int(report_id),
                 "previous_status": prev,
@@ -2668,7 +2674,7 @@ class CreateEmailEntryTool(Tool):
                     body_uri = f"https://storage.example.com/emails/email_comp_{int(client_id):03d}.html"
 
         #--- Generate Email Entry ---
-        email_rows = data.setdefault("emails", [])
+        email_rows = _get_table(data, "emails")
         email_id = _next_int_id(email_rows, "email_id")
         email_rec = {
             "email_id": email_id,
@@ -2680,10 +2686,10 @@ class CreateEmailEntryTool(Tool):
             "sent_at": HARD_TS,
             "campaign_id": campaign_id,
         }
-        email_data["comp_reports"][email_rec["comp_report_id"]] = email_rec
+        email__get_table(data, "comp_reports")[email_rec["comp_report_id"]] = email_rec
 
         #--- Generate Audit Event Entry ---
-        audit_rows = data.setdefault("audit_events", [])
+        audit_rows = _get_table(data, "audit_events")
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {
             "event_id": audit_event_id,
@@ -2694,7 +2700,7 @@ class CreateEmailEntryTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"client_id": int(client_id), "template": template_code},
         }
-        audit_data["comp_reports"][audit_rec["comp_report_id"]] = audit_rec
+        audit__get_table(data, "comp_reports")[audit_rec["comp_report_id"]] = audit_rec
         payload = {"email": email_rec, "audit_event": audit_rec}
         out = json.dumps(payload, indent=2)
         return out
@@ -2856,7 +2862,7 @@ class SendEmailTool(Tool):
                     body_uri = f"https://storage.example.com/emails/email_comp_{int(client_id):03d}.html"
 
         # Generate Email Entry
-        email_rows = data.setdefault("emails", [])
+        email_rows = _get_table(data, "emails")
         email_id = _next_int_id(email_rows, "email_id")
         email_rec = {
             "email_id": email_id,
@@ -2868,9 +2874,9 @@ class SendEmailTool(Tool):
             "sent_at": HARD_TS,
             "campaign_id": campaign_id,
         }
-        email_data["comp_reports"][email_rec["comp_report_id"]] = email_rec
+        email__get_table(data, "comp_reports")[email_rec["comp_report_id"]] = email_rec
 
-        audit_rows = data.setdefault("audit_events", [])
+        audit_rows = _get_table(data, "audit_events")
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {
             "event_id": audit_event_id,
@@ -2881,7 +2887,7 @@ class SendEmailTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": {"client_id": int(client_id), "template": template_code},
         }
-        audit_data["comp_reports"][audit_rec["comp_report_id"]] = audit_rec
+        audit__get_table(data, "comp_reports")[audit_rec["comp_report_id"]] = audit_rec
         payload = {"email": email_rec, "audit_event": audit_rec}
         out = json.dumps(payload, indent=2)
         return out
@@ -2940,7 +2946,7 @@ class CreateRouteEntryTool(Tool):
                 "client_id, route_date, stops_ordered_json(list), map_url, created_by_broker_id are required"
             )
 
-        rows = data.setdefault("routes", [])
+        rows = _get_table(data, "routes")
         route_id = _next_int_id(rows, "route_id")
         rec = {
             "route_id": route_id,
@@ -2951,7 +2957,7 @@ class CreateRouteEntryTool(Tool):
             "created_by_broker_id": int(created_by_broker_id),
             "created_at": HARD_TS,
         }
-        data["comp_reports"][rec["comp_report_id"]] = rec
+        _get_table(data, "comp_reports")[rec["comp_report_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -3026,7 +3032,7 @@ class CreateCalendarEventEntryTool(Tool):
                 "broker_id, client_id, title, start_at, end_at, location, source are required"
             )
 
-        rows = data.setdefault("calendar_events", [])
+        rows = _get_table(data, "calendar_events")
         event_id = _next_int_id(rows, "event_id")
         rec = {
             "event_id": event_id,
@@ -3038,7 +3044,7 @@ class CreateCalendarEventEntryTool(Tool):
             "location": str(location),
             "source": str(source),
         }
-        data["comp_reports"][rec["comp_report_id"]] = rec
+        _get_table(data, "comp_reports")[rec["comp_report_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -3095,7 +3101,7 @@ class CreateCampaignEntryTool(Tool):
             return _err("campaign_name, campaign_type, and created_by are required")
 
         #--- Generate Campaign Entry ---
-        campaign_rows = data.setdefault("campaigns", [])
+        campaign_rows = _get_table(data, "campaigns")
         campaign_id = _next_int_id(campaign_rows, "campaign_id")
         campaign_rec = {
             "campaign_id": campaign_id,
@@ -3104,10 +3110,10 @@ class CreateCampaignEntryTool(Tool):
             "created_by": int(created_by),
             "created_at": HARD_TS,
         }
-        campaign_data["comp_reports"][campaign_rec["comp_report_id"]] = campaign_rec
+        campaign__get_table(data, "comp_reports")[campaign_rec["comp_report_id"]] = campaign_rec
 
         #--- Generate Audit Event Entry ---
-        audit_rows = data.setdefault("audit_events", [])
+        audit_rows = _get_table(data, "audit_events")
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {
             "event_id": audit_event_id,
@@ -3121,7 +3127,7 @@ class CreateCampaignEntryTool(Tool):
                 "campaign_type": campaign_type,
             },
         }
-        audit_data["comp_reports"][audit_rec["comp_report_id"]] = audit_rec
+        audit__get_table(data, "comp_reports")[audit_rec["comp_report_id"]] = audit_rec
         payload = {"campaign": campaign_rec, "audit_event": audit_rec}
         out = json.dumps(
             payload, indent=2
@@ -3173,7 +3179,7 @@ class CreateAuditEventEntryTool(Tool):
         if metadata_json is not None and not isinstance(metadata_json, (dict, list)):
             return _err("metadata_json must be an object WA array if provided")
 
-        rows = data.setdefault("audit_events", [])
+        rows = _get_table(data, "audit_events")
         event_id = _next_int_id(rows, "event_id")
         rec = {
             "event_id": event_id,
@@ -3184,7 +3190,7 @@ class CreateAuditEventEntryTool(Tool):
             "occurred_at": HARD_TS,
             "metadata_json": metadata_json if metadata_json is not None else {},
         }
-        data["comp_reports"][rec["comp_report_id"]] = rec
+        _get_table(data, "comp_reports")[rec["comp_report_id"]] = rec
         payload = rec
         out = json.dumps(payload, indent=2)
         return out
@@ -3702,9 +3708,9 @@ class CreateMortgageProfileTool(Tool):
 
         # Accept misspelling "mortage_profiles"
         if "mortgage_profiles" in data:
-            rows = data.setdefault("mortgage_profiles", [])
+            rows = _get_table(data, "mortgage_profiles")
         else:
-            rows = data.setdefault("mortage_profiles", [])
+            rows = _get_table(data, "mortage_profiles")
 
         existing = _get_mortgage_profile(data, client_id)
         if existing:
@@ -3739,7 +3745,7 @@ class CreateMortgageProfileTool(Tool):
                 "region": region,
                 "last_reviewed_at": HARD_TS,
             }
-            data["comp_reports"][rec["comp_report_id"]] = rec
+            _get_table(data, "comp_reports")[rec["comp_report_id"]] = rec
             payload = rec
             out = json.dumps(payload, indent=2)
             return out

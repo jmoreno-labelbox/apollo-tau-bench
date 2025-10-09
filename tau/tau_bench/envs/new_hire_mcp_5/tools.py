@@ -204,9 +204,7 @@ class UpsertCandidateRecord(Tool):
             )
             return out
 
-        candidate_id = _get_or_create_label_id(
-            "cand", {"email": email, "start": start, "name": name}
-        )
+        candidate_id = _get_or_create_label_id(data, "cand")
         new_row = {
             "candidate_id": candidate_id,
             "candidate_name": name,

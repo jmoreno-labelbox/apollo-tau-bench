@@ -13,6 +13,12 @@ def _convert_db_to_list(db):
     return db
 
 
+def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    """Get table from data and convert from dict to list if needed."""
+    table = data.get(name, [])
+    return _convert_db_to_list(table)
+
+
 def _index_by(items: list[dict[str, Any]], key: str) -> dict[Any, dict[str, Any]]:
     pass
     
@@ -499,7 +505,7 @@ class SaveCompReport(Tool):
             "doc_uri": doc_uri,
             "status": final_status,
         }
-        data["comp_reports"][rpt["comp_report_id"]] = rpt
+        _get_table(data, "comp_reports")[rpt["comp_report_id"]] = rpt
 
         comps_table = data.get("comparables", {}).values()
         props = _index_by(list(data.get("properties", {}).values()), "property_id")
@@ -687,7 +693,7 @@ class CreateCampaign(Tool):
             "created_by": created_by,
             "created_at": _fixed_now_iso(),
         }
-        data["campaigns"][campaign_id] = row
+        _get_table(data, "campaigns")[campaign_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -801,7 +807,7 @@ class SendEmail(Tool):
             "sent_at": _fixed_now_iso(),
             "campaign_id": campaign_id,
         }
-        data["emails"][email_id] = row
+        _get_table(data, "emails")[email_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -873,7 +879,7 @@ class CreateCalendarEvent(Tool):
             "notes": notes,
             "source": source,
         }
-        data["calendar_events"][row["calendar_event_id"]] = row
+        _get_table(data, "calendar_events")[row["calendar_event_id"]] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -991,7 +997,7 @@ class BuildRoute(Tool):
             "created_by_broker_id": created_by_broker_id,
             "created_at": _fixed_now_iso(),
         }
-        data["routes"][route_id] = row
+        _get_table(data, "routes")[route_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -1103,7 +1109,7 @@ class PostAuditEvent(Tool):
             "occurred_at": _fixed_now_iso(),
             "metadata_json": metadata_json or {},
         }
-        data["audit_events"][row["audit_event_id"]] = row
+        _get_table(data, "audit_events")[row["audit_event_id"]] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -1251,7 +1257,7 @@ class GenerateBriefingDoc(Tool):
             "created_by": broker_id,
             "created_at": _fixed_now_iso(),
         }
-        data["documents"][document_id] = row
+        _get_table(data, "documents")[document_id] = row
         payload = {"document_id": new_id, "file_uri": file_uri}
         out = json.dumps(payload, indent=2)
         return out
@@ -1291,7 +1297,7 @@ class AttachDocumentToClient(Tool):
             "created_by": created_by,
             "created_at": _fixed_now_iso(),
         }
-        data["documents"][document_id] = row
+        _get_table(data, "documents")[document_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out

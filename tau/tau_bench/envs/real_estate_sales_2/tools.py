@@ -14,6 +14,12 @@ def _convert_db_to_list(db):
     return db
 
 
+def _get_table(data: dict[str, Any], name: str) -> list[dict[str, Any]]:
+    """Get table from data and convert from dict to list if needed."""
+    table = data.get(name, [])
+    return _convert_db_to_list(table)
+
+
 def _by_key(items: list[dict[str, Any]], key: str) -> dict[Any, dict[str, Any]]:
     pass
     return {i.get(key): i for i in (items or [])}
@@ -552,7 +558,7 @@ class CreateOrUpdateCompReport(Tool):
             "doc_uri": doc_uri,
             "status": final_status,
         }
-        data["comp_reports"][rpt["comp_report_id"]] = rpt
+        _get_table(data, "comp_reports")[rpt["comp_report_id"]] = rpt
 
         comps_table = data.get("comparables", {}).values()
         props = _by_key(data.get("properties", {}).values(), "property_id")
@@ -739,7 +745,7 @@ class NewCampaignCreator(Tool):
             "created_by": created_by,
             "created_at": _now_iso_fixed(),
         }
-        data["campaigns"][campaign_id] = row
+        _get_table(data, "campaigns")[campaign_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -846,7 +852,7 @@ class PersistOutboundEmail(Tool):
             "sent_at": _now_iso_fixed(),
             "campaign_id": campaign_id,
         }
-        data["emails"][email_id] = row
+        _get_table(data, "emails")[email_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -928,7 +934,7 @@ class InsertCalendarEvent(Tool):
             "notes": notes,
             "source": source,
         }
-        data["calendar_events"][row["calendar_event_id"]] = row
+        _get_table(data, "calendar_events")[row["calendar_event_id"]] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -1046,7 +1052,7 @@ class PersistViewingRoute(Tool):
             "created_by_broker_id": created_by_broker_id,
             "created_at": _now_iso_fixed(),
         }
-        data["routes"][route_id] = row
+        _get_table(data, "routes")[route_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -1153,7 +1159,7 @@ class AppendAuditEvent(Tool):
             "occurred_at": _now_iso_fixed(),
             "metadata_json": metadata_json or {},
         }
-        data["audit_events"][row["audit_event_id"]] = row
+        _get_table(data, "audit_events")[row["audit_event_id"]] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
@@ -1265,7 +1271,7 @@ class CreateBriefingDoc(Tool):
             "created_by": broker_id,
             "created_at": _now_iso_fixed(),
         }
-        data["documents"][document_id] = row
+        _get_table(data, "documents")[document_id] = row
         payload = {"document_id": new_id, "file_uri": file_uri}
         out = json.dumps(payload, indent=2)
         return out
@@ -1305,7 +1311,7 @@ class LinkDocumentToClient(Tool):
             "created_by": created_by,
             "created_at": _now_iso_fixed(),
         }
-        data["documents"][document_id] = row
+        _get_table(data, "documents")[document_id] = row
         payload = row
         out = json.dumps(payload, indent=2)
         return out
