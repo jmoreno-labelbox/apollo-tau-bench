@@ -1833,7 +1833,7 @@ class CreatePurchaseTransaction(Tool):  #CREATE
                         "employee_id",
                         "items",
                         "store_id",
-                        "timestamp",
+                        "current_time",
                         "payment_method",
                     ],
                 },
