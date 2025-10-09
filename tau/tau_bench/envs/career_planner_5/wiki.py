@@ -1,5 +1,4 @@
 WIKI = """
-"""
 # Career Development Policy
 
 ## Date Management
@@ -19,5 +18,25 @@ WIKI = """
 
 ## Goal Management Policy
 - Existing goals (G301-1, G302-1, G303-1) should be referenced and updated rather than creating duplicates
-- New goals require unique goal_id following pattern G[user_number
+- New goals require unique goal_id following pattern G[user_number]-[sequence]
+- Goal updates must include last_updated field with current date and a status update
+
+## Team Assignment Policy
+- Teams T001 (Analytics), T002 (Product Design), T003 (Engineering) are available for assignment
+- Team membership changes require verification of existing team structure
+
+## HR Workflow Policy
+- Existing workflows (WF001, WF002) should be referenced for updates
+- Workflow stage progression follows: Skills Assessment → Development Plan → Training Assignment → Final Assessment
+- Status updates require current_stage, status, and last_updated fields
+
+## Notification Policy
+- HR notifications use notify_hr with standardized message format
+- User notifications use notify_user with clear, actionable message content
+- Messages should be concise and outcome-focused
+
+## Data Integrity Policy
+- All user_id references must use existing users (U301-U312)
+- Skill gap analysis references must use existing analysis_id or user_id
+- Certification additions require cert_id, cert_name, issuer, and scheduled_exam_date
 """
