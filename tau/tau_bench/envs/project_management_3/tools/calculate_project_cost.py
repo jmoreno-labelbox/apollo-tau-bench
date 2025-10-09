@@ -55,7 +55,7 @@ class CalculateProjectCost(Tool):
                     t
                     for t in tasks.values() if t.get("assignee_id") == employee["employee_id"]
                     and t.get("sprint_id")
-                    and any(a.get("project_id") == project_id for a in allocations.values()
+                    and any(a.get("project_id") == project_id for a in allocations.values())
                 ]
 
                 actual_hours = 0

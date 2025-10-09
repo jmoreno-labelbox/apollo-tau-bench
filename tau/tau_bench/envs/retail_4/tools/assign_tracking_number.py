@@ -243,7 +243,7 @@ class AssignTrackingNumber(Tool):
                 "tracking_id": assigned_tracking_id,
                 "courier_id": selected_courier.get("courier_id"),
                 "courier_name": selected_courier.get("name"),
-                "courier_contact": list(selected_courier.get("contact_info", {}).values())),
+                "courier_contact": list(selected_courier.get("contact_info", {}).values()),
                 "status": "processed",
                 "assigned_date": datetime.now().isoformat(),
                 "destination_country": destination_country,

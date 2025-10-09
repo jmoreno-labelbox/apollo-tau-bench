@@ -74,7 +74,7 @@ class GetCourierByName(Tool):
             "courier_details": {
                 "courier_id": best_match.get("courier_id"),
                 "name": best_match.get("name"),
-                "contact_info": list(best_match.get("contact_info", {}).values())),
+                "contact_info": list(best_match.get("contact_info", {}).values()),
                 "coverage_area": coverage_area,
                 "service_types": best_match.get("service_types", ["standard"]),
                 "base_cost": best_match.get("base_cost", 0),

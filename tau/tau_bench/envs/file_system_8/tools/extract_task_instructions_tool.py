@@ -64,7 +64,7 @@ class ExtractTaskInstructionsTool(Tool):
             "remote_address": task_record.get("remote_server"),
             "max_size": instruction_data.get("size_filter", {}).values().get("max_bytes"),
             "last_access_days": instruction_data.get("time_filter", {}).values().get("days"),
-            "users": list(instruction_data.get("user_filter", {}).values())),
+            "users": list(instruction_data.get("user_filter", {}).values()),
         }
 
         data["task_instructions"].append(simplified_entry)

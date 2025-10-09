@@ -70,7 +70,7 @@ class CompareAgainstBaseline(Tool):
                     {
                         "cr_id": cr.get("cr_id"),
                         "title": cr.get("title"),
-                        "impact": list(cr.get("impact_assessment", {}).values())),
+                        "impact": list(cr.get("impact_assessment", {}).values()),
                     }
                 )
             elif cr.get("change_type") == "scope_reduction":

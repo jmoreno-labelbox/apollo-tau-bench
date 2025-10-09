@@ -174,7 +174,7 @@ class GetItemIdByProduct:
                             "item_id": item_id,
                             "price": variant_info.get("price", 0),
                             "available": is_available,
-                            "options": list(variant_info.get("options", {}).values())),
+                            "options": list(variant_info.get("options", {}).values()),
                             "stock_info": {
                                 "stock_status": stock_status,
                                 "total_stock_across_suppliers": total_stock_across_suppliers,

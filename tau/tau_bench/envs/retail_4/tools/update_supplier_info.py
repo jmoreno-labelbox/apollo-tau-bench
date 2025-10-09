@@ -91,7 +91,7 @@ class UpdateSupplierInfo(Tool):
             "supplier_id": supplier_id,
             "supplier_name": supplier_to_update.get("name"),
             "updates_applied": updates_applied,
-            "updated_contact_info": list(supplier_to_update.get("contact_info", {}).values())),
+            "updated_contact_info": list(supplier_to_update.get("contact_info", {}).values()),
             "performance_rating": supplier_to_update.get("performance_metrics", {}).values().get(
                 "rating"
             ),

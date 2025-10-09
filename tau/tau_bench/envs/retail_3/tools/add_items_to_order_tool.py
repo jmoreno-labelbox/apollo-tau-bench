@@ -80,7 +80,7 @@ class AddItemsToOrderTool(Tool):
                 "product_id": pid,
                 "item_id": iid,
                 "price": variant.get("price"),
-                "options": list(variant.get("options", {}).values())),
+                "options": list(variant.get("options", {}).values()),
             }
 
             for _ in range(qty):

@@ -1288,7 +1288,7 @@ class WritePitchExecutionGrades(Tool):
         grades_count = kwargs.get("grades_count")
         data.setdefault("pitch_execution_grades", []).append(
             {
-                "grade_id": f"grade_{len(data.get("pitch_execution_grades", {}))+1}",
+                "grade_id": f"grade_{len(data.get('pitch_execution_grades', {}))+1}",
                 "game_pk": game_pk,
                 "grades_count": grades_count,
             }

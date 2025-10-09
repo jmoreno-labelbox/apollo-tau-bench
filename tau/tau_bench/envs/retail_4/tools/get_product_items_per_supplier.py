@@ -86,7 +86,7 @@ class GetProductItemsPerSupplier:
                     "product_id": product_id,
                     "name": product.get("name"),
                     "category": product.get("category"),
-                    "variants": list(product.get("variants", {}).values())),
+                    "variants": list(product.get("variants", {}).values()),
                 }
 
                 # Map each item to its product

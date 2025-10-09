@@ -90,7 +90,7 @@ class FindFlights(Tool):
                                 "scheduled_arrival_time_est"
                             ),
                             "available_seats": date_info.get("available_seats", 0),
-                            "prices": list(date_info.get("prices", {}).values())),
+                            "prices": list(date_info.get("prices", {}).values()),
                             "aircraft_id": flight.get("aircraft_id"),
                         }
 

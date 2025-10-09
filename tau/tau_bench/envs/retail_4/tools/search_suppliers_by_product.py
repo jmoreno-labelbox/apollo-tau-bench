@@ -117,7 +117,7 @@ class SearchSuppliersByProduct:
             supplier_match = {
                 "supplier_id": current_supplier_id,
                 "supplier_name": supplier_name,
-                "contact_info": list(supplier.get("contact_info", {}).values())),
+                "contact_info": list(supplier.get("contact_info", {}).values()),
                 "matching_items": [],
             }
 

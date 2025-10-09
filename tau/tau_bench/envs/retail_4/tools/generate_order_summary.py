@@ -114,7 +114,7 @@ class GenerateOrderSummary(Tool):
                     "quantity": quantity,
                     "unit_price": unit_price,
                     "line_total": line_total,
-                    "options": list(variant_found.get("options", {}).values())),
+                    "options": list(variant_found.get("options", {}).values()),
                 }
             )
 

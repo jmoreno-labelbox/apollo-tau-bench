@@ -84,7 +84,7 @@ class GetPurchasedItems(Tool):
                         additional_details = {
                             "current_availability": variant_info.get("available", False),
                             "current_price": variant_info.get("price", 0),
-                            "full_options": list(variant_info.get("options", {}).values())),
+                            "full_options": list(variant_info.get("options", {}).values()),
                             "supplier_id": product.get("supplier_id"),
                         }
                     break

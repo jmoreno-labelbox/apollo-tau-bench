@@ -70,7 +70,7 @@ class ValidateOrderItems(Tool):
                     "quantity": quantity,
                     "unit_price": unit_price,
                     "item_total": item_total,
-                    "options": list(variant_found.get("options", {}).values())),
+                    "options": list(variant_found.get("options", {}).values()),
                     "availability": variant_found.get("available", False),
                 }
             )

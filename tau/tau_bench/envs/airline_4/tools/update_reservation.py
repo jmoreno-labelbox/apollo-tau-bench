@@ -216,7 +216,7 @@ class UpdateReservation(Tool):
 
             #Revise flights and compute the new total cost
             target_reservation["flights"] = flights
-            new_total_cost = sum(flight["price"] for flight in flights.values()
+            new_total_cost = sum(flight["price"] for flight in flights.values())
             updates_made.append("flights")
 
             #Revise origin and destination according to new flights

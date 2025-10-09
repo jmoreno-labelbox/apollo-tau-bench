@@ -44,7 +44,7 @@ class GetTransactionsInfoByParam(Tool):  #VIEW
         out = json.dumps(payload)
         return out
         pass
-        db = _convert_db_to_list(data.get("transactions", {}).values()
+        db = _convert_db_to_list(data.get("transactions", {}).values())
         #If sku exists in filter_params, filter transactions based on line_items that include that sku
         filter_params_no_sku = filter_params.copy()
         if "sku" in filter_params.keys():

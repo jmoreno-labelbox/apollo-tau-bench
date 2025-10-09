@@ -37,7 +37,7 @@ class ModifyRecord(Tool):
             return out
 
         table_map = {
-            "article": (list(data.get("articles", {}).values())), "article_id"),
+            "article": (list(data.get("articles", {}).values()), "article_id"),
             "project": (data.get("projects", {}).values()), "project_id"),
             "user": (data.get("users", {}).values()), "user_id"),
             "submission": (data.get("submissions", {}).values()), "submission_id"),

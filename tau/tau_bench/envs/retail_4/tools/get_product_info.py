@@ -30,7 +30,7 @@ class GetProductInfo(Tool):
                     "product_name": product.get("name"),
                     "price": variant.get("price"),
                     "available": variant.get("available"),
-                    "options": list(variant.get("options", {}).values())),
+                    "options": list(variant.get("options", {}).values()),
                 }
                 out = json.dumps(payload)
                 return out

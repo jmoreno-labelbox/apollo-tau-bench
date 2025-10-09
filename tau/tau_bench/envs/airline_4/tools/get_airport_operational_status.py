@@ -57,7 +57,7 @@ class GetAirportOperationalStatus(Tool):
             "iata_code": target_airport.get("iata_code"),
             "icao_code": target_airport.get("icao_code"),
             "airport_name": target_airport.get("airport_name"),
-            "location": list(target_airport.get("location", {}).values())),
+            "location": list(target_airport.get("location", {}).values()),
             "timezone": target_airport.get("timezone"),
             "operational_status": target_airport.get("operational_status"),
         }

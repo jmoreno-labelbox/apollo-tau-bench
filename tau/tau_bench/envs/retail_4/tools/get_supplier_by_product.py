@@ -101,7 +101,7 @@ class GetSupplierByProduct:
                     "contact_info": contact_info,
                     "matching_products": matching_products,
                     "total_matching_products": len(matching_products),
-                    "performance_metrics": list(supplier.get("performance_metrics", {}).values())),
+                    "performance_metrics": list(supplier.get("performance_metrics", {}).values()),
                     "last_updated": supplier.get("last_updated", "Never"),
                 }
 

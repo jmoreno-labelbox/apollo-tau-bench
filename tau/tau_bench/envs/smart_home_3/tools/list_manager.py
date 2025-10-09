@@ -35,7 +35,7 @@ class ListManager(Tool):
                 l
                 for l in lists.values() if (not list_id or l["list_id"] == list_id)
                 and (not list_name or l["name"] == list_name)
-                and (not tags or any(tag in l.get("tags", []) for tag in tags)
+                and (not tags or any(tag in l.get("tags", []) for tag in tags))
             ]
             payload = result
             out = json.dumps(payload, indent=2)

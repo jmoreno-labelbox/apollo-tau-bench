@@ -22,7 +22,7 @@ class SearchJobPostings(Tool):
             p
             for p in data.get("job_postings", {}).values()
             if (not location or location.lower() in p.get("location", ""))
-            and all(kw.lower() in json.dumps(p).lower() for kw in skill_keywords.values()
+            and all(kw.lower() in json.dumps(p).lower() for kw in skill_keywords.values())
         ]
         payload = res
         out = json.dumps(payload, indent=2)

@@ -29,7 +29,7 @@ class GetUserInfo(Tool):
         payload = {
             "status": "success",
             "user_id": user_id,
-            "name": list(user.get("name", {}).values())),
+            "name": list(user.get("name", {}).values()),
             "email": user.get("email", ""),
             "address": user.get("address", {}).values()),
             "total_orders": len(user.get("orders", [])),

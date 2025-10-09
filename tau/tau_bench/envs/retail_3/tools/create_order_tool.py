@@ -83,7 +83,7 @@ class CreateOrderTool(Tool):
                             "product_id": pid,
                             "item_id": iid,
                             "price": variant_data.get("price"),
-                            "options": list(variant_data.get("options", {}).values())),
+                            "options": list(variant_data.get("options", {}).values()),
                         }
                         break
             if not variant:

@@ -79,7 +79,7 @@ class CreateBulkOrder(Tool):
             "order_id": order_id,
             "user_id": user_id,
             "items": items,
-            "address": list(user.get("address", {}).values())),
+            "address": list(user.get("address", {}).values()),
             "fulfilments": [],
             "status": "pending",
             "payment_history": [payment],

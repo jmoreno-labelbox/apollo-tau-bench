@@ -65,7 +65,7 @@ class GetSupplyOrderDetails(Tool):
             if supplier.get("supplier_id") == supplier_id:
                 supplier_info = {
                     "name": supplier.get("name"),
-                    "contact_info": list(supplier.get("contact_info", {}).values())),
+                    "contact_info": list(supplier.get("contact_info", {}).values()),
                 }
                 break
 

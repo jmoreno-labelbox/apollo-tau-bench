@@ -40,7 +40,7 @@ class ReplaceItemVariantInOrderTool(Tool):
                         "product_id": product_id,
                         "item_id": item_id,
                         "price": variant_details.get("price"),
-                        "options": list(variant_details.get("options", {}).values())),
+                        "options": list(variant_details.get("options", {}).values()),
                     }
                     break
         if not new_variant:

@@ -232,7 +232,7 @@ class GetFleetUtilization(Tool):
                     {
                         "aircraft_id": aircraft_id,
                         "tail_number": aircraft.get("tail_number"),
-                        "model": list(aircraft.get("model", {}).values())),
+                        "model": list(aircraft.get("model", {}).values()),
                         "status": aircraft.get("status"),
                         "issues": issues,
                     }

@@ -38,7 +38,7 @@ class GenerateSprintReport(Tool):
 
         sprint_time_logs = [
             log
-            for log in time_logs.values() if any(t.get("task_id") == log.get("task_id") for t in sprint_tasks.values()
+            for log in time_logs.values() if any(t.get("task_id") == log.get("task_id") for t in sprint_tasks.values())
         ]
         #total_hours_logged = sum(log.get("hours", 0) for log in sprint_time_logs.values()
 

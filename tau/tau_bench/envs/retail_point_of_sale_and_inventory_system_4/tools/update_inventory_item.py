@@ -33,7 +33,7 @@ class UpdateInventoryItem(Tool):  #CREATE
             out = json.dumps(payload)
             return out
         pass
-        db = _convert_db_to_list(data.get("inventory", {}).values()
+        db = _convert_db_to_list(data.get("inventory", {}).values())
         filtered_db = _filter_db(db, {"sku": sku, "store_id": store_id})
         if len(filtered_db) == 1:
             row = filtered_db[0]

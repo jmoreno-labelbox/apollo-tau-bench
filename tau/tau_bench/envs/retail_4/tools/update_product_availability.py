@@ -90,7 +90,7 @@ class UpdateProductAvailability(Tool):
                 if price_updated
                 else {"updated": False}
             ),
-            "variant_options": list(variant_to_update.get("options", {}).values())),
+            "variant_options": list(variant_to_update.get("options", {}).values()),
             "last_updated": variant_to_update["last_updated"],
         }
         payload = result

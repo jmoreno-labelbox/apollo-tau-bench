@@ -159,7 +159,7 @@ class CreateOrder(Tool):
                     "product_id": product_found.get("product_id"),
                     "item_id": item_id,
                     "price": unit_price,
-                    "options": list(variant_found.get("options", {}).values())),
+                    "options": list(variant_found.get("options", {}).values()),
                     "quantity": quantity,
                 }
             )

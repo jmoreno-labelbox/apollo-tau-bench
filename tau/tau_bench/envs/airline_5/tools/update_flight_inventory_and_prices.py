@@ -121,7 +121,7 @@ class UpdateFlightInventoryAndPrices(Tool):
                 "flight_number": flight_number,
                 "date": date,
                 "status": _norm_status(date_info.get("status")),
-                "available_seats": list(date_info.get("available_seats", {}).values())),
+                "available_seats": list(date_info.get("available_seats", {}).values()),
                 "prices": date_info.get("prices", {}).values()),
                 "updated": updated,
                 # "existing_cabins": sorted(list(_cabins_existing))  # uncomment if beneficial

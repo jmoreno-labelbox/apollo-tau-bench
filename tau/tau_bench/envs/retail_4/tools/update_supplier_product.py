@@ -154,7 +154,7 @@ class UpdateSupplierProduct(Tool):
                     "variant_info": {
                         "price": variant_info.get("price", 0),
                         "available": variant_info.get("available", False),
-                        "options": list(variant_info.get("options", {}).values())),
+                        "options": list(variant_info.get("options", {}).values()),
                     },
                 }
             )
