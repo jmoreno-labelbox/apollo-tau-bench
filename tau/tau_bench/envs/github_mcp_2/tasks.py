@@ -62,7 +62,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"flutter-finance-app iOS charts fix under validation\""
+                {"message": "flutter-finance-app iOS charts fix under validation"}
         ]
     }
     ,
@@ -175,11 +175,11 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"observability-ops\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Add initial Kubernetes monitoring stack\", \"pr_number\": 1",
-                "\"message\": \"Pull request merged.\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"observability-ops\", \"tag_name\": \"v0.1.0\"",
-                "\"message\": \"observability-ops v0.1.0 released.\""
+                {"message": "Repository created", "repo_name": "observability-ops""},
+                {"message": "Pull request opened", "title": ""Add initial Kubernetes monitoring stack", "pr_number": 1"},
+                {"message": "Pull request merged."},
+                {"message": "Release created.", "repo_name": ""observability-ops", "tag_name": "v0.1.0""},
+                {"message": "observability-ops v0.1.0 released."}
         ]
     }
     ,
@@ -239,8 +239,8 @@ tasks = [
                     "title": "Reconcile alert ref: feature-auth",
                     "body": "Alert points to feature-auth which was merged and branch is missing in current snapshot; verify lineage and fix metadata",
                     "labels": [
-                        "investigate",
-                        "security"
+                        {investigate},
+                        {security}
                     ]
                 },
             },
@@ -252,7 +252,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"acme-webapp alert ref reconciliation recorded\""
+                {"message": "acme-webapp alert ref reconciliation recorded"}
         ]
     }
     ,
@@ -314,10 +314,10 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Label 'triage-urgent' added.\"",
-                "\"state\": \"closed\"",
-                "\"results\": [1]",
-                "\"message\": \"Issue closed with triage-urgent label in acme-webapp [task_66]\""
+                {"message": "Label 'triage-urgent' added."},
+                {"state": "closed"},
+                {\}results": [1]",
+                {"message": "Issue closed with triage-urgent label in acme-webapp [task_66]"}
         ]
     }
     ,
@@ -368,7 +368,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "Comments added and PR #5 reviewed."
+                {Comments added and PR #5 reviewed.}
         ]
     }
     ,
@@ -444,9 +444,9 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Branch created\"",
-                "\"path\": \"docs/note.txt\", \"content\": \"Hello v1\"",
-                "\"docs/note.txt\""
+                {"message": "Branch created"},
+                {"path": "docs/note.txt", "content": "Hello v1""},
+                {\}docs/note.txt""
         ]
     }
     ,
@@ -547,8 +547,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"timestamp\": \"2025-08-21T12:00:00Z\", \"message\": \"RUN\"",
-                "\"scripts/run.sh\""
+                {"timestamp": "2025-08-21T12:00:00Z", "message": "RUN""},
+                {\}scripts/run.sh""
         ]
     }
     ,
@@ -610,10 +610,10 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Label 'ci-audit' added.\"",
-                "\"state\": \"closed\"",
-                "\"results\": [1]",
-                "\"message\": \"Issue closed with ci-audit label in react-dashboard [task_69]\""
+                {"message": "Label 'ci-audit' added."},
+                {"state": "closed"},
+                {\}results": [1]",
+                {"message": "Issue closed with ci-audit label in react-dashboard [task_69]"}
         ]
     }
     ,
@@ -674,9 +674,9 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Issue created\", \"number\": 1",
-                "\"message\": \"Label 'ops' added.\"",
-                "\"timestamp\": \"2025-08-21T12:00:00Z\", \"message\": \"Issue #1 closed: Nightly job failed on main\""
+                {"message": "Issue created", "number": 1"},
+                {"message": "Label 'ops' added."},
+                {"timestamp": "2025-08-21T12:00:00Z", "message": "Issue #1 closed: Nightly job failed on main""}
         ]
     }
     ,
@@ -748,8 +748,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\".github/workflows/security.yml\"",
-                "\"severity\": \"critical\""
+                {\}.github/workflows/security.yml"",
+                {"severity": "critical"}
         ]
     }
     ,
@@ -823,7 +823,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "{\"files\": [\".github/CODEOWNERS\"]}"
+                {{\}files": [".github/CODEOWNERS"]}"
         ]
     }
     ,
@@ -880,7 +880,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"title\": \"Temp PR demo\""
+                {"title": "Temp PR demo"}
         ]
     }
     ,
@@ -955,12 +955,12 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Label 'module-audit' added.\"",
-                "\"state\": \"closed\"",
-                "\"results\": [1]",
-                "\"title\": \"Utilities module audit [task_73]\"",
-                "\"labels\": [\"module-audit\"]",
-                "\"message\": \"Issue closed with module-audit label in utils-js [task_73]\""
+                {"message": "Label 'module-audit' added."},
+                {"state": "closed"},
+                {\}results": [1]",
+                {"title": "Utilities module audit [task_73]"},
+                {"labels": [\module-audit"]"},
+                {"message": "Issue closed with module-audit label in utils-js [task_73]"}
         ]
     }
     ,
@@ -1031,9 +1031,9 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Pull request rejected.\"",
-                "\"reason\": \"head and base branch are the same\"",
-                "\"merged\": \"false\""
+                {"message": "Pull request rejected."},
+                {"reason": "head and base branch are the same"},
+                {"merged": "false"}
         ]
     }
     ,
@@ -1113,10 +1113,10 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"number\": 1",
-                "\"title\": \"Fix crash on startup\"",
-                "\"state\": \"open\"",
-                "\"title\": \"Fix startup crash\""
+                {"number": 1},
+                {"title": "Fix crash on startup"},
+                {"state": "open"},
+                {"title": "Fix startup crash"}
         ]
     }
     ,
@@ -1162,9 +1162,9 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"pr_number\": 11",
-                "\"state\": \"merged\"",
-                "\"message\": \"PR #11 merged with review in ui-kit [task_74]\""
+                {"pr_number": 11},
+                {"state": "merged"},
+                {"message": "PR #11 merged with review in ui-kit [task_74]"}
         ]
     }
     ,
@@ -1225,7 +1225,7 @@ tasks = [
                     "repo_name": "payments-service",
                     "pr_number": 1,
                     "reviewers": [
-                        "qa-erin"
+                        {qa-erin}
                     ]
                 },
             },
@@ -1267,7 +1267,7 @@ tasks = [
                     "title": "Retry policy published",
                     "body": "Docs merged and released as v0.3.0.",
                     "labels": [
-                        "documentation"
+                        {documentation}
                     ]
                 },
             },
@@ -1279,16 +1279,16 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Branch created\", \"new_branch\": \"feature-retry-policy\", \"from\": \"main\"",
-                "\"message\": \"Committed to branch\", \"repo\": \"payments-service\", \"branch\": \"feature-retry-policy\", \"commit_sha\": \"sha_0000000000000000000000000000000000000000\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Add retry policy docs\", \"base\": \"main\", \"head\": \"feature-retry-policy\", \"pr_number\": 1",
-                "\"message\": \"Reviewers requested.\", \"pr_number\": 1",
-                "\"message\": \"Review submitted.\"",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\", \"merge_method\": \"merge\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"payments-service\", \"tag_name\": \"v0.3.0\", \"title\": \"Retry policy docs\"",
-                "\"tag_name\": \"v0.3.0\", \"body\": \"Publish retry policy documentation.\"",
-                "\"message\": \"Issue created\", \"number\": 1",
-                "\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"payments-service retry policy docs published and released as v0.3.0.\""
+                {"message": "Branch created", "new_branch": ""feature-retry-policy", "from": "main""},
+                {"message": "Committed to branch", "repo": ""payments-service", "branch": ""feature-retry-policy", "commit_sha": "sha_0000000000000000000000000000000000000000""},
+                {"message": "Pull request opened", "title": ""Add retry policy docs", "base": ""main", "head": ""feature-retry-policy", "pr_number": 1"},
+                {"message": "Reviewers requested.", "pr_number": 1"},
+                {"message": "Review submitted."},
+                {"message": "Pull request merged.", "merged": ""true", "merge_method": "merge""},
+                {"message": "Release created.", "repo_name": ""payments-service", "tag_name": ""v0.3.0", "title": "Retry policy docs""},
+                {"tag_name": "v0.3.0", "body": "Publish retry policy documentation.""},
+                {"message": "Issue created", "number": 1"},
+                {"printed_ts": "2025-08-21T12:00:00Z", "message": "payments-service retry policy docs published and released as v0.3.0.""}
         ]
     }
     ,
@@ -1335,8 +1335,8 @@ tasks = [
                     "title": "Harden TLS for Prometheus scrape",
                     "body": "Alert #45 still open after v2.45.0 upgrade; enforce modern ciphers and TLS versions.",
                     "labels": [
-                        "security",
-                        "prometheus"
+                        {security},
+                        {prometheus}
                     ]
                 },
             },
@@ -1348,7 +1348,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"k8s-monitoring TLS hardening tracked post-upgrade\""
+                {"message": "k8s-monitoring TLS hardening tracked post-upgrade"}
         ]
     }
     ,
@@ -1422,7 +1422,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"payments-service 3DS alignment and test gating noted\""
+                {"message": "payments-service 3DS alignment and test gating noted"}
         ]
     }
     ,
@@ -1483,7 +1483,7 @@ tasks = [
                     "repo_name": "ui-kit",
                     "pr_number": 1,
                     "reviewers": [
-                        "design-lead"
+                        {design-lead}
                     ]
                 },
             },
@@ -1532,7 +1532,7 @@ tasks = [
                     "title": "Accessibility docs published",
                     "body": "Docs merged and released as v2.0.0.",
                     "labels": [
-                        "documentation"
+                        {documentation}
                     ]
                 },
             },
@@ -1544,17 +1544,17 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Branch created\", \"new_branch\": \"feature-accessibility-docs\", \"from\": \"main\"",
-                "\"message\": \"Committed to branch\", \"repo\": \"ui-kit\", \"branch\": \"feature-accessibility-docs\", \"commit_sha\": \"sha_0000000000000000000000000000000000000000\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Accessibility docs\", \"base\": \"main\", \"head\": \"feature-accessibility-docs\", \"pr_number\": 1",
-                "\"message\": \"Reviewers requested.\", \"pr_number\": 1",
-                "\"message\": \"Review submitted.\"",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\", \"merge_method\": \"merge\"",
-                "\"message\": \"Topic 'accessibility' added.\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"ui-kit\", \"tag_name\": \"v2.0.0\", \"title\": \"Accessibility docs\"",
-                "\"tag_name\": \"v2.0.0\", \"body\": \"Add accessibility documentation.\"",
-                "\"message\": \"Issue created\", \"number\": 1",
-                "\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"ui-kit accessibility docs published and released as v2.0.0.\""
+                {"message": "Branch created", "new_branch": ""feature-accessibility-docs", "from": "main""},
+                {"message": "Committed to branch", "repo": ""ui-kit", "branch": ""feature-accessibility-docs", "commit_sha": "sha_0000000000000000000000000000000000000000""},
+                {"message": "Pull request opened", "title": ""Accessibility docs", "base": ""main", "head": ""feature-accessibility-docs", "pr_number": 1"},
+                {"message": "Reviewers requested.", "pr_number": 1"},
+                {"message": "Review submitted."},
+                {"message": "Pull request merged.", "merged": ""true", "merge_method": "merge""},
+                {"message": "Topic 'accessibility' added."},
+                {"message": "Release created.", "repo_name": ""ui-kit", "tag_name": ""v2.0.0", "title": "Accessibility docs""},
+                {"tag_name": "v2.0.0", "body": "Add accessibility documentation.""},
+                {"message": "Issue created", "number": 1"},
+                {"printed_ts": "2025-08-21T12:00:00Z", "message": "ui-kit accessibility docs published and released as v2.0.0.""}
         ]
     }
     ,
@@ -1615,9 +1615,9 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"Label 'ready-for-ci' added.\"",
-                "\"entries\": {\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"Issue #1 closed in acme-webapp: ready-for-ci triage complete\"}"
+                {"message": "Issue created", "number": 1},
+                {"message": "Label 'ready-for-ci' added."},
+                {"entries": {"printed_ts": "2025-08-21T12:00:00Z", "message": "Issue #1 closed in acme-webapp: ready-for-ci triage complete"}}
         ]
     }
     ,
@@ -1742,8 +1742,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"repo_name\": \"security-scanner\"",
-                "\"pr_number\": 1, \"closed_issue\": 5, \"release_tag\": \"v1.3.1-xss-fp\""
+                {"repo_name": "security-scanner"},
+                {\}pr_number": 1, "closed_issue": 5, "release_tag": "v1.3.1-xss-fp""
         ]
     }
     ,
@@ -1792,7 +1792,7 @@ tasks = [
                     "title": "Protect main branch",
                     "body": "Branch protection for main enabled.",
                     "labels": [
-                        "ops"
+                        {ops}
                     ]
                 },
             },
@@ -1804,7 +1804,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Branch protection enabled.\", \"repo_name\": \"ui-kit\", \"branch\": \"main\", \"protected\": true"
+                {"message": "Branch protection enabled.", "repo_name": ""ui-kit", "branch": ""main", "protected": true"}
         ]
     }
     ,
@@ -1847,7 +1847,7 @@ tasks = [
                     "title": "Release v0.4.0 created",
                     "body": "Release published successfully.",
                     "labels": [
-                        "release"
+                        {release}
                     ]
                 },
             },
@@ -1859,15 +1859,15 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Release created.\", \"repo_name\": \"security-scanner\", \"tag_name\": \"v0.4.0\", \"title\": \"Performance release\"",
-                "\"tag_name\": \"v0.4.0\", \"title\": \"Performance release\""
+                {"message": "Release created.", "repo_name": ""security-scanner", "tag_name": ""v0.4.0", "title": "Performance release""},
+                {"tag_name": "v0.4.0", "title": "Performance release""}
         ]
     }
     ,
     {
         "annotator": 0,
         "user_id": "task_03",
-        "instruction": "You are 'server-main'. Generate an auditable security snapshot for 'payments-service' which should achieve the following: \u2022 establish a new issue labeled 'Security alerts summary' with the body 'Tracking current code scanning findings and severities.' marked 'security'; \u2022 ensure the terminal log includes exactly this entry: {\"message\": \"Alerts retrieved.\", \"repo_name\": \"payments-service\", \"alert_count\": 1, \"alert_numbers\": [7], \"severities\": [\"high\"]} and the results must match the current code scanning alert summary data.",
+        "instruction": "You are 'server-main'. Generate an auditable security snapshot for 'payments-service' which should achieve the following: \u2022 establish a new issue labeled 'Security alerts summary' with the body 'Tracking current code scanning findings and severities.' marked 'security'; \u2022 ensure the terminal log includes exactly this entry: {\"message\": ""Alerts retrieved.", "repo_name\": ""payments-service", "alert_count\": 1, \"alert_numbers\": [7], \"severities\": [\"high\"]} and the results must match the current code scanning alert summary data.",
         "actions": [
             {
                 "name": "GetMe",
@@ -1894,19 +1894,19 @@ tasks = [
                     "title": "Security alerts summary",
                     "body": "Tracking current code scanning findings and severities.",
                     "labels": [
-                        "security"
+                        {security}
                     ]
                 },
             },
             {
                 "name": "AppendTerminal",
                 "arguments": {
-                    "message": "{\"message\": \"Alerts retrieved.\", \"repo_name\": \"payments-service\", \"alert_count\": 1, \"alert_numbers\": [7], \"severities\": [\"high\"]}"
+                    "message": "{\"message\": ""Alerts retrieved.", "repo_name\": ""payments-service", "alert_count\": 1, \"alert_numbers\": [7], \"severities\": [\"high\"]}"
                 }
             }
         ],
         "outputs": [
-                "\"message\": \"Alerts retrieved.\", \"repo_name\": \"payments-service\", \"alert_count\": 1, \"alert_numbers\": [7], \"severities\": [\"high\"]"
+                {"message": "Alerts retrieved.", "repo_name": ""payments-service", "alert_count": 1, "alert_numbers": [7], "severities": ["high"]"}
         ]
     }
     ,
@@ -1936,7 +1936,7 @@ tasks = [
             {
                 "name": "AppendTerminal",
                 "arguments": {
-                    "message": "{\"message\": \"Code alerts retrieved.\", \"repo_name\": \"k8s-monitoring\", \"alert_count\": 3, \"alert_numbers\": [42, 45, 48], \"severities\": [\"high\", \"medium\", \"low\"]}"
+                    "message": "{\"message\": ""Code alerts retrieved.", "repo_name\": ""k8s-monitoring", "alert_count\": 3, \"alert_numbers\": [42, 45, 48], \"severities\": [\"high\", \"medium\", \"low\"]}"
                 },
             },
             {
@@ -1946,9 +1946,9 @@ tasks = [
                     "title": "Track code scanning alerts",
                     "body": "Investigating code scanning alerts for identified issue numbers",
                     "labels": [
-                        "code-scan",
-                        "security",
-                        "infrastructure"
+                        {code-scan},
+                        {security},
+                        {infrastructure}
                     ]
                 },
             },
@@ -1960,8 +1960,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "'message': '{'message': 'Code alerts retrieved.', 'repo_name': 'k8s-monitoring', 'alert_count': 3, 'alert_numbers': [42, 45, 48], 'severities': ['high', 'medium', 'low']}",
-                "Issue #1 created to track code scanning alerts in k8s-monitoring."
+                {'message': '{'message': 'Code alerts retrieved.', 'repo_name': 'k8s-monitoring', 'alert_count': 3, 'alert_numbers': [42, 45, 48], 'severities': ['high', 'medium', 'low']}},
+                {Issue #1 created to track code scanning alerts in k8s-monitoring.}
         ]
     }
     ,
@@ -2068,14 +2068,14 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Merged PR #7 in acme-webapp: src/logger.py\"",
-                "\"message\": \"Merged PR #16 in utils-js: src/utils/format.js, test/format.test.js\"",
-                "\"message\": \"Merged PR #22 in nlp-models: src/evaluation.py, scripts/checkpoint.py\"",
-                "\"message\": \"Merged PR #23 in security-scanner: src/cache.rs, src/scanner.rs, Cargo.toml\"",
-                "\"message\": \"Merged PR #24 in flutter-finance-app: lib/theme/dark_theme.dart, lib/main.dart, pubspec.yaml\"",
-                "\"message\": \"Merged PR #30 in react-dashboard: src/styles/global.css, src/theme/dark.css, src/hooks/useTheme.ts\"",
-                "\"message\": \"Merged PR #32 in k8s-monitoring: kubernetes/alertmanager.yaml, config/alertmanager.yml, docker-compose.yml\"",
-                "\"message\": \"Merged PR #34 in k8s-monitoring: kubernetes/prometheus.yaml, config/prometheus.yml, docs/MONITORING.md\""
+                {"message": "Merged PR #7 in acme-webapp: src/logger.py"},
+                {"message": "Merged PR #16 in utils-js: src/utils/format.js, test/format.test.js"},
+                {"message": "Merged PR #22 in nlp-models: src/evaluation.py, scripts/checkpoint.py"},
+                {"message": "Merged PR #23 in security-scanner: src/cache.rs, src/scanner.rs, Cargo.toml"},
+                {"message": "Merged PR #24 in flutter-finance-app: lib/theme/dark_theme.dart, lib/main.dart, pubspec.yaml"},
+                {"message": "Merged PR #30 in react-dashboard: src/styles/global.css, src/theme/dark.css, src/hooks/useTheme.ts"},
+                {"message": "Merged PR #32 in k8s-monitoring: kubernetes/alertmanager.yaml, config/alertmanager.yml, docker-compose.yml"},
+                {"message": "Merged PR #34 in k8s-monitoring: kubernetes/prometheus.yaml, config/prometheus.yml, docs/MONITORING.md"}
         ]
     }
     ,
@@ -2116,7 +2116,7 @@ tasks = [
                     "title": "Commit authors frequency audit",
                     "body": "Collected authors and commit counts from full history and main branch.",
                     "labels": [
-                        "audit"
+                        {audit}
                     ]
                 },
             },
@@ -2128,7 +2128,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Authors frequency audit for payments-service completed\""
+                {"message": "Authors frequency audit for payments-service completed"}
         ]
     }
     ,
@@ -2163,7 +2163,7 @@ tasks = [
                     "title": "Accessibility audit (WCAG)",
                     "body": "Run Lighthouse + manual checks for keyboard navigation and color contrast.",
                     "labels": [
-                        "a11y"
+                        {a11y}
                     ]
                 },
             },
@@ -2175,7 +2175,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"portfolio-site accessibility audit opened\""
+                {"message": "portfolio-site accessibility audit opened"}
         ]
     }
     ,
@@ -2216,8 +2216,8 @@ tasks = [
                     "title": "Post-merge security sweep",
                     "body": "Review SQLi alert and ensure tests and sanitization on main.",
                     "labels": [
-                        "security",
-                        "audit"
+                        {security},
+                        {audit}
                     ]
                 },
             },
@@ -2229,7 +2229,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"acme-webapp post-merge security sweep initiated\""
+                {"message": "acme-webapp post-merge security sweep initiated"}
         ]
     }
     ,
@@ -2279,7 +2279,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"k8s-monitoring merged PRs verified: alertmanager + prometheus upgrade\""
+                {"message": "k8s-monitoring merged PRs verified: alertmanager + prometheus upgrade"}
         ]
     }
     ,
@@ -2329,7 +2329,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"react-dashboard memory leak investigation planned\""
+                {"message": "react-dashboard memory leak investigation planned"}
         ]
     }
     ,
@@ -2370,9 +2370,9 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Label 'triage-urgent' added.\"",
-                "\"message\": \"Comment added.\"",
-                "\"message\": \"Issue updated\", "number": 3, \"state\": \"closed\""
+                {"message": "Label 'triage-urgent' added."},
+                {"message": "Comment added."},
+                {"message": \Issue updated", "number": 3, "state": "closed""}
         ]
     }
     ,
@@ -2419,9 +2419,9 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Label 'needs-triage' added.\"",
-                "\"message\": \"Comment added.\"",
-                "\"message\": \"Issue updated\", "number": 4, \"state\": \"closed\""
+                {"message": "Label 'needs-triage' added."},
+                {"message": "Comment added."},
+                {"message": \Issue updated", "number": 4, "state": "closed""}
         ]
     }
     ,
@@ -2468,9 +2468,9 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Label 'investigate' added.\"",
-                "\"message\": \"Comment added.\"",
-                "\"message\": \"Issue updated\", "number": 25, \"state\": \"closed\""
+                {"message": "Label 'investigate' added."},
+                {"message": "Comment added."},
+                {"message": \Issue updated", "number": 25, "state": "closed""}
         ]
     }
     ,
@@ -2517,9 +2517,9 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Label 'investigate-oom' added.\"",
-                "\"message\": \"Comment added.\"",
-                "\"message\": \"Issue updated\", "number": 12, \"state\": \"closed\""
+                {"message": "Label 'investigate-oom' added."},
+                {"message": "Comment added."},
+                {"message": \Issue updated", "number": 12, "state": "closed""}
         ]
     }
     ,
@@ -2573,8 +2573,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Topic 'quality-gates' added.\"",
-                "\"entries\": {\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"Topic updated: quality-gates added to acme-webapp on branch main\"}"
+                {"message": "Topic 'quality-gates' added."},
+                {"entries": {\printed_ts": ""2025-08-21T12:00:00Z", "message": "Topic updated: quality-gates added to acme-webapp on branch main"}"}
         ]
     }
     ,
@@ -2636,10 +2636,10 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository renamed\", \"new_name\": \"acme-webapp-qa\"",
-                "\"message\": \"Visibility updated\", \"repo_name\": \"acme-webapp-qa\", \"visibility\": \"private\"",
-                "\"message\": \"Topic 'qa-ready' added.\"",
-                "\"entries\": {\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"Repository acme-webapp renamed to acme-webapp-qa and set private; topic qa-ready added\"}"
+                {"message": "Repository renamed", "new_name": "acme-webapp-qa""},
+                {"message": "Visibility updated", "repo_name": ""acme-webapp-qa", "visibility": "private""},
+                {"message": "Topic 'qa-ready' added."},
+                {"entries": {\printed_ts": ""2025-08-21T12:00:00Z", "message": "Repository acme-webapp renamed to acme-webapp-qa and set private; topic qa-ready added"}"}
         ]
     }
     ,
@@ -2692,8 +2692,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Branch protection enabled.\"",
-                "\"timestamp\": \"2025-08-21T12:00:00Z\", \"message\": \"Branch protection enabled on acme-webapp main\""
+                {"message": "Branch protection enabled."},
+                {"timestamp": "2025-08-21T12:00:00Z", "message": "Branch protection enabled on acme-webapp main""}
         ]
     }
     ,
@@ -2759,7 +2759,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"PR #11 reviewed and issue #6 labeled as reviewed.\""
+                {"message": "PR #11 reviewed and issue #6 labeled as reviewed."}
         ]
     }
     ,
@@ -2830,7 +2830,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "{'32': {'files': ['kubernetes/alertmanager.yaml', 'config/alertmanager.yml', 'docker-compose.yml'], 'authors': ['infra-lead']}, '34': {'files': ['kubernetes/prometheus.yaml', 'config/prometheus.yml', 'docs/MONITORING.md'], 'authors': ['infra-lead']}}"
+                {{'32': {'files': ['kubernetes/alertmanager.yaml', 'config/alertmanager.yml', 'docker-compose.yml'], 'authors': ['infra-lead']}, '34': {'files': ['kubernetes/prometheus.yaml', 'config/prometheus.yml', 'docs/MONITORING.md'], 'authors': ['infra-lead']}}}
         ]
     }
     ,
@@ -2895,7 +2895,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"ui-kit XSS dismissal validated against feature-theme commits\""
+                {"message": "ui-kit XSS dismissal validated against feature-theme commits"}
         ]
     }
     ,
@@ -2954,7 +2954,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"security-scanner perf fix validated and released\""
+                {"message": "security-scanner perf fix validated and released"}
         ]
     }
     ,
@@ -3019,7 +3019,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"nlp-models checkpoint fix verified; memory follow-up noted\""
+                {"message": "nlp-models checkpoint fix verified; memory follow-up noted"}
         ]
     }
     ,
@@ -3085,7 +3085,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"react-dashboard dark mode verified; realtime PR gated\""
+                {"message": "react-dashboard dark mode verified; realtime PR gated"}
         ]
     }
     ,
@@ -3146,7 +3146,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"infra-terraform PR opened to address ALB health checks\""
+                {"message": "infra-terraform PR opened to address ALB health checks"}
         ]
     }
     ,
@@ -3212,7 +3212,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"ml-pipeline MLflow integration reviewed; validation roadmap updated\""
+                {"message": "ml-pipeline MLflow integration reviewed; validation roadmap updated"}
         ]
     }
     ,
@@ -3261,7 +3261,7 @@ tasks = [
                     "title": "SARIF config polish",
                     "body": "Tighten schema validation and CI upload parameters.",
                     "labels": [
-                        "enhancement"
+                        {enhancement}
                     ]
                 },
             },
@@ -3273,7 +3273,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"security-scanner SARIF review and config follow-up created\""
+                {"message": "security-scanner SARIF review and config follow-up created"}
         ]
     }
     ,
@@ -3340,9 +3340,9 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Branch created\", \"new_branch\": \"feature-banners\"",
-                "\"message\": \"Committed to branch\", \"branch\": \"feature-banners\"",
-                "\"entries\": {\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"Release notes committed on feature-banners in acme-webapp\"}"
+                {"message": "Branch created", "new_branch": "feature-banners""},
+                {"message": "Committed to branch", "branch": "feature-banners""},
+                {"entries": {\printed_ts": ""2025-08-21T12:00:00Z", "message": "Release notes committed on feature-banners in acme-webapp"}"}
         ]
     }
     ,
@@ -3405,8 +3405,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"protected\": \"true\", \"rules\": {\"required_reviews\": 1, \"enforce_admins\": true}",
-                "\"message\": \"Protection enabled and release task_65-hardened published for react-dashboard [task_65]\""
+                {"protected": "true", "rules": {"required_reviews": 1, "enforce_admins": true}"},
+                {"message": "Protection enabled and release task_65-hardened published for react-dashboard [task_65]"}
         ]
     }
     ,
@@ -3473,9 +3473,9 @@ tasks = [
             }
         ],
         "outputs": [
-                "'file_content': 'temp work'",
-                "'terminal_message': 'Branch temp-branch deleted in acme-webapp.'",
-                "'branches': ['main', 'feature-update']"
+                {'file_content': 'temp work'},
+                {'terminal_message': 'Branch temp-branch deleted in acme-webapp.'},
+                {'branches': ['main', 'feature-update']}
         ]
     }
     ,
@@ -3537,12 +3537,12 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Label 'security-check' added.\"",
-                "\"state\": \"closed\"",
-                "\"results\": [",
-                "\"title\": \"Security audit [task_01]\"",
-                "\"labels\": [\"security-check\"]",
-                "\"message\": \"Issue closed with security-check label in acme-webapp [task_01]\""
+                {"message": "Label 'security-check' added."},
+                {"state": "closed"},
+                {"results": [},
+                {"title": "Security audit [task_01]"},
+                {"labels": [\security-check"]"},
+                {"message": "Issue closed with security-check label in acme-webapp [task_01]"}
         ]
     }
     ,
@@ -3604,12 +3604,12 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Label 'ci-audit' added.\"",
-                "\"state\": \"closed\"",
-                "\"results\": [",
-                "\"title\": \"Build pipeline audit [task_72]\"",
-                "\"labels\": [\"ci-audit\"]",
-                "\"message\": \"Issue closed with ci-audit label in react-dashboard [task_72]\""
+                {"message": "Label 'ci-audit' added."},
+                {"state": "closed"},
+                {"results": [},
+                {"title": "Build pipeline audit [task_72]"},
+                {"labels": [\ci-audit"]"},
+                {"message": "Issue closed with ci-audit label in react-dashboard [task_72]"}
         ]
     }
     ,
@@ -3696,8 +3696,8 @@ tasks = [
                     "repo_name": "security-scanner-pro",
                     "pr_number": 1,
                     "reviewers": [
-                        "qa-mike",
-                        "dev-sue"
+                        {qa-mike},
+                        {dev-sue}
                     ]
                 },
             },
@@ -3732,7 +3732,7 @@ tasks = [
                     "title": "Post-release verification",
                     "body": "Validate SARIF output end-to-end.",
                     "labels": [
-                        "release"
+                        {release}
                     ]
                 },
             },
@@ -3750,14 +3750,14 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"security-scanner-pro\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Add SARIF output support\", \"pr_number\": 1",
-                "\"message\": \"Reviewers requested.\", \"requested_reviewers\": [\"dev-sue\", \"qa-mike\"]",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"security-scanner-pro\", \"tag_name\": \"v0.5.0\"",
-                "\"tag_name\": \"v0.5.0\", \"title\": \"SARIF support\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"security-scanner-pro v0.5.0 released.\""
+                {"message": "Repository created", "repo_name": "security-scanner-pro""},
+                {"message": "Pull request opened", "title": ""Add SARIF output support", "pr_number": 1"},
+                {"message": "Reviewers requested.", "requested_reviewers": ["dev-sue", "qa-mike"]"},
+                {"message": "Pull request merged.", "merged": "true""},
+                {"message": "Release created.", "repo_name": ""security-scanner-pro", "tag_name": "v0.5.0""},
+                {"tag_name": "v0.5.0", "title": "SARIF support""},
+                {"message": \Issue created", "number": 1"},
+                {"message": "security-scanner-pro v0.5.0 released."}
         ]
     }
     ,
@@ -3864,7 +3864,7 @@ tasks = [
                     "title": "Branch protection enabled on main",
                     "body": "Required reviews set to 1.",
                     "labels": [
-                        "security"
+                        {security}
                     ]
                 },
             },
@@ -3876,12 +3876,12 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"k8s-ci-pipelines\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Introduce alert routing\", \"pr_number\": 1",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
-                "\"message\": \"Branch protection enabled.\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"k8s-ci-pipelines protection enabled on main.\""
+                {"message": "Repository created", "repo_name": "k8s-ci-pipelines""},
+                {"message": "Pull request opened", "title": ""Introduce alert routing", "pr_number": 1"},
+                {"message": "Pull request merged.", "merged": "true""},
+                {"message": "Branch protection enabled."},
+                {"message": \Issue created", "number": 1"},
+                {"message": "k8s-ci-pipelines protection enabled on main."}
         ]
     }
     ,
@@ -3968,8 +3968,8 @@ tasks = [
                     "repo_name": "react-dashboard-pro",
                     "pr_number": 1,
                     "reviewers": [
-                        "qa-mike",
-                        "design-team"
+                        {qa-mike},
+                        {design-team}
                     ]
                 },
             },
@@ -4010,7 +4010,7 @@ tasks = [
                     "title": "Dark mode documentation",
                     "body": "Add instructions for enabling dark mode in user guide.",
                     "labels": [
-                        "docs"
+                        {docs}
                     ]
                 },
             },
@@ -4033,15 +4033,15 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"react-dashboard-pro\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Add dark mode theme\", \"pr_number\": 1",
-                "\"message\": \"Reviewers requested.\", \"requested_reviewers\": [\"qa-mike\", \"design-team\"]",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"react-dashboard-pro\", \"tag_name\": \"v2.0.0\"",
-                "\"tag_name\": \"v2.0.0\", \"title\": \"Dark mode release\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"Branch protection enabled.\"",
-                "\"message\": \"react-dashboard-pro v2.0.0 released with dark mode.\""
+                {"message": "Repository created", "repo_name": "react-dashboard-pro""},
+                {"message": "Pull request opened", "title": ""Add dark mode theme", "pr_number": 1"},
+                {"message": "Reviewers requested.", "requested_reviewers": ["qa-mike", "design-team"]"},
+                {"message": "Pull request merged.", "merged": "true""},
+                {"message": "Release created.", "repo_name": ""react-dashboard-pro", "tag_name": "v2.0.0""},
+                {"tag_name": "v2.0.0", "title": "Dark mode release""},
+                {"message": \Issue created", "number": 1"},
+                {"message": "Branch protection enabled."},
+                {"message": "react-dashboard-pro v2.0.0 released with dark mode."}
         ]
     }
     ,
@@ -4146,7 +4146,7 @@ tasks = [
                     "title": "Track registry rollout",
                     "body": "Coordinate rollout with ops.",
                     "labels": [
-                        "ops"
+                        {ops}
                     ]
                 },
             },
@@ -4169,13 +4169,13 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"infra-containers\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Add container registry\", \"pr_number\": 1",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"infra-containers\", \"tag_name\": \"v0.3.0\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"Branch protection enabled.\"",
-                "\"message\": \"infra-containers v0.3.0 released.\""
+                {"message": "Repository created", "repo_name": "infra-containers""},
+                {"message": "Pull request opened", "title": ""Add container registry", "pr_number": 1"},
+                {"message": "Pull request merged.", "merged": "true""},
+                {"message": "Release created.", "repo_name": ""infra-containers", "tag_name": "v0.3.0""},
+                {"message": \Issue created", "number": 1"},
+                {"message": "Branch protection enabled."},
+                {"message": "infra-containers v0.3.0 released."}
         ]
     }
     ,
@@ -4262,8 +4262,8 @@ tasks = [
                     "repo_name": "backend-payment-service",
                     "pr_number": 1,
                     "reviewers": [
-                        "qa-erin",
-                        "payments-lead"
+                        {qa-erin},
+                        {payments-lead}
                     ]
                 },
             },
@@ -4315,7 +4315,7 @@ tasks = [
                     "title": "Post-deploy checklist",
                     "body": "Validate webhook delivery and retries.",
                     "labels": [
-                        "release"
+                        {release}
                     ]
                 },
             },
@@ -4327,15 +4327,15 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"backend-payment-service\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Add payment webhooks\", \"pr_number\": 1",
-                "\"message\": \"Reviewers requested.\", \"requested_reviewers\": [\"payments-lead\", \"qa-erin\"]",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
-                "\"message\": \"Branch protection enabled.\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"backend-payment-service\", \"tag_name\": \"v1.3.0\"",
-                "\"tag_name\": \"v1.3.0\", \"title\": \"Payment webhooks\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"backend-payment-service v1.3.0 released.\""
+                {"message": "Repository created", "repo_name": "backend-payment-service""},
+                {"message": "Pull request opened", "title": ""Add payment webhooks", "pr_number": 1"},
+                {"message": "Reviewers requested.", "requested_reviewers": ["payments-lead", "qa-erin"]"},
+                {"message": "Pull request merged.", "merged": "true""},
+                {"message": "Branch protection enabled."},
+                {"message": "Release created.", "repo_name": ""backend-payment-service", "tag_name": "v1.3.0""},
+                {"tag_name": "v1.3.0", "title": "Payment webhooks""},
+                {"message": \Issue created", "number": 1"},
+                {"message": "backend-payment-service v1.3.0 released."}
         ]
     }
     ,
@@ -4440,7 +4440,7 @@ tasks = [
                     "title": "Review sanitization helper",
                     "body": "Validate new helper across services.",
                     "labels": [
-                        "security"
+                        {security}
                     ]
                 },
             },
@@ -4452,12 +4452,12 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"acme-sql-service\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Add SQL sanitization\", \"pr_number\": 1",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"acme-sql-service\", \"tag_name\": \"v0.2.0\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"acme-sql-service v0.2.0 released.\""
+                {"message": "Repository created", "repo_name": "acme-sql-service""},
+                {"message": "Pull request opened", "title": ""Add SQL sanitization", "pr_number": 1"},
+                {"message": "Pull request merged.", "merged": "true""},
+                {"message": "Release created.", "repo_name": ""acme-sql-service", "tag_name": "v0.2.0""},
+                {"message": \Issue created", "number": 1"},
+                {"message": "acme-sql-service v0.2.0 released."}
         ]
     }
     ,
@@ -4518,7 +4518,7 @@ tasks = [
                     "repo_name": "payments-service",
                     "pr_number": 1,
                     "reviewers": [
-                        "qa-erin"
+                        {qa-erin}
                     ]
                 },
             },
@@ -4551,7 +4551,7 @@ tasks = [
                     "title": "Timeout policy docs published",
                     "body": "Docs merged and released as v0.2.1.",
                     "labels": [
-                        "documentation"
+                        {documentation}
                     ]
                 },
             },
@@ -4563,15 +4563,15 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Branch created\", \"new_branch\": \"feature-timeout-policy\", \"from\": \"main\"",
-                "\"message\": \"Committed to branch\", \"repo\": \"payments-service\", \"branch\": \"feature-timeout-policy\", \"commit_sha\": \"sha_0000000000000000000000000000000000000000\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Document timeout policy\", \"base\": \"main\", \"head\": \"feature-timeout-policy\", \"pr_number\": 1",
-                "\"message\": \"Reviewers requested.\", \"pr_number\": 1",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\", \"merge_method\": \"merge\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"payments-service\", \"tag_name\": \"v0.2.1\", \"title\": \"Timeout policy docs\"",
-                "\"tag_name\": \"v0.2.1\", \"title\": \"Timeout policy docs\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"timestamp\": \"2025-08-21T12:00:00Z\", \"message\": \"payments-service timeout policy docs published and released as v0.2.1.\""
+                {"message": "Branch created", "new_branch": ""feature-timeout-policy", "from": "main""},
+                {"message": "Committed to branch", "repo": ""payments-service", "branch": ""feature-timeout-policy", "commit_sha": "sha_0000000000000000000000000000000000000000""},
+                {"message": "Pull request opened", "title": ""Document timeout policy", "base": ""main", "head": ""feature-timeout-policy", "pr_number": 1"},
+                {"message": "Reviewers requested.", "pr_number": 1"},
+                {"message": "Pull request merged.", "merged": ""true", "merge_method": "merge""},
+                {"message": "Release created.", "repo_name": ""payments-service", "tag_name": ""v0.2.1", "title": "Timeout policy docs""},
+                {"tag_name": "v0.2.1", "title": "Timeout policy docs""},
+                {"message": \Issue created", "number": 1"},
+                {"timestamp": "2025-08-21T12:00:00Z", "message": "payments-service timeout policy docs published and released as v0.2.1.""}
         ]
     }
     ,
@@ -4635,7 +4635,7 @@ tasks = [
                     "title": "Add onboarding guide",
                     "body": "Create onboarding section in docs.",
                     "labels": [
-                        "docs"
+                        {docs}
                     ]
                 },
             },
@@ -4647,11 +4647,11 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"product-docs\"",
-                "\"message\": \"Branch protection enabled.\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"product-docs\", \"tag_name\": \"v1.0.0\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"product-docs v1.0.0 published.\""
+                {"message": "Repository created", "repo_name": "product-docs""},
+                {"message": "Branch protection enabled."},
+                {"message": "Release created.", "repo_name": ""product-docs", "tag_name": "v1.0.0""},
+                {"message": \Issue created", "number": 1"},
+                {"message": "product-docs v1.0.0 published."}
         ]
     }
     ,
@@ -4712,7 +4712,7 @@ tasks = [
                     "repo_name": "k8s-monitoring",
                     "pr_number": 1,
                     "reviewers": [
-                        "platform-team"
+                        {platform-team}
                     ]
                 },
             },
@@ -4730,7 +4730,7 @@ tasks = [
                     "title": "Prometheus retention policy documented",
                     "body": "Retention set to 30 days and documented.",
                     "labels": [
-                        "documentation"
+                        {documentation}
                     ]
                 },
             },
@@ -4742,13 +4742,13 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Branch created\", \"new_branch\": \"feature-retention-policy\", \"from\": \"main\"",
-                "\"message\": \"Committed to branch\", \"repo\": \"k8s-monitoring\", \"branch\": \"feature-retention-policy\", \"commit_sha\": \"sha_0000000000000000000000000000000000000000\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Document Prometheus retention\", \"base\": \"main\", \"head\": \"feature-retention-policy\", \"pr_number\": 1",
-                "\"message\": \"Reviewers requested.\", \"pr_number\": 1",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\", \"merge_method\": \"merge\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"timestamp\": \"2025-08-21T12:00:00Z\", \"message\": \"k8s-monitoring retention policy docs merged and recorded.\""
+                {"message": "Branch created", "new_branch": ""feature-retention-policy", "from": "main""},
+                {"message": "Committed to branch", "repo": ""k8s-monitoring", "branch": ""feature-retention-policy", "commit_sha": "sha_0000000000000000000000000000000000000000""},
+                {"message": "Pull request opened", "title": ""Document Prometheus retention", "base": ""main", "head": ""feature-retention-policy", "pr_number": 1"},
+                {"message": "Reviewers requested.", "pr_number": 1"},
+                {"message": "Pull request merged.", "merged": ""true", "merge_method": "merge""},
+                {"message": \Issue created", "number": 1"},
+                {"timestamp": "2025-08-21T12:00:00Z", "message": "k8s-monitoring retention policy docs merged and recorded.""}
         ]
     }
     ,
@@ -4794,7 +4794,7 @@ tasks = [
                     "title": "Write first test cases",
                     "body": "Add login and signup test coverage.",
                     "labels": [
-                        "qa"
+                        {qa}
                     ]
                 },
             },
@@ -4806,10 +4806,10 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"qa-tests\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"qa-tests\", \"tag_name\": \"v0.1.0\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"qa-tests v0.1.0 created.\""
+                {"message": "Repository created", "repo_name": "qa-tests""},
+                {"message": "Release created.", "repo_name": ""qa-tests", "tag_name": "v0.1.0""},
+                {"message": \Issue created", "number": 1"},
+                {"message": "qa-tests v0.1.0 created."}
         ]
     }
     ,
@@ -4876,7 +4876,7 @@ tasks = [
                     "repo_name": "ui-kit",
                     "pr_number": 1,
                     "reviewers": [
-                        "ui-dev"
+                        {ui-dev}
                     ]
                 },
             },
@@ -4918,7 +4918,7 @@ tasks = [
                     "title": "ThemeProvider docs published",
                     "body": "Docs merged and released as v1.0.1.",
                     "labels": [
-                        "documentation"
+                        {documentation}
                     ]
                 },
             },
@@ -4930,17 +4930,17 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Branch protection enabled.\", \"repo_name\": \"ui-kit\", \"branch\": \"main\", \"protected\": \"true\"",
-                "\"message\": \"Branch created\", \"new_branch\": \"feature-theme-docs\", \"from\": \"main\"",
-                "\"message\": \"Committed to branch\", \"repo\": \"ui-kit\", \"branch\": \"feature-theme-docs\", \"commit_sha\": \"sha_0000000000000000000000000000000000000000\"",
-                "\"message\": \"Pull request opened\", \"title\": \"ThemeProvider docs\", \"base\": \"main\", \"head\": \"feature-theme-docs\", \"pr_number\": 1",
-                "\"message\": \"Reviewers requested.\", \"pr_number\": 1",
-                "\"message\": \"Review submitted.\"",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\", \"merge_method\": \"merge\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"ui-kit\", \"tag_name\": \"v1.0.1\", \"title\": \"Theme docs\"",
-                "\"tag_name\": \"v1.0.1\", \"body\": \"Add ThemeProvider documentation.\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"ui-kit ThemeProvider docs published and released as v1.0.1.\""
+                {"message": "Branch protection enabled.", "repo_name": ""ui-kit", "branch": ""main", "protected": "true""},
+                {"message": "Branch created", "new_branch": ""feature-theme-docs", "from": "main""},
+                {"message": "Committed to branch", "repo": ""ui-kit", "branch": ""feature-theme-docs", "commit_sha": "sha_0000000000000000000000000000000000000000""},
+                {"message": "Pull request opened", "title": ""ThemeProvider docs", "base": ""main", "head": ""feature-theme-docs", "pr_number": 1"},
+                {"message": "Reviewers requested.", "pr_number": 1"},
+                {"message": "Review submitted."},
+                {"message": "Pull request merged.", "merged": ""true", "merge_method": "merge""},
+                {"message": "Release created.", "repo_name": ""ui-kit", "tag_name": ""v1.0.1", "title": "Theme docs""},
+                {"tag_name": "v1.0.1", "body": "Add ThemeProvider documentation.""},
+                {"message": \Issue created", "number": 1"},
+                {"printed_ts": "2025-08-21T12:00:00Z", "message": "ui-kit ThemeProvider docs published and released as v1.0.1.""}
         ]
     }
     ,
@@ -4979,7 +4979,7 @@ tasks = [
                     "title": "Create weekly maintenance checklist",
                     "body": "Define checklist template for weekly runs.",
                     "labels": [
-                        "maintenance"
+                        {maintenance}
                     ]
                 },
             },
@@ -4991,10 +4991,10 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"tooling-maintenance\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"tooling-maintenance\", \"tag_name\": \"v0.1.0\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"tooling-maintenance v0.1.0 created.\""
+                {"message": "Repository created", "repo_name": "tooling-maintenance""},
+                {"message": "Release created.", "repo_name": ""tooling-maintenance", "tag_name": "v0.1.0""},
+                {"message": \Issue created", "number": 1"},
+                {"message": "tooling-maintenance v0.1.0 created."}
         ]
     }
     ,
@@ -5083,7 +5083,7 @@ tasks = [
                     "title": "Expand CI matrix",
                     "body": "Add Python and Node matrix to CI.",
                     "labels": [
-                        "ci"
+                        {ci}
                     ]
                 },
             },
@@ -5095,11 +5095,11 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"automation-ci\"",
-                "\"message\": \"Branch protection enabled.\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"automation-ci\", \"tag_name\": \"v0.1.0\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"automation-ci v0.1.0 released.\""
+                {"message": "Repository created", "repo_name": "automation-ci""},
+                {"message": "Branch protection enabled."},
+                {"message": "Release created.", "repo_name": ""automation-ci", "tag_name": "v0.1.0""},
+                {"message": \Issue created", "number": 1"},
+                {"message": "automation-ci v0.1.0 released."}
         ]
     }
     ,
@@ -5193,7 +5193,7 @@ tasks = [
                     "title": "Track design system adoption",
                     "body": "Roll out across products.",
                     "labels": [
-                        "design"
+                        {design}
                     ]
                 },
             },
@@ -5205,13 +5205,13 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"design-system\"",
-                "\"message\": \"Repository renamed\", \"new_name\": \"design-system-pro\"",
-                "\"message\": \"Visibility updated\", \"repo_name\": \"design-system-pro\", \"visibility\": \"public\"",
-                "\"message\": \"Committed to branch\", \"commit_message\": \"Add initial guidelines and tokens\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"design-system-pro\", \"tag_name\": \"v1.0.0\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"design-system-pro v1.0.0 published.\""
+                {"message": "Repository created", "repo_name": "design-system""},
+                {"message": "Repository renamed", "new_name": "design-system-pro""},
+                {"message": "Visibility updated", "repo_name": ""design-system-pro", "visibility": "public""},
+                {"message": "Committed to branch", "commit_message": "Add initial guidelines and tokens""},
+                {"message": "Release created.", "repo_name": ""design-system-pro", "tag_name": "v1.0.0""},
+                {"message": \Issue created", "number": 1"},
+                {"message": "design-system-pro v1.0.0 published."}
         ]
     }
     ,
@@ -5272,7 +5272,7 @@ tasks = [
                     "repo_name": "k8s-monitoring",
                     "pr_number": 1,
                     "reviewers": [
-                        "platform-team"
+                        {platform-team}
                     ]
                 },
             },
@@ -5321,7 +5321,7 @@ tasks = [
                     "title": "Logging docs published",
                     "body": "Docs merged and released as v1.5.0.",
                     "labels": [
-                        "documentation"
+                        {documentation}
                     ]
                 },
             },
@@ -5333,17 +5333,17 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Branch created\", \"new_branch\": \"feature-logging-docs\", \"from\": \"main\"",
-                "\"message\": \"Committed to branch\", \"repo\": \"k8s-monitoring\", \"branch\": \"feature-logging-docs\", \"commit_sha\": \"sha_0000000000000000000000000000000000000000\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Logging docs\", \"base\": \"main\", \"head\": \"feature-logging-docs\", \"pr_number\": 1",
-                "\"message\": \"Reviewers requested.\", \"pr_number\": 1",
-                "\"message\": \"Review submitted.\"",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\", \"merge_method\": \"merge\"",
-                "\"message\": \"Topic 'observability' added.\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"k8s-monitoring\", \"tag_name\": \"v1.5.0\", \"title\": \"Logging docs\"",
-                "\"tag_name\": \"v1.5.0\", \"body\": \"Add logging documentation.\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"k8s-monitoring logging docs published and released as v1.5.0.\""
+                {"message": "Branch created", "new_branch": ""feature-logging-docs", "from": "main""},
+                {"message": "Committed to branch", "repo": ""k8s-monitoring", "branch": ""feature-logging-docs", "commit_sha": "sha_0000000000000000000000000000000000000000""},
+                {"message": "Pull request opened", "title": ""Logging docs", "base": ""main", "head": ""feature-logging-docs", "pr_number": 1"},
+                {"message": "Reviewers requested.", "pr_number": 1"},
+                {"message": "Review submitted."},
+                {"message": "Pull request merged.", "merged": ""true", "merge_method": "merge""},
+                {"message": "Topic 'observability' added."},
+                {"message": "Release created.", "repo_name": ""k8s-monitoring", "tag_name": ""v1.5.0", "title": "Logging docs""},
+                {"tag_name": "v1.5.0", "body": "Add logging documentation.""},
+                {"message": \Issue created", "number": 1"},
+                {"printed_ts": "2025-08-21T12:00:00Z", "message": "k8s-monitoring logging docs published and released as v1.5.0.""}
         ]
     }
     ,
@@ -5430,8 +5430,8 @@ tasks = [
                     "repo_name": "ml-ops-pipeline",
                     "pr_number": 1,
                     "reviewers": [
-                        "qa-mike",
-                        "dev-sue"
+                        {qa-mike},
+                        {dev-sue}
                     ]
                 },
             },
@@ -5483,7 +5483,7 @@ tasks = [
                     "title": "Validate training pipeline",
                     "body": "Run end‑to‑end training and verify outputs.",
                     "labels": [
-                        "mlops"
+                        {mlops}
                     ]
                 },
             },
@@ -5495,15 +5495,15 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"ml-ops-pipeline\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Add training pipeline\", \"pr_number\": 1",
-                "\"message\": \"Reviewers requested.\", \"requested_reviewers\": [\"dev-sue\", \"qa-mike\"]",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
-                "\"message\": \"Branch protection enabled.\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"ml-ops-pipeline\", \"tag_name\": \"v0.8.0\"",
-                "\"tag_name\": \"v0.8.0\", \"title\": \"Training pipeline\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"ml-ops-pipeline v0.8.0 released.\""
+                {"message": "Repository created", "repo_name": "ml-ops-pipeline""},
+                {"message": "Pull request opened", "title": ""Add training pipeline", "pr_number": 1"},
+                {"message": "Reviewers requested.", "requested_reviewers": ["dev-sue", "qa-mike"]"},
+                {"message": "Pull request merged.", "merged": "true""},
+                {"message": "Branch protection enabled."},
+                {"message": "Release created.", "repo_name": ""ml-ops-pipeline", "tag_name": "v0.8.0""},
+                {"tag_name": "v0.8.0", "title": "Training pipeline""},
+                {"message": \Issue created", "number": 1"},
+                {"message": "ml-ops-pipeline v0.8.0 released."}
         ]
     }
     ,
@@ -5544,7 +5544,7 @@ tasks = [
                     "title": "Security audit required",
                     "body": "Run compliance checks on encryption and password policies.",
                     "labels": [
-                        "security"
+                        {security}
                     ]
                 },
             },
@@ -5562,10 +5562,10 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Branch protection enabled.\", \"repo_name\": \"security-scanner\", \"branch\": \"main\", \"protected\": \"true\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"alerts\": [{\"alert_number\": 18, \"severity\": \"critical\", \"state\": \"open\", \"description\": \"Unsafe deserialization in rule configuration parser\"}, { \"alert_number\": 21, \"severity\": \"high\", \"state\": \"open\",\"description\": \"Potential buffer overflow in string handling\"}, {\"alert_number\": 24, \"severity\": \"medium\", \"state\": \"fixed\", \"description\": \"Use of deprecated crypto functions\"}, { \"alert_number\": 27, \"severity\": \"low\", \"state\": \"dismissed\", \"description\": \"Missing input validation in CLI arguments\"}]",
-                "\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"security-scanner security audit scheduled with branch protection enforced.\""
+                {"message": "Branch protection enabled.", "repo_name": ""security-scanner", "branch": ""main", "protected": "true""},
+                {"message": \Issue created", "number": 1"},
+                {"alerts": [{\alert_number": 18, "severity": ""critical", "state": ""open", "description": "Unsafe deserialization in rule configuration parser"}, { "alert_number": 21, "severity": ""high", "state": ""open", "description": "Potential buffer overflow in string handling"}, {"alert_number": 24, "severity": ""medium", "state": ""fixed", "description": "Use of deprecated crypto functions"}, { "alert_number": 27, "severity": ""low", "state": ""dismissed", "description": "Missing input validation in CLI arguments"}]"},
+                {"printed_ts": "2025-08-21T12:00:00Z", "message": "security-scanner security audit scheduled with branch protection enforced.""}
         ]
     }
     ,
@@ -5688,7 +5688,7 @@ tasks = [
                     "title": "Refine alert thresholds",
                     "body": "Tune thresholds for production logs.",
                     "labels": [
-                        "alerts"
+                        {alerts}
                     ]
                 },
             },
@@ -5700,20 +5700,20 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"log-analyzer\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Introduce log alerting\", \"pr_number\": 1",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
-                "\"message\": \"Branch protection enabled.\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"log-analyzer\", \"tag_name\": \"v1.2.0\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"log-analyzer v1.2.0 released.\""
+                {"message": "Repository created", "repo_name": "log-analyzer""},
+                {"message": "Pull request opened", "title": ""Introduce log alerting", "pr_number": 1"},
+                {"message": "Pull request merged.", "merged": "true""},
+                {"message": "Branch protection enabled."},
+                {"message": "Release created.", "repo_name": ""log-analyzer", "tag_name": "v1.2.0""},
+                {"message": \Issue created", "number": 1"},
+                {"message": "log-analyzer v1.2.0 released."}
         ]
     }
     ,
     {
         "annotator": 0,
         "user_id": "task_66",
-        "instruction": "As 'security-group', upon concluding the task, verify that the 'security-scanner' repository state meets ALL of the following: \u2022 'Main' branch must have protection with rules exactly as {\"require_reviews\": \"true\", \"require_status_checks\": \"true\", \"enforce_admins\": \"true\"}. \u2022 The visibility of the repository must remain 'private'. \u2022 Ensure 'compliance' is included in the repository topics. \u2022 There should be an issue titled 'Annual compliance baseline' with the body 'Baseline checks for encryption and password rotation.' carrying the labels ['security','compliance'], along with a comment that matches exactly 'Baseline scheduled for Q4.' \u2022 Verify the Terminal audit log contains the exact entry 'security-scanner compliance baseline scheduled with protections enforced.'.",
+        "instruction": "As 'security-group', upon concluding the task, verify that the 'security-scanner' repository state meets ALL of the following: \u2022 'Main' branch must have protection with rules exactly as {\"require_reviews\": ""true", "require_status_checks\": ""true", "enforce_admins\": \"true\"}. \u2022 The visibility of the repository must remain 'private'. \u2022 Ensure 'compliance' is included in the repository topics. \u2022 There should be an issue titled 'Annual compliance baseline' with the body 'Baseline checks for encryption and password rotation.' carrying the labels ['security','compliance'], along with a comment that matches exactly 'Baseline scheduled for Q4.' \u2022 Verify the Terminal audit log contains the exact entry 'security-scanner compliance baseline scheduled with protections enforced.'.",
         "actions": [
             {
                 "name": "GetMe",
@@ -5767,8 +5767,8 @@ tasks = [
                     "title": "Annual compliance baseline",
                     "body": "Baseline checks for encryption and password rotation.",
                     "labels": [
-                        "security",
-                        "compliance"
+                        {security},
+                        {compliance}
                     ]
                 },
             },
@@ -5788,13 +5788,13 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Branch protection enabled.\", \"repo_name\": \"security-scanner\", \"branch\": \"main\", \"protected\": \"true\"",
-                "\"message\": \"Visibility updated\", \"repo_name\": \"security-scanner\", \"visibility\": \"private\"",
-                "\"message\": \"Topic 'compliance' added.\"",
-                "\"topics\": [",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"Comment added.\"",
-                "\"printed_ts\": \"2025-08-21T12:00:00Z\", \"message\": \"security-scanner compliance baseline scheduled with protections enforced.\""
+                {"message": "Branch protection enabled.", "repo_name": ""security-scanner", "branch": ""main", "protected": "true""},
+                {"message": "Visibility updated", "repo_name": ""security-scanner", "visibility": "private""},
+                {"message": "Topic 'compliance' added."},
+                {"topics": [},
+                {"message": \Issue created", "number": 1"},
+                {"message": "Comment added."},
+                {"printed_ts": "2025-08-21T12:00:00Z", "message": "security-scanner compliance baseline scheduled with protections enforced.""}
         ]
     }
     ,
@@ -5917,7 +5917,7 @@ tasks = [
                     "title": "Expand selenium coverage",
                     "body": "Add cross-browser tests.",
                     "labels": [
-                        "qa"
+                        {qa}
                     ]
                 },
             },
@@ -5929,13 +5929,13 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"automation-tests\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Add selenium tests\", \"pr_number\": 1",
-                "\"message\": \"Pull request merged.\", \"merged\": \"true\"",
-                "\"message\": \"Branch protection enabled.\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"automation-tests\", \"tag_name\": \"v0.5.0\"",
-                "\"message\": \"Issue created\", "number": 1",
-                "\"message\": \"automation-tests v0.5.0 released.\""
+                {"message": "Repository created", "repo_name": "automation-tests""},
+                {"message": "Pull request opened", "title": ""Add selenium tests", "pr_number": 1"},
+                {"message": "Pull request merged.", "merged": "true""},
+                {"message": "Branch protection enabled."},
+                {"message": "Release created.", "repo_name": ""automation-tests", "tag_name": "v0.5.0""},
+                {"message": \Issue created", "number": 1"},
+                {"message": "automation-tests v0.5.0 released."}
         ]
     }
     ,
@@ -6018,7 +6018,7 @@ tasks = [
                     "title": "Prepare v1.0 checklist",
                     "body": "Checklist for release v1.0.",
                     "labels": [
-                        "release"
+                        {release}
                     ]
                 },
             },
@@ -6073,16 +6073,16 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Repository created\", \"repo_name\": \"release-runbooks\"",
-                "\"message\": \"Repository renamed\", \"new_name\": \"release-ops\"",
-                "\"message\": \"Visibility updated\", \"repo_name\": \"release-ops\", \"visibility\": \"public\"",
-                "\"message\": \"Committed to branch\", \"commit_message\": \"Add initial release runbook\"",
-                "\"message\": \"Comment added.\"",
-                "\"message\": \"Label \"checklist\" added.\"",
-                "\"message\": \"Branch protection enabled.\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"release-ops\", \"tag_name\": \"v1.0.0\"",
-                "\"message\": \"Topic \"runbooks\" removed.\"",
-                "\"message\": \"release-ops v1.0.0 published.\""
+                {"message": "Repository created", "repo_name": "release-runbooks""},
+                {"message": "Repository renamed", "new_name": "release-ops""},
+                {"message": "Visibility updated", "repo_name": ""release-ops", "visibility": "public""},
+                {"message": "Committed to branch", "commit_message": "Add initial release runbook""},
+                {"message": "Comment added."},
+                {"message": \Label "checklist" added.""},
+                {"message": "Branch protection enabled."},
+                {"message": "Release created.", "repo_name": ""release-ops", "tag_name": "v1.0.0""},
+                {"message": \Topic "runbooks" removed.""},
+                {"message": "release-ops v1.0.0 published."}
         ]
     }
     ,
@@ -6159,9 +6159,9 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Pull request opened\", \"title\": \"Add feature A docs\", \"base\": \"main\", \"head\": \"feature-a\"",
-                "\"message\": \"Pull request opened\", \"title\": \"Add feature B docs\", \"base\": \"main\", \"head\": \"feature-b\"",
-                "\"open_pr_titles\": [\"Introduce Theme Provider\", \"Release 1.0 prep\", \"Add feature A docs\", \"Add feature B docs\"]"
+                {"message": "Pull request opened", "title": ""Add feature A docs", "base": ""main", "head": "feature-a""},
+                {"message": "Pull request opened", "title": ""Add feature B docs", "base": ""main", "head": "feature-b""},
+                {"open_pr_titles": [\Introduce Theme Provider", "Release 1.0 prep", "Add feature A docs", "Add feature B docs"]"}
         ]
     }
     ,
@@ -6238,8 +6238,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"pull_requests\": [{"number": 1, \"title\": \"Docs: add A\", \"state\": \"open\", \"base\": \"main\", \"head\": \"feature-docs-a\"}]",
-                "\"most_recent_pr_files\": \"files\": [\"docs/A.md\"]"
+                {"pull_requests": [{number": 1, "title": ""Docs: add A", "state": ""open", "base": ""main", "head": "feature-docs-a"}]"},
+                {"most_recent_pr_files": \files": ["docs/A.md"]"}
         ]
     }
     ,
@@ -6303,8 +6303,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Pull request opened\",\"title\": \"Add SECURITY.md\",\"base\": \"main\",\"head\": \"feature-security-doc\"",
-                "\"files\": [\"SECURITY.md\"]"
+                {"message": "Pull request opened", "title": ""Add SECURITY.md", "base": ""main", "head": "feature-security-doc""},
+                {"files": [\SECURITY.md"]"}
         ]
     }
     ,
@@ -6366,7 +6366,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"issues_with_label_triage-urgent\": [3, 8]"
+                {\}issues_with_label_triage-urgent": [3, 8]"
         ]
     }
     ,
@@ -6436,9 +6436,9 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Pull request opened\",\"title\": \"Add usage docs\",\"base\": \"main\", \"head\": \"feature-docs\"",
-                "\"merged\": true,\"merge_method\": \"merge\"",
-                "\"status\": \"ok\""
+                {"message": "Pull request opened", "title": ""Add usage docs", "base": ""main", "head": "feature-docs""},
+                {\}merged": true,"merge_method": "merge"",
+                {"status": "ok"}
         ]
     }
     ,
@@ -6502,8 +6502,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Pull request opened\", \"title\": \"Update LICENSE\", \"base\": \"main\", \"head\": \"feature-license-update\"",
-                "\"files\": [\"LICENSE\"]"
+                {"message": "Pull request opened", "title": ""Update LICENSE", "base": ""main", "head": "feature-license-update""},
+                {"files": [\LICENSE"]"}
         ]
     }
     ,
@@ -6536,7 +6536,7 @@ tasks = [
                         "dismiss_stale_reviews": "true",
                         "enforce_admins": "true",
                         "required_status_checks": [
-                            "build"
+                            {build}
                         ]
                     }
                 },
@@ -6590,8 +6590,8 @@ tasks = [
                     "title": "Initial setup checklist",
                     "body": "Track bootstrap tasks for this repo.",
                     "labels": [
-                        "triage",
-                        "setup"
+                        {triage},
+                        {setup}
                     ]
                 },
             },
@@ -6611,8 +6611,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "{'require_pull_request_reviews': 'true', 'dismiss_stale_reviews': 'true', 'enforce_admins': 'true', 'required_status_checks': ['build']}",
-                "{'number': 1, 'title': 'Initial setup checklist', 'labels': ['triage', 'setup'], 'state': 'open'}"
+                {{'require_pull_request_reviews': 'true', 'dismiss_stale_reviews': 'true', 'enforce_admins': 'true', 'required_status_checks': ['build']}},
+                {{'number': 1, 'title': 'Initial setup checklist', 'labels': ['triage', 'setup'], 'state': 'open'}}
         ]
     }
     ,
@@ -6705,7 +6705,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "{'files': ['api/__init__.py', 'api/auth.py', 'tests/test_auth.py']}"
+                {{'files': ['api/__init__.py', 'api/auth.py', 'tests/test_auth.py']}}
         ]
     }
     ,
@@ -6763,7 +6763,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "{'tag_name': 'v0.1.0', 'body': 'Initial release'}"
+                {{'tag_name': 'v0.1.0', 'body': 'Initial release'}}
         ]
     }
     ,
@@ -6832,7 +6832,7 @@ tasks = [
                     "protected": "true",
                     "rules": {
                         "required_status_checks": [
-                            "ci"
+                            {ci}
                         ],
                         "enforce_admins": "true"
                     }
@@ -6913,8 +6913,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Incident runbook merged and released\", \"repo_name\": \"infra-runbooks\"",
-                "\"pr_number\": 1, \"closed_issue\": 1, \"release_tag\": \"v1.0.0-incidents\""
+                {"message": "Incident runbook merged and released", "repo_name": "infra-runbooks""},
+                {\}pr_number": 1, "closed_issue": 1, "release_tag": "v1.0.0-incidents""
         ]
     }
     ,
@@ -6987,7 +6987,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"utils-js TS support tracked and negative currency fix verified\""
+                {"message": "utils-js TS support tracked and negative currency fix verified"}
         ]
     }
     ,
@@ -7135,8 +7135,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Pull request merged\", \"repo_name\": \"acme-webapp\"",
-                "\"pr_number\": 1, \"issue_number\": 1, \"release_tag\": \"v0.1.0-ci\""
+                {"message": "Pull request merged", "repo_name": "acme-webapp""},
+                {\}pr_number": 1, "issue_number": 1, "release_tag": "v0.1.0-ci""
         ]
     }
     ,
@@ -7267,8 +7267,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"3DS flow merged and released\", \"repo_name\": \"payments-service\"",
-                "\"pr_number\": 1, \"closed_issue\": 13, \"release_tag\": \"v0.2.0-3ds\""
+                {"message": "3DS flow merged and released", "repo_name": "payments-service""},
+                {\}pr_number": 1, "closed_issue": 13, "release_tag": "v0.2.0-3ds""
         ]
     }
     ,
@@ -7393,8 +7393,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"WebSocket leak fix merged and released\", \"repo_name\": \"react-dashboard\"",
-                "\"pr_number\": 1, \"closed_issue\": 25, \"release_tag\": \"v2.2.1-leakfix\""
+                {"message": "WebSocket leak fix merged and released", "repo_name": "react-dashboard""},
+                {\}pr_number": 1, "closed_issue": 25, "release_tag": "v2.2.1-leakfix""
         ]
     }
     ,
@@ -7528,8 +7528,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Icon pack merged and released\", \"repo_name\": \"ui-kit\"",
-                "\"pr_number\": 1, \"closed_issue\": 6, \"release_tag\": \"v1.1.0-icons\""
+                {"message": "Icon pack merged and released", "repo_name": "ui-kit""},
+                {\}pr_number": 1, "closed_issue": 6, "release_tag": "v1.1.0-icons""
         ]
     }
     ,
@@ -7654,8 +7654,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Grafana performance fix merged and released\", \"repo_name\": \"k8s-monitoring\"",
-                "\"pr_number\": 1, \"closed_issue\": 35, \"release_tag\": \"v0.9.1-perf\""
+                {"message": "Grafana performance fix merged and released", "repo_name": "k8s-monitoring""},
+                {\}pr_number": 1, "closed_issue": 35, "release_tag": "v0.9.1-perf""
         ]
     }
     ,
@@ -7780,8 +7780,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"MLflow retry configuration merged and released\", \"repo_name\": \"ml-pipeline\"",
-                "\"pr_number\": 1, \"closed_issue\": 29, \"release_tag\": \"v0.4.0-mlflow\""
+                {"message": "MLflow retry configuration merged and released", "repo_name": "ml-pipeline""},
+                {\}pr_number": 1, "closed_issue": 29, "release_tag": "v0.4.0-mlflow""
         ]
     }
     ,
@@ -7906,8 +7906,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Accessibility labels merged and released\", \"repo_name\": \"flutter-finance-app\"",
-                "\"pr_number\": 1, \"closed_issue\": 22, \"release_tag\": \"v1.3.0-a11y\""
+                {"message": "Accessibility labels merged and released", "repo_name": "flutter-finance-app""},
+                {\}pr_number": 1, "closed_issue": 22, "release_tag": "v1.3.0-a11y""
         ]
     }
     ,
@@ -8032,8 +8032,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"repo_name\": \"utils-js\"",
-                "\"pr_number\": 1, \"closed_issue\": 4, \"release_tag\": \"v1.1.0-types\""
+                {"repo_name": "utils-js"},
+                {\}pr_number": 1, "closed_issue": 4, "release_tag": "v1.1.0-types""
         ]
     }
     ,
@@ -8158,7 +8158,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"pr_number\": 1, \"closed_issue\": 37, \"release_tag\": \"v0.10.0-servicemonitor\""
+                {\}pr_number": 1, "closed_issue": 37, "release_tag": "v0.10.0-servicemonitor""
         ]
     }
     ,
@@ -8283,8 +8283,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Memory optimization merged and released\", \"repo_name\": \"nlp-models\"",
-                "\"pr_number\": 1, \"closed_issue\": 12, \"release_tag\": \"v0.8.0-memory\""
+                {"message": "Memory optimization merged and released", "repo_name": "nlp-models""},
+                {\}pr_number": 1, "closed_issue": 12, "release_tag": "v0.8.0-memory""
         ]
     }
     ,
@@ -8409,8 +8409,8 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Fastpath performance improvement merged and released\", \"repo_name\": \"acme-webapp\"",
-                "\"pr_number\": 1, \"closed_issue\": 3, \"release_tag\": \"v0.2.0-perf\""
+                {"message": "Fastpath performance improvement merged and released", "repo_name": "acme-webapp""},
+                {\}pr_number": 1, "closed_issue": 3, "release_tag": "v0.2.0-perf""
         ]
     }
     ,
@@ -8488,8 +8488,8 @@ tasks = [
                     "repo_name": "infra-terraform",
                     "pr_number": 1,
                     "reviewers": [
-                        "security-group",
-                        "infra-lead"
+                        {security-group},
+                        {infra-lead}
                     ]
                 },
             },
@@ -8509,9 +8509,9 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"merged_pr_number\": 1",
-                "\"changed_files_reported_by_pr\": [\"docs/CHANGELOG.md\", \"docs/REFRESH.md\"]",
-                "\"main_branch_sha_after_merge\": \"sha_0000000000000000000000000000000000000000\""
+                {"merged_pr_number": 1},
+                {"changed_files_reported_by_pr": [\docs/CHANGELOG.md", "docs/REFRESH.md"]"},
+                {"main_branch_sha_after_merge": "sha_0000000000000000000000000000000000000000"}
         ]
     }
     ,
@@ -8588,8 +8588,8 @@ tasks = [
                     "repo_name": "react-dashboard",
                     "pr_number": 1,
                     "reviewers": [
-                        "security-group",
-                        "qa-erin"
+                        {security-group},
+                        {qa-erin}
                     ]
                 },
             },
@@ -8639,10 +8639,10 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"merged\": \"true\"",
-                "\"sha\": \"sha_0000000000000000000000000000000000000000\"",
-                "\"files\": [\"docs/changelog.md\", \"kubernetes/policy.yaml\"]",
-                "\"message\": \"Merged PR #1 into main for react-dashboard [task_01]\""
+                {"merged": "true"},
+                {"sha": "sha_0000000000000000000000000000000000000000"},
+                {"files": [\docs/changelog.md", "kubernetes/policy.yaml"]"},
+                {"message": "Merged PR #1 into main for react-dashboard [task_01]"}
         ]
     }
     ,
@@ -8711,7 +8711,7 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"search_results_for_operations\": [1]"
+                {\}search_results_for_operations": [1]"
         ]
     }
     ,
@@ -8779,7 +8779,7 @@ tasks = [
                     "title": "Release v1.2.1 note [task_101]",
                     "body": "body-[task_101]",
                     "labels": [
-                        "release-log"
+                        {release-log}
                     ]
                 },
             },
@@ -8791,12 +8791,12 @@ tasks = [
             }
         ],
         "outputs": [
-                "\"message\": \"Branch created\", \"new_branch\": \"hotfix-1.2.1\"",
-                "\"message\": \"Committed to branch\", \"commit_message\": \"Add CHANGELOG for v1.2.1\"",
-                "\"message\": \"Release created.\", \"repo_name\": \"flutter-finance-app\", \"tag_name\": \"v1.2.1\"",
-                "\"tag_name\": \"v1.2.1\"",
-                "\"labels\": [\"release-log\"]",
-                "\"message\": \"Release v1.2.1 created in flutter-finance-app [task_101]\""
+                {"message": "Branch created", "new_branch": "hotfix-1.2.1""},
+                {"message": "Committed to branch", "commit_message": "Add CHANGELOG for v1.2.1""},
+                {"message": "Release created.", "repo_name": ""flutter-finance-app", "tag_name": "v1.2.1""},
+                {"tag_name": "v1.2.1"},
+                {"labels": [\release-log"]"},
+                {"message": "Release v1.2.1 created in flutter-finance-app [task_101]"}
         ]
     }
 ]

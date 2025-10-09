@@ -1,64 +1,22 @@
 {
-  "total_syntax_errors": 4,
-  "files_with_errors": 4,
+  "total_syntax_errors": 1,
+  "files_with_errors": 1,
   "errors_by_file": {
     "tau/tau_bench/envs/airline_3/tasks.py": [
       {
         "filepath": "tau/tau_bench/envs/airline_3/tasks.py",
-        "line": 7,
-        "error": "invalid syntax at \"\"actions\": [\"",
-        "raw": "tau/tau_bench/envs/airline_3/tasks.py:7: invalid syntax at \"\"actions\": [\""
-      }
-    ],
-    "tau/tau_bench/envs/banking_services_6/tasks.py": [
-      {
-        "filepath": "tau/tau_bench/envs/banking_services_6/tasks.py",
-        "line": 4177,
-        "error": "invalid syntax. Perhaps you forgot a comma? at \"\"\\\"type\\\": \\\"Work\\\", \"number\": \\\"098-765-4741\\\"\",\"",
-        "raw": "tau/tau_bench/envs/banking_services_6/tasks.py:4177: invalid syntax. Perhaps you forgot a comma? at \"\"\\\"type\\\": \\\"Work\\\", \"number\": \\\"098-765-4741\\\"\",\""
-      }
-    ],
-    "tau/tau_bench/envs/retail_2/tasks.py": [
-      {
-        "filepath": "tau/tau_bench/envs/retail_2/tasks.py",
-        "line": 7,
-        "error": "invalid syntax at \"\"actions\": [\"",
-        "raw": "tau/tau_bench/envs/retail_2/tasks.py:7: invalid syntax at \"\"actions\": [\""
-      }
-    ],
-    "tau/tau_bench/envs/github_mcp_2/tasks.py": [
-      {
-        "filepath": "tau/tau_bench/envs/github_mcp_2/tasks.py",
-        "line": 1618,
-        "error": "invalid syntax. Perhaps you forgot a comma? at \"\"\\\"message\\\": \\\"Issue created\\\", \"number\": 1\",\"",
-        "raw": "tau/tau_bench/envs/github_mcp_2/tasks.py:1618: invalid syntax. Perhaps you forgot a comma? at \"\"\\\"message\\\": \\\"Issue created\\\", \"number\": 1\",\""
+        "line": 211,
+        "error": "invalid syntax at \"\"maintenance_logs\": \"Maintenance logs for aircraft AC003 on May 27, 2024 retrieved via get_maintenance_logs with aircraft_id 'AC003', start_date '2024-05-27', end_date '2024-05-27' showing maintenance activities, issues, and operational readiness status\"\"",
+        "raw": "tau/tau_bench/envs/airline_3/tasks.py:211: invalid syntax at \"\"maintenance_logs\": \"Maintenance logs for aircraft AC003 on May 27, 2024 retrieved via get_maintenance_logs with aircraft_id 'AC003', start_date '2024-05-27', end_date '2024-05-27' showing maintenance activities, issues, and operational readiness status\"\""
       }
     ]
   },
   "all_errors": [
     {
       "filepath": "tau/tau_bench/envs/airline_3/tasks.py",
-      "line": 7,
-      "error": "invalid syntax at \"\"actions\": [\"",
-      "raw": "tau/tau_bench/envs/airline_3/tasks.py:7: invalid syntax at \"\"actions\": [\""
-    },
-    {
-      "filepath": "tau/tau_bench/envs/banking_services_6/tasks.py",
-      "line": 4177,
-      "error": "invalid syntax. Perhaps you forgot a comma? at \"\"\\\"type\\\": \\\"Work\\\", \"number\": \\\"098-765-4741\\\"\",\"",
-      "raw": "tau/tau_bench/envs/banking_services_6/tasks.py:4177: invalid syntax. Perhaps you forgot a comma? at \"\"\\\"type\\\": \\\"Work\\\", \"number\": \\\"098-765-4741\\\"\",\""
-    },
-    {
-      "filepath": "tau/tau_bench/envs/retail_2/tasks.py",
-      "line": 7,
-      "error": "invalid syntax at \"\"actions\": [\"",
-      "raw": "tau/tau_bench/envs/retail_2/tasks.py:7: invalid syntax at \"\"actions\": [\""
-    },
-    {
-      "filepath": "tau/tau_bench/envs/github_mcp_2/tasks.py",
-      "line": 1618,
-      "error": "invalid syntax. Perhaps you forgot a comma? at \"\"\\\"message\\\": \\\"Issue created\\\", \"number\": 1\",\"",
-      "raw": "tau/tau_bench/envs/github_mcp_2/tasks.py:1618: invalid syntax. Perhaps you forgot a comma? at \"\"\\\"message\\\": \\\"Issue created\\\", \"number\": 1\",\""
+      "line": 211,
+      "error": "invalid syntax at \"\"maintenance_logs\": \"Maintenance logs for aircraft AC003 on May 27, 2024 retrieved via get_maintenance_logs with aircraft_id 'AC003', start_date '2024-05-27', end_date '2024-05-27' showing maintenance activities, issues, and operational readiness status\"\"",
+      "raw": "tau/tau_bench/envs/airline_3/tasks.py:211: invalid syntax at \"\"maintenance_logs\": \"Maintenance logs for aircraft AC003 on May 27, 2024 retrieved via get_maintenance_logs with aircraft_id 'AC003', start_date '2024-05-27', end_date '2024-05-27' showing maintenance activities, issues, and operational readiness status\"\""
     }
   ]
 }
