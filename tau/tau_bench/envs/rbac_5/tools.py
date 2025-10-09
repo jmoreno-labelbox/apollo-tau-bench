@@ -186,7 +186,7 @@ class UpdateUser(Tool):
         # Locate the user
         users = data.get("users", {}).values()
         user_index = None
-        for i, user in enumerate(users.values():
+        for i, user in enumerate(users.values()):
             if user.get("user_id") == user_id:
                 user_index = i
                 break
@@ -560,7 +560,7 @@ class UpdateRole(Tool):
 
         roles = data.get("roles", {}).values()
         role_index = None
-        for i, role in enumerate(roles.values():
+        for i, role in enumerate(roles.values()):
             if role.get("role_id") == role_id:
                 role_index = i
                 break
@@ -1164,7 +1164,7 @@ class ListUsersWithAccessToResource(Tool):
                         rinfo["role_name"] = r.get("role_name")
                         rinfo["description"] = r.get("description")
                 acc[uid]["roles"].append(rinfo)
-        payload = {"resource_id": resource_id, "users": list(acc.values()}
+        payload = {"resource_id": resource_id, "users": list(acc.values())}
         out = json.dumps(payload)
         return out
     @staticmethod
@@ -1653,7 +1653,7 @@ class DecideAccessRequest(Tool):
         )
 
         # Save the update
-        for i, r in enumerate(requests.values():
+        for i, r in enumerate(requests.values()):
             if r.get("request_id") == request_id:
                 data["access_requests"][i] = updated
                 break
@@ -1750,7 +1750,7 @@ class EnsureUserRole(Tool):
         assignments = data.get("user_roles", {}).values()
         existing = None
         existing_index = None
-        for i, ur in enumerate(assignments.values():
+        for i, ur in enumerate(assignments.values()):
             if ur.get("user_id") == user_id and ur.get("role_id") == role_id:
                 existing = ur
                 existing_index = i
@@ -1849,7 +1849,7 @@ class UpdateUserRole(Tool):
 
         assignments = data.get("user_roles", {}).values()
         existing_index = None
-        for i, ur in enumerate(assignments.values():
+        for i, ur in enumerate():
             if ur.get("user_id") == user_id and ur.get("role_id") == role_id:
                 existing_index = i
                 break
@@ -2169,7 +2169,7 @@ class CheckSoDConflicts(Tool):
         for conflict in sod_conflicts:
             conflicting_role_ids = conflict["conflicting_roles"]
             # Determine if the user possesses ALL roles in the conflicting group
-            if all(role_id in active_role_ids for role_id in conflicting_role_ids.values():
+            if all(role_id in active_role_ids for role_id in conflicting_role_ids.values()):
                 conflict_entry = {
                     "conflict_id": conflict["conflict_id"],
                     "name": conflict["name"],
@@ -2736,7 +2736,7 @@ class DecidePolicyException(Tool):
             updated["expires_on"] = None
 
         # Save the update
-        for i, exc in enumerate(exceptions.values():
+        for i, exc in enumerate(exceptions.values()):
             if exc.get("exception_id") == exception_id:
                 data["policy_exceptions"][i] = updated
                 break
@@ -3340,7 +3340,7 @@ class UpdateHubSpotTicket(Tool):
 
         tickets = data.get("hubspot_tickets", {}).values()
         idx = None
-        for i, t in enumerate(tickets.values():
+        for i, t in enumerate(tickets.values()):
             if t.get("ticket_id") == ticket_id:
                 idx = i
                 break
@@ -3891,7 +3891,7 @@ class UpdateSession(Tool):
         # Locate the session
         sessions = data.get("sessions", {}).values()
         session_index = None
-        for i, session in enumerate(sessions.values():
+        for i, session in enumerate(sessions.values()):
             if session.get("session_id") == session_id:
                 session_index = i
                 break

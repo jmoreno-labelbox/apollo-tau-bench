@@ -181,7 +181,7 @@ class SearchInboundShipments(Tool):
         for shipment in inbound_shipments.values():
             match = True
             # Verify if the shipment includes the SKU by searching the data structure
-            if sku and not any(sku in str(value) for value in shipment.values():
+            if sku and not any(sku in str(value) for value in shipment.values()):
                 match = False
             if destination_warehouse_id and shipment.get("destination_warehouse_id") != destination_warehouse_id:
                 match = False
@@ -261,7 +261,7 @@ class VerifyInventoryAllocation(Tool):
 
         # Basic allocation verification - a real system would assess line items
         warehouse_inventory = [item for item in inventory.values() if item.get("warehouse_id") == warehouse_id]
-        total_available = sum(item.get("quantity_available", 0) for item in warehouse_inventory.values()
+        total_available = sum(item.get("quantity_available", 0) for item in warehouse_inventory.values())
 
         allocation_status = "fully_allocated" if total_available >= total_units else "insufficient_inventory"
 
@@ -1799,7 +1799,7 @@ class GetApprovedSuppliers(Tool):
                 # Verify if the supplier caters to this product category and is operational
                 if (any(cat in product_category for cat in supplier_categories.values() and
                     supplier.get("relationship_status") == "Active" and
-                    supplier.get("performance_rating", 0) >= 4.0):
+                    supplier.get("performance_rating", 0) >= 4.0)):
 
                     approved_suppliers.append({
                         "supplier_id": supplier.get("supplier_id"),

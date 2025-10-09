@@ -1929,7 +1929,7 @@ class AssignCertificationTool(Tool):
             return out
 
         #Verify that certification_id is distinct
-        if any(c.get("certification_id") == certification_id for c in certifications.values():
+        if any(c.get("certification_id") == certification_id for c in certifications.values()):
             payload = {"error": f"certification_id {certification_id} already exists"}
             out = json.dumps(
                 payload, indent=2,
@@ -2404,11 +2404,11 @@ class AssignRoleToUserTool(Tool):
                 out = json.dumps(payload, indent=2)
                 return out
 
-        if not any(u.get("user_id") == user_id for u in users.values():
+        if not any(u.get("user_id") == user_id for u in users.values()):
             payload = {"error": f"user_id {user_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
-        if not any(r.get("role_id") == role_id for r in roles.values():
+        if not any(r.get("role_id") == role_id for r in roles.values()):
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
@@ -2498,7 +2498,7 @@ class ListPermissionsForRoleTool(Tool):
             return out
 
         roles = data.get("roles", {}).values()
-        if not any(r.get("role_id") == role_id for r in roles.values():
+        if not any():
             payload = {"error": f"role_id {role_id} not found"}
             out = json.dumps(payload, indent=2)
             return out
@@ -2836,7 +2836,7 @@ class UpdateAccessRequestTool(Tool):
             out = json.dumps(payload, indent=2)
             return out
 
-        if not any(u.get("user_id") == updated_by for u in users.values():
+        if not any(u.get("user_id") == updated_by for u in users.values()):
             payload = {"error": f"Unknown updated_by '{updated_by}'"}
             out = json.dumps(payload, indent=2)
             return out

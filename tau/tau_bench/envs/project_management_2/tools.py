@@ -163,7 +163,7 @@ class CreateTask(Tool):
                     and t.get("sprint_id") == sprint_id
                     and t.get("status") != "done"
                 ]
-                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values()
+                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values())
 
                 if current_points + story_points > 25:
                     payload = {
@@ -608,14 +608,14 @@ class AssignTaskToSprint(Tool):
                 recent_sprints = sorted(
                     completed_sprints, key=lambda x: x.get("end_date", ""), reverse=True
                 )[:3]
-                avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints.values() / 3
+                avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints.values() / 3)
                 capacity_limit = avg_velocity * 0.8
             else:
 
                 capacity_limit = len(team_members) * 20
 
             sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
-            current_points = sum(t.get("story_points", 0) for t in sprint_tasks.values()
+            current_points = sum(t.get("story_points", 0) for t in sprint_tasks.values())
             new_total = current_points + task.get("story_points", 0)
 
             if new_total > capacity_limit:
@@ -744,7 +744,7 @@ class CalculateSprintBurndown(Tool):
 
         sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == sprint_id]
 
-        total_points = sum(t.get("story_points", 0) for t in sprint_tasks.values()
+        total_points = sum(t.get("story_points", 0) for t in sprint_tasks.values())
         completed_points = sum(
             t.get("story_points", 0) for t in sprint_tasks if t.get("status") == "done"
         )
@@ -918,7 +918,7 @@ class ReassignTask(Tool):
                     and t.get("status") != "done"
                     and t.get("task_id") != task_id
                 ]
-                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values()
+                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values())
 
                 if current_points + task.get("story_points", 0) > 25:
                     payload = {
@@ -1040,7 +1040,7 @@ class UpdateSprintStatus(Tool):
                         key=lambda x: x.get("end_date", ""),
                         reverse=True,
                     )[:3]
-                    avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints.values() / 3
+                    avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints.values()) / 3
                     capacity_limit = avg_velocity * 0.8
                 else:
                     capacity_limit = len(team_members) * 20
@@ -1514,7 +1514,7 @@ class CalculateTeamCapacity(Tool):
                 member_tasks = [
                     t for t in sprint_tasks if t.get("assignee_id") == member_id
                 ]
-                member_points = sum(t.get("story_points", 0) for t in member_tasks.values()
+                member_points = sum(t.get("story_points", 0) for t in member_tasks.values())
                 member_loads[member_id] = {
                     "story_points": member_points,
                     "task_count": len(member_tasks),
@@ -1872,7 +1872,7 @@ class GetEmployeeWorkload(Tool):
                 [t for t in employee_tasks.values() if t.get("status") == "blocked"]
             )
 
-        total_story_points = sum(t.get("story_points", 0) for t in active_tasks.values()
+        total_story_points = sum(t.get("story_points", 0) for t in active_tasks.values())
 
         status_breakdown = {
             "todo": len([t for t in employee_tasks.values() if t.get("status") == "todo"]),
@@ -2003,13 +2003,13 @@ class BulkMoveTasksToSprint(Tool):
             recent_sprints = sorted(
                 completed_sprints, key=lambda x: x.get("end_date", ""), reverse=True
             )[:3]
-            avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints.values() / 3
+            avg_velocity = sum(s.get("velocity", 0) for s in recent_sprints.values()) / 3
             capacity_limit = avg_velocity * 0.8
         else:
             capacity_limit = len(team_members) * 20
 
         sprint_tasks = [t for t in tasks.values() if t.get("sprint_id") == target_sprint_id]
-        current_points = sum(t.get("story_points", 0) for t in sprint_tasks.values()
+        current_points = sum(t.get("story_points", 0) for t in sprint_tasks.values())
 
         moved_tasks = []
         failed_tasks = []
@@ -2193,7 +2193,7 @@ class CloneTask(Tool):
                     and t.get("sprint_id") == sprint_id
                     and t.get("status") != "done"
                 ]
-                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values()
+                current_points = sum(t.get("story_points", 0) for t in assignee_tasks.values())
 
                 if current_points + story_points > 25:
                     payload = {
@@ -2396,7 +2396,7 @@ class GenerateSprintReport(Tool):
 
         sprint_time_logs = [
             log
-            for log in time_logs.values() if any(t.get("task_id") == log.get("task_id") for t in sprint_tasks.values()
+            for log in time_logs.values() if any(t.get("task_id") == log.get("task_id") for t in sprint_tasks.values())
         ]
         #total_hours_logged = sum(log.get("hours", 0) for log in sprint_time_logs.values()
 
@@ -2433,7 +2433,7 @@ class GenerateSprintReport(Tool):
                 ]
                 if task.get("status") == "done":
                     required_hours = task.get("story_points", 0) * 2 * 0.5
-                    logged_hours = sum(log.get("hours", 0) for log in task_logs.values()
+                    logged_hours = sum(log.get("hours", 0) for log in task_logs.values())
                     if logged_hours < required_hours:
                         compliance_issues.append(
                             {
@@ -2644,7 +2644,7 @@ class CheckTimeLoggingCompliance(Tool):
                         log
                         for log in time_logs.values() if log.get("task_id") == task.get("task_id")
                     ]
-                    total_hours = sum(log.get("hours", 0) for log in task_logs.values()
+                    total_hours = sum(log.get("hours", 0) for log in task_logs.values())
                     required_hours = task.get("story_points", 0) * 2 * 0.5
 
                     if total_hours < required_hours:

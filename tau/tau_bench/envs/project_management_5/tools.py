@@ -287,7 +287,7 @@ class PerformImpactAssessment(Tool):
                 a
                 for a in allocations.values() if a.get("employee_id") == emp_id and a.get("status") == "active"
             ]
-            total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values()
+            total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values())
             if total_hours + req.get("hours_per_week", 0) > 40:
                 resource_conflicts.append(emp_id)
 
@@ -933,7 +933,7 @@ class CheckChangeConflicts(Tool):
                         }
                     )
 
-        has_rule_violations = any(c.get("rule_violation") for c in conflicts.values()
+        has_rule_violations = any(c.get("rule_violation") for c in conflicts.values())
         payload = {
                 "cr_id": cr_id,
                 "conflicts_found": len(conflicts),
@@ -1143,7 +1143,7 @@ class ValidateChangeCompliance(Tool):
 
             elif check == "has_risk_assessment":
                 risk_assessments = data.get("risk_assessments", {}).values()
-                has_risk = any(ra.get("cr_id") == cr_id for ra in risk_assessments.values()
+                has_risk = any(ra.get("cr_id") == cr_id for ra in risk_assessments.values())
                 if cr.get("priority") in ["high", "critical"] and not has_risk:
                     warnings.append("High priority change without risk assessment")
 
@@ -1844,7 +1844,7 @@ class CreateScopeBaseline(Tool):
         if baseline_id is None:
             baseline_id = f"bl_{uuid.uuid4().hex[:8]}"
 
-        total_hours = sum(d.get("estimated_hours", 0) for d in deliverables.values()
+        total_hours = sum(d.get("estimated_hours", 0) for d in deliverables.values())
 
         new_baseline = {
             "baseline_id": baseline_id,
@@ -2130,7 +2130,7 @@ class ScheduleChangeReview(Tool):
         ]
 
         emergency_changes_pending = []
-        for cr in change_requests.values()):
+        for cr in change_requests.values():
             if cr.get("project_id") == project_id and cr.get(
                 "requires_emergency_approval"
             ):

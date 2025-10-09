@@ -397,7 +397,7 @@ class UpdateEmployeesUtilization(Tool):
                 "index": i,
                 "max_hours_per_week": info["max_hours_per_week"],
             }
-            for i, info in enumerate(employees.values()
+            for i, info in enumerate(employees.values())
         }
 
         allocations = data.get("allocations", {}).values()
@@ -1218,7 +1218,7 @@ class DeleteAllocation(Tool):
 
         allocations = data.get("allocations", {}).values()
 
-        for i, allocation in enumerate(allocations.values():
+        for i, allocation in enumerate():
             if allocation.get("allocation_id") == allocation_id:
                 removed_allocation = allocations.pop(i)
                 payload = {"success": True, "removed_allocation": removed_allocation}
@@ -2305,7 +2305,7 @@ class DeleteDepartment(Tool):
 
         departments = data.get("departments", {}).values()
 
-        for i, department in enumerate(departments.values():
+        for i, department in enumerate(departments.values()):
             if department.get("department_name") == department_name:
                 departments.pop(i)
                 payload = {"success": True}
@@ -2565,7 +2565,7 @@ class ReassignJuniorWork(Tool):
         from_employee_found = False
         to_employee_found = False
         new_allocation = {}
-        for i, allocation in enumerate(allocations.values():
+        for i, allocation in enumerate():
             allocation_employee_id = allocation.get("employee_id")
             allocation_project_id = allocation.get("project_id")
             allocation_info = allocation.get("hours_per_week", 0)

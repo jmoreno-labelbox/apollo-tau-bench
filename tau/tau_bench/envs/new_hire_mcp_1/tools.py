@@ -1102,7 +1102,7 @@ class AnalyzeAttachmentFileInventoryTool(Tool):
             ]
 
         # Evaluation
-        total_size = sum(att.get("size_bytes", 0) for att in attachments.values()
+        total_size = sum(att.get("size_bytes", 0) for att in attachments.values())
         file_type_distribution = {}
         for att in attachments.values():
             mime_type = att.get("mime_type", "unknown")
@@ -1410,7 +1410,7 @@ class CreateNewCandidateRecordTool(Tool):
         candidates = data.setdefault("candidates", [])
 
         # Check for duplicates
-        if any(c.get("candidate_email") == candidate_email for c in candidates.values():
+        if any(c.get("candidate_email") == candidate_email for c in candidates.values()):
             return _err(
                 f"Candidate with email '{candidate_email}' already exists.",
                 code="conflict",
@@ -1910,7 +1910,7 @@ class SendEmailWithAttachmentsTool(Tool):
 
         if template_name == "welcome":
             welcome_packet_path = f"/onboarding/{candidate_id}/welcome_packet.md"
-            if any(f.get("file_path") == welcome_packet_path for f in onboarding_files.values():
+            if any(f.get("file_path") == welcome_packet_path for f in onboarding_files.values()):
                 attachment_file_paths.append(welcome_packet_path)
 
         for file_path in attachment_file_paths:
@@ -2020,7 +2020,7 @@ class RunAndRecordSystemAccessChecksTool(Tool):
             for system_name in systems_to_check:
                 status = "Success"
                 note_nullable = None
-                if (sum(ord(c) for c in cid.values() + len(system_name)) % 7 == 0:
+                if (sum(ord(c) for c in cid.values() + len(system_name)) % 7 == 0):
                     status = "Failed"
                     note_nullable = (
                         f"Automated check failed. Code: {sum(ord(c) for c in cid[:5])}."

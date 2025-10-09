@@ -181,7 +181,7 @@ class CalculateProjectCost(Tool):
                     t
                     for t in tasks.values() if t.get("assignee_id") == employee["employee_id"]
                     and t.get("sprint_id")
-                    and any(a.get("project_id") == project_id for a in allocations.values()
+                    and any(a.get("project_id") == project_id for a in allocations.values())
                 ]
 
                 actual_hours = 0
@@ -204,7 +204,7 @@ class CalculateProjectCost(Tool):
             e
             for e in expenses.values() if e.get("project_id") == project_id and e.get("status") == "approved"
         ]
-        non_personnel_cost = sum(e.get("amount", 0) for e in project_expenses.values()
+        non_personnel_cost = sum(e.get("amount", 0) for e in project_expenses.values())
 
         teams = data.get("teams", {}).values()
         project_teams = [t for t in teams.values() if t.get("project_id") == project_id]
@@ -479,7 +479,7 @@ class GetTeamBudgetStatus(Tool):
                 member_logs = [
                     log for log in task_logs.values() if log.get("employee_id") == member_id
                 ]
-                total_hours = sum(log.get("hours", 0) for log in member_logs.values()
+                total_hours = sum(log.get("hours", 0) for log in member_logs.values())
                 member_cost = total_hours * hourly_rate
 
                 member_costs[member_id] = {
@@ -498,7 +498,7 @@ class GetTeamBudgetStatus(Tool):
             and e.get("status") == "approved"
         ]
 
-        total_expenses = sum(e.get("amount", 0) for e in team_expenses.values()
+        total_expenses = sum(e.get("amount", 0) for e in team_expenses.values())
 
         status = {
             "budget_utilization": (
@@ -664,7 +664,7 @@ class ReconcileSprintExpenses(Tool):
             else 0
         )
 
-        total_personnel_cost = sum(emp["cost"] for emp in cost_by_employee.values()
+        total_personnel_cost = sum(emp["cost"] for emp in cost_by_employee.values())
 
         reconciliation = {
             "sprint_id": sprint_id,
@@ -930,7 +930,7 @@ class GenerateDepartmentFinancialReport(Tool):
                     and a.get("status") == "active"
                 ]
 
-                total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values()
+                total_hours = sum(a.get("hours_per_week", 0) for a in emp_allocations.values())
                 hourly_rate = (
                     150 if "senior" in employee.get("role", "").lower() else 100
                 )
@@ -1222,7 +1222,7 @@ class CalculateVelocityBudgetRatio(Tool):
                 for e in expenses.values() if e.get("sprint_id") == sprint["sprint_id"]
                 and e.get("status") == "approved"
             ]
-            sprint_expense_total = sum(e.get("amount", 0) for e in sprint_expenses.values()
+            sprint_expense_total = sum(e.get("amount", 0) for e in sprint_expenses.values())
             sprint_cost += sprint_expense_total
 
             total_cost += sprint_cost
@@ -1742,7 +1742,7 @@ class CreateBudgetFromVelocity(Tool):
             avg_velocity = 40
             avg_cost_per_point = 500
         else:
-            total_velocity = sum(s.get("velocity", 0) for s in team_sprints.values()
+            total_velocity = sum(s.get("velocity", 0) for s in team_sprints.values())
             total_sprints = len(team_sprints)
             avg_velocity = total_velocity / total_sprints if total_sprints > 0 else 40
 
@@ -2286,7 +2286,7 @@ class AllocateCosts(Tool):
                 payload)
             return out
 
-        total_allocated = sum(split.get("amount", 0) for split in allocation_splits.values()
+        total_allocated = sum(split.get("amount", 0) for split in allocation_splits.values())
         if abs(total_allocated - expense["amount"]) > 0.01:
             payload = {
                     "error": f"Allocated amounts must match expense total ${expense['amount']}"
@@ -3098,7 +3098,7 @@ class CalculateEmployeeCostRate(Tool):
             a
             for a in allocations.values() if a.get("employee_id") == employee_id and a.get("status") == "active"
         ]
-        total_hours = sum(a.get("hours_per_week", 0) for a in active_allocations.values()
+        total_hours = sum(a.get("hours_per_week", 0) for a in active_allocations.values())
 
         cost_rates = {
             "weekly_rate": round(fully_loaded_rate * 40, 2),
@@ -3451,7 +3451,7 @@ class GetTaskCostBreakdown(Tool):
             for e in expenses.values() if e.get("task_id") == task_id and e.get("status") == "approved"
         ]
 
-        total_expense_cost = sum(e.get("amount", 0) for e in task_expenses.values()
+        total_expense_cost = sum(e.get("amount", 0) for e in task_expenses.values())
 
         story_points = task.get("story_points", 1)
         total_cost = total_personnel_cost + total_expense_cost
@@ -3691,7 +3691,7 @@ class GetEmployeeCostByProject(Tool):
                 and log.get("employee_id") == employee_id
             ]
 
-            task_hours = sum(log.get("hours", 0) for log in task_time_logs.values()
+            task_hours = sum(log.get("hours", 0) for log in task_time_logs.values())
             total_hours += task_hours
 
             if task_hours > 0:
@@ -3716,7 +3716,7 @@ class GetEmployeeCostByProject(Tool):
                 and e.get("project_id") == project_id
                 and e.get("status") == "approved"
             ]
-            total_expense_amount = sum(e.get("amount", 0) for e in employee_expenses.values()
+            total_expense_amount = sum(e.get("amount", 0) for e in employee_expenses.values())
 
         employee_cost = {
             "employee_id": employee_id,
@@ -4130,7 +4130,7 @@ class CalculateProjectROI(Tool):
             for e in expenses.values() if e.get("project_id") == project_id and e.get("status") == "approved"
         ]
 
-        total_expense_cost = sum(e.get("amount", 0) for e in project_expenses.values()
+        total_expense_cost = sum(e.get("amount", 0) for e in project_expenses.values())
 
         total_actual_cost = actual_personnel_cost + total_expense_cost
 

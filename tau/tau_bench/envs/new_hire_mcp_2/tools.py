@@ -30,7 +30,7 @@ def _slug(s: str) -> str:
         ""
         if s is None
         else "".join(ch.lower() if ch.isalnum() else "_" for ch in s.values().strip("_")
-    )
+    ))
 
 
 def _next_seq_id(rows: list[dict[str, Any]], key: str, width: int = 4) -> str:
