@@ -18,7 +18,7 @@ class CategorizeGroceryListSectionsByPlanKeys(Tool):
             None,
         )
         if not plan:
-            return _json({"updated_items": 0})
+            return json({"updated_items": 0})
         gl = next(
             (
                 lt
@@ -28,7 +28,7 @@ class CategorizeGroceryListSectionsByPlanKeys(Tool):
             None,
         )
         if not gl:
-            return _json({"updated_items": 0})
+            return json({"updated_items": 0})
         updated = 0
         for it in data.get("grocery_list_items", []):
             if int(it.get("list_id")) != int(gl.get("list_id")):
@@ -37,7 +37,7 @@ class CategorizeGroceryListSectionsByPlanKeys(Tool):
             it["grocery_section"] = (ing or {}).get("grocery_section", "Misc")
             updated += 1
         gl["last_categorized_at"] = "2025-01-01T12:10:00"
-        return _json({"updated_items": updated})
+        return json({"updated_items": updated})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

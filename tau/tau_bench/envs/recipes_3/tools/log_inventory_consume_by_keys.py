@@ -20,7 +20,7 @@ class LogInventoryConsumeByKeys(Tool):
             None,
         )
         if not inv:
-            return _json({"error": "inventory row not found for keys"})
+            return json({"error": "inventory row not found for keys"})
         tbl = _tbl(data, "audit_logs")
         next_id = _max_id(tbl, "audit_id", 12000) + 1
         row = {
@@ -30,11 +30,11 @@ class LogInventoryConsumeByKeys(Tool):
             "entity_type": "inventory_items",
             "entity_id": int(inv.get("inv_item_id")),
             "action_enum": "consume",
-            "payload_json": {"ingredient_id": int(ingredient_id), "delta": float(delta)},
+            "payloadjson": {"ingredient_id": int(ingredient_id), "delta": float(delta)},
             "created_at": "2025-01-03T10:00:00",
         }
         tbl.append(row)
-        return _json({"audit_id": next_id})
+        return json({"audit_id": next_id})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

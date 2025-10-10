@@ -24,7 +24,7 @@ class CreateGroceryListForPlanByKeys(Tool):
             None,
         )
         if not plan:
-            return _json({"error": "meal_plan not found for keys"})
+            return json({"error": "meal_plan not found for keys"})
         tbl = _tbl(data, "grocery_lists")
         next_id = _max_id(tbl, "list_id", 8000) + 1
         row = {
@@ -36,7 +36,7 @@ class CreateGroceryListForPlanByKeys(Tool):
             "status_enum": str(status_enum),
         }
         tbl.append(row)
-        return _json({"list_id": next_id})
+        return json({"list_id": next_id})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

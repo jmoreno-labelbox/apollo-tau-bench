@@ -18,7 +18,7 @@ class CheckStoreInventoryForPlanByKeys(Tool):
             None,
         )
         if not plan:
-            return _json({"store_check": []})
+            return json({"store_check": []})
         gl = next(
             (
                 lt
@@ -28,7 +28,7 @@ class CheckStoreInventoryForPlanByKeys(Tool):
             None,
         )
         if not gl:
-            return _json({"store_check": []})
+            return json({"store_check": []})
         items = [
             i
             for i in data.get("grocery_list_items", [])
@@ -63,7 +63,7 @@ class CheckStoreInventoryForPlanByKeys(Tool):
                     "price_cents": int(best.get("price_cents", 0)) if best else None,
                 }
             )
-        return _json({"store_check": results})
+        return json({"store_check": results})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

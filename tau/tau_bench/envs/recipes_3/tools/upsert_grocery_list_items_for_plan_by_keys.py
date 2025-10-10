@@ -20,7 +20,7 @@ class UpsertGroceryListItemsForPlanByKeys(Tool):
             None,
         )
         if not plan:
-            return _json({"error": "meal_plan not found for keys"})
+            return json({"error": "meal_plan not found for keys"})
         gl = next(
             (
                 lt
@@ -30,7 +30,7 @@ class UpsertGroceryListItemsForPlanByKeys(Tool):
             None,
         )
         if not gl:
-            return _json({"error": "grocery_list not found for plan"})
+            return json({"error": "grocery_list not found for plan"})
         gli_tbl = _tbl(data, "grocery_list_items")
         gli_tbl[:] = [r for r in gli_tbl if int(r.get("list_id")) != int(gl.get("list_id"))]
         next_item = _max_id(gli_tbl, "item_id", 8100)
@@ -60,7 +60,7 @@ class UpsertGroceryListItemsForPlanByKeys(Tool):
             gli_tbl.append(rec)
             created_ids.append(next_item)
         gl["last_upserted_at"] = "2025-01-01T12:05:00"
-        return _json({"created_item_ids": created_ids})
+        return json({"created_item_ids": created_ids})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -11,7 +11,7 @@ class GetUserByFullName(Tool):
         user = next(
             (u for u in list(data.get("users", {}).values()) if str(u.get("full_name")) == str(full_name)), None
         )
-        return _json({"user": user})
+        return json({"user": user})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

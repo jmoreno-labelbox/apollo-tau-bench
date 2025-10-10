@@ -23,7 +23,7 @@ class UpdateGroceryListWithSubstitutesByPlanKeys(Tool):
             None,
         )
         if not plan:
-            return _json({"updated_items": 0})
+            return json({"updated_items": 0})
         gl = next(
             (
                 lt
@@ -33,7 +33,7 @@ class UpdateGroceryListWithSubstitutesByPlanKeys(Tool):
             None,
         )
         if not gl:
-            return _json({"updated_items": 0})
+            return json({"updated_items": 0})
         mapping = {
             int(s["ingredient_id"]): int(s["substitute_ingredient_id"])
             for s in substitutions
@@ -55,7 +55,7 @@ class UpdateGroceryListWithSubstitutesByPlanKeys(Tool):
             it["substitutions_validated"] = True
             validated += 1
         gl["last_substitutions_applied_at"] = "2025-01-01T12:25:00"
-        return _json({"updated_items": updated, "validated_items": validated})
+        return json({"updated_items": updated, "validated_items": validated})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

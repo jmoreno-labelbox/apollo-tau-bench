@@ -25,7 +25,7 @@ class AddMealPlanEntriesByKeys(Tool):
             None,
         )
         if not plan:
-            return _json({"error": "meal_plan not found for keys"})
+            return json({"error": "meal_plan not found for keys"})
         dates = _week_dates(str(week_start_date))
         tbl = _tbl(data, "meal_plan_entries")
         next_id = _max_id(tbl, "entry_id", 6100)
@@ -45,7 +45,7 @@ class AddMealPlanEntriesByKeys(Tool):
             tbl.append(row)
             created.append(next_id)
         plan["entries_last_set_at"] = "2025-01-01T00:00:00"
-        return _json({"created_entry_ids": created})
+        return json({"created_entry_ids": created})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

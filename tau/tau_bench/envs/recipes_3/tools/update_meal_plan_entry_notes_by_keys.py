@@ -20,7 +20,7 @@ class UpdateMealPlanEntryNotesByKeys(Tool):
             None,
         )
         if not plan:
-            return _json({"error": "meal_plan not found for keys"})
+            return json({"error": "meal_plan not found for keys"})
         updated = 0
         for e in data.get("meal_plan_entries", []):
             if int(e.get("meal_plan_id")) != int(plan.get("meal_plan_id")):
@@ -30,7 +30,7 @@ class UpdateMealPlanEntryNotesByKeys(Tool):
                 e["notes"] = notes_map[rid_key]
                 updated += 1
         plan["notes_last_updated_at"] = "2025-01-01T00:00:00"
-        return _json({"updated_entries": updated})
+        return json({"updated_entries": updated})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

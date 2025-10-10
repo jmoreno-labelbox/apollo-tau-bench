@@ -12,7 +12,7 @@ class GetGroceryListDetails(Tool):
         items = [
             i for i in data.get("grocery_list_items", []) if int(i.get("list_id")) == int(list_id)
         ]
-        return _json({"grocery_list": header, "items": items})
+        return json({"grocery_list": header, "items": items})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

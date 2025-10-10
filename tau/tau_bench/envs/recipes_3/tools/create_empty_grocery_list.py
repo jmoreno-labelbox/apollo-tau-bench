@@ -27,7 +27,7 @@ class CreateEmptyGroceryList(Tool):
             "status_enum": str(status_enum),
         }
         tbl.append(row)
-        return _json({"list_id": next_id})
+        return json({"list_id": next_id})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

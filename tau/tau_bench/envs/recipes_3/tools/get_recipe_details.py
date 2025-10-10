@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetRecipeDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], recipe_id: int) -> str:
-        return _json({"recipe": _recipe_by_id(data, int(recipe_id))})
+        return json({"recipe": _recipe_by_id(data, int(recipe_id))})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

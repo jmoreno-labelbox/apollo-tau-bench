@@ -16,7 +16,7 @@ class GetHouseholdByPrimaryUser(Tool):
             ),
             None,
         )
-        return _json({"household": hh})
+        return json({"household": hh})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

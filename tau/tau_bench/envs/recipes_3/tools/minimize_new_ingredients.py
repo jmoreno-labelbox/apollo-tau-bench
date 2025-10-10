@@ -21,7 +21,7 @@ class MinimizeNewIngredients(Tool):
                     non_staples += 1
             if non_staples <= int(max_new_ingredients_per_recipe):
                 kept.append(int(rid))
-        return _json({"minimized_recipe_ids": kept})
+        return json({"minimized_recipe_ids": kept})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

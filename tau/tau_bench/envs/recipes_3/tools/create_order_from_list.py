@@ -30,7 +30,7 @@ class CreateOrderFromList(Tool):
             "scheduled_slot_end_ts": str(scheduled_slot_end_ts),
         }
         tbl.append(row)
-        return _json({"order_id": next_id})
+        return json({"order_id": next_id})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

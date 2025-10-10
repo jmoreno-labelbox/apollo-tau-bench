@@ -20,7 +20,7 @@ class LogOrderPlacedByPlanKeys(Tool):
             None,
         )
         if not plan:
-            return _json({"error": "meal_plan not found for keys"})
+            return json({"error": "meal_plan not found for keys"})
         gl = next(
             (
                 lt
@@ -30,7 +30,7 @@ class LogOrderPlacedByPlanKeys(Tool):
             None,
         )
         if not gl:
-            return _json({"error": "grocery_list not found for keys"})
+            return json({"error": "grocery_list not found for keys"})
         orders = [
             o
             for o in list(data.get("orders", {}).values())
@@ -39,7 +39,7 @@ class LogOrderPlacedByPlanKeys(Tool):
             and int(o.get("list_id")) == int(gl.get("list_id"))
         ]
         if not orders:
-            return _json({"error": "order not found for keys"})
+            return json({"error": "order not found for keys"})
         order = sorted(orders, key=lambda o: int(o.get("order_id", 0)), reverse=True)[0]
         tbl = _tbl(data, "audit_logs")
         next_id = _max_id(tbl, "audit_id", 12000) + 1
@@ -50,11 +50,11 @@ class LogOrderPlacedByPlanKeys(Tool):
             "entity_type": "orders",
             "entity_id": int(order.get("order_id")),
             "action_enum": "place_order",
-            "payload_json": {"store_id": int(store_id), "list_id": int(gl.get("list_id"))},
+            "payloadjson": {"store_id": int(store_id), "list_id": int(gl.get("list_id"))},
             "created_at": "2025-01-03T10:00:00",
         }
         tbl.append(row)
-        return _json({"audit_id": next_id})
+        return json({"audit_id": next_id})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

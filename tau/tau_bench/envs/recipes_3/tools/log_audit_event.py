@@ -14,7 +14,7 @@ class LogAuditEvent(Tool):
         entity_type: str,
         entity_id: int,
         action_enum: str,
-        payload_json: Dict[str, Any],
+        payloadjson: Dict[str, Any],
     ) -> str:
         tbl = _tbl(data, "audit_logs")
         next_id = _max_id(tbl, "audit_id", 12000) + 1
@@ -25,11 +25,11 @@ class LogAuditEvent(Tool):
             "entity_type": str(entity_type),
             "entity_id": int(entity_id),
             "action_enum": str(action_enum),
-            "payload_json": payload_json,
+            "payloadjson": payloadjson,
             "created_at": "2025-01-03T10:00:00",
         }
         tbl.append(row)
-        return _json({"audit_id": next_id})
+        return json({"audit_id": next_id})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:
@@ -46,7 +46,7 @@ class LogAuditEvent(Tool):
                         "entity_type": {"type": "string"},
                         "entity_id": {"type": "integer"},
                         "action_enum": {"type": "string"},
-                        "payload_json": {"type": "object"},
+                        "payloadjson": {"type": "object"},
                     },
                     "required": [
                         "household_id",

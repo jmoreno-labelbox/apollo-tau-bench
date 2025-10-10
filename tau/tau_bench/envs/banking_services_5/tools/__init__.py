@@ -43,6 +43,20 @@ from .receive_payment import ReceivePayment
 from .get_customer_details_by_customer_id import GetCustomerDetailsByCustomerId
 from .get_account_details_by_customer_id_and_account_id import GetAccountDetailsByCustomerIdAndAccountId
 
+def get_next_account_id(data, account_type='checking'):
+    """Generate next account ID."""
+    accounts = data.get('accounts', {})
+    max_id = 0
+    for acc_id in accounts.keys():
+        if account_type in acc_id:
+            try:
+                num = int(acc_id.split('_')[-1])
+                max_id = max(max_id, num)
+            except (ValueError, IndexError):
+                pass
+    return f"acc_{account_type}_{max_id + 1}"
+
+
 ALL_TOOLS = [
     AddNewCustomer,
     AddNewBeneficiaryForCustomer,

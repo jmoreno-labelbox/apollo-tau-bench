@@ -31,6 +31,13 @@ from .dispatch_results_email import DispatchResultsEmail
 from .write_terminal_log import WriteTerminalLog
 from .browse_terminal_log import BrowseTerminalLog
 
+from datetime import datetime
+
+def _fixed_now_iso():
+    """Return current time in ISO format."""
+    return datetime.now().isoformat()
+
+
 ALL_TOOLS = [
     FetchProjectConfig,
     ModifyProjectConfig,

@@ -27,11 +27,11 @@ class LogValidateSubstitutionsByPlanKeys(Tool):
             "entity_type": "meal_history",
             "entity_id": 0,
             "action_enum": "validate_substitutions",
-            "payload_json": payload,
+            "payloadjson": payload,
             "created_at": "2025-01-03T10:00:00",
         }
         tbl.append(row)
-        return _json({"audit_id": next_id})
+        return json({"audit_id": next_id})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

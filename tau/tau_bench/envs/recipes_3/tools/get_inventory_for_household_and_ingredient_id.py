@@ -10,13 +10,13 @@ class GetInventoryForHouseholdAndIngredientId(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], household_id: int, ingredient_id: int) -> str:
         if household_id is None or ingredient_id is None:
-            return _json({"error": "household_id and ingredient_id parameters are required."})
+            return json({"error": "household_id and ingredient_id parameters are required."})
         inventory = data.get("inventory_items", [])
         household_ingredient_inventory = [
             item for item in inventory 
             if item.get("household_id") == household_id and item.get("ingredient_id") == ingredient_id
         ]
-        return _json(household_ingredient_inventory)
+        return json(household_ingredient_inventory)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

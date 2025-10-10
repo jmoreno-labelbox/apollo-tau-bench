@@ -13,7 +13,7 @@ class ListStoreProducts(Tool):
         ]
         if ingredient_id is not None:
             rows = [p for p in rows if int(p.get("ingredient_id")) == int(ingredient_id)]
-        return _json({"products": rows})
+        return json({"products": rows})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

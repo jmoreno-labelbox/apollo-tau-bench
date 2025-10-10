@@ -12,7 +12,7 @@ class GetAggregatorStoreId(Tool):
         stores = data.get("stores", [])
         agg = [s for s in stores if str(s.get("platform_enum")) == "aggregator"]
         sid = int(agg[0]["store_id"]) if agg else (int(stores[0]["store_id"]) if stores else 0)
-        return _json({"aggregator_store_id": sid})
+        return json({"aggregator_store_id": sid})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

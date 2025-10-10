@@ -18,7 +18,7 @@ class GetGroceryListDetailsByPlanKeys(Tool):
             None,
         )
         if not plan:
-            return _json({"grocery_list": None, "items": []})
+            return json({"grocery_list": None, "items": []})
         gl = next(
             (
                 lt
@@ -28,13 +28,13 @@ class GetGroceryListDetailsByPlanKeys(Tool):
             None,
         )
         if not gl:
-            return _json({"grocery_list": None, "items": []})
+            return json({"grocery_list": None, "items": []})
         items = [
             i
             for i in data.get("grocery_list_items", [])
             if int(i.get("list_id")) == int(gl.get("list_id"))
         ]
-        return _json({"grocery_list": gl, "items": items})
+        return json({"grocery_list": gl, "items": items})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -10,13 +10,13 @@ class SearchRecipesByTitleSubstring(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], title_substring: str) -> str:
         if not title_substring:
-            return _json({"error": "title_substring parameter is required."})
+            return json({"error": "title_substring parameter is required."})
         recipes = list(data.get("recipes", {}).values())
         matching_recipes = [
             recipe for recipe in recipes 
             if title_substring.lower() in recipe.get("recipe_title", "").lower()
         ]
-        return _json(matching_recipes)
+        return json(matching_recipes)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

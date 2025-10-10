@@ -20,7 +20,7 @@ class FlagOverlapLastMonthOnListByPlanKeys(Tool):
             None,
         )
         if not plan:
-            return _json({"flagged_item_ids": [], "matched_count": 0})
+            return json({"flagged_item_ids": [], "matched_count": 0})
         gl = next(
             (
                 lt
@@ -30,7 +30,7 @@ class FlagOverlapLastMonthOnListByPlanKeys(Tool):
             None,
         )
         if not gl:
-            return _json({"flagged_item_ids": [], "matched_count": 0})
+            return json({"flagged_item_ids": [], "matched_count": 0})
         from datetime import date, timedelta
 
         if anchor_date:
@@ -74,7 +74,7 @@ class FlagOverlapLastMonthOnListByPlanKeys(Tool):
                 it["recent_overlap_flag"] = False
         # Update grocery list timestamp
         gl["last_overlap_flagged_at"] = "2025-01-01T12:20:00"
-        return _json({"flagged_item_ids": flagged_ids, "matched_count": matched})
+        return json({"flagged_item_ids": flagged_ids, "matched_count": matched})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

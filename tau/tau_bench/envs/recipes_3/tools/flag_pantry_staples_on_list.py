@@ -19,7 +19,7 @@ class FlagPantryStaplesOnList(Tool):
         gl = _require(data, "grocery_lists", "list_id", int(list_id))
         if gl is not None:
             gl["last_staples_flagged_at"] = "2025-01-01T12:15:00"
-        return _json({"updated_items": updated})
+        return json({"updated_items": updated})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

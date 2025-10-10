@@ -16,7 +16,7 @@ class BuildRecipeFilters(Tool):
     ) -> str:
         ex = ",".join(sorted((cuisines_exclude or [])))
         token = f"F:{meal_type}:P{int(min_protein_g)}:PF{1 if peanut_free else 0}:EX{ex}"
-        return _json({"filter_token": token})
+        return json({"filter_token": token})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -18,7 +18,7 @@ class LogMealPlanCreateByKeys(Tool):
             None,
         )
         if not plan:
-            return _json({"error": "meal_plan not found for keys"})
+            return json({"error": "meal_plan not found for keys"})
         tbl = _tbl(data, "audit_logs")
         next_id = _max_id(tbl, "audit_id", 12000) + 1
         row = {
@@ -28,11 +28,11 @@ class LogMealPlanCreateByKeys(Tool):
             "entity_type": "meal_plans",
             "entity_id": int(plan.get("meal_plan_id")),
             "action_enum": "create",
-            "payload_json": {"week_start_date": str(week_start_date)},
+            "payloadjson": {"week_start_date": str(week_start_date)},
             "created_at": "2025-01-03T10:00:00",
         }
         tbl.append(row)
-        return _json({"audit_id": next_id})
+        return json({"audit_id": next_id})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

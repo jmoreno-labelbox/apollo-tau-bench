@@ -1,0 +1,282 @@
+================================================================================
+🔧 FIX PATTERN 2: Empty Trajectories (Initialization Failures)
+================================================================================
+
+Testing 18 environments...
+
+
+================================================================================
+🔍 Checking: airline_2
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: banking_services_6
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: consulting_accounting_5
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: dev_ops_1
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: dev_ops_2
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: digital_commerce_3
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: figma_gmail_mcp_pipeline_4
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: it_help_desk_5
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: project_management_1
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: project_management_5
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: real_estate_sales_7
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: recipes_4
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: retail_1
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: retail_4
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: retail_point_of_sale_and_inventory_system_4
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: retail_point_of_sale_and_inventory_system_5
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: retail_point_of_sale_and_inventory_system_6
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+🔍 Checking: social_media_advertising_5
+================================================================================
+  ✅ __init__.py: Syntax OK
+  ✅ env.py: Syntax OK
+  ✅ tasks_test.py: Syntax OK
+  ✅ import env: OK
+  ✅ import tools: OK
+  ❌ Environment load: Failed
+     ValueError: Unknown task split: None
+
+================================================================================
+📊 SUMMARY
+================================================================================
+
+✅ Working:  0 environments
+
+❌ Broken:   18 environments
+   • airline_2
+     - env_load: ValueError: Unknown task split: None
+   • banking_services_6
+     - env_load: ValueError: Unknown task split: None
+   • consulting_accounting_5
+     - env_load: ValueError: Unknown task split: None
+   • dev_ops_1
+     - env_load: ValueError: Unknown task split: None
+   • dev_ops_2
+     - env_load: ValueError: Unknown task split: None
+   • digital_commerce_3
+     - env_load: ValueError: Unknown task split: None
+   • figma_gmail_mcp_pipeline_4
+     - env_load: ValueError: Unknown task split: None
+   • it_help_desk_5
+     - env_load: ValueError: Unknown task split: None
+   • project_management_1
+     - env_load: ValueError: Unknown task split: None
+   • project_management_5
+     - env_load: ValueError: Unknown task split: None
+   • real_estate_sales_7
+     - env_load: ValueError: Unknown task split: None
+   • recipes_4
+     - env_load: ValueError: Unknown task split: None
+   • retail_1
+     - env_load: ValueError: Unknown task split: None
+   • retail_4
+     - env_load: ValueError: Unknown task split: None
+   • retail_point_of_sale_and_inventory_system_4
+     - env_load: ValueError: Unknown task split: None
+   • retail_point_of_sale_and_inventory_system_5
+     - env_load: ValueError: Unknown task split: None
+   • retail_point_of_sale_and_inventory_system_6
+     - env_load: ValueError: Unknown task split: None
+   • social_media_advertising_5
+     - env_load: ValueError: Unknown task split: None
+
+================================================================================
+🔍 ISSUE CATEGORIES
+================================================================================
+
+❓ Other Errors: 18
+   • airline_2: env_load: ValueError: Unknown task split: None
+   • banking_services_6: env_load: ValueError: Unknown task split: None
+   • consulting_accounting_5: env_load: ValueError: Unknown task split: None
+   • dev_ops_1: env_load: ValueError: Unknown task split: None
+   • dev_ops_2: env_load: ValueError: Unknown task split: None
+   ... and 13 more
+
+================================================================================
+🎯 NEXT STEPS
+================================================================================
+
+🔧 Fix the 18 broken environments:
+
+   airline_2:
+      Issue: env_load: ValueError: Unknown task split: None
+      Command: ./investigate_failure.sh airline_2
+
+   banking_services_6:
+      Issue: env_load: ValueError: Unknown task split: None
+      Command: ./investigate_failure.sh banking_services_6
+
+   consulting_accounting_5:
+      Issue: env_load: ValueError: Unknown task split: None
+      Command: ./investigate_failure.sh consulting_accounting_5
+
+   ... and 15 more environments
+
+================================================================================

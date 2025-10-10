@@ -11,7 +11,7 @@ class ListHouseholdMembers(Tool):
         rows = [
             m for m in data.get("members", []) if int(m.get("household_id")) == int(household_id)
         ]
-        return _json({"members": rows})
+        return json({"members": rows})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

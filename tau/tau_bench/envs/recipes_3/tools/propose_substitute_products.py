@@ -39,7 +39,7 @@ class ProposeSubstituteProducts(Tool):
                         "substitute_product_id": int(best.get("product_id")),
                     }
                 )
-        return _json({"substitutions": suggestions})
+        return json({"substitutions": suggestions})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

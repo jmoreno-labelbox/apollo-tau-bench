@@ -18,7 +18,7 @@ class GetMealHistoryForHousehold(Tool):
             if h.get("household_id") == household_id and 
                datetime.strptime(h.get("plan_date"), "%Y-%m-%d") >= start_date
         ]
-        return _json(history)
+        return json(history)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

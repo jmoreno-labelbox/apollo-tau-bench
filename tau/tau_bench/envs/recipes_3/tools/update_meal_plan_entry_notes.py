@@ -20,7 +20,7 @@ class UpdateMealPlanEntryNotes(Tool):
         plan = _require(data, "meal_plans", "meal_plan_id", int(meal_plan_id))
         if plan is not None:
             plan["notes_last_updated_at"] = "2025-01-01T00:00:00"
-        return _json({"updated_entries": updated})
+        return json({"updated_entries": updated})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -37,7 +37,7 @@ class BulkAddMealPlanEntries(Tool):
         plan = _require(data, "meal_plans", "meal_plan_id", int(meal_plan_id))
         if plan is not None:
             plan["entries_last_set_at"] = "2025-01-01T00:00:00"
-        return _json({"created_entry_ids": created})
+        return json({"created_entry_ids": created})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

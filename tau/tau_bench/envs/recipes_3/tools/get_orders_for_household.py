@@ -11,7 +11,7 @@ class GetOrdersForHousehold(Tool):
         rows = [
             o for o in list(data.get("orders", {}).values()) if int(o.get("household_id")) == int(household_id)
         ]
-        return _json({"orders": rows})
+        return json({"orders": rows})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

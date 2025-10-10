@@ -18,7 +18,7 @@ class GetGroceryListByPlanKeys(Tool):
             None,
         )
         if not plan:
-            return _json({"grocery_list": None})
+            return json({"grocery_list": None})
         gl = next(
             (
                 lt
@@ -27,7 +27,7 @@ class GetGroceryListByPlanKeys(Tool):
             ),
             None,
         )
-        return _json({"grocery_list": gl})
+        return json({"grocery_list": gl})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

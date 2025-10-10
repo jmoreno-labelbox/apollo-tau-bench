@@ -29,7 +29,7 @@ class RankRecipesForTargets(Tool):
             rid
             for _, rid, _ in sorted(scored, key=lambda x: (x[0], -x[2], x[1]))[: int(needed_count)]
         ]
-        return _json({"selected_recipe_ids": picked})
+        return json({"selected_recipe_ids": picked})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

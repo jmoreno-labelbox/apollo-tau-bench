@@ -20,7 +20,7 @@ class CreateMealPlan(Tool):
             "created_at": "2025-01-01T00:00:00",
         }
         tbl.append(row)
-        return _json({"meal_plan_id": next_id})
+        return json({"meal_plan_id": next_id})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -10,7 +10,7 @@ class AddOrderItemsFromList(Tool):
     def invoke(data: Dict[str, Any], order_id: int, store_id: int) -> str:
         order = _require(data, "orders", "order_id", int(order_id))
         if not order:
-            return _json({"error": f"order_id {order_id} not found"})
+            return json({"error": f"order_id {order_id} not found"})
         list_id = int(order.get("list_id"))
         items = [i for i in data.get("grocery_list_items", []) if int(i.get("list_id")) == list_id]
         oi_tbl = _tbl(data, "order_items")
@@ -47,7 +47,7 @@ class AddOrderItemsFromList(Tool):
         order["total_cents"] = subtotal
         # Deterministic field to ensure write semantics even if no items were added
         order["items_populated_at"] = "2025-01-02T11:00:00"
-        return _json({"subtotal_cents": subtotal, "total_cents": subtotal})
+        return json({"subtotal_cents": subtotal, "total_cents": subtotal})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:
