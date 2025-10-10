@@ -1,0 +1,122 @@
+[
+  {
+    "project_id": "PROJ001",
+    "publisher_id": "PUB001",
+    "isbn": "978-0-12-345678-9",
+    "project_title": "Advanced Mathematics Textbook - Grade 12",
+    "default_hourly_rate": 85.00,
+    "override_hourly_rate": null,
+    "account_code": "EDU-MATH-001",
+    "is_active": true,
+    "created_at": "2024-01-15T09:00:00Z",
+    "updated_at": "2024-11-20T14:30:00Z"
+  },
+  {
+    "project_id": "PROJ002",
+    "publisher_id": "PUB001",
+    "isbn": "978-0-12-345679-6",
+    "project_title": "Biology Lab Manual - University Level",
+    "default_hourly_rate": 85.00,
+    "override_hourly_rate": 95.00,
+    "account_code": "EDU-BIO-002",
+    "is_active": true,
+    "created_at": "2024-02-01T10:30:00Z",
+    "updated_at": "2024-11-15T11:45:00Z"
+  },
+  {
+    "project_id": "PROJ003",
+    "publisher_id": "PUB002",
+    "isbn": "978-0-23-456789-0",
+    "project_title": "Canadian History Comprehensive Guide",
+    "default_hourly_rate": 75.00,
+    "override_hourly_rate": null,
+    "account_code": "EDU-HIST-003",
+    "is_active": true,
+    "created_at": "2024-03-10T08:15:00Z",
+    "updated_at": "2024-10-30T16:20:00Z"
+  },
+  {
+    "project_id": "PROJ004",
+    "publisher_id": "PUB002",
+    "isbn": "978-0-23-456790-6",
+    "project_title": "French Language Learning Series - Volume 1",
+    "default_hourly_rate": 75.00,
+    "override_hourly_rate": 80.00,
+    "account_code": "EDU-LANG-004",
+    "is_active": true,
+    "created_at": "2024-04-05T13:45:00Z",
+    "updated_at": "2024-11-12T09:30:00Z"
+  },
+  {
+    "project_id": "PROJ005",
+    "publisher_id": "PUB003",
+    "isbn": "978-0-34-567890-1",
+    "project_title": "Physics Problem Solving Handbook",
+    "default_hourly_rate": 90.00,
+    "override_hourly_rate": null,
+    "account_code": "EDU-PHYS-005",
+    "is_active": true,
+    "created_at": "2024-01-20T11:00:00Z",
+    "updated_at": "2024-11-18T15:15:00Z"
+  },
+  {
+    "project_id": "PROJ006",
+    "publisher_id": "PUB003",
+    "isbn": "978-0-34-567891-8",
+    "project_title": "Chemistry Lab Procedures Manual",
+    "default_hourly_rate": 90.00,
+    "override_hourly_rate": 100.00,
+    "account_code": "EDU-CHEM-006",
+    "is_active": true,
+    "created_at": "2024-05-15T14:20:00Z",
+    "updated_at": "2024-11-05T12:40:00Z"
+  },
+  {
+    "project_id": "PROJ007",
+    "publisher_id": "PUB004",
+    "isbn": "978-0-45-678901-2",
+    "project_title": "Environmental Science Field Guide",
+    "default_hourly_rate": 80.00,
+    "override_hourly_rate": null,
+    "account_code": "EDU-ENVS-007",
+    "is_active": true,
+    "created_at": "2024-06-01T10:15:00Z",
+    "updated_at": "2024-09-25T14:50:00Z"
+  },
+  {
+    "project_id": "PROJ008",
+    "publisher_id": "PUB004",
+    "isbn": "978-0-45-678902-9",
+    "project_title": "Computer Science Programming Fundamentals",
+    "default_hourly_rate": 80.00,
+    "override_hourly_rate": 95.00,
+    "account_code": "EDU-CS-008",
+    "is_active": true,
+    "created_at": "2024-07-10T09:30:00Z",
+    "updated_at": "2024-11-08T16:00:00Z"
+  },
+  {
+    "project_id": "PROJ009",
+    "publisher_id": "PUB005",
+    "isbn": "978-0-56-789012-3",
+    "project_title": "Economics Study Guide - Microeconomics",
+    "default_hourly_rate": 70.00,
+    "override_hourly_rate": null,
+    "account_code": "EDU-ECON-009",
+    "is_active": false,
+    "created_at": "2024-02-20T15:45:00Z",
+    "updated_at": "2024-08-15T11:20:00Z"
+  },
+  {
+    "project_id": "PROJ010",
+    "publisher_id": "PUB005",
+    "isbn": "978-0-56-789013-0",
+    "project_title": "Statistics and Data Analysis Workbook",
+    "default_hourly_rate": 70.00,
+    "override_hourly_rate": 85.00,
+    "account_code": "EDU-STAT-010",
+    "is_active": true,
+    "created_at": "2024-08-01T12:30:00Z",
+    "updated_at": "2024-11-20T10:45:00Z"
+  }
+]

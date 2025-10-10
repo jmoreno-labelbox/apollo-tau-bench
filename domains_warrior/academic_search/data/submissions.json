@@ -1,0 +1,42 @@
+[
+  {
+    "submission_id": "sub_01",
+    "article_id": "art_02",
+    "author_user_id": "res_03",
+    "submission_date": "2025-05-10",
+    "status": "under_review",
+    "assigned_reviewers": ["res_01"]
+  },
+  {
+    "submission_id": "sub_02",
+    "article_id": "art_04",
+    "author_user_id": "res_02",
+    "submission_date": "2025-06-01",
+    "status": "submitted",
+    "assigned_reviewers": []
+  },
+  {
+    "submission_id": "sub_03",
+    "article_id": "art_12",
+    "author_user_id": "res_01",
+    "submission_date": "2025-06-15",
+    "status": "under_review",
+    "assigned_reviewers": ["res_05", "res_04"]
+  },
+  {
+    "submission_id": "sub_04",
+    "article_id": "art_10",
+    "author_user_id": "res_03",
+    "submission_date": "2025-06-20",
+    "status": "reviewed",
+    "assigned_reviewers": ["res_02", "res_06"]
+  },
+  {
+    "submission_id": "sub_05",
+    "article_id": "art_14",
+    "author_user_id": "res_02",
+    "submission_date": "2025-06-23",
+    "status": "submitted",
+    "assigned_reviewers": []
+  }
+]

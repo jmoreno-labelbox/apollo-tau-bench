@@ -1,0 +1,62 @@
+[
+  {
+    "project_id": "proj_01",
+    "project_name": "Quantum Computing Applications",
+    "lead_researcher_id": "res_03",
+    "status": "active",
+    "start_date": "2025-02-01",
+    "end_date": "2027-01-31",
+    "linked_articles": ["art_02"],
+    "funding_source_id": "fs_02"
+  },
+  {
+    "project_id": "proj_02",
+    "project_name": "Exoplanet Atmospheric Analysis",
+    "lead_researcher_id": "res_05",
+    "status": "active",
+    "start_date": "2025-03-15",
+    "end_date": null,
+    "linked_articles": ["art_08"],
+    "funding_source_id": null
+  },
+  {
+    "project_id": "proj_03",
+    "project_name": "Next-Generation CRISPR Technologies",
+    "lead_researcher_id": "res_02",
+    "status": "active",
+    "start_date": "2025-01-15",
+    "end_date": "2027-01-14",
+    "linked_articles": ["art_03", "art_11"],
+    "funding_source_id": "fs_07"
+  },
+  {
+    "project_id": "proj_04",
+    "project_name": "Federated AI Systems",
+    "lead_researcher_id": "res_06",
+    "status": "planning",
+    "start_date": "2025-07-01",
+    "end_date": "2027-06-30",
+    "linked_articles": ["art_06", "art_15"],
+    "funding_source_id": "fs_01"
+  },
+  {
+    "project_id": "proj_05",
+    "project_name": "Exoplanet Atmospheric Analysis",
+    "lead_researcher_id": "res_05",
+    "status": "active",
+    "start_date": "2024-03-01",
+    "end_date": "2026-02-28",
+    "linked_articles": ["art_08", "art_13"],
+    "funding_source_id": "fs_06"
+  },
+  {
+    "project_id": "proj_06",
+    "project_name": "Quantum Cryptography Networks",
+    "lead_researcher_id": "res_03",
+    "status": "proposal",
+    "start_date": "2025-10-01",
+    "end_date": "2028-09-30",
+    "linked_articles": ["art_10"],
+    "funding_source_id": "fs_05"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "label_id": "label_1",
+    "name": "Asset-Request"
+  },
+  {
+    "label_id": "label_2",
+    "name": "Onboarding-Reminder"
+  },
+  {
+    "label_id": "label_3",
+    "name": "Access-Issues"
+  },
+  {
+    "label_id": "label_4",
+    "name": "Orientation-Invite"
+  },
+  {
+    "label_id": "label_5",
+    "name": "Manager-Intro"
+  },
+  {
+    "label_id": "label_6",
+    "name": "Welcome-Packet"
+  },
+  {
+    "label_id": "label_7",
+    "name": "System-Alerts"
+  }
+]

@@ -1,0 +1,64 @@
+[
+  {
+    "network_id": "net_001",
+    "network_name": "CompanyInternalNetwork",
+    "subnet": "192.168.1.0/24",
+    "gateway": "192.168.1.1",
+    "dns_servers": ["192.168.1.5", "8.8.8.8"],
+    "dhcp_range": {
+      "start": "192.168.1.100",
+      "end": "192.168.1.200"
+    },
+    "static_assignments": [
+      {
+        "hostname": "server-prod-01.company.com",
+        "ip_address": "192.168.1.10",
+        "mac_address": "00:1B:63:84:45:E6"
+      },
+      {
+        "hostname": "server-data-01.company.com",
+        "ip_address": "192.168.1.20",
+        "mac_address": "00:1B:63:84:45:E7"
+      },
+      {
+        "hostname": "server-analytics.company.com",
+        "ip_address": "192.168.1.30",
+        "mac_address": "00:1B:63:84:45:E8"
+      },
+      {
+        "hostname": "backup-server.company.com",
+        "ip_address": "192.168.1.50",
+        "mac_address": "00:1B:63:84:45:EA"
+      },
+      {
+        "hostname": "storage-01.company.com",
+        "ip_address": "192.168.1.60",
+        "mac_address": "00:1B:63:84:45:EB"
+      }
+    ]
+  },
+  {
+    "network_id": "net_002",
+    "network_name": "DMZNetwork",
+    "subnet": "10.0.1.0/24",
+    "gateway": "10.0.1.1",
+    "dns_servers": ["10.0.1.5", "8.8.4.4"],
+    "static_assignments": [
+      {
+        "hostname": "log-storage.company.com",
+        "ip_address": "10.0.1.15",
+        "mac_address": "00:1B:63:84:45:F0"
+      },
+      {
+        "hostname": "document-vault.company.com",
+        "ip_address": "10.0.1.25",
+        "mac_address": "00:1B:63:84:45:F1"
+      },
+      {
+        "hostname": "personal-backup.company.com",
+        "ip_address": "10.0.1.35",
+        "mac_address": "00:1B:63:84:45:F2"
+      }
+    ]
+  }
+]

@@ -1,0 +1,154 @@
+[
+  {
+    "user_id": "res_01",
+    "name": "Dr. Helena Souza",
+    "research_field": "Artificial Intelligence",
+    "institution": "InnovateAI",
+    "availability": "available",
+    "logged_articles": [
+      "art_01"
+    ]
+  },
+  {
+    "user_id": "res_02",
+    "name": "Dr. Ricardo Mendes",
+    "research_field": "Biomedicine",
+    "institution": "HealthCorp",
+    "availability": "available",
+    "logged_articles": [
+      "art_03",
+      "art_04"
+    ]
+  },
+  {
+    "user_id": "res_03",
+    "name": "Lia Costa",
+    "research_field": "Astrophysics",
+    "institution": "SpaceY",
+    "availability": "unavailable",
+    "logged_articles": []
+  },
+  {
+    "user_id": "res_04",
+    "name": "Dr. Sofia Bauer",
+    "research_field": "Biomedicine",
+    "institution": "BioGen",
+    "availability": "available",
+    "logged_articles": []
+  },
+  {
+    "user_id": "res_05",
+    "name": "Dr. Kenji Tanaka",
+    "research_field": "Astrophysics",
+    "institution": "CosmoData",
+    "availability": "available",
+    "logged_articles": []
+  },
+  {
+    "user_id": "res_06",
+    "name": "Dr. Aisha Khan",
+    "research_field": "Artificial Intelligence",
+    "institution": "DataSafe Inc.",
+    "availability": "unavailable",
+    "logged_articles": []
+  },
+  {
+    "user_id": "res_07",
+    "name": "Dr. Maria Santos",
+    "research_field": "Biomedicine",
+    "institution": "MedTech Solutions",
+    "availability": "available",
+    "logged_articles": [
+      "art_05",
+      "art_06",
+      "art_07"
+    ]
+  },
+  {
+    "user_id": "res_08",
+    "name": "Prof. James Wilson",
+    "research_field": "Astrophysics",
+    "institution": "Stellar Observatory",
+    "availability": "available",
+    "logged_articles": [
+      "art_08"
+    ]
+  },
+  {
+    "user_id": "res_09",
+    "name": "Dr. Liu Wei",
+    "research_field": "Artificial Intelligence",
+    "institution": "TechAdvance Lab",
+    "availability": "available",
+    "logged_articles": [
+      "art_09",
+      "art_10"
+    ]
+  },
+  {
+    "user_id": "res_10",
+    "name": "Dr. Anna Petrov",
+    "research_field": "Biomedicine",
+    "institution": "LifeScience Research",
+    "availability": "unavailable",
+    "logged_articles": [
+      "art_11"
+    ]
+  },
+  {
+    "user_id": "res_11",
+    "name": "Dr. Carlos Ruiz",
+    "research_field": "Astrophysics",
+    "institution": "Galaxy Studies Inc.",
+    "availability": "available",
+    "logged_articles": []
+  },
+  {
+    "user_id": "res_12",
+    "name": "Dr. Sarah Johnson",
+    "research_field": "Artificial Intelligence",
+    "institution": "Neural Networks Corp",
+    "availability": "available",
+    "logged_articles": [
+      "art_12",
+      "art_13"
+    ]
+  },
+  {
+    "user_id": "res_13",
+    "name": "Dr. Ahmed Hassan",
+    "research_field": "Biomedicine",
+    "institution": "GenTherapy Labs",
+    "availability": "available",
+    "logged_articles": [
+      "art_14"
+    ]
+  },
+  {
+    "user_id": "res_14",
+    "name": "Dr. Elena Rossi",
+    "research_field": "Astrophysics",
+    "institution": "Cosmic Research Center",
+    "availability": "unavailable",
+    "logged_articles": [
+      "art_15",
+      "art_16"
+    ]
+  },
+  {
+    "user_id": "res_15",
+    "name": "Dr. Thomas Anderson",
+    "research_field": "Artificial Intelligence",
+    "institution": "AI Dynamics",
+    "availability": "available",
+    "logged_articles": []
+  },
+  {
+    "user_id": "res_16",
+    "name": "Dr. Carlos Silva",
+    "research_field": "Artificial Intelligence",
+    "institution": "InnovateAI",
+    "availability": "available",
+    "logged_articles": []
+  }
+]

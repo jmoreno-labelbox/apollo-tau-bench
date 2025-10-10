@@ -1,0 +1,8 @@
+RULES = [
+    "All project milestones must have defined start and target completion dates. Milestones cannot be marked as achieved before their start date. Achievement dates must be validated against actual deliverable completion, not just reported progress.",
+    "Critical path calculations must be updated automatically whenever milestone dependencies change. Any milestone on the critical path that slips by more than 15 days triggers mandatory schedule impact analysis. Tasks on critical path cannot have their resources reduced below 100% allocation.",
+    "Milestone dependencies must form a directed acyclic graph - no circular dependencies allowed. Finish-to-Start dependencies require a minimum 1-day buffer unless explicitly marked as 'zero-lag'. Start-to-Start and Finish-to-Finish dependencies require justification in the dependency notes.",
+    "Schedule baselines can only be updated once per quarter unless approved by PMO. All baseline changes must include impact analysis showing effects on downstream milestones. Original baseline must be preserved for variance reporting. Variance beyond 20% requires executive approval.",
+    "Buffer time (project slack) must be distributed using Critical Chain methodology - 50% at project end, 30% at phase gates, 20% at integration points. Buffers cannot be consumed for scope additions without change request approval. Buffer consumption above 60% triggers risk review.",
+    "Milestone gate reviews are mandatory for all 'Major' classified milestones. Gate criteria must be defined before milestone start date. Failed gate reviews automatically insert a 10-day remediation period. Three consecutive failed gates escalate to steering committee.",
+]

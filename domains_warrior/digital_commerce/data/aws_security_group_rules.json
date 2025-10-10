@@ -1,0 +1,26 @@
+[
+    {
+        "rule_id": "sgr-fedcba9876543210f",
+        "security_group_id": "sg-0123456789abcdef0",
+        "port": 6379,
+        "protocol": "TCP",
+        "source_ip": "10.0.5.0/24",
+        "description": "Allow Redis access from UAT app servers"
+    },
+    {
+        "rule_id": "sgr-1122334455667788a",
+        "security_group_id": "sg-9988776655443322b",
+        "port": 443,
+        "protocol": "TCP",
+        "source_ip": "0.0.0.0/0",
+        "description": "Allow inbound HTTPS"
+    },
+    {
+        "rule_id": "sgr-badbadbadbadbadbad",
+        "security_group_id": "sg-ffffffffffffffff",
+        "protocol": "TCP",
+        "port": 6379,
+        "source_ip": "0.0.0.0/0",
+        "description": "DANGEROUS: Redis port open to the world."
+    }
+]

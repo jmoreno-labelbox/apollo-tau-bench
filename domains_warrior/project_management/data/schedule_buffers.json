@@ -1,0 +1,86 @@
+[
+  {
+    "project_id": "proj_mobile_01",
+    "total_buffer": 30,
+    "project_buffer": 15,
+    "phase_gate_buffer": 9,
+    "integration_buffer": 6,
+    "project_consumed": 3,
+    "phase_gate_consumed": 0,
+    "integration_consumed": 0,
+    "buffer_history": [
+      {
+        "change_id": "buf_001",
+        "buffer_type": "project",
+        "action": "consume",
+        "days": 3,
+        "milestone_id": "ms_001",
+        "consumption_percentage": 10,
+        "timestamp": "2024-03-15T14:00:00Z"
+      }
+    ]
+  },
+  {
+    "project_id": "proj_ai_01",
+    "total_buffer": 45,
+    "project_buffer": 22.5,
+    "phase_gate_buffer": 13.5,
+    "integration_buffer": 9,
+    "project_consumed": 0,
+    "phase_gate_consumed": 0,
+    "integration_consumed": 0,
+    "buffer_history": []
+  },
+  {
+    "project_id": "proj_enterprise_01",
+    "total_buffer": 40,
+    "project_buffer": 20,
+    "phase_gate_buffer": 12,
+    "integration_buffer": 8,
+    "project_consumed": 5,
+    "phase_gate_consumed": 2,
+    "integration_consumed": 0,
+    "buffer_history": [
+      {
+        "change_id": "buf_002",
+        "buffer_type": "project",
+        "action": "consume",
+        "days": 5,
+        "consumption_percentage": 17.5,
+        "timestamp": "2024-03-10T10:00:00Z"
+      }
+    ]
+  },
+  {
+    "project_id": "proj_banking_01",
+    "total_buffer": 25,
+    "project_buffer": 12.5,
+    "phase_gate_buffer": 7.5,
+    "integration_buffer": 5,
+    "project_consumed": 0,
+    "phase_gate_consumed": 0,
+    "integration_consumed": 0,
+    "buffer_history": []
+  },
+  {
+    "project_id": "proj_platform_02",
+    "total_buffer": 35,
+    "project_buffer": 17.5,
+    "phase_gate_buffer": 10.5,
+    "integration_buffer": 7,
+    "project_consumed": 8,
+    "phase_gate_consumed": 3,
+    "integration_consumed": 2,
+    "buffer_history": [
+      {
+        "change_id": "buf_003",
+        "buffer_type": "project",
+        "action": "consume",
+        "days": 8,
+        "milestone_id": "ms_007",
+        "consumption_percentage": 37.1,
+        "timestamp": "2024-03-18T11:00:00Z"
+      }
+    ]
+  }
+]

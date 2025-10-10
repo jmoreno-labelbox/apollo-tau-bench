@@ -1,0 +1,98 @@
+[
+  {
+    "plan_id": "plan_001",
+    "audit_id": "audit_002",
+    "status": "DELIVERED",
+    "created_ts": "2024-08-18T17:00:00Z",
+    "owner_email": "alex.dev@company.com",
+    "delivery_method": "TICKETS"
+  },
+  {
+    "plan_id": "plan_002",
+    "audit_id": "audit_003",
+    "status": "DRAFTED",
+    "created_ts": "2024-08-22T18:00:00Z",
+    "owner_email": "sarah.designer@company.com",
+    "delivery_method": "COMMENTS"
+  },
+  {
+    "plan_id": "plan_003",
+    "audit_id": "audit_004",
+    "status": "DELIVERED",
+    "created_ts": "2024-08-19T13:30:00Z",
+    "owner_email": "mike.ux@company.com",
+    "delivery_method": "PDF"
+  },
+  {
+    "plan_id": "plan_004",
+    "audit_id": "audit_006",
+    "status": "ARCHIVED",
+    "created_ts": "2024-08-19T18:30:00Z",
+    "owner_email": "alex.dev@company.com",
+    "delivery_method": "TICKETS"
+  },
+  {
+    "plan_id": "plan_005",
+    "audit_id": "audit_008",
+    "status": "DELIVERED",
+    "created_ts": "2024-08-20T15:30:00Z",
+    "owner_email": "mike.ux@company.com",
+    "delivery_method": "COMMENTS"
+  },
+  {
+    "plan_id": "plan_006",
+    "audit_id": "audit_001",
+    "status": "DRAFTED",
+    "created_ts": "2024-08-20T17:00:00Z",
+    "owner_email": "sarah.designer@company.com",
+    "delivery_method": "PDF"
+  },
+  {
+    "plan_id": "plan_007",
+    "audit_id": "audit_007",
+    "status": "DELIVERED",
+    "created_ts": "2024-08-21T11:30:00Z",
+    "owner_email": "alex.dev@company.com",
+    "delivery_method": "TICKETS"
+  },
+  {
+    "plan_id": "plan_008",
+    "audit_id": "audit_010",
+    "status": "ARCHIVED",
+    "created_ts": "2024-08-20T14:00:00Z",
+    "owner_email": "emma.brand@company.com",
+    "delivery_method": "COMMENTS"
+  },
+  {
+    "plan_id": "plan_009",
+    "audit_id": "audit_009",
+    "status": "DRAFTED",
+    "created_ts": "2024-08-21T17:30:00Z",
+    "owner_email": "lisa.marketing@company.com",
+    "delivery_method": "PDF"
+  },
+  {
+    "plan_id": "plan_010",
+    "audit_id": "audit_005",
+    "status": "DELIVERED",
+    "created_ts": "2024-08-22T12:00:00Z",
+    "owner_email": "sarah.designer@company.com",
+    "delivery_method": "TICKETS"
+  },
+  {
+    "plan_id": "plan_011",
+    "audit_id": "audit_011",
+    "status": "ARCHIVED",
+    "created_ts": "2024-08-23T13:45:00Z",
+    "owner_email": "alex.dev@company.com",
+    "delivery_method": "COMMENTS"
+  },
+  {
+    "plan_id": "plan_012",
+    "audit_id": "audit_012",
+    "status": "ARCHIVED",
+    "created_ts": "2024-08-23T14:45:00Z",
+    "owner_email": "mike.ux@company.com",
+    "delivery_method": "TICKETS"
+  }
+]

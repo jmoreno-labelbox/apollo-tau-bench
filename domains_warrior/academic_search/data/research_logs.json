@@ -1,0 +1,66 @@
+[
+  {
+    "log_id": "log_001",
+    "researcher_id": "res_01",
+    "article_id": "art_01",
+    "entry_date": "2025-06-15",
+    "notes": "Fundamental paper for my current research on code generation. The analysis of the transformer architecture is very detailed.",
+    "relevance": "high"
+  },
+  {
+    "log_id": "log_002",
+    "researcher_id": "res_02",
+    "article_id": "art_03",
+    "entry_date": "2025-06-17",
+    "notes": "Good references on CRISPR safety protocols. I need to delve deeper into the section on ethical implications.",
+    "relevance": "high"
+  },
+  {
+    "log_id": "log_003",
+    "researcher_id": "res_02",
+    "article_id": "art_04",
+    "entry_date": "2025-06-18",
+    "notes": "Huge potential for diagnostics. I need to verify the detection methodology for the biomarkers.",
+    "relevance": "medium"
+  },
+  {
+    "log_id": "log_004",
+    "researcher_id": "res_04",
+    "article_id": "art_09",
+    "entry_date": "2025-06-20",
+    "notes": "Excellent methodology for AI-based diagnosis. The machine learning approach aligns perfectly with our current project goals.",
+    "relevance": "high"
+  },
+  {
+    "log_id": "log_005",
+    "researcher_id": "res_05",
+    "article_id": "art_05",
+    "entry_date": "2025-06-21",
+    "notes": "The cosmological simulations provide valuable insights for our dark matter research. Need to compare with our recent observational data.",
+    "relevance": "high"
+  },
+  {
+    "log_id": "log_006",
+    "researcher_id": "res_06",
+    "article_id": "art_06",
+    "entry_date": "2025-06-22",
+    "notes": "The aggregation protocol described here could be improved with differential privacy techniques. Worth exploring for our federated learning project.",
+    "relevance": "medium"
+  },
+  {
+    "log_id": "log_007",
+    "researcher_id": "res_03",
+    "article_id": "art_07",
+    "entry_date": "2025-06-23",
+    "notes": "The updated analysis addresses most of the concerns from the original paper. The new qubit stability data is particularly relevant.",
+    "relevance": "high"
+  },
+  {
+    "log_id": "log_008",
+    "researcher_id": "res_01",
+    "article_id": "art_12",
+    "entry_date": "2025-06-24",
+    "notes": "Interesting intersection of NLP and medical imaging. The multimodal approach shows promise for our code generation research.",
+    "relevance": "medium"
+  }
+]

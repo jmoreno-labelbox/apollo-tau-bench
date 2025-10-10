@@ -1,0 +1,320 @@
+[
+  {
+    "transaction_id": "TXN-0001",
+    "store_id": "STORE-001",
+    "employee_id": "EMP-1003",
+    "timestamp": "2025-06-05T10:15:23Z",
+    "total_amount": 789.97,
+    "tax_amount": 65.12,
+    "payment_method": "credit_card",
+    "tax_rate": 0.0825,
+    "discount_total": 70.0,
+    "change_given": 0.0,
+    "status": "completed",
+    "customer_id": "CUST-5001",
+    "line_items": [
+      {
+        "sku": "ELEC-4KTV55",
+        "quantity": 1,
+        "unit_price": 699.99,
+        "discount": 70.0
+      },
+      {
+        "sku": "ELEC-RCHAA04",
+        "quantity": 2,
+        "unit_price": 18.95,
+        "discount": 0.0
+      }
+    ]
+  },
+  {
+    "transaction_id": "TXN-0002",
+    "store_id": "STORE-002",
+    "employee_id": "EMP-1011",
+    "timestamp": "2025-06-05T11:42:00Z",
+    "total_amount": 102.82,
+    "tax_amount": 7.83,
+    "payment_method": "cash",
+    "tax_rate": 0.0825,
+    "discount_total": 5.0,
+    "change_given": 20.0,
+    "status": "completed",
+    "customer_id": "CUST-5002",
+    "line_items": [
+      {
+        "sku": "HOM-COFMKR12",
+        "quantity": 1,
+        "unit_price": 59.95,
+        "discount": 5.0
+      },
+      {
+        "sku": "KITCH-CHEFKNF8",
+        "quantity": 1,
+        "unit_price": 39.95,
+        "discount": 0.0
+      }
+    ]
+  },
+  {
+    "transaction_id": "TXN-0003",
+    "store_id": "STORE-003",
+    "employee_id": "EMP-1020",
+    "timestamp": "2025-06-05T12:05:44Z",
+    "total_amount": 37.58,
+    "tax_amount": 2.87,
+    "payment_method": "mobile_wallet",
+    "tax_rate": 0.0825,
+    "discount_total": 0.0,
+    "change_given": 0.0,
+    "status": "completed",
+    "customer_id": "CUST-5003",
+    "line_items": [
+      {
+        "sku": "GROC-GRNLBR12",
+        "quantity": 2,
+        "unit_price": 14.99,
+        "discount": 0.0
+      },
+      {
+        "sku": "GROC-SPRWAT6P",
+        "quantity": 1,
+        "unit_price": 7.99,
+        "discount": 0.0
+      }
+    ]
+  },
+  {
+    "transaction_id": "TXN-0004",
+    "store_id": "STORE-004",
+    "employee_id": "EMP-1032",
+    "timestamp": "2025-06-05T12:48:11Z",
+    "total_amount": 205.48,
+    "tax_amount": 15.64,
+    "payment_method": "credit_card",
+    "tax_rate": 0.0825,
+    "discount_total": 0.0,
+    "change_given": 0.0,
+    "status": "completed",
+    "customer_id": "CUST-5004",
+    "line_items": [
+      {
+        "sku": "SPORT-BIKHLM01",
+        "quantity": 2,
+        "unit_price": 89.0,
+        "discount": 0.0
+      },
+      {
+        "sku": "SPORT-YOGMAT01",
+        "quantity": 1,
+        "unit_price": 29.99,
+        "discount": 0.0
+      }
+    ]
+  },
+  {
+    "transaction_id": "TXN-0005",
+    "store_id": "STORE-005",
+    "employee_id": "EMP-1045",
+    "timestamp": "2025-06-05T13:10:55Z",
+    "total_amount": 1589.94,
+    "tax_amount": 130.98,
+    "payment_method": "credit_card",
+    "tax_rate": 0.0825,
+    "discount_total": 0.0,
+    "change_given": 0.0,
+    "status": "completed",
+    "customer_id": "CUST-5005",
+    "line_items": [
+      {
+        "sku": "ELEC-GAMLP15",
+        "quantity": 1,
+        "unit_price": 1499.0,
+        "discount": 0.0
+      },
+      {
+        "sku": "AUDIO-NCEBUDS01",
+        "quantity": 1,
+        "unit_price": 149.99,
+        "discount": 0.0
+      }
+    ]
+  },
+  {
+    "transaction_id": "TXN-0006",
+    "store_id": "STORE-002",
+    "employee_id": "EMP-1009",
+    "timestamp": "2025-06-05T13:55:32Z",
+    "total_amount": 264.48,
+    "tax_amount": 21.56,
+    "payment_method": "debit_card",
+    "tax_rate": 0.0825,
+    "discount_total": 10.0,
+    "change_given": 0.0,
+    "status": "completed",
+    "customer_id": "CUST-5006",
+    "line_items": [
+      {
+        "sku": "OFFC-ERGCHR01",
+        "quantity": 1,
+        "unit_price": 229.99,
+        "discount": 10.0
+      },
+      {
+        "sku": "HOME-DESKLMP01",
+        "quantity": 1,
+        "unit_price": 34.99,
+        "discount": 0.0
+      }
+    ]
+  },
+  {
+    "transaction_id": "TXN-0007",
+    "store_id": "STORE-003",
+    "employee_id": "EMP-1015",
+    "timestamp": "2025-06-05T14:22:18Z",
+    "total_amount": 84.45,
+    "tax_amount": 6.42,
+    "payment_method": "cash",
+    "tax_rate": 0.0825,
+    "discount_total": 0.0,
+    "change_given": 15.55,
+    "status": "completed",
+    "customer_id": "CUST-5007",
+    "line_items": [
+      {
+        "sku": "KITCH-FRYPAN10",
+        "quantity": 3,
+        "unit_price": 24.95,
+        "discount": 0.0
+      }
+    ]
+  },
+  {
+    "transaction_id": "TXN-0008",
+    "store_id": "STORE-001",
+    "employee_id": "EMP-1004",
+    "timestamp": "2025-06-05T15:03:09Z",
+    "total_amount": 19.98,
+    "tax_amount": 0.00,
+    "payment_method": "cash",
+    "tax_rate": 0.0,
+    "discount_total": 0.0,
+    "change_given": 0.02,
+    "status": "completed",
+    "customer_id": "CUST-5008",
+    "line_items": [
+      {
+        "sku": "BOOK-KDSSTY01",
+        "quantity": 2,
+        "unit_price": 9.99,
+        "discount": 0.0
+      }
+    ]
+  },
+  {
+    "transaction_id": "TXN-0009",
+    "store_id": "STORE-004",
+    "employee_id": "EMP-1034",
+    "timestamp": "2025-06-05T15:37:41Z",
+    "total_amount": 180.79,
+    "tax_amount": 13.73,
+    "payment_method": "credit_card",
+    "tax_rate": 0.0825,
+    "discount_total": 5.0,
+    "change_given": 0.0,
+    "status": "completed",
+    "customer_id": "CUST-5009",
+    "line_items": [
+      {
+        "sku": "HOME-BTHTWL01",
+        "quantity": 10,
+        "unit_price": 14.5,
+        "discount": 5.0
+      },
+      {
+        "sku": "GROC-SPRWAT6P",
+        "quantity": 2,
+        "unit_price": 7.99,
+        "discount": 0.0
+      }
+    ]
+  },
+  {
+    "transaction_id": "TXN-0010",
+    "store_id": "STORE-005",
+    "employee_id": "EMP-1050",
+    "timestamp": "2025-06-05T16:05:27Z",
+    "total_amount": 77.22,
+    "tax_amount": 6.39,
+    "payment_method": "mobile_wallet",
+    "tax_rate": 0.0825,
+    "discount_total": 0.0,
+    "change_given": 0.0,
+    "status": "completed",
+    "customer_id": "CUST-5010",
+    "line_items": [
+      {
+        "sku": "AUDIO-BTSPKR02",
+        "quantity": 1,
+        "unit_price": 129.99,
+        "discount": 40.0
+      },
+      {
+        "sku": "ELEC-RCHAA04",
+        "quantity": 2,
+        "unit_price": 18.95,
+        "discount": 0.0
+      }
+    ]
+  },
+  {
+    "transaction_id": "TXN-0011",
+    "store_id": "STORE-002",
+    "employee_id": "EMP-1008",
+    "timestamp": "2025-06-06T09:08:13Z",
+    "total_amount": 104.95,
+    "tax_amount": 8.66,
+    "payment_method": "debit_card",
+    "tax_rate": 0.0825,
+    "discount_total": 0.0,
+    "change_given": 0.0,
+    "status": "completed",
+    "customer_id": "CUST-5011",
+    "line_items": [
+      {
+        "sku": "KITCH-CHEFKNF8",
+        "quantity": 2,
+        "unit_price": 39.95,
+        "discount": 0.0
+      },
+      {
+        "sku": "SMRT-THERM02",
+        "quantity": 1,
+        "unit_price": 179.0,
+        "discount": 80.0
+      }
+    ]
+  },
+  {
+    "transaction_id": "TXN-0012",
+    "store_id": "STORE-001",
+    "employee_id": "EMP-1002",
+    "timestamp": "2025-06-06T09:48:57Z",
+    "total_amount": 89.0,
+    "tax_amount": 7.34,
+    "payment_method": "credit_card",
+    "tax_rate": 0.0825,
+    "discount_total": 0.0,
+    "change_given": 0.0,
+    "status": "returned",
+    "customer_id": "CUST-5012",
+    "line_items": [
+      {
+        "sku": "SPORT-BIKHLM01",
+        "quantity": 1,
+        "unit_price": 89.0,
+        "discount": 0.0
+      }
+    ]
+  }
+]

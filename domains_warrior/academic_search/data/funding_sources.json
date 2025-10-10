@@ -1,0 +1,82 @@
+[
+  {
+    "funding_source_id": "fs_01",
+    "source_name": "AI Advancement Grant",
+    "grant_amount": 250000,
+    "grant_year": 2025,
+    "focus_area": "AI",
+    "status": "available"
+  },
+  {
+    "funding_source_id": "fs_02",
+    "source_name": "National Science Foundation",
+    "grant_amount": 500000,
+    "grant_year": 2024,
+    "focus_area": "General Science",
+    "status": "depleted"
+  },
+  {
+    "funding_source_id": "fs_03",
+    "source_name": "Medical Research Council",
+    "grant_amount": 750000,
+    "grant_year": 2025,
+    "focus_area": "Biomedicine",
+    "status": "available"
+  },
+  {
+    "funding_source_id": "fs_04",
+    "source_name": "Space Exploration Fund",
+    "grant_amount": 1200000,
+    "grant_year": 2025,
+    "focus_area": "Astrophysics",
+    "status": "available"
+  },
+  {
+    "funding_source_id": "fs_05",
+    "source_name": "Innovation Technology Grant",
+    "grant_amount": 300000,
+    "grant_year": 2024,
+    "focus_area": "AI",
+    "status": "depleted"
+  },
+  {
+    "funding_source_id": "fs_06",
+    "source_name": "Healthcare Innovation Fund",
+    "grant_amount": 450000,
+    "grant_year": 2025,
+    "focus_area": "Biomedicine",
+    "status": "available"
+  },
+  {
+    "funding_source_id": "fs_07",
+    "source_name": "Deep Space Research Grant",
+    "grant_amount": 900000,
+    "grant_year": 2024,
+    "focus_area": "Astrophysics",
+    "status": "available"
+  },
+  {
+    "funding_source_id": "fs_08",
+    "source_name": "Machine Learning Excellence Award",
+    "grant_amount": 180000,
+    "grant_year": 2025,
+    "focus_area": "AI",
+    "status": "available"
+  },
+  {
+    "funding_source_id": "fs_09",
+    "source_name": "Environmental Science Foundation",
+    "grant_amount": 320000,
+    "grant_year": 2024,
+    "focus_area": "General Science",
+    "status": "available"
+  },
+  {
+    "funding_source_id": "fs_10",
+    "source_name": "Quantum Computing Initiative",
+    "grant_amount": 800000,
+    "grant_year": 2025,
+    "focus_area": "AI",
+    "status": "available"
+  }
+]

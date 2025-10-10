@@ -1,0 +1,67 @@
+[
+  {
+    "query_latitude": 37.7749,
+    "query_longitude": -122.4194,
+    "radius_km": 50.0,
+    "station_ids": ["9414290", "9414750", "9415020"],
+    "station_names": ["San Francisco", "Alameda", "Point Reyes"],
+    "station_distances_km": [2.3, 15.7, 42.1],
+    "station_latitudes": [37.8063, 37.7719, 38.0031],
+    "station_longitudes": [-122.4659, -122.2958, -122.9697],
+    "station_types_nullable": ["primary", "secondary", "reference"],
+    "raw_json_path_nullable": "/data/raw/noaa_stations_sf.json",
+    "query_ts": "2024-03-15T09:15:00Z"
+  },
+  {
+    "query_latitude": 25.7617,
+    "query_longitude": -80.1918,
+    "radius_km": 25.0,
+    "station_ids": ["8723214", "8723170"],
+    "station_names": ["Virginia Key", "Miami Beach"],
+    "station_distances_km": [8.2, 12.5],
+    "station_latitudes": [25.7314, 25.7709],
+    "station_longitudes": [-80.1611, -80.1300],
+    "station_types_nullable": ["primary", "secondary"],
+    "raw_json_path_nullable": "/data/raw/noaa_stations_miami.json",
+    "query_ts": "2024-02-01T10:30:00Z"
+  },
+  {
+    "query_latitude": 32.7765,
+    "query_longitude": -79.9311,
+    "radius_km": 30.0,
+    "station_ids": ["8665530", "8661070"],
+    "station_names": ["Charleston", "Springmaid Pier"],
+    "station_distances_km": [1.5, 28.7],
+    "station_latitudes": [32.7817, 33.6548],
+    "station_longitudes": [-79.9248, -78.9180],
+    "station_types_nullable": [null, null],
+    "raw_json_path_nullable": null,
+    "query_ts": "2024-01-22T17:00:00Z"
+  },
+  {
+    "query_latitude": 42.3601,
+    "query_longitude": -71.0589,
+    "radius_km": 40.0,
+    "station_ids": ["8443970", "8447930", "8449130"],
+    "station_names": ["Boston", "Woods Hole", "Nantucket"],
+    "station_distances_km": [3.2, 35.8, 39.1],
+    "station_latitudes": [42.3548, 41.5237, 41.2865],
+    "station_longitudes": [-71.0275, -70.6713, -70.0995],
+    "station_types_nullable": ["primary", "secondary", "reference"],
+    "raw_json_path_nullable": "/data/raw/noaa_stations_boston.json",
+    "query_ts": "2024-03-01T12:30:00Z"
+  },
+  {
+    "query_latitude": 47.6062,
+    "query_longitude": -122.3321,
+    "radius_km": 60.0,
+    "station_ids": ["9447130", "9446484", "9447131"],
+    "station_names": ["Seattle", "Tacoma", "Port Townsend"],
+    "station_distances_km": [5.7, 28.4, 42.6],
+    "station_latitudes": [47.6021, 47.2668, 48.1128],
+    "station_longitudes": [-122.3396, -122.4598, -122.7595],
+    "station_types_nullable": ["primary", "secondary", "reference"],
+    "raw_json_path_nullable": "/data/raw/noaa_stations_seattle.json",
+    "query_ts": "2024-02-01T14:30:00Z"
+  }
+]

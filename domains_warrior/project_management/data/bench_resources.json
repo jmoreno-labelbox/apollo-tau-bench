@@ -1,0 +1,10 @@
+[
+  {
+    "bench_id": "bench_001",
+    "employee_id": "emp_dev_11",
+    "available_from": "2024-03-15",
+    "skills": ["JavaScript", "React"],
+    "preferred_projects": ["frontend", "mobile"],
+    "bench_duration_days": 0
+  }
+]

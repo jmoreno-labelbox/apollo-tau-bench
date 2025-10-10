@@ -1,0 +1,155 @@
+[
+  {
+    "approval_id": "appr_001",
+    "request_id": "req_001",
+    "type": "resource_transfer",
+    "status": "pending",
+    "created_date": "2024-03-01T10:00:00Z",
+    "requester_id": "emp_pm_03",
+    "approver_role": "department_head",
+    "details": {
+      "employee_id": "emp_ux_03",
+      "from_dept": "Design",
+      "to_dept": "Engineering",
+      "hours_per_week": 12,
+      "duration_weeks": 8
+    },
+    "priority": "high",
+    "auto_approve_date": "2024-03-03T10:00:00Z"
+  },
+  {
+    "approval_id": "appr_002",
+    "request_id": "req_001",
+    "type": "resource_transfer",
+    "status": "approved",
+    "created_date": "2024-03-01T10:00:00Z",
+    "approved_date": "2024-03-01T14:30:00Z",
+    "requester_id": "emp_pm_03",
+    "approver_role": "department_head",
+    "details": {
+      "employee_id": "emp_ux_03",
+      "from_dept": "Design",
+      "to_dept": "Engineering",
+      "hours_per_week": 12,
+      "duration_weeks": 8
+    },
+    "priority": "high",
+    "approval_note": "Approved for Q2 project support"
+  },
+  {
+    "approval_id": "appr_003",
+    "request_id": "req_002",
+    "type": "allocation_split",
+    "status": "pending",
+    "created_date": "2024-03-02T09:00:00Z",
+    "requester_id": "emp_pm_04",
+    "approver_role": "project_manager",
+    "details": {
+      "employee_id": "emp_arch_01",
+      "allocations": [
+        { "project_id": "proj_enterprise_01", "hours": 25 },
+        { "project_id": "proj_platform_02", "hours": 20 }
+      ]
+    },
+    "priority": "critical",
+    "conflict_id": "conf_001"
+  },
+  {
+    "approval_id": "appr_004",
+    "request_id": "req_003",
+    "type": "overtime_budget",
+    "status": "approved",
+    "created_date": "2024-02-28T16:00:00Z",
+    "approved_date": "2024-03-01T09:00:00Z",
+    "requester_id": "emp_cto",
+    "approver_role": "finance",
+    "details": {
+      "amount": 15000,
+      "project_id": "proj_ai_01",
+      "justification": "ML engineer shortage - temporary overtime needed",
+      "duration_weeks": 6
+    },
+    "priority": "high",
+    "budget_code": "ENG-2024-OT-001"
+  },
+  {
+    "approval_id": "appr_005",
+    "request_id": "req_emergency_01",
+    "type": "emergency_reassignment",
+    "status": "approved",
+    "created_date": "2024-03-03T02:00:00Z",
+    "approved_date": "2024-03-03T02:15:00Z",
+    "requester_id": "emp_pmo_director",
+    "approver_role": "executive",
+    "details": {
+      "project_id": "proj_security_01",
+      "affected_projects": [
+        "proj_banking_01",
+        "proj_finance_01",
+        "proj_audit_01"
+      ],
+      "reassigned_count": 3,
+      "emergency_code": "SEC-CRITICAL-001"
+    },
+    "priority": "critical",
+    "auto_approved": "true",
+    "approval_note": "Emergency protocol activated"
+  },
+  {
+    "approval_id": "appr_006",
+    "request_id": "req_dept_transfer_01",
+    "type": "permanent_transfer",
+    "status": "pending",
+    "created_date": "2024-03-04T11:00:00Z",
+    "requester_id": "emp_hr_director",
+    "approver_role": "department_heads",
+    "details": {
+      "employee_id": "emp_des_04",
+      "from_dept": "Design",
+      "to_dept": "Engineering",
+      "transfer_type": "skills_based",
+      "effective_date": "2024-04-01"
+    },
+    "priority": "medium",
+    "requires_multiple_approval": "true",
+    "approval_chain": ["dept_design_head", "dept_eng_head", "hr_director"]
+  },
+  {
+    "approval_id": "appr_007",
+    "request_id": "req_contractor_01",
+    "type": "contractor_onboarding",
+    "status": "approved",
+    "created_date": "2024-03-05T08:00:00Z",
+    "approved_date": "2024-03-05T16:00:00Z",
+    "requester_id": "emp_staffing_dir",
+    "approver_role": "multiple",
+    "details": {
+      "contractor_count": 10,
+      "duration_months": 6,
+      "total_hours_per_week": 400,
+      "departments": ["Engineering"],
+      "budget_impact": 240000
+    },
+    "priority": "high",
+    "compliance_checked": "true",
+    "procurement_ref": "CONT-2024-Q2-001"
+  },
+  {
+    "approval_id": "appr_008",
+    "request_id": "req_rebal_q2",
+    "type": "quarterly_rebalance",
+    "status": "in_progress",
+    "created_date": "2024-03-15T09:00:00Z",
+    "requester_id": "emp_resource_officer",
+    "approver_role": "executive_committee",
+    "details": {
+      "quarter": "Q2-2024",
+      "departments_affected": ["Engineering", "Design", "QA"],
+      "transfers_proposed": 5,
+      "utilization_target": 85,
+      "cost_impact": -50000
+    },
+    "priority": "medium",
+    "review_deadline": "2024-03-22T17:00:00Z"
+  }
+]

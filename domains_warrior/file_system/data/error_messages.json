@@ -1,0 +1,78 @@
+[
+  {
+    "msg_id": "err_msg_001",
+    "err_type": "connection_timeout",
+    "task_id": "fc_task_004",
+    "task_type": "file_check",
+    "user_id": "user_002",
+    "msg": "ERROR: Unable to establish SSH connection to server-config.company.com. Connection timeout after 30 seconds. Server may be in maintenance mode.",
+    "created_at": "2024-01-16T08:25:30Z",
+    "severity": "high",
+    "details": {
+      "server": "server-config.company.com",
+      "timeout_seconds": 30,
+      "retry_attempts": 3
+    }
+  },
+  {
+    "msg_id": "err_msg_002",
+    "err_type": "insufficient_storage",
+    "task_id": "arch_005",
+    "task_type": "archive",
+    "user_id": "user_004",
+    "msg": "ERROR: Archive task arch_005 failed. Insufficient storage space on remote server personal-backup.company.com. Available: 45MB, Required: 234MB.",
+    "created_at": "2024-01-19T11:35:00Z",
+    "severity": "medium",
+    "details": {
+      "remote_server": "personal-backup.company.com",
+      "available_space_mb": 45,
+      "required_space_mb": 234,
+      "archive_name": "intern_project_files"
+    }
+  },
+  {
+    "msg_id": "err_msg_003",
+    "err_type": "permission_denied",
+    "task_id": "fc_task_006",
+    "task_type": "file_check",
+    "user_id": "user_004",
+    "msg": "WARNING: Permission denied accessing /root/secure directory during file scan. Skipping directory.",
+    "created_at": "2024-01-17T14:20:00Z",
+    "severity": "low",
+    "details": {
+      "directory": "/root/secure",
+      "user": "dave_intern",
+      "permissions_required": "root"
+    }
+  },
+  {
+    "msg_id": "err_msg_004",
+    "err_type": "checksum_mismatch",
+    "task_id": "arch_001",
+    "task_type": "archive",
+    "user_id": "user_001",
+    "msg": "WARNING: Checksum mismatch detected during file transfer verification. Original: abc123..., Transferred: def456.... Retrying transfer.",
+    "created_at": "2024-01-15T16:30:00Z",
+    "severity": "medium",
+    "details": {
+      "original_checksum": "abc12345678901234567890123456789",
+      "transferred_checksum": "def45678901234567890123456789012",
+      "file": "project_backup_2024_20240115_160000.tar.gz"
+    }
+  },
+  {
+    "msg_id": "err_msg_005",
+    "err_type": "disk_space_warning",
+    "task_id": "dir_op_001",
+    "task_type": "file_organization",
+    "user_id": "user_002",
+    "msg": "WARNING: Low disk space detected. Available: 1.2GB, Operation requires: 800MB. Proceeding with caution.",
+    "created_at": "2024-01-15T09:05:00Z",
+    "severity": "low",
+    "details": {
+      "available_space_gb": 1.2,
+      "required_space_mb": 800,
+      "operation": "file_organization"
+    }
+  }
+]

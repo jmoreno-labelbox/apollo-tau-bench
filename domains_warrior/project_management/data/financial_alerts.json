@@ -1,0 +1,26 @@
+[
+  {
+    "alert_id": "alert_001",
+    "alert_type": "budget_overrun",
+    "entity_type": "project",
+    "entity_id": "proj_ai_01",
+    "threshold_value": 90,
+    "notify_list": ["emp_pm_04", "sh_006"],
+    "status": "active",
+    "created_date": "2024-03-01T09:00:00Z",
+    "triggered_count": 0,
+    "last_triggered": null
+  },
+  {
+    "alert_id": "alert_002",
+    "alert_type": "payment_due",
+    "entity_type": "vendor",
+    "entity_id": "vendor_005",
+    "threshold_value": 5,
+    "notify_list": ["emp_finance_01", "emp_finance_02"],
+    "status": "active",
+    "created_date": "2024-02-15T10:00:00Z",
+    "triggered_count": 1,
+    "last_triggered": "2024-03-20T08:00:00Z"
+  }
+]

@@ -1,0 +1,122 @@
+[
+    {
+        "email_id": "EM-001",
+        "timestamp": "2024-01-15 09:00:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "laura.jackson@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Laura, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    },
+    {
+        "email_id": "EM-002",
+        "timestamp": "2024-02-28 10:30:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "robert.white@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Robert, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    },
+    {
+        "email_id": "EM-003",
+        "timestamp": "2024-03-10 11:15:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "stephanie.adams@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Stephanie, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    },
+    {
+        "email_id": "EM-004",
+        "timestamp": "2024-04-05 14:45:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "daniel.taylor@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Daniel, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    },
+    {
+        "email_id": "EM-005",
+        "timestamp": "2024-05-20 08:00:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "samantha.evans@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Samantha, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    },
+    {
+        "email_id": "EM-006",
+        "timestamp": "2024-06-01 12:00:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "paul.ellis@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Paul, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    },
+    {
+        "email_id": "EM-007",
+        "timestamp": "2024-07-12 09:30:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "brittany.king@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Brittany, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    },
+    {
+        "email_id": "EM-008",
+        "timestamp": "2024-08-25 10:00:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "jeffery.green@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Jeffery, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    },
+    {
+        "email_id": "EM-009",
+        "timestamp": "2024-09-30 15:00:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "katherine.hall@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Katherine, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    },
+    {
+        "email_id": "EM-010",
+        "timestamp": "2024-10-15 11:00:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "ryan.baker@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Ryan, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    },
+    {
+        "email_id": "EM-011",
+        "timestamp": "2024-11-19 16:30:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "angela.phillips@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Angela, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    },
+    {
+        "email_id": "EM-012",
+        "timestamp": "2024-12-24 09:00:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "gary.campbell@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Gary, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    },
+    {
+        "email_id": "EM-013",
+        "timestamp": "2025-01-01 10:00:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "heather.mitchell@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Heather, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    },
+    {
+        "email_id": "EM-014",
+        "timestamp": "2025-02-14 14:00:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "patrick.carter@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Patrick, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    },
+    {
+        "email_id": "EM-015",
+        "timestamp": "2025-03-30 15:30:00+00:00",
+        "sender": "onboarding@taucorp.com",
+        "receiver": "marisa.cole@taucorp.com",
+        "subject": "Welcome to TauCorp!",
+        "text_content": "Hi Marisa, welcome to TauCorp! Your account has been set up and is ready to go. Please log in to complete your profile and get started."
+    }
+]

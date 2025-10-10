@@ -1,0 +1,87 @@
+[
+  {
+    "analysis_id": "comp_001",
+    "project_id": "proj_mobile_01",
+    "compression_type": "crashing",
+    "target_reduction": 14,
+    "achieved_reduction": 12,
+    "total_cost": 6000,
+    "risk_multiplier": 1.0,
+    "affected_milestones": 2,
+    "compression_results": [
+      {
+        "milestone_id": "ms_001",
+        "milestone_name": "Authentication Module Complete",
+        "compression_type": "crashing",
+        "original_duration": 30,
+        "reduction_days": 7,
+        "new_duration": 23,
+        "cost": 3500,
+        "risk_multiplier": 1.0
+      },
+      {
+        "milestone_id": "ms_002",
+        "milestone_name": "Phase 1 Gate Review",
+        "compression_type": "crashing",
+        "original_duration": 14,
+        "reduction_days": 5,
+        "new_duration": 9,
+        "cost": 2500,
+        "risk_multiplier": 1.0
+      }
+    ],
+    "cost_benefit_ratio": 500,
+    "created_date": "2024-03-10T14:00:00Z"
+  },
+  {
+    "analysis_id": "comp_002",
+    "project_id": "proj_ai_01",
+    "compression_type": "fast_tracking",
+    "target_reduction": 21,
+    "achieved_reduction": 18,
+    "total_cost": 0,
+    "risk_multiplier": 2.0,
+    "affected_milestones": 3,
+    "compression_results": [
+      {
+        "milestone_id": "ms_003",
+        "milestone_name": "ML Model Training Complete",
+        "compression_type": "fast_tracking",
+        "original_duration": 60,
+        "reduction_days": 10,
+        "new_duration": 60,
+        "overlap_days": 10,
+        "cost": 0,
+        "risk_multiplier": 2.0
+      }
+    ],
+    "cost_benefit_ratio": 0,
+    "created_date": "2024-02-25T11:00:00Z"
+  },
+  {
+    "analysis_id": "comp_003",
+    "project_id": "proj_enterprise_01",
+    "compression_type": "crashing",
+    "target_reduction": 30,
+    "achieved_reduction": 25,
+    "total_cost": 12500,
+    "risk_multiplier": 1.0,
+    "affected_milestones": 4,
+    "compression_results": [],
+    "cost_benefit_ratio": 500,
+    "created_date": "2024-02-15T09:00:00Z"
+  },
+  {
+    "analysis_id": "comp_004",
+    "project_id": "proj_web_01",
+    "compression_type": "fast_tracking",
+    "target_reduction": 10,
+    "achieved_reduction": 8,
+    "total_cost": 0,
+    "risk_multiplier": 2.0,
+    "affected_milestones": 2,
+    "compression_results": [],
+    "cost_benefit_ratio": 0,
+    "created_date": "2024-03-05T13:00:00Z"
+  }
+]

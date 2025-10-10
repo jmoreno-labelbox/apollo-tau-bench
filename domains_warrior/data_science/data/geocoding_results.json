@@ -1,0 +1,65 @@
+[
+  {
+    "query_city": "San Francisco",
+    "latitude": 37.7749,
+    "longitude": -122.4194,
+    "canonical_name": "San Francisco, CA, United States",
+    "provider": "open-meteo",
+    "raw_json_path_nullable": "/data/raw/geocoding_sf.json",
+    "query_ts": "2024-03-15T08:15:00Z"
+  },
+  {
+    "query_city": "Miami",
+    "latitude": 25.7617,
+    "longitude": -80.1918,
+    "canonical_name": "Miami, FL, United States",
+    "provider": "open-meteo",
+    "raw_json_path_nullable": "/data/raw/geocoding_miami.json",
+    "query_ts": "2024-02-01T09:00:00Z"
+  },
+  {
+    "query_city": "Charleston",
+    "latitude": 32.7765,
+    "longitude": -79.9311,
+    "canonical_name": "Charleston, SC, United States",
+    "provider": "open-meteo",
+    "raw_json_path_nullable": "/data/raw/geocoding_charleston.json",
+    "query_ts": "2024-01-22T16:00:00Z"
+  },
+  {
+    "query_city": "Boston",
+    "latitude": 42.3601,
+    "longitude": -71.0589,
+    "canonical_name": "Boston, MA, United States",
+    "provider": "open-meteo",
+    "raw_json_path_nullable": null,
+    "query_ts": "2024-03-01T12:30:00Z"
+  },
+  {
+    "query_city": "Seattle",
+    "latitude": 47.6062,
+    "longitude": -122.3321,
+    "canonical_name": "Seattle, WA, United States",
+    "provider": "open-meteo",
+    "raw_json_path_nullable": "/data/raw/geocoding_seattle.json",
+    "query_ts": "2024-02-01T14:30:00Z"
+  },
+  {
+    "query_city": "New York",
+    "latitude": 40.7128,
+    "longitude": -74.0060,
+    "canonical_name": "New York, NY, United States",
+    "provider": "open-meteo",
+    "raw_json_path_nullable": "/data/raw/geocoding_nyc.json",
+    "query_ts": "2024-02-10T16:00:00Z"
+  },
+  {
+    "query_city": "Los Angeles",
+    "latitude": 34.0522,
+    "longitude": -118.2437,
+    "canonical_name": "Los Angeles, CA, United States",
+    "provider": "open-meteo",
+    "raw_json_path_nullable": "/data/raw/geocoding_la.json",
+    "query_ts": "2024-02-15T13:45:00Z"
+  }
+]

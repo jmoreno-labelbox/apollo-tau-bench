@@ -1,0 +1,14 @@
+[
+    {"param_name": "default_bid_strategy", "param_value": "lowest_cost", "updated_at": "2025-08-12T00:00:00Z"},
+    {"param_name": "max_daily_budget_total", "param_value": "20000", "updated_at": "2025-08-12T00:00:00Z"},
+    {"param_name": "min_roas_threshold_7d", "param_value": "1.5", "updated_at": "2025-08-12T00:00:00Z"},
+    {"param_name": "creative_rotation_window_days", "param_value": "7", "updated_at": "2025-08-12T00:00:00Z"},
+    {"param_name": "video_cpa_advantage_pct", "param_value": "10", "updated_at": "2025-08-12T00:00:00Z"},
+    {"param_name": "budget_rounding_unit", "param_value": "10", "updated_at": "2025-08-12T00:00:00Z"},
+    {"param_name": "currency", "param_value": "USD", "updated_at": "2025-08-12T00:00:00Z"},
+    {"param_name": "timezone", "param_value": "UTC", "updated_at": "2025-08-12T00:00:00Z"},
+    {"param_name": "max_bid_amount", "param_value": "50", "updated_at": "2025-08-12T00:00:00Z"},
+    {"param_name": "min_budget_allocation", "param_value": "100", "updated_at": "2025-08-12T00:00:00Z"},
+    {"param_name": "canonical_bid_strategies", "param_value": "['lowest_cost', 'cost_cap', 'bid_cap']", "updated_at": "2025-08-12T00:00:00Z"},
+    {"param_name": "canonical_creative_types", "param_value": "['image', 'video', 'carousel']", "updated_at": "2025-08-12T00:00:00Z"}
+]

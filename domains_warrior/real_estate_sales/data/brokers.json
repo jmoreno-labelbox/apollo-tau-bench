@@ -1,0 +1,137 @@
+[
+   {
+     "broker_id": 1,
+     "name": "Alan Hamilton",
+     "email": "matthewgallegos@gill-brown.org",
+     "phone": "(431)251-6747",
+     "office_location": "09403 Barber Ridges Suite 500, Debrabury, LA 46978",
+     "calendar_uri": "http://www.ferguson-king.org/",
+     "active": true
+   },
+   {
+     "broker_id": 2,
+     "name": "John White",
+     "email": "lhunt@yahoo.com",
+     "phone": "(261)523-5688x15718",
+     "office_location": "7415 Novak Streets Apt. 829, South Tanyatown, IN 04702",
+     "calendar_uri": "http://jensen-morales.com/",
+     "active": true
+   },
+   {
+     "broker_id": 3,
+     "name": "Angela Valenzuela",
+     "email": "myersjesse@duncan-mitchell.com",
+     "phone": "603.494.2905",
+     "office_location": "054 Levy Trail Suite 172, West Joanneton, MA 21362",
+     "calendar_uri": "http://www.elliott.com/",
+     "active": true
+   },
+   {
+     "broker_id": 4,
+     "name": "David Robinson",
+     "email": "weissdavid@hickman-perez.com",
+     "phone": "(548)115-8950",
+     "office_location": "26172 Phyllis Drive Apt. 911, Yangtown, LA 91600",
+     "calendar_uri": "https://galvan.net/",
+     "active": true
+   },
+   {
+     "broker_id": 5,
+     "name": "Jonathan Bell",
+     "email": "michaelburns@perez.com",
+     "phone": "+1-919-612-4616x20345",
+     "office_location": "USNV Strickland, FPO AP 98640",
+     "calendar_uri": "http://www.hayden.com/",
+     "active": false
+   },
+   {
+     "broker_id": 6,
+     "name": "Sara Hawkins",
+     "email": "alyssawheeler@gmail.com",
+     "phone": "813-208-6270x6554",
+     "office_location": "6028 Sanders Trail Suite 349, Maddenton, ND 45361",
+     "calendar_uri": "http://anderson.com/",
+     "active": true
+   },
+   {
+     "broker_id": 7,
+     "name": "Brett Middleton",
+     "email": "crystalfernandez@merritt.com",
+     "phone": "047.377.6160x386",
+     "office_location": "588 Brandt Fords Apt. 745, Davidville, LA 97397",
+     "calendar_uri": "http://www.parker-oliver.info/",
+     "active": false
+   },
+   {
+     "broker_id": 8,
+     "name": "Brandon Kerr",
+     "email": "raymondwelch@jimenez.org",
+     "phone": "(164)392-1479x271",
+     "office_location": "Unit 5907 Box 6558, DPO AE 39020",
+     "calendar_uri": "https://www.brown-munoz.com/",
+     "active": true
+   },
+   {
+     "broker_id": 9,
+     "name": "Michael Moreno",
+     "email": "grose@allen-price.com",
+     "phone": "433-497-8640x5510",
+     "office_location": "359 Mcdonald Fields Suite 856, North Sierrastad, NV 80149",
+     "calendar_uri": "https://www.hoffman.info/",
+     "active": true
+   },
+   {
+     "broker_id": 10,
+     "name": "Brett Daniels",
+     "email": "dennispark@roberts.org",
+     "phone": "001-328-262-5231x30421",
+     "office_location": "85158 Valentine Trace, South Lisa, NV 16735",
+     "calendar_uri": "http://boyle.com/",
+     "active": true
+   },
+   {
+     "broker_id": 11,
+     "name": "Gabriel Hardy",
+     "email": "kennedylawrence@brock.net",
+     "phone": "(798)037-3332",
+     "office_location": "976 Brandy Inlet Suite 022, East Pattyport, OR 54751",
+     "calendar_uri": "https://www.howard.biz/",
+     "active": true
+   },
+   {
+     "broker_id": 12,
+     "name": "Gina Ramirez",
+     "email": "reynoldssarah@yahoo.com",
+     "phone": "873.213.5196x15070",
+     "office_location": "558 Karl Locks Apt. 389, Kathrynton, NJ 16817",
+     "calendar_uri": "https://hansen-jensen.com/",
+     "active": true
+   },
+   {
+     "broker_id": 13,
+     "name": "Sherry Warren",
+     "email": "koneal@turner-carney.info",
+     "phone": "001-925-344-4989x6502",
+     "office_location": "6788 Gray Prairie Apt. 751, East James, OR 50529",
+     "calendar_uri": "http://walker-taylor.com/",
+     "active": true
+   },
+   {
+     "broker_id": 14,
+     "name": "Lauren Stark",
+     "email": "johnsonnathan@hotmail.com",
+     "phone": "001-092-339-1970x0769",
+     "office_location": "37770 Anderson Mill, Lake Zacharyborough, MN 02838",
+     "calendar_uri": "http://knapp.com/",
+     "active": false
+   },
+   {
+     "broker_id": 15,
+     "name": "Matthew Brown",
+     "email": "lindsayturner@yahoo.com",
+     "phone": "001-853-418-6004x697",
+     "office_location": "5033 Fleming Islands Suite 325, New Michaelstad, NY 03979",
+     "calendar_uri": "http://williams-todd.com/",
+     "active": true
+   }
+  ]

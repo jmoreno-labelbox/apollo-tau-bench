@@ -1,0 +1,42 @@
+[
+  {
+    "stakeholder_id": "sh_001",
+    "name": "John Smith",
+    "email": "john.smith@company.com",
+    "role": "executive_sponsor",
+    "project_id": "proj_mobile_01",
+    "approval_authority": ["budget", "scope", "timeline"]
+  },
+  {
+    "stakeholder_id": "sh_002",
+    "name": "Sarah Johnson",
+    "email": "sarah.johnson@company.com",
+    "role": "project_manager",
+    "project_id": "proj_mobile_01",
+    "approval_authority": ["scope", "resources"]
+  },
+  {
+    "stakeholder_id": "sh_003",
+    "name": "Michael Chen",
+    "email": "michael.chen@company.com",
+    "role": "pmo_director",
+    "project_id": null,
+    "approval_authority": ["budget", "resources", "timeline"]
+  },
+  {
+    "stakeholder_id": "sh_004",
+    "name": "Lisa Anderson",
+    "email": "lisa.anderson@company.com",
+    "role": "technical_lead",
+    "project_id": "proj_mobile_01",
+    "approval_authority": ["technical", "architecture"]
+  },
+  {
+    "stakeholder_id": "sh_005",
+    "name": "Robert Taylor",
+    "email": "robert.taylor@company.com",
+    "role": "risk_manager",
+    "project_id": null,
+    "approval_authority": ["risk", "compliance"]
+  }
+]

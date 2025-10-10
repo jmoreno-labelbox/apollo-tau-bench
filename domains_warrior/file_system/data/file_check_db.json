@@ -1,0 +1,94 @@
+[
+  {
+    "task_id": "fc_task_001",
+    "user_id": "user_005",
+    "name": "Weekly Log Analysis",
+    "instructions": "Scan /var/log/applications for files accessed within last 7 days, max size 50MB, created by web_service user",
+    "remote_server": "server-prod-01.company.com",
+    "ssh_key": "eve_rsa_key",
+    "completed": false,
+    "created_at": "2024-01-15T10:30:00Z",
+    "priority": "high",
+    "parsed_instructions": {
+      "target_directory": "/var/log/applications",
+      "time_filter": {"days": 7, "type": "accessed_within"},
+      "size_filter": {"max_bytes": 52428800, "max_display": "50MB"},
+      "user_filter": ["web_service"],
+      "file_types": ["*"]
+    }
+  },
+  {
+    "task_id": "fc_task_002",
+    "user_id": "user_001",
+    "name": "Data Directory Cleanup",
+    "instructions": "Find files in /data/temp older than 30 days, max size 100MB, any user",
+    "remote_server": "server-data-01.company.com",
+    "ssh_key": "alice_rsa_key",
+    "completed": false,
+    "created_at": "2024-01-15T14:45:00Z",
+    "priority": "medium",
+    "parsed_instructions": {
+      "target_directory": "/data/temp",
+      "time_filter": {"days": 30, "type": "older_than"},
+      "size_filter": {"max_bytes": 104857600, "max_display": "100MB"},
+      "user_filter": ["*"],
+      "file_types": ["*"]
+    }
+  },
+  {
+    "task_id": "fc_task_003",
+    "user_id": "user_003",
+    "name": "Analytics File Audit",
+    "instructions": "Scan /analytics/reports for CSV files accessed in last 14 days, max size 25MB, created by analyst users",
+    "remote_server": "server-analytics.company.com",
+    "ssh_key": "carol_rsa_key",
+    "completed": true,
+    "created_at": "2024-01-10T09:15:00Z",
+    "completed_at": "2024-01-12T16:30:00Z",
+    "priority": "low",
+    "parsed_instructions": {
+      "target_directory": "/analytics/reports",
+      "time_filter": {"days": 14, "type": "accessed_within"},
+      "size_filter": {"max_bytes": 26214400, "max_display": "25MB"},
+      "user_filter": ["analyst_sarah", "analyst_mike", "analyst_john"],
+      "file_types": ["csv"]
+    }
+  },
+  {
+    "task_id": "fc_task_004",
+    "user_id": "user_002",
+    "name": "Config File Review",
+    "instructions": "Find configuration files in /etc/myapp modified in last 3 days, max size 5MB, root user only",
+    "remote_server": "server-config.company.com",
+    "ssh_key": "bob_rsa_key",
+    "completed": false,
+    "created_at": "2024-01-16T08:20:00Z",
+    "priority": "high",
+    "parsed_instructions": {
+      "target_directory": "/etc/myapp",
+      "time_filter": {"days": 3, "type": "modified_within"},
+      "size_filter": {"max_bytes": 5242880, "max_display": "5MB"},
+      "user_filter": ["root"],
+      "file_types": ["conf", "cfg", "ini", "yaml", "yml", "json"]
+    }
+  },
+  {
+    "task_id": "fc_task_005",
+    "user_id": "user_004",
+    "name": "User Home Scan",
+    "instructions": "Scan /home/users for document files accessed in last 24 hours, max size 10MB, any user",
+    "remote_server": "server-prod-01.company.com",
+    "ssh_key": "dave_rsa_key",
+    "completed": true,
+    "created_at": "2024-01-14T11:00:00Z",
+    "completed_at": "2024-01-14T15:45:00Z",
+    "priority": "low",
+    "parsed_instructions": {
+      "target_directory": "/home/users",
+      "time_filter": {"days": 1, "type": "accessed_within"},
+      "size_filter": {"max_bytes": 10485760, "max_display": "10MB"},
+      "user_filter": ["*"],
+      "file_types": ["txt", "doc", "docx", "pdf", "rtf", "odt"]
+    }
+  }
+]

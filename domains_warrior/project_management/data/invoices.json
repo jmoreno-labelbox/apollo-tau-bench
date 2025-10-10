@@ -1,0 +1,39 @@
+[
+  {
+    "invoice_id": "inv_001",
+    "vendor_id": "vendor_001",
+    "po_number": "PO-2024-001",
+    "invoice_number": "TS-INV-2024-4521",
+    "amount": 125000,
+    "invoice_date": "2024-03-01T00:00:00Z",
+    "due_date": "2024-03-31T00:00:00Z",
+    "status": "pending",
+    "payment_terms": "Net 30"
+  },
+  {
+    "invoice_id": "inv_002",
+    "vendor_id": "vendor_003",
+    "po_number": "PO-2024-003",
+    "invoice_number": "AWS-2024-78543",
+    "amount": 85000,
+    "invoice_date": "2024-02-01T00:00:00Z",
+    "due_date": "2024-03-01T00:00:00Z",
+    "status": "paid",
+    "payment_id": "pay_002",
+    "paid_date": "2024-02-28T14:00:00Z",
+    "payment_terms": "Net 30"
+  },
+  {
+    "invoice_id": "inv_003",
+    "vendor_id": "vendor_004",
+    "po_number": "PO-2024-004",
+    "invoice_number": "FDT-2024-1122",
+    "amount": 22000,
+    "invoice_date": "2024-02-15T00:00:00Z",
+    "due_date": "2024-03-15T00:00:00Z",
+    "status": "paid",
+    "payment_id": "pay_003",
+    "paid_date": "2024-03-10T10:00:00Z",
+    "payment_terms": "Net 30"
+  }
+]

@@ -1,0 +1,379 @@
+[
+  {
+    "id": "bisect_001",
+    "build_run_id": "run_001",
+    "repo": "game-engine",
+    "branch": "feature/new-renderer",
+    "started_at": "2025-01-27T10:20:00Z",
+    "completed_at": "2025-01-27T10:45:00Z",
+    "status": "completed",
+    "first_bad_commit": "abc123def456789",
+    "last_good_commit": "xyz789abc123def",
+    "total_commits_tested": 15,
+    "test_command": "make build-windows-x64",
+    "failure_pattern": "compilation_issue",
+    "failure_message": "issue: 'TextureManager::loadTexture' was not declared in this scope",
+    "suspect_files": [
+      "src/game/engine/renderer.cpp",
+      "src/game/engine/texture_manager.cpp"
+    ],
+    "confidence_score": 0.95,
+    "automated_fix_generated": true,
+    "fix_proposal_id": "fix_001",
+    "bisect_log_uri": "https://logs.techcorp.com/bisect_001/bisect.log",
+    "test_results": [
+      {
+        "commit": "xyz789abc123def",
+        "status": "good",
+        "duration_ms": 120000
+      },
+      {
+        "commit": "abc123def456789",
+        "status": "bad",
+        "duration_ms": 45000
+      }
+    ],
+    "metadata": {
+      "platform": "windows",
+      "architecture": "x64",
+      "compiler": "MSVC 2022",
+      "bisect_tool": "git_bisect"
+    }
+  },
+  {
+    "id": "bisect_002",
+    "build_run_id": "run_003",
+    "repo": "game-engine",
+    "branch": "feature/new-renderer",
+    "started_at": "2025-01-27T10:30:00Z",
+    "completed_at": "2025-01-27T10:55:00Z",
+    "status": "completed",
+    "first_bad_commit": "abc123def456789",
+    "last_good_commit": "xyz789abc123def",
+    "total_commits_tested": 12,
+    "test_command": "make test-unit-windows",
+    "failure_pattern": "test_failure",
+    "failure_message": "RendererTest::TextureLoadingTest failed: Texture loading failed: Invalid format for character_texture.png",
+    "suspect_files": [
+      "src/game/engine/renderer.cpp",
+      "src/game/engine/texture_manager.cpp",
+      "tests/unit/renderer_test.cpp"
+    ],
+    "confidence_score": 0.92,
+    "automated_fix_generated": true,
+    "fix_proposal_id": "fix_002",
+    "bisect_log_uri": "https://logs.techcorp.com/bisect_002/bisect.log",
+    "test_results": [
+      {
+        "commit": "xyz789abc123def",
+        "status": "good",
+        "duration_ms": 80000
+      },
+      {
+        "commit": "abc123def456789",
+        "status": "bad",
+        "duration_ms": 35000
+      }
+    ],
+    "metadata": {
+      "platform": "windows",
+      "architecture": "x64",
+      "test_suite": "unit_tests",
+      "bisect_tool": "git_bisect"
+    }
+  },
+  {
+    "id": "bisect_003",
+    "build_run_id": "run_005",
+    "repo": "game-engine",
+    "branch": "feature/new-renderer",
+    "started_at": "2025-01-27T11:10:00Z",
+    "completed_at": "2025-01-27T11:35:00Z",
+    "status": "completed",
+    "first_bad_commit": "def456abc123789",
+    "last_good_commit": "uvw456def789abc",
+    "total_commits_tested": 8,
+    "test_command": "make test-integration-linux",
+    "failure_pattern": "integration_failure",
+    "failure_message": "MultiplayerTest::ConnectionTest failed: Connection timeout after 30 seconds",
+    "suspect_files": [
+      "src/game/network/connection_manager.cpp",
+      "src/game/network/protocol.cpp",
+      "tests/integration/multiplayer_test.cpp"
+    ],
+    "confidence_score": 0.88,
+    "automated_fix_generated": true,
+    "fix_proposal_id": "fix_003",
+    "bisect_log_uri": "https://logs.techcorp.com/bisect_003/bisect.log",
+    "test_results": [
+      {
+        "commit": "uvw456def789abc",
+        "status": "good",
+        "duration_ms": 180000
+      },
+      {
+        "commit": "def456abc123789",
+        "status": "bad",
+        "duration_ms": 90000
+      }
+    ],
+    "metadata": {
+      "platform": "linux",
+      "architecture": "x64",
+      "test_suite": "integration_tests",
+      "bisect_tool": "git_bisect"
+    }
+  },
+  {
+    "id": "bisect_004",
+    "build_run_id": "run_007",
+    "repo": "game-engine",
+    "branch": "feature/new-renderer",
+    "started_at": "2025-01-27T11:30:00Z",
+    "completed_at": "2025-01-27T11:55:00Z",
+    "status": "completed",
+    "first_bad_commit": "abc123def456789",
+    "last_good_commit": "xyz789abc123def",
+    "total_commits_tested": 20,
+    "test_command": "make performance-test-windows",
+    "failure_pattern": "performance_regression",
+    "failure_message": "Frame rate dropped from 60 FPS to 42 FPS (30% regression)",
+    "suspect_files": [
+      "src/game/engine/renderer.cpp",
+      "src/game/engine/texture_manager.cpp"
+    ],
+    "confidence_score": 0.85,
+    "automated_fix_generated": false,
+    "fix_proposal_id": "fix_005",
+    "bisect_log_uri": "https://logs.techcorp.com/bisect_004/bisect.log",
+    "test_results": [
+      {
+        "commit": "xyz789abc123def",
+        "status": "good",
+        "duration_ms": 300000
+      },
+      {
+        "commit": "abc123def456789",
+        "status": "bad",
+        "duration_ms": 150000
+      }
+    ],
+    "metadata": {
+      "platform": "windows",
+      "architecture": "x64",
+      "test_type": "performance",
+      "bisect_tool": "git_bisect",
+      "performance_threshold": "60_fps"
+    }
+  },
+  {
+    "id": "bisect_005",
+    "build_run_id": "run_010",
+    "repo": "game-engine",
+    "branch": "feature/new-renderer",
+    "started_at": "2025-01-27T12:40:00Z",
+    "completed_at": "2025-01-27T13:05:00Z",
+    "status": "failed",
+    "first_bad_commit": null,
+    "last_good_commit": null,
+    "total_commits_tested": 5,
+    "test_command": "make deploy-staging-windows",
+    "failure_pattern": "deployment_issue",
+    "failure_message": "Kubernetes resource allocation failed: insufficient memory",
+    "suspect_files": [],
+    "confidence_score": 0.0,
+    "automated_fix_generated": false,
+    "fix_proposal_id": null,
+    "bisect_log_uri": "https://logs.techcorp.com/bisect_005/bisect.log",
+    "test_results": [
+      {
+        "commit": "abc123def456789",
+        "status": "bad",
+        "duration_ms": 120000
+      }
+    ],
+    "metadata": {
+      "platform": "windows",
+      "architecture": "x64",
+      "environment": "staging",
+      "bisect_tool": "git_bisect",
+      "failure_reason": "infrastructure_issue"
+    }
+  },
+  {
+    "id": "bisect_006",
+    "build_run_id": "run_006",
+    "repo": "game-assets",
+    "branch": "feature/new-assets",
+    "started_at": "2025-01-27T11:40:00Z",
+    "completed_at": "2025-01-27T11:50:00Z",
+    "status": "completed",
+    "first_bad_commit": "jkl012ghi789def",
+    "last_good_commit": "rst345jkl012ghi",
+    "total_commits_tested": 3,
+    "test_command": "python validate_assets.py",
+    "failure_pattern": "asset_validation_issue",
+    "failure_message": "Asset validation failed: hero_character_diffuse.png exceeds maximum texture size",
+    "suspect_files": [
+      "assets/textures/characters/hero_character_diffuse.png"
+    ],
+    "confidence_score": 0.98,
+    "automated_fix_generated": true,
+    "fix_proposal_id": "fix_004",
+    "bisect_log_uri": "https://logs.techcorp.com/bisect_006/bisect.log",
+    "test_results": [
+      {
+        "commit": "rst345jkl012ghi",
+        "status": "good",
+        "duration_ms": 30000
+      },
+      {
+        "commit": "jkl012ghi789def",
+        "status": "bad",
+        "duration_ms": 15000
+      }
+    ],
+    "metadata": {
+      "asset_type": "textures",
+      "validation_tool": "maya_batch",
+      "bisect_tool": "git_bisect",
+      "max_texture_size": "2048x2048"
+    }
+  },
+  {
+    "id": "bisect_007",
+    "build_run_id": "run_008",
+    "repo": "game-localization",
+    "branch": "feature/localization-update",
+    "started_at": "2025-01-27T12:10:00Z",
+    "completed_at": "2025-01-27T12:15:00Z",
+    "status": "completed",
+    "first_bad_commit": "mno345jkl012ghi",
+    "last_good_commit": "pqr678mno345jkl",
+    "total_commits_tested": 2,
+    "test_command": "python validate_translations.py",
+    "failure_pattern": "localization_issue",
+    "failure_message": "Text overflow detected in German translation for 'ui.main_menu.start_game'",
+    "suspect_files": [
+      "locales/de/ui.json",
+      "locales/fr/ui.json",
+      "locales/ja/ui.json"
+    ],
+    "confidence_score": 0.96,
+    "automated_fix_generated": true,
+    "fix_proposal_id": "fix_006",
+    "bisect_log_uri": "https://logs.techcorp.com/bisect_007/bisect.log",
+    "test_results": [
+      {
+        "commit": "pqr678mno345jkl",
+        "status": "good",
+        "duration_ms": 10000
+      },
+      {
+        "commit": "mno345jkl012ghi",
+        "status": "bad",
+        "duration_ms": 8000
+      }
+    ],
+    "metadata": {
+      "locales": [
+        "de",
+        "fr",
+        "ja"
+      ],
+      "validation_type": "text_overflow",
+      "bisect_tool": "git_bisect",
+      "ui_constraints": "max_width_200px"
+    }
+  },
+  {
+    "id": "bisect_008",
+    "build_run_id": "run_009",
+    "repo": "game-engine",
+    "branch": "feature/new-renderer",
+    "started_at": "2025-01-27T11:45:00Z",
+    "completed_at": "2025-01-27T11:47:00Z",
+    "status": "completed",
+    "first_bad_commit": null,
+    "last_good_commit": null,
+    "total_commits_tested": 0,
+    "test_command": "make security-scan-windows",
+    "failure_pattern": "security_scan",
+    "failure_message": "Security scan completed successfully - no vulnerabilities found",
+    "suspect_files": [],
+    "confidence_score": 1.0,
+    "automated_fix_generated": false,
+    "fix_proposal_id": null,
+    "bisect_log_uri": "https://logs.techcorp.com/bisect_008/bisect.log",
+    "test_results": [
+      {
+        "commit": "abc123def456789",
+        "status": "good",
+        "duration_ms": 135000
+      }
+    ],
+    "metadata": {
+      "platform": "windows",
+      "architecture": "x64",
+      "scan_type": "static_analysis",
+      "bisect_tool": "git_bisect",
+      "vulnerabilities_found": 0
+    }
+  },
+  {
+    "id": "bisect_009",
+    "build_run_id": "run_002",
+    "repo": "game-engine",
+    "branch": "feature/new-renderer",
+    "started_at": "2025-01-27T10:50:00Z",
+    "completed_at": "2025-01-27T10:52:00Z",
+    "status": "skipped",
+    "first_bad_commit": null,
+    "last_good_commit": null,
+    "total_commits_tested": 0,
+    "test_command": "make build-linux-x64",
+    "failure_pattern": null,
+    "failure_message": null,
+    "suspect_files": [],
+    "confidence_score": 0.0,
+    "automated_fix_generated": false,
+    "fix_proposal_id": null,
+    "bisect_log_uri": null,
+    "test_results": [],
+    "metadata": {
+      "platform": "linux",
+      "architecture": "x64",
+      "compiler": "GCC 11.2",
+      "bisect_tool": "git_bisect",
+      "skip_reason": "build_successful"
+    }
+  },
+  {
+    "id": "bisect_010",
+    "build_run_id": "run_004",
+    "repo": "game-engine",
+    "branch": "main",
+    "started_at": "2025-01-27T11:15:00Z",
+    "completed_at": "2025-01-27T11:17:00Z",
+    "status": "skipped",
+    "first_bad_commit": null,
+    "last_good_commit": null,
+    "total_commits_tested": 0,
+    "test_command": "make build-macos-arm64",
+    "failure_pattern": null,
+    "failure_message": null,
+    "suspect_files": [],
+    "confidence_score": 0.0,
+    "automated_fix_generated": false,
+    "fix_proposal_id": null,
+    "bisect_log_uri": null,
+    "test_results": [],
+    "metadata": {
+      "platform": "macos",
+      "architecture": "arm64",
+      "compiler": "Clang 15.0",
+      "bisect_tool": "git_bisect",
+      "skip_reason": "build_successful"
+    }
+  }
+]

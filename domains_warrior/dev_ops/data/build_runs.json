@@ -1,0 +1,354 @@
+[
+  {
+    "id": "run_001",
+    "pipeline_name": "GameEngine-CI",
+    "job_name": "build-windows-x64",
+    "commit_sha": "abc123def456789",
+    "branch": "feature/new-renderer",
+    "initiator": "user_001",
+    "started_at": "2025-01-27T10:00:00Z",
+    "ended_at": "2025-01-27T10:15:30Z",
+    "status": "failed",
+    "artifacts_uri": "https://artifacts.techcorp.com/run_001/",
+    "logs_uri": "https://logs.techcorp.com/run_001/build.log",
+    "repo": "game-engine",
+    "failure_categorization": "compilation_issue",
+    "suspect_change_window": "2025-01-27T09:30:00Z-2025-01-27T10:00:00Z",
+    "bisect_result": "commit_abc123",
+    "fix_proposal_id": "fix_001",
+    "triage_status": "in_progress",
+    "symbolicated_stack_uri": "https://logs.techcorp.com/run_001/stack_trace.txt",
+    "repro_command": "make build-windows-x64",
+    "first_bad_commit": "abc123def456789",
+    "similar_incidents": [
+      "incident_001",
+      "incident_002"
+    ],
+    "metadata": {
+      "platform": "windows",
+      "architecture": "x64",
+      "build_type": "debug",
+      "compiler": "MSVC 2022"
+    },
+    "steps": [
+      {
+        "id": "step_001",
+        "name": "checkout-code",
+        "status": "success",
+        "started_at": "2025-01-27T10:00:00Z",
+        "finished_at": "2025-01-27T10:01:00Z",
+        "duration_ms": 60000,
+        "exit_code": 0,
+        "log_uri": "https://logs.techcorp.com/run_001/step_001/checkout.log"
+      },
+      {
+        "id": "step_002",
+        "name": "install-dependencies",
+        "status": "success",
+        "started_at": "2025-01-27T10:01:00Z",
+        "finished_at": "2025-01-27T10:03:00Z",
+        "duration_ms": 120000,
+        "exit_code": 0,
+        "log_uri": "https://logs.techcorp.com/run_001/step_002/deps.log"
+      },
+      {
+        "id": "step_003",
+        "name": "compile-application",
+        "status": "failed",
+        "started_at": "2025-01-27T10:03:00Z",
+        "finished_at": "2025-01-27T10:15:30Z",
+        "duration_ms": 750000,
+        "exit_code": 1,
+        "log_uri": "https://logs.techcorp.com/run_001/step_003/compile.log"
+      }
+    ]
+  },
+  {
+    "id": "run_002",
+    "pipeline_name": "GameEngine-CI",
+    "job_name": "build-linux-x64",
+    "commit_sha": "def456abc123789",
+    "branch": "feature/new-renderer",
+    "initiator": "user_001",
+    "started_at": "2025-01-27T10:30:00Z",
+    "ended_at": "2025-01-27T10:45:15Z",
+    "status": "success",
+    "artifacts_uri": "https://artifacts.techcorp.com/run_002/",
+    "logs_uri": "https://logs.techcorp.com/run_002/build.log",
+    "repo": "game-engine",
+    "failure_categorization": null,
+    "suspect_change_window": null,
+    "bisect_result": null,
+    "fix_proposal_id": null,
+    "triage_status": null,
+    "symbolicated_stack_uri": null,
+    "repro_command": null,
+    "first_bad_commit": null,
+    "similar_incidents": null,
+    "metadata": {
+      "platform": "linux",
+      "architecture": "x64",
+      "build_type": "debug",
+      "compiler": "GCC 11.2"
+    }
+  },
+  {
+    "id": "run_003",
+    "pipeline_name": "GameEngine-CI",
+    "job_name": "test-unit-windows",
+    "commit_sha": "abc123def456789",
+    "branch": "feature/new-renderer",
+    "initiator": "user_001",
+    "started_at": "2025-01-27T10:20:00Z",
+    "ended_at": "2025-01-27T10:25:45Z",
+    "status": "failed",
+    "artifacts_uri": "https://artifacts.techcorp.com/run_003/",
+    "logs_uri": "https://logs.techcorp.com/run_003/test.log",
+    "repo": "game-engine",
+    "failure_categorization": "test_failure",
+    "suspect_change_window": "2025-01-27T09:30:00Z-2025-01-27T10:00:00Z",
+    "bisect_result": "commit_abc123",
+    "fix_proposal_id": "fix_002",
+    "triage_status": "resolved",
+    "symbolicated_stack_uri": "https://logs.techcorp.com/run_003/test_stack.txt",
+    "repro_command": "make test-unit-windows",
+    "first_bad_commit": "abc123def456789",
+    "similar_incidents": [
+      "incident_003"
+    ],
+    "metadata": {
+      "platform": "windows",
+      "architecture": "x64",
+      "test_suite": "unit_tests",
+      "failing_tests": [
+        "RendererTest::TextureLoadingTest"
+      ]
+    }
+  },
+  {
+    "id": "run_004",
+    "pipeline_name": "GameEngine-CI",
+    "job_name": "build-macos-arm64",
+    "commit_sha": "ghi789def456abc",
+    "branch": "main",
+    "initiator": "user_002",
+    "started_at": "2025-01-27T11:00:00Z",
+    "ended_at": "2025-01-27T11:12:20Z",
+    "status": "success",
+    "artifacts_uri": "https://artifacts.techcorp.com/run_004/",
+    "logs_uri": "https://logs.techcorp.com/run_004/build.log",
+    "repo": "game-engine",
+    "failure_categorization": null,
+    "suspect_change_window": null,
+    "bisect_result": null,
+    "fix_proposal_id": null,
+    "triage_status": null,
+    "symbolicated_stack_uri": null,
+    "repro_command": null,
+    "first_bad_commit": null,
+    "similar_incidents": null,
+    "metadata": {
+      "platform": "macos",
+      "architecture": "arm64",
+      "build_type": "release",
+      "compiler": "Clang 15.0"
+    }
+  },
+  {
+    "id": "run_005",
+    "pipeline_name": "GameEngine-CI",
+    "job_name": "test-integration-linux",
+    "commit_sha": "def456abc123789",
+    "branch": "feature/new-renderer",
+    "initiator": "user_001",
+    "started_at": "2025-01-27T10:50:00Z",
+    "ended_at": "2025-01-27T11:05:30Z",
+    "status": "failed",
+    "artifacts_uri": "https://artifacts.techcorp.com/run_005/",
+    "logs_uri": "https://logs.techcorp.com/run_005/integration.log",
+    "repo": "game-engine",
+    "failure_categorization": "integration_failure",
+    "suspect_change_window": "2025-01-27T09:30:00Z-2025-01-27T10:00:00Z",
+    "bisect_result": "commit_def456",
+    "fix_proposal_id": "fix_003",
+    "triage_status": "pending",
+    "symbolicated_stack_uri": "https://logs.techcorp.com/run_005/integration_stack.txt",
+    "repro_command": "make test-integration-linux",
+    "first_bad_commit": "def456abc123789",
+    "similar_incidents": [
+      "incident_004",
+      "incident_005"
+    ],
+    "metadata": {
+      "platform": "linux",
+      "architecture": "x64",
+      "test_suite": "integration_tests",
+      "failing_tests": [
+        "MultiplayerTest::ConnectionTest",
+        "PhysicsTest::CollisionTest"
+      ]
+    }
+  },
+  {
+    "id": "run_006",
+    "pipeline_name": "AssetPipeline-CI",
+    "job_name": "validate-assets",
+    "commit_sha": "jkl012ghi789def",
+    "branch": "feature/new-assets",
+    "initiator": "user_003",
+    "started_at": "2025-01-27T11:30:00Z",
+    "ended_at": "2025-01-27T11:35:45Z",
+    "status": "failed",
+    "artifacts_uri": "https://artifacts.techcorp.com/run_006/",
+    "logs_uri": "https://logs.techcorp.com/run_006/validation.log",
+    "repo": "game-assets",
+    "failure_categorization": "asset_validation_issue",
+    "suspect_change_window": "2025-01-27T11:00:00Z-2025-01-27T11:30:00Z",
+    "bisect_result": null,
+    "fix_proposal_id": "fix_004",
+    "triage_status": "in_progress",
+    "symbolicated_stack_uri": null,
+    "repro_command": "python validate_assets.py",
+    "first_bad_commit": "jkl012ghi789def",
+    "similar_incidents": [
+      "incident_006"
+    ],
+    "metadata": {
+      "asset_type": "textures",
+      "validation_tool": "maya_batch",
+      "failing_assets": [
+        "hero_character_diffuse.png",
+        "castle_tower.fbx"
+      ]
+    }
+  },
+  {
+    "id": "run_007",
+    "pipeline_name": "GameEngine-CI",
+    "job_name": "performance-test-windows",
+    "commit_sha": "abc123def456789",
+    "branch": "feature/new-renderer",
+    "initiator": "user_001",
+    "started_at": "2025-01-27T11:15:00Z",
+    "ended_at": "2025-01-27T11:25:10Z",
+    "status": "failed",
+    "artifacts_uri": "https://artifacts.techcorp.com/run_007/",
+    "logs_uri": "https://logs.techcorp.com/run_007/performance.log",
+    "repo": "game-engine",
+    "failure_categorization": "performance_regression",
+    "suspect_change_window": "2025-01-27T09:30:00Z-2025-01-27T10:00:00Z",
+    "bisect_result": "commit_abc123",
+    "fix_proposal_id": "fix_005",
+    "triage_status": "manual_review",
+    "symbolicated_stack_uri": "https://logs.techcorp.com/run_007/performance_stack.txt",
+    "repro_command": "make performance-test-windows",
+    "first_bad_commit": "abc123def456789",
+    "similar_incidents": [
+      "incident_007"
+    ],
+    "metadata": {
+      "platform": "windows",
+      "architecture": "x64",
+      "test_type": "performance",
+      "regression": "frame_rate_dropped_30_percent"
+    }
+  },
+  {
+    "id": "run_008",
+    "pipeline_name": "Localization-CI",
+    "job_name": "validate-translations",
+    "commit_sha": "mno345jkl012ghi",
+    "branch": "feature/localization-update",
+    "initiator": "user_004",
+    "started_at": "2025-01-27T12:00:00Z",
+    "ended_at": "2025-01-27T12:05:20Z",
+    "status": "failed",
+    "artifacts_uri": "https://artifacts.techcorp.com/run_008/",
+    "logs_uri": "https://logs.techcorp.com/run_008/localization.log",
+    "repo": "game-localization",
+    "failure_categorization": "localization_issue",
+    "suspect_change_window": "2025-01-27T11:30:00Z-2025-01-27T12:00:00Z",
+    "bisect_result": null,
+    "fix_proposal_id": "fix_006",
+    "triage_status": "resolved",
+    "symbolicated_stack_uri": null,
+    "repro_command": "python validate_translations.py",
+    "first_bad_commit": "mno345jkl012ghi",
+    "similar_incidents": [
+      "incident_008"
+    ],
+    "metadata": {
+      "locales": [
+        "de",
+        "fr",
+        "ja"
+      ],
+      "validation_type": "text_overflow",
+      "failing_keys": [
+        "ui.main_menu.start_game",
+        "ui.settings.audio"
+      ]
+    }
+  },
+  {
+    "id": "run_009",
+    "pipeline_name": "GameEngine-CI",
+    "job_name": "security-scan-windows",
+    "commit_sha": "abc123def456789",
+    "branch": "feature/new-renderer",
+    "initiator": "user_001",
+    "started_at": "2025-01-27T11:40:00Z",
+    "ended_at": "2025-01-27T11:42:15Z",
+    "status": "success",
+    "artifacts_uri": "https://artifacts.techcorp.com/run_009/",
+    "logs_uri": "https://logs.techcorp.com/run_009/security.log",
+    "repo": "game-engine",
+    "failure_categorization": null,
+    "suspect_change_window": null,
+    "bisect_result": null,
+    "fix_proposal_id": null,
+    "triage_status": null,
+    "symbolicated_stack_uri": null,
+    "repro_command": null,
+    "first_bad_commit": null,
+    "similar_incidents": null,
+    "metadata": {
+      "platform": "windows",
+      "architecture": "x64",
+      "scan_type": "static_analysis",
+      "vulnerabilities_found": 0
+    }
+  },
+  {
+    "id": "run_010",
+    "pipeline_name": "GameEngine-CI",
+    "job_name": "deploy-staging-windows",
+    "commit_sha": "abc123def456789",
+    "branch": "feature/new-renderer",
+    "initiator": "user_001",
+    "started_at": "2025-01-27T12:30:00Z",
+    "ended_at": "2025-01-27T12:35:45Z",
+    "status": "failed",
+    "artifacts_uri": "https://artifacts.techcorp.com/run_010/",
+    "logs_uri": "https://logs.techcorp.com/run_010/deploy.log",
+    "repo": "game-engine",
+    "failure_categorization": "deployment_issue",
+    "suspect_change_window": "2025-01-27T09:30:00Z-2025-01-27T10:00:00Z",
+    "bisect_result": null,
+    "fix_proposal_id": "fix_007",
+    "triage_status": "in_progress",
+    "symbolicated_stack_uri": null,
+    "repro_command": "make deploy-staging-windows",
+    "first_bad_commit": "abc123def456789",
+    "similar_incidents": [
+      "incident_009"
+    ],
+    "metadata": {
+      "platform": "windows",
+      "architecture": "x64",
+      "environment": "staging",
+      "deployment_method": "kubernetes",
+      "issue_type": "resource_allocation_failed"
+    }
+  }
+]

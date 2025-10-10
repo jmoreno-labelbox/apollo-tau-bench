@@ -1,0 +1,90 @@
+[
+  {
+    "row_id": "MON001",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-01",
+    "revenue": 892.50,
+    "tax_reserve": 236.51,
+    "profit_flag": "low"
+  },
+  {
+    "row_id": "MON002",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-02",
+    "revenue": 760.00,
+    "tax_reserve": 201.40,
+    "profit_flag": "low"
+  },
+  {
+    "row_id": "MON003",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-03",
+    "revenue": 1275.00,
+    "tax_reserve": 337.88,
+    "profit_flag": "normal"
+  },
+  {
+    "row_id": "MON004",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-04",
+    "revenue": 510.00,
+    "tax_reserve": 135.15,
+    "profit_flag": "low"
+  },
+  {
+    "row_id": "MON005",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-05",
+    "revenue": 975.00,
+    "tax_reserve": 258.38,
+    "profit_flag": "normal"
+  },
+  {
+    "row_id": "MON006",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-06",
+    "revenue": 680.00,
+    "tax_reserve": 180.20,
+    "profit_flag": "normal"
+  },
+  {
+    "row_id": "MON007",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-07",
+    "revenue": 1560.00,
+    "tax_reserve": 413.40,
+    "profit_flag": "high"
+  },
+  {
+    "row_id": "MON008",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-08",
+    "revenue": 1520.00,
+    "tax_reserve": 402.80,
+    "profit_flag": "high"
+  },
+  {
+    "row_id": "MON009",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-09",
+    "revenue": 612.00,
+    "tax_reserve": 162.18,
+    "profit_flag": "normal"
+  },
+  {
+    "row_id": "MON010",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-10",
+    "revenue": 1360.00,
+    "tax_reserve": 360.40,
+    "profit_flag": "normal"
+  },
+  {
+    "row_id": "MON011",
+    "snapshot_id": "SNAP004",
+    "month_year": "2024-11",
+    "revenue": 765.00,
+    "tax_reserve": 202.73,
+    "profit_flag": "normal"
+  }
+]

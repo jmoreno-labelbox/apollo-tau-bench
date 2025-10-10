@@ -1,0 +1,42 @@
+[
+  {
+    "path_id": "cp_001",
+    "project_id": "proj_mobile_01",
+    "critical_tasks": ["task_001", "task_002", "task_003", "task_007"],
+    "total_duration_days": 120,
+    "slack_time": 0,
+    "last_calculated": "2024-03-20T10:00:00Z"
+  },
+  {
+    "path_id": "cp_002",
+    "project_id": "proj_ai_01",
+    "critical_tasks": ["task_014", "task_ml_001", "task_ml_002"],
+    "total_duration_days": 180,
+    "slack_time": 0,
+    "last_calculated": "2024-03-15T14:00:00Z"
+  },
+  {
+    "path_id": "cp_003",
+    "project_id": "proj_enterprise_01",
+    "critical_tasks": ["task_arch_001", "task_arch_002", "task_impl_001"],
+    "total_duration_days": 365,
+    "slack_time": 0,
+    "last_calculated": "2024-03-10T11:00:00Z"
+  },
+  {
+    "path_id": "cp_004",
+    "project_id": "proj_web_01",
+    "critical_tasks": ["task_003", "task_004", "task_ui_001"],
+    "total_duration_days": 150,
+    "slack_time": 0,
+    "last_calculated": "2024-03-18T09:00:00Z"
+  },
+  {
+    "path_id": "cp_005",
+    "project_id": "proj_banking_01",
+    "critical_tasks": ["task_005", "task_sec_001", "task_sec_002"],
+    "total_duration_days": 240,
+    "slack_time": 0,
+    "last_calculated": "2024-03-12T15:00:00Z"
+  }
+]

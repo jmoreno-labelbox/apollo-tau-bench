@@ -1,0 +1,371 @@
+[
+    {
+        "session_id": "S-001",
+        "user_id": "U-001",
+        "start_time": "2025-07-28 13:00:00+00:00",
+        "end_time": "2025-07-28 22:00:00+00:00",
+        "ip_address": "172.16.0.10",
+        "device": "DESKTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-002",
+        "user_id": "U-001",
+        "start_time": "2025-07-29 14:00:00+00:00",
+        "end_time": "2025-07-29 17:00:00+00:00",
+        "ip_address": "2001:db8:85a3::8a2e:370:7334",
+        "device": "LAPTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-003",
+        "user_id": "U-002",
+        "start_time": "2025-07-29 15:00:00+00:00",
+        "end_time": "2025-07-29 21:00:00+00:00",
+        "ip_address": "10.10.1.5",
+        "device": "DESKTOP",
+        "is_mfa": false
+    },
+    {
+        "session_id": "S-004",
+        "user_id": "U-003",
+        "start_time": "2025-07-30 16:00:00+00:00",
+        "end_time": "2025-07-30 23:00:00+00:00",
+        "ip_address": "203.0.113.7",
+        "device": "DESKTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-005",
+        "user_id": "U-004",
+        "start_time": "2025-07-31 13:30:00+00:00",
+        "end_time": "2025-08-01 13:30:00+00:00",
+        "ip_address": "172.16.0.12",
+        "device": "DESKTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-006",
+        "user_id": "U-005",
+        "start_time": "2025-07-31 14:00:00+00:00",
+        "end_time": "2025-07-31 16:00:00+00:00",
+        "ip_address": "198.51.100.1",
+        "device": "MOBILE",
+        "is_mfa": false
+    },
+    {
+        "session_id": "S-007",
+        "user_id": "U-006",
+        "start_time": "2025-08-01 15:00:00+00:00",
+        "end_time": "2025-08-02 15:00:00+00:00",
+        "ip_address": "10.10.1.6",
+        "device": "LAPTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-008",
+        "user_id": "U-007",
+        "start_time": "2025-08-01 16:00:00+00:00",
+        "end_time": "2025-08-01 20:00:00+00:00",
+        "ip_address": "2001:db8:3333:4444:5555:6666:7777:8888",
+        "device": "DESKTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-009",
+        "user_id": "U-008",
+        "start_time": "2025-08-02 17:00:00+00:00",
+        "end_time": "2025-08-02 19:00:00+00:00",
+        "ip_address": "172.16.0.13",
+        "device": "LAPTOP",
+        "is_mfa": false
+    },
+    {
+        "session_id": "S-010",
+        "user_id": "U-009",
+        "start_time": "2025-08-02 18:00:00+00:00",
+        "end_time": "2025-08-03 18:00:00+00:00",
+        "ip_address": "198.51.100.14",
+        "device": "DESKTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-011",
+        "user_id": "U-010",
+        "start_time": "2025-08-03 14:00:00+00:00",
+        "end_time": "2025-08-03 21:00:00+00:00",
+        "ip_address": "10.10.1.10",
+        "device": "DESKTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-012",
+        "user_id": "U-011",
+        "start_time": "2025-08-03 15:00:00+00:00",
+        "end_time": "2025-08-03 16:00:00+00:00",
+        "ip_address": "2001:db8:cafe::1",
+        "device": "MOBILE",
+        "is_mfa": false
+    },
+    {
+        "session_id": "S-013",
+        "user_id": "U-012",
+        "start_time": "2025-08-04 16:00:00+00:00",
+        "end_time": "2025-08-04 18:00:00+00:00",
+        "ip_address": "172.16.0.14",
+        "device": "DESKTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-014",
+        "user_id": "U-013",
+        "start_time": "2025-08-04 17:00:00+00:00",
+        "end_time": "2025-08-05 17:00:00+00:00",
+        "ip_address": "198.51.100.16",
+        "device": "LAPTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-015",
+        "user_id": "U-014",
+        "start_time": "2025-08-05 18:00:00+00:00",
+        "end_time": "2025-08-05 22:00:00+00:00",
+        "ip_address": "10.10.1.14",
+        "device": "DESKTOP",
+        "is_mfa": false
+    },
+    {
+        "session_id": "S-016",
+        "user_id": "U-015",
+        "start_time": "2025-08-05 19:00:00+00:00",
+        "end_time": "2025-08-06 19:00:00+00:00",
+        "ip_address": "2001:db8:face::1",
+        "device": "MOBILE",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-017",
+        "user_id": "U-016",
+        "start_time": "2025-08-06 13:00:00+00:00",
+        "end_time": "2025-08-06 15:00:00+00:00",
+        "ip_address": "10.10.1.16",
+        "device": "DESKTOP",
+        "is_mfa": false
+    },
+    {
+        "session_id": "S-018",
+        "user_id": "U-017",
+        "start_time": "2025-08-06 14:00:00+00:00",
+        "end_time": "2025-08-07 14:00:00+00:00",
+        "ip_address": "172.16.0.15",
+        "device": "LAPTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-019",
+        "user_id": "U-018",
+        "start_time": "2025-08-06 15:00:00+00:00",
+        "end_time": "2025-08-07 15:00:00+00:00",
+        "ip_address": "10.10.1.18",
+        "device": "DESKTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-020",
+        "user_id": "U-019",
+        "start_time": "2025-08-06 16:00:00+00:00",
+        "end_time": "2025-08-07 16:00:00+00:00",
+        "ip_address": "2001:db8:1:1:1:1:1:1",
+        "device": "MOBILE",
+        "is_mfa": false
+    },
+    {
+        "session_id": "S-021",
+        "user_id": "U-020",
+        "start_time": "2025-08-06 17:00:00+00:00",
+        "end_time": "2025-08-07 17:00:00+00:00",
+        "ip_address": "172.16.0.16",
+        "device": "LAPTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-022",
+        "user_id": "U-021",
+        "start_time": "2025-08-06 18:00:00+00:00",
+        "end_time": "2025-08-07 18:00:00+00:00",
+        "ip_address": "198.51.100.20",
+        "device": "DESKTOP",
+        "is_mfa": false
+    },
+    {
+        "session_id": "S-023",
+        "user_id": "U-022",
+        "start_time": "2025-08-06 19:00:00+00:00",
+        "end_time": "2025-08-07 19:00:00+00:00",
+        "ip_address": "10.10.1.21",
+        "device": "MOBILE",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-024",
+        "user_id": "U-023",
+        "start_time": "2025-08-01 20:00:00+00:00",
+        "end_time": "2025-08-02 14:00:00+00:00",
+        "ip_address": "172.16.0.21",
+        "device": "DESKTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-025",
+        "user_id": "U-024",
+        "start_time": "2025-08-01 21:00:00+00:00",
+        "end_time": "2025-08-02 21:00:00+00:00",
+        "ip_address": "10.10.1.23",
+        "device": "LAPTOP",
+        "is_mfa": false
+    },
+    {
+        "session_id": "S-026",
+        "user_id": "U-025",
+        "start_time": "2025-08-02 15:00:00+00:00",
+        "end_time": "2025-08-02 23:00:00+00:00",
+        "ip_address": "198.51.100.22",
+        "device": "DESKTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-027",
+        "user_id": "U-026",
+        "start_time": "2025-08-02 16:00:00+00:00",
+        "end_time": "2025-08-03 14:00:00+00:00",
+        "ip_address": "10.10.1.24",
+        "device": "MOBILE",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-028",
+        "user_id": "U-027",
+        "start_time": "2025-08-03 17:00:00+00:00",
+        "end_time": "2025-08-04 17:00:00+00:00",
+        "ip_address": "172.16.0.23",
+        "device": "DESKTOP",
+        "is_mfa": false
+    },
+    {
+        "session_id": "S-029",
+        "user_id": "U-028",
+        "start_time": "2025-08-03 18:00:00+00:00",
+        "end_time": "2025-08-03 22:00:00+00:00",
+        "ip_address": "10.10.1.25",
+        "device": "LAPTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-030",
+        "user_id": "U-029",
+        "start_time": "2025-08-04 14:00:00+00:00",
+        "end_time": "2025-08-05 14:00:00+00:00",
+        "ip_address": "198.51.100.24",
+        "device": "DESKTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-031",
+        "user_id": "U-030",
+        "start_time": "2025-08-04 15:00:00+00:00",
+        "end_time": "2025-08-04 21:00:00+00:00",
+        "ip_address": "10.10.1.26",
+        "device": "DESKTOP",
+        "is_mfa": false
+    },
+    {
+        "session_id": "S-032",
+        "user_id": "U-001",
+        "start_time": "2025-08-05 13:30:00+00:00",
+        "end_time": "2025-08-05 22:30:00+00:00",
+        "ip_address": "172.16.0.25",
+        "device": "LAPTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-033",
+        "user_id": "U-002",
+        "start_time": "2025-08-05 14:30:00+00:00",
+        "end_time": "2025-08-06 14:30:00+00:00",
+        "ip_address": "10.10.1.27",
+        "device": "DESKTOP",
+        "is_mfa": false
+    },
+    {
+        "session_id": "S-034",
+        "user_id": "U-003",
+        "start_time": "2025-08-06 15:30:00+00:00",
+        "end_time": "2025-08-07 15:30:00+00:00",
+        "ip_address": "198.51.100.26",
+        "device": "MOBILE",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-035",
+        "user_id": "U-004",
+        "start_time": "2025-08-06 16:30:00+00:00",
+        "end_time": "2025-08-06 20:30:00+00:00",
+        "ip_address": "10.10.1.28",
+        "device": "LAPTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-036",
+        "user_id": "U-005",
+        "start_time": "2025-08-06 17:30:00+00:00",
+        "end_time": "2025-08-07 17:30:00+00:00",
+        "ip_address": "172.16.0.27",
+        "device": "DESKTOP",
+        "is_mfa": false
+    },
+    {
+        "session_id": "S-037",
+        "user_id": "U-006",
+        "start_time": "2025-08-06 18:30:00+00:00",
+        "end_time": "2025-08-07 18:30:00+00:00",
+        "ip_address": "10.10.1.29",
+        "device": "MOBILE",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-038",
+        "user_id": "U-007",
+        "start_time": "2025-08-06 19:30:00+00:00",
+        "end_time": "2025-08-07 19:30:00+00:00",
+        "ip_address": "198.51.100.28",
+        "device": "DESKTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-039",
+        "user_id": "U-008",
+        "start_time": "2025-08-06 20:30:00+00:00",
+        "end_time": "2025-08-07 20:30:00+00:00",
+        "ip_address": "10.10.1.30",
+        "device": "LAPTOP",
+        "is_mfa": false
+    },
+    {
+        "session_id": "S-040",
+        "user_id": "U-009",
+        "start_time": "2025-08-06 21:30:00+00:00",
+        "end_time": "2025-08-06 23:00:00+00:00",
+        "ip_address": "172.16.0.29",
+        "device": "DESKTOP",
+        "is_mfa": true
+    },
+    {
+        "session_id": "S-041",
+        "user_id": "U-010",
+        "start_time": "2025-08-06 22:00:00+00:00",
+        "end_time": "2025-08-07 22:00:00+00:00",
+        "ip_address": "10.10.1.31",
+        "device": "MOBILE",
+        "is_mfa": true
+    }
+]

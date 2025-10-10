@@ -1,0 +1,40 @@
+[
+  {
+    "benefit_plan_id": "BEN4001",
+    "name": "Medical – PPO",
+    "provider": "Blue Shield",
+    "employer_coverage_pct": 85,
+    "employee_cost_monthly": 160
+  },
+  {
+    "benefit_plan_id": "BEN4002",
+    "name": "Dental",
+    "provider": "Delta Dental",
+    "employer_coverage_pct": 90,
+    "employee_cost_monthly": 20
+  },
+  {
+    "benefit_plan_id": "BEN4003",
+    "name": "401(k)",
+    "provider": "Vanguard",
+    "match_pct": 4
+  },
+  {
+    "benefit_plan_id": "BEN4004",
+    "name": "Parental Leave",
+    "provider": "Internal Policy",
+    "paid_weeks": 16
+  },
+  {
+    "benefit_plan_id": "BEN4005",
+    "name": "Commuter Stipend – EU",
+    "provider": "HR Europe",
+    "annual_amount": 1200
+  },
+  {
+    "benefit_plan_id": "BEN9999",
+    "name": "Legal Insurance",
+    "provider": "MetLife",
+    "annual_amount": 200
+  }
+]

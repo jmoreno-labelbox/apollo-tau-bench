@@ -1,0 +1,134 @@
+[
+  {
+    "memo_id": "memo_0001",
+    "type": "onboarding",
+    "first_name": "Finley",
+    "last_name": "Robinson",
+    "department": "Marketing",
+    "job_title": "Content Strategist",
+    "start_date": "2025-07-18",
+    "manager_email": "jordan.garcia@example.com",
+    "notes": "Standard onboarding; laptop + M365 + Slack; optional Adobe for Marketing."
+  },
+  {
+    "memo_id": "memo_0002",
+    "type": "onboarding",
+    "first_name": "River",
+    "last_name": "Scott",
+    "department": "Marketing",
+    "job_title": "Content Strategist",
+    "start_date": "2025-08-03",
+    "manager_email": "jordan.garcia@example.com",
+    "notes": "Standard onboarding; laptop + M365 + Slack; optional Adobe for Marketing."
+  },
+  {
+    "memo_id": "memo_0003",
+    "type": "onboarding",
+    "first_name": "Alex",
+    "last_name": "Brown",
+    "department": "HR",
+    "job_title": "HRBP",
+    "start_date": "2025-07-21",
+    "manager_email": "avery.lee@example.com",
+    "notes": "Standard onboarding; laptop + M365 + Slack; optional Adobe for Marketing."
+  },
+  {
+    "memo_id": "memo_0004",
+    "type": "onboarding",
+    "first_name": "Cameron",
+    "last_name": "Wilson",
+    "department": "Support",
+    "job_title": "Support Manager",
+    "start_date": "2025-07-19",
+    "manager_email": "casey.smith@example.com",
+    "notes": "Standard onboarding; laptop + M365 + Slack; optional Adobe for Marketing."
+  },
+  {
+    "memo_id": "memo_0005",
+    "type": "onboarding",
+    "first_name": "Taylor",
+    "last_name": "Patel",
+    "department": "Operations",
+    "job_title": "Ops Coordinator",
+    "start_date": "2025-07-19",
+    "manager_email": "taylor.patel@example.com",
+    "notes": "Standard onboarding; laptop + M365 + Slack; optional Adobe for Marketing."
+  },
+  {
+    "memo_id": "memo_0006",
+    "type": "onboarding",
+    "first_name": "Avery",
+    "last_name": "Lee",
+    "department": "HR",
+    "job_title": "HRBP",
+    "start_date": "2025-07-20",
+    "manager_email": "avery.lee@example.com",
+    "notes": "Standard onboarding; laptop + M365 + Slack; optional Adobe for Marketing."
+  },
+  {
+    "memo_id": "memo_0007",
+    "type": "onboarding",
+    "first_name": "Jordan",
+    "last_name": "Garcia",
+    "department": "Marketing",
+    "job_title": "Content Strategist",
+    "start_date": "2025-08-01",
+    "manager_email": "jordan.garcia@example.com",
+    "notes": "Standard onboarding; laptop + M365 + Slack; optional Adobe for Marketing."
+  },
+  {
+    "memo_id": "memo_0008",
+    "type": "onboarding",
+    "first_name": "Drew",
+    "last_name": "Nelson",
+    "department": "Support",
+    "job_title": "Support Manager",
+    "start_date": "2025-07-30",
+    "manager_email": "casey.smith@example.com",
+    "notes": "Standard onboarding; laptop + M365 + Slack; optional Adobe for Marketing."
+  },
+  {
+    "memo_id": "memo_0009",
+    "type": "offboarding",
+    "first_name": "Parker",
+    "last_name": "Davis",
+    "department": "IT",
+    "job_title": "Systems Engineer",
+    "end_date": "2025-06-17",
+    "manager_email": "morgan.nguyen@example.com",
+    "notes": "Immediate access disable; archive mailbox; device return within 7 days."
+  },
+  {
+    "memo_id": "memo_0010",
+    "type": "offboarding",
+    "first_name": "Parker",
+    "last_name": "Davis",
+    "department": "IT",
+    "job_title": "Systems Engineer",
+    "end_date": "2025-06-27",
+    "manager_email": "morgan.nguyen@example.com",
+    "notes": "Immediate access disable; archive mailbox; device return within 7 days."
+  },
+  {
+    "memo_id": "memo_0011",
+    "type": "offboarding",
+    "first_name": "Parker",
+    "last_name": "Davis",
+    "department": "IT",
+    "job_title": "Systems Engineer",
+    "end_date": "2025-06-23",
+    "manager_email": "morgan.nguyen@example.com",
+    "notes": "Immediate access disable; archive mailbox; device return within 7 days."
+  },
+  {
+    "memo_id": "memo_0012",
+    "type": "offboarding",
+    "first_name": "Remy",
+    "last_name": "White",
+    "department": "Operations",
+    "job_title": "Operations Manager",
+    "end_date": "2025-06-28",
+    "manager_email": "taylor.patel@example.com",
+    "notes": "Immediate access disable; archive mailbox; device return within 7 days."
+  }
+]

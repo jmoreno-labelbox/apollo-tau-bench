@@ -1,0 +1,17 @@
+[
+  {"entry_id": 6101, "meal_plan_id": 6001, "plan_date": "2025-08-25", "meal_type": "Dinner", "recipe_id": 402, "servings_adult": 2, "servings_child": 1, "notes": "Reduce chili powder for child"},
+  {"entry_id": 6102, "meal_plan_id": 6001, "plan_date": "2025-08-26", "meal_type": "Dinner", "recipe_id": 401, "servings_adult": 2, "servings_child": 1, "notes": "Cut pasta shorter"},
+  {"entry_id": 6103, "meal_plan_id": 6001, "plan_date": "2025-08-27", "meal_type": "Dinner", "recipe_id": 404, "servings_adult": 2, "servings_child": 1, "notes": "Flake salmon"},
+  {"entry_id": 6104, "meal_plan_id": 6001, "plan_date": "2025-08-28", "meal_type": "Dinner", "recipe_id": 403, "servings_adult": 2, "servings_child": 1, "notes": "Mild curry"},
+  {"entry_id": 6105, "meal_plan_id": 6001, "plan_date": "2025-08-29", "meal_type": "Dinner", "recipe_id": 405, "servings_adult": 2, "servings_child": 1, "notes": "Crispy tofu"},
+  {"entry_id": 6106, "meal_plan_id": 6001, "plan_date": "2025-08-30", "meal_type": "Dinner", "recipe_id": 406, "servings_adult": 2, "servings_child": 1, "notes": "Less lemon for child"},
+  {"entry_id": 6107, "meal_plan_id": 6001, "plan_date": "2025-08-31", "meal_type": "Dinner", "recipe_id": 407, "servings_adult": 2, "servings_child": 1, "notes": "Reduce spice"},
+
+  {"entry_id": 6111, "meal_plan_id": 6002, "plan_date": "2025-08-25", "meal_type": "Dinner", "recipe_id": 408, "servings_adult": 2, "servings_child": 1, "notes": "Blend half for smoother texture"},
+  {"entry_id": 6112, "meal_plan_id": 6002, "plan_date": "2025-08-26", "meal_type": "Dinner", "recipe_id": 401, "servings_adult": 2, "servings_child": 1, "notes": "Cut pasta shorter"},
+  {"entry_id": 6113, "meal_plan_id": 6002, "plan_date": "2025-08-27", "meal_type": "Dinner", "recipe_id": 402, "servings_adult": 2, "servings_child": 1, "notes": "Peanut-free confirmed"},
+  {"entry_id": 6114, "meal_plan_id": 6002, "plan_date": "2025-08-28", "meal_type": "Dinner", "recipe_id": 404, "servings_adult": 2, "servings_child": 1, "notes": "Flake salmon"},
+  {"entry_id": 6115, "meal_plan_id": 6002, "plan_date": "2025-08-29", "meal_type": "Dinner", "recipe_id": 405, "servings_adult": 2, "servings_child": 1, "notes": "Tofu well-cooked"},
+  {"entry_id": 6116, "meal_plan_id": 6002, "plan_date": "2025-08-30", "meal_type": "Dinner", "recipe_id": 406, "servings_adult": 2, "servings_child": 1, "notes": "Add cheese for child"},
+  {"entry_id": 6117, "meal_plan_id": 6002, "plan_date": "2025-08-31", "meal_type": "Dinner", "recipe_id": 407, "servings_adult": 2, "servings_child": 1, "notes": "Low spice"}
+]

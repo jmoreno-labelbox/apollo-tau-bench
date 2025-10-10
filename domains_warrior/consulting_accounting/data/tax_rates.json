@@ -1,0 +1,22 @@
+[
+  {
+    "tax_rate_id": "TAX2022",
+    "tax_year": 2022,
+    "rate_percent": 26.5
+  },
+  {
+    "tax_rate_id": "TAX2023",
+    "tax_year": 2023,
+    "rate_percent": 26.5
+  },
+  {
+    "tax_rate_id": "TAX2024",
+    "tax_year": 2024,
+    "rate_percent": 26.5
+  },
+  {
+    "tax_rate_id": "TAX2025",
+    "tax_year": 2025,
+    "rate_percent": 26.5
+  }
+]

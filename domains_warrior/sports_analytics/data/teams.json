@@ -1,0 +1,72 @@
+[
+  {
+    "team_id": 1,
+    "team_name": "Yankees",
+    "abbreviation": "YAN",
+    "league": "AL",
+    "division": "East"
+  },
+  {
+    "team_id": 2,
+    "team_name": "Red Sox",
+    "abbreviation": "RED",
+    "league": "AL",
+    "division": "East"
+  },
+  {
+    "team_id": 3,
+    "team_name": "Blue Jays",
+    "abbreviation": "BLU",
+    "league": "AL",
+    "division": "East"
+  },
+  {
+    "team_id": 4,
+    "team_name": "Orioles",
+    "abbreviation": "ORI",
+    "league": "AL",
+    "division": "East"
+  },
+  {
+    "team_id": 5,
+    "team_name": "Rays",
+    "abbreviation": "RAY",
+    "league": "AL",
+    "division": "East"
+  },
+  {
+    "team_id": 6,
+    "team_name": "White Sox",
+    "abbreviation": "CHW",
+    "league": "AL",
+    "division": "Central"
+  },
+  {
+    "team_id": 7,
+    "team_name": "Guardians",
+    "abbreviation": "CLE",
+    "league": "AL",
+    "division": "Central"
+  },
+  {
+    "team_id": 8,
+    "team_name": "Tigers",
+    "abbreviation": "DET",
+    "league": "AL",
+    "division": "Central"
+  },
+  {
+    "team_id": 9,
+    "team_name": "Royals",
+    "abbreviation": "KC",
+    "league": "AL",
+    "division": "Central"
+  },
+  {
+    "team_id": 10,
+    "team_name": "Twins",
+    "abbreviation": "MIN",
+    "league": "AL",
+    "division": "Central"
+  }
+]

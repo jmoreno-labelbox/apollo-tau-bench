@@ -1,0 +1,62 @@
+[
+    {
+      "lender_id": 1,
+      "name": "Davis-Cook Mortgage",
+      "phone": "767-952-6080x18666",
+      "website": "https://www.nelson-roberson.com/"
+    },
+    {
+      "lender_id": 2,
+      "name": "Perry PLC Mortgage",
+      "phone": "(023)707-5540x05296",
+      "website": "http://www.castro.info/"
+    },
+    {
+      "lender_id": 3,
+      "name": "Leach-Pierce Mortgage",
+      "phone": "+1-933-662-1986x79258",
+      "website": "https://www.alexander-bowen.net/"
+    },
+    {
+      "lender_id": 4,
+      "name": "Bailey LLC Mortgage",
+      "phone": "918.470.6843x0662",
+      "website": "http://guerrero.com/"
+    },
+    {
+      "lender_id": 5,
+      "name": "Marsh, Riggs and Donaldson Mortgage",
+      "phone": "001-417-062-5356x1994",
+      "website": "https://lawrence.info/"
+    },
+    {
+      "lender_id": 6,
+      "name": "Miller, Stewart and Thomas Mortgage",
+      "phone": "+1-596-685-6723x620",
+      "website": "http://mclaughlin.biz/"
+    },
+    {
+      "lender_id": 7,
+      "name": "Gonzalez and Sons Mortgage",
+      "phone": "+1-931-810-2194x064",
+      "website": "https://www.gomez.net/"
+    },
+    {
+      "lender_id": 8,
+      "name": "Baker Group Mortgage",
+      "phone": "4327595213",
+      "website": "https://www.rose.biz/"
+    },
+    {
+      "lender_id": 9,
+      "name": "Schwartz-Cameron Mortgage",
+      "phone": "668-581-4702x3295",
+      "website": "https://harris-navarro.com/"
+    },
+    {
+      "lender_id": 10,
+      "name": "Anderson, Carlson and Martin Mortgage",
+      "phone": "(999)138-4333",
+      "website": "http://www.luna.com/"
+  }
+]

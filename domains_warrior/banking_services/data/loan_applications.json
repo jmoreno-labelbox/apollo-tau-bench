@@ -1,0 +1,622 @@
+[
+  {
+    "application_id": "app_e3a1b4c2-8d7e-4f6a-9c8b-2a1d5e8c7b4f",
+    "customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",
+    "existing_customer": true,
+    "applicant_info": {
+      "first_name": "David",
+      "last_name": "Chen",
+      "date_of_birth": "1978-11-30",
+      "email_address": "david.chen@example.com",
+      "phone_number": "555-987-6543",
+      "address": "789 Pine Ln, Metropolis, NY 10001, USA"
+    },
+    "loan_details": {
+      "loan_type": "Mortgage",
+      "requested_amount": 750000.00,
+      "requested_term_months": 360,
+      "purpose": "Primary Residence Purchase"
+    },
+    "financial_snapshot": {
+      "employment_status": "Employed",
+      "employer_name": "City General Hospital",
+      "annual_income": 250000,
+      "monthly_debt_payments": 2500.00
+    },
+    "application_status": "Approved",
+    "decision": {
+      "decision_date": "2021-06-10",
+      "approved_amount": 750000.00,
+      "interest_rate": 3.25,
+      "rejection_reason": null
+    },
+    "submission_date": "2021-05-25T10:00:00Z"
+  },
+  {
+    "application_id": "app_f8c2d5e3-9a6b-5g4h-8d7e-3b2a1c5d9f8c",
+    "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
+    "existing_customer": true,
+    "applicant_info": {
+      "first_name": "John",
+      "last_name": "Doe",
+      "date_of_birth": "1985-05-15",
+      "email_address": "john.doe@example.com",
+      "phone_number": "123-456-7890",
+      "address": "123 Main St, Anytown, CA 12345, USA"
+    },
+    "loan_details": {
+      "loan_type": "Auto",
+      "requested_amount": 35000.00,
+      "requested_term_months": 60,
+      "purpose": "New Car Purchase"
+    },
+    "financial_snapshot": {
+      "employment_status": "Employed",
+      "employer_name": "Tech Solutions Inc.",
+      "annual_income": 120000,
+      "monthly_debt_payments": 1200.00
+    },
+    "application_status": "Approved",
+    "decision": {
+      "decision_date": "2022-01-15",
+      "approved_amount": 35000.00,
+      "interest_rate": 4.5,
+      "rejection_reason": null
+    },
+    "submission_date": "2022-01-10T14:30:00Z"
+  },
+  {
+    "application_id": "app_a9b8c7d6-5e4f-3a2b-1c9d-8e7f6a5b4c3d",
+    "customer_id": null,
+    "existing_customer": false,
+    "applicant_info": {
+      "first_name": "Emily",
+      "last_name": "Carter",
+      "date_of_birth": "1993-02-14",
+      "email_address": "emily.c@email.com",
+      "phone_number": "555-555-5555",
+      "address": "456 Oak Avenue, Springfield, IL 62704, USA"
+    },
+    "loan_details": {
+      "loan_type": "Personal",
+      "requested_amount": 15000.00,
+      "requested_term_months": 48,
+      "purpose": "Debt Consolidation"
+    },
+    "financial_snapshot": {
+      "employment_status": "Employed",
+      "employer_name": "Innovate Corp",
+      "annual_income": 72000,
+      "monthly_debt_payments": 1500.00
+    },
+    "application_status": "Rejected",
+    "decision": {
+      "decision_date": "2023-10-20",
+      "approved_amount": null,
+      "interest_rate": null,
+      "rejection_reason": "High debt-to-income ratio"
+    },
+    "submission_date": "2023-10-18T09:00:00Z"
+  },
+  {
+    "application_id": "app_b1c2d3e4-f5a6-b7c8-d9e0-f1a2b3c4d5e6",
+    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11",
+    "existing_customer": true,
+    "applicant_info": {
+      "first_name": "Liam",
+      "last_name": "O'Connor",
+      "date_of_birth": "1980-09-17",
+      "email_address": "liam.oconnor@example.ie",
+      "phone_number": "+353 87 123 4567",
+      "address": "Cottage 5, County Clare, Ennis, V95 Y0F7, Ireland"
+    },
+    "loan_details": {
+      "loan_type": "Business",
+      "requested_amount": 75000.00,
+      "requested_term_months": 84,
+      "purpose": "Farm Expansion"
+    },
+    "financial_snapshot": {
+      "employment_status": "Self-Employed",
+      "employer_name": "Green Acre Farms",
+      "annual_income": 60000,
+      "monthly_debt_payments": 500.00
+    },
+    "application_status": "Approved",
+    "decision": {
+      "decision_date": "2020-02-25",
+      "approved_amount": 75000.00,
+      "interest_rate": 6.2,
+      "rejection_reason": null
+    },
+    "submission_date": "2020-02-10T11:00:00Z"
+  },
+  {
+    "application_id": "app_c2d3e4f5-a6b7-c8d9-e0f1-a2b3c4d5e6f7",
+    "customer_id": null,
+    "existing_customer": false,
+    "applicant_info": {
+      "first_name": "Wei",
+      "last_name": "Zhang",
+      "date_of_birth": "1988-08-08",
+      "email_address": "wei.zhang@email.cn",
+      "phone_number": "+86 139 1234 5678",
+      "address": "100 Nanjing Road, Shanghai, 200000, China"
+    },
+    "loan_details": {
+      "loan_type": "Mortgage",
+      "requested_amount": 1200000.00,
+      "requested_term_months": 360,
+      "purpose": "First Home Purchase"
+    },
+    "financial_snapshot": {
+      "employment_status": "Employed",
+      "employer_name": "Global Trade Co.",
+      "annual_income": 350000,
+      "monthly_debt_payments": 4000.00
+    },
+    "application_status": "Under Review",
+    "decision": null,
+    "submission_date": "2023-10-25T16:00:00Z"
+  },
+  {
+    "application_id": "app_d3e4f5a6-b7c8-d9e0-f1a2-b3c4d5e6f7g8",
+    "customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9",
+    "existing_customer": true,
+    "applicant_info": {
+      "first_name": "Maria",
+      "last_name": "Garcia",
+      "date_of_birth": "1995-02-18",
+      "email_address": "maria.garcia@example.com",
+      "phone_number": "555-111-2222",
+      "address": "321 University Ave, College Town, TX 77840, USA"
+    },
+    "loan_details": {
+      "loan_type": "Auto",
+      "requested_amount": 15000.00,
+      "requested_term_months": 48,
+      "purpose": "Used Car Purchase"
+    },
+    "financial_snapshot": {
+      "employment_status": "Part-Time",
+      "employer_name": "State University Cafeteria",
+      "annual_income": 15000,
+      "monthly_debt_payments": 200.00
+    },
+    "application_status": "Rejected",
+    "decision": {
+      "decision_date": "2023-09-12",
+      "approved_amount": null,
+      "interest_rate": null,
+      "rejection_reason": "Insufficient income"
+    },
+    "submission_date": "2023-09-10T13:20:00Z"
+  },
+  {
+    "application_id": "app_e4f5a6b7-c8d9-e0f1-a2b3-c4d5e6f7g8h9",
+    "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2",
+    "existing_customer": true,
+    "applicant_info": {
+      "first_name": "Chloe",
+      "last_name": "Dubois",
+      "date_of_birth": "1998-06-22",
+      "email_address": "chloe.dubois@example.fr",
+      "phone_number": "+33 6 12 34 56 78",
+      "address": "50 Rue de Rivoli, Paris, 75001, France"
+    },
+    "loan_details": {
+      "loan_type": "Personal",
+      "requested_amount": 5000.00,
+      "requested_term_months": 24,
+      "purpose": "Emergency Medical Expenses"
+    },
+    "financial_snapshot": {
+      "employment_status": "Employed",
+      "employer_name": "Le Croissant Doré",
+      "annual_income": 45000,
+      "monthly_debt_payments": 800.00
+    },
+    "application_status": "Approved",
+    "decision": {
+      "decision_date": "2023-08-12",
+      "approved_amount": 5000.00,
+      "interest_rate": 12.0,
+      "rejection_reason": null
+    },
+    "submission_date": "2023-08-10T18:00:00Z"
+  },
+  {
+    "application_id": "app_f5a6b7c8-d9e0-f1a2-b3c4-d5e6f7g8h9i0",
+    "customer_id": null,
+    "existing_customer": false,
+    "applicant_info": {
+      "first_name": "Samuel",
+      "last_name": "Jones",
+      "date_of_birth": "1975-04-21",
+      "email_address": "sam.jones@email.com",
+      "phone_number": "555-867-5309",
+      "address": "789 Maple Street, Smalltown, OH 43074, USA"
+    },
+    "loan_details": {
+      "loan_type": "Auto",
+      "requested_amount": 25000.00,
+      "requested_term_months": 60,
+      "purpose": "New Truck Purchase"
+    },
+    "financial_snapshot": {
+      "employment_status": "Employed",
+      "employer_name": "Construction LLC",
+      "annual_income": 85000,
+      "monthly_debt_payments": 2200.00
+    },
+    "application_status": "Under Review",
+    "decision": null,
+    "submission_date": "2023-10-26T10:15:00Z"
+  },
+  {
+    "application_id": "app_a6b7c8d9-e0f1-a2b3-c4d5-e6f7g8h9i0j1",
+    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23",
+    "existing_customer": true,
+    "applicant_info": {
+      "first_name": "Adetokunbo",
+      "last_name": "Adebayor",
+      "date_of_birth": "1984-08-08",
+      "email_address": "ade.adebayor@example.ng",
+      "phone_number": "+234 801 234 5678",
+      "address": "100 Awolowo Road, Ikoyi, Lagos, 101233, Nigeria"
+    },
+    "loan_details": {
+      "loan_type": "Business",
+      "requested_amount": 10000000.00,
+      "requested_term_months": 60,
+      "purpose": "Startup Capital"
+    },
+    "financial_snapshot": {
+      "employment_status": "Self-Employed",
+      "employer_name": "Self-Employed",
+      "annual_income": 40000000,
+      "monthly_debt_payments": 100000.00
+    },
+    "application_status": "Approved",
+    "decision": {
+      "decision_date": "2022-03-15",
+      "approved_amount": 10000000.00,
+      "interest_rate": 8.0,
+      "rejection_reason": null
+    },
+    "submission_date": "2022-02-28T12:00:00Z"
+  },
+  {
+    "application_id": "app_b7c8d9e0-f1a2-b3c4-d5e6-f7g8h9i0j1k2",
+    "customer_id": null,
+    "existing_customer": false,
+    "applicant_info": {
+      "first_name": "Beatriz",
+      "last_name": "Costa",
+      "date_of_birth": "1999-11-30",
+      "email_address": "beatriz.c@email.com.br",
+      "phone_number": "+55 11 91234-5678",
+      "address": "Rua Augusta, 100, São Paulo, SP 01304-000, Brazil"
+    },
+    "loan_details": {
+      "loan_type": "Student",
+      "requested_amount": 50000.00,
+      "requested_term_months": 120,
+      "purpose": "Masters Degree"
+    },
+    "financial_snapshot": {
+      "employment_status": "Student",
+      "employer_name": null,
+      "annual_income": 0,
+      "monthly_debt_payments": 0.00
+    },
+    "application_status": "Submitted",
+    "decision": null,
+    "submission_date": "2023-10-27T11:45:00Z"
+  },
+  {
+    "application_id": "app_c8d9e0f1-a2b3-c4d5-e6f7-g8h9i0j1k2l3",
+    "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-24",
+    "existing_customer": true,
+    "applicant_info": {
+      "first_name": "Elena",
+      "last_name": "Popescu",
+      "date_of_birth": "1960-01-01",
+      "email_address": "elena.popescu@example.ro",
+      "phone_number": "+40 21 123 45 67",
+      "address": "Calea Victoriei 100, Bucharest, 010082, Romania"
+    },
+    "loan_details": {
+      "loan_type": "Personal",
+      "requested_amount": 3000.00,
+      "requested_term_months": 12,
+      "purpose": "Home Appliance Purchase"
+    },
+    "financial_snapshot": {
+      "employment_status": "Retired",
+      "employer_name": null,
+      "annual_income": 36000,
+      "monthly_debt_payments": 100.00
+    },
+    "application_status": "Withdrawn",
+    "decision": null,
+    "submission_date": "2023-05-10T10:00:00Z"
+  },
+  {
+    "application_id": "app_d9e0f1a2-b3c4-d5e6-f7g8-h9i0j1k2l3m4",
+    "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19",
+    "existing_customer": true,
+    "applicant_info": {
+      "first_name": "Santiago",
+      "last_name": "Muñoz",
+      "date_of_birth": "1991-04-03",
+      "email_address": "santiago.munoz@example.cl",
+      "phone_number": "+56 9 1234 5678",
+      "address": "Avenida Libertador Bernardo O'Higgins 108, Santiago, 8340518, Chile"
+    },
+    "loan_details": {
+      "loan_type": "Mortgage",
+      "requested_amount": 250000000.00,
+      "requested_term_months": 240,
+      "purpose": "Apartment Purchase"
+    },
+    "financial_snapshot": {
+      "employment_status": "Employed",
+      "employer_name": "Atacama Observatory",
+      "annual_income": 60000000,
+      "monthly_debt_payments": 500000.00
+    },
+    "application_status": "Under Review",
+    "decision": null,
+    "submission_date": "2023-10-20T15:00:00Z"
+  },
+  {
+    "application_id": "app_e0f1a2b3-c4d5-e6f7-g8h9-i0j1k2l3m4n5",
+    "customer_id": null,
+    "existing_customer": false,
+    "applicant_info": {
+      "first_name": "Amelia",
+      "last_name": "Wilson",
+      "date_of_birth": "2002-06-18",
+      "email_address": "amelia.w@email.co.uk",
+      "phone_number": "+44 7700 900888",
+      "address": "15 King's Parade, Cambridge, CB2 1SP, United Kingdom"
+    },
+    "loan_details": {
+      "loan_type": "Student",
+      "requested_amount": 9250.00,
+      "requested_term_months": 120,
+      "purpose": "Tuition Fees"
+    },
+    "financial_snapshot": {
+      "employment_status": "Student",
+      "employer_name": null,
+      "annual_income": 0,
+      "monthly_debt_payments": 0.00
+    },
+    "application_status": "Approved",
+    "decision": {
+      "decision_date": "2023-08-25",
+      "approved_amount": 9250.00,
+      "interest_rate": 6.5,
+      "rejection_reason": null
+    },
+    "submission_date": "2023-08-01T14:00:00Z"
+  },
+  {
+    "application_id": "app_f1a2b3c4-d5e6-f7g8-h9i0-j1k2l3m4n5o6",
+    "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-25",
+    "existing_customer": true,
+    "applicant_info": {
+      "first_name": "Mohammed",
+      "last_name": "Al-Masri",
+      "date_of_birth": "1983-12-12",
+      "email_address": "mo.almasri@example.eg",
+      "phone_number": "+20 100 123 4567",
+      "address": "26 July Corridor, Cairo, 11511, Egypt"
+    },
+    "loan_details": {
+      "loan_type": "Personal",
+      "requested_amount": 100000.00,
+      "requested_term_months": 48,
+      "purpose": "Business Investment"
+    },
+    "financial_snapshot": {
+      "employment_status": "Employed",
+      "employer_name": "Nile Construction",
+      "annual_income": 900000,
+      "monthly_debt_payments": 25000.00
+    },
+    "application_status": "Approved",
+    "decision": {
+      "decision_date": "2023-03-28",
+      "approved_amount": 100000.00,
+      "interest_rate": 15.0,
+      "rejection_reason": null
+    },
+    "submission_date": "2023-03-20T09:30:00Z"
+  },
+  {
+    "application_id": "app_a2b3c4d5-e6f7-g8h9-i0j1-k2l3m4n5o6p7",
+    "customer_id": null,
+    "existing_customer": false,
+    "applicant_info": {
+      "first_name": "Leo",
+      "last_name": "Virtanen",
+      "date_of_birth": "1995-10-05",
+      "email_address": "leo.v@email.fi",
+      "phone_number": "+358 40 1234567",
+      "address": "Mannerheimintie 1, Helsinki, 00100, Finland"
+    },
+    "loan_details": {
+      "loan_type": "Mortgage",
+      "requested_amount": 300000.00,
+      "requested_term_months": 300,
+      "purpose": "Apartment in Helsinki"
+    },
+    "financial_snapshot": {
+      "employment_status": "Employed",
+      "employer_name": "Nordic Solutions",
+      "annual_income": 65000,
+      "monthly_debt_payments": 1200.00
+    },
+    "application_status": "Under Review",
+    "decision": null,
+    "submission_date": "2023-10-27T08:00:00Z"
+  },
+  {
+    "application_id": "app_a3b4c5d6-e7f8-g9h0-i1j2-k3l4m5n6o7p8",
+    "customer_id": null,
+    "existing_customer": false,
+    "applicant_info": {
+      "first_name": "Kenji",
+      "last_name": "Tanaka",
+      "date_of_birth": "1985-04-12",
+      "email_address": "kenji.t@email.jp",
+      "phone_number": "+81 90-1122-3344",
+      "address": "2-2-1 Marunouchi, Chiyoda-ku, Tokyo, 100-0005, Japan"
+    },
+    "loan_details": {
+      "loan_type": "Personal",
+      "requested_amount": 15000.00,
+      "requested_term_months": 36,
+      "purpose": "Wedding Expenses"
+    },
+    "financial_snapshot": {
+      "employment_status": "Employed",
+      "employer_name": "Global Solutions Ltd.",
+      "annual_income": 95000,
+      "monthly_debt_payments": 1800.00
+    },
+    "application_status": "Approved",
+    "decision": {
+      "decision_date": "2023-10-15",
+      "approved_amount": 15000.00,
+      "interest_rate": 6.8,
+      "rejection_reason": null
+    },
+    "submission_date": "2023-10-10T09:00:00Z"
+  },
+  {
+    "application_id": "app_b4c5d6e7-f8g9-h0i1-j2k3-l4m5n6o7p8q9",
+    "customer_id": null,
+    "existing_customer": false,
+    "applicant_info": {
+      "first_name": "Isabella",
+      "last_name": "Rossi",
+      "date_of_birth": "1994-07-21",
+      "email_address": "isabella.r@email.it",
+      "phone_number": "+39 334 5566778",
+      "address": "Via del Corso 10, Rome, 00186, Italy"
+    },
+    "loan_details": {
+      "loan_type": "Auto",
+      "requested_amount": 22000.00,
+      "requested_term_months": 48,
+      "purpose": "Purchase of a Fiat 500"
+    },
+    "financial_snapshot": {
+      "employment_status": "Employed",
+      "employer_name": "Rome Tourism Board",
+      "annual_income": 48000,
+      "monthly_debt_payments": 900.00
+    },
+    "application_status": "Rejected",
+    "decision": {
+      "decision_date": "2023-10-22",
+      "approved_amount": null,
+      "interest_rate": null,
+      "rejection_reason": "Limited credit history"
+    },
+    "submission_date": "2023-10-19T11:30:00Z"
+  },
+  {
+    "application_id": "app_c5d6e7f8-g9h0-i1j2-k3l4-m5n6o7p8q9r0",
+    "customer_id": null,
+    "existing_customer": false,
+    "applicant_info": {
+      "first_name": "Aisha",
+      "last_name": "Khan",
+      "date_of_birth": "1991-09-01",
+      "email_address": "aisha.k@email.pk",
+      "phone_number": "+92 301 2345678",
+      "address": "Clifton, Block 5, Karachi, 75600, Pakistan"
+    },
+    "loan_details": {
+      "loan_type": "Mortgage",
+      "requested_amount": 150000.00,
+      "requested_term_months": 240,
+      "purpose": "Apartment Purchase"
+    },
+    "financial_snapshot": {
+      "employment_status": "Self-Employed",
+      "employer_name": "Freelance Designer",
+      "annual_income": 65000,
+      "monthly_debt_payments": 1200.00
+    },
+    "application_status": "Under Review",
+    "decision": null,
+    "submission_date": "2023-10-26T15:00:00Z"
+  },
+  {
+    "application_id": "app_d6e7f8g9-h0i1-j2k3-l4m5-n6o7p8q9r0s1",
+    "customer_id": null,
+    "existing_customer": false,
+    "applicant_info": {
+      "first_name": "Alex",
+      "last_name": "Petrov",
+      "date_of_birth": "1986-03-15",
+      "email_address": "alex.p@email.ru",
+      "phone_number": "+7 915 876-54-32",
+      "address": "Nevsky Prospekt 28, St. Petersburg, 191186, Russia"
+    },
+    "loan_details": {
+      "loan_type": "Business",
+      "requested_amount": 50000.00,
+      "requested_term_months": 60,
+      "purpose": "Opening a new cafe"
+    },
+    "financial_snapshot": {
+      "employment_status": "Self-Employed",
+      "employer_name": "Petrov's Coffee House",
+      "annual_income": 75000,
+      "monthly_debt_payments": 1500.00
+    },
+    "application_status": "Submitted",
+    "decision": null,
+    "submission_date": "2023-10-27T18:00:00Z"
+  },
+  {
+    "application_id": "app_e7f8g9h0-i1j2-k3l4-m5n6-o7p8q9r0s1t2",
+    "customer_id": null,
+    "existing_customer": false,
+    "applicant_info": {
+      "first_name": "Sofia",
+      "last_name": "Andersson",
+      "date_of_birth": "1997-11-11",
+      "email_address": "sofia.a@email.se",
+      "phone_number": "+46 72-123 45 67",
+      "address": "Götgatan 20, Stockholm, 118 46, Sweden"
+    },
+    "loan_details": {
+      "loan_type": "Personal",
+      "requested_amount": 8000.00,
+      "requested_term_months": 24,
+      "purpose": "Laptop Purchase"
+    },
+    "financial_snapshot": {
+      "employment_status": "Employed",
+      "employer_name": "Swedish Tech AB",
+      "annual_income": 58000,
+      "monthly_debt_payments": 700.00
+    },
+    "application_status": "Approved",
+    "decision": {
+      "decision_date": "2023-09-30",
+      "approved_amount": 8000.00,
+      "interest_rate": 8.1,
+      "rejection_reason": null
+    },
+    "submission_date": "2023-09-28T10:20:00Z"
+  }
+]

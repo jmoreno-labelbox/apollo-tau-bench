@@ -1,0 +1,32 @@
+[
+  {
+    "user_id": "user_001",
+    "email": "alice.johnson@company.com",
+    "slack": "@alice.admin",
+    "number": "+1-555-0101"
+  },
+  {
+    "user_id": "user_002",
+    "email": "bob.smith@company.com",
+    "slack": "@bob.dev",
+    "number": "+1-555-0102"
+  },
+  {
+    "user_id": "user_003",
+    "email": "carol.davis@company.com",
+    "slack": "@carol.analyst",
+    "number": "+1-555-0103"
+  },
+  {
+    "user_id": "user_004",
+    "email": "david.wilson@company.com",
+    "slack": "@dave.intern",
+    "number": "+1-555-0104"
+  },
+  {
+    "user_id": "user_005",
+    "email": "eve.brown@company.com",
+    "slack": "@eve.manager",
+    "number": "+1-555-0105"
+  }
+]

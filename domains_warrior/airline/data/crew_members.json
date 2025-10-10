@@ -1,0 +1,497 @@
+[
+  {
+    "crew_member_id": "CM001",
+    "employee_code": "EMP001",
+    "first_name": "Mia",
+    "last_name": "Li",
+    "role": "Captain",
+    "home_base": {
+      "airport_id": "ARP_ATL",
+      "iata_code": "ATL"
+    },
+    "status": "Active",
+    "flight_log": [
+      {
+        "flight_id": "FL001",
+        "flight_number": "HAT004",
+        "date": "2024-05-01",
+        "role": "Captain",
+        "aircraft_model": "B737-800",
+        "hours_flown": {
+          "total": 2.5,
+          "pic": 2.5,
+          "sic": 0,
+          "night": 0,
+          "instrument": 0.5
+        },
+        "landings": 1,
+        "takeoffs": 1
+      }
+    ]
+  },
+  {
+    "crew_member_id": "CM002",
+    "employee_code": "EMP002",
+    "first_name": "Lucas",
+    "last_name": "Hernandez",
+    "role": "First Officer",
+    "home_base": {
+      "airport_id": "ARP_DFW",
+      "iata_code": "DFW"
+    },
+    "status": "Active",
+    "flight_log": [
+      {
+        "flight_id": "FL002",
+        "flight_number": "HAT004",
+        "date": "2024-05-01",
+        "role": "First Officer",
+        "aircraft_model": "B737-800",
+        "hours_flown": {
+          "total": 2.5,
+          "pic": 0,
+          "sic": 2.5,
+          "night": 0,
+          "instrument": 0.5
+        },
+        "landings": 1,
+        "takeoffs": 1
+      }
+    ]
+  },
+  {
+    "crew_member_id": "CM003",
+    "employee_code": "EMP003",
+    "first_name": "Sophia",
+    "last_name": "Taylor",
+    "role": "Flight Attendant",
+    "home_base": {
+      "airport_id": "ARP_ORD",
+      "iata_code": "ORD"
+    },
+    "status": "Active",
+    "flight_log": [
+      {
+        "flight_id": "FL003",
+        "flight_number": "HAT002",
+        "date": "2024-05-02",
+        "role": "Flight Attendant",
+        "aircraft_model": "A320neo",
+        "hours_flown": {
+          "total": 4.5,
+          "pic": 0,
+          "sic": 0,
+          "night": 4.5,
+          "instrument": 0
+        },
+        "landings": 1,
+        "takeoffs": 1
+      }
+    ]
+  },
+  {
+    "crew_member_id": "CM004",
+    "employee_code": "EMP004",
+    "first_name": "Liam",
+    "last_name": "Santos",
+    "role": "Captain",
+    "home_base": {
+      "airport_id": "ARP_LAX",
+      "iata_code": "LAX"
+    },
+    "status": "Active",
+    "flight_log": [
+      {
+        "flight_id": "FL004",
+        "flight_number": "HAT008",
+        "date": "2024-05-03",
+        "role": "Captain",
+        "aircraft_model": "B787-9",
+        "hours_flown": {
+          "total": 5,
+          "pic": 5,
+          "sic": 0,
+          "night": 1,
+          "instrument": 1
+        },
+        "landings": 1,
+        "takeoffs": 1
+      }
+    ]
+  },
+  {
+    "crew_member_id": "CM005",
+    "employee_code": "EMP005",
+    "first_name": "Aarav",
+    "last_name": "Nguyen",
+    "role": "First Officer",
+    "home_base": {
+      "airport_id": "ARP_MIA",
+      "iata_code": "MIA"
+    },
+    "status": "On Leave",
+    "flight_log": [
+      {
+        "flight_id": "FL005",
+        "flight_number": "HAT008",
+        "date": "2024-05-03",
+        "role": "First Officer",
+        "aircraft_model": "B787-9",
+        "hours_flown": {
+          "total": 5,
+          "pic": 0,
+          "sic": 5,
+          "night": 1,
+          "instrument": 1
+        },
+        "landings": 1,
+        "takeoffs": 1
+      }
+    ]
+  },
+  {
+    "crew_member_id": "CM006",
+    "employee_code": "EMP006",
+    "first_name": "Olivia",
+    "last_name": "Smith",
+    "role": "Flight Attendant",
+    "home_base": {
+      "airport_id": "ARP_JFK",
+      "iata_code": "JFK"
+    },
+    "status": "Active",
+    "flight_log": [
+      {
+        "flight_id": "FL006",
+        "flight_number": "HAT014",
+        "date": "2024-05-04",
+        "role": "Flight Attendant",
+        "aircraft_model": "A350-900",
+        "hours_flown": {
+          "total": 3,
+          "pic": 0,
+          "sic": 0,
+          "night": 0,
+          "instrument": 0
+        },
+        "landings": 1,
+        "takeoffs": 1
+      }
+    ]
+  },
+  {
+    "crew_member_id": "CM007",
+    "employee_code": "EMP007",
+    "first_name": "Noah",
+    "last_name": "Williams",
+    "role": "Captain",
+    "home_base": {
+      "airport_id": "ARP_SEA",
+      "iata_code": "SEA"
+    },
+    "status": "Active",
+    "flight_log": [
+      {
+        "flight_id": "FL007",
+        "flight_number": "HAT011",
+        "date": "2024-05-01",
+        "role": "Captain",
+        "aircraft_model": "E175",
+        "hours_flown": {
+          "total": 2.2,
+          "pic": 2.2,
+          "sic": 0,
+          "night": 0,
+          "instrument": 0.3
+        },
+        "landings": 1,
+        "takeoffs": 1
+      }
+    ]
+  },
+  {
+    "crew_member_id": "CM008",
+    "employee_code": "EMP008",
+    "first_name": "Isabella",
+    "last_name": "Brown",
+    "role": "First Officer",
+    "home_base": {
+      "airport_id": "ARP_LAS",
+      "iata_code": "LAS"
+    },
+    "status": "Active",
+    "flight_log": [
+      {
+        "flight_id": "FL008",
+        "flight_number": "HAT003",
+        "date": "2024-05-01",
+        "role": "First Officer",
+        "aircraft_model": "B737-800",
+        "hours_flown": {
+          "total": 2,
+          "pic": 0,
+          "sic": 2,
+          "night": 0,
+          "instrument": 0.4
+        },
+        "landings": 1,
+        "takeoffs": 1
+      }
+    ]
+  },
+  {
+    "crew_member_id": "CM009",
+    "employee_code": "EMP009",
+    "first_name": "James",
+    "last_name": "Jones",
+    "role": "Flight Attendant",
+    "home_base": {
+      "airport_id": "ARP_MCO",
+      "iata_code": "MCO"
+    },
+    "status": "Active",
+    "flight_log": [
+      {
+        "flight_id": "FL009",
+        "flight_number": "HAT010",
+        "date": "2024-05-01",
+        "role": "Flight Attendant",
+        "aircraft_model": "ATR72-600",
+        "hours_flown": {
+          "total": 1.5,
+          "pic": 0,
+          "sic": 0,
+          "night": 0.5,
+          "instrument": 0
+        },
+        "landings": 1,
+        "takeoffs": 1
+      }
+    ]
+  },
+  {
+    "crew_member_id": "CM010",
+    "employee_code": "EMP010",
+    "first_name": "Emma",
+    "last_name": "Garcia",
+    "role": "Flight Attendant",
+    "home_base": {
+      "airport_id": "ARP_CLT",
+      "iata_code": "CLT"
+    },
+    "status": "Active",
+    "flight_log": [
+      {
+        "flight_id": "FL010",
+        "flight_number": "HAT015",
+        "date": "2024-05-02",
+        "role": "Flight Attendant",
+        "aircraft_model": "CRJ900",
+        "hours_flown": {
+          "total": 2,
+          "pic": 0,
+          "sic": 0,
+          "night": 2,
+          "instrument": 0
+        },
+        "landings": 1,
+        "takeoffs": 1
+      }
+    ]
+  },
+  {
+    "crew_member_id": "CM011",
+    "employee_code": "EMP011",
+    "first_name": "Richard",
+    "last_name": "Brown",
+    "role": "Captain",
+    "home_base": {
+      "airport_id": "ARP_DEN",
+      "iata_code": "DEN"
+    },
+    "status": "Active",
+    "flight_log": []
+  },
+  {
+    "crew_member_id": "CM012",
+    "employee_code": "EMP012",
+    "first_name": "Michael",
+    "last_name": "Martinez",
+    "role": "First Officer",
+    "home_base": {
+      "airport_id": "ARP_MCO",
+      "iata_code": "MCO"
+    },
+    "status": "Inactive",
+    "flight_log": []
+  },
+  {
+    "crew_member_id": "CM013",
+    "employee_code": "EMP013",
+    "first_name": "Linda",
+    "last_name": "Johnson",
+    "role": "Flight Attendant",
+    "home_base": {
+      "airport_id": "ARP_LAX",
+      "iata_code": "LAX"
+    },
+    "status": "Inactive",
+    "flight_log": []
+  },
+  {
+    "crew_member_id": "CM014",
+    "employee_code": "EMP014",
+    "first_name": "Mary",
+    "last_name": "Lopez",
+    "role": "Flight Attendant",
+    "home_base": {
+      "airport_id": "ARP_PHX",
+      "iata_code": "PHX"
+    },
+    "status": "Inactive",
+    "flight_log": []
+  },
+  {
+    "crew_member_id": "CM015",
+    "employee_code": "EMP015",
+    "first_name": "William",
+    "last_name": "Wilson",
+    "role": "Captain",
+    "home_base": {
+      "airport_id": "ARP_ORD",
+      "iata_code": "ORD"
+    },
+    "status": "Active",
+    "flight_log": []
+  },
+  {
+    "crew_member_id": "CM016",
+    "employee_code": "EMP016",
+    "first_name": "James",
+    "last_name": "Anderson",
+    "role": "First Officer",
+    "home_base": {
+      "airport_id": "ARP_MIA",
+      "iata_code": "MIA"
+    },
+    "status": "Active",
+    "flight_log": []
+  },
+  {
+    "crew_member_id": "CM017",
+    "employee_code": "EMP017",
+    "first_name": "John",
+    "last_name": "Lopez",
+    "role": "Flight Attendant",
+    "home_base": {
+      "airport_id": "ARP_DEN",
+      "iata_code": "DEN"
+    },
+    "status": "Inactive",
+    "flight_log": []
+  },
+  {
+    "crew_member_id": "CM018",
+    "employee_code": "EMP018",
+    "first_name": "James",
+    "last_name": "Johnson",
+    "role": "Flight Attendant",
+    "home_base": {
+      "airport_id": "ARP_LAX",
+      "iata_code": "LAX"
+    },
+    "status": "Inactive",
+    "flight_log": []
+  },
+  {
+    "crew_member_id": "CM019",
+    "employee_code": "EMP019",
+    "first_name": "Susan",
+    "last_name": "Lopez",
+    "role": "Flight Attendant",
+    "home_base": {
+      "airport_id": "ARP_LAX",
+      "iata_code": "LAX"
+    },
+    "status": "Inactive",
+    "flight_log": []
+  },
+  {
+    "crew_member_id": "CM020",
+    "employee_code": "EMP020",
+    "first_name": "Patricia",
+    "last_name": "Johnson",
+    "role": "Flight Attendant",
+    "home_base": {
+      "airport_id": "ARP_CLT",
+      "iata_code": "CLT"
+    },
+    "status": "On Leave",
+    "flight_log": []
+  },
+  {
+    "crew_member_id": "CM021",
+    "employee_code": "EMP021",
+    "first_name": "Jennifer",
+    "last_name": "Wilson",
+    "role": "Flight Attendant",
+    "home_base": {
+      "airport_id": "ARP_LAS",
+      "iata_code": "LAS"
+    },
+    "status": "On Leave",
+    "flight_log": []
+  },
+  {
+    "crew_member_id": "CM022",
+    "employee_code": "EMP022",
+    "first_name": "Elizabeth",
+    "last_name": "Brown",
+    "role": "Lead Flight Attendant",
+    "home_base": {
+      "airport_id": "ARP_ORD",
+      "iata_code": "ORD"
+    },
+    "status": "Inactive",
+    "flight_log": []
+  },
+  {
+    "crew_member_id": "CM023",
+    "employee_code": "EMP023",
+    "first_name": "David",
+    "last_name": "Jones",
+    "role": "First Officer",
+    "home_base": {
+      "airport_id": "ARP_DFW",
+      "iata_code": "DFW"
+    },
+    "status": "Active",
+    "flight_log": []
+  },
+  {
+    "crew_member_id": "CM024",
+    "employee_code": "EMP024",
+    "first_name": "Elizabeth",
+    "last_name": "Davis",
+    "role": "First Officer",
+    "home_base": {
+      "airport_id": "ARP_ATL",
+      "iata_code": "ATL"
+    },
+    "status": "Inactive",
+    "flight_log": []
+  },
+  {
+    "crew_member_id": "CM025",
+    "employee_code": "EMP025",
+    "first_name": "Linda",
+    "last_name": "Jones",
+    "role": "Lead Flight Attendant",
+    "home_base": {
+      "airport_id": "ARP_DEN",
+      "iata_code": "DEN"
+    },
+    "status": "Active",
+    "flight_log": []
+  }
+]

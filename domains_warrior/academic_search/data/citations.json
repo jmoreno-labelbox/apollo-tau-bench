@@ -1,0 +1,62 @@
+[
+  {
+    "citation_id": "cit_01",
+    "source_article_id": "art_01",
+    "cited_article_id": "art_02",
+    "citation_context": "While our work focuses on language models, the challenges in qubit stability, as discussed by Zhang, present analogous issues in computational integrity."
+  },
+  {
+    "citation_id": "cit_02",
+    "source_article_id": "art_04",
+    "cited_article_id": "art_03",
+    "citation_context": "The potential for early diagnosis using biomarkers is amplified when considering therapeutic interventions like the gene editing techniques described by Mendes & Oliveira."
+  },
+  {
+    "citation_id": "cit_03",
+    "source_article_id": "art_05",
+    "cited_article_id": "art_02",
+    "citation_context": "The cosmological models presented here rely on fundamental principles of quantum physics, including the limitations explored in recent studies on the topic."
+  },
+  {
+    "citation_id": "cit_04",
+    "source_article_id": "art_01",
+    "cited_article_id": "art_03",
+    "citation_context": "The structured approach of CRISPR-Cas9 provides a biological parallel to the structured token generation in advanced transformer models."
+  },
+  {
+    "citation_id": "cit_05",
+    "source_article_id": "art_12",
+    "cited_article_id": "art_01",
+    "citation_context": "Building upon the transformer architectures discussed by Souza & Silva, our multimodal approach extends these principles to medical imaging applications."
+  },
+  {
+    "citation_id": "cit_06",
+    "source_article_id": "art_14",
+    "cited_article_id": "art_04",
+    "citation_context": "The biomarker detection methodologies developed by Bauer provide a foundation for our personalized treatment identification algorithms."
+  },
+  {
+    "citation_id": "cit_07",
+    "source_article_id": "art_10",
+    "cited_article_id": "art_07",
+    "citation_context": "The quantum computing limitations addressed in the revised analysis inform the practical constraints of our cryptographic protocols."
+  },
+  {
+    "citation_id": "cit_08",
+    "source_article_id": "art_11",
+    "cited_article_id": "art_03",
+    "citation_context": "While Mendes & Oliveira focused on Cas9 systems, our research extends these principles to the next generation Cas12 variants."
+  },
+  {
+    "citation_id": "cit_09",
+    "source_article_id": "art_13",
+    "cited_article_id": "art_05",
+    "citation_context": "The dark matter modeling techniques presented by Tanaka & Costa complement our gravitational wave analysis framework."
+  },
+  {
+    "citation_id": "cit_10",
+    "source_article_id": "art_15",
+    "cited_article_id": "art_06",
+    "citation_context": "Khan's federated learning framework provides crucial privacy considerations for our robotic automation systems."
+  }
+]

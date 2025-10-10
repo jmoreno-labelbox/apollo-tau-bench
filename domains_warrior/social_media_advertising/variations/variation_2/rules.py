@@ -1,0 +1,154 @@
+
+# ---------------------------------------------------------------------------
+# Allowed tools
+# ---------------------------------------------------------------------------
+# These lists are purposely comprehensive to match all tools referenced by tasks.
+ALLOWED_OPTIMIZATION_TOOLS = [
+    "get_campaign",
+    "get_plan_on_date",
+    "applied_state_verifier",
+    "get_adset",
+    "get_daily_adset_insights",
+    "compute_roas",
+    "fetch_policy_rule",
+    "update_adset_strategy",
+    "set_adset_budget",
+    "find_adset_in_plan",
+]
+
+ALLOWED_AUTOMATION_REPORTING_TOOLS = [
+    "open_automation_run",
+    "generate_report",
+    "export_report_to_csv",
+    "exception_raiser",
+    "complete_automation_run",
+    "get_campaign",
+    "get_plan_on_date",
+    "applied_state_verifier",
+]
+
+# Other tools that tasks may use (allowed where relevant to the specific task type)
+ALLOWED_MISC_TOOLS = [
+    "lock_plan",
+    "calc_plan_checksum",
+    "list_adsets_in_campaign",
+    "list_adset_ads",
+    "replace_ad_creatives",
+    "create_ad",
+    "set_ad_status",
+    "creative_rotation_recorder",
+    "launch_campaign",
+    "halt_campaign",
+    "adset_range_spend",
+    "weekly_category_sales",
+]
+
+# ---------------------------------------------------------------------------
+# Core rules (agent behavior and determinism)
+# ---------------------------------------------------------------------------
+RULES = [
+    # Determinism & IDs
+    "Keep behavior reproducible: avoid randomness and non-deterministic choices. If a default is needed, pick a fixed one.",
+    "Honor IDs produced by tools (e.g., plan_{date}, rep_{date}_{slug}, run_YYYY-MM-DD, rot_YYYY-MM-DD). Do not replace them with ad‑hoc formats.",
+
+    # Time handling
+    "When a tool expects timestamps (e.g., open_automation_run / complete_automation_run), pass explicit ISO-8601 strings that are chosen deterministically. A trailing 'Z' is recommended but not mandatory.",
+
+    # Internal timestamps
+    "If a tool writes its own internal timestamps (e.g., budget/strategy change logs), do not attempt to override those values.",
+
+    # Numeric stability
+    "When reporting aggregates or scores computed by the agent, round to 4 decimal places.",
+
+    # Active ad policy
+    "Enforce at most one active ad per adset at a time. If enabling a new ad, pause others first.",
+]
+
+# ---------------------------------------------------------------------------
+# Scoring, allocation, rounding
+# ---------------------------------------------------------------------------
+SCORING_RULES = [
+    "If you combine normalized signals into a score, weigh z-scores as: 0.5*sessions + 0.3*units + 0.2*revenue.",
+    "If every category’s score is ≤ 0, fall back to an even split across categories.",
+    "When distributing a target budget, use banker’s rounding to a deterministic increment (default 10).",
+    "Resolve rounding drift by adjusting adset(s) in the highest-scoring category, preferring the smallest adset_id first.",
+]
+
+# ---------------------------------------------------------------------------
+# Strategy & creative defaults
+# ---------------------------------------------------------------------------
+STRATEGY_DEFAULTS = [
+    "Drafting strategies: If 7d ROAS ≥ threshold (default 1.5) and CPC is finite, prefer 'cost_cap' with bid_amount = ceil(CPC * 1.25).",
+    "Otherwise, select 'lowest_cost' (no bid_amount).",
+    "Creative default: choose 'video' if CPA(video) ≤ 0.9 × CPA(image); otherwise keep 'image'.",
+]
+
+# ---------------------------------------------------------------------------
+# Plan consistency & verification
+# ---------------------------------------------------------------------------
+PLAN_RULES = [
+    "To lock a plan, persist a reproducible checksum of the envelope (sha256) and use the tool’s plan id pattern plan_{date}.",
+    "Use applied_state_verifier to compare expected vs actual adsets on exactly these fields: ['adset_id','budget','bid_strategy','bid_amount']. Matches must be exact.",
+]
+
+# ---------------------------------------------------------------------------
+# Budget & strategy changes
+# ---------------------------------------------------------------------------
+BUDGET_STRATEGY_RULES = [
+    "set_adset_budget writes both 'budget' and 'daily_budget' and appends to budget_changes; skip redundant writes when the new value equals the current one.",
+    "update_adset_strategy sets 'bid_strategy' and, if present, 'bid_amount'. If a new budget is provided here, update both 'budget' and 'daily_budget'. The tool appends to strategy_changes.",
+    "Always include a concise 'reason' string with any budget or strategy change for auditability.",
+]
+
+# ---------------------------------------------------------------------------
+# Automation runs, reports, and exceptions
+# ---------------------------------------------------------------------------
+RUNS_REPORTING_RULES = [
+    "Use open_automation_run to begin (status implicit 'running'), and complete_automation_run to finalize with outputs/errors. Provide deterministic started_at/ended_at strings.",
+    "For day-end or summary writeups, compose content deterministically from plan/insights/scoring/sales, write using generate_report (id convention rep_{date}_{slug}); optionally export supplemental CSV using export_report_to_csv.",
+    "exception_raiser accepts thresholds you supply and may emit: 'zero_delivery' (impressions ≤ threshold), 'cap_hit' (spend ≥ cap_hit_spend), and 'data_gap' (missing_days ≥ data_gap_days). Do not emit other alert types.",
+]
+
+# ---------------------------------------------------------------------------
+# Creative rotation protocol
+# ---------------------------------------------------------------------------
+CREATIVE_ROTATION_RULES = [
+    "When performing a creative swap, follow this sequence: pause the currently active ad, create a new ad in 'paused' state or replace creatives, activate the new ad, then log the change.",
+    "Log rotations with creative_rotation_recorder, including from_creative (old), to_creative (new), rotation_date, and an optional rationale. The tool returns rotation_id.",
+]
+
+# ---------------------------------------------------------------------------
+# Protocols — reference task patterns
+# ---------------------------------------------------------------------------
+PROTOCOLS = {
+    "apply_plan": {
+        "tools": [
+            "get_plan_on_date",
+            "set_adset_budget",
+            "update_adset_strategy",
+            "applied_state_verifier",
+        ],
+        "notes": "Apply budgets first, then strategies, then verify the applied state against the plan.",
+    },
+    "rotate_creative": {
+        "tools": [
+            "list_adset_ads",
+            "replace_ad_creatives",
+            "create_ad",
+            "set_ad_status",
+            "creative_rotation_recorder",
+        ],
+        "notes": "Pause the active ad, add/replace creatives, activate the new ad, and record the rotation.",
+    },
+}
+
+RULES = RULES + SCORING_RULES + STRATEGY_DEFAULTS + PLAN_RULES + BUDGET_STRATEGY_RULES + RUNS_REPORTING_RULES + CREATIVE_ROTATION_RULES
+
+RULES = RULES + [str(PROTOCOLS)]
+
+# ---------------------------------------------------------------------------
+# Convenience: combined view for evaluators (no functional effect)
+# ---------------------------------------------------------------------------
+ALL_ALLOWED_TOOLS = sorted(set(
+    ALLOWED_OPTIMIZATION_TOOLS + ALLOWED_AUTOMATION_REPORTING_TOOLS + ALLOWED_MISC_TOOLS
+))

@@ -1,0 +1,50 @@
+[
+  {
+    "skill_id": "skill_001",
+    "skill_name": "React Native",
+    "category": "Frontend",
+    "description": "Cross-platform mobile development framework"
+  },
+  {
+    "skill_id": "skill_002",
+    "skill_name": "Python",
+    "category": "Backend",
+    "description": "General-purpose programming language"
+  },
+  {
+    "skill_id": "skill_003",
+    "skill_name": "SQL",
+    "category": "Database",
+    "description": "Structured Query Language for databases"
+  },
+  {
+    "skill_id": "skill_004",
+    "skill_name": "Kubernetes",
+    "category": "DevOps",
+    "description": "Container orchestration platform"
+  },
+  {
+    "skill_id": "skill_005",
+    "skill_name": "Docker",
+    "category": "DevOps",
+    "description": "Container platform"
+  },
+  {
+    "skill_id": "skill_006",
+    "skill_name": "Machine Learning",
+    "category": "AI/ML",
+    "description": "Artificial intelligence and ML algorithms"
+  },
+  {
+    "skill_id": "skill_007",
+    "skill_name": "Security",
+    "category": "Security",
+    "description": "Application and infrastructure security"
+  },
+  {
+    "skill_id": "skill_008",
+    "skill_name": "JavaScript",
+    "category": "Frontend",
+    "description": "Web programming language"
+  }
+]

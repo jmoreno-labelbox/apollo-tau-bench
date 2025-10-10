@@ -1,0 +1,32 @@
+[
+    {
+      "subscription_id": "sub_topic_01",
+      "user_id": "res_01",
+      "topic": "AI"
+    },
+    {
+      "subscription_id": "sub_topic_02",
+      "user_id": "res_01",
+      "topic": "Quantum Physics"
+    },
+    {
+      "subscription_id": "sub_topic_03",
+      "user_id": "res_02",
+      "topic": "Biomedicine"
+    },
+    {
+      "subscription_id": "sub_topic_04",
+      "user_id": "res_04",
+      "topic": "Biomedicine"
+    },
+    {
+      "subscription_id": "sub_topic_05",
+      "user_id": "res_05",
+      "topic": "Astrophysics"
+    },
+    {
+      "subscription_id": "sub_topic_06",
+      "user_id": "res_06",
+      "topic": "AI"
+    }
+  ]

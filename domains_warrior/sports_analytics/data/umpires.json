@@ -1,0 +1,52 @@
+[
+  {
+    "umpire_id": 1,
+    "full_name": "Stephen Luna",
+    "years_experience": 20
+  },
+  {
+    "umpire_id": 2,
+    "full_name": "Christopher Jackson",
+    "years_experience": 7
+  },
+  {
+    "umpire_id": 3,
+    "full_name": "Larry Wright",
+    "years_experience": 4
+  },
+  {
+    "umpire_id": 4,
+    "full_name": "Diana Davila",
+    "years_experience": 2
+  },
+  {
+    "umpire_id": 5,
+    "full_name": "Megan Rodriguez",
+    "years_experience": 4
+  },
+  {
+    "umpire_id": 6,
+    "full_name": "Stephanie Daniel",
+    "years_experience": 26
+  },
+  {
+    "umpire_id": 7,
+    "full_name": "Carrie Perez",
+    "years_experience": 13
+  },
+  {
+    "umpire_id": 8,
+    "full_name": "Melissa Jackson",
+    "years_experience": 19
+  },
+  {
+    "umpire_id": 9,
+    "full_name": "Rachel Warren",
+    "years_experience": 17
+  },
+  {
+    "umpire_id": 10,
+    "full_name": "Miguel Boyd",
+    "years_experience": 11
+  }
+]

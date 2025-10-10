@@ -1,0 +1,80 @@
+[
+    {
+      "skill": "Leadership",
+      "description": "Ability to guide teams and influence decisions.",
+      "recommended_learning_methods": ["Mentorship", "Project Leadership", "Workshops"],
+      "behavioral_indicators": [
+        "Takes initiative in group settings",
+        "Effectively delegates tasks",
+        "Motivates and supports team members"
+      ],
+      "typical_proficiency_levels": ["Intermediate", "Advanced"],
+      "relevant_mentor_approaches": ["Career Strategy", "Leadership Coaching"],
+      "applicable_roles": ["Team Lead", "Engineering Manager", "Product Manager", "DesignOps Lead", "People Analytics Lead", "Backend Tech Lead", "Clinical Analytics Lead", "Engineering Tech Lead", "Data Visualization Lead", "Data Governance Lead", "Content Strategy Lead"]
+    },
+    {
+      "skill": "Communication",
+      "description": "Clear and effective oral and written skills.",
+      "recommended_learning_methods": ["Workshops", "Peer Feedback", "Public Speaking Practice"],
+      "behavioral_indicators": [
+        "Clearly articulates thoughts and ideas",
+        "Adapts communication style to audience",
+        "Listens actively and provides constructive feedback"
+      ],
+      "typical_proficiency_levels": ["Beginner", "Intermediate", "Advanced"],
+      "relevant_mentor_approaches": ["Work-Life Balance", "Soft Skill Development"],
+      "applicable_roles": ["Marketing Associate", "Project Manager", "Customer Success Specialist", "DesignOps Lead", "People Analytics Lead", "Backend Tech Lead", "Clinical Analytics Lead"]
+    },
+    {
+      "skill": "Teamwork",
+      "description": "Working effectively with others in a group.",
+      "recommended_learning_methods": ["Group Projects", "Cross-functional Teams", "Feedback Loops"],
+      "behavioral_indicators": [
+        "Collaborates effectively across roles",
+        "Supports peers and shares knowledge",
+        "Resolves conflicts constructively"
+      ],
+      "typical_proficiency_levels": ["Beginner", "Intermediate"],
+      "relevant_mentor_approaches": ["Work-Life Balance", "Career Strategy"],
+      "applicable_roles": ["UX Designer", "Software Engineer", "HR Coordinator", "DesignOps Lead"]
+    },
+    {
+      "skill": "Strategic Thinking",
+      "description": "Planning for long-term impact and outcomes.",
+      "recommended_learning_methods": ["Scenario Planning", "Executive Mentoring", "Case Studies"],
+      "behavioral_indicators": [
+        "Sets long-term goals aligned with business vision",
+        "Considers broader implications of decisions",
+        "Anticipates risks and plans contingencies"
+      ],
+      "typical_proficiency_levels": ["Intermediate", "Advanced"],
+      "relevant_mentor_approaches": ["Career Strategy", "Entrepreneurship Coaching"],
+      "applicable_roles": ["Product Manager", "Business Analyst", "Strategy Consultant", "DesignOps Lead", "People Analytics Lead", "Data Governance Lead", "Content Strategy Lead"]
+    },
+    {
+      "skill": "Confidence",
+      "description": "Comfort in presenting and making decisions.",
+      "recommended_learning_methods": ["Public Speaking", "Decision-Making Scenarios", "Mentorship"],
+      "behavioral_indicators": [
+        "Speaks assertively in group settings",
+        "Owns decisions and stands by outcomes",
+        "Proactively shares opinions and ideas"
+      ],
+      "typical_proficiency_levels": ["Beginner", "Intermediate"],
+      "relevant_mentor_approaches": ["Leadership Coaching", "Soft Skill Development"],
+      "applicable_roles": ["Sales Associate", "Team Lead", "Presenter"]
+    },
+    {
+      "skill": "Adaptability",
+      "description": "Flexibility in dynamic environments.",
+      "recommended_learning_methods": ["Cross-Department Projects", "Agile Methodology", "Stress Management Training"],
+      "behavioral_indicators": [
+        "Handles shifting priorities calmly",
+        "Learns new tools and methods quickly",
+        "Thrives in uncertain or evolving contexts"
+      ],
+      "typical_proficiency_levels": ["Beginner", "Intermediate", "Advanced"],
+      "relevant_mentor_approaches": ["Work-Life Balance", "Career Transition Support"],
+      "applicable_roles": ["Operations Manager", "Customer Support", "Startup Founder"]
+    }
+  ]

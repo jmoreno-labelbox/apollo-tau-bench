@@ -1,0 +1,10 @@
+[
+  {"store_id": 9001, "store_name": "FreshMart Online", "platform_enum": "native", "base_url": "https://freshmart.example.com"},
+  {"store_id": 9002, "store_name": "GrocerDash", "platform_enum": "aggregator", "base_url": "https://grocerdash.example.com"},
+  {"store_id": 9003, "store_name": "Organic Valley Co-op", "platform_enum": "native", "base_url": "https://organicvalley.example.com"},
+  {"store_id": 9004, "store_name": "Budget Foods Express", "platform_enum": "native", "base_url": "https://budgetfoods.example.com"},
+  {"store_id": 9005, "store_name": "Specialty Ingredients Direct", "platform_enum": "native", "base_url": "https://specialtyingredients.example.com"},
+  {"store_id": 9006, "store_name": "Health First Market", "platform_enum": "aggregator", "base_url": "https://healthfirst.example.com"},
+  {"store_id": 9007, "store_name": "Farm Fresh Delivery", "platform_enum": "native", "base_url": "https://farmfresh.example.com"},
+  {"store_id": 9008, "store_name": "QuickShop Express", "platform_enum": "aggregator", "base_url": "https://quickshop.example.com"}
+]

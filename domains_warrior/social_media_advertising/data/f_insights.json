@@ -1,0 +1,23 @@
+[
+    {"date": "2025-08-13", "adset_id": "101", "impressions": 34000, "spend": 920.0, "clicks": 1350, "purchases": 92, "revenue": 9200.0},
+    {"date": "2025-08-13", "adset_id": "102", "impressions": 27500, "spend": 590.0, "clicks": 1080, "purchases": 78, "revenue": 7800.0},
+    {"date": "2025-08-13", "adset_id": "103", "impressions": 55000, "spend": 1200.0, "clicks": 1800, "purchases": 0, "revenue": 0.0},
+    {"date": "2025-08-13", "adset_id": "104", "impressions": 31500, "spend": 740.0, "clicks": 1280, "purchases": 83, "revenue": 8300.0},
+    {"date": "2025-08-13", "adset_id": "105", "impressions": 31000, "spend": 740.0, "clicks": 1250, "purchases": 82, "revenue": 8200.0},
+    {"date": "2025-08-13", "adset_id": "106", "impressions": 25000, "spend": 500.0, "clicks": 900, "purchases": 60, "revenue": 6000.0},
+    {"date": "2025-08-13", "adset_id": "107", "impressions": 22000, "spend": 400.0, "clicks": 800, "purchases": 50, "revenue": 5000.0},
+    {"date": "2025-08-13", "adset_id": "108", "impressions": 37000, "spend": 780.0, "clicks": 1450, "purchases": 88, "revenue": 8800.0},
+    {"date": "2025-08-13", "adset_id": "110", "impressions": 45000, "spend": 1000.0, "clicks": 2000, "purchases": 200, "revenue": 500.0},
+    {"date": "2025-08-13", "adset_id": "111", "impressions": 48000, "spend": 1000.0, "clicks": 2100, "purchases": 220, "revenue": 550.0},
+    {"date": "2025-08-13", "adset_id": "112", "impressions": 33000, "spend": 700.0, "clicks": 1350, "purchases": 88, "revenue": 8800.0},
+    {"date": "2025-08-12", "adset_id": "101", "impressions": 34000, "spend": 920.0, "clicks": 1350, "purchases": 92, "revenue": 9200.0},
+    {"date": "2025-08-12", "adset_id": "102", "impressions": 27500, "spend": 590.0, "clicks": 1080, "purchases": 78, "revenue": 7800.0},
+    {"date": "2025-08-12", "adset_id": "103", "impressions": 54000, "spend": 1180.0, "clicks": 1750, "purchases": 0, "revenue": 0.0},
+    {"date": "2025-08-12", "adset_id": "104", "impressions": 31500, "spend": 740.0, "clicks": 1280, "purchases": 83, "revenue": 8300.0},
+    {"date": "2025-08-11", "adset_id": "101", "impressions": 33000, "spend": 900.0, "clicks": 1300, "purchases": 90, "revenue": 9000.0},
+    {"date": "2025-08-11", "adset_id": "102", "impressions": 27000, "spend": 580.0, "clicks": 1050, "purchases": 75, "revenue": 7500.0},
+    {"date": "2025-08-10", "adset_id": "101", "impressions": 32000, "spend": 880.0, "clicks": 1250, "purchases": 88, "revenue": 8800.0},
+    {"date": "2025-08-09", "adset_id": "101", "impressions": 31000, "spend": 860.0, "clicks": 1200, "purchases": 85, "revenue": 8500.0},
+    {"date": "2025-08-08", "adset_id": "101", "impressions": 30000, "spend": 840.0, "clicks": 1150, "purchases": 82, "revenue": 8200.0},
+    {"date": "2025-08-07", "adset_id": "101", "impressions": 29000, "spend": 820.0, "clicks": 1100, "purchases": 80, "revenue": 8000.0}
+]

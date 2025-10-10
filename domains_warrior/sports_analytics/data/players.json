@@ -1,0 +1,137 @@
+[
+  {
+    "player_id": 1,
+    "full_name": "Jennifer Roberts",
+    "primary_position": "DH",
+    "batting_handedness": "S",
+    "throwing_handedness": "R",
+    "current_team_id": 8,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 2,
+    "full_name": "Thomas Arellano",
+    "primary_position": "RF",
+    "batting_handedness": "L",
+    "throwing_handedness": "R",
+    "current_team_id": 9,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 3,
+    "full_name": "Scott Arnold",
+    "primary_position": "2B",
+    "batting_handedness": "S",
+    "throwing_handedness": "L",
+    "current_team_id": 3,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 4,
+    "full_name": "James Hess",
+    "primary_position": "RF",
+    "batting_handedness": "R",
+    "throwing_handedness": "R",
+    "current_team_id": 8,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 5,
+    "full_name": "Rachel Crosby",
+    "primary_position": "CF",
+    "batting_handedness": "S",
+    "throwing_handedness": "R",
+    "current_team_id": 7,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 6,
+    "full_name": "James Brady",
+    "primary_position": "CF",
+    "batting_handedness": "R",
+    "throwing_handedness": "R",
+    "current_team_id": 3,
+    "roster_status": "IL-60"
+  },
+  {
+    "player_id": 7,
+    "full_name": "Kevin Holmes",
+    "primary_position": "LF",
+    "batting_handedness": "S",
+    "throwing_handedness": "R",
+    "current_team_id": 10,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 8,
+    "full_name": "Daniel Davis",
+    "primary_position": "CF",
+    "batting_handedness": "S",
+    "throwing_handedness": "R",
+    "current_team_id": 3,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 9,
+    "full_name": "Johnny Gonzalez",
+    "primary_position": "2B",
+    "batting_handedness": "S",
+    "throwing_handedness": "L",
+    "current_team_id": 10,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 10,
+    "full_name": "Elizabeth Harrison",
+    "primary_position": "3B",
+    "batting_handedness": "S",
+    "throwing_handedness": "R",
+    "current_team_id": 10,
+    "roster_status": "IL-15"
+  },
+  {
+    "player_id": 11,
+    "full_name": "Barbara Robles",
+    "primary_position": "LF",
+    "batting_handedness": "R",
+    "throwing_handedness": "R",
+    "current_team_id": 6,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 12,
+    "full_name": "Tyrone Martinez",
+    "primary_position": "C",
+    "batting_handedness": "L",
+    "throwing_handedness": "R",
+    "current_team_id": 2,
+    "roster_status": "Active"
+  },
+  {
+    "player_id": 13,
+    "full_name": "Kathleen Krause",
+    "primary_position": "2B",
+    "batting_handedness": "L",
+    "throwing_handedness": "R",
+    "current_team_id": 9,
+    "roster_status": "IL-60"
+  },
+  {
+    "player_id": 14,
+    "full_name": "Joseph Hart",
+    "primary_position": "LF",
+    "batting_handedness": "L",
+    "throwing_handedness": "R",
+    "current_team_id": 7,
+    "roster_status": "IL-15"
+  },
+  {
+    "player_id": 15,
+    "full_name": "Dana Perez",
+    "primary_position": "SS",
+    "batting_handedness": "L",
+    "throwing_handedness": "R",
+    "current_team_id": 5,
+    "roster_status": "Active"
+  }
+]

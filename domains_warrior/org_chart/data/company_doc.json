@@ -1,0 +1,254 @@
+{
+    "company_documents": [
+      {
+        "id": "CDOC-001",
+        "title": "Employee Handbook",
+        "category": "Handbook",
+        "format": "pdf",
+        "filename": "employee_handbook_v3.2.pdf",
+        "version": "3.2",
+        "last_updated": "2025-01-15",
+        "content": "Overview of culture, benefits, conduct, and employment practices."
+      },
+      {
+        "id": "CDOC-002",
+        "title": "Code of Conduct",
+        "category": "Policy",
+        "format": "pdf",
+        "filename": "code_of_conduct_2025.pdf",
+        "version": "2.0",
+        "last_updated": "2025-03-10",
+        "content": "Defines ethical standards and disciplinary procedures."
+      },
+      {
+        "id": "CDOC-003",
+        "title": "Leave Policy",
+        "category": "Policy",
+        "format": "docx",
+        "filename": "leave_policy.docx",
+        "version": "1.4",
+        "last_updated": "2024-11-02",
+        "content": "Details PTO, sick leave, parental leave, and leave-request workflow."
+      },
+      {
+        "id": "CDOC-004",
+        "title": "Reimbursement Policy",
+        "category": "Policy",
+        "format": "pdf",
+        "filename": "reimbursement_policy.pdf",
+        "version": "1.1",
+        "last_updated": "2025-02-07",
+        "content": "Outlines expense categories, caps, and submission steps."
+      },
+      {
+        "id": "CDOC-005",
+        "title": "Travel Policy",
+        "category": "Policy",
+        "format": "pdf",
+        "filename": "travel_policy.pdf",
+        "version": "3.0",
+        "last_updated": "2024-12-20",
+        "content": "Approvals, booking classes, per-diem, and carbon-offset guidance."
+      },
+      {
+        "id": "CDOC-006",
+        "title": "Pet Policy",
+        "category": "Policy",
+        "format": "docx",
+        "filename": "pet_policy.docx",
+        "version": "1.0",
+        "last_updated": "2023-08-01",
+        "content": "Rules for bringing pets to designated pet-friendly offices."
+      },
+      {
+        "id": "CDOC-007",
+        "title": "Remote Work Policy",
+        "category": "Policy",
+        "format": "pdf",
+        "filename": "remote_work_policy.pdf",
+        "version": "2.3",
+        "last_updated": "2025-04-05",
+        "content": "Eligibility, equipment stipends, and performance expectations."
+      },
+      {
+        "id": "CDOC-008",
+        "title": "Data Security Policy",
+        "category": "Policy",
+        "format": "pdf",
+        "filename": "data_security_policy.pdf",
+        "version": "4.1",
+        "last_updated": "2025-05-14",
+        "content": "Password, MFA, encryption, incident-response, and logging standards."
+      },
+      {
+        "id": "CDOC-009",
+        "title": "Privacy Policy (Internal)",
+        "category": "Policy",
+        "format": "docx",
+        "filename": "privacy_policy_internal.docx",
+        "version": "1.2",
+        "last_updated": "2024-10-30",
+        "content": "Employee data handling and retention schedules."
+      },
+      {
+        "id": "CDOC-010",
+        "title": "Occupational Health & Safety",
+        "category": "Policy",
+        "format": "pdf",
+        "filename": "ohs_policy.pdf",
+        "version": "2.5",
+        "last_updated": "2025-02-01",
+        "content": "Workplace safety, ergonomics, and incident reporting."
+      },
+      {
+        "id": "CDOC-011",
+        "title": "Harassment & Discrimination Policy",
+        "category": "Policy",
+        "format": "pdf",
+        "filename": "harassment_policy.pdf",
+        "version": "3.0",
+        "last_updated": "2025-03-18",
+        "content": "Zero-tolerance statement and complaint procedures."
+      },
+      {
+        "id": "CDOC-012",
+        "title": "Social Media Policy",
+        "category": "Policy",
+        "format": "docx",
+        "filename": "social_media_policy.docx",
+        "version": "1.3",
+        "last_updated": "2024-09-12",
+        "content": "Guidelines for public posts and brand representation."
+      },
+      {
+        "id": "CDOC-013",
+        "title": "IT Acceptable Use Policy",
+        "category": "Policy",
+        "format": "pdf",
+        "filename": "acceptable_use_policy.pdf",
+        "version": "2.2",
+        "last_updated": "2025-01-25",
+        "content": "Defines permitted use of company devices, networks, and software."
+      },
+      {
+        "id": "CDOC-014",
+        "title": "Diversity & Inclusion Policy",
+        "category": "Policy",
+        "format": "pdf",
+        "filename": "diversity_inclusion_policy.pdf",
+        "version": "1.0",
+        "last_updated": "2024-06-05",
+        "content": "Commitments, metrics, and inclusive hiring practices."
+      },
+      {
+        "id": "CDOC-015",
+        "title": "Expense Guidelines",
+        "category": "Guidelines",
+        "format": "docx",
+        "filename": "expense_guidelines.docx",
+        "version": "1.6",
+        "last_updated": "2025-02-07",
+        "content": "Allowed vs. disallowed expenses with sample receipts."
+      },
+      {
+        "id": "CDOC-016",
+        "title": "Gifts & Entertainment Policy",
+        "category": "Policy",
+        "format": "pdf",
+        "filename": "gifts_entertainment_policy.pdf",
+        "version": "2.1",
+        "last_updated": "2023-11-28",
+        "content": "Acceptable gift thresholds and approval routing."
+      },
+      {
+        "id": "CDOC-017",
+        "title": "Confidentiality Agreement Template",
+        "category": "Template",
+        "format": "docx",
+        "filename": "nda_template.docx",
+        "version": "5.0",
+        "last_updated": "2025-05-01",
+        "content": "Mutual NDA template for vendors and new hires."
+      },
+      {
+        "id": "CDOC-018",
+        "title": "Insider Trading Policy",
+        "category": "Policy",
+        "format": "pdf",
+        "filename": "insider_trading_policy.pdf",
+        "version": "1.4",
+        "last_updated": "2024-07-19",
+        "content": "Pre-clearance windows and blackout periods for share trading."
+      },
+      {
+        "id": "CDOC-019",
+        "title": "Whistleblower Policy",
+        "category": "Policy",
+        "format": "pdf",
+        "filename": "whistleblower_policy.pdf",
+        "version": "1.2",
+        "last_updated": "2025-01-10",
+        "content": "Confidential channels for reporting wrongdoing."
+      },
+      {
+        "id": "CDOC-020",
+        "title": "Environmental & Sustainability Policy",
+        "category": "Policy",
+        "format": "docx",
+        "filename": "sustainability_policy.docx",
+        "version": "1.1",
+        "last_updated": "2024-05-30",
+        "content": "Carbon goals, waste reduction, and vendor standards."
+      },
+      {
+        "id": "CDOC-021",
+        "title": "Emergency Response Plan",
+        "category": "Plan",
+        "format": "pdf",
+        "filename": "emergency_response_plan.pdf",
+        "version": "3.1",
+        "last_updated": "2025-03-22",
+        "content": "Evacuation routes, fire wardens, and crisis contacts."
+      },
+      {
+        "id": "CDOC-022",
+        "title": "Business Continuity Plan",
+        "category": "Plan",
+        "format": "pdf",
+        "filename": "business_continuity_plan.pdf",
+        "version": "2.0",
+        "last_updated": "2024-12-14",
+        "content": "Recovery strategies for IT, HR, and facilities."
+      },
+      {
+        "id": "CDOC-023",
+        "title": "COVID-19 Safety Guidelines",
+        "category": "Guidelines",
+        "format": "pdf",
+        "filename": "covid19_safety_guidelines.pdf",
+        "version": "1.9",
+        "last_updated": "2024-10-01",
+        "content": "Vaccination, masking, and office ventilation measures."
+      },
+      {
+        "id": "CDOC-024",
+        "title": "Recruiting & Hiring Policy",
+        "category": "Policy",
+        "format": "docx",
+        "filename": "recruiting_hiring_policy.docx",
+        "version": "2.4",
+        "last_updated": "2025-04-30",
+        "content": "Job posting approvals, interview panels, and candidate data."
+      },
+      {
+        "id": "CDOC-025",
+        "title": "Performance Management Framework",
+        "category": "Framework",
+        "format": "pdf",
+        "filename": "performance_framework.pdf",
+        "version": "1.3",
+        "last_updated": "2025-02-21",
+        "content": "OKRs, calibration cycles, and rating scale definitions."
+      }
+    ]
+  }

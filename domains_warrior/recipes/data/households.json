@@ -1,0 +1,62 @@
+[
+  {
+    "household_id": 201,
+    "household_name": "Mercer Family",
+    "timezone": "America/Los_Angeles",
+    "primary_user_id": 101
+  },
+  {
+    "household_id": 202,
+    "household_name": "Alvarez Household",
+    "timezone": "America/Chicago",
+    "primary_user_id": 102
+  },
+  {
+    "household_id": 203,
+    "household_name": "Chen Solo",
+    "timezone": "America/New_York",
+    "primary_user_id": 103
+  },
+  {
+    "household_id": 204,
+    "household_name": "Williams-Brown Family",
+    "timezone": "America/Denver",
+    "primary_user_id": 104
+  },
+  {
+    "household_id": 205,
+    "household_name": "Patel Extended Family",
+    "timezone": "America/Phoenix",
+    "primary_user_id": 105
+  },
+  {
+    "household_id": 206,
+    "household_name": "Kowalski Couple",
+    "timezone": "America/Detroit",
+    "primary_user_id": 106
+  },
+  {
+    "household_id": 207,
+    "household_name": "Johnson Large Family",
+    "timezone": "America/Los_Angeles",
+    "primary_user_id": 107
+  },
+  {
+    "household_id": 208,
+    "household_name": "Garcia Household",
+    "timezone": "America/Chicago",
+    "primary_user_id": 108
+  },
+  {
+    "household_id": 209,
+    "household_name": "Kim-Smith Family",
+    "timezone": "America/New_York",
+    "primary_user_id": 109
+  },
+  {
+    "household_id": 210,
+    "household_name": "Thompson Retirement",
+    "timezone": "America/Phoenix",
+    "primary_user_id": 110
+  }
+]

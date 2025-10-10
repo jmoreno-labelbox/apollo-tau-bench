@@ -1,0 +1,12 @@
+RULES = [
+    "All expenses must be associated with an active project or department. Expenses cannot be submitted for projects with 'cancelled' or 'completed' status. Orphaned expenses without valid project assignment are automatically rejected.",
+    "Project budgets are tied to team allocations - the sum of allocated employee costs (hours × hourly rate) cannot exceed 80% of total project budget. The remaining 20% is reserved for non-personnel expenses. Budget alerts trigger when personnel costs exceed this threshold.",
+    "Vendor payments must align with project timelines. Invoices for project-related expenses cannot be processed after the project end date. Early payment discounts (2% if paid within 10 days) are automatically applied when project budgets have sufficient surplus.",
+    "Purchase orders inherit approval requirements from their associated project's priority level. Critical priority projects can bypass standard PO limits. Low priority projects require additional justification for POs over $10,000.",
+    "Cost allocations must be reconciled with actual team member hours logged. Any variance over 15% between planned allocation and actual time logs triggers automatic reallocation. Unallocated costs from employees without logged hours are redistributed proportionally.",
+    "Financial transactions are automatically linked to sprint deliverables. Expenses submitted during active sprints must reference specific tasks. Sprint completion triggers automatic budget reconciliation and variance reporting.",
+    "Budget transfers follow team structure - transfers within the same team require only team lead approval. Cross-team transfers within a department need department coordination. Cross-department transfers require finance review.",
+    "Expense reimbursements are validated against employee allocation data. Employees can only submit reimbursements for projects they're actively allocated to. Reimbursement limits scale with allocation percentage (100% allocation = full limit, 50% = half limit).",
+    "Quarterly budget reviews incorporate team velocity and sprint performance metrics. Projects with consistent sprint overruns receive automatic budget adjustments. Underperforming projects face budget reductions in the following quarter.",
+    "Vendor selection for projects must consider team expertise. New vendors require capability assessment against team skills. Vendors are automatically rated based on project completion metrics and team feedback from sprint retrospectives."
+]

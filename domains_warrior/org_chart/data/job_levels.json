@@ -1,0 +1,10 @@
+[
+    { "level_id": "L.1", "name": "Associate", "description": "Entry‑level individual contributor", "bonus_target_pct_default": 5 },
+    { "level_id": "L.2", "name": "Engineer / Analyst", "description": "Experienced IC or junior manager", "bonus_target_pct_default": 10 },
+    { "level_id": "L.3", "name": "Senior Engineer / Sr Analyst", "description": "High‑impact individual contributor", "bonus_target_pct_default": 12 },
+    { "level_id": "L.4", "name": "Staff / Lead", "description": "Technical leader or people manager", "bonus_target_pct_default": 15 },
+    { "level_id": "L.5", "name": "Director", "description": "Manages multiple teams", "bonus_target_pct_default": 18 },
+    { "level_id": "L.6", "name": "Senior Director", "description": "Oversees a function", "bonus_target_pct_default": 20 },
+    { "level_id": "L.VP", "name": "Vice President", "description": "Exec level with P&L", "bonus_target_pct_default": 25 },
+    { "level_id": "L.C", "name": "C‑Suite", "description": "Corporate executive", "bonus_target_pct_default": 30 }
+  ]

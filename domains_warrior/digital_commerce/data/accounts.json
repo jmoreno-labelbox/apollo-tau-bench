@@ -1,0 +1,106 @@
+[
+    {
+        "account_id": "101",
+        "account_name": "Global Tech Inc.",
+        "default_pricebook_id": "2",
+        "type": "B2B Customer",
+        "billing_street": "123 Tech Park",
+        "shipping_street": "123 Tech Park"
+    },
+    {
+        "account_id": "102",
+        "account_name": "Innovate Solutions",
+        "default_pricebook_id": "2",
+        "type": "B2B Customer",
+        "billing_street": "456 Innovation Ave",
+        "shipping_street": "456 Innovation Ave"
+    },
+    {
+        "account_id": "103",
+        "account_name": "Alice Johnson",
+        "default_pricebook_id": "1",
+        "type": "B2C Customer",
+        "billing_street": "789 Home St",
+        "shipping_street": "789 Home St"
+    },
+    {
+        "account_id": "104",
+        "account_name": "Bob Williams",
+        "default_pricebook_id": "1",
+        "type": "B2C Customer",
+        "billing_street": "321 Maple Rd",
+        "shipping_street": "321 Maple Rd"
+    },
+    {
+        "account_id": "105",
+        "account_name": "Quantum Solutions",
+        "default_pricebook_id": "2",
+        "type": "B2B Customer",
+        "billing_street": "777 Quantum Plaza",
+        "shipping_street": "777 Quantum Plaza"
+    },
+    {
+        "account_id": "106",
+        "account_name": "Maria Garcia",
+        "default_pricebook_id": "1",
+        "type": "B2C Customer",
+        "billing_street": "888 Ocean View",
+        "shipping_street": "888 Ocean View"
+    },
+        {
+        "account_id": "107",
+        "account_name": "Sandra Dee",
+        "default_pricebook_id": "1",
+        "type": "B2C Customer",
+        "billing_street": "456 Oak Avenue",
+        "shipping_street": "456 Oak Avenue"
+    },
+    {
+        "account_id": "108",
+        "account_name": "Apex Logistics",
+        "default_pricebook_id": "2",
+        "type": "B2B Customer",
+        "billing_street": "900 Industrial Way",
+        "shipping_street": "900 Industrial Way"
+    },
+    {
+        "account_id": "109",
+        "account_name": "Starlight Enterprises",
+        "default_pricebook_id": "2",
+        "type": "B2B Customer",
+        "billing_street": "555 Galaxy Blvd",
+        "shipping_street": "555 Galaxy Blvd"
+    },
+    {
+        "account_id": "110",
+        "account_name": "Chloe Davis",
+        "default_pricebook_id": "1",
+        "type": "B2C Customer",
+        "billing_street": "101 Park Lane",
+        "shipping_street": "101 Park Lane"
+    },
+    {
+        "account_id": "111",
+        "account_name": "Leo Martinez",
+        "default_pricebook_id": "1",
+        "type": "B2C Customer",
+        "billing_street": "222 Pine St",
+        "shipping_street": "222 Pine St"
+    },
+    {
+        "account_id": "112",
+        "account_name": "Pioneer Corp",
+        "default_pricebook_id": "2",
+        "type": "B2B Customer",
+        "billing_street": "1 Technology Plaza",
+        "shipping_street": "1 Technology Plaza"
+    },
+    {
+        "account_id": "113",
+        "account_name": "Nora Patel",
+        "default_pricebook_id": "1",
+        "type": "B2C Customer",
+        "billing_street": "789 River Rd",
+        "shipping_street": "789 River Rd"
+    }
+]

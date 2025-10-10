@@ -1,0 +1,67 @@
+[
+  {
+    "reimbursement_id": "reimb_001",
+    "employee_id": "emp_dev_03",
+    "expense_date": "2024-03-01T00:00:00Z",
+    "submission_date": "2024-03-05T10:00:00Z",
+    "amount": 450,
+    "description": "Conference registration - React Native Summit",
+    "category": "professional_development",
+    "receipt_provided": true,
+    "project_id": "proj_mobile_01",
+    "status": "approved",
+    "days_to_submit": 4
+  },
+  {
+    "reimbursement_id": "reimb_002",
+    "employee_id": "emp_data_01",
+    "expense_date": "2024-02-20T00:00:00Z",
+    "submission_date": "2024-02-22T14:00:00Z",
+    "amount": 1200,
+    "description": "ML conference and workshop",
+    "category": "training",
+    "receipt_provided": true,
+    "project_id": "proj_ai_01",
+    "status": "approved",
+    "days_to_submit": 2
+  },
+  {
+    "reimbursement_id": "reimb_003",
+    "employee_id": "emp_analyst_01",
+    "expense_date": "2024-03-10T00:00:00Z",
+    "submission_date": "2024-03-12T09:00:00Z",
+    "amount": 85,
+    "description": "Team lunch meeting",
+    "category": "meals",
+    "receipt_provided": true,
+    "project_id": "proj_reporting_01",
+    "status": "approved",
+    "days_to_submit": 2
+  },
+  {
+    "reimbursement_id": "reimb_004",
+    "employee_id": "emp_pm_03",
+    "expense_date": "2024-02-15T00:00:00Z",
+    "submission_date": "2024-03-18T11:00:00Z",
+    "amount": 350,
+    "description": "Project management certification exam",
+    "category": "professional_development",
+    "receipt_provided": true,
+    "status": "rejected",
+    "rejection_reason": "Submitted after 30-day deadline",
+    "days_to_submit": 31
+  },
+  {
+    "reimbursement_id": "reimb_005",
+    "employee_id": "emp_devops_02",
+    "expense_date": "2024-03-05T00:00:00Z",
+    "submission_date": "2024-03-08T15:00:00Z",
+    "amount": 250,
+    "description": "Cloud architecture books",
+    "category": "materials",
+    "receipt_provided": true,
+    "project_id": "proj_platform_02",
+    "status": "pending_approval",
+    "days_to_submit": 3
+  }
+]

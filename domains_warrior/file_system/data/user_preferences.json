@@ -1,0 +1,52 @@
+[
+  {
+    "user_id": "user_001",
+    "username": "alice_admin",
+    "forename": "Alice",
+    "surname": "Johnson",
+    "contact": "user_001_contact",
+    "role": "system_admin",
+    "permissions": ["read", "write", "execute", "admin"],
+    "default_ssh_key": "alice_rsa_key"
+  },
+  {
+    "user_id": "user_002",
+    "username": "bob_dev",
+    "forename": "Bob",
+    "surname": "Smith",
+    "contact": "user_002_contact",
+    "role": "developer",
+    "permissions": ["read", "write", "execute"],
+    "default_ssh_key": "bob_rsa_key"
+  },
+  {
+    "user_id": "user_003",
+    "username": "carol_analyst",
+    "forename": "Carol",
+    "surname": "Davis",
+    "contact": "user_003_contact",
+    "role": "data_analyst",
+    "permissions": ["read", "write"],
+    "default_ssh_key": "carol_rsa_key"
+  },
+  {
+    "user_id": "user_004",
+    "username": "dave_intern",
+    "forename": "David",
+    "surname": "Wilson",
+    "contact": "user_004_contact",
+    "role": "intern",
+    "permissions": ["read"],
+    "default_ssh_key": "dave_rsa_key"
+  },
+  {
+    "user_id": "user_005",
+    "username": "eve_manager",
+    "forename": "Eve",
+    "surname": "Brown",
+    "contact": "user_005_contact",
+    "role": "project_manager",
+    "permissions": ["read", "write", "execute", "admin"],
+    "default_ssh_key": "eve_rsa_key"
+  }
+]

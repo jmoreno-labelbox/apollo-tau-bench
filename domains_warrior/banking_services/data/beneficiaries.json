@@ -1,0 +1,143 @@
+[
+  {
+    "beneficiary_id": "bene_9a8b7c6d-5e4f-3a2b-1c9d-8e7f6a5b4c3d",
+    "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
+    "beneficiary_name": "Jane Smith",
+    "beneficiary_type": "Personal",
+    "relationship": "Friend",
+    "account_details": {
+      "account_number": "9876543210",
+      "bank_name": "City National Bank",
+      "routing_number": "122000661",
+      "country": "USA"
+    },
+    "date_added": "2023-01-15T10:30:00Z"
+  },
+  {
+    "beneficiary_id": "bene_8b7c6d5e-4f3a-2b1c-9d8e-7f6a5b4c3d2e",
+    "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
+    "beneficiary_name": "Anytown Utility Services",
+    "beneficiary_type": "Business",
+    "relationship": "Utility Provider",
+    "account_details": {
+      "account_number": "5555666677",
+      "bank_name": "Bank of Anytown",
+      "routing_number": "021000021",
+      "country": "USA"
+    },
+    "date_added": "2022-05-20T14:00:00Z"
+  },
+  {
+    "beneficiary_id": "bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f",
+    "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+    "beneficiary_name": "John Doe",
+    "beneficiary_type": "Personal",
+    "relationship": "Family",
+    "account_details": {
+      "account_number": "1122334455",
+      "bank_name": "Mega Bank",
+      "routing_number": "021001033",
+      "country": "USA"
+    },
+    "date_added": "2023-02-10T09:00:00Z"
+  },
+  {
+    "beneficiary_id": "bene_6d5e4f3a-2b1c-9d8e-7f6a-5b4c3d2e1f0a",
+    "customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",
+    "beneficiary_name": "Metropolis Power & Light",
+    "beneficiary_type": "Business",
+    "relationship": "Utility Provider",
+    "account_details": {
+      "account_number": "9988776655",
+      "bank_name": "First National Bank of Metropolis",
+      "routing_number": "021200339",
+      "country": "USA"
+    },
+    "date_added": "2021-07-01T11:45:00Z"
+  },
+  {
+    "beneficiary_id": "bene_5e4f3a2b-1c9d-8e7f-6a5b-4c3d2e1f0a9b",
+    "customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4",
+    "beneficiary_name": "Global ISP",
+    "beneficiary_type": "Business",
+    "relationship": "Internet Provider",
+    "account_details": {
+      "account_number": "IN3456789012",
+      "bank_name": "India National Bank",
+      "ifsc_code": "INDB0001234",
+      "country": "India"
+    },
+    "date_added": "2020-01-30T18:00:00Z"
+  },
+  {
+    "beneficiary_id": "bene_4f3a2b1c-9d8e-7f6a-5b4c-3d2e1f0a9b8c",
+    "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2",
+    "beneficiary_name": "Marie Dubois",
+    "beneficiary_type": "Personal",
+    "relationship": "Mother",
+    "account_details": {
+      "iban": "FR7630006000011234567890189",
+      "bank_name": "BNP Paribas",
+      "bic_swift": "BNPAFRPP",
+      "country": "France"
+    },
+    "date_added": "2022-11-05T12:10:00Z"
+  },
+  {
+    "beneficiary_id": "bene_3a2b1c9d-8e7f-6a5b-4c3d-2e1f0a9b8c7d",
+    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5",
+    "beneficiary_name": "London Electricity Co.",
+    "beneficiary_type": "Business",
+    "relationship": "Utility Provider",
+    "account_details": {
+      "account_number": "12345678",
+      "sort_code": "20-00-00",
+      "bank_name": "Barclays",
+      "country": "United Kingdom"
+    },
+    "date_added": "2023-02-01T16:00:00Z"
+  },
+  {
+    "beneficiary_id": "bene_2b1c9d8e-7f6a-5b4c-3d2e-1f0a9b8c7d6e",
+    "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3",
+    "beneficiary_name": "Yuki Tanaka",
+    "beneficiary_type": "Personal",
+    "relationship": "Spouse",
+    "account_details": {
+      "account_number": "87654321",
+      "bank_code": "0001",
+      "branch_code": "001",
+      "bank_name": "Mizuho Bank",
+      "country": "Japan"
+    },
+    "date_added": "2015-08-15T20:00:00Z"
+  },
+  {
+    "beneficiary_id": "bene_1c9d8e7f-6a5b-4c3d-2e1f-0a9b8c7d6e5f",
+    "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6",
+    "beneficiary_name": "Dubai International School",
+    "beneficiary_type": "Business",
+    "relationship": "School",
+    "account_details": {
+      "iban": "AE420260001014567890123",
+      "bank_name": "Emirates NBD",
+      "bic_swift": "EBILAEAD",
+      "country": "United Arab Emirates"
+    },
+    "date_added": "2022-09-01T08:00:00Z"
+  },
+  {
+    "beneficiary_id": "bene_9d8e7f6a-5b4c-3d2e-1f0a-9b8c7d6e5f4a",
+    "customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1",
+    "beneficiary_name": "Klaus Schmidt",
+    "beneficiary_type": "Personal",
+    "relationship": "Landlord",
+    "account_details": {
+      "iban": "DE89370400440532013000",
+      "bank_name": "Deutsche Bank",
+      "bic_swift": "DEUTDEFF",
+      "country": "Germany"
+    },
+    "date_added": "2018-03-01T19:30:00Z"
+  }
+]

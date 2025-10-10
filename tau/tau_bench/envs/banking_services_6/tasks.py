@@ -1,3 +1,4 @@
+# Copyright Sierra
 
 tasks = [
     {
@@ -40,8 +41,8 @@ tasks = [
                 "name": "CalculateSum",
                 "arguments": {
                     "values": [
-                        {5230.5},
-                        {15780.0}
+                        "5230.5",
+                        "15780.0"
                     ]
                 },
             },
@@ -74,14 +75,15 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_chk_1001", "balance": 5230.5, "currency": "USD"},
-                {"account_id": "acc_sav_1002", "balance": 15780.0, "currency": "USD"},
-                {"total": 21010.5},
-                {"rewards_points": 5200},
-                {"account_id": "acc_chk_1001", "balance": 5130.5},
-                {"account_id": "acc_sav_1002", "balance": 15880.0}
+                "account_id": "acc_chk_1001", "balance": 5230.5, "currency": "USD",
+                "account_id": "acc_sav_1002", "balance": 15780.0, "currency": "USD",
+                "total": 21010.5,
+                "rewards_points": 5200,
+                "account_id": "acc_chk_1001", "balance": 5130.5,
+                "account_id": "acc_sav_1002", "balance": 15880.0"
         ]
-    },
+    }
+    ,
     {
         "annotator": 0,
         "user_id": "task_02",
@@ -128,10 +130,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"street_address": "987 Birch St", "city": "New City", "postal_code": "L1V 2T7"},
-                {"number": "555-999-8888"},
-                {"transaction_id": "txn_5d4e7g1i-5e7c-8d3g-3e6i-9g1e3f7h8d4d"},
-                {"transaction_id": "txn_4e5f8h2j-6f8d-9e4h-4f7j-1h2f4g8i9e5e"}
+                "street_address": "987 Birch St", "city": "New City", "postal_code": "L1V 2T7",
+                "number": "555-999-8888",
+                "transaction_id": "txn_5d4e7g1i-5e7c-8d3g-3e6i-9g1e3f7h8d4d",
+                "transaction_id": "txn_4e5f8h2j-6f8d-9e4h-4f7j-1h2f4g8i9e5e"
         ]
     }
     ,
@@ -195,7 +197,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_crd_1003", "status": "Closed"}
+                "account_id": "acc_crd_1003", "status": "Closed"
         ]
     }
     ,
@@ -211,7 +213,7 @@ tasks = [
                     "last_name": "Carter",
                     "dob": "1993-02-14",
                     "email": "emily.c@email.com",
-                    "phone": "555-555-5555",
+                    "phone": "555-555-5555,
                     "street": "456 Birch Street",
                     "city": "Springfield",
                     "postal_code": "62704",
@@ -264,14 +266,14 @@ tasks = [
             }
         ],
         "outputs": [
-                {"application_id": "app_generated_21", "application_status": "Submitted"},
-                {"account_id": "acc_generated_40"}
+                "application_id": "app_generated_21", "application_status": "Submitted",
+                "account_id": "acc_generated_40"
         ]
     }
     ,
     {
         "annotator": 0,
-        "user_id": "task_05",
+        "user_id": "task_05,
         "instruction": "You are Kenji Tanaka, seeking to designate your father, Jean-Pierre Dubois, as a beneficiary. His account is in France with IBAN FR7630002005500000157845Z25 at Societe Generale. After adding him, set up a recurring monthly payment of \u20ac100 from your checking account, starting on the first of next month.",
         "actions": [
             {
@@ -293,7 +295,7 @@ tasks = [
                     "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2",
                     "name": "Jean-Pierre Dubois",
                     "relationship": "Father",
-                    "iban": "FR7630002005500000157845Z25",
+                    "iban": "FR7630002005500000157845Z25,
                     "bank_name": "Societe Generale",
                     "country": "France"
                 },
@@ -329,7 +331,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"payment_id": "sp_generated_41", "status": "Active", "amount": 100.00, "beneficiary_id": "bene_generated_11"}
+                "payment_id": "sp_generated_41", "status": "Active", "amount": 100.00, "beneficiary_id": "bene_generated_11"
         ]
     }
     ,
@@ -383,7 +385,7 @@ tasks = [
                 "name": "CreateTransaction",
                 "arguments": {
                     "source_account_id": "acc_chk_2001",
-                    "destination_account_id": "1122334455",
+                    "destination_account_id": "1122334455,
                     "amount": 250.0,
                     "description": "Payment to Kenji Tanaka"
                 },
@@ -402,8 +404,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"transaction_id": "txn_generated_41", "amount": -300, "status": "Completed"},
-                {"transaction_id": "txn_generated_42", "amount": -250.0, "status": "Completed"}
+                "transaction_id": "txn_generated_41", "amount": -300, "status": "Completed",
+                "transaction_id": "txn_generated_42", "amount": -250.0, "status": "Completed"
         ]
     }
     ,
@@ -463,8 +465,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open"},
-                {"account_id": "acc_inv_3002", "status": "Frozen"}
+                "ticket_id": "tkt_generated_10", "status": "Open",
+                "account_id": "acc_inv_3002", "status": "Frozen"
         ]
     }
     ,
@@ -544,9 +546,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open", "category": "Account Management", "priority": "Medium"},
-                {"account_id": "acc_chk_1001", "balance": 5080.5"},
-                {"account_id": "acc_sav_1002", "balance": 15930.0"}
+                "ticket_id": "tkt_generated_10", "status": "Open", "category": "Account Management", "priority": "Medium",
+                "account_id": "acc_chk_1001", "balance": 5080.5,
+                "account_id": "acc_sav_1002", "balance": 15930.0"
         ]
     }
     ,
@@ -618,8 +620,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"new_monthly_payment": 894.92},
-                {"loan_id": "loan_auto_002", "current_balance": 15570.8"}
+                "new_monthly_payment": 894.92",
+                "loan_id": "loan_auto_002", "current_balance": 15570.8"
         ]
     }
     ,
@@ -675,10 +677,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"country": "United Kingdom"},
-                {"number": "+44 7890 123456"},
-                {"currency": "GBP", "available_account_types": ["Checking", "Savings", "ISA"]"},
-                {"account_id": "acc_generated_40", "status": "Active"}
+                "country": "United Kingdom",
+                "number": "+44 7890 123456",
+                "currency": "GBP", "available_account_types": ["Checking", "Savings", "ISA"]",
+                "account_id": "acc_generated_40", "status": "Active"
         ]
     }
     ,
@@ -760,9 +762,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"application_status": "Approved"},
-                {"loan_id": "loan_mort_001", "current_balance": 714240.5"},
-                {"account_id": "acc_chk_3001", "balance": 11540.25"}
+                "application_status": "Approved",
+                "loan_id": "loan_mort_001", "current_balance": 714240.5,
+                "account_id": "acc_chk_3001", "balance": 11540.25"
         ]
     }
     ,
@@ -826,9 +828,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_generated_40", "account_type": "Credit Card", "status": "Active"},
-                {"loan_id": "loan_stud_004", "status": "In Grace Period", "current_balance": 25000.0"},
-                {"occupation": "Graduate Student"}
+                "account_id": "acc_generated_40", "account_type": "Credit Card", "status": "Active",
+                "loan_id": "loan_stud_004", "status": "In Grace Period", "current_balance": 25000.0",
+                "occupation": "Graduate Student"
         ]
     }
     ,
@@ -919,9 +921,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"marital_status": "Divorced"},
-                {"action": "removed"},
-                {"account_id": "acc_chk_10001", "balance": 17500000.0"}
+                "marital_status": "Divorced",
+                "action": "removed",
+                "account_id": "acc_chk_10001", "balance": 17500000.0"
         ]
     }
     ,
@@ -991,16 +993,16 @@ tasks = [
             }
         ],
         "outputs": [
-                {"beneficiary_id": "bene_1c9d8e7f-6a5b-4c3d-2e1f-0a9b8c7d6e5f", "beneficiary_name": "Dubai International School", "beneficiary_type": "Business", "relationship": "School"},
-                {"beneficiary_id": "bene_1c9d8e7f-6a5b-4c3d-2e1f-0a9b8c7d6e5f", "action": "removed"},
-                {"account_id": "acc_chk_7001", "balance": 149000.0"},
-                {"account_id": "acc_sav_7002", "balance": 751000.0"}
+                "beneficiary_id": "bene_1c9d8e7f-6a5b-4c3d-2e1f-0a9b8c7d6e5f", "beneficiary_name": "Dubai International School", "beneficiary_type": "Business", "relationship": "School",
+                "beneficiary_id": "bene_1c9d8e7f-6a5b-4c3d-2e1f-0a9b8c7d6e5f", "action": "removed",
+                "account_id": "acc_chk_7001", "balance": 149000.0",
+                "account_id": "acc_sav_7002", "balance": 751000.0"
         ]
     }
     ,
     {
         "annotator": 0,
-        "user_id": "task_15",
+        "user_id": "task_15,
         "instruction": "You are recognized as Zoltan Nagy, and you seek a deferral for your forthcoming business loan payment (loan_biz_005). Submit this request through a support ticket and proceed with a minor principal payment of 50 EUR from your checking account to the loan account. Use the description 'Principal payment on business loan' for this transaction. The support ticket should contain the content 'Requesting payment deferral for loan loan_biz_005.'",
         "actions": [
             {
@@ -1057,7 +1059,7 @@ tasks = [
             {
                 "name": "UpdateLoanBalance",
                 "arguments": {
-                    "loan_id": "loan_biz_005",
+                    "loan_id": "loan_biz_005,
                     "amount": -50.0
                 },
             },
@@ -1069,8 +1071,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open"},
-                {"current_balance": 45100.9}
+                "ticket_id": "tkt_generated_10", "status": "Open",
+                "current_balance": 45100.9"
         ]
     }
     ,
@@ -1095,7 +1097,7 @@ tasks = [
             {
                 "name": "UpdateCustomerPreferences",
                 "arguments": {
-                    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5",
+                    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5,
                     "paperless_billing": true,
                     "communication_channel": "App"
                 },
@@ -1109,7 +1111,7 @@ tasks = [
             {
                 "name": "CreateSupportTicket",
                 "arguments": {
-                    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5",
+                    "customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5,
                     "category": "Security",
                     "priority": "High",
                     "details": "Customer reported lost debit card for account acc_chk_6001.",
@@ -1138,8 +1140,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {\}paperless_billing": true, "communication_channel": "App",
-                {"status": "Frozen"}
+                "paperless_billing": true, "communication_channel": "App",
+                "status": "Frozen"
         ]
     }
     ,
@@ -1215,8 +1217,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_generated_40", "balance": 10000.0"},
-                {"account_id": "acc_generated_41", "balance": 25000.0"}
+                "account_id": "acc_generated_40", "balance": 10000.0",
+                "account_id": "acc_generated_41", "balance": 25000.0"
         ]
     }
     ,
@@ -1271,8 +1273,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"transaction_id": "txn_d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19", "transaction_date": "2023-10-27T10:10:10Z", "amount": -15000.0, "description": "New Phone"},
-                {"ticket_id": "tkt_generated_10", "status": "Open", "category": "Security"}
+                "transaction_id": "txn_d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1-19", "transaction_date": "2023-10-27T10:10:10Z", "amount": -15000.0, "description": "New Phone",
+                "ticket_id": "tkt_generated_10", "status": "Open", "category": "Security"
         ]
     }
     ,
@@ -1368,9 +1370,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"status": "Cancelled"},
-                {"payment_id": "sp_generated_41", "status": "Active"},
-                {"current_balance": 7500000.0}
+                "status": "Cancelled",
+                "payment_id": "sp_generated_41", "status": "Active",
+                "current_balance": 7500000.0"
         ]
     }
     ,
@@ -1450,10 +1452,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"interest_rate": 1.25},
-                {"application_status": "Submitted"},
-                {"account_id": "acc_chk_1001", "balance": 4730.5"},
-                {"account_id": "acc_sav_1002", "balance": 16280.0"}
+                "interest_rate": 1.25,
+                "application_status": "Submitted",
+                "account_id": "acc_chk_1001", "balance": 4730.5,
+                "account_id": "acc_sav_1002", "balance": 16280.0"
         ]
     }
     ,
@@ -1532,10 +1534,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"occupation": "Lead Surgeon", "employer": "Metropolis General Hospital"},
-                {"account_id": "acc_inv_3002", "balance": 150000.0"},
-                {"account_id": "acc_chk_3001", "balance": 12540.25"},
-                {"credit_score": 810}
+                "occupation": "Lead Surgeon", "employer": "Metropolis General Hospital",
+                "account_id": "acc_inv_3002", "balance": 150000.0",
+                "account_id": "acc_chk_3001", "balance": 12540.25,
+                "credit_score": 810"
         ]
     }
     ,
@@ -1569,7 +1571,7 @@ tasks = [
                     "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
                     "name": "Kenji Tanaka",
                     "relationship": "Friend",
-                    "account_number": "1122334455",
+                    "account_number": "1122334455,
                     "routing_number": "021001033",
                     "bank_name": "Mega Bank",
                     "country": "USA"
@@ -1600,9 +1602,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"overdraft_limit": 250.0},
-                {"beneficiary_id": "bene_generated_11"},
-                {"payment_id": "sp_generated_41", "status": "Active"}
+                "overdraft_limit": 250.0",
+                "beneficiary_id": "bene_generated_11",
+                "payment_id": "sp_generated_41", "status": "Active"
         ]
     }
     ,
@@ -1657,7 +1659,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"application_id": "app_generated_21", "application_status": "Submitted"}
+                "application_id": "app_generated_21", "application_status": "Submitted"
         ]
     }
     ,
@@ -1723,14 +1725,14 @@ tasks = [
             }
         ],
         "outputs": [
-                {"communication_channel": "SMS", "paperless_billing": False"},
-                {"transaction_id": "txn_generated_41", "status": "Completed"}
+                "communication_channel": "SMS", "paperless_billing": False",
+                "transaction_id": "txn_generated_41", "status": "Completed"
         ]
     }
     ,
     {
         "annotator": 0,
-        "user_id": "task_25",
+        "user_id": "task_25,
         "instruction": "You are Kenji Tanaka. First, query the number of rewards points you have accumulated on your credit card account. Next, update your address to 101 Rue de la Paix, Lyon, 75002, France, and remove your mother, Marie Dubois, as a beneficiary. Finally, review the balance of your checking account.",
         "actions": [
             {
@@ -1784,10 +1786,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"rewards_points": 1250},
-                {"street_address": "101 Rue de la Paix"},
-                {"action": "removed"},
-                {"account_id": "acc_chk_9001", "balance": 3200.0"}
+                "rewards_points": 1250",
+                "street_address": "101 Rue de la Paix",
+                "action": "removed",
+                "account_id": "acc_chk_9001", "balance": 3200.0"
         ]
     }
     ,
@@ -1841,7 +1843,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_chk_11001", "status": "Frozen"}
+                "account_id": "acc_chk_11001", "status": "Frozen"
         ]
     }
     ,
@@ -1917,7 +1919,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_pers_013", "current_balance": 500"}
+                "loan_id": "loan_pers_013", "current_balance": 500"
         ]
     }
     ,
@@ -1971,9 +1973,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"last_name": "Horvat", "marital_status": "Married"},
-                {"number": "+386 51 987 654"},
-                {"balance": 3500.0}
+                "last_name": "Horvat", "marital_status": "Married",
+                "number": "+386 51 987 654",
+                "balance": 3500.0"
         ]
     }
     ,
@@ -2039,9 +2041,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_generated_40", "balance": 50000.0"},
-                {"account_id": "acc_chk_18001", "balance": 500000.0"},
-                {"occupation": "Professional Athlete"}
+                "account_id": "acc_generated_40", "balance": 50000.0",
+                "account_id": "acc_chk_18001", "balance": 500000.0",
+                "occupation": "Professional Athlete"
         ]
     }
     ,
@@ -2124,7 +2126,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"status": "Completed", "amount": -50.0"}
+                "status": "Completed", "amount": -50.0"
         ]
     }
     ,
@@ -2194,9 +2196,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"interest_rate": 1.5},
-                {"account_id": "acc_sav_2002", "status": "Closed"},
-                {"account_id": "acc_chk_2001", "balance": 25100.75"}
+                "interest_rate": 1.5,
+                "account_id": "acc_sav_2002", "status": "Closed",
+                "account_id": "acc_chk_2001", "balance": 25100.75"
         ]
     }
     ,
@@ -2256,8 +2258,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open"},
-                {"account_id": "acc_crd_9002", "status": "Frozen"}
+                "ticket_id": "tkt_generated_10", "status": "Open",
+                "account_id": "acc_crd_9002", "status": "Frozen"
         ]
     }
     ,
@@ -2311,7 +2313,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"payment_id": "sp_generated_41", "status": "Active", "amount": 1500.00"}
+                "payment_id": "sp_generated_41", "status": "Active", "amount": 1500.00"
         ]
     }
     ,
@@ -2386,16 +2388,16 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_crd_1003", "balance": -2500.0"},
-                {"account_id": "acc_chk_1001", "balance": 5030.5"},
-                {"account_id": "acc_sav_1002", "balance": 15980.0"},
-                {"status": "Frozen"}
+                "account_id": "acc_crd_1003", "balance": -2500.0",
+                "account_id": "acc_chk_1001", "balance": 5030.5,
+                "account_id": "acc_sav_1002", "balance": 15980.0",
+                "status": "Frozen"
         ]
     }
     ,
     {
         "annotator": 0,
-        "user_id": "task_35",
+        "user_id": "task_35,
         "instruction": "As a new customer, Sarah Connor, your goal is to set up an account. Your date of birth is 1984-05-12, with contact details: email sarah.c@test.com, phone 444-555-6666, residence 123 Terminator St, LA, 90210, USA. With an annual income of $95,000, you aim to open a new checking account in USD and then apply for a $30,000 auto loan over 60 months to purchase a new vehicle. The loan application should specify the purpose 'New Car Purchase'.",
         "actions": [
             {
@@ -2452,7 +2454,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"application_id": "app_generated_21", "customer_id": "customer_generated_27", "application_status": "Submitted"}
+                "application_id": "app_generated_21", "customer_id": "customer_generated_27", "application_status": "Submitted"
         ]
     }
     ,
@@ -2534,9 +2536,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"payment_id": "sp_b5d7c6a8-b2c1-d0e9-f8g7-h6i5j4k3l2m1", "status": "Paused"},
-                {"transaction_id": "txn_generated_41", "status": "Completed"},
-                {"credit_score": 780}
+                "payment_id": "sp_b5d7c6a8-b2c1-d0e9-f8g7-h6i5j4k3l2m1", "status": "Paused",
+                "transaction_id": "txn_generated_41", "status": "Completed",
+                "credit_score": 780"
         ]
     }
     ,
@@ -2593,10 +2595,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"current_balance": 715240.5},
-                {"marital_status": "Single"},
-                {"balance": 12540.25},
-                {"paperless_billing": true}
+                "current_balance": 715240.5,
+                "marital_status": "Single",
+                "balance": 12540.25,
+                "paperless_billing": true"
         ]
     }
     ,
@@ -2676,8 +2678,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_sav_17002", "status": "Closed"},
-                {"account_id": "acc_chk_17001", "status": "Closed"}
+                "account_id": "acc_sav_17002", "status": "Closed",
+                "account_id": "acc_chk_17001", "status": "Closed"
         ]
     }
     ,
@@ -2732,17 +2734,17 @@ tasks = [
                 "name": "CalculateSum",
                 "arguments": {
                     "values": [
-                        {15000000.0},
-                        {2500000.0}
+                        "15000000.0",
+                        "2500000.0"
                     ]
                 }
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open"},
-                {"balance": 15000000.0},
-                {"account_id": "acc_chk_10001", "balance": 2500000.0"},
-                {"total": 17500000.0}
+                "ticket_id": "tkt_generated_10", "status": "Open",
+                "balance": 15000000.0",
+                "account_id": "acc_chk_10001", "balance": 2500000.0",
+                "total": 17500000.0"
         ]
     }
     ,
@@ -2806,7 +2808,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"payment_id": "sp_generated_41", "status": "Active", "beneficiary_id": "bene_generated_11"}
+                "payment_id": "sp_generated_41", "status": "Active", "beneficiary_id": "bene_generated_11"
         ]
     }
     ,
@@ -2877,12 +2879,12 @@ tasks = [
             }
         ],
         "outputs": [
-                {"credit_limit": 10000.0},
-                {"transaction_id": "txn_6c3d6f9h-4d6b-7c2f-2d5h-8f9d2e6g7c3c"},
-                {"transaction_id": "txn_1b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e"},
-                {"transaction_id": "txn_4c5d6e7f-8g9h-0i1j-2k3l-4m5n6o7p8q9r"},
-                {"account_id": "acc_chk_1001", "balance": 2730.50"},
-                {"account_id": "acc_sav_1002", "balance": 18280.00"}
+                "credit_limit": 10000.0",
+                "transaction_id": "txn_6c3d6f9h-4d6b-7c2f-2d5h-8f9d2e6g7c3c",
+                "transaction_id": "txn_1b2c3d4e-5f6a-7b8c-9d0e-1f2a3b4c5d6e",
+                "transaction_id": "txn_4c5d6e7f-8g9h-0i1j-2k3l-4m5n6o7p8q9r",
+                "account_id": "acc_chk_1001", "balance": 2730.50",
+                "account_id": "acc_sav_1002", "balance": 18280.00"
         ]
     }
     ,
@@ -2946,9 +2948,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_sav_1002", "status": "Closed"},
-                {"account_id": "acc_chk_1001", "balance": 21010.5"},
-                {"overdraft_limit": 500.0}
+                "account_id": "acc_sav_1002", "status": "Closed",
+                "account_id": "acc_chk_1001", "balance": 21010.5,
+                "overdraft_limit": 500.0"
         ]
     }
     ,
@@ -3002,9 +3004,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open", "category": "Security"},
-                {"balance": 22000.0},
-                {"action": "removed"}
+                "ticket_id": "tkt_generated_10", "status": "Open", "category": "Security",
+                "balance": 22000.0",
+                "action": "removed"
         ]
     }
     ,
@@ -3074,17 +3076,17 @@ tasks = [
             }
         ],
         "outputs": [
-                {"transaction_id": "txn_f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-15", "amount": -85.0"},
-                {"account_id": "acc_chk_9001", "balance": 3200.0"},
-                {"ticket_id": "tkt_generated_10", "status": "Open"},
-                {"status": "Frozen"},
-                {"occupation": "Head Pastry Chef"}
+                "transaction_id": "txn_f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-15, "amount": -85.0",
+                "account_id": "acc_chk_9001", "balance": 3200.0",
+                "ticket_id": "tkt_generated_10", "status": "Open",
+                "status": "Frozen",
+                "occupation": "Head Pastry Chef"
         ]
     }
     ,
     {
         "annotator": 0,
-        "user_id": "task_45",
+        "user_id": "task_45,
         "instruction": "Act as Kenji Tanaka to receive a payoff quote for your auto loan. After receiving the quote, complete paying off the full remaining balance from your savings account and update the loan status accordingly. Label the transaction with the description 'Auto loan payoff'.",
         "actions": [
             {
@@ -3149,7 +3151,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_auto_002", "status": "Paid Off", "current_balance": 0.0"}
+                "loan_id": "loan_auto_002", "status": "Paid Off", "current_balance": 0.0"
         ]
     }
     ,
@@ -3194,9 +3196,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"transaction_id": "txn_7a2b5e8g-3c5a-6b1e-1c4g-7e8c1d5f6b2b", "amount": 1500.0, "description": "Monthly Salary"},
-                {"account_id": "acc_chk_1001", "balance": 5230.5"},
-                {"paperless_billing": true}
+                "transaction_id": "txn_7a2b5e8g-3c5a-6b1e-1c4g-7e8c1d5f6b2b", "amount": 1500.0, "description": "Monthly Salary",
+                "account_id": "acc_chk_1001", "balance": 5230.5,
+                "paperless_billing": true"
         ]
     }
     ,
@@ -3250,8 +3252,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_mort_001", "loan_type": "Mortgage", "current_balance": 715240.5"},
-                {"account_id": "acc_chk_3001", "status": "Frozen", "balance": 12540.25"}
+                "loan_id": "loan_mort_001", "loan_type": "Mortgage", "current_balance": 715240.5,
+                "account_id": "acc_chk_3001", "status": "Frozen", "balance": 12540.25"
         ]
     }
     ,
@@ -3318,9 +3320,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"last_name": "Doe", "marital_status": "Married"},
-                {"interest_rate": 1.5},
-                {"balance": 22050.0}
+                "last_name": "Doe", "marital_status": "Married",
+                "interest_rate": 1.5,
+                "balance": 22050.0"
         ]
     }
     ,
@@ -3402,10 +3404,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_c1d0e9f8-a9b8-c7d6-e5f4-a3b2c1d0e9f8", "status": "Resolved"},
-                {"account_id": "acc_chk_8001", "balance": 7800.5"},
-                {"account_id": "acc_sav_8002", "balance": 125000.0"},
-                {"current_balance": 179800.0}
+                "ticket_id": "tkt_c1d0e9f8-a9b8-c7d6-e5f4-a3b2c1d0e9f8", "status": "Resolved",
+                "account_id": "acc_chk_8001", "balance": 7800.5,
+                "account_id": "acc_sav_8002", "balance": 125000.0",
+                "current_balance": 179800.0"
         ]
     }
     ,
@@ -3466,8 +3468,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_generated_40", "status": "Active"},
-                {"payment_id": "sp_generated_41", "status": "Active"}
+                "account_id": "acc_generated_40", "status": "Active",
+                "payment_id": "sp_generated_41", "status": "Active"
         ]
     }
     ,
@@ -3533,9 +3535,9 @@ tasks = [
                 "name": "CalculateSum",
                 "arguments": {
                     "values": [
-                        {5130.5},
-                        {15780.0},
-                        {-2500.0}
+                        "5130.5,
+                        "15780.0",
+                        "-2500.0"
                     ]
                 },
             },
@@ -3547,11 +3549,11 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_chk_1001", "balance": 5130.5"},
-                {"account_id": "acc_sav_1002", "balance": 15780.0"},
-                {"account_id": "acc_crd_1003", "balance": -2500"},
-                {"total": 18410.5},
-                {"credit_score": 780}
+                "account_id": "acc_chk_1001", "balance": 5130.5,
+                "account_id": "acc_sav_1002", "balance": 15780.0",
+                "account_id": "acc_crd_1003", "balance": -2500",
+                "total": 18410.5,
+                "credit_score": 780"
         ]
     }
     ,
@@ -3626,11 +3628,11 @@ tasks = [
             }
         ],
         "outputs": [
-                {"application_id": "app_d3e4f5a6-b7c8-d9e0-f1a2-b3c4d5e6f7g8", "application_status": "Withdrawn"},
-                {"account_id": "acc_chk_4001", "balance": 1200.5"},
-                {"employer": "University Library"},
-                {"credit_score": 690},
-                {[]}
+                "application_id": "app_d3e4f5a6-b7c8-d9e0-f1a2-b3c4d5e6f7g8", "application_status": "Withdrawn",
+                "account_id": "acc_chk_4001", "balance": 1200.5,
+                "employer": "University Library",
+                "credit_score": 690",
+                "[]"
         ]
     }
     ,
@@ -3682,8 +3684,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"occupation": "Self-Employed", "employer": "Private Practice"},
-                {"current_balance": 715240.5}
+                "occupation": "Self-Employed", "employer": "Private Practice",
+                "current_balance": 715240.5"
         ]
     }
     ,
@@ -3752,14 +3754,14 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_generated_40", "balance": 5000000.0"},
-                {"application_status": "Submitted"}
+                "account_id": "acc_generated_40", "balance": 5000000.0",
+                "application_status": "Submitted"
         ]
     }
     ,
     {
         "annotator": 0,
-        "user_id": "task_55",
+        "user_id": "task_55,
         "instruction": "Embody Kenji Tanaka, and acquire a list of all your active bank accounts. Additionally, check the current balance of your auto loan, and proceed to modify your employer information to 'NextGen Solutions'.",
         "actions": [
             {
@@ -3803,11 +3805,11 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_chk_1001"},
-                {"account_id": "acc_sav_1002"},
-                {"account_id": "acc_crd_1003"},
-                {"current_balance": 15670.8},
-                {"employer": "NextGen Solutions"}
+                "account_id": "acc_chk_1001",
+                "account_id": "acc_sav_1002",
+                "account_id": "acc_crd_1003",
+                "current_balance": 15670.8",
+                "employer": "NextGen Solutions"
         ]
     }
     ,
@@ -3854,8 +3856,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open"},
-                {"overdraft_limit": 250.0}
+                "ticket_id": "tkt_generated_10", "status": "Open",
+                "overdraft_limit": 250.0"
         ]
     }
     ,
@@ -3911,8 +3913,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"beneficiary_id": "bene_generated_11"},
-                {"account_id": "acc_chk_3001", "balance": 12340.25"}
+                "beneficiary_id": "bene_generated_11",
+                "account_id": "acc_chk_3001", "balance": 12340.25"
         ]
     }
     ,
@@ -3969,11 +3971,11 @@ tasks = [
             }
         ],
         "outputs": [
-                {"balance": "5230.50"},
-                {"overdraft_limit": "500.00"},
-                {"account_id": "acc_sav_1002", "balance": 15780.0"},
-                {"credit_score": 780},
-                {"type": "Work", "number": "310-555-1234"}
+                "balance": "5230.50",
+                "overdraft_limit": "500.00",
+                "account_id": "acc_sav_1002", "balance": 15780.0",
+                "credit_score": 780",
+                "type": "Work", "number": "310-555-1234"
         ]
     }
     ,
@@ -4038,8 +4040,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open"},
-                {"balance": 3100.75}
+                "ticket_id": "tkt_generated_10", "status": "Open",
+                "balance": 3100.75"
         ]
     }
     ,
@@ -4110,8 +4112,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_pers_008", "status": "Active", "current_balance": 2750.75"},
-                {"account_id": "acc_chk_9001", "balance",: 700"}
+                "loan_id": "loan_pers_008", "status": "Active", "current_balance": 2750.75,
+                "account_id": "acc_chk_9001", "balance",: 700"
         ]
     }
     ,
@@ -4173,10 +4175,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"type": "Work", "number": "098-765-4741"},
-                {"account_id": "acc_chk_2001", "balance": 3100.75},
-                {"credit_score": 820},
-                {"payment_id": "sp_generated_41", "status": "Active"}
+                "type": "Work", "number": "098-765-4741",
+                "account_id": "acc_chk_2001", "balance": 3100.75,
+                "credit_score": 820",
+                "payment_id": "sp_generated_41", "status": "Active"
         ]
     }
     ,
@@ -4237,7 +4239,7 @@ tasks = [
             {
                 "name": "UpdateScheduledPaymentStatus",
                 "arguments": {
-                    "payment_id": "sp_e2g4b3f5-e9f8-g7h6-i5j4-k3l2m1n0o9p5",
+                    "payment_id": "sp_e2g4b3f5-e9f8-g7h6-i5j4-k3l2m1n0o9p5,
                     "new_status": "Cancelled"
                 },
             },
@@ -4249,10 +4251,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_stud_004", "status": "In Grace Period"},
-                {"available_account_types": [\Checking", "Savings", "Credit Card", "Investment"]"},
-                {"balance": 1200.5},
-                {"payment_id": "sp_e2g4b3f5-e9f8-g7h6-i5j4-k3l2m1n0o9p5", "status": "Cancelled"}
+                "loan_id": "loan_stud_004", "status": "In Grace Period",
+                "available_account_types": ["Checking", "Savings", "Credit Card", "Investment"]",
+                "balance": 1200.5,
+                "payment_id": "sp_e2g4b3f5-e9f8-g7h6-i5j4-k3l2m1n0o9p5, "status": "Cancelled"
         ]
     }
     ,
@@ -4332,8 +4334,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"status": "Frozen"},
-                {"ticket_id": "tkt_generated_10", "status": "Open"}
+                "status": "Frozen",
+                "ticket_id": "tkt_generated_10", "status": "Open"
         ]
     }
     ,
@@ -4415,15 +4417,15 @@ tasks = [
             }
         ],
         "outputs": [
-                {"current_balance": 710240.5},
-                {"account_id": "acc_inv_3002", "balance": 150000.0"},
-                {"credit_score": 810}
+                "current_balance": 710240.5,
+                "account_id": "acc_inv_3002", "balance": 150000.0",
+                "credit_score": 810"
         ]
     }
     ,
     {
         "annotator": 0,
-        "user_id": "task_65",
+        "user_id": "task_65,
         "instruction": "Your name is Elena Popescu, and you intend to remove Kenji Tanaka as your beneficiary. After this, examine the transaction history of your checking account for the past 90 days. Today is 2023-11-15; ignore any other dates as today.",
         "actions": [
             {
@@ -4468,11 +4470,11 @@ tasks = [
             }
         ],
         "outputs": [
-                {"beneficiary_id": "bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f", "action": "removed"},
-                {"transaction_id": "txn_5d4e7g1i-5e7c-8d3g-3e6i-9g1e3f7h8d4d"},
-                {"transaction_id": "txn_4e5f8h2j-6f8d-9e4h-4f7j-1h2f4g8i9e5e"},
-                {"transaction_id": "txn_0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d"},
-                {"transaction_id": "txn_8c9d0e1f-2a3b-4c5d-6e7f-8g9h0i1j2k3l"}
+                "beneficiary_id": "bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f", "action": "removed",
+                "transaction_id": "txn_5d4e7g1i-5e7c-8d3g-3e6i-9g1e3f7h8d4d",
+                "transaction_id": "txn_4e5f8h2j-6f8d-9e4h-4f7j-1h2f4g8i9e5e",
+                "transaction_id": "txn_0a1b2c3d-4e5f-6a7b-8c9d-0e1f2a3b4c5d",
+                "transaction_id": "txn_8c9d0e1f-2a3b-4c5d-6e7f-8g9h0i1j2k3l"
         ]
     }
     ,
@@ -4537,9 +4539,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"payment_id": "sp_generated_41", "status": "Active", "amount": 75.00"},
-                {"credit_limit": 10000.0},
-                {"credit_score": 780}
+                "payment_id": "sp_generated_41", "status": "Active", "amount": 75.00",
+                "credit_limit": 10000.0",
+                "credit_score": 780"
         ]
     }
     ,
@@ -4638,8 +4640,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open"},
-                {"current_balance": 5150.75}
+                "ticket_id": "tkt_generated_10", "status": "Open",
+                "current_balance": 5150.75"
         ]
     }
     ,
@@ -4677,8 +4679,8 @@ tasks = [
                 "name": "CalculateSum",
                 "arguments": {
                     "values": [
-                        {12540.25},
-                        {150000.00}
+                        "12540.25,
+                        "150000.00"
                     ]
                 },
             },
@@ -4704,9 +4706,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"total": 162540.25},
-                {"occupation": "Head of Surgery"},
-                {"credit_score": 810}
+                "total": 162540.25,
+                "occupation": "Head of Surgery",
+                "credit_score": 810"
         ]
     }
     ,
@@ -4778,10 +4780,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open"},
-                {"balance": 3100.75},
-                {"account_id": "acc_sav_2002", "balance": 22000.0"},
-                {"credit_score": 820}
+                "ticket_id": "tkt_generated_10", "status": "Open",
+                "balance": 3100.75,
+                "account_id": "acc_sav_2002", "balance": 22000.0",
+                "credit_score": 820"
         ]
     }
     ,
@@ -4862,8 +4864,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_generated_40", "balance": 2000.0"},
-                {"payment_id": "sp_generated_41", "status": "Active"}
+                "account_id": "acc_generated_40", "balance": 2000.0",
+                "payment_id": "sp_generated_41", "status": "Active"
         ]
     }
     ,
@@ -4936,19 +4938,19 @@ tasks = [
                 "name": "CalculateSum",
                 "arguments": {
                     "values": [
-                        {-2500.0},
-                        {5230.5},
-                        {15780.0}
+                        "-2500.0",
+                        "5230.5,
+                        "15780.0"
                     ]
                 }
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open", "priority": "Low"},
-                {"rewards_points": 5200},
-                {"balance": -2500.0},
-                {"total": 18510.5},
-                {"credit_score": 780}
+                "ticket_id": "tkt_generated_10", "status": "Open", "priority": "Low",
+                "rewards_points": 5200",
+                "balance": -2500.0",
+                "total": 18510.5,
+                "credit_score": 780"
         ]
     }
     ,
@@ -5004,10 +5006,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_e9f8c7d6-c7d6-e5f4-a3b2-c1d0e9f8g7h6", "status": "Open"},
-                {"beneficiary_id": "bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f", "beneficiary_name": "Kenji Tanaka"},
-                {"balance": 3100.75},
-                {"marital_status": "Divorced"}
+                "ticket_id": "tkt_e9f8c7d6-c7d6-e5f4-a3b2-c1d0e9f8g7h6", "status": "Open",
+                "beneficiary_id": "bene_7c6d5e4f-3a2b-1c9d-8e7f-6a5b4c3d2e1f", "beneficiary_name": "Kenji Tanaka",
+                "balance": 3100.75,
+                "marital_status": "Divorced"
         ]
     }
     ,
@@ -5066,8 +5068,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_generated_40", "balance": 2500.0"},
-                {"account_id": "acc_inv_3002", "balance": 147500.0"}
+                "account_id": "acc_generated_40", "balance": 2500.0",
+                "account_id": "acc_inv_3002", "balance": 147500.0"
         ]
     }
     ,
@@ -5143,16 +5145,16 @@ tasks = [
             }
         ],
         "outputs": [
-                {"application_id": "app_e4f5a6b7-c8d9-e0f1-a2b3-c4d5e6f7g8h9", "application_status": "Withdrawn"},
-                {"balance": -500.0},
-                {"marital_status": "Engaged"},
-                {"paperless_billing": true}
+                "application_id": "app_e4f5a6b7-c8d9-e0f1-a2b3-c4d5e6f7g8h9", "application_status": "Withdrawn",
+                "balance": -500.0",
+                "marital_status": "Engaged",
+                "paperless_billing": true"
         ]
     }
     ,
     {
         "annotator": 0,
-        "user_id": "task_75",
+        "user_id": "task_75,
         "instruction": "As Kenji Tanaka, you seek an overview of all beneficiaries associated with your profile. Once you've reviewed the list, verify your savings account balance and alter your communication preference to 'SMS.'",
         "actions": [
             {
@@ -5189,10 +5191,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"beneficiary_name": "Elena Popescu"},
-                {"beneficiary_name": "Anytown Utility Services"},
-                {"balance": 15780.0},
-                {"communication_channel": "SMS"}
+                "beneficiary_name": "Elena Popescu",
+                "beneficiary_name": "Anytown Utility Services",
+                "balance": 15780.0",
+                "communication_channel": "SMS"
         ]
     }
     ,
@@ -5262,8 +5264,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"application_status": "Submitted"},
-                {"payment_id": "sp_generated_41", "status": "Active"}
+                "application_status": "Submitted",
+                "payment_id": "sp_generated_41", "status": "Active"
         ]
     }
     ,
@@ -5327,8 +5329,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_auto_007", "current_balance": 1198000.0"},
-                {"account_id": "acc_sav_14002", "balance": 2998000.0"}
+                "loan_id": "loan_auto_007", "current_balance": 1198000.0",
+                "account_id": "acc_sav_14002", "balance": 2998000.0"
         ]
     }
     ,
@@ -5397,13 +5399,13 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_auto_002", "status": "Active"},
-                {"transaction_id": "txn_9c2a3b7e-1a3e-4b8c-8a2e-5c6a8b3d4e9f"},
-                {"transaction_id": "txn_8b1c4d6f-2b4f-5a9d-9b3f-6d7b9c4e5a1a"},
-                {"transaction_id": "txn_f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21"},
-                {"transaction_id": "txn_7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k"},
-                {"credit_score": 780},
-                {"beneficiary_id": "bene_8b7c6d5e-4f3a-2b1c-9d8e-7f6a5b4c3d2e"}
+                "loan_id": "loan_auto_002", "status": "Active",
+                "transaction_id": "txn_9c2a3b7e-1a3e-4b8c-8a2e-5c6a8b3d4e9f",
+                "transaction_id": "txn_8b1c4d6f-2b4f-5a9d-9b3f-6d7b9c4e5a1a",
+                "transaction_id": "txn_f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21",
+                "transaction_id": "txn_7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k",
+                "credit_score": 780",
+                "beneficiary_id": "bene_8b7c6d5e-4f3a-2b1c-9d8e-7f6a5b4c3d2e"
         ]
     }
     ,
@@ -5462,7 +5464,7 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open"}
+                "ticket_id": "tkt_generated_10", "status": "Open"
         ]
     }
     ,
@@ -5476,7 +5478,7 @@ tasks = [
                 "arguments": {
                     "first_name": "Kyle",
                     "last_name": "Reese",
-                    "dob": "1980-03-15",
+                    "dob": "1980-03-15,
                     "email": "k.reese@test.com",
                     "phone": "777-888-9999",
                     "street": "456 Future St",
@@ -5548,10 +5550,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"customer_id": "customer_generated_27"},
-                {"account_id": "acc_generated_40"},
-                {"beneficiary_id": "bene_generated_11"},
-                {"payment_id": "sp_generated_41", "status": "Active"}
+                "customer_id": "customer_generated_27",
+                "account_id": "acc_generated_40",
+                "beneficiary_id": "bene_generated_11",
+                "payment_id": "sp_generated_41", "status": "Active"
         ]
     }
     ,
@@ -5603,10 +5605,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"last_name": "Smith"},
-                {"marital_status": "Married"},
-                {"credit_score": 780},
-                {"balance": 5230.5}
+                "last_name": "Smith",
+                "marital_status": "Married",
+                "credit_score": 780",
+                "balance": 5230.5"
         ]
     }
     ,
@@ -5682,9 +5684,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"interest_rate": 3.25},
-                {"current_balance": 714740.5},
-                {"credit_score": 810}
+                "interest_rate": 3.25,
+                "current_balance": 714740.5,
+                "credit_score": 810"
         ]
     }
     ,
@@ -5698,7 +5700,7 @@ tasks = [
                 "arguments": {
                     "first_name": "Alice",
                     "last_name": "Wonderland",
-                    "dob": "1990-05-25",
+                    "dob": "1990-05-25,
                     "email": "alice.w@example.com",
                     "phone": "222-333-4444",
                     "street": "1 Wonderland Lane",
@@ -5747,9 +5749,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"customer_id": "customer_generated_27"},
-                {"account_id": "acc_generated_40"},
-                {"application_id": "app_generated_21", "application_status": "Submitted"}
+                "customer_id": "customer_generated_27",
+                "account_id": "acc_generated_40",
+                "application_id": "app_generated_21", "application_status": "Submitted"
         ]
     }
     ,
@@ -5804,16 +5806,16 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open"},
-                {"balance": 22000.0},
-                {"security_question": "What is your favorite childhood book?"},
-                {"paperless_billing": true}
+                "ticket_id": "tkt_generated_10", "status": "Open",
+                "balance": 22000.0",
+                "security_question":"What is your favorite childhood book?",
+                "paperless_billing": true"
         ]
     }
     ,
     {
         "annotator": 0,
-        "user_id": "task_85",
+        "user_id": "task_85,
         "instruction": "Your name is Zoltan Nagy. Due to unforeseen circumstances, you need to request a deferral for your next mortgage payment and wish to submit a support ticket for this request. It should mention 'Requesting to defer the next payment for mortgage loan_mort_001.'. Moreover, check the balance of your checking account, your current credit score, investment account balance, and list your beneficiaries.",
         "actions": [
             {
@@ -5878,11 +5880,11 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open", "category": "Loan"},
-                {"balance": 12540.25},
-                {"credit_score": 810},
-                {"account_id": "acc_inv_3002", "balance": 150000.0"},
-                {"beneficiary_name": "Metropolis Power & Light"}
+                "ticket_id": "tkt_generated_10", "status": "Open", "category": "Loan",
+                "balance": 12540.25,
+                "credit_score": 810",
+                "account_id": "acc_inv_3002", "balance": 150000.0",
+                "beneficiary_name": "Metropolis Power & Light"
         ]
     }
     ,
@@ -5921,11 +5923,11 @@ tasks = [
             }
         ],
         "outputs": [
-                {"type": \Home", "number": "111-555-9999"},
-                {"payment_id": "sp_b3a2c1d9-8e7f-6a5b-4c3d-2e1f0a9b8c7d"},
-                {"payment_id": "sp_c1d9b3a2-7f6a-5b4c-3d2e-1f0a9b8c7d6e"},
-                {"payment_id": "sp_d9b3a2c1-f0a9-b8c7-d6e5-f4a3b2c1d0e9"},
-                {"payment_id": "sp_f4n6a5m7-l2m1-n0o9-p8q7-r6s5t4u3v2w2"}
+                "type": "Home", "number": "111-555-9999",
+                "payment_id": "sp_b3a2c1d9-8e7f-6a5b-4c3d-2e1f0a9b8c7d",
+                "payment_id": "sp_c1d9b3a2-7f6a-5b4c-3d2e-1f0a9b8c7d6e",
+                "payment_id": "sp_d9b3a2c1-f0a9-b8c7-d6e5-f4a3b2c1d0e9",
+                "payment_id": "sp_f4n6a5m7-l2m1-n0o9-p8q7-r6s5t4u3v2w2"
         ]
     }
     ,
@@ -5984,10 +5986,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open"},
-                {"account_id": "acc_chk_1001", "balance": 5230.5"},
-                {"account_id": "acc_sav_1002", "balance": 15780.0"},
-                {"credit_score": 780}
+                "ticket_id": "tkt_generated_10", "status": "Open",
+                "account_id": "acc_chk_1001", "balance": 5230.5,
+                "account_id": "acc_sav_1002", "balance": 15780.0,
+                "credit_score": 780"
         ]
     }
     ,
@@ -6073,18 +6075,18 @@ tasks = [
                 "name": "CalculateSum",
                 "arguments": {
                     "values": [
-                        {22000.0},
-                        {3100.75}
+                        "22000.0",
+                        "3100.75"
                     ]
                 }
             }
         ],
         "outputs": [
-                {"loan_id": "loan_pers_003", "status": "Paid Off"},
-                {"application_id": "app_generated_21", "application_status": "Submitted"},
-                {"balance": 22000.0},
-                {"paperless_billing": true},
-                {"total": 25100.75}
+                "loan_id": "loan_pers_003", "status": "Paid Off",
+                "application_id": "app_generated_21", "application_status": "Submitted",
+                "balance": 22000.0",
+                "paperless_billing": true",
+                "total": 25100.75"
         ]
     }
     ,
@@ -6143,9 +6145,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"ticket_id": "tkt_generated_10", "status": "Open"},
-                {"balance": 12540.25},
-                {"account_id": "acc_inv_3002", "balance": 150000.0"}
+                "ticket_id": "tkt_generated_10", "status": "Open",
+                "balance": 12540.25,
+                "account_id": "acc_inv_3002", "balance": 150000.0"
         ]
     }
     ,
@@ -6195,9 +6197,9 @@ tasks = [
                 "name": "CalculateSum",
                 "arguments": {
                     "values": [
-                        {3100.75},
-                        {22000.00},
-                        {0.0}
+                        "3100.75,
+                        "22000.00",
+                        "0.0"
                     ]
                 },
             },
@@ -6229,10 +6231,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"total": 25100.75},
-                {"occupation": "Lead Designer"},
-                {"credit_score": 820},
-                {"beneficiary_name": "Kenji Tanaka"}
+                "total": 25100.75,
+                "occupation": "Lead Designer",
+                "credit_score": 820",
+                "beneficiary_name": "Kenji Tanaka"
         ]
     }
     ,
@@ -6286,9 +6288,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"mailing_address": {\street_address": "123 Main St", "city": "Anytown", "state": "CA", "postal_code": "90210", "country": "USA"}"},
-                {"current_balance": 15670.8},
-                {"paperless_billing": true}
+                "mailing_address": {"street_address": "123 Main St", "city": "Anytown", "state": "CA", "postal_code": "90210", "country": "USA"}",
+                "current_balance": 15670.8,
+                "paperless_billing": true"
         ]
     }
     ,
@@ -6343,10 +6345,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_chk_2001", "balance": 3100.75"},
-                {"account_id": "acc_sav_2002", "balance": 22000.0"},
-                {"status": "Paid Off"},
-                {"communication_channel": "Email"}
+                "account_id": "acc_chk_2001", "balance": 3100.75,
+                "account_id": "acc_sav_2002", "balance": 22000.0",
+                "status": "Paid Off",
+                "communication_channel": "Email"
         ]
     }
     ,
@@ -6420,9 +6422,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"application_status": "Submitted"},
-                {"account_id": "acc_chk_3001", "balance": 12040.25"},
-                {"account_id": "acc_inv_3002", "balance": 150500.0"}
+                "application_status": "Submitted",
+                "account_id": "acc_chk_3001", "balance": 12040.25,
+                "account_id": "acc_inv_3002", "balance": 150500.0"
         ]
     }
     ,
@@ -6474,14 +6476,14 @@ tasks = [
         ],
         "outputs": [
                 "number": "+33 7 88 99 00 11",
-                {"transaction_id": "txn_6e7f8g9h-0i1j-2k3l-4m5n-6o7p8q9r0s1t"},
-                {"balance": -500.0}
+                "transaction_id": "txn_6e7f8g9h-0i1j-2k3l-4m5n-6o7p8q9r0s1t",
+                "balance": -500.0"
         ]
     }
     ,
     {
         "annotator": 0,
-        "user_id": "task_95",
+        "user_id": "task_95,
         "instruction": "You are Kenji Tanaka, and you would like to acquire a detailed transaction history for your checking account over the last 30 days. Today is 2023-11-16, disregard any other dates mentioned except today. You also wish to find out the interest rate on your savings account. Then, submit a low-priority support ticket with the details 'General inquiry about term deposits.' After the ticket submission, update your occupation to 'Senior Software Engineer'.",
         "actions": [
             {
@@ -6538,13 +6540,13 @@ tasks = [
             }
         ],
         "outputs": [
-                {"transaction_id": "txn_9c2a3b7e-1a3e-4b8c-8a2e-5c6a8b3d4e9f"},
-                {"transaction_id": "txn_8b1c4d6f-2b4f-5a9d-9b3f-6d7b9c4e5a1a"},
-                {"transaction_id": "txn_f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21"},
-                {"transaction_id": "txn_7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k"},
-                {"interest_rate": 1.25},
-                {"ticket_id": "tkt_generated_10", "status": "Open"},
-                {"occupation": "Senior Software Engineer"}
+                "transaction_id": "txn_9c2a3b7e-1a3e-4b8c-8a2e-5c6a8b3d4e9f",
+                "transaction_id": "txn_8b1c4d6f-2b4f-5a9d-9b3f-6d7b9c4e5a1a",
+                "transaction_id": "txn_f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-21",
+                "transaction_id": "txn_7b8c9d0e-1f2a-3b4c-5d6e-7f8g9h0i1j2k",
+                "interest_rate": 1.25,
+                "ticket_id": "tkt_generated_10", "status": "Open",
+                "occupation": "Senior Software Engineer"
         ]
     }
     ,
@@ -6609,8 +6611,8 @@ tasks = [
             }
         ],
         "outputs": [
-                {"beneficiary_id": "bene_6d5e4f3a-2b1c-9d8e-7f6a-5b4c3d2e1f0a", "action": "removed"},
-                {"current_balance": 714240.5}
+                "beneficiary_id": "bene_6d5e4f3a-2b1c-9d8e-7f6a-5b4c3d2e1f0a", "action": "removed",
+                "current_balance": 714240.5"
         ]
     }
     ,
@@ -6660,9 +6662,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"loan_id": "loan_pers_003", "status": "Paid Off"},
-                {"occupation": "Senior Graphic Designer"},
-                {"balance": 22000.0}
+                "loan_id": "loan_pers_003", "status": "Paid Off",
+                "occupation": "Senior Graphic Designer",
+                "balance": 22000.0"
         ]
     }
     ,
@@ -6748,10 +6750,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"customer_id": "customer_generated_27"},
-                {"account_id": "acc_generated_40"},
-                {"beneficiary_id": "bene_generated_11"},
-                {"payment_id": "sp_generated_41", "status": "Active"}
+                "customer_id": "customer_generated_27",
+                "account_id": "acc_generated_40",
+                "beneficiary_id": "bene_generated_11",
+                "payment_id": "sp_generated_41", "status": "Active"
         ]
     }
     ,
@@ -6801,9 +6803,9 @@ tasks = [
             }
         ],
         "outputs": [
-                {"paperless_billing": true, "communication_channel": "App"},
-                {"balance": 5230.5},
-                {"credit_score": 780}
+                "paperless_billing": true, "communication_channel": "App",
+                "balance": 5230.5,
+                "credit_score": 780"
         ]
     }
     ,
@@ -6867,10 +6869,10 @@ tasks = [
             }
         ],
         "outputs": [
-                {"account_id": "acc_chk_2001", "status": "Closed"},
-                {"account_id": "acc_sav_2002", "balance": 25100.75},
-                {"account_id": "acc_sav_2002"},
-                {"credit_score": 820}
+                "account_id": "acc_chk_2001", "status": "Closed",
+                "account_id": "acc_sav_2002", "balance": 25100.75,
+                "account_id": "acc_sav_2002",
+                "credit_score": 820"
         ]
     }
 ]

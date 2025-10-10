@@ -1,0 +1,62 @@
+[
+  {
+    "user_id": 101,
+    "email": "aiden.mercer@example.com",
+    "full_name": "Aiden Mercer",
+    "created_at": "2025-08-20T10:00:00Z"
+  },
+  {
+    "user_id": 102,
+    "email": "lina.alvarez@example.com",
+    "full_name": "Lina Alvarez",
+    "created_at": "2025-07-15T09:30:00Z"
+  },
+  {
+    "user_id": 103,
+    "email": "sarah.chen@example.com",
+    "full_name": "Sarah Chen",
+    "created_at": "2025-06-10T14:20:00Z"
+  },
+  {
+    "user_id": 104,
+    "email": "marcus.williams@example.com",
+    "full_name": "Marcus Williams",
+    "created_at": "2025-05-22T11:45:00Z"
+  },
+  {
+    "user_id": 105,
+    "email": "priya.patel@example.com",
+    "full_name": "Priya Patel",
+    "created_at": "2025-04-18T16:30:00Z"
+  },
+  {
+    "user_id": 106,
+    "email": "david.kowalski@example.com",
+    "full_name": "David Kowalski",
+    "created_at": "2025-03-25T13:15:00Z"
+  },
+  {
+    "user_id": 107,
+    "email": "emma.johnson@example.com",
+    "full_name": "Emma Johnson",
+    "created_at": "2025-02-14T09:40:00Z"
+  },
+  {
+    "user_id": 108,
+    "email": "antonio.garcia@example.com",
+    "full_name": "Antonio Garcia",
+    "created_at": "2025-01-30T12:25:00Z"
+  },
+  {
+    "user_id": 109,
+    "email": "rachel.kim@example.com",
+    "full_name": "Rachel Kim",
+    "created_at": "2024-12-15T10:50:00Z"
+  },
+  {
+    "user_id": 110,
+    "email": "james.thompson@example.com",
+    "full_name": "James Thompson",
+    "created_at": "2024-11-08T15:20:00Z"
+  }
+]

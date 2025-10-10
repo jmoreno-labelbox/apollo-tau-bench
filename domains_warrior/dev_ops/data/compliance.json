@@ -1,0 +1,134 @@
+[
+  {
+    "id": "compliance_001",
+    "project_id": "project_001",
+    "compliance_type": "security_audit",
+    "requirement": "vulnerability_scan_completion",
+    "status": "failed",
+    "details": "Critical vulnerability CVE-2024-1234 in log4j-core requires immediate remediation",
+    "due_date": "2025-01-25T23:59:59Z",
+    "assigned_to": "user_003",
+    "created_at": "2025-01-25T11:00:00Z"
+  },
+  {
+    "id": "compliance_002",
+    "project_id": "project_001",
+    "compliance_type": "regulatory_compliance",
+    "requirement": "data_encryption_standard",
+    "status": "compliant",
+    "details": "Database connections using TLS 1.3 encryption - meets GDPR requirements",
+    "due_date": "2025-01-31T23:59:59Z",
+    "assigned_to": "user_003",
+    "created_at": "2025-01-20T10:00:00Z"
+  },
+  {
+    "id": "compliance_003",
+    "project_id": "project_002",
+    "compliance_type": "policy_check",
+    "requirement": "kubernetes_security_policy",
+    "status": "compliant",
+    "details": "Kubernetes cluster configured with RBAC and network policies",
+    "due_date": "2025-01-28T23:59:59Z",
+    "assigned_to": "user_006",
+    "created_at": "2025-01-18T09:00:00Z"
+  },
+  {
+    "id": "compliance_004",
+    "project_id": "project_003",
+    "compliance_type": "certification",
+    "requirement": "ci_cd_security_scan",
+    "status": "in_progress",
+    "details": "GitLab CI pipeline security scanning implementation in progress",
+    "due_date": "2025-01-30T23:59:59Z",
+    "assigned_to": "user_008",
+    "created_at": "2025-01-22T11:00:00Z"
+  },
+  {
+    "id": "compliance_005",
+    "project_id": "project_004",
+    "compliance_type": "security_audit",
+    "requirement": "jenkins_security_assessment",
+    "status": "failed",
+    "details": "Jenkins vulnerability CVE-2024-5678 requires security patch",
+    "due_date": "2025-01-26T23:59:59Z",
+    "assigned_to": "user_010",
+    "created_at": "2025-01-19T08:00:00Z"
+  },
+  {
+    "id": "compliance_006",
+    "project_id": "project_005",
+    "compliance_type": "regulatory_compliance",
+    "requirement": "aws_cloud_security",
+    "status": "compliant",
+    "details": "AWS ECS deployment meets SOC 2 Type II security requirements",
+    "due_date": "2025-02-15T23:59:59Z",
+    "assigned_to": "user_012",
+    "created_at": "2025-01-21T10:00:00Z"
+  },
+  {
+    "id": "compliance_007",
+    "project_id": "project_006",
+    "compliance_type": "policy_check",
+    "requirement": "monitoring_data_retention",
+    "status": "compliant",
+    "details": "Prometheus data retention policy configured for 30 days",
+    "due_date": "2025-01-29T23:59:59Z",
+    "assigned_to": "user_013",
+    "created_at": "2025-01-23T14:00:00Z"
+  },
+  {
+    "id": "compliance_008",
+    "project_id": "project_007",
+    "compliance_type": "security_audit",
+    "requirement": "api_gateway_security",
+    "status": "compliant",
+    "details": "API Gateway rate limiting and authentication properly configured",
+    "due_date": "2025-01-27T23:59:59Z",
+    "assigned_to": "user_016",
+    "created_at": "2025-01-24T12:00:00Z"
+  },
+  {
+    "id": "compliance_009",
+    "project_id": "project_008",
+    "compliance_type": "regulatory_compliance",
+    "requirement": "oauth2_security_standard",
+    "status": "failed",
+    "details": "OAuth2 server vulnerability CVE-2024-9012 violates OAuth 2.0 security requirements",
+    "due_date": "2025-01-26T23:59:59Z",
+    "assigned_to": "user_018",
+    "created_at": "2025-01-22T15:00:00Z"
+  },
+  {
+    "id": "compliance_010",
+    "project_id": "project_009",
+    "compliance_type": "policy_check",
+    "requirement": "edge_computing_security",
+    "status": "compliant",
+    "details": "Edge computing runtime security policies implemented",
+    "due_date": "2025-01-28T23:59:59Z",
+    "assigned_to": "user_019",
+    "created_at": "2025-01-23T16:00:00Z"
+  },
+  {
+    "id": "compliance_011",
+    "project_id": "project_010",
+    "compliance_type": "certification",
+    "requirement": "data_processing_compliance",
+    "status": "compliant",
+    "details": "Apache Spark ETL pipeline meets data processing compliance standards",
+    "due_date": "2025-02-10T23:59:59Z",
+    "assigned_to": "user_002",
+    "created_at": "2025-01-16T10:00:00Z"
+  },
+  {
+    "id": "compliance_012",
+    "project_id": "project_006",
+    "compliance_type": "security_audit",
+    "requirement": "dashboard_access_control",
+    "status": "compliant",
+    "details": "Grafana dashboard access controls and authentication properly configured",
+    "due_date": "2025-01-25T23:59:59Z",
+    "assigned_to": "user_013",
+    "created_at": "2025-01-23T14:00:00Z"
+  }
+]

@@ -1,0 +1,34 @@
+[
+    {
+      "notification_id": "notif_01",
+      "recipient_user_id": "res_03",
+      "sender_user_id": "system",
+      "message_content": "Your article 'Limits of Quantum Computing in Optimization Problems' (art_02) has received a new citation.",
+      "timestamp": "2025-06-25T10:00:00Z",
+      "status": "unread"
+    },
+    {
+      "notification_id": "notif_02",
+      "recipient_user_id": "res_01",
+      "sender_user_id": "res_05",
+      "message_content": "Regarding your submission 'Multimodal AI for Medical Imaging Analysis' (art_12), I have completed my review. Please check the feedback.",
+      "timestamp": "2025-06-25T11:30:00Z",
+      "status": "read"
+    },
+    {
+      "notification_id": "notif_03",
+      "recipient_user_id": "res_02",
+      "sender_user_id": "system",
+      "message_content": "A new funding source, 'Medical Research Council' (fs_03), is now available for projects in Biomedicine.",
+      "timestamp": "2025-06-26T09:00:00Z",
+      "status": "unread"
+    },
+    {
+      "notification_id": "notif_04",
+      "recipient_user_id": "res_02",
+      "sender_user_id": "res_06",
+      "message_content": "I've sent the review for submission 'sub_04'. It was a great article on quantum cryptography, well done!",
+      "timestamp": "2025-06-26T12:00:00Z",
+      "status": "unread"
+    }
+  ]
