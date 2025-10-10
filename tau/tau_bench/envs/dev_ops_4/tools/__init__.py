@@ -1,5 +1,14 @@
 # Copyright Sierra
 
+
+def _find_by_id(items, id_value, id_key='id'):
+    """Find item by ID."""
+    for item in items:
+        if item.get(id_key) == id_value:
+            return item
+    return None
+
+
 from .get_build_run_details import GetBuildRunDetails
 from .list_failed_build_runs_by_branch import ListFailedBuildRunsByBranch
 from .start_automation_run import StartAutomationRun

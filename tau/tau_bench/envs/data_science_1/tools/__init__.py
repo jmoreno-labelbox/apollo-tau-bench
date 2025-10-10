@@ -9,6 +9,17 @@ def _require(data, key, error_msg=None):
         raise ValueError(error_msg or f"Required key '{key}' not found or is None")
     return data[key]
 
+
+def _append(table, row):
+    """Append row to table and return the updated table.
+    
+    Note: Does not deduplicate because rows may contain unhashable types (lists).
+    """
+    if isinstance(table, list):
+        table.append(row)
+    return table
+
+
 from .set_project_config import SetProjectConfig
 from .create_directory import CreateDirectory
 from .write_file_text import WriteFileText

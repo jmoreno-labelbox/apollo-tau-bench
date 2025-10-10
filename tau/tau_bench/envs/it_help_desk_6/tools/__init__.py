@@ -1,5 +1,32 @@
 # Copyright Sierra
 
+
+def _find_all(items, **filters):
+    """Find all items matching filters."""
+    if not filters:
+        return items
+    
+    results = []
+    for item in items:
+        match = True
+        for key, value in filters.items():
+            if item.get(key) != value:
+                match = False
+                break
+        if match:
+            results.append(item)
+    return results
+
+
+
+def _find_one(items, key, value):
+    """Find one item in a list where item[key] == value."""
+    for item in items:
+        if item.get(key) == value:
+            return item
+    return None
+
+
 from .get_employee_by_id import GetEmployeeById
 from .find_employees import FindEmployees
 from .get_directory_account import GetDirectoryAccount

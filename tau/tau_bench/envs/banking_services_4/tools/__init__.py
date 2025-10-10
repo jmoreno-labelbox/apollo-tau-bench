@@ -1,4 +1,15 @@
+import json
 # Copyright Sierra
+
+
+def load_json(file_path):
+    """Load JSON from file."""
+    try:
+        with open(file_path, 'r') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        return {}
+
 
 from .get_customer_accounts_by_type import GetCustomerAccountsByType
 from .list_recent_transactions_by_category import ListRecentTransactionsByCategory

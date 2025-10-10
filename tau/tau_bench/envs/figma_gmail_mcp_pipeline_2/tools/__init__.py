@@ -1,5 +1,25 @@
 # Copyright Sierra
 
+
+def get_next_asset_id(data, prefix='asset'):
+    """Generate next asset ID."""
+    assets = data.get('assets', {})
+    if isinstance(assets, dict):
+        assets = list(assets.values())
+    
+    max_num = 0
+    for asset in assets:
+        asset_id = str(asset.get('asset_id', ''))
+        if asset_id.startswith(prefix + '_'):
+            try:
+                num = int(asset_id.split('_')[-1])
+                max_num = max(max_num, num)
+            except (ValueError, IndexError):
+                pass
+    
+    return f"{prefix}_{max_num + 1}"
+
+
 from .get_artifact_with_id import GetArtifactWithId
 from .get_all_artifacts_of_type_with_tags_and_email import GetAllArtifactsOfTypeWithTagsAndEmail
 from .create_new_artifact import CreateNewArtifact
