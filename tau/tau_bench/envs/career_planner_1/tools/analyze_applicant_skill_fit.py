@@ -1,30 +1,25 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class AnalyzeApplicantSkillFit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        uid = kwargs.get("applicant_id")
-        role = kwargs.get("role")
-
-        # Get user skills - handle actual data structure
+    def invoke(data: dict[str, Any], applicant_id: str = None, role: str = None) -> str:
+        # Retrieve user skills - manage the actual data structure
         user_skill_names = set()
 
-        # Find the user in the users data
-        user = next((u for u in list(data.get("users", {}).values()) if u.get("user_id") == uid), {})
+        # Locate the user within the users data
+        user = next((u for u in data.get("users", {}).values() if u.get("user_id") == applicant_id), {}).values()
         if user:
-            # Check skills_current field (actual data structure)
+            # Examine the skills_current field (actual data structure)
             user_skills = user.get("skills_current", [])
             if isinstance(user_skills, list):
                 for skill_obj in user_skills:
                     if isinstance(skill_obj, dict) and skill_obj.get("skill"):
                         user_skill_names.add(skill_obj.get("skill"))
 
-            # Also check if there's a legacy "skills" field
+            # Additionally verify if a legacy "skills" field exists
             if not user_skill_names:
                 user_skills = user.get("skills", [])
                 if isinstance(user_skills, list):
@@ -34,10 +29,10 @@ class AnalyzeApplicantSkillFit(Tool):
                         elif isinstance(skill, dict) and skill.get("skill"):
                             user_skill_names.add(skill.get("skill"))
 
-        # Try user_skills table as fallback
+        # Attempt to use the user_skills table as a backup
         if not user_skill_names:
             user_skills_entry = next(
-                (u for u in data.get("user_skills", []) if u.get("user_id") == uid), {}
+                (u for u in data.get("user_skills", {}).values() if u.get("user_id") == applicant_id), {}
             )
             if user_skills_entry:
                 skills = user_skills_entry.get("skills", [])
@@ -48,11 +43,11 @@ class AnalyzeApplicantSkillFit(Tool):
                         elif isinstance(skill, dict) and skill.get("skill"):
                             user_skill_names.add(skill.get("skill"))
 
-        # Debug: Check if user was found
+        # Debug: Verify if the user was located
         if not user_skill_names:
-            return f"Error: No skills found for user {uid}"
+            return f"Error: No skills found for user {applicant_id}"
 
-        # Get role skills with mapping support
+        # Retrieve role skills with mapping assistance
         role_mapping = {
             "AI Researcher": "Senior Data Scientist",
             "Security Analyst": "Cloud Security Specialist",
@@ -70,14 +65,14 @@ class AnalyzeApplicantSkillFit(Tool):
         role_rec = next(
             (
                 r
-                for r in data.get("role_skill_catalog", [])
+                for r in data.get("role_skill_catalog", {}).values()
                 if r.get("role") == target_role
             ),
             {},
         )
         role_skills_raw = role_rec.get("required_skills", [])
 
-        # Safely extract skill names from potentially mixed data
+        # Carefully extract skill names from possibly mixed data
         role_skill_names = set()
         for skill_item in role_skills_raw:
             if isinstance(skill_item, str):
@@ -85,24 +80,24 @@ class AnalyzeApplicantSkillFit(Tool):
             elif isinstance(skill_item, dict) and skill_item.get("skill"):
                 role_skill_names.add(skill_item.get("skill"))
 
-        # Find matches - handle both direct matches and hierarchical skills
+        # Identify matches - manage both direct matches and hierarchical skills
         matched = []
         missing = []
 
-        # Check each role skill requirement
+        # Examine each skill requirement for the role
         for role_skill in role_skill_names:
-            # Check for direct match first
+            # Verify for a direct match initially
             if role_skill in user_skill_names:
                 matched.append(role_skill)
             else:
-                # Check if any user skill matches this role requirement
+                # Determine if any user skill aligns with this role requirement
                 skill_matched = False
 
-                # Get the specific skills for this role requirement from catalog
+                # Retrieve the specific skills for this role requirement from the catalog
                 role_rec = next(
                     (
                         r
-                        for r in data.get("role_skill_catalog", [])
+                        for r in data.get("role_skill_catalog", {}).values()
                         if r.get("role") == target_role
                     ),
                     {},
@@ -113,7 +108,7 @@ class AnalyzeApplicantSkillFit(Tool):
                         and skill_category.get("skill") == role_skill
                     ):
                         specific_skills = skill_category.get("specific_skills", [])
-                        # Check if user has any of the specific skills in this category
+                        # Verify if the user possesses any of the specific skills in this category
                         for user_skill in user_skill_names:
                             if user_skill in specific_skills:
                                 matched.append(role_skill)
@@ -125,7 +120,7 @@ class AnalyzeApplicantSkillFit(Tool):
                 if not skill_matched:
                     missing.append(role_skill)
 
-        # Format response
+        # Structure the response
         match_count = len(matched)
         skill_percentage = (
             round((match_count / len(role_skill_names)) * 100)
@@ -134,13 +129,12 @@ class AnalyzeApplicantSkillFit(Tool):
         )
 
         return f"Skills match: {match_count}/{len(role_skill_names)} ({skill_percentage}%)\nMatched: {matched}\nMissing: {missing}"
-
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "analyze_applicant_skill_fit",
+                "name": "AnalyzeApplicantSkillFit",
                 "description": "Analyze how well an internal applicant's skills match a target role.",
                 "parameters": {
                     "type": "object",

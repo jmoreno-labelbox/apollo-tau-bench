@@ -1,39 +1,48 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class UpdateMentorshipRelationship(Tool):
     @staticmethod
     def invoke(
-        data: Dict[str, Any], relationship_id: str, updates: Dict[str, Any]
+        data: dict[str, Any], relationship_id: str, updates: dict[str, Any]
     ) -> str:
         rel = next(
             (
                 r
-                for r in data.get("user_mentorship_relationships", [])
+                for r in data.get("user_mentorship_relationships", {}).values()
                 if r["relationship_id"] == relationship_id
             ),
             None,
         )
         if not rel:
-            return json.dumps({"error": "relationship not found"})
+            payload = {"error": "relationship not found"}
+            out = json.dumps(payload)
+            return out
 
-        # --- SIMPLIFIED LOGIC ---
-        # The tool now only performs a direct update.
+        #--- SIMPLIFIED LOGIC ---
+        #The tool now solely executes a direct update.
         rel.update(updates)
-        # --- END OF SIMPLIFICATION ---
+        payload = {"success": f"relationship {relationship_id} updated"}
+        out = json.dumps(payload)
+        return out
 
-        return json.dumps({"success": f"relationship {relationship_id} updated"})
+
+        #--- SIMPLIFIED LOGIC ---
+        #The tool now solely executes a direct update.
+        rel.update(updates)
+        payload = {"success": f"relationship {relationship_id} updated"}
+        out = json.dumps(payload)
+        return out
 
     @staticmethod
     def get_info():
+        pass
         return {
             "type": "function",
             "function": {
-                "name": "update_mentorship_relationship",
+                "name": "UpdateMentorshipRelationship",
                 "description": "Modify attributes of an existing mentorship relationship by overwriting them with new values.",
                 "parameters": {
                     "type": "object",

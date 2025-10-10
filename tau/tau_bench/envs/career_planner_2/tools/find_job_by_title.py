@@ -1,27 +1,27 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class FindJobByTitle(Tool):
-    """Find a job posting's ID by its title."""
+    """Determine a job posting's ID using its title."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        title = kwargs.get("title")
-        for j in data.get("job_postings", []):
+    def invoke(data: dict[str, Any], title: str = None) -> str:
+        for j in data.get("job_postings", {}).values():
             if j.get("title").lower() == title.lower():
-                return json.dumps({"job_id": j.get("job_id")})
-        return json.dumps({"error": "Job not found"})
-
+                payload = {"job_id": j.get("job_id")}
+                out = json.dumps(payload)
+                return out
+        payload = {"error": "Job not found"}
+        out = json.dumps(payload)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "find_job_by_title",
+                "name": "FindJobByTitle",
                 "description": "Find a job posting's ID by its title.",
                 "parameters": {
                     "type": "object",

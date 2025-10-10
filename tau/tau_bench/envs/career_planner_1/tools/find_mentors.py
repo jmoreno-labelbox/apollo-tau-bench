@@ -1,34 +1,34 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class FindMentors(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], mentee_id: str, focus_areas: List[str]) -> str:
-        mentors = data.get("user_mentorship", [])
+    def invoke(data: dict[str, Any], mentee_id: str, focus_areas: list[str]) -> str:
+        pass
+        mentors = data.get("user_mentorship", {}).values()
 
-        # Use a broader definition of expertise, including roles and general expertise
+        # Adopt a wider definition of expertise, encompassing roles and general knowledge
         def get_mentor_expertise_set(mentor):
+            pass
             expertise = set(mentor.get("expertise", []))
             roles = set(mentor.get("mentoring_roles", []))
             return expertise.union(roles)
 
-        # Find mentors whose expertise/roles overlap with the focus areas
-        # and who are explicitly compatible with the mentee.
+        # Identify mentors whose expertise/roles intersect with the focus areas
+        # and who are clearly suitable for the mentee.
         matches = []
         focus_set = set(focus_areas)
-        for mentor in mentors:
+        for mentor in mentors.values():
             if mentor.get("availability") == "Full":
                 continue
 
-            # Check for compatibility
+            # Verify compatibility
             if mentee_id not in mentor.get("compatible_user_ids", []):
                 continue
 
-            # Check for expertise overlap
+            # Examine for overlap in expertise
             mentor_expertise = get_mentor_expertise_set(mentor)
             if focus_set.intersection(mentor_expertise):
                 matches.append(
@@ -38,15 +38,16 @@ class FindMentors(Tool):
                         "expertise": list(mentor_expertise),
                     }
                 )
-
-        return json.dumps({"mentors": matches}, indent=2)
-
+        payload = {"mentors": matches}
+        out = json.dumps(payload, indent=2)
+        return out
     @staticmethod
     def get_info() -> dict:
+        pass
         return {
             "type": "function",
             "function": {
-                "name": "find_mentors",
+                "name": "FindMentors",
                 "description": "Finds suitable and available mentors for a mentee based on required focus areas and compatibility.",
                 "parameters": {
                     "type": "object",

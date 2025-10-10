@@ -1,27 +1,27 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class FindCourseByName(Tool):
-    """Find a course's ID by its name."""
+    """Identify a course's ID based on its name."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        name = kwargs.get("name")
-        for c in data.get("course_catalog", []):
+    def invoke(data: dict[str, Any], name: str = None) -> str:
+        for c in data.get("course_catalog", {}).values():
             if c.get("name").lower() == name.lower():
-                return json.dumps({"course_id": c.get("course_id")})
-        return json.dumps({"error": "Course not found"})
-
+                payload = {"course_id": c.get("course_id")}
+                out = json.dumps(payload)
+                return out
+        payload = {"error": "Course not found"}
+        out = json.dumps(payload)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "find_course_by_name",
+                "name": "FindCourseByName",
                 "description": "Find a course's ID by its name.",
                 "parameters": {
                     "type": "object",

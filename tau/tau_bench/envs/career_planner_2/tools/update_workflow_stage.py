@@ -1,33 +1,34 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class UpdateWorkflowStage(Tool):
-    """Update HR workflow stage status."""
+    """Revise the status of the HR workflow stage."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        wid = kwargs.get("workflow_id")
-        stg = kwargs.get("stage")
-        st = kwargs.get("status")
-        for wf in data.get("hr_workflows", []):
+    def invoke(data: dict[str, Any], workflow_id: str = None, stage: str = None, status: str = None) -> str:
+        wid = workflow_id
+        stg = stage
+        st = status
+        for wf in data.get("hr_workflows", {}).values():
             if wf.get("workflow_id") == wid:
                 for s in wf.get("workflow_stages", []):
                     if s.get("stage") == stg:
                         s["status"] = st
                         s["date"] = datetime.utcnow().date().isoformat()
-                        return json.dumps({"success": f"{stg} -> {st}"}, indent=2)
-        return json.dumps({"error": "Not found"})
-
+                        payload = {"success": f"{stg} -> {st}"}
+                        out = json.dumps(payload, indent=2)
+                        return out
+        payload = {"error": "Not found"}
+        out = json.dumps(payload)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "update_workflow_stage",
+                "name": "UpdateWorkflowStage",
                 "description": "Update stage.",
                 "parameters": {
                     "type": "object",

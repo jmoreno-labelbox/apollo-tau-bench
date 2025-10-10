@@ -1,17 +1,12 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime, timezone
+from typing import Any, Dict, List
+import os
 
 class CreateSupportTicketForAccount(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        customer_id = kwargs.get('customer_id')
-        account_id = kwargs.get('account_id')
-        reason = kwargs.get('reason')
-
+    def invoke(data: Dict[str, Any], customer_id: str = None, account_id: str = None, reason: str = None) -> str:
         if not customer_id or not account_id or not reason:
             return json.dumps({'error': 'customer_id, account_id, and reason are required'})
 
@@ -31,13 +26,12 @@ class CreateSupportTicketForAccount(Tool):
         }
 
         return json.dumps({'success': True, 'ticket_created': new_ticket}, indent=2)
-
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             'type': 'function',
             'function': {
-                'name': 'create_support_ticket_for_account',
+                'name': 'createSupportTicketForAccount',
                 'description': 'Creates a high-priority support ticket to investigate an issue related to an account.',
                 'parameters': {
                     'type': 'object',

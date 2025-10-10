@@ -1,14 +1,12 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class UpdateGoal(Tool):
     @staticmethod
     def invoke(
-        data: Dict[str, Any],
+        data: dict[str, Any],
         user_id: str,
         goal_id: str,
         last_updated_date: str,
@@ -16,14 +14,16 @@ class UpdateGoal(Tool):
         progress_percent: int = None,
         notes_to_append: str = None,
     ) -> str:
-        goals_data = data.get("goals", [])
+        goals_data = data.get("goals", {}).values()
         user_goals_obj = next(
-            (g for g in goals_data if g.get("user_id") == user_id), None
+            (g for g in goals_data.values() if g.get("user_id") == user_id), None
         )
         if not user_goals_obj:
-            return json.dumps(
-                {"error": f"User {user_id} not found in goals data"}, indent=2
+            payload = {"error": f"User {user_id} not found in goals data"}
+            out = json.dumps(
+                payload, indent=2
             )
+            return out
 
         goal_to_update = next(
             (g for g in user_goals_obj.get("goals", []) if g.get("goal_id") == goal_id),
@@ -31,11 +31,13 @@ class UpdateGoal(Tool):
         )
 
         if not goal_to_update:
-            return json.dumps(
-                {"error": f"Goal {goal_id} not found for user {user_id}"}, indent=2
+            payload = {"error": f"Goal {goal_id} not found for user {user_id}"}
+            out = json.dumps(
+                payload, indent=2
             )
+            return out
 
-        # Apply updates if provided
+        # Implement updates if supplied
         if status is not None:
             goal_to_update["status"] = status
         if progress_percent is not None:
@@ -47,19 +49,22 @@ class UpdateGoal(Tool):
             else:
                 goal_to_update["notes"] = notes_to_append.strip()
 
-        # Set the last_updated date from the provided parameter
+        # Assign the last_updated date based on the supplied parameter
         goal_to_update["last_updated"] = last_updated_date
-
-        return json.dumps(
-            {"success": f"Goal {goal_id} updated for user {user_id}"}, indent=2
+        payload = {"success": f"Goal {goal_id} updated for user {user_id}"}
+        out = json.dumps(
+            payload, indent=2
         )
+        return out
+            
 
     @staticmethod
     def get_info() -> dict:
+        pass
         return {
             "type": "function",
             "function": {
-                "name": "update_goal",
+                "name": "UpdateGoal",
                 "description": "Update specific fields of a user's goal. The last_updated date must be provided.",
                 "parameters": {
                     "type": "object",

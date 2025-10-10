@@ -1,20 +1,21 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime, timezone
+from typing import Any, Dict, List
+import os
 
 class ListRecentTransactionsByCategory(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        account_ids = kwargs.get('account_ids')
-        group_by = kwargs.get('group_by', 'merchant_name')
-        limit = kwargs.get('limit', 10)
+    def invoke(
+        data: Dict[str, Any],
+        account_ids: list = None,
+        group_by: str = 'merchant_name',
+        limit: int = 10
+    ) -> str:
         if not account_ids:
             return json.dumps({'error': 'account_ids is required'})
         transactions = load_json('transactions.json')
-        filtered = [t for t in transactions if t['account_id'] in account_ids]
+        filtered = [t for t in transactions.values() if t['account_id'] in account_ids]
         filtered.sort(key=lambda t: t['transaction_date'], reverse=True)
         filtered = filtered[:limit]
         grouped = {}
@@ -22,13 +23,12 @@ class ListRecentTransactionsByCategory(Tool):
             key = t.get(group_by) or 'Unknown'
             grouped.setdefault(key, []).append(t)
         return json.dumps(grouped, indent=2)
-
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             'type': 'function',
             'function': {
-                'name': 'list_recent_transactions_by_category',
+                'name': 'listRecentTransactionsByCategory',
                 'description': 'Lists recent transactions grouped by merchant or spending category.',
                 'parameters': {
                     'type': 'object',

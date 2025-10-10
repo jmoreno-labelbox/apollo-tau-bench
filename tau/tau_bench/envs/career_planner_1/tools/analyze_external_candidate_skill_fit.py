@@ -1,21 +1,16 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class AnalyzeExternalCandidateSkillFit(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        candidate_id = kwargs.get("candidate_id")
-        role = kwargs.get("role")
-
-        # gather candidate skills - handle both formats
+    def invoke(data: dict[str, Any], candidate_id: str = None, role: str = None) -> str:
+        # Collect candidate skills - accommodate both formats
         cand = next(
             (
                 c
-                for c in data.get("talent_network", [])
+                for c in data.get("talent_network", {}).values()
                 if c.get("candidate_id") == candidate_id
             ),
             {},
@@ -31,11 +26,11 @@ class AnalyzeExternalCandidateSkillFit(Tool):
                     elif isinstance(skill, dict) and skill.get("skill"):
                         cand_skill_names.add(skill.get("skill"))
 
-        # Debug: Check if candidate was found
+        # Debug: Confirm if the candidate was located
         if not cand_skill_names:
             return f"Error: No skills found for candidate {candidate_id}"
 
-        # gather role skills with mapping support
+        # Collect role skills with mapping assistance
         role_mapping = {
             "AI Researcher": "Senior Data Scientist",
             "Security Analyst": "Cloud Security Specialist",
@@ -53,14 +48,14 @@ class AnalyzeExternalCandidateSkillFit(Tool):
         role_rec = next(
             (
                 r
-                for r in data.get("role_skill_catalog", [])
+                for r in data.get("role_skill_catalog", {}).values()
                 if r.get("role") == target_role
             ),
             {},
         )
         role_skills_raw = role_rec.get("required_skills", [])
 
-        # Safely extract skill names from potentially mixed data
+        # Carefully extract skill names from possibly mixed data
         role_skill_names = set()
         for skill_item in role_skills_raw:
             if isinstance(skill_item, str):
@@ -68,24 +63,24 @@ class AnalyzeExternalCandidateSkillFit(Tool):
             elif isinstance(skill_item, dict) and skill_item.get("skill"):
                 role_skill_names.add(skill_item.get("skill"))
 
-        # compute matches - handle both direct matches and hierarchical skills
+        # Calculate matches - manage both direct matches and hierarchical skills
         matched = []
         missing = []
 
-        # Check each role skill requirement
+        # Examine each skill requirement for the role
         for role_skill in role_skill_names:
-            # Check for direct match first
+            # Verify for a direct match initially
             if role_skill in cand_skill_names:
                 matched.append(role_skill)
             else:
-                # Check if any candidate skill matches this role requirement
+                # Determine if any candidate skill aligns with this role requirement
                 skill_matched = False
 
-                # Get the specific skills for this role requirement from catalog
+                # Retrieve the specific skills for this role requirement from the catalog
                 role_rec = next(
                     (
                         r
-                        for r in data.get("role_skill_catalog", [])
+                        for r in data.get("role_skill_catalog", {}).values()
                         if r.get("role") == target_role
                     ),
                     {},
@@ -96,7 +91,7 @@ class AnalyzeExternalCandidateSkillFit(Tool):
                         and skill_category.get("skill") == role_skill
                     ):
                         specific_skills = skill_category.get("specific_skills", [])
-                        # Check if candidate has any of the specific skills in this category
+                        # Verify if the candidate possesses any of the specific skills in this category
                         for cand_skill in cand_skill_names:
                             if cand_skill in specific_skills:
                                 matched.append(role_skill)
@@ -108,7 +103,7 @@ class AnalyzeExternalCandidateSkillFit(Tool):
                 if not skill_matched:
                     missing.append(role_skill)
 
-        # format response
+        # structure the response
         match_count = len(matched)
         skill_percentage = (
             round((match_count / len(role_skill_names)) * 100)
@@ -117,13 +112,12 @@ class AnalyzeExternalCandidateSkillFit(Tool):
         )
 
         return f"Skills match: {match_count}/{len(role_skill_names)} ({skill_percentage}%)\nMatched: {matched}\nMissing: {missing}"
-
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "analyze_external_candidate_skill_fit",
+                "name": "AnalyzeExternalCandidateSkillFit",
                 "description": "Compare external candidate skills to target role requirements.",
                 "parameters": {
                     "type": "object",

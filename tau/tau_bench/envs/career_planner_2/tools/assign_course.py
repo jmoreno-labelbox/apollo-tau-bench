@@ -1,19 +1,17 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class AssignCourse(Tool):
-    """Enroll user in course."""
+    """Register a user in a course."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        uid = kwargs.get("user_id")
-        cid = kwargs.get("course_id")
+    def invoke(data: dict[str, Any], user_id: str = None, course_id: str = None) -> str:
+        uid = user_id
+        cid = course_id
         log = data.setdefault("user_course_progress", [])
-        log[:] = [r for r in log if not (r["user_id"] == uid and r["course_id"] == cid)]
+        log[:] = [r for r in log.values() if not (r["user_id"] == uid and r["course_id"] == cid)]
         log.append(
             {
                 "user_id": uid,
@@ -22,14 +20,15 @@ class AssignCourse(Tool):
                 "progress_percent": 0,
             }
         )
-        return json.dumps({"success": f"{uid} enrolled in {cid}"}, indent=2)
-
+        payload = {"success": f"{uid} enrolled in {cid}"}
+        out = json.dumps(payload, indent=2)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "assign_course",
+                "name": "AssignCourse",
                 "description": "Enroll user in course.",
                 "parameters": {
                     "type": "object",

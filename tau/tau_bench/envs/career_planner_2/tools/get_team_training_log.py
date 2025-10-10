@@ -1,29 +1,27 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class GetTeamTrainingLog(Tool):
-    """Get team training log entries."""
+    """Retrieve entries from the team training log."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        tid = kwargs.get("team_id")
+    def invoke(data: dict[str, Any], team_id: str = None) -> str:
         logs = [
             log
-            for log in data.get("team_training_logs", [])
-            if log.get("team_id") == tid
+            for log in data.get("team_training_logs", {}).values()
+            if log.get("team_id") == team_id
         ]
-        return json.dumps(logs, indent=2)
-
+        payload = logs
+        out = json.dumps(payload, indent=2)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "get_team_training_log",
+                "name": "GetTeamTrainingLog",
                 "description": "Get team training log.",
                 "parameters": {
                     "type": "object",

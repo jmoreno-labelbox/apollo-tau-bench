@@ -1,31 +1,32 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class ShortlistCandidate(Tool):
-    """Add a candidate to a posting's shortlist."""
+    """Include a candidate in the shortlist for a job posting."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        jid = kwargs.get("job_id")
-        cid = kwargs.get("candidate_id")
-        for p in data.get("job_postings", []):
+    def invoke(data: dict[str, Any], job_id: str = None, candidate_id: str = None) -> str:
+        jid = job_id
+        cid = candidate_id
+        for p in data.get("job_postings", {}).values():
             if p.get("job_id") == jid:
                 sl = p.setdefault("shortlist", [])
                 if cid not in sl:
-                    sl.append(cid)
-                return json.dumps({"success": f"{cid} shortlisted for {jid}"}, indent=2)
-        return json.dumps({"error": "Job not found"})
-
+                    sl[cid] = cid
+                payload = {"success": f"{cid} shortlisted for {jid}"}
+                out = json.dumps(payload, indent=2)
+                return out
+        payload = {"error": "Job not found"}
+        out = json.dumps(payload)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "shortlist_candidate",
+                "name": "ShortlistCandidate",
                 "description": "Shortlist candidate.",
                 "parameters": {
                     "type": "object",

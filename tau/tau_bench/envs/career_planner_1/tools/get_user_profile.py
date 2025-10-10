@@ -1,28 +1,30 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class GetUserProfile(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], user_id: str) -> str:
-        """Retrieve the full profile for a given user ID."""
-        users = list(data.get("users", {}).values())
-        user_profile = next((u for u in users if u.get("user_id") == user_id), None)
+    def invoke(data: dict[str, Any], user_id: str) -> str:
+        """Fetch the complete profile for a specified user ID."""
+        users = data.get("users", {}).values()
+        user_profile = next((u for u in users.values() if u.get("user_id") == user_id), None)
 
         if user_profile:
-            return json.dumps(user_profile, indent=2)
+            payload = user_profile
+            out = json.dumps(payload, indent=2)
+            return out
         else:
-            return json.dumps({"error": f"User with ID {user_id} not found."}, indent=2)
-
+            payload = {"error": f"User with ID {user_id} not found."}
+            out = json.dumps(payload, indent=2)
+            return out
     @staticmethod
     def get_info() -> dict:
+        pass
         return {
             "type": "function",
             "function": {
-                "name": "get_user_profile",
+                "name": "GetUserProfile",
                 "description": "Retrieve the full profile of a user by their user ID, including their team ID, role, and manager.",
                 "parameters": {
                     "type": "object",

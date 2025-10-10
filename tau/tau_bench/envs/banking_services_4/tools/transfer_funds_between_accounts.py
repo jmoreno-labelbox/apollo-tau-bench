@@ -1,25 +1,19 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime, timezone
+from typing import Any, Dict, List
+import os
 
 class TransferFundsBetweenAccounts(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        from_account_id = kwargs.get("from_account_id")
-        to_account_id = kwargs.get("to_account_id")
-        amount = kwargs.get("amount")
-        reason = kwargs.get("reason", "Fund transfer")
-
+    def invoke(data: Dict[str, Any], from_account_id: str = None, to_account_id: str = None, amount: float = None, reason: str = "Fund transfer") -> str:
         if not from_account_id or not to_account_id or amount is None:
             return json.dumps({"error": "from_account_id, to_account_id, and amount are required"})
 
         accounts = load_json("accounts.json")
 
-        from_account = next((acc for acc in accounts if acc["account_id"] == from_account_id), None)
-        to_account = next((acc for acc in accounts if acc["account_id"] == to_account_id), None)
+        from_account = next((acc for acc in accounts.values() if acc["account_id"] == from_account_id), None)
+        to_account = next((acc for acc in accounts.values() if acc["account_id"] == to_account_id), None)
 
         if from_account is None:
             return json.dumps({"error": f"from_account_id {from_account_id} not found"})
@@ -41,13 +35,12 @@ class TransferFundsBetweenAccounts(Tool):
             "to_account_balance": to_account["balance"],
             "note": "Changes are in-memory only; not persisted to file."
         })
-
     @staticmethod
     def get_info() -> Dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "transfer_funds_between_accounts",
+                "name": "TransferFundsBetweenAccounts",
                 "description": "Transfers a specified amount from one account to another.",
                 "parameters": {
                     "type": "object",

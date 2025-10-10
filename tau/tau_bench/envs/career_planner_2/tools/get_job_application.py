@@ -1,27 +1,28 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class GetJobApplication(Tool):
-    """Fetch a job application record by ID."""
+    """Retrieve a job application record using its ID."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aid = kwargs.get("application_id")
-        for a in data.get("job_applications", []):
+    def invoke(data: dict[str, Any], application_id: str = None) -> str:
+        aid = application_id
+        for a in data.get("job_applications", {}).values():
             if a.get("application_id") == aid:
-                return json.dumps(a, indent=2)
-        return json.dumps({"error": "Application not found"})
-
+                payload = a
+                out = json.dumps(payload, indent=2)
+                return out
+        payload = {"error": "Application not found"}
+        out = json.dumps(payload)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "get_job_application",
+                "name": "GetJobApplication",
                 "description": "Get job application.",
                 "parameters": {
                     "type": "object",

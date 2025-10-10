@@ -1,32 +1,35 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class GetCourseIdByName(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], course_name: str) -> str:
-        courses = data.get("course_catalog", [])
-        # Find a course where the name contains the provided string (case-insensitive)
+    def invoke(data: dict[str, Any], course_name: str) -> str:
+        _course_nameL = course_name or ''.lower()
+        pass
+        courses = data.get("course_catalog", {}).values()
+        # Locate a course whose name includes the provided string (case-insensitive)
         course = next(
-            (c for c in courses if course_name.lower() in c.get("name", "").lower()),
+            (c for c in courses.values() if course_name.lower() in c.get("name", "").lower()),
             None,
         )
         if course:
-            return json.dumps({"course_id": course["course_id"]}, indent=2)
-        return json.dumps(
-            {"error": f"Course with name containing '{course_name}' not found"},
-            indent=2,
+            payload = {"course_id": course["course_id"]}
+            out = json.dumps(payload, indent=2)
+            return out
+        payload = {"error": f"Course with name containing '{course_name}' not found"}
+        out = json.dumps(
+            payload, indent=2,
         )
-
+        return out
     @staticmethod
     def get_info() -> dict:
+        pass
         return {
             "type": "function",
             "function": {
-                "name": "get_course_id_by_name",
+                "name": "GetCourseIdByName",
                 "description": "Find a course ID by its name.",
                 "parameters": {
                     "type": "object",

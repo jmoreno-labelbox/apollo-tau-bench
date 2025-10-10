@@ -1,30 +1,29 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class UpdateApplicationStatus(Tool):
-    """Set a new status on a job application."""
+    """Update the status of a job application."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        aid = kwargs.get("application_id")
-        st = kwargs.get("status")
-        for a in data.get("job_applications", []):
-            if a.get("application_id") == aid:
-                a["status"] = st
+    def invoke(data: dict[str, Any], application_id: str = None, status: str = None) -> str:
+        for a in data.get("job_applications", {}).values():
+            if a.get("application_id") == application_id:
+                a["status"] = status
                 a["last_updated"] = datetime.utcnow().date().isoformat()
-                return json.dumps({"success": f"{aid} status {st}"}, indent=2)
-        return json.dumps({"error": "Application not found"})
-
+                payload = {"success": f"{application_id} status {status}"}
+                out = json.dumps(payload, indent=2)
+                return out
+        payload = {"error": "Application not found"}
+        out = json.dumps(payload)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "update_application_status",
+                "name": "UpdateApplicationStatus",
                 "description": "Update app status.",
                 "parameters": {
                     "type": "object",

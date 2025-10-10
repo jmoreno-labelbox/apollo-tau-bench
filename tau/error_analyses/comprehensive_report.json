@@ -1,5 +1,6 @@
 {
   "stats": {
+<<<<<<< HEAD
     "total": 29,
     "tested": 28,
     "analyzed": 28,
@@ -221,4 +222,14 @@
     }
   },
   "timestamp": "/Users/josemoreno/Desktop/repos/apollo-tau-bench"
+=======
+    "total": 122,
+    "tested": 0,
+    "analyzed": 0,
+    "skipped": 122,
+    "failed": 0
+  },
+  "summaries": {},
+  "timestamp": "/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1"
+>>>>>>> 0a6fac827aa2b68c93880957b969e8a8e735772f
 }

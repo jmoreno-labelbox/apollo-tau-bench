@@ -1,17 +1,15 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class UpdateUserCertification(Tool):
-    """Update user certification."""
+    """Revise a user's certification."""
 
     @staticmethod
-    def invoke(data: Dict[str, Any], **kwargs) -> str:
-        uid = kwargs.get("user_id")
-        cert = kwargs.get("certification")
+    def invoke(data: dict[str, Any], user_id: str = None, certification: str = None) -> str:
+        uid = user_id
+        cert = certification
         certs = data.setdefault("user_certifications", [])
         certs[:] = [
             c for c in certs if not (c["user_id"] == uid and c["certification"] == cert)
@@ -23,14 +21,15 @@ class UpdateUserCertification(Tool):
                 "date_earned": datetime.utcnow().date().isoformat(),
             }
         )
-        return json.dumps({"success": f"{uid} earned {cert}"}, indent=2)
-
+        payload = {"success": f"{uid} earned {cert}"}
+        out = json.dumps(payload, indent=2)
+        return out
     @staticmethod
-    def get_info() -> Dict[str, Any]:
+    def get_info() -> dict[str, Any]:
         return {
             "type": "function",
             "function": {
-                "name": "update_user_certification",
+                "name": "updateUserCertification",
                 "description": "Update user certification.",
                 "parameters": {
                     "type": "object",

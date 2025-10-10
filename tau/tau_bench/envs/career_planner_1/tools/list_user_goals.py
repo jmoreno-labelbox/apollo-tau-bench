@@ -1,24 +1,24 @@
-# Copyright Sierra
-
-import json
-from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
-
+import json
+from datetime import datetime
+from typing import Any
 
 class ListUserGoals(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], user_id: str) -> str:
-        goals_data = data.get("goals", [])
-        user_goals = next((g for g in goals_data if g.get("user_id") == user_id), {})
+    def invoke(data: dict[str, Any], user_id: str) -> str:
+        goals_data = data.get("goals", {}).values()
+        user_goals = next((g for g in goals_data.values() if g.get("user_id") == user_id), {}).values()
         goals = user_goals.get("goals", [])
-        return json.dumps({"user_id": user_id, "goals": goals}, indent=2)
-
+        payload = {"user_id": user_id, "goals": goals}
+        out = json.dumps(payload, indent=2)
+        return out
     @staticmethod
     def get_info() -> dict:
+        pass
         return {
             "type": "function",
             "function": {
-                "name": "list_user_goals",
+                "name": "ListUserGoals",
                 "description": "List all goals for a user",
                 "parameters": {
                     "type": "object",
