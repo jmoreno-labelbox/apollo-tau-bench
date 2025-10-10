@@ -86,7 +86,7 @@ class CreateProject(Tool):
                             "description": "Project's department",
                         },
                         "needs_resources": {
-                            "type": "bool",
+                            "type": "boolean",
                             "description": "Indicates if the project need more allocation",
                         },
                     },

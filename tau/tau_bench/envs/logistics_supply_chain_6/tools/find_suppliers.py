@@ -29,7 +29,7 @@ class FindSuppliers(Tool):
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "product_categories": {"type": "array", "description": "The product categories to search for (e.g., 'Electronics', 'Apparel')."}
+                        "product_categories": {"type": "array", "items": {"type": "string"}, "description": "The product categories to search for (e.g., 'Electronics', 'Apparel')."}
                     },
                     "required": ["product_categories"],
                 },

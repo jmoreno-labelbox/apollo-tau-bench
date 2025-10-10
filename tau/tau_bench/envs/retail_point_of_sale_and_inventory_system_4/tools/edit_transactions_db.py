@@ -89,7 +89,7 @@ class EditTransactionsDb(Tool): # WRITE
                         "employee_id": {"type": "string", "default": None, "description": "Employee ID."},
                         "timestamp": {"type": "string", "default": None, "description": "Timestamp of transaction."},
                         "customer_id": {"type": "string", "default": None, "description": "Customer ID."},
-                        "line_items": {"type": "list", "items": {"type": "object"}, "default": None, "description": "Line items for the transaction."},
+                        "line_items": {"type": "array", "items": {"type": "object"}, "default": None, "description": "Line items for the transaction."},
                         "total_amount": {"type": "number", "default": None, "description": "Total amount for the transaction."},
                         "tax_amount": {"type": "number", "default": None, "description": "Tax amount for the transaction."},
                         "payment_method": {"type": "string", "default": None, "description": "Payment method."},

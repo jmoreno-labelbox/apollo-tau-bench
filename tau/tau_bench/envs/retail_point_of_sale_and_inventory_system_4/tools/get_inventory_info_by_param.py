@@ -25,7 +25,7 @@ class GetInventoryInfoByParam(Tool): # READ
                     "type": "object",
                     "properties": {
                         "filter_params": {"type": "object", "description": "Dictionary of ways to filter items in the database. To pass the filter an item must match one of the possible given values for all the filtering paramets"},
-                        "info_items": {"type": "list", "items": {"type": "string"}, "description": "A list of all the keys of the infomation that should be returned by the function for the filtered database entries."}
+                        "info_items": {"type": "array", "items": {"type": "string"}, "description": "A list of all the keys of the infomation that should be returned by the function for the filtered database entries."}
                     },
                     "required": ["filter_params"]
                 }

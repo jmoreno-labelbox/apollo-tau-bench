@@ -150,7 +150,7 @@ class create_product(Tool):
                             "description": "The tax rate of the product",
                         },
                         "is_discountable": {
-                            "type": "bool",
+                            "type": "boolean",
                             "description": "OPTIONAL. If the product has an active discount. Ensure that the promotions table is updated with this information. Defaults to False",
                         },
                         "discount_rate": {

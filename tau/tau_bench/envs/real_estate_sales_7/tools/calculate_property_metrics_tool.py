@@ -216,7 +216,7 @@ class CalculatePropertyMetricsTool(Tool):
                     "properties": {
                         "subject_property_id": {"type": "string"},
                         "comparable_properties": {
-                            "type": "array",
+                            "type": "array", "items": {"type": "string"},
                             "description": "List of property_ids or dicts",
                         },
                         "client_budget": {

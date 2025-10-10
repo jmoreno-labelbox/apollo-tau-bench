@@ -59,7 +59,7 @@ class ReceiveInboundShipment(Tool):
                     "properties": {
                         "shipment_id": {"type": "string", "description": "The ID of the inbound shipment being received."},
                         "items_received": {
-                            "type": "array",
+                            "type": "array", "items": {"type": "string"},
                             "description": "A list of SKUs and quantities that were received.",
                             "items": {
                                 "type": "object",

@@ -50,7 +50,7 @@ class FindWarehouses(Tool):
                         "city": {"type": "string", "description": "Filter by city."},
                         "country": {"type": "string", "description": "Filter by country."},
                         "special_capability": {"type": "string", "description": "Filter by a special capability (e.g., 'Cold Storage', 'Hazmat Certified')."},
-                        "special_capabilities": {"type": "array", "description": "Filter by multiple special capabilities (e.g., 'Cold Storage', 'Hazmat Certified')."},
+                        "special_capabilities": {"type": "array", "items": {"type": "string"}, "description": "Filter by multiple special capabilities (e.g., 'Cold Storage', 'Hazmat Certified')."},
                     },
                 },
             },

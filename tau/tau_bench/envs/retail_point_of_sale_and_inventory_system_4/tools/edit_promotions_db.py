@@ -83,7 +83,7 @@ class EditPromotionsDb(Tool): # WRITE
                         "type": {"type": "string", "default": None, "description": "Type of promotion."},
                         "discount_value": {"type": "number", "default": None, "description": "Discount value."},
                         "description": {"type": "string", "default": None, "description": "Description of the promotion."},
-                        "applicable_skus": {"type": "list", "items": {"type": "string"}, "default": None, "description": "SKUs to which the promotion applies. If empty, applies to all products."},
+                        "applicable_skus": {"type": "array", "items": {"type": "string"}, "default": None, "description": "SKUs to which the promotion applies. If empty, applies to all products."},
                         "start_date": {"type": "string", "default": None, "description": "Start date of the promotion."},
                         "end_date": {"type": "string", "default": None, "description": "End date of the promotion."},
                         "status": {"type": "string", "default": None, "description": "Status of the promotion."},
