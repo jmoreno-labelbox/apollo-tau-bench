@@ -1,3 +1,4 @@
+import uuid
 # Copyright Sierra
 
 from .search_tasks import SearchTasks

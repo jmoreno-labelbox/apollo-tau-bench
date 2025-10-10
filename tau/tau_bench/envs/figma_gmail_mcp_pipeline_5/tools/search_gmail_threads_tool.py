@@ -14,7 +14,7 @@ class SearchGmailThreadsTool(Tool):
         participant = kwargs.get("participant")
         keyword = kwargs.get("keyword")
 
-        threads = data.get("gmail_threads", [])
+        threads = list(data.get("gmail_threads", {}).values())
         out = []
         for t in threads:
             if label and label not in (t.get("current_labels") or []):

@@ -1,0 +1,262 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "task_001",
+        "actions": [
+          {
+            "name": "GetContactByEmail",
+            "kwargs": {
+              "email": "emily.w@email.com"
+            }
+          },
+          {
+            "name": "ListProductsInCategory",
+            "kwargs": {
+              "category_id": "CAT103"
+            }
+          },
+          {
+            "name": "GetProductByName",
+            "kwargs": {
+              "name": "Wireless Mouse"
+            }
+          },
+          {
+            "name": "ReserveCartId",
+            "kwargs": {}
+          },
+          {
+            "name": "CreateCart",
+            "kwargs": {
+              "cart_id": "C001",
+              "contact_id": "204",
+              "created_at": "2025-08-06T12:00:00Z"
+            }
+          },
+          {
+            "name": "AddItemToCart",
+            "kwargs": {
+              "cart_id": "C001",
+              "product_id": "1003",
+              "quantity": 1
+            }
+          },
+          {
+            "name": "SetItemQuantity",
+            "kwargs": {
+              "cart_item_id": "C001:1003",
+              "new_quantity": 2
+            }
+          },
+          {
+            "name": "PreviewCartTotals",
+            "kwargs": {
+              "cart_id": "C001"
+            }
+          },
+          {
+            "name": "ReserveOrderId",
+            "kwargs": {}
+          },
+          {
+            "name": "CreateOrder",
+            "kwargs": {
+              "order_id": "O001",
+              "cart_id": "C001",
+              "created_at": "2025-08-06T12:00:00Z"
+            }
+          }
+        ],
+        "instruction": "You are Maria Garcia (emily.w@email.com). You aim to finalize a purchase of two units of a Wireless Mouse from CAT103.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0011925000000000002,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "eaa7ff557ebd9efd197bf69abcd68297a5da4a539406a001c5c1dcc6dfd61854"
+        },
+        "actions": [
+          {
+            "name": "GetContactByEmail",
+            "kwargs": {
+              "email": "emily.w@email.com"
+            }
+          },
+          {
+            "name": "ListProductsInCategory",
+            "kwargs": {
+              "category_id": "CAT103"
+            }
+          },
+          {
+            "name": "GetProductByName",
+            "kwargs": {
+              "name": "Wireless Mouse"
+            }
+          },
+          {
+            "name": "ReserveCartId",
+            "kwargs": {}
+          },
+          {
+            "name": "CreateCart",
+            "kwargs": {
+              "cart_id": "C001",
+              "contact_id": "204",
+              "created_at": "2025-08-06T12:00:00Z"
+            }
+          },
+          {
+            "name": "AddItemToCart",
+            "kwargs": {
+              "cart_id": "C001",
+              "product_id": "1003",
+              "quantity": 1
+            }
+          },
+          {
+            "name": "SetItemQuantity",
+            "kwargs": {
+              "cart_item_id": "C001:1003",
+              "new_quantity": 2
+            }
+          },
+          {
+            "name": "PreviewCartTotals",
+            "kwargs": {
+              "cart_id": "C001"
+            }
+          },
+          {
+            "name": "ReserveOrderId",
+            "kwargs": {}
+          },
+          {
+            "name": "CreateOrder",
+            "kwargs": {
+              "order_id": "O001",
+              "cart_id": "C001",
+              "created_at": "2025-08-06T12:00:00Z"
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You operate as a digital commerce operator.\",\n    \"Unless a different time is specified in the instruction, treat 2025-08-06T12:00:00Z as the current timestamp.\",\n    \"Supported actions include: searching for customers using email; browsing categories or locating products; creating and managing carts; entering coupon codes; changing to specified pricing tiers; submitting orders; viewing total estimates; canceling orders; handling returns and refunds; and creating or updating support cases.\",\n    \"Default to the customer\u2019s standard pricing unless a named tier is specifically requested; if a particular timing is indicated (such as before or after adding items), follow that timing exactly.\",\n    \"Coupons: apply a coupon solely when the precise code is entered. Do not attempt to infer codes or combine multiple coupons unless explicitly instructed.\",\n    \"Optional operations are opt-in: adjust quantities, delete items, display totals (including before/after comparisons), or update the shipping address after an order only upon explicit request.\",\n    \"Returns / refunds / cancellations: carry out precisely the requested action. If a return and a refund are both requested, process the return prior to the refund.\",\n    \"In this system, IDs are represented as strings. Always handle numeric IDs as strings, and do not create, change, or fabricate any IDs, emails, product names, or prices.\",\n    \"Catalog data, inventory, pricing rules, and offers must remain unchanged unless the instruction specifically directs you to modify them.\",\n    \"When necessary information is absent or unclear, refrain from making assumptions\u2014provide a brief message indicating what is required.\",\n    \"If an instruction refers to 'the cache security group', select 'sg-cache' unless a specific ID is provided.\",\n    \"If an instruction mentions 'the production cache subnet group', assign 'esg-prod-1'; if it refers to 'the UAT cache subnet group', assign 'esg-uat-1'.\",\n    \"By default, Redis security settings must have auth tokens enabled and both encryption in transit and at rest activated, except where the instruction specifically disables these features.\",\n    \"When a Redis endpoint or port is absent, default to '{cluster_id}.cache.local' with TCP port 6379.\",\n    \"In the absence of a provided description for a security-group rule, assign the following defaults: 6379/TCP \u2192 'Temporary allow for verification'; 443/TCP \u2192 'HTTPS egress'; 9121/TCP \u2192 'Metrics scrapers'.\",\n    \"Upon opening a case: if the instructions specify a case id (such as 'CASE090'), use that value exactly; if not, construct the id as 'CASE' followed by the order number (for example, O090 becomes CASE090).\",\n    \"Before creating a cart, always reserve a cart id, and before placing an order, always reserve an order id; never generate or reuse ids.\",\n    \"Only set or update a shipping address if the instruction contains the complete address.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi! I'm looking to purchase two units of a Wireless Mouse from CAT103. Can you assist me with that?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"category_id\":\"CAT103\"}",
+              "name": "list_products_in_category"
+            },
+            "id": "call_iZ9CwWwvM9QfBEFqf4V07Tmb",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_iZ9CwWwvM9QfBEFqf4V07Tmb",
+        "name": "list_products_in_category",
+        "content": "Error: name '_as_id' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"category_id\":\"CAT103\"}",
+              "name": "list_products_in_category"
+            },
+            "id": "call_qP0R573RnMh6fk5S1ZIPlAdV",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_qP0R573RnMh6fk5S1ZIPlAdV",
+        "name": "list_products_in_category",
+        "content": "Error: name '_as_id' is not defined"
+      },
+      {
+        "content": "It seems there was an issue retrieving the products from the specified category. Could you please provide the exact name of the Wireless Mouse you're looking for? This will help me locate it more effectively.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Unfortunately, I don't have the exact name of the Wireless Mouse, but it's in the CAT103 category. Can you help me find it?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"category_id\":\"CAT103\"}",
+              "name": "list_products_in_category"
+            },
+            "id": "call_Oz6r6e9vDScEnjJG6gGjiCdP",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_Oz6r6e9vDScEnjJG6gGjiCdP",
+        "name": "list_products_in_category",
+        "content": "Error: name '_as_id' is not defined"
+      },
+      {
+        "content": "I'm currently unable to retrieve the products from the specified category due to a technical issue. \n\nIf you have any other details about the Wireless Mouse, such as brand or features, please share them, and I can assist you further. Alternatively, you may want to check back later.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I don't have additional details right now. I\u2019ll check back later when the issue is resolved. Thank you for your help!"
+      },
+      {
+        "content": "You're welcome! If you have any other questions or need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! You too! ###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

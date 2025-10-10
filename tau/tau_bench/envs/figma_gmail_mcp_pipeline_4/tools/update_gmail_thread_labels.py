@@ -20,7 +20,7 @@ class UpdateGmailThreadLabels(Tool):
         if not thread_id:
             return json.dumps({"error": "thread_id is required."})
 
-        gmail_threads = data.get('gmail_threads', [])
+        gmail_threads = list(data.get('gmail_threads', {}).values())
 
         # Find the thread
         thread_found = False

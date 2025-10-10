@@ -48,6 +48,12 @@ def _json_dump(obj):
     return json.dumps(obj, indent=2)
 
 
+
+def _index_by(items, key):
+    """Create a dict indexed by the given key."""
+    return {item.get(key): item for item in items}
+
+
 from .get_user_by_id import GetUserById
 from .get_household_by_id import GetHouseholdById
 from .list_household_members import ListHouseholdMembers

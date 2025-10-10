@@ -15,7 +15,7 @@ class GuardAttachmentPolicyOnDraftTool(Tool):
             return json.dumps({"error":"message_id is required"})
 
         # Simplified: check body size approximates attachment concerns
-        messages = data.get("gmail_messages", [])
+        messages = list(data.get("gmail_messages", {}).values())
         target = None
         for m in messages:
             if m.get("message_id") == message_id:

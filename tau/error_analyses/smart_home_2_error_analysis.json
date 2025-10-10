@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the `ModifyDeviceState` action for scheduling the central AC and other devices. The errors indicate that the agent did not provide the required `update` parameter when invoking the `ModifyDeviceState` function, leading to repeated errors and failure to schedule the devices as instructed. This contrasts with the ground truth action sequence, where the `ModifyDeviceState` actions are correctly executed with the necessary parameters."
+            "description": "The agent is responsible for the fault in the trajectory due to several issues:\n\n1. **AC Configuration Error**: The agent failed to configure the central AC correctly. The `ModifyDeviceState` action for the AC was not executed properly due to a missing argument error, resulting in the AC not being set with the specified parameters (mode, setpoint, fan speed).\n\n2. **Curtain Position Error**: The agent scheduled the curtain to close at the wrong position. The ground truth specifies the curtain should be set to position 0, but the agent set it to position 100.\n\n3. **Lighting Routine Error**: The agent incorrectly set the daily routine for the lights. The ground truth specifies turning on the ceiling light with brightness 30 and turning off the floor lamp. However, the agent scheduled both lights to turn off.\n\n4. **Reminder Setup Error**: The agent failed to set up the one-time reminder due to multiple errors related to incorrect arguments and missing parameters, resulting in the reminder not being created."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `ModifyDeviceState` action was attempted without providing the required `update` argument. The ground truth action sequence specifies that the `ModifyDeviceState` action should include an `update` dictionary with specific parameters for the device state change, such as `power`, `mode`, `setpoint_c`, and `fan_speed` for the AC. The errors in the trajectory indicate that these parameters were not correctly provided, leading to repeated invocation errors."
+            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the `ModifyDeviceState` action for scheduling the central AC was invoked with an incomplete `update` argument. The ground truth specifies that the `update` should include `power`, `mode`, `setpoint_c`, and `fan_speed`, but the trajectory only attempted to set `power` to \"on\". Additionally, the `ModifyDeviceState` action for the living-room curtain was scheduled with the wrong `position` value of 100 instead of 0, which is required to close the curtain."
         }
     ]
 }

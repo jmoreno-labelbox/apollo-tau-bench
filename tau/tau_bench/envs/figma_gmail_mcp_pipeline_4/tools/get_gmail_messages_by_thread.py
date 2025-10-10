@@ -19,7 +19,7 @@ class GetGmailMessagesByThread(Tool):
         sent_after = kwargs.get('sent_after')
         sent_before = kwargs.get('sent_before')
 
-        gmail_messages = data.get('gmail_messages', [])
+        gmail_messages = list(data.get('gmail_messages', {}).values())
 
         # If message_id is provided, return specific message
         if message_id:

@@ -6,6 +6,21 @@ def _money(amount):
     """Format amount as money string."""
     return f"${amount:.2f}"
 
+
+def _idstr(prefix, items, id_key='id'):
+    """Generate next ID with prefix (e.g., 'USR-001', 'USR-002')."""
+    max_num = 0
+    for item in items:
+        item_id = str(item.get(id_key, ''))
+        if item_id.startswith(prefix + '-'):
+            try:
+                num = int(item_id.split('-')[-1])
+                max_num = max(max_num, num)
+            except (ValueError, IndexError):
+                pass
+    return f"{prefix}-{max_num + 1:03d}"
+
+
 from .get_account_by_id import GetAccountById
 from .get_account_by_name import GetAccountByName
 from .update_street_address import UpdateStreetAddress

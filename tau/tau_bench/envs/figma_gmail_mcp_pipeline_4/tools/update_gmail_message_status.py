@@ -21,7 +21,7 @@ class UpdateGmailMessageStatus(Tool):
         if not message_id:
             return json.dumps({"error": "message_id is required."})
 
-        gmail_messages = data.get('gmail_messages', [])
+        gmail_messages = list(data.get('gmail_messages', {}).values())
 
         # Find the message
         message_found = False

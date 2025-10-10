@@ -1,0 +1,328 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "V6_001",
+        "actions": [
+          {
+            "name": "createTmsJob",
+            "kwargs": {
+              "job_type": "translation",
+              "source_locale": "en",
+              "target_locales": [
+                "es",
+                "it"
+              ],
+              "priority": "high",
+              "metadata": {
+                "component": "ui",
+                "subcomponent": "pause_menu",
+                "commit_sha": "def789ghi012345",
+                "build_run_id": "run_002",
+                "test_result_id": "test_result_045"
+              }
+            }
+          },
+          {
+            "name": "recordTranslations",
+            "kwargs": {
+              "entries": [
+                {
+                  "string_key": "ui.main_menu.start_game",
+                  "locale": "es",
+                  "target_string": "Comenzar"
+                },
+                {
+                  "string_key": "ui.main_menu.start_game",
+                  "locale": "it",
+                  "target_string": "Avvia"
+                }
+              ]
+            }
+          },
+          {
+            "name": "updateLocaleValidation",
+            "kwargs": {
+              "string_key": "ui.main_menu.start_game",
+              "locale": "es",
+              "validation_status": "passed"
+            }
+          },
+          {
+            "name": "updateLocaleValidation",
+            "kwargs": {
+              "string_key": "ui.main_menu.start_game",
+              "locale": "it",
+              "validation_status": "passed"
+            }
+          },
+          {
+            "name": "linkWorkItems",
+            "kwargs": {
+              "parent_id": "work_055",
+              "child_id": "work_140",
+              "link_type": "relates_to"
+            }
+          },
+          {
+            "name": "tagWorkItemWithLabel",
+            "kwargs": {
+              "work_item_id": "work_140",
+              "label_id": "label_002"
+            }
+          },
+          {
+            "name": "createLocalizationWorkflow",
+            "kwargs": {
+              "pr_number": 1601,
+              "changed_keys": [
+                "ui.main_menu.start_game"
+              ],
+              "locales_processed": [
+                "es",
+                "it"
+              ],
+              "overflow_issues": 0,
+              "status": "completed",
+              "metadata": {
+                "component": "ui",
+                "subcomponent": "pause_menu",
+                "commit_sha": "def789ghi012345",
+                "build_run_id": "run_002",
+                "test_result_id": "test_result_045"
+              }
+            }
+          },
+          {
+            "name": "sendNotification",
+            "kwargs": {
+              "notification_type": "info",
+              "title": "Job queued: ui.main_menu.start_game [es,it]",
+              "message": "TMS job created for ui.main_menu.start_game",
+              "channel": "slack"
+            }
+          },
+          {
+            "name": "sendNotification",
+            "kwargs": {
+              "notification_type": "update",
+              "title": "Validations passed: ui.main_menu.start_game [es,it]",
+              "message": "Validations passed for es,it for ui.main_menu.start_game",
+              "channel": "slack"
+            }
+          }
+        ],
+        "instruction": "Handle the localization of the pause-menu 'Start Game' string using only the existing CI metadata (commit 'def789ghi012345', build run 'run_002', test 'test_result_045'). The task is to deliver a high-priority localization update specifically for 'ui.main_menu.start_game' in the locales ['es','it'], with translations as ('Comenzar' for es, 'Avvia' for it), ensuring locale validations are passed, updating the localization workflow for PR 1601, correct tagging and relationship on the corresponding work items (work_055 \u2192 work_140, relates_to; label_002 on work_140), and ensuring notifications indicate that the task was queued and validations were successful. Utilize tool-generated IDs/timestamps and adhere to domain rules for deterministic parameters; refrain from creating custom IDs or names, and omit the 'id' field in translation entries (each entry should contain only: string_key, locale, target_string). Use tool outputs to determine the operational sequence to fulfill these success criteria.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.002705,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "8b66426de65a4d9751b22731005f33ee5737b1f5e1fdee848d054e7c78944a21"
+        },
+        "actions": [
+          {
+            "name": "createTmsJob",
+            "kwargs": {
+              "job_type": "translation",
+              "source_locale": "en",
+              "target_locales": [
+                "es",
+                "it"
+              ],
+              "priority": "high",
+              "metadata": {
+                "component": "ui",
+                "subcomponent": "pause_menu",
+                "commit_sha": "def789ghi012345",
+                "build_run_id": "run_002",
+                "test_result_id": "test_result_045"
+              }
+            }
+          },
+          {
+            "name": "recordTranslations",
+            "kwargs": {
+              "entries": [
+                {
+                  "string_key": "ui.main_menu.start_game",
+                  "locale": "es",
+                  "target_string": "Comenzar"
+                },
+                {
+                  "string_key": "ui.main_menu.start_game",
+                  "locale": "it",
+                  "target_string": "Avvia"
+                }
+              ]
+            }
+          },
+          {
+            "name": "updateLocaleValidation",
+            "kwargs": {
+              "string_key": "ui.main_menu.start_game",
+              "locale": "es",
+              "validation_status": "passed"
+            }
+          },
+          {
+            "name": "updateLocaleValidation",
+            "kwargs": {
+              "string_key": "ui.main_menu.start_game",
+              "locale": "it",
+              "validation_status": "passed"
+            }
+          },
+          {
+            "name": "linkWorkItems",
+            "kwargs": {
+              "parent_id": "work_055",
+              "child_id": "work_140",
+              "link_type": "relates_to"
+            }
+          },
+          {
+            "name": "tagWorkItemWithLabel",
+            "kwargs": {
+              "work_item_id": "work_140",
+              "label_id": "label_002"
+            }
+          },
+          {
+            "name": "createLocalizationWorkflow",
+            "kwargs": {
+              "pr_number": 1601,
+              "changed_keys": [
+                "ui.main_menu.start_game"
+              ],
+              "locales_processed": [
+                "es",
+                "it"
+              ],
+              "overflow_issues": 0,
+              "status": "completed",
+              "metadata": {
+                "component": "ui",
+                "subcomponent": "pause_menu",
+                "commit_sha": "def789ghi012345",
+                "build_run_id": "run_002",
+                "test_result_id": "test_result_045"
+              }
+            }
+          },
+          {
+            "name": "sendNotification",
+            "kwargs": {
+              "notification_type": "info",
+              "title": "Job queued: ui.main_menu.start_game [es,it]",
+              "message": "TMS job created for ui.main_menu.start_game",
+              "channel": "slack"
+            }
+          },
+          {
+            "name": "sendNotification",
+            "kwargs": {
+              "notification_type": "update",
+              "title": "Validations passed: ui.main_menu.start_game [es,it]",
+              "message": "Validations passed for es,it for ui.main_menu.start_game",
+              "channel": "slack"
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"Task instructions should consistently be written using SECOND PERSON ('You ...').\",\n    \"Refrain from using step-by-step language; instead, express objectives, limitations, and criteria for successful completion.\",\n    \"Ensure that actions can be performed using parameters that are deterministically obtained from the instruction, previous tool outputs, or these rules.\",\n    \"The tools are responsible for generating IDs and timestamps. These should not be included in actions.\",\n    \"For translation records, every entry MUST contain only: string_key, locale, and target_string. An 'id' must NOT be included.\",\n    \"Notification #1 (job queued):   notification_type='info',   title='Job queued: {string_key} [{targets}\n"
+      },
+      {
+        "role": "user",
+        "content": "I need some guidance on handling localization for a specific string in the pause-menu for two languages. Can you assist with that?"
+      },
+      {
+        "content": "You can start by identifying the specific string key for the pause-menu localization. Once you have that, determine the target languages you want to localize the string into. \n\nNext, you should gather the translations for the string in the selected languages. Ensure that the translations are accurate and culturally appropriate for the target audience. \n\nAfter obtaining the translations, you can record them in the localization system. Make sure to reflect these translations in the localization strings if necessary. \n\nFinally, consider notifying relevant team members about the updates to ensure everyone is informed about the new localizations.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I've already got the string key for localization, which is 'ui.main_menu.start_game'. The translations needed are for Spanish and Italian. Should I enter the translations for \"Comenzar\" in Spanish and \"Avvia\" in Italian into the localization system now?"
+      },
+      {
+        "content": "Yes, you should proceed to enter the translations for \"Comenzar\" in Spanish and \"Avvia\" in Italian into the localization system. Ensure that you record these translations accurately under the string key 'ui.main_menu.start_game'. \n\nAfter entering the translations, consider reflecting them in the localization strings if required. Additionally, it may be beneficial to notify your team about these updates to keep everyone informed.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Understood! I'll make sure to enter the translations with the specified string key. The information will be recorded as follows:\n\n1. `string_key`: 'ui.main_menu.start_game', `locale`: 'es', `target_string`: 'Comenzar'\n2. `string_key`: 'ui.main_menu.start_game', `locale`: 'it', `target_string`: 'Avvia'\n\nNext, I need to ensure the translations are reflected in the localization strings. Once that's done, should I move on to queueing the task for validation?"
+      },
+      {
+        "content": "Yes, after you have entered the translations and ensured they are reflected in the localization strings, you should proceed to queue the task for validation. This step is important to confirm that the translations meet the necessary quality standards and are ready for use. \n\nMake sure to provide any relevant details when queuing the task, such as the string key, target locales, and any specific instructions for the validation process. This will help streamline the validation workflow.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great! I've entered and reflected the translations. Now, I'll proceed to queue the task for validation, providing the necessary details like the string key, target languages, and any instructions for validators. After this, what's the next step?"
+      },
+      {
+        "content": "Once you have queued the task for validation, the next step is to monitor the progress of the validation process. Keep an eye on any feedback or comments from the validators, as they may provide insights or request changes to the translations.\n\nIf any adjustments are needed based on the validation feedback, be prepared to make those changes promptly. After the translations are validated and approved, you can finalize the localization process and ensure that the updated strings are integrated into the application or game.\n\nAdditionally, consider notifying your team about the completion of the validation process and the availability of the new translations. This will help keep everyone informed and aligned on the localization efforts.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'll keep a close watch on the validation process and be ready to address any feedback from validators. Once the translations are validated, I'll finalize the localization and ensure integration into the application. Should I also take care of updating any related work items and tagging?"
+      },
+      {
+        "content": "Yes, you should update any related work items and tag them appropriately once the translations are validated. This helps maintain clear documentation and organization within your project. \n\nMake sure to link any relevant work items that are associated with the localization task, and consider tagging them with labels that reflect their status or category. This will facilitate easier tracking and management of the localization efforts moving forward. \n\nBy keeping everything updated and organized, you ensure that your team has access to the latest information and can efficiently collaborate on future localization tasks.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Definitely. I'll update the work items accordingly. I'll ensure work item `work_140` is tagged as related to `work_055`, apply `label_002`, and maintain clear documentation. \n\nAfter taking care of these updates, is it time to send notifications about the task status to the relevant team members?"
+      },
+      {
+        "content": "Yes, after updating the work items and maintaining clear documentation, you should send notifications about the task status to the relevant team members. This will keep everyone informed about the progress of the localization task and any important updates regarding the translations.\n\nMake sure to include key details in the notifications, such as the string key, the languages involved, and the current status of the validation process. This will help ensure that all team members are on the same page and can respond or take action as needed.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alright, I'll notify the team about the updates. I'll include the string key, languages involved, and validation status. I'll also ensure that notifications indicate the task was queued and validations were successful. Is there anything else I should be aware of or address?"
+      },
+      {
+        "content": "You have covered the essential steps well. In addition to notifying the team, consider the following:\n\n1. **Documentation**: Ensure that all changes, including translations and validation outcomes, are documented in your project management system for future reference.\n\n2. **Feedback Loop**: Encourage team members to provide feedback on the translations and the localization process. This can help improve future localization efforts.\n\n3. **Review Process**: If applicable, establish a review process for future translations to ensure consistency and quality across all localized content.\n\n4. **Follow-Up**: Plan for a follow-up meeting or discussion to address any questions or concerns that may arise after the notifications are sent.\n\nBy being proactive in these areas, you can enhance collaboration and ensure a smooth localization process moving forward.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'll ensure everything is properly documented and open for feedback from the team. Additionally, I'll look into establishing a review process for future localization tasks and consider planning a follow-up discussion. Thanks for the guidance! ###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

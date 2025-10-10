@@ -9,7 +9,7 @@ class EventsAtAirportOn(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], airport_id: str, date: str) -> str:
         out=[]
-        for e in data.get("operational_events", []):
+        for e in list(data.get("operational_events", {}).values()):
             ap=(e.get("airport") or {}).get("airport_id")
             ts=e.get("event_timestamp_utc","")
             if ap==airport_id and isinstance(ts,str) and ts[:10]==date:

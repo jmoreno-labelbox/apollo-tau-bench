@@ -1,0 +1,502 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "069",
+        "actions": [
+          {
+            "name": "GetCrashEventById",
+            "kwargs": {
+              "id": "crash_007"
+            }
+          },
+          {
+            "name": "FindFileOwner",
+            "kwargs": {
+              "file_path": "assets/textures/character_models/"
+            }
+          },
+          {
+            "name": "GetUserById",
+            "kwargs": {
+              "id": "user_002"
+            }
+          },
+          {
+            "name": "GetTeamById",
+            "kwargs": {
+              "id": "team_002"
+            }
+          },
+          {
+            "name": "GetTeamLead",
+            "kwargs": {
+              "team_id": "team_002"
+            }
+          },
+          {
+            "name": "GetProjectByName",
+            "kwargs": {
+              "name": "Game Build Pipeline Modernization"
+            }
+          },
+          {
+            "name": "CreateWorkItem",
+            "kwargs": {
+              "project_id": "proj_002",
+              "type": "bug",
+              "title": "Crash on Asset Validation: Oversized Texture",
+              "assignee_id": "user_002"
+            }
+          },
+          {
+            "name": "FindWorkItemByTitle",
+            "kwargs": {
+              "title": "Create automated game build pipeline"
+            }
+          },
+          {
+            "name": "LinkWorkItems",
+            "kwargs": {
+              "parent_id": "work_003",
+              "child_id": "work_028",
+              "link_type": "blocks"
+            }
+          },
+          {
+            "name": "AddCommentToWorkItem",
+            "kwargs": {
+              "id": "work_028",
+              "comment": "Issue Signature: Asset validation failed"
+            }
+          },
+          {
+            "name": "UpdateCrashEventStatus",
+            "kwargs": {
+              "id": "crash_007",
+              "status": "investigating"
+            }
+          }
+        ],
+        "instruction": "As a Triage Engineer, address the asset validation crash identified as 'crash_007'. Locate the owner of the 'assets/textures/character_models/' directory and their team lead. Initiate a bug in the 'Game Build Pipeline Modernization' project, titled 'Crash on Asset Validation: Oversized Texture', and assign it to the team lead. Link this bug to the 'Create automated game build pipeline' epic as a blocker. Include 'Issue Signature: Asset validation failed' in the new bug as a comment. Additionally, update the crash event's status to 'investigating'.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.002305,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "8b66426de65a4d9751b22731005f33ee5737b1f5e1fdee848d054e7c78944a21"
+        },
+        "actions": [
+          {
+            "name": "GetCrashEventById",
+            "kwargs": {
+              "id": "crash_007"
+            }
+          },
+          {
+            "name": "FindFileOwner",
+            "kwargs": {
+              "file_path": "assets/textures/character_models/"
+            }
+          },
+          {
+            "name": "GetUserById",
+            "kwargs": {
+              "id": "user_002"
+            }
+          },
+          {
+            "name": "GetTeamById",
+            "kwargs": {
+              "id": "team_002"
+            }
+          },
+          {
+            "name": "GetTeamLead",
+            "kwargs": {
+              "team_id": "team_002"
+            }
+          },
+          {
+            "name": "GetProjectByName",
+            "kwargs": {
+              "name": "Game Build Pipeline Modernization"
+            }
+          },
+          {
+            "name": "CreateWorkItem",
+            "kwargs": {
+              "project_id": "proj_002",
+              "type": "bug",
+              "title": "Crash on Asset Validation: Oversized Texture",
+              "assignee_id": "user_002"
+            }
+          },
+          {
+            "name": "FindWorkItemByTitle",
+            "kwargs": {
+              "title": "Create automated game build pipeline"
+            }
+          },
+          {
+            "name": "LinkWorkItems",
+            "kwargs": {
+              "parent_id": "work_003",
+              "child_id": "work_028",
+              "link_type": "blocks"
+            }
+          },
+          {
+            "name": "AddCommentToWorkItem",
+            "kwargs": {
+              "id": "work_028",
+              "comment": "Issue Signature: Asset validation failed"
+            }
+          },
+          {
+            "name": "UpdateCrashEventStatus",
+            "kwargs": {
+              "id": "crash_007",
+              "status": "investigating"
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\nYou are a system administrator.\n\nFor creating a bug report you can use create_work_item tool with type 'bug'\n\nFor a failed build you can triage the failure by finding the bisect result which identifies the first bad commit.\n\nTo mark a build run as resolved you can use 'update_build_run_triage_status' tool to set the triage_status to 'resolved'.\n\nIn order to complete a rollback you have to use get_rollback_by_deployment_id tool to get the rollback info\nand then to create a new deployment with create_deployment tool that will deploy the rollback.\n\nWhen creating an incident ticket you can use create_work_item tool with 'priority' set to 'critical', 'state' to 'open'\nand 'incident' for 'type'\n\nYou can use 'update_crash_event_status' tool to update the status of a crash report.\n\nYou can use 'send_notification' tool to send a notification to slack by setting 'channel' parameter to 'slack'.\n\nYou can use 'find_crashes_by_crash_fingerprint' tool to find other similar crashes in order to find possible duplicates.\n\nFor a file name, in order to find its owner you can first use find_full_path_for_file_name to get the full file path and then \n'find_file_owner' tool, or you can use 'find_file_owner' tool directly if the file is already in a path format.\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi there! I'm currently addressing a crash related to asset validation. Could you help me find out who owns the 'assets/textures/character_models/' directory?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"file_name\":\"assets/textures/character_models/\"}",
+              "name": "find_full_path_for_file_name"
+            },
+            "id": "call_GPwhB6XwJDHJNbrtWKjzdfRm",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_GPwhB6XwJDHJNbrtWKjzdfRm",
+        "name": "find_full_path_for_file_name",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"file_path\":\"assets/textures/character_models/\"}",
+              "name": "find_file_owner"
+            },
+            "id": "call_fLietxJJvAya5Bhne8jaTyZx",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_fLietxJJvAya5Bhne8jaTyZx",
+        "name": "find_file_owner",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems there was an issue with retrieving the owner for the specified directory. Let me try to find the full path for the directory first and then get the owner.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"file_name\":\"assets/textures/character_models\"}",
+              "name": "find_full_path_for_file_name"
+            },
+            "id": "call_MDyd3bDIp4PST7z9AoeOfF4h",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_MDyd3bDIp4PST7z9AoeOfF4h",
+        "name": "find_full_path_for_file_name",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It appears that there is a persistent issue with retrieving the information for the specified directory. Unfortunately, I am unable to find the owner of the 'assets/textures/character_models/' directory at this moment.\n\nIf you have any other details or if there's another way I can assist you, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No problem! Could you then help me find out who the team lead of the team managing that directory is?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"project_id\":\"assets/textures/character_models/\"}",
+              "name": "find_project_owner_team"
+            },
+            "id": "call_aFdcZ8GjlMrIZTEKkrDjJcII",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_aFdcZ8GjlMrIZTEKkrDjJcII",
+        "name": "find_project_owner_team",
+        "content": "{\"error\": \"Could not determine repository for project.\"}"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"name\":\"assets\"}",
+              "name": "get_team_by_name"
+            },
+            "id": "call_nxHLNu0EfdoATMsEinDHCe3q",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_nxHLNu0EfdoATMsEinDHCe3q",
+        "name": "get_team_by_name",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems that I'm encountering issues retrieving the team information related to the directory. Unfortunately, I cannot determine the team lead for the team managing the 'assets/textures/character_models/' directory at this time.\n\nIf you have any other specific details or if there's something else I can assist you with, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I understand. In that case, could you help me initiate a bug in the 'Game Build Pipeline Modernization' project, with the title 'Crash on Asset Validation: Oversized Texture'?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"repository_name\":\"Game Build Pipeline Modernization\"}",
+              "name": "get_project_id_for_repository_name"
+            },
+            "id": "call_1q5x96zsjsaGhRPjFDZ6KdAK",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_1q5x96zsjsaGhRPjFDZ6KdAK",
+        "name": "get_project_id_for_repository_name",
+        "content": "{\"error\": \"Repository with name 'Game Build Pipeline Modernization' not found.\"}"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"name\":\"Game Build Pipeline Modernization\"}",
+              "name": "get_project_by_name"
+            },
+            "id": "call_qbV1oJRknfdZfLF1tdl6zYQI",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_qbV1oJRknfdZfLF1tdl6zYQI",
+        "name": "get_project_by_name",
+        "content": "{\"id\": \"proj_002\", \"name\": \"Game Build Pipeline Modernization\", \"project_key\": \"BUILD-MOD\", \"description\": \"Upgrade game build pipelines to use modern tools, improve asset compilation times, and enhance shader optimization\", \"is_active\": true, \"created_at\": \"2024-02-01T09:00:00Z\", \"updated_at\": \"2025-01-27T14:30:00Z\", \"game_genre\": \"Multi-Genre\", \"target_platforms\": [\"PC\", \"PS5\", \"Xbox Series X\", \"Nintendo Switch\"], \"game_engine\": \"Unreal Engine 5\", \"development_phase\": \"beta\", \"release_date\": \"2025-08-20T00:00:00Z\", \"team_size\": 35, \"budget_millions\": 18.0, \"game_features\": [\"automated_builds\", \"asset_compilation\", \"shader_optimization\", \"cross_platform_builds\"], \"technical_requirements\": {\"min_gpu\": \"GTX 1660\", \"min_ram\": \"8GB\", \"storage_gb\": 50, \"target_fps\": 60}}"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"project_id\":\"proj_002\",\"type\":\"bug\",\"title\":\"Crash on Asset Validation: Oversized Texture\",\"description\":\"A crash occurs during asset validation when processing oversized textures. This needs to be investigated and resolved.\",\"priority\":\"critical\",\"state\":\"open\"}",
+              "name": "create_work_item"
+            },
+            "id": "call_dgozUmCPIXYnR2JHYncKbHpn",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_dgozUmCPIXYnR2JHYncKbHpn",
+        "name": "create_work_item",
+        "content": "Error: string indices must be integers"
+      },
+      {
+        "content": "It seems there was an error while trying to create the bug report. Let me try again to create the bug in the 'Game Build Pipeline Modernization' project.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"project_id\":\"proj_002\",\"type\":\"bug\",\"title\":\"Crash on Asset Validation: Oversized Texture\",\"description\":\"A crash occurs during asset validation when processing oversized textures. This needs to be investigated and resolved.\",\"priority\":\"critical\",\"state\":\"open\"}",
+              "name": "create_work_item"
+            },
+            "id": "call_kh7ueTQkQhSDyjZ6HQyq9zVz",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_kh7ueTQkQhSDyjZ6HQyq9zVz",
+        "name": "create_work_item",
+        "content": "Error: string indices must be integers"
+      },
+      {
+        "content": "It appears that I'm still encountering issues while trying to create the bug report. Unfortunately, I'm unable to successfully initiate the bug in the 'Game Build Pipeline Modernization' project at this time.\n\nIf there's anything else you would like to do or if you have any other requests, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "In that case, could you assist me by linking this issue as a blocker to the 'Create automated game build pipeline' epic?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"title\":\"Create automated game build pipeline\"}",
+              "name": "find_work_item_by_title"
+            },
+            "id": "call_GxZwOfOr4CwzBuswLV855cG3",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_GxZwOfOr4CwzBuswLV855cG3",
+        "name": "find_work_item_by_title",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"title\":\"Create automated game build pipeline\"}",
+              "name": "find_work_item_by_title"
+            },
+            "id": "call_Ti328n2ituyoo6Vz074Cna8x",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_Ti328n2ituyoo6Vz074Cna8x",
+        "name": "find_work_item_by_title",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems that I'm having trouble finding the epic titled \"Create automated game build pipeline.\" Unfortunately, I cannot link the issue as a blocker to that epic at this moment.\n\nIf you have any other requests or if there's something else I can assist you with, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alright, could you help me update the crash event's status to 'investigating'?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"id\":\"crash_event_id\"}",
+              "name": "get_crash_event_by_id"
+            },
+            "id": "call_aWN5uhaQXpYAbJHIWBmlAB8y",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_aWN5uhaQXpYAbJHIWBmlAB8y",
+        "name": "get_crash_event_by_id",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems that I'm unable to retrieve the crash event details to update its status. Unfortunately, I cannot proceed with updating the crash event's status to 'investigating' at this time.\n\nIf you have any other requests or if there's something else I can assist you with, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alright, thank you for your help. I'll see if I can resolve this another way. If there's anything else that comes up, I'll reach out.###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

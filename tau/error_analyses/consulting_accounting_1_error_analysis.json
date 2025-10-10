@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to create audit entries for the invoices INV009 and INV021 after computing their aging. The ground truth action sequence includes creating audit entries with a \"second_notice\" for both invoices, as they are overdue by more than 60 days. However, the trajectory shows that the agent encountered errors and did not perform these actions, resulting in a failure to document the necessary follow-up actions in the invoice audit trail."
+            "description": "The agent is responsible for the fault because it failed to execute the \"CreateAuditEntry\" actions for invoices INV009 and INV021. The ground truth action sequence specifies that a \"second_notice\" with the message \"Overdue >60 days\" should be documented in the audit trail for these invoices, but the agent did not perform these actions, leading to an error instead."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
-            "fault_type": "used_wrong_tool_argument",
-            "description": "The fault in the trajectory is that the \"ComputeInvoiceAging\" tool was used with incorrect arguments. Specifically, the trajectory incorrectly categorized the overdue days for invoices INV009 and INV021 into the \"61-90\" bucket, while the ground truth action sequence indicates that both invoices should have been categorized as \"Overdue >60 days\" and required a \"second_notice\" action. This discrepancy in categorization led to the wrong follow-up actions being prepared, which is a functional difference from the ground truth."
+            "fault_type": "other",
+            "description": "The fault in the trajectory is due to the assistant's failure to execute the necessary follow-up actions for invoices INV009 and INV021. The assistant should have created audit entries for these invoices with a 'second_notice' and the message 'Overdue >60 days', as they are overdue by more than 60 days. Instead, the trajectory shows repeated errors related to an incorrect attempt to use a 'dict' object, preventing the completion of the required actions. This results in the failure to document the follow-up actions in the invoice audit trail, as specified in the user instruction."
         }
     ]
 }

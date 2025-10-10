@@ -14,7 +14,7 @@ class GetThreadMessagesTool(Tool):
         if not thread_id:
             return json.dumps({"error":"thread_id is required"})
 
-        msgs = data.get("gmail_messages", [])
+        msgs = list(data.get("gmail_messages", {}).values())
         out = []
         for m in msgs:
             if m.get("thread_id") == thread_id:

@@ -2,9 +2,15 @@
     "fault_assignment_analysis": [
         {
             "task_id": 0,
-            "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it failed to initialize or execute any actions, resulting in an empty trajectory. This indicates that the environment did not properly handle the task setup or execution, preventing the agent from performing the necessary actions to deliver the pre-series scouting package as specified in the user instruction."
+            "author": "agent",
+            "description": "The agent is responsible for the fault because it failed to correctly identify and process the probable pitchers for the opponent team. The ground truth action sequence begins with retrieving probable pitchers using the \"GetProbablePitchers\" action, which is crucial for generating insights for specific pitchers (101 and 102). However, in the trajectory, the agent incorrectly concludes that there are no probable pitchers available and proceeds to generate a scouting package with zero curated insights. This deviation from the ground truth sequence results in the absence of necessary insights for pitchers 101 and 102, which are essential components of the user instruction."
         }
     ],
-    "fault_type_analysis": []
+    "fault_type_analysis": [
+        {
+            "task_id": 0,
+            "fault_type": "goal_partially_completed",
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the agent failed to deliver the required insights for both pitchers 101 and 102. Specifically, the trajectory does not include the actions to write the curated insights for pitcher 101 (tendency_fastball_usage_0.65, execution_strike_rate_0.72, stamina_pitch_count_95, situational_risp_era_3.2, predictability_sequence_score_0.45) and pitcher 102 (tendency_slider_usage_0.28, execution_whiff_rate_0.31, stamina_pitch_count_88, situational_lefty_ops_0.875, predictability_count_leverage_0.62). Additionally, the trajectory does not generate a video playlist or a complete report with the necessary insights, which are essential components of the scouting package."
+        }
+    ]
 }

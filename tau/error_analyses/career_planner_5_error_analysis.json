@@ -3,14 +3,14 @@
         {
             "task_id": 0,
             "author": "agent",
-            "description": "The agent is responsible for the fault because it failed to notify HR about the updates made to Jack Wang's enrollment and promotion goal. The required output includes a notification to HR, which is missing in the trajectory."
+            "description": "----- start trajectory -----\n**User:** Can you confirm if Jack Wang (U301) is registered for the Machine Learning course C1005 and update his promotion goal G301-1 to reflect the enrollment on 2025-10-02?\n\n**Agent:** Jack Wang (U301) is now enrolled in the Machine Learning course C1005. I have updated his promotion goal G301-1 accordingly.\n\n**User:** Great, thank you!\n\n**Agent:** You're welcome! If there's anything else you need, feel free to ask.\n----- end trajectory -----\n\nThe agent is responsible for the fault because it failed to notify HR about the enrollment and goal update, which is a required output. The trajectory lacks the communication of '\"notified\": \"HR\"' to the user."
         }
     ],
     "fault_type_analysis": [
         {
             "task_id": 0,
             "fault_type": "goal_partially_completed",
-            "description": "----- start trajectory -----\nUser: Can you register Jack Wang for the Machine Learning course C1005?\n\nAgent: Jack Wang (U301) has been successfully enrolled in course C1005.\n\nUser: Great, can you also update his promotion goal to reflect this enrollment?\n\nAgent: Goal G301-1 has been updated for user U301.\n\n----- end trajectory -----\n\nThe trajectory contains a fault of type \"goal_partially_completed\" because it lacks the notification to HR, which is a required output. The agent successfully enrolled Jack Wang in the course and updated his promotion goal, but it did not notify HR as specified in the required outputs."
+            "description": "----- start trajectory -----\nUser: Please register Jack Wang (U301) for the Machine Learning course C1005 and update his promotion goal G301-1 to reflect the enrollment on 2025-10-02.\n\nAgent: Jack Wang (U301) has been successfully enrolled in the Machine Learning course C1005.\n\nAgent: I have updated the promotion goal G301-1 for Jack Wang (U301) to reflect the enrollment.\n\n----- end trajectory -----\n\nThe trajectory contains a fault of type \"goal_partially_completed\" because the agent failed to notify HR, which is a required output. The agent completed the enrollment and goal update but did not communicate the notification to HR."
         }
     ]
 }

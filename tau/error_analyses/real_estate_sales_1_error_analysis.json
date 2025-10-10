@@ -1,16 +1,4 @@
 {
-    "fault_assignment_analysis": [
-        {
-            "task_id": 0,
-            "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to perform the \"CalculateMortgage\" action, which is necessary to report the monthly payment figure as requested in the user instruction. The ground truth action sequence includes this step, but the trajectory does not, leading to incomplete fulfillment of the user's request."
-        }
-    ],
-    "fault_type_analysis": [
-        {
-            "task_id": 0,
-            "fault_type": "goal_partially_completed",
-            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the agent failed to calculate the monthly payment for the property, which is a crucial part of the user instruction. The ground truth action sequence includes a \"CalculateMortgage\" action to determine the monthly payment based on the given principal, interest rate, and loan term, but this step is missing in the trajectory. As a result, the user did not receive the necessary information about the monthly payment figure, leaving the goal only partially completed."
-        }
-    ]
+    "fault_assignment_analysis": [],
+    "fault_type_analysis": []
 }

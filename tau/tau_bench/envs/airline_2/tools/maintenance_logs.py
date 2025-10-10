@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class MaintenanceLogs(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], ) -> str:
-        return _j(data.get("maintenance_logs", []))
+        return _j(list(data.get("maintenance_logs", {}).values()))
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

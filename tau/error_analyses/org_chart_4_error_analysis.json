@@ -1,16 +1,4 @@
 {
-    "fault_assignment_analysis": [
-        {
-            "task_id": 0,
-            "author": "agent",
-            "description": "The agent is responsible for the fault in the trajectory because it failed to correctly execute the actions to add a performance review and update the employee's record with the audit note and performance review IDs. The agent encountered multiple errors related to missing or incorrect arguments when attempting to invoke the `AddPerformanceReview` and `UpdateEmployee` actions. As a result, the performance review was not recorded, and the employee's record was not updated with the necessary information, which deviates from the ground truth action sequence."
-        }
-    ],
-    "fault_type_analysis": [
-        {
-            "task_id": 0,
-            "fault_type": "used_wrong_tool_argument",
-            "description": "The trajectory contains a fault of type \"used_wrong_tool_argument\" because the assistant attempted to use the `add_performance_review` tool with incorrect arguments. Specifically, the assistant used an unexpected keyword argument 'employee_id' and failed to provide the required 'performance_review' argument, which led to multiple errors. In contrast, the ground truth action sequence correctly specifies the `AddPerformanceReview` action with a complete 'performance_review' dictionary containing all necessary details."
-        }
-    ]
+    "fault_assignment_analysis": [],
+    "fault_type_analysis": []
 }

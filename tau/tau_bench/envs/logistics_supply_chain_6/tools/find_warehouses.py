@@ -17,7 +17,7 @@ class FindWarehouses(Tool):
         special_capabilities: Optional[List] = None,
     ) -> str:
         """Execute the tool with given parameters."""
-        warehouses = data.get("warehouses", [])
+        warehouses = list(data.get("warehouses", {}).values())
         results = []
         for warehouse in warehouses:
             has_capability = False

@@ -16,7 +16,7 @@ class DlpScanThreadTool(Tool):
 
         dlp = _get_config_json(data, "dlp_config")
         patterns = dlp.get("block_patterns", []) if isinstance(dlp, dict) else []
-        messages = data.get("gmail_messages", [])
+        messages = list(data.get("gmail_messages", {}).values())
         found: Set[str] = set()
         for m in messages:
             if m.get("thread_id") != thread_id:

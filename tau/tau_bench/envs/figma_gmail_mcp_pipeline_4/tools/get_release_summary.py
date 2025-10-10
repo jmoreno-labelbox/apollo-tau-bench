@@ -18,7 +18,7 @@ class GetReleaseSummary(Tool):
         status = kwargs.get('status')
 
         releases = data.get('releases', [])
-        gmail_threads = data.get('gmail_threads', [])
+        gmail_threads = list(data.get('gmail_threads', {}).values())
 
         # If release_id is provided, return specific release
         if release_id:

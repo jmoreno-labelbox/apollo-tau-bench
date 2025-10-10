@@ -12,7 +12,7 @@ class RenderOnboardingWelcome(Tool):
 
     @staticmethod
     def _get_template_text(data: Dict[str, Any]) -> str:
-        for f in data.get("onboarding_files", []):
+        for f in list(data.get("onboarding_files", {}).values()):
             if f.get("file_path") == TEMPLATE_WELCOME_PATH:
                 return f.get("content_text", "")
         return ""

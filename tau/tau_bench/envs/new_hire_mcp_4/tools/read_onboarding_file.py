@@ -9,7 +9,7 @@ class ReadOnboardingFile(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         file_path = kwargs["file_path"]
-        for f in data.get("onboarding_files", []):
+        for f in list(data.get("onboarding_files", {}).values()):
             if f.get("file_path") == file_path:
                 return json.dumps({"file": f}, indent=2)
         return json.dumps({"error": f"file_path {file_path} not found"}, indent=2)

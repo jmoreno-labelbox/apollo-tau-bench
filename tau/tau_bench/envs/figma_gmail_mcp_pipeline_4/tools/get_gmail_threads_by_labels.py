@@ -18,7 +18,7 @@ class GetGmailThreadsByLabels(Tool):
         created_after = kwargs.get('created_after')
         created_before = kwargs.get('created_before')
 
-        gmail_threads = data.get('gmail_threads', [])
+        gmail_threads = list(data.get('gmail_threads', {}).values())
 
         # If thread_id is provided, return specific thread
         if thread_id:

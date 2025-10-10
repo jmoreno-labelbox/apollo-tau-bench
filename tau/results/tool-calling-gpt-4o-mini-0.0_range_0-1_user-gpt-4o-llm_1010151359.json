@@ -1,0 +1,699 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "v2_task_001",
+        "actions": [
+          {
+            "name": "IngestCiWebhookV2",
+            "kwargs": {
+              "provider": "github_actions",
+              "run_id": "run_001",
+              "status": "failure",
+              "repo": "game-engine",
+              "branch": "feature/new-renderer",
+              "commit_sha": "abc123def456789",
+              "job_name": "build-windows-x64"
+            }
+          },
+          {
+            "name": "GuardrailValidateSenderV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "AttachArtifactsIndexV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "ReduceLogWindowV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "SymbolicateMinidumpV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "SimilarIncidentLookupV2",
+            "kwargs": {
+              "signature": "sig:abc123def456789:first_failure",
+              "top_k": 5
+            }
+          },
+          {
+            "name": "EnumerateSuspectsV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "LaunchTargetedBisectV2",
+            "kwargs": {
+              "run_id": "run_001",
+              "test_target": "make build-windows-x64"
+            }
+          },
+          {
+            "name": "DraftFixDiffV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "OpenAutoBranchV2",
+            "kwargs": {
+              "base_ref": "feature/new-renderer",
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "CommitPatchToBranchV2",
+            "kwargs": {
+              "branch_ref": "auto/fix-run_001",
+              "patch_id": "FP-run_001",
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "OpenDraftPrV2",
+            "kwargs": {
+              "head": "auto/fix-run_001",
+              "base": "feature/new-renderer",
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "CreateOrUpdateTicketV2",
+            "kwargs": {
+              "project_key": "ENGINE-MIG",
+              "summary": "CI failure run_001",
+              "description": "Automated triage for run_001",
+              "run_id": "run_001",
+              "pr_number": 33
+            }
+          },
+          {
+            "name": "TriggerSmokeValidationV2",
+            "kwargs": {
+              "run_id": "run_001",
+              "test_target": "make build-windows-x64"
+            }
+          },
+          {
+            "name": "RecordAutomationRunV2",
+            "kwargs": {
+              "automation_type": "build-triage",
+              "inputs": {
+                "run_id": "run_001"
+              },
+              "outputs": {
+                "pr_number": 33,
+                "ticket_key": "ENGINE-MIG-1"
+              },
+              "status": "completed"
+            }
+          },
+          {
+            "name": "ReturnScalarV2",
+            "kwargs": {
+              "value": "33"
+            }
+          }
+        ],
+        "instruction": "Handle CI triage tasks related to the game-engine repository. Address the issue with the failed Windows build run_001 on the branch feature/new-renderer at commit abc123def456789 (job build-windows-x64). Follow the CI Build Failure Protocol V2 and utilize policy templates. Collect and link evidence, initiate a draft PR on 'auto/fix-run_001', generate the ENGINE-MIG work item associated with the PR, start smoke validation, and provide just the draft PR number.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0028825,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "8b66426de65a4d9751b22731005f33ee5737b1f5e1fdee848d054e7c78944a21"
+        },
+        "actions": [
+          {
+            "name": "IngestCiWebhookV2",
+            "kwargs": {
+              "provider": "github_actions",
+              "run_id": "run_001",
+              "status": "failure",
+              "repo": "game-engine",
+              "branch": "feature/new-renderer",
+              "commit_sha": "abc123def456789",
+              "job_name": "build-windows-x64"
+            }
+          },
+          {
+            "name": "GuardrailValidateSenderV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "AttachArtifactsIndexV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "ReduceLogWindowV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "SymbolicateMinidumpV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "SimilarIncidentLookupV2",
+            "kwargs": {
+              "signature": "sig:abc123def456789:first_failure",
+              "top_k": 5
+            }
+          },
+          {
+            "name": "EnumerateSuspectsV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "LaunchTargetedBisectV2",
+            "kwargs": {
+              "run_id": "run_001",
+              "test_target": "make build-windows-x64"
+            }
+          },
+          {
+            "name": "DraftFixDiffV2",
+            "kwargs": {
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "OpenAutoBranchV2",
+            "kwargs": {
+              "base_ref": "feature/new-renderer",
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "CommitPatchToBranchV2",
+            "kwargs": {
+              "branch_ref": "auto/fix-run_001",
+              "patch_id": "FP-run_001",
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "OpenDraftPrV2",
+            "kwargs": {
+              "head": "auto/fix-run_001",
+              "base": "feature/new-renderer",
+              "run_id": "run_001"
+            }
+          },
+          {
+            "name": "CreateOrUpdateTicketV2",
+            "kwargs": {
+              "project_key": "ENGINE-MIG",
+              "summary": "CI failure run_001",
+              "description": "Automated triage for run_001",
+              "run_id": "run_001",
+              "pr_number": 33
+            }
+          },
+          {
+            "name": "TriggerSmokeValidationV2",
+            "kwargs": {
+              "run_id": "run_001",
+              "test_target": "make build-windows-x64"
+            }
+          },
+          {
+            "name": "RecordAutomationRunV2",
+            "kwargs": {
+              "automation_type": "build-triage",
+              "inputs": {
+                "run_id": "run_001"
+              },
+              "outputs": {
+                "pr_number": 33,
+                "ticket_key": "ENGINE-MIG-1"
+              },
+              "status": "completed"
+            }
+          },
+          {
+            "name": "ReturnScalarV2",
+            "kwargs": {
+              "value": "33"
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You function as an expert DevOps automation agent specializing in game development workflows, including CI build triage, asset intake QA, bug/feedback triage, and localization/VO.\",\n    \"Interact exclusively through the permitted tools and the JSON database located at domains/dev_ops/data/. Do not fabricate entities, IDs, URIs, or text.\",\n    \"Ensure that all write operations are deterministic: identical inputs and database state must always yield the same updates and IDs. Do not use randomness or current timestamps.\",\n    \"For ID generation, utilize supplied identifiers such as run_id or commit_sha when available, or determine the next ID by incrementing the maximum existing value, applying any required stable prefixes as specified by the tool.\",\n    \"Prior to making any modifications, use getter tools to obtain the required identifiers from the DB; never assume or estimate values.\",\n    \"Limit each step to a single tool call. After invoking a tool, await its response before proceeding to the following step.\",\n    \"Consistently document important steps with the automation run logging tools to ensure auditability.\",\n    \"CI Build Failure Protocol V2: receive CI webhook \u2192 standardize run envelope \u2192 perform guardrail validation \u2192 append artifact/log URIs \u2192 condense logs and, if applicable, symbolize \u2192 search for similar incidents \u2192 identify suspects via repository diffs \u2192 execute targeted bisect using the deterministic test target (from run) \u2192 generate a minimal fix proposal draft \u2192 initiate a draft PR (branch 'auto/fix-<run_id>') \u2192 create or update ticket and associate all evidence \u2192 initiate smoke validation for the draft PR \u2192 log automation run results.\",\n    \"For PRs: pr_number is deterministically allocated by tools (max+1). Use only templates (no free text permitted): commit_message='auto tentative fix for run <run_id>' | pr_title='auto fix build break <run_id>' | pr_body='summary for run <run_id>' | ticket_summary='CI failure <run_id>' | ticket_description='Automated triage for <run_id>'.\",\n    \"Avoid manual assignment of pr_number when possible. Prefer tools that resolve PRs by run_id to minimize ambiguity.\",\n    \"Asset QA Protocol V2: identify modified assets \u2192 perform DCC validation \u2192 execute texture policy verification \u2192 run engine budget assessment \u2192 apply deterministic autofixes exclusively if they are reversible \u2192 generate preview renders with stable URIs \u2192 create QA bundle for publishing \u2192 annotate the PR and initiate PR check \u2192 store QA results.\",\n    \"Bug Intake Protocol V2: receive intake \u2192 standardize data \u2192 generate deterministic summary (truncate/compose without paraphrasing) \u2192 remove duplicates using DB-provided similarity or links \u2192 calculate impact (severity weight multiplied by crash frequency from DB) \u2192 determine owner from the ownership map \u2192 modify ticket state and labels \u2192 log the run.\",\n    \"Localization/VO Protocol V2: identify modified keys (using PR linkage) \u2192 collect context URIs \u2192 perform pretranslation with a locked glossary (deterministic and placeholder-preserving) \u2192 check for UI overflow with configured pixel limits (as a length proxy) \u2192 generate temporary VO with stable URIs \u2192 deterministically verify subtitle timing \u2192 output per-locale bundles \u2192 initiate TMS job and attach relevant links \u2192 log the run.\",\n    \"Only update the minimal number of rows required for the task, and do not alter any unrelated tables.\",\n    \"Prior to performing any state changes (for PRs, tickets, runs), check the existing state to prevent invalid transitions.\",\n    \"Where the schema allows, record links in both directions (such as PR \u2194 work item using dedicated fields).\",\n    \"Policy-generated URIs must follow a deterministic format: 'artifact://<kind>/<id>'.\",\n    \"When a required prerequisite is absent from the DB (such as an unrecognized run_id), the tool must return a deterministic error and halt further processing.\",\n    \"User instructions should describe goals rather than procedures; the policy defines the precise steps and argument templates. In the event of a conflict, policy overrides user instructions.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi there! I need your help with handling a CI triage task for our game-engine repository. There's an issue with a failed Windows build. Could you give me the details?"
+      },
+      {
+        "content": "To assist you with the CI triage task for the failed Windows build, I need the specific details of the CI event, such as the run ID, status, repository name, branch, and commit SHA. Please provide this information so I can proceed with the necessary steps.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure thing! The run ID is run_001, and it occurred on the branch named `feature/new-renderer` at commit `abc123def456789`. The job that failed is `build-windows-x64`."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"provider\":\"ci_system\",\"run_id\":\"run_001\",\"status\":\"failed\",\"repo\":\"game-engine\",\"branch\":\"feature/new-renderer\",\"commit_sha\":\"abc123def456789\",\"job_name\":\"build-windows-x64\"}",
+              "name": "ingest_ci_webhook_v2"
+            },
+            "id": "call_36TfKb1xSofg3V5utlYUkxp0",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_36TfKb1xSofg3V5utlYUkxp0",
+        "name": "ingest_ci_webhook_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"run_id\":\"run_001\"}",
+              "name": "guardrail_validate_sender_v2"
+            },
+            "id": "call_7scwtcKJfpVNGRHx2x2xK3Ev",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_7scwtcKJfpVNGRHx2x2xK3Ev",
+        "name": "guardrail_validate_sender_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"run_id\":\"run_001\"}",
+              "name": "attach_artifacts_index_v2"
+            },
+            "id": "call_lCFL6rhy40wryaEZZyvEs3Zn",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_lCFL6rhy40wryaEZZyvEs3Zn",
+        "name": "attach_artifacts_index_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"run_id\":\"run_001\"}",
+              "name": "reduce_log_window_v2"
+            },
+            "id": "call_7Pp4P1S8qJ3CrzlHniunlzpQ",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_7Pp4P1S8qJ3CrzlHniunlzpQ",
+        "name": "reduce_log_window_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"run_id\":\"run_001\"}",
+              "name": "symbolicate_minidump_v2"
+            },
+            "id": "call_7hyfiezQjn19BFBiqF8wrLcS",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_7hyfiezQjn19BFBiqF8wrLcS",
+        "name": "symbolicate_minidump_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"signature\":\"abc123def456789\"}",
+              "name": "similar_incident_lookup_v2"
+            },
+            "id": "call_8p8njQuXtv12ebUqXYs5ATSi",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_8p8njQuXtv12ebUqXYs5ATSi",
+        "name": "similar_incident_lookup_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"run_id\":\"run_001\"}",
+              "name": "enumerate_suspects_v2"
+            },
+            "id": "call_fUiriqbDS7btKTiS02TRTb2u",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_fUiriqbDS7btKTiS02TRTb2u",
+        "name": "enumerate_suspects_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"run_id\":\"run_001\",\"test_target\":\"build-windows-x64\"}",
+              "name": "launch_targeted_bisect_v2"
+            },
+            "id": "call_MCi2rBg4lznMp0D4fcweD7JY",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_MCi2rBg4lznMp0D4fcweD7JY",
+        "name": "launch_targeted_bisect_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"run_id\":\"run_001\"}",
+              "name": "draft_fix_diff_v2"
+            },
+            "id": "call_4znrPqfQ8lEvsvY6ImO0lxe3",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_4znrPqfQ8lEvsvY6ImO0lxe3",
+        "name": "draft_fix_diff_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"base_ref\":\"feature/new-renderer\",\"run_id\":\"run_001\"}",
+              "name": "open_auto_branch_v2"
+            },
+            "id": "call_QbRxQJ2M8fdTgmyel605kv3I",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_QbRxQJ2M8fdTgmyel605kv3I",
+        "name": "open_auto_branch_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"head\":\"auto/fix-run_001\",\"base\":\"feature/new-renderer\",\"run_id\":\"run_001\"}",
+              "name": "open_draft_pr_v2"
+            },
+            "id": "call_6I7yODbLg6XsgN8B1Ug4W3y6",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_6I7yODbLg6XsgN8B1Ug4W3y6",
+        "name": "open_draft_pr_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"project_key\":\"game-engine\",\"summary\":\"CI failure run_001\",\"description\":\"Automated triage for run_001\",\"run_id\":\"run_001\"}",
+              "name": "create_or_update_ticket_v2"
+            },
+            "id": "call_0IMkS5yq7v8YEY0Q6n9pFjZd",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_0IMkS5yq7v8YEY0Q6n9pFjZd",
+        "name": "create_or_update_ticket_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"run_id\":\"run_001\",\"test_target\":\"build-windows-x64\"}",
+              "name": "trigger_smoke_validation_v2"
+            },
+            "id": "call_wAJb2aTTS68WnXTepkqYSScF",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_wAJb2aTTS68WnXTepkqYSScF",
+        "name": "trigger_smoke_validation_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"automation_type\":\"CI triage\",\"status\":\"failed\"}",
+              "name": "record_automation_run_v2"
+            },
+            "id": "call_dBqDhPIoka2csfrv4S9gdSFu",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_dBqDhPIoka2csfrv4S9gdSFu",
+        "name": "record_automation_run_v2",
+        "content": "Error: RecordAutomationRunV2.invoke() missing 2 required positional arguments: 'inputs' and 'outputs'"
+      },
+      {
+        "content": "It seems that there is an issue with the system that is preventing me from processing the CI triage task for the failed Windows build. Unfortunately, I am unable to retrieve or log the necessary details at this moment.\n\nPlease check the CI system directly for more information on the build failure, or try again later. If you have any other questions or need assistance with a different task, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No worries, I\u2019ve got those details handled. The next step in the process is to collect and link any evidence related to this failure. Can you help with that?"
+      },
+      {
+        "content": "To collect and link evidence related to the CI failure, I will need to gather the relevant artifacts and logs associated with the run ID `run_001`. This includes attaching artifact and log URIs to the run. \n\nLet's proceed with that. I'll start by attaching the artifacts index for the run.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"run_id\":\"run_001\"}",
+              "name": "attach_artifacts_index_v2"
+            },
+            "id": "call_9ywpsV8Rn0Zy6an1I1ZckOjB",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_9ywpsV8Rn0Zy6an1I1ZckOjB",
+        "name": "attach_artifacts_index_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": "It appears that I'm encountering a persistent issue with the system that prevents me from attaching the artifacts index for the run. Unfortunately, I cannot proceed with collecting and linking the evidence at this time.\n\nPlease check the CI system directly for the relevant artifacts and logs, or try again later. If there's anything else you need assistance with, feel free to let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Got it! I'll take care of collecting the evidence directly on my end. Once I have it, the next step is to initiate a draft PR on a branch named `auto/fix-run_001`. Could you help with starting that draft PR when you can?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"head\":\"auto/fix-run_001\",\"base\":\"feature/new-renderer\",\"run_id\":\"run_001\"}",
+              "name": "open_draft_pr_v2"
+            },
+            "id": "call_3mXguwbYzAPOqIrCwk6ZYz3s",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_3mXguwbYzAPOqIrCwk6ZYz3s",
+        "name": "open_draft_pr_v2",
+        "content": "Error: name '_get_table' is not defined"
+      },
+      {
+        "content": "I am currently unable to initiate the draft PR due to a system issue that prevents me from processing the request. \n\nPlease try to create the draft PR directly in your version control system. If you need any guidance on how to do that or if there's anything else I can assist you with, just let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Understood, I'll handle creating the draft PR myself. Once it's ready, the next step involves starting smoke validation. Could you guide me on the best way to initiate that?"
+      },
+      {
+        "content": "To initiate smoke validation for the draft PR, you will need to use the run ID `run_001` and specify the test target, which in this case is `build-windows-x64`. \n\nOnce you have created the draft PR, you can proceed with the following steps:\n\n1. Ensure that the draft PR is linked to the run ID.\n2. Use the smoke validation tool to trigger the validation process.\n\nSince I am currently unable to execute the smoke validation due to system issues, you will need to perform this step directly in your CI system. If you have any questions about how to do this or need further assistance, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thanks for the instructions. I'll go ahead and get the smoke validation started. Once that's set up, all that's left is to update you with the draft PR number. Give me a moment."
+      },
+      {
+        "content": "Sure! Take your time. Once you have the draft PR number, please provide it, and I can assist you with the next steps or any further actions needed.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "The draft PR has been created. The PR number is #547. If there\u2019s anything else I can assist with, feel free to let me know!###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

@@ -24,7 +24,7 @@ class UpdateGmailThreadPriority(Tool):
         if new_priority not in valid_priorities:
             return json.dumps({"error": f"Invalid priority. Must be one of: {', '.join(valid_priorities)}"})
 
-        gmail_threads = data.get('gmail_threads', [])
+        gmail_threads = list(data.get('gmail_threads', {}).values())
 
         # Find the thread
         thread_found = False

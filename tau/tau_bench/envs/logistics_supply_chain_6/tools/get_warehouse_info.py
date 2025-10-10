@@ -11,7 +11,7 @@ class GetWarehouseInfo(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], warehouse_id: str) -> str:
         """Execute the tool with given parameters."""
-        warehouses = data.get("warehouses", [])
+        warehouses = list(data.get("warehouses", {}).values())
         for warehouse in warehouses:
             if warehouse.get("warehouse_id") == warehouse_id:
                 return json.dumps(warehouse, indent=2)
