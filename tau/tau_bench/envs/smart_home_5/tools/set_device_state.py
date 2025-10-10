@@ -8,13 +8,13 @@ from . import _now_iso
 
 class SetDeviceState(Tool):
     @staticmethod
-    def invoke(data: Dict[str, Any], device_id: str, state_update: Dict[str, Any]) -> str:
+    def invoke(data: Dict[str, Any], device_id: str, update: Dict[str, Any]) -> str:
         devices = list(data.get('devices', {}).values())
         device_found = False
         for device in devices:
             if device.get('id') == device_id:
                 device_found = True
-                device['state'].update(state_update)
+                device['state'].update(update)
                 device['state']['last_updated'] = _now_iso()
                 break
 
@@ -24,7 +24,7 @@ class SetDeviceState(Tool):
             sensor_found = False
             for sensor in sensors:
                 if sensor.get('id') == device_id:
-                    sensor['state'].update(state_update)
+                    sensor['state'].update(update)
                     sensor['state']['last_updated'] = _now_iso()
                     sensor_found = True
                     break
@@ -47,13 +47,13 @@ class SetDeviceState(Tool):
                             "type": "string",
                             "description": "The ID of the device/sensor to update."
                         },
-                        "state_update": {
+                        "update": {
                             "type": "object",
                             "description": "A dictionary of state parameters to update (e.g., {\"power\": \"on\", \"brightness\": 80}).",
                             "additionalProperties": True
                         }
                     },
-                    "required": ["device_id", "state_update"],
+                    "required": ["device_id", "update"],
                     "additionalProperties": False
                 }
             }
