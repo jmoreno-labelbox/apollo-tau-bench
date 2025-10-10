@@ -1,5 +1,23 @@
 # Copyright Sierra
 
+
+# Helper functions
+def _household_for_user(data, user_id):
+    """Get household for a user."""
+    users = list(data.get('users', {}).values())
+    for user in users:
+        if user.get('user_id') == user_id:
+            return user.get('household_id')
+    return None
+
+def _first_user_id(data):
+    """Get first user ID."""
+    users = list(data.get('users', {}).values())
+    if users:
+        return users[0].get('user_id')
+    return None
+
+
 from .get_user_by_email import GetUserByEmail
 from .get_household_by_user_id import GetHouseholdByUserId
 from .list_household_members import ListHouseholdMembers

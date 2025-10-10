@@ -1,0 +1,350 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "V6_001",
+        "actions": [
+          {
+            "name": "createTmsJob",
+            "kwargs": {
+              "job_type": "translation",
+              "source_locale": "en",
+              "target_locales": [
+                "es",
+                "it"
+              ],
+              "priority": "high",
+              "metadata": {
+                "component": "ui",
+                "subcomponent": "pause_menu",
+                "commit_sha": "def789ghi012345",
+                "build_run_id": "run_002",
+                "test_result_id": "test_result_045"
+              }
+            }
+          },
+          {
+            "name": "recordTranslations",
+            "kwargs": {
+              "entries": [
+                {
+                  "string_key": "ui.main_menu.start_game",
+                  "locale": "es",
+                  "target_string": "Comenzar"
+                },
+                {
+                  "string_key": "ui.main_menu.start_game",
+                  "locale": "it",
+                  "target_string": "Avvia"
+                }
+              ]
+            }
+          },
+          {
+            "name": "updateLocaleValidation",
+            "kwargs": {
+              "string_key": "ui.main_menu.start_game",
+              "locale": "es",
+              "validation_status": "passed"
+            }
+          },
+          {
+            "name": "updateLocaleValidation",
+            "kwargs": {
+              "string_key": "ui.main_menu.start_game",
+              "locale": "it",
+              "validation_status": "passed"
+            }
+          },
+          {
+            "name": "linkWorkItems",
+            "kwargs": {
+              "parent_id": "work_055",
+              "child_id": "work_140",
+              "link_type": "relates_to"
+            }
+          },
+          {
+            "name": "tagWorkItemWithLabel",
+            "kwargs": {
+              "work_item_id": "work_140",
+              "label_id": "label_002"
+            }
+          },
+          {
+            "name": "createLocalizationWorkflow",
+            "kwargs": {
+              "pr_number": 1601,
+              "changed_keys": [
+                "ui.main_menu.start_game"
+              ],
+              "locales_processed": [
+                "es",
+                "it"
+              ],
+              "overflow_issues": 0,
+              "status": "completed",
+              "metadata": {
+                "component": "ui",
+                "subcomponent": "pause_menu",
+                "commit_sha": "def789ghi012345",
+                "build_run_id": "run_002",
+                "test_result_id": "test_result_045"
+              }
+            }
+          },
+          {
+            "name": "sendNotification",
+            "kwargs": {
+              "notification_type": "info",
+              "title": "Job queued: ui.main_menu.start_game [es,it]",
+              "message": "TMS job created for ui.main_menu.start_game",
+              "channel": "slack"
+            }
+          },
+          {
+            "name": "sendNotification",
+            "kwargs": {
+              "notification_type": "update",
+              "title": "Validations passed: ui.main_menu.start_game [es,it]",
+              "message": "Validations passed for es,it for ui.main_menu.start_game",
+              "channel": "slack"
+            }
+          }
+        ],
+        "instruction": "Handle the localization of the pause-menu 'Start Game' string using only the existing CI metadata (commit 'def789ghi012345', build run 'run_002', test 'test_result_045'). The task is to deliver a high-priority localization update specifically for 'ui.main_menu.start_game' in the locales ['es','it'], with translations as ('Comenzar' for es, 'Avvia' for it), ensuring locale validations are passed, updating the localization workflow for PR 1601, correct tagging and relationship on the corresponding work items (work_055 \u2192 work_140, relates_to; label_002 on work_140), and ensuring notifications indicate that the task was queued and validations were successful. Utilize tool-generated IDs/timestamps and adhere to domain rules for deterministic parameters; refrain from creating custom IDs or names, and omit the 'id' field in translation entries (each entry should contain only: string_key, locale, target_string). Use tool outputs to determine the operational sequence to fulfill these success criteria.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0032450000000000005,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "8b66426de65a4d9751b22731005f33ee5737b1f5e1fdee848d054e7c78944a21"
+        },
+        "actions": [
+          {
+            "name": "createTmsJob",
+            "kwargs": {
+              "job_type": "translation",
+              "source_locale": "en",
+              "target_locales": [
+                "es",
+                "it"
+              ],
+              "priority": "high",
+              "metadata": {
+                "component": "ui",
+                "subcomponent": "pause_menu",
+                "commit_sha": "def789ghi012345",
+                "build_run_id": "run_002",
+                "test_result_id": "test_result_045"
+              }
+            }
+          },
+          {
+            "name": "recordTranslations",
+            "kwargs": {
+              "entries": [
+                {
+                  "string_key": "ui.main_menu.start_game",
+                  "locale": "es",
+                  "target_string": "Comenzar"
+                },
+                {
+                  "string_key": "ui.main_menu.start_game",
+                  "locale": "it",
+                  "target_string": "Avvia"
+                }
+              ]
+            }
+          },
+          {
+            "name": "updateLocaleValidation",
+            "kwargs": {
+              "string_key": "ui.main_menu.start_game",
+              "locale": "es",
+              "validation_status": "passed"
+            }
+          },
+          {
+            "name": "updateLocaleValidation",
+            "kwargs": {
+              "string_key": "ui.main_menu.start_game",
+              "locale": "it",
+              "validation_status": "passed"
+            }
+          },
+          {
+            "name": "linkWorkItems",
+            "kwargs": {
+              "parent_id": "work_055",
+              "child_id": "work_140",
+              "link_type": "relates_to"
+            }
+          },
+          {
+            "name": "tagWorkItemWithLabel",
+            "kwargs": {
+              "work_item_id": "work_140",
+              "label_id": "label_002"
+            }
+          },
+          {
+            "name": "createLocalizationWorkflow",
+            "kwargs": {
+              "pr_number": 1601,
+              "changed_keys": [
+                "ui.main_menu.start_game"
+              ],
+              "locales_processed": [
+                "es",
+                "it"
+              ],
+              "overflow_issues": 0,
+              "status": "completed",
+              "metadata": {
+                "component": "ui",
+                "subcomponent": "pause_menu",
+                "commit_sha": "def789ghi012345",
+                "build_run_id": "run_002",
+                "test_result_id": "test_result_045"
+              }
+            }
+          },
+          {
+            "name": "sendNotification",
+            "kwargs": {
+              "notification_type": "info",
+              "title": "Job queued: ui.main_menu.start_game [es,it]",
+              "message": "TMS job created for ui.main_menu.start_game",
+              "channel": "slack"
+            }
+          },
+          {
+            "name": "sendNotification",
+            "kwargs": {
+              "notification_type": "update",
+              "title": "Validations passed: ui.main_menu.start_game [es,it]",
+              "message": "Validations passed for es,it for ui.main_menu.start_game",
+              "channel": "slack"
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"Task instructions should consistently be written using SECOND PERSON ('You ...').\",\n    \"Refrain from using step-by-step language; instead, express objectives, limitations, and criteria for successful completion.\",\n    \"Ensure that actions can be performed using parameters that are deterministically obtained from the instruction, previous tool outputs, or these rules.\",\n    \"The tools are responsible for generating IDs and timestamps. These should not be included in actions.\",\n    \"For translation records, every entry MUST contain only: string_key, locale, and target_string. An 'id' must NOT be included.\",\n    \"Notification #1 (job queued):   notification_type='info',   title='Job queued: {string_key} [{targets}\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi there! I'm working on the localization for our pause-menu's 'Start Game' string. I've got specific translations to implement for Spanish and Italian, and need some guidance on updating these in our workflow. Can you walk me through the initial steps?"
+      },
+      {
+        "content": "To update the translations for the 'Start Game' string in your localization workflow, you will need to gather the following information:\n\n1. **String Key**: Identify the string key associated with the 'Start Game' string.\n2. **Translations**: Prepare the target translations for Spanish and Italian.\n3. **Locale Information**: Confirm the locale codes for Spanish and Italian (typically 'es' for Spanish and 'it' for Italian).\n4. **TMS Project ID**: If applicable, ensure you have the TMS project ID for the localization job.\n\nOnce you have this information, you can proceed to record the translations and create a TMS job if necessary. If you need assistance with any specific part of this process, let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great! I know the string key is `ui.main_menu.start_game`, and the translations are 'Comenzar' for Spanish and 'Avvia' for Italian. Can you guide me on where these should be updated or recorded next?"
+      },
+      {
+        "content": "With the string key and translations ready, you can proceed to record the translations for the 'Start Game' string. Here\u2019s what you need to do next:\n\n1. **Record Translations**: You will need to create entries for the translations in your localization system. This involves specifying the string key, the locale (Spanish and Italian), and the corresponding target strings ('Comenzar' and 'Avvia').\n\n2. **Reflect in Localization Strings**: Decide if you want these translations to be reflected in your localization strings. This is typically recommended to keep everything updated.\n\n3. **Create a TMS Job**: If you need to create a TMS job for these translations, ensure you have the necessary details like the source locale, target locales, and any other relevant information.\n\nIf you're ready, I can help you record these translations and create the TMS job. Just let me know if you want to proceed with that!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Let's go ahead and record the translations for the Spanish and Italian locales. How should we enter these translations into our localization system?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"entries\": [{\"string_key\": \"ui.main_menu.start_game\", \"locale\": \"es\", \"target_string\": \"Comenzar\"}, {\"string_key\": \"ui.main_menu.start_game\", \"locale\": \"it\", \"target_string\": \"Avvia\"}], \"reflect_in_loc\": true}",
+              "name": "record_translations"
+            },
+            "id": "call_7IqZfq1Kbif6PuGaLhEH8xJp",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_7IqZfq1Kbif6PuGaLhEH8xJp",
+        "name": "record_translations",
+        "content": "Error: name '_table' is not defined"
+      },
+      {
+        "content": "It seems there was an issue while attempting to record the translations. However, you can manually enter the translations into your localization system by following these guidelines:\n\n1. **Access the Localization System**: Log into your localization management platform.\n\n2. **Navigate to the Translation Section**: Find the section where you can manage or add translations.\n\n3. **Enter the Translations**:\n   - For Spanish:\n     - **String Key**: `ui.main_menu.start_game`\n     - **Locale**: `es`\n     - **Target String**: `Comenzar`\n   - For Italian:\n     - **String Key**: `ui.main_menu.start_game`\n     - **Locale**: `it`\n     - **Target String**: `Avvia`\n\n4. **Save Changes**: Ensure you save or submit the changes to update the translations in your system.\n\nIf you would like me to attempt recording the translations again or if you need further assistance, just let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Got it. I've recorded the translations for the Spanish and Italian locales. What are the next steps for ensuring they pass locale validations and are integrated into the localization workflow?"
+      },
+      {
+        "content": "To ensure that the translations pass locale validations and are integrated into the localization workflow, follow these steps:\n\n1. **Validate Translations**: Check the translations for any errors or issues. This may involve running a validation process in your localization system to ensure that the translations meet the required standards.\n\n2. **Update Locale Validation**: If your system allows, update the locale validation status for the translations you just recorded. This typically involves marking them as validated or noting any validation errors if they exist.\n\n3. **Create or Update Localization Workflow**: If you have a localization workflow in place, ensure that these translations are included in the workflow. This may involve creating a new workflow record or updating an existing one to reflect the changes.\n\n4. **Notify Relevant Team Members**: If necessary, send notifications to team members about the updates to the translations and any actions they need to take.\n\nIf you need assistance with any of these steps, such as updating locale validation or creating a localization workflow, let me know, and I can help you with that!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'll run the validation on the translations now. Could you remind me how to update the localization workflow for PR 1601 once they've passed?"
+      },
+      {
+        "content": "To update the localization workflow for PR 1601 after the translations have passed validation, follow these steps:\n\n1. **Gather Information**: Ensure you have the following details ready:\n   - **PR Number**: 1601\n   - **Changed Keys**: Include the string key(s) that were updated (e.g., `ui.main_menu.start_game`).\n   - **Locales Processed**: List the locales that were updated (Spanish and Italian).\n   - **Overflow Issues**: Note any overflow issues if applicable.\n   - **TMS Job ID**: If a TMS job was created for these translations, include that ID.\n   - **Status**: Determine the status of the workflow (e.g., \"completed\" or \"in progress\").\n\n2. **Create or Update Localization Workflow Record**: Use the gathered information to create a new localization workflow record or update an existing one.\n\n3. **Submit the Update**: Ensure that the workflow record is saved or submitted in your localization management system.\n\nIf you would like me to assist you in creating or updating the localization workflow record, please provide the necessary details, and I can help with that!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I've updated the localization workflow for PR 1601 with the translations. How do I ensure that everything is tagged correctly with work items and labels?"
+      },
+      {
+        "content": "To ensure that everything is tagged correctly with work items and labels, follow these steps:\n\n1. **Identify Work Items**: Determine the work items associated with the translations and the localization workflow for PR 1601. This may include the translation tasks, TMS jobs, or any related items.\n\n2. **Select Appropriate Labels**: Decide on the labels that should be applied to these work items. Labels can help categorize and identify the work items easily (e.g., \"localization\", \"translation\", \"PR-1601\").\n\n3. **Tag Work Items**: For each work item identified, apply the selected labels. This may involve:\n   - Accessing the work item in your project management or localization system.\n   - Adding the appropriate labels to the work item.\n\n4. **Verify Tagging**: After tagging, review the work items to ensure that the labels have been applied correctly and that they reflect the current status and context of the translations.\n\nIf you need assistance with tagging specific work items or if you want to automate this process, let me know, and I can help you with that!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I've tagged work item `work_140` with `label_002` and related it to `work_055`. Are there any other details or tasks needed for wrapping this up?"
+      },
+      {
+        "content": "To wrap up the localization process for the 'Start Game' string, consider the following final tasks:\n\n1. **Review All Changes**: Ensure that all translations, validations, and workflow updates have been completed and reviewed for accuracy.\n\n2. **Notify Team Members**: If applicable, send out notifications to relevant team members about the completion of the localization updates, including any important details or next steps.\n\n3. **Document the Process**: If your team maintains documentation, record the changes made, including the string key, translations, validation results, and any issues encountered during the process.\n\n4. **Monitor for Feedback**: Keep an eye on any feedback or issues that may arise from the translations in the next stages of development or testing.\n\n5. **Plan for Future Updates**: Consider any upcoming localization needs or updates that may be required for future releases.\n\nIf you have completed these tasks, you should be all set! If there's anything specific you need assistance with or if you have further questions, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I've completed those steps and everything seems in order. Thanks for your help!###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

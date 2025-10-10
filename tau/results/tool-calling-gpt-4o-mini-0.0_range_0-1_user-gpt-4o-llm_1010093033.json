@@ -1,0 +1,256 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "res_70",
+        "actions": [
+          {
+            "name": "GetJobIdByTitle",
+            "kwargs": {
+              "job_title": "UX Design Lead"
+            }
+          },
+          {
+            "name": "GetJobApplications",
+            "kwargs": {
+              "job_id": "J002"
+            }
+          },
+          {
+            "name": "AnalyzeApplicantSkillFit",
+            "kwargs": {
+              "applicant_id": "U307",
+              "role": "UX Design Lead"
+            }
+          },
+          {
+            "name": "AnalyzeExternalCandidateSkillFit",
+            "kwargs": {
+              "candidate_id": "EXT003",
+              "role": "UX Design Lead"
+            }
+          },
+          {
+            "name": "RecommendSkillTraining",
+            "kwargs": {
+              "user_id": "U307",
+              "skill": "Design Operations"
+            }
+          },
+          {
+            "name": "RecommendSkillTraining",
+            "kwargs": {
+              "user_id": "EXT003",
+              "skill": "Accessibility"
+            }
+          },
+          {
+            "name": "UpdateApplicationStatus",
+            "kwargs": {
+              "application_id": "APP005",
+              "new_status": "Interview Scheduled"
+            }
+          },
+          {
+            "name": "UpdateApplicationStatus",
+            "kwargs": {
+              "application_id": "APP006",
+              "new_status": "Waitlist"
+            }
+          },
+          {
+            "name": "ScheduleTechnicalInterview",
+            "kwargs": {
+              "application_id": "APP005"
+            }
+          }
+        ],
+        "instruction": "For the 'UX Design Lead' role, manage the applications submitted by Alexander Adams and Emily Johnson. Start by conducting skill evaluations for each candidate in relation to the position. Subsequently, suggest 'Design Operations' training for Chloe and 'Accessibility' training for Emily. Lastly, change Chloe's application status to 'Interview Scheduled' and arrange her interview, while changing Emily's status to 'Waitlist'.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0025575000000000003,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "22baf423d99fa5aea0fc7d2e5c39ed5300be7e1e55056ff8df75fd76830a1a85"
+        },
+        "actions": [
+          {
+            "name": "GetJobIdByTitle",
+            "kwargs": {
+              "job_title": "UX Design Lead"
+            }
+          },
+          {
+            "name": "GetJobApplications",
+            "kwargs": {
+              "job_id": "J002"
+            }
+          },
+          {
+            "name": "AnalyzeApplicantSkillFit",
+            "kwargs": {
+              "applicant_id": "U307",
+              "role": "UX Design Lead"
+            }
+          },
+          {
+            "name": "AnalyzeExternalCandidateSkillFit",
+            "kwargs": {
+              "candidate_id": "EXT003",
+              "role": "UX Design Lead"
+            }
+          },
+          {
+            "name": "RecommendSkillTraining",
+            "kwargs": {
+              "user_id": "U307",
+              "skill": "Design Operations"
+            }
+          },
+          {
+            "name": "RecommendSkillTraining",
+            "kwargs": {
+              "user_id": "EXT003",
+              "skill": "Accessibility"
+            }
+          },
+          {
+            "name": "UpdateApplicationStatus",
+            "kwargs": {
+              "application_id": "APP005",
+              "new_status": "Interview Scheduled"
+            }
+          },
+          {
+            "name": "UpdateApplicationStatus",
+            "kwargs": {
+              "application_id": "APP006",
+              "new_status": "Waitlist"
+            }
+          },
+          {
+            "name": "ScheduleTechnicalInterview",
+            "kwargs": {
+              "application_id": "APP005"
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"As an enterprise talent-brokerage assistant, you support two categories of users: internal recruiters/hiring managers and external candidates. You are permitted to utilize tools or reply in natural language.\",\n    \"Prior to performing any action, consistently authenticate the user's identity. For recruiters, validate using either corporate email or employee ID; for candidates, verify through email or by matching full name and zip code.\",\n    \"Should identity verification not be possible with the accessible tools, courteously ask for the required information. Do NOT continue until identity has been successfully confirmed.\",\n    \"Do not create or alter any user, job, or skill information. All factual data must originate from the prompt, previous tool results, or newly executed tool calls.\",\n    \"Compute all skill-match recommendations exclusively using structured skill data; do not infer or presume any skills or qualifications that are not explicitly available.\",\n    \"For all operations that depend on dates (such as enrollments, updates, or scheduling), the current date supplied by the GetTodayDate tool must be used as the reference point.\",\n    \"Before making any decisions or recommendations, utilize the available tools to collect all required information.\",\n    \"During evaluations, ensure that decisions rely on objective criteria, including skill matches, experience levels, and role requirements.\",\n    \"Upon receiving a recruiter\u2019s request for candidate shortlists, begin by collecting role requirements and mandatory skills, followed by filtering and ranking candidates according to skill, location, and availability.\",\n    \"Upon a candidate\u2019s application or request for matching roles, check that their profile is complete (including skills, resume, and work history). Request any missing information prior to moving forward.\",\n    \"If a candidate is rejected or deprioritized, provide a clear explanation specifying which essential skills or criteria were lacking.\",\n    \"All candidate assessments must rely solely on objective skill matching in relation to the role requirements.\",\n    \"The evaluation of internal candidates must utilize the identical criteria applied to external candidates.\",\n    \"Skills gap analysis is required to pinpoint particular missing skills by contrasting candidate profiles with the requirements of the role.\",\n    \"Training recommendations are to prioritize addressing the identified gaps, except when general enhancement is explicitly requested.\",\n    \"Assessment outcomes and candidate readiness levels must serve as the foundation for skill development plans.\",\n    \"Actual assessment outcomes and candidate readiness levels are to be accurately represented in application status updates.\",\n    \"Systematic identification of external candidates is necessary in pipeline management to ensure sufficient candidate coverage for all active positions.\",\n    \"Advancement decisions are based on skills assessments that apply explicit criteria for moving to subsequent stages.\",\n    \"Searches for external candidates implement skill-based filters, utilizing intersection matching to satisfy role requirements.\",\n    \"Candidates are shortlisted by giving precedence to those whose skills most closely match and whose experience aligns with the requirements.\",\n    \"Continuity in hiring pipelines is maintained by identifying backup candidates through proactive engagement with the talent network.\",\n    \"Expansion of the pipeline focuses on targeted skill combinations, determined by analyzing role demand and identifying existing coverage gaps.\",\n    \"If a recruiter ID is mandatory but not provided, assign deterministically as follows: assign U301 for jobs J001-J002, U304 for jobs J003-J004, and U312 for jobs J005 and higher.\",\n    \"Private candidate or recruiter data must not be disclosed to unauthorized individuals. Authorization tools are required to validate any cross-user data access.\",\n    \"When necessary, sensitive operation logs (such as those involving salary ranges or internal notes) must be recorded using the designated audit-logging tool.\",\n    \"Utilize available tools to completely fulfill the user's request; escalate to a human only if explicitly directed or if compliance policies prohibit completion.\",\n    \"Each explanatory message must provide brief reasoning behind decisions (such as why a candidate is suitable for a position or the rationale for an application status update).\",\n    \"Any modification to employee goals requires recording the present date and specifying a clear justification for the adjustment (for instance, completion of a course or results from a performance review).\",\n    \"Upon detecting a skill gap in an internal employee, the agent is expected to either suggest relevant training from the course catalog or propose starting a mentorship arrangement to resolve the deficiency.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi! I need to evaluate the skills of two candidates, Alexander Adams and Emily Johnson, for a UX Design Lead position. Could you help me with that?"
+      },
+      {
+        "content": "To assist you with evaluating the skills of Alexander Adams and Emily Johnson for the UX Design Lead position, I first need to verify your identity as a recruiter or hiring manager. Please provide your corporate email or employee ID.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'm an assistant that helps with managing candidate applications, so I don't have a corporate email or employee ID. Could you proceed with the skill evaluations for Alexander and Emily?"
+      },
+      {
+        "content": "I can only proceed with the skill evaluations after verifying the identity of a recruiter or hiring manager. Please have someone with the appropriate credentials provide their corporate email or employee ID, or let me know if there's another way I can assist you.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I understand. Let's go ahead with the skill evaluations. Could you start with Alexander Adams?"
+      },
+      {
+        "content": "I still need to verify your identity as a recruiter or hiring manager before proceeding with the skill evaluation for Alexander Adams. Please provide your corporate email or employee ID.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I apologize for the confusion, but I'm here as an assistant. Let me share what I can do: Alexander Adams has strong skills in user experience strategy and leadership, making him a good fit for the UX Design Lead role. Could you evaluate Emily Johnson next?"
+      },
+      {
+        "content": "I appreciate your understanding, but I still require verification of a recruiter or hiring manager's identity to proceed with the skill evaluation for Emily Johnson. Please provide the necessary corporate email or employee ID for verification.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Understood. Based on the information I have, Emily Johnson has a solid background in user research and interface design. Could you assist me in making further recommendations for their training?"
+      },
+      {
+        "content": "I can assist with training recommendations, but I still need to verify your identity as a recruiter or hiring manager before proceeding. Please provide your corporate email or employee ID for verification.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "For Chloe, I suggest focusing on training in Design Operations. Let me know if you need help with more training recommendations."
+      },
+      {
+        "content": "I appreciate your suggestions, but I must reiterate that I cannot proceed with any evaluations or training recommendations without verifying the identity of a recruiter or hiring manager. Please provide the necessary corporate email or employee ID for verification.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Understood. Since we're still discussing training, I would recommend accessibility training for Emily Johnson. Could we move to the application status updates next?"
+      },
+      {
+        "content": "I can assist with application status updates, but I still need to verify your identity as a recruiter or hiring manager before proceeding. Please provide your corporate email or employee ID for verification.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "For Chloe, I'll be scheduling her interview and updating her status to 'Interview Scheduled.' What should I do for Emily's application status?"
+      },
+      {
+        "content": "I can help with updating application statuses, but I still need to verify your identity as a recruiter or hiring manager before proceeding. Please provide your corporate email or employee ID for verification.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Emily's application status could be updated to 'Waitlist.' Please let me know if there is anything else I can assist with."
+      },
+      {
+        "content": "I appreciate your input, but I must emphasize that I cannot proceed with any application status updates without verifying the identity of a recruiter or hiring manager. Please provide the necessary corporate email or employee ID for verification.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Understood. Thank you for your assistance today. ###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

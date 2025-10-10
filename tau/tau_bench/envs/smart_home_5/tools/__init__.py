@@ -21,6 +21,15 @@ from .delete_custom_list import DeleteCustomList
 from .get_sensor_data import GetSensorData
 from .get_member_info import GetMemberInfo
 
+
+# Helper function
+from datetime import datetime
+
+def _now_iso():
+    """Return current time in ISO format."""
+    return datetime.now().isoformat()
+
+
 ALL_TOOLS = [
     GetDeviceInfo,
     SetDeviceState,

@@ -3,6 +3,7 @@
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
+from . import _household_for_user, _first_user_id
 
 
 class GetHouseholdByUserId(Tool):

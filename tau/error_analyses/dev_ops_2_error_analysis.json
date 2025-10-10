@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it failed to initialize the task or did not trigger any actions, resulting in an empty trajectory. This indicates that the environment did not properly process the user instruction or failed to execute the necessary actions to handle the CI triage tasks as specified in the ground truth action sequence."
+            "description": "The environment is responsible for the fault because it failed to initialize the task or did not trigger any actions, resulting in an empty trajectory. This indicates that the environment did not properly process the user instruction or failed to execute the necessary actions to handle the CI triage tasks, as outlined in the ground truth action sequence."
         }
     ],
     "fault_type_analysis": []

@@ -2,9 +2,15 @@
     "fault_assignment_analysis": [
         {
             "task_id": 0,
-            "author": "environment",
-            "description": "The environment is responsible for the fault in the trajectory because it incorrectly enforced a total payment amount of $304, which included travel insurance, despite the user explicitly stating they did not want insurance. The correct total should have been $242 for the two economy seats without insurance. This discrepancy led to repeated errors in processing the payment, as the system expected a higher total than what was actually required for the user's preferences."
+            "author": "agent",
+            "description": "The agent is responsible for the fault in the trajectory because it failed to book the correct flights as per the user's preferences. The user specified a preference for flights departing after 11 AM, and the ground truth action sequence shows that the correct flights were HAT136 and HAT039. However, the agent initially attempted to book HAT136 and HAT039 but encountered an error due to seat availability and then proceeded to book an alternative itinerary (HAT136, HAT004, and HAT099) without confirming with the user if this new itinerary met their preferences. Additionally, the agent did not ensure the total payment amount matched the new itinerary cost, leading to a discrepancy in the payment arrangement."
         }
     ],
-    "fault_type_analysis": []
+    "fault_type_analysis": [
+        {
+            "task_id": 0,
+            "fault_type": "goal_partially_completed",
+            "description": "The trajectory contains a fault of type \"goal_partially_completed\" because the agent booked a different flight itinerary than the one specified in the ground truth action sequence. The ground truth action sequence involved booking a one-stop flight with flights HAT136 and HAT039, while the trajectory ended with a booking for flights HAT136, HAT004, and HAT099. The agent failed to secure the original connecting flight (HAT039) due to a lack of available seats and instead booked an alternative itinerary, which does not fully align with the user's initial preferences and the ground truth."
+        }
+    ]
 }

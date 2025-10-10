@@ -33,11 +33,11 @@ class StatusMonitor(Tool):
             status['lists'] = {'total': len(data.get('custom_lists', []))}
             status['reminders'] = {
                 'total': len(data.get('reminders', [])),
-                'active': len([r for r in data.get('reminders', []) if r.get('status') == 'active'])
+                'active': len([r for r in list(data.get('reminders', {}).values()) if r.get('status') == 'active'])
             }
             status['members'] = {
                 'total': len(data.get('members', [])),
-                'residents': len([m for m in data.get('members', []) if m.get('residence', {}).get('lives_in_house')])
+                'residents': len([m for m in list(data.get('members', {}).values()) if m.get('residence', {}).get('lives_in_house')])
             }
 
         if category == 'devices' or report_type == 'detailed':

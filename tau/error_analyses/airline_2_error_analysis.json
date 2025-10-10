@@ -3,7 +3,7 @@
         {
             "task_id": 0,
             "author": "environment",
-            "description": "The environment is responsible for the fault because it failed to initialize the task or establish a conversation, resulting in an empty trajectory. This indicates that the environment did not execute any actions or facilitate any interaction, which is necessary to follow the user instruction and achieve the goal state. The ground truth action sequence involves multiple steps to manage flight delays due to a SIGMET, but none of these actions were initiated or completed in the trajectory."
+            "description": "The environment is responsible for the fault because it failed to initialize the task or establish a conversation, resulting in an empty trajectory. This indicates that the environment did not execute any actions or facilitate any interaction between the user and the agent, which is necessary to carry out the operations management tasks as specified in the user instruction."
         }
     ],
     "fault_type_analysis": []
