@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -29,24 +29,24 @@ class UpdateReservation(Tool):
         
         def generate_deterministic_timestamp(reservation_id: str, flight_date: str = None) -> str:
             """Generate deterministic timestamp based on reservation_id and flight_date"""
-            # Use reservation_id as base, add flight_date if available
+            # Utilize reservation_id as the foundation, appending flight_date if present.
             base_string = reservation_id
             if flight_date:
                 base_string += f"_{flight_date}"
             
-            # Create hash to generate consistent timestamp components
+            # Generate a hash to ensure uniform timestamp elements.
             hash_obj = hashlib.md5(base_string.encode())
             hash_hex = hash_obj.hexdigest()
             
-            # Use hash to generate deterministic but realistic timestamp
-            # Based on flight date or current date range
+            # Employ a hash function to create a consistent yet plausible timestamp.
+            # Depending on the flight date or the present date range.
             if flight_date:
                 base_date = datetime.strptime(flight_date, "%Y-%m-%d")
             else:
-                # Default to May 2024 (typical flight period)
+                # Set the default to May 2024 (standard flight season).
                 base_date = datetime(2024, 5, 15)
             
-            # Add hours/minutes/seconds from hash for consistency
+            # Incorporate hours/minutes/seconds from the hash to ensure uniformity.
             hours = int(hash_hex[:2], 16) % 24
             minutes = int(hash_hex[2:4], 16) % 60
             seconds = int(hash_hex[4:6], 16) % 60
@@ -76,7 +76,7 @@ class UpdateReservation(Tool):
                 "reservation_id": reservation_id
             })
 
-        # Find the user associated with this reservation
+        # Retrieve the user linked to this reservation.
         user_id = target_reservation.get("user_id")
         users = list(data.get("users", {}).values())
         target_user = None
@@ -96,15 +96,15 @@ class UpdateReservation(Tool):
                 "user_id": user_id
             })
 
-        # Store original values for rollback if needed
+        # Preserve initial values for potential rollback.
         original_total_cost = sum(flight.get("price", 0) for flight in target_reservation.get("flights", []))
         updates_made = []
 
-        # Store original cabin for upgrade cost calculation
+        # Save the original cabin for calculating upgrade expenses.
         original_cabin = target_reservation.get("cabin")
         cabin_upgrade_cost = 0
 
-        # Validate and update cabin class if provided
+        # Check and modify cabin class if specified.
         if cabin is not None:
             valid_cabins = ["basic_economy", "economy", "business", "first"]
             if cabin not in valid_cabins:
@@ -115,8 +115,8 @@ class UpdateReservation(Tool):
                 })
 
             if original_cabin and original_cabin != cabin:
-                # Cabin multipliers for pricing - these constants should be used consistently across all tasks
-                # basic_economy: 1.0 (baseline), economy: 1.2 (+20%), business: 1.8 (+80%), first: 2.5 (+150%)
+                # Pricing cabin multipliers - these constants must be uniformly applied in all tasks.
+                # basic_economy: 1.0 (reference), economy: 1.2 (+20%), business: 1.8 (+80%), first: 2.5 (+150%)
                 cabin_multipliers = {
                     "basic_economy": 1.0,
                     "economy": 1.2,
@@ -127,7 +127,7 @@ class UpdateReservation(Tool):
                 original_multiplier = cabin_multipliers.get(original_cabin, 1.0)
                 new_multiplier = cabin_multipliers.get(cabin, 1.0)
 
-                # Calculate upgrade cost based on flight prices and cabin difference
+                # Determine the upgrade expense by analyzing flight fares and cabin variations.
                 base_cost = sum(flight.get("price", 0) for flight in target_reservation.get("flights", []))
                 cabin_upgrade_cost = base_cost * (new_multiplier - original_multiplier)
 
@@ -248,17 +248,17 @@ class UpdateReservation(Tool):
         payment_processed = False
 
         if payment_method_id is not None or cost_difference != 0:
-            # Initialize payment_method variable
+            # Set up the payment_method variable.
             payment_method = None
             
             if payment_method_id is not None:
                 payment_methods = target_user.get("payment_methods", {})
                 if payment_method_id not in payment_methods:
                     available_methods = sorted([key for key in payment_methods])
-                    # Try to find a payment method with sufficient funds
+                    # Attempt to locate a payment method that has adequate balance.
                     suitable_payment_method = None
                     if cost_difference > 0:
-                        # For additional charges, prioritize credit cards and then gift cards with sufficient funds
+                        # For extra charges, give priority to credit cards, followed by gift cards that have enough balance.
                         for method_id in sorted(available_methods):
                             method = payment_methods[method_id]
                             if method["source"] == "credit_card":
@@ -269,19 +269,19 @@ class UpdateReservation(Tool):
                                     suitable_payment_method = method_id
                                     break
                     else:
-                        # For refunds or no cost change, any payment method is fine
+                        # Any payment method is acceptable for refunds or no-cost adjustments.
                         suitable_payment_method = available_methods[0] if available_methods else None
                     
                     if suitable_payment_method:
-                        # Store the originally requested payment method before changing it
+                        # Preserve the initially requested payment method prior to modification.
                         originally_requested = payment_method_id
                         payment_method_id = suitable_payment_method
-                        # Set payment_method for the auto-selected method
+                        # Assign payment_method to the automatically chosen method.
                         payment_method = payment_methods[suitable_payment_method]
-                        # Add a note about the automatic selection
+                        # Include a remark regarding the automatic selection process.
                         if "payment_method_auto_selected" not in target_reservation:
                             target_reservation["payment_method_auto_selected"] = []
-                        # Get flight date for deterministic timestamp
+                        # Retrieve flight date for fixed timestamp.
                         flight_date = target_reservation.get("flights", [{}])[0].get("date") if target_reservation.get("flights") else None
                         target_reservation["payment_method_auto_selected"].append({
                             "original_requested": originally_requested,
@@ -289,7 +289,7 @@ class UpdateReservation(Tool):
                             "timestamp": generate_deterministic_timestamp(reservation_id, flight_date)
                         })
                     else:
-                        # No suitable payment method found
+                        # No appropriate payment option detected.
                         if cost_difference > 0:
                             return json.dumps({
                                 "status": "no_suitable_payment",
@@ -303,12 +303,12 @@ class UpdateReservation(Tool):
                                 "message": "The user has no payment methods available for processing the reservation update."
                             })
                 else:
-                    # Payment method exists, check if it has sufficient funds
+                    # Verify the presence of the payment method and ensure it has adequate funds.
                     payment_method = payment_methods[payment_method_id]
                     if cost_difference > 0 and payment_method["source"] in ["gift_card", "certificate"]:
                         available_amount = payment_method.get("amount", 0)
                         if available_amount < cost_difference:
-                            # Try to find another payment method with sufficient funds
+                            # Attempt to locate an alternative payment option with adequate balance.
                             alternative_methods = []
                             for method_id in sorted([key for key in payment_methods]):
                                 method = payment_methods[method_id]
@@ -319,21 +319,21 @@ class UpdateReservation(Tool):
                                         if method.get("amount", 0) >= cost_difference:
                                             alternative_methods.append(f"{method_id} (${method.get('amount', 0)} available)")
                             
-                            # If we have alternative methods, try to use one automatically
+                            # If alternative methods are available, attempt to use one automatically.
                             if alternative_methods:
-                                # Try credit cards first, then gift cards with sufficient funds
+                                # Start with credit cards, followed by gift cards that have enough balance.
                                 original_payment_method_id = payment_method_id
                                 for alt_method_id in sorted([key for key in payment_methods]):
                                     alt_method = payment_methods[alt_method_id]
                                     if alt_method_id != original_payment_method_id:
                                         if alt_method["source"] == "credit_card":
-                                            # Switch to credit card
+                                            # Change to credit card.
                                             payment_method_id = alt_method_id
                                             payment_method = alt_method
-                                            # Add a note about the automatic switch
+                                            # Include a remark regarding the automatic switch.
                                             if "payment_method_auto_switched" not in target_reservation:
                                                 target_reservation["payment_method_auto_switched"] = []
-                                            # Get flight date for deterministic timestamp
+                                            # Obtain flight date from the fixed timestamp.
                                             flight_date = target_reservation.get("flights", [{}])[0].get("date") if target_reservation.get("flights") else None
                                             target_reservation["payment_method_auto_switched"].append({
                                                 "original_method": original_payment_method_id,
@@ -344,13 +344,13 @@ class UpdateReservation(Tool):
                                             break
                                         elif alt_method["source"] in ["gift_card", "certificate"]:
                                             if alt_method.get("amount", 0) >= cost_difference:
-                                                # Switch to gift card with sufficient funds
+                                                # Change to a gift card that has enough balance.
                                                 payment_method_id = alt_method_id
                                                 payment_method = alt_method
-                                                # Add a note about the automatic switch
+                                                # Include a comment regarding the automatic toggle.
                                                 if "payment_method_auto_switched" not in target_reservation:
                                                     target_reservation["payment_method_auto_switched"] = []
-                                                # Get flight date for deterministic timestamp
+                                                # Retrieve flight date for a fixed timestamp.
                                                 flight_date = target_reservation.get("flights", [{}])[0].get("date") if target_reservation.get("flights") else None
                                                 target_reservation["payment_method_auto_switched"].append({
                                                     "original_method": original_payment_method_id,
@@ -360,7 +360,7 @@ class UpdateReservation(Tool):
                                                 })
                                                 break
                                 else:
-                                    # No suitable alternative found, return error with suggestions
+                                    # No appropriate alternative discovered; return an error along with recommendations.
                                     return json.dumps({
                                         "status": "insufficient_funds",
                                         "message": f"The payment method '{payment_method_id}' has insufficient funds. Available: ${available_amount}, Required: ${cost_difference}. Alternative payment methods: {', '.join(alternative_methods)}",
@@ -389,12 +389,12 @@ class UpdateReservation(Tool):
                         "amount": cost_difference
                     })
 
-                    # Only process payment method adjustments if payment_method is defined and payment_method_id exists
+                    # Process payment method adjustments only if payment_method is specified and payment_method_id is present.
                     if payment_method and payment_method_id and payment_method["source"] in ["gift_card", "certificate"]:
-                        if cost_difference > 0:  # Additional charge
+                        if cost_difference > 0:  # Extra fee
                             new_amount = payment_method["amount"] - cost_difference
                             data["users"][user_index]["payment_methods"][payment_method_id]["amount"] = new_amount
-                        elif cost_difference < 0:  # Refund
+                        elif cost_difference < 0:  # Reimbursement
                             new_amount = payment_method["amount"] + abs(cost_difference)
                             data["users"][user_index]["payment_methods"][payment_method_id]["amount"] = new_amount
 
@@ -424,7 +424,7 @@ class UpdateReservation(Tool):
             "updated_reservation": target_reservation
         }
 
-        # Add information about automatic payment method selection if applicable
+        # Include details regarding the selection of automatic payment methods if relevant.
         if "payment_method_auto_selected" in target_reservation:
             latest_auto_selection = target_reservation["payment_method_auto_selected"][-1]
             response["payment_method_note"] = {
@@ -433,7 +433,7 @@ class UpdateReservation(Tool):
                 "original_requested": latest_auto_selection['original_requested']
             }
 
-        # Add information about automatic payment method switching if applicable
+        # Include details regarding the automatic switching of payment methods if relevant.
         if "payment_method_auto_switched" in target_reservation:
             latest_auto_switch = target_reservation["payment_method_auto_switched"][-1]
             response["payment_method_switch_note"] = {
@@ -451,7 +451,7 @@ class UpdateReservation(Tool):
                 "cabin_upgrade_cost": cabin_upgrade_cost if cabin_upgrade_cost != 0 else None
             }
 
-        # Add payment method information to response
+        # Include payment method details in the response.
         if payment_method_id is not None:
             response["payment_method_used"] = payment_method_id
 
@@ -473,13 +473,13 @@ class UpdateReservation(Tool):
                         },
                         "flights": {
                             "type": "array",
-                            "description": "Updated flight segments. Each flight must include origin, destination, flight_number, date (YYYY-MM-DD), and price. Flight numbers follow HAT### format",
+                            "description": "Updated flight segments. Each flight must include origin, destination, flight_number, date (YYYY-MM-DD), and price. Flight numbers follow HAT### ## structure",
                             "items": {
                                 "type": "object",
                                 "properties": {
                                     "origin": {"type": "string", "description": "Origin airport IATA code"},
                                     "destination": {"type": "string", "description": "Destination airport IATA code"},
-                                    "flight_number": {"type": "string", "description": "Flight number in HAT### format"},
+                                    "flight_number": {"type": "string", "description": "Flight number in HAT### ## structure"},
                                     "date": {"type": "string", "description": "Flight date in YYYY-MM-DD format"},
                                     "price": {"type": "number", "description": "Flight price in USD"}
                                 }

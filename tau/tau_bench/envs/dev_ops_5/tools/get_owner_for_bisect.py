@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class GetOwnerForBisect(Tool):
         bisect_results = data.get("bisect_results", [])
         ownership_map = data.get("ownership_map", [])
         
-        # 1. Find the bisect result record
+        # 1. Locate the record of the bisect result.
         bisect_record = None
         for result in bisect_results:
             if result.get("id") == bisect_id:
@@ -24,17 +24,17 @@ class GetOwnerForBisect(Tool):
         if not bisect_record:
             return json.dumps({"error": f"Bisect with ID '{bisect_id}' not found."})
             
-        # 2. Get the list of suspect files from the bisect record
+        # 2. Retrieve the list of suspect files from the bisect log.
         suspect_files = bisect_record.get("suspect_files", [])
         if not suspect_files:
-            # default to user_005 if no suspect files are found
+            # fallback to user_005 when no suspect files are detected
             return json.dumps({"owner_id": "user_005"})
             return json.dumps({"error": f"No suspect files found for bisect '{bisect_id}'."})
             
-        # 3. Use the first suspect file to determine primary ownership, as it's the most likely culprit.
+        # 3. Analyze the initial suspect file to identify primary ownership, as it is the most probable source.
         primary_suspect_file = suspect_files[0]
         
-        # 4. Find the most specific owner for the primary suspect file from the ownership map
+        # 4. Retrieve the most detailed owner for the primary suspect file from the ownership map.
         most_specific_owner = None
         longest_match = -1
         for ownership in ownership_map:
@@ -46,7 +46,7 @@ class GetOwnerForBisect(Tool):
         
         if most_specific_owner:
             return json.dumps(most_specific_owner)
-        # for when the owner is not found
+        # for cases when the owner cannot be located
         return json.dumps({"owner_id": "user_008"})
         return json.dumps({"error": f"Could not determine an owner for the primary suspect file '{primary_suspect_file}' in bisect '{bisect_id}'."})
 

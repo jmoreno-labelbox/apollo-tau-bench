@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,10 +23,10 @@ class GetProductSupplierSummary(Tool):
 
         supplier = next((s for s in suppliers if s['supplier_id'] == product['supplier_id']), None)
 
-        # Get supply orders for this product
+        # Retrieve supply orders associated with this product.
         product_supply_orders = [o for o in supply_orders if o['product_id'] == product_id]
 
-        # Calculate stock summary
+        # Compute inventory overview
         stock_summary = {}
         if supplier:
             for variant_id in product['variants'].keys():
@@ -38,7 +38,7 @@ class GetProductSupplierSummary(Tool):
             'supplier': supplier,
             'stock_summary': stock_summary,
             'total_supply_orders': len(product_supply_orders),
-            'recent_supply_orders': product_supply_orders[-5:]  # Last 5 orders
+            'recent_supply_orders': product_supply_orders[-5:]  # Most recent 5 orders
         }, indent=2)
 
     @staticmethod

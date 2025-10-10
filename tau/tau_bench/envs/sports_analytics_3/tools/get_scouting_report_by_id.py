@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Technologies
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class GetScoutingReportById(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         report_id = kwargs.get("report_id")
 
-        # 1) Validate
+        # 1) Confirm accuracy
         if report_id is None:
             return json.dumps({"error": "Missing required field: report_id"}, indent=2)
 
-        # 2) Get DB from passed-in data
+        # Retrieve the database from the provided data.
         reports: List[Dict[str, Any]] = list(data.get("scouting_reports", {}).values())
 
-        # 3) Exact match lookup
+        # 3) Precise match retrieval
         for report in reports:
             if report.get("report_id") == report_id:
                 return json.dumps(report, indent=2)

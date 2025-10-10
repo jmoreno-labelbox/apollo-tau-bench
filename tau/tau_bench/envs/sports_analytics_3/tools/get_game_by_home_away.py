@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class GetGameByHomeAway(Tool):
         home = kwargs.get("home_id")
         away = kwargs.get("away_id")
 
-        # 1) Validate required inputs
+        # 1) Check mandatory inputs for validity.
         missing = []
         if home is None:
             missing.append("home")
@@ -36,10 +36,10 @@ class GetGameByHomeAway(Tool):
         if missing:
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        # 2) Access DB
+        # 2) Connect to database
         games: List[Dict[str, Any]] = list(data.get("games", {}).values())
 
-        # 3) Filter by exact match
+        # 3) Apply filter for precise match
         matches = [
             g for g in games
             if g.get("home_team_id") == home and g.get("away_team_id") == away
@@ -51,7 +51,7 @@ class GetGameByHomeAway(Tool):
                 indent=2
             )
 
-        # 4) Deterministic selection: earliest date, then smallest game_pk
+        # 4) Deterministic selection: prioritize earliest date, followed by the smallest game_pk.
         matches.sort(key=lambda g: (g.get("game_date", ""), int(g.get("game_pk", 0))))
         return json.dumps(matches[0], indent=2)
 

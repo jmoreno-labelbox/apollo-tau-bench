@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,18 +16,18 @@ class UpdatePlayerDetails(Tool):
         current_team_id = kwargs.get("current_team_id")
         roster_status = kwargs.get("roster_status")
 
-        # 1) Validate: player_id must be provided
+        # 1) Ensure: player_id is required.
         if player_id is None:
             return json.dumps({"error": "Missing required field: player_id"}, indent=2)
 
-        # At least one of the optional fields should be present
+        # At least one optional field must be included.
         if all(v is None for v in [primary_position, current_team_id, roster_status]):
             return json.dumps({"error": "At least one of primary_position, current_team_id, or roster_status must be provided"}, indent=2)
 
-        # 2) Get DB from passed-in data
+        # Retrieve the database from the provided input data.
         players = list(data.get("players", {}).values())
 
-        # 3) Find and update player
+        # 3) Locate and modify player information
         for player in players:
             if player.get("player_id") == player_id:
                 if primary_position is not None:

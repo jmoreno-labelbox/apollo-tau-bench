@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class UpdateUserProfile(Tool):
 
         Writes to: users.json (updates user profile fields)
         """
-        # Rule: Validate user identity exists before processing any user requests
+        # Requirement: Confirm user identity before handling any requests.
         users = list(data.get("users", {}).values())
         user_to_update = None
         user_index = None
@@ -27,10 +27,10 @@ class UpdateUserProfile(Tool):
         if not user_to_update:
             return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
-        # Track what was updated
+        # Monitor the changes made.
         updates_applied = {}
 
-        # Update name if provided
+        # Modify the name if it is supplied.
         if "name" in profile_updates:
             name_update = profile_updates["name"]
             if isinstance(name_update, dict):
@@ -46,7 +46,7 @@ class UpdateUserProfile(Tool):
                     user_to_update["name"] = new_name
                     updates_applied["name"] = {"old": old_name, "new": new_name}
 
-        # Update email if provided
+        # Modify email if supplied.
         if "email" in profile_updates:
             new_email = profile_updates["email"]
             if "@" not in new_email:
@@ -56,11 +56,11 @@ class UpdateUserProfile(Tool):
             user_to_update["email"] = new_email
             updates_applied["email"] = {"old": old_email, "new": new_email}
 
-        # Update address if provided
+        # Modify the address if available.
         if "address" in profile_updates:
             address_update = profile_updates["address"]
             if isinstance(address_update, dict):
-                # Rule: Validate all required address fields: address1, city, country, state, zip
+                # Requirement: Ensure all mandatory address fields are validated: address1, city, country, state, zip.
                 required_fields = ["address1", "city", "country", "state", "zip"]
                 missing_fields = []
 
@@ -87,11 +87,11 @@ class UpdateUserProfile(Tool):
                 "status": "failed"
             })
 
-        # WRITE OPERATION: Update user profile in users.json
+        # UPDATE OPERATION: Modify user profile in users.json
         user_to_update["profile_updated"] = datetime.now().isoformat()
         user_to_update["last_updated"] = datetime.now().isoformat()
 
-        # Update the user in the data structure
+        # Modify the user information in the data structure.
         data["users"][user_index] = user_to_update
 
         result = {

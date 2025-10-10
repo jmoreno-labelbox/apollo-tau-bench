@@ -9,7 +9,7 @@ class GetCourseIdByName(Tool):
         _course_nameL = course_name or ''.lower()
         pass
         courses = data.get("course_catalog", {}).values()
-        # Locate a course whose name includes the provided string (case-insensitive)
+        # Find a course that contains the specified substring in its name, ignoring case.
         course = next(
             (c for c in courses.values() if course_name.lower() in c.get("name", "").lower()),
             None,

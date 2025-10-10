@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class GetProductsInfoByParam(Tool): # READ
+class GetProductsInfoByParam(Tool): # ACCESS
     @staticmethod
     def invoke(data: Dict[str, Any], filter_params: Dict[str, Any], info_items: List[str] = None) -> str:
         db = list(data.get("products", {}).values())

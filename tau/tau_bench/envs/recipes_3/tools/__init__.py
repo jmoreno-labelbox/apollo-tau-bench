@@ -1,5 +1,5 @@
 import json
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .get_user_by_full_name import GetUserByFullName
 from .get_household_by_primary_user import GetHouseholdByPrimaryUser

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -37,11 +37,11 @@ class SlackMessageDispatcherTool(Tool):
         target_channel = kwargs["channel"]
         msg_content = kwargs["message"]
 
-        # Initialize slack logging if not present
+        # Set up slack logging if it hasn't been initialized.
         if data.get("slack_log") is None:
             data["slack_log"] = []
 
-        # Create and store log record
+        # Generate and save log entry
         notification_entry = {
             "channel": target_channel,
             "message": msg_content

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class DeleteRepository(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         owner = kwargs.get("owner", "").strip()
-        # Accept either 'repo_name' or 'repo_name' for convenience
+        # Allow the use of 'repo_name' or 'repo_name' for ease of use.
         repo_name = kwargs.get("repo_name", kwargs.get("repo_name", "")).strip()
 
         if not owner or not repo_name:
@@ -20,7 +20,7 @@ class DeleteRepository(Tool):
                 indent=2
             )
 
-        # Support either {"repositories": [...]} or a direct list
+        # Accept either {"repositories": [...]} format or a direct array.
         repos = None
         if isinstance(data, dict) and "repositories" in data:
             repos = list(data.get("repositories", {}).values())
@@ -32,7 +32,7 @@ class DeleteRepository(Tool):
                 indent=2
             )
 
-        # Find the repository index deterministically (first exact match)
+        # Identify the repository index in a deterministic manner (first precise match).
         idx = next(
             (i for i, r in enumerate(repos)
              if r.get("owner") == owner and r.get("repo_name") == repo_name),
@@ -45,7 +45,7 @@ class DeleteRepository(Tool):
                 indent=2
             )
 
-        # Remove the repo in place (deterministic mutation)
+        # Eliminate the repository directly (predictable modification).
         removed = repos.pop(idx)
 
         add_terminal_message(data, f"Repository '{owner}/{repo_name}' deleted.", get_current_timestamp())

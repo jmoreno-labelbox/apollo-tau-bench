@@ -9,7 +9,7 @@ class SearchCourses(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], skill: str) -> str:
         skill_query = skill
-        # Adjusted to look for 'related_skills' and conduct a case-insensitive check
+        # Modified to search for 'related_skills' and perform a case-insensitive comparison.
         courses = [
             c
             for c in data.get("course_catalog", {}).values()

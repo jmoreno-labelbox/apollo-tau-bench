@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class GetReleaseDiffSummary(Tool):
         release_diffs = data.get('release_diffs', [])
         releases = data.get('releases', [])
 
-        # If diff_id is provided, return specific diff
+        # Return the specified diff if diff_id is given.
         if diff_id:
             diff_info = None
             for diff in release_diffs:
@@ -31,7 +31,7 @@ class GetReleaseDiffSummary(Tool):
             if not diff_info:
                 return json.dumps({"error": f"Release diff with ID '{diff_id}' not found."})
 
-            # Enrich with release information
+            # Enhance with version details.
             release_info = None
             for release in releases:
                 if release.get('release_id') == diff_info.get('release_id'):
@@ -51,10 +51,10 @@ class GetReleaseDiffSummary(Tool):
 
             return json.dumps(summary, indent=2)
 
-        # Filter diffs by criteria
+        # Apply criteria to filter differences.
         results = []
         for diff in release_diffs:
-            # Apply filters
+            # Implement filters
             if release_id:
                 if diff.get('release_id') != release_id:
                     continue
@@ -72,7 +72,7 @@ class GetReleaseDiffSummary(Tool):
                 elif change_type == 'removed' and not diff.get('frames_removed', []):
                     continue
 
-            # Enrich with change summary
+            # Enhance with a summary of modifications.
             diff_copy = diff.copy()
             diff_copy['change_summary'] = {
                 "frames_added": len(diff.get('frames_added', [])),

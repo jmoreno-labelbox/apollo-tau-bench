@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class EnumerateSuspects(Tool):
         commits = _get_table(data, "commits")
         source_changes = _get_table(data, "source_changes")
         ownership = _get_table(data, "ownership_map")
-        # Deterministic window: if last_green_sha is missing, use the most recent other change on the same branch/repo as a proxy
+        # Deterministic window: in the absence of last_green_sha, utilize the latest alternative change in the same branch/repo as a substitute.
         candidate_refs = [failing_sha]
         if last_green_sha:
             candidate_refs.append(last_green_sha)

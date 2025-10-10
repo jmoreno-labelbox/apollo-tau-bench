@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .get_project_config_by_city import GetProjectConfigByCity
 from .get_file_text_by_path import GetFileTextByPath

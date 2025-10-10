@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,12 +25,12 @@ class DeleteBranch(Tool):
 
         idx = repo["branches"].index(branch)
 
-        # Remove parallel entries safely
+        # Safely eliminate concurrent entries.
         for key in ["branches", "branch_files", "branch_contents", "branch_shas"]:
             if key in repo and len(repo[key]) > idx:
                 repo[key].pop(idx)
 
-        # Optional arrays
+        # Arrays that are not mandatory.
         if "branch_protections" in repo and len(repo["branch_protections"]) > idx:
             repo["branch_protections"].pop(idx)
 

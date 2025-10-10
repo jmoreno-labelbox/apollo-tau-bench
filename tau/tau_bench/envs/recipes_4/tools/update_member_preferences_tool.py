@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,8 +10,8 @@ class UpdateMemberPreferencesTool(Tool):
     A tool to update the preferences and data for a specific household member.
     """
 
-    # Defines which fields are safely updatable by an agent.
-    # Prevents modification of critical IDs or structural fields.
+    # Specifies the fields that an agent can update without risk.
+    # Restricts changes to essential IDs or structural attributes.
     UPDATABLE_FIELDS = {
         "full_name",
         "activity_level",
@@ -71,7 +71,7 @@ class UpdateMemberPreferencesTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the full, updated member object.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Data
         param_definitions = {
             "member_id": {"type": int, "required": True},
             "updates": {"type": dict, "required": True},
@@ -86,9 +86,9 @@ class UpdateMemberPreferencesTool(Tool):
 
         member_id = kwargs["member_id"]
         updates = kwargs["updates"]
-        user_id = kwargs.get("user_id") # For logging
+        user_id = kwargs.get("user_id") # For record-keeping
 
-        # 2. Find the member record
+        # Locate the member record.
         member_record = next(
             (m for m in data.get("members", []) if m.get("member_id") == member_id),
             None
@@ -97,21 +97,21 @@ class UpdateMemberPreferencesTool(Tool):
         if not member_record:
             return _build_error_response("NOT_FOUND", {"entity": "Member", "entity_id": member_id})
 
-        # 3. Apply updates safely
+        # 3. Implement updates securely
         for key, value in updates.items():
             if key in UpdateMemberPreferencesTool.UPDATABLE_FIELDS:
                 member_record[key] = value
 
-        # 4. Log the audit event for traceability
+        # 4. Record the audit event for tracking purposes.
         _log_audit_event(
             data=data,
             household_id=member_record.get("household_id"),
-            user_id=user_id, # Can be None if not provided
+            user_id=user_id, # May be None if absent.
             entity_type="members",
             entity_id=member_id,
             action_enum="update",
             payload_json=updates
         )
 
-        # 5. Return the updated object to confirm the change
+        # 5. Return the modified object to verify the update.
         return _build_success_response(member_record)

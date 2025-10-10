@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Corporation
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,12 +23,12 @@ class GetUser(Tool):
                 return json.dumps({"ok": True, "message": "User not found"})
             return json.dumps({"error": msg})
 
-        # If user_id is provided, search by user_id
+        # If user_id exists, perform a search using user_id.
         if user_id:
             user = _find_by_id(list(data.get("users", {}).values()), "user_id", user_id)
             return json.dumps(user) if user else _not_found(f"user_id {user_id} not found")
 
-        # If username is provided, search by username
+        # Search using the username if one is supplied.
         if username:
             username_lower = username.strip().lower()
             for u in list(data.get("users", {}).values()):
@@ -36,7 +36,7 @@ class GetUser(Tool):
                     return json.dumps(u)
             return _not_found(f"username {username} not found")
 
-        # If first_name and last_name are provided, construct username and search
+        # If first_name and last_name are supplied, create a username and perform a search.
         if first_name and last_name:
             first_name_clean = first_name.strip().lower()
             last_name_clean = last_name.strip().lower()
@@ -47,7 +47,7 @@ class GetUser(Tool):
             return _not_found("User not found")
 
 
-        # If department or status is provided (and no specific identifier), return filtered list
+        # Return a filtered list if a department or status is specified without a specific identifier.
         if department or status or mfa_enabled is not None:
             users = list(data.get("users", {}).values())
             filtered: List[Dict[str, Any]] = []

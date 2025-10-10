@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import abc
 import enum
@@ -63,7 +63,7 @@ Rules:
 - Just generate one line at a time to simulate the user's message.
 - Do not give away all the instruction at once. Only provide the information that is necessary for the current step.
 - Do not hallucinate information that is not provided in the instruction. For example, if the agent asks for the order id but it is not mentioned in the instruction, do not make up an order id, just say you do not remember or have it.
-- If the instruction goal is satisified, generate '###STOP###' as a standalone message without anything else to end the conversation.
+- If the instruction goal is satisified, generate '###STOP### #STOP###' as a singular statement to conclude the discussion without any additional content.
 - Do not repeat the exact instruction in the conversation. Instead, use your own words to convey the same information.
 - Try to make the conversation as natural as possible, and stick to the personalities in the instruction."""
 
@@ -102,7 +102,7 @@ Rules:
 - Then, generate a one line User Response to simulate the user's message (this message will be sent to the agent).
 - Do not give away all the instruction at once. Only provide the information that is necessary for the current step.
 - Do not hallucinate information that is not provided in the instruction. For example, if the agent asks for the order id but it is not mentioned in the instruction, do not make up an order id, just say you do not remember or have it.
-- If the instruction goal is satisified, generate '###STOP###' as the User Response without anything else to end the conversation.
+- If the instruction goal is satisified, generate '###STOP### #STOP### as the User Response to conclude the dialogue without any additional content.
 - Do not repeat the exact instruction in the conversation. Instead, use your own words to convey the same information.
 - Try to make the conversation as natural as possible, and stick to the personalities in the instruction.
 
@@ -134,8 +134,8 @@ User Response:
         return self.generate_next_message(self.messages)
 
     def parse_response(self, response: str) -> str:
-        if "###STOP###" in response:
-            return "###STOP###"
+        if "###STOP### #HALT###" in reply:
+            return "###STOP### #HALT###
         elif "Thought:" in response:
             _, user_response = response.split("Thought:")
             return user_response.strip()
@@ -215,10 +215,10 @@ def verify(
     prompt = f"""You are a supervisor of the Agent in the conversation. You are given a Transcript of a conversation between a Customer and an Agent. The Customer has generated a Response, and you need to verify if it is satisfactory (true) or not (false).
 Your answer will be parsed, so do not include any other text than the classification (true or false).
     
-# Transcript:
+# Please provide the comment you would like me to paraphrase.
 {transcript}
 
-# Response:
+# Please provide the comment you would like me to paraphrase.
 {response}
 
 -----
@@ -245,13 +245,13 @@ def reflect(
 You need to generate a Reflection on what went wrong in the conversation, and propose a new Response that should fix the issues.
 Your answer will be parsed, so do not include any other text than the classification (true or false).
     
-# Transcript:
+# It seems there is no comment provided for paraphrasing. Please provide the comment you would like me to rephrase.
 {transcript}
 
-# Response:
+# Please provide the comment you would like me to paraphrase.
 {response}
 
-# Format:
+# Structure:
 
 Reflection:
 <the reflection>

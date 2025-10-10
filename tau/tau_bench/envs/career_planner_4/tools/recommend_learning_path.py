@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class recommend_learning_path(Tool):
         goal_id: str,
         progress_percent: int,
     ) -> str:
-        # Log the recommendation
+        # Record the suggestion.
         recommendation = {
             "user_id": user_id,
             "soft_skill": soft_skill,

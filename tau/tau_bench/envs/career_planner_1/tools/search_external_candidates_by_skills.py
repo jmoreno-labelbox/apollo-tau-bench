@@ -8,7 +8,7 @@ class SearchExternalCandidatesBySkills(Tool):
     def invoke(data: dict[str, Any], required_skills: list = None) -> str:
         required_skills_raw = required_skills if required_skills is not None else []
 
-        # Carefully extract skill names from possibly mixed data
+        # Diligently retrieve skill names from potentially unstructured data.
         required = set()
         for skill_item in required_skills_raw:
             if isinstance(skill_item, str):
@@ -18,7 +18,7 @@ class SearchExternalCandidatesBySkills(Tool):
 
         talent_network = data.get("talent_network", {}).values()
 
-        # Debug: Confirm if the talent network is loaded
+        # Check: Verify that the talent network has been successfully loaded.
         if not talent_network:
             payload = {"error": "Talent network not loaded", "matches": []}
             out = json.dumps(
@@ -28,7 +28,7 @@ class SearchExternalCandidatesBySkills(Tool):
 
         matches = []
         for c in talent_network.values():
-            # Retrieve skill names from candidate skills - accommodate both formats
+            # Extract skill names from candidate skills to support both formats.
             candidate_skills = set()
             cand_skills = c.get("skills", [])
 
@@ -39,18 +39,18 @@ class SearchExternalCandidatesBySkills(Tool):
                     elif isinstance(skill, dict) and skill.get("skill"):
                         candidate_skills.add(skill.get("skill"))
 
-            # Verify matches - manage both direct matches and hierarchical skills
+            # Validate matches - handle both direct matches and skills in a hierarchy.
             has_match = False
 
-            # Initially check for direct intersection
+            # First, verify for a direct intersection.
             if required.intersection(candidate_skills):
                 has_match = True
             else:
-                # Examine hierarchical matches by broadening required skills
+                # Analyze hierarchical matches by expanding necessary skills.
                 expanded_required = set()
                 for req_skill in required:
                     expanded_required.add(req_skill)
-                    # Locate this skill in the role catalog to obtain specific skills
+                    # Find this skill in the role catalog to identify detailed skills.
                     for role_entry in data.get("role_skill_catalog", {}).values():
                         for skill_category in role_entry.get("required_skills", []):
                             if (

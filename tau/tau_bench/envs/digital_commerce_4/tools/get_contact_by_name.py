@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,7 +22,7 @@ class GetContactByName(Tool):
         if not matches:
             return json.dumps({}, indent=2)
 
-        # deterministic: lowest numeric contact_id wins if multiple
+        # deterministic: the smallest numeric contact_id is preferred in case of ties.
         def _key(c):
             s = str(c.get("contact_id", ""))
             try:

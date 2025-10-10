@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .get_job_posting import GetJobPosting
 from .get_role_skills import GetRoleSkills

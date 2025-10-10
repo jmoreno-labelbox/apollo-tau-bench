@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class ListOrdersForContact(Tool):
             return json.dumps({"error": "contact_id is required."}, indent=2)
         contact_id = _as_id(contact_id)
         rows = [o for o in list(data.get("orders", {}).values()) if _as_id(o.get("contact_id")) == contact_id]
-        rows = sorted(rows, key=lambda o: str(o.get("order_date", "")), reverse=True)  # ISO desc
+        rows = sorted(rows, key=lambda o: str(o.get("order_date", "")), reverse=True)  # ISO description
         return json.dumps({"orders": rows}, indent=2)
 
     @staticmethod

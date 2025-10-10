@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class GetRoleMembersTool(Tool):
         user_roles = data.get("user_roles", [])
 
         role_id = kwargs.get("role_id")
-        status_filter = kwargs.get("status")  # optional: e.g., "ACTIVE"
+        status_filter = kwargs.get("status")  # optional: for instance, "ACTIVE"
 
         if not isinstance(user_roles, list) or not isinstance(users, list):
             return json.dumps({"error": "users and user_roles must be lists"}, indent=2)

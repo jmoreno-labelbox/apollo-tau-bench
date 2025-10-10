@@ -1,6 +1,6 @@
 from tau_bench.types import Action, Task
 
-# Social Media Advertising — deterministic tasks, non-procedural goals, explicit literals.
+# Social Media Advertising — defined tasks, non-linear objectives, clear constants.
 
 TASKS = [
     Task(
@@ -384,7 +384,7 @@ TASKS = [
 
     ,
     # tasks_004_008.py
-    # tasks_004_008_fixed.py
+    # tasks_004_008_corrected.py
 
     Task(
         annotator="0",
@@ -393,7 +393,7 @@ TASKS = [
             "Serving as the Baseline Publisher at 2025-08-14T00:30:00Z, release plan_soc_010 (2025-08-13) as an unaltered snapshot of current budgets/strategies, ensuring the total (8860) is maintained without modifications. Implement and log."
         ),
         actions=[
-            # Read all adsets to source mapping names & current strategies/creatives deterministically
+            # Retrieve all ad sets to systematically gather mapping names and current strategies/creatives.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),
@@ -407,7 +407,7 @@ TASKS = [
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # Freeze full envelope (names copied verbatim from DB reads)
+            # Lock complete envelope (identical names taken from database entries)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_010",
                 "date": "2025-08-13",
@@ -481,7 +481,7 @@ TASKS = [
                 ],
             }),
 
-            # Apply (no-ops expected), then mark & record
+            # Execute (no operations anticipated), then tag and log.
             Action(name="ApplyPlanAllocations",
                    kwargs={"plan_id": "plan_soc_010", "timestamp": "2025-08-14T00:30:00Z", "request_id": "ap-1"}),
             Action(name="UpdatePlanStatus",
@@ -511,10 +511,10 @@ TASKS = [
             "As the Creative Provisioner, the date is 2025-08-14T00:35:00Z. In adset 102, arrange for one new active image ad (commencing 2025-08-14), maintain single-active status by pausing any current active ad, and document the execution."
         ),
         actions=[
-            # Read once to find the currently active ad to pause
+            # Scan once to identify the active ad that needs to be paused.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"}),
 
-            # Create the new image ad with deterministic name/id scheme
+            # Generate the new image advertisement using a consistent naming/identification system.
             Action(name="CreateAd", kwargs={
                 "adset_id": "102",
                 "name": "auto_102_20250814_001",
@@ -524,14 +524,14 @@ TASKS = [
                 "request_id": "en-1"
             }),
 
-            # Enforce single-active: pause the previous active (from the read: ad_id 1103)
+            # Implement single-active mode: suspend the prior active (from the read: ad_id 1103)
             Action(name="UpdateAdStatus", kwargs={
                 "ad_id": "1103",
                 "status": "paused",
                 "request_id": "en-2"
             }),
 
-            # Record the provisioning run
+            # Log the provisioning process.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "provisioning",
                 "started_at": "2025-08-14T00:35:00Z",
@@ -559,13 +559,13 @@ TASKS = [
             "Act as the Envelope Publisher, with the date being 2025-08-14T00:30:00Z. Release plan_soc_006a (dated 2025-08-13) as a comprehensive envelope snapshot of the present DB (budgets, bid strategies, creatives), ensuring the total remains (8860) and all policy constraints are upheld. Retain adset names unchanged from the DB and apply deterministic defaults."
         ),
         actions=[
-            # Policy parameters (embed in freeze envelope)
+            # Policy settings (included in the freeze envelope)
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Source all adsets to populate mapping/strategies/creatives deterministically
+            # Retrieve all ad sets to ensure mapping/strategies/creatives are populated in a deterministic manner.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),
@@ -579,7 +579,7 @@ TASKS = [
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # Freeze full-envelope plan (all budgets unchanged; total = 8860)
+            # Suspend the complete envelope plan (budgets remain the same; total = 8860)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_006a",
                 "date": "2025-08-13",
@@ -653,7 +653,7 @@ TASKS = [
                 ],
             }),
 
-            # Apply (+90s), verify, mark applied (+150s from seed), record
+            # Implement (+90s), confirm, indicate applied (+150s from seed), log
             Action(name="ApplyPlanAllocations",
                    kwargs={"plan_id": "plan_soc_006a", "timestamp": "2025-08-14T00:30:00Z", "request_id": "ap-1"}),
             Action(name="VerifyPlanAgainstAdsets", kwargs={"plan_id": "plan_soc_006a"}),
@@ -685,26 +685,26 @@ TASKS = [
             "You are the Revenue Planner and the date is 2025-08-14T01:17:30Z. Formulate plan_soc_005 (2025-08-13) to shift 50 units from the lower-ROAS to higher-ROAS categories between Electronics and Mobile; modify only the bottom donor and top recipient adsets, leaving others unchanged. Assess category lift using adset-level ROAS on 2025-08-13 (donor = lowest-ROAS Mobile adset, recipient = highest-ROAS Electronics adset). Maintain the overall total (8860) and adhere to policy constraints, using the adset names exactly as they appear in the DB."
         ),
         actions=[
-            # Policy parameters
+            # Configuration settings for policies
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Category performance window
-            # Action(name="GetSalesByCategoryRange",
-            #        kwargs={"category": "Electronics", "start_date": "2025-08-07", "end_date": "2025-08-13"}),
-            # Action(name="GetSalesByCategoryRange",
-            #        kwargs={"category": "Mobile", "start_date": "2025-08-07", "end_date": "2025-08-13"}),
+            # Category performance display period
+            # Action(identifier="RetrieveSalesWithinCategoryRange",
+            # kwargs={"category": "Electronics", "start": "2025-08-07", "finish": "2025-08-13"}),
+            # Action(identifier="RetrieveSalesWithinCategoryRange",
+            # kwargs={"category": "Mobile", "start": "2025-08-07", "end": "2025-08-13"}),
 
-            # Rank within categories (ROAS on 2025-08-13)
+            # Categorical ranking (ROAS as of 2025-08-13)
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "101", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "108", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "112", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "110", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "111", "date": "2025-08-13"}),
 
-            # Read all adsets for verbatim envelope fields
+            # Retrieve all ad sets for the exact envelope attributes.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),
@@ -718,7 +718,7 @@ TASKS = [
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # Freeze: -50 from Mobile bottom (adset 110), +50 to Electronics top (adset 112)
+            # Adjust: -50 from Mobile bottom (adset 110), +50 to Electronics top (adset 112)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_005",
                 "date": "2025-08-13",
@@ -788,7 +788,7 @@ TASKS = [
                 ],
             }),
 
-            # Apply/verify/mark using the seed time deterministically (no invented offsets)
+            # Utilize/confirm/label with the seed time in a deterministic manner (without arbitrary offsets).
             Action(name="ApplyPlanAllocations",
                    kwargs={"plan_id": "plan_soc_005", "timestamp": "2025-08-14T01:17:30Z", "request_id": "ap-1"}),
             Action(name="VerifyPlanAgainstAdsets", kwargs={"plan_id": "plan_soc_005"}),
@@ -822,12 +822,12 @@ TASKS = [
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Apparel checks (all <25 => no donors)
+            # Clothing verification (all <25 => no contributors)
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "102", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "104", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "105", "date": "2025-08-13"}),
 
-            # Use DB names/strategies/creatives in envelope
+            # Incorporate database names, strategies, and creatives within the envelope.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "104"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "105"}),
@@ -863,7 +863,7 @@ TASKS = [
                 ],
             }),
 
-            # Deterministic timestamps derived from seed (here: use seed time for both)
+            # Deterministic timestamps generated from the seed (in this case: utilize the seed time for both).
             Action(name="ApplyPlanAllocations",
                    kwargs={"plan_id": "plan_soc_006", "timestamp": "2025-08-14T01:20:30Z", "request_id": "ap-1"}),
             Action(name="UpdatePlanStatus",
@@ -894,11 +894,11 @@ TASKS = [
             "As the Bidding Architect with the current time at 2025-08-14T01:24:30Z, handle the preparation of plan_soc_007 for 2025-08-13. Set adset 106 to have a cost_cap of 18.0 and adset 111 to a cost_cap of 2.5, ensuring the rest of the strategies and budgets remain constant; maintain the totals for each category. Utilize the adset names directly from the database, and for any necessary timestamps, apply the seed time precisely."
         ),
         actions=[
-            # Read only what we must snapshot deterministically
+            # Only read the data that needs to be captured consistently.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
 
-            # Freeze a no-op budget plan with explicit strategy assertions for 106 and 111
+            # Implement a no-op budget plan with clear strategy declarations for 106 and 111.
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_007",
                 "date": "2025-08-13",
@@ -930,7 +930,7 @@ TASKS = [
                 ],
             }),
 
-            # Apply/verify/mark/record using the seed time deterministically
+            # Utilize the seed time in a deterministic manner for application, verification, marking, or recording.
             Action(name="ApplyPlanAllocations",
                    kwargs={"plan_id": "plan_soc_007", "timestamp": "2025-08-14T01:24:30Z", "request_id": "ap-1"}),
             Action(name="VerifyPlanAgainstAdsets", kwargs={"plan_id": "plan_soc_007"}),
@@ -964,11 +964,11 @@ TASKS = [
             "As the Creative Rotation Owner with the current time noted as 2025-08-14T01:28:00Z, coordinate the switch of adsets 103 and 107 to video format (justification 'video consistency for single-active'), enforce single-active status, and document the execution. Conclude by 2025-08-14T01:29:00Z (rot-003)."
         ),
         actions=[
-            # Inspect current creatives to respect idempotency (skip rotation if already video)
+            # Examine existing creatives to maintain idempotency (bypass rotation if it's already a video).
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "103"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "107"}),
 
-            # Record a deterministic no-op rotation (both are already video in the dataset)
+            # Log a fixed no-op rotation (both are already present as videos in the dataset).
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "creative_rotation",
                 "started_at": "2025-08-14T01:28:00Z",
@@ -999,13 +999,13 @@ TASKS = [
             "As the Envelope Planner, at 2025-08-14T01:30:00Z, prepare env_soc_008 for the date 2025-08-13, ensuring min_per_category = 100 and that the total remains unchanged. In the Home category, increase the top 7-day sales adset (adset 106) by 30, compensating by reducing Brand - Video Ads (adset 103) by 30; all other adsets should remain as they are. Utilize adset names directly from the database. Set operation timestamps to 2025-08-14T01:32:00Z (apply) and 2025-08-14T01:34:00Z (mark applied), based on the initial seed time."
         ),
         actions=[
-            # Policy params (for policy_snapshot)
+            # Parameters for policy_snapshot
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Establish Home top 7-day sales (adset 106)
+            # Set up the Home top 7-day sales for adset 106.
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "106", "date": "2025-08-07"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "106", "date": "2025-08-08"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "106", "date": "2025-08-09"}),
@@ -1014,11 +1014,11 @@ TASKS = [
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "106", "date": "2025-08-12"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "106", "date": "2025-08-13"}),
 
-            # Validate donor/beneficiary details (includes ads per your tool)
+            # Verify donor/beneficiary information (includes advertisements as per your tool).
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"}),
 
-            # Freeze: +30 to 106 (500→530), -30 from 103 (1180→1150); totals preserved
+            # Freeze: +30 to 106 (500→530), -30 from 103 (1180→1150); totals maintained.
             Action(name="FreezePlan", kwargs={
                 "plan_id": "env_soc_008",
                 "date": "2025-08-13",
@@ -1056,7 +1056,7 @@ TASKS = [
             }
                    ),
 
-            # Apply → verify → mark → record
+            # Execute → confirm → label → log
             Action(name="ApplyPlanAllocations", kwargs={
                 "plan_id": "env_soc_008",
                 "timestamp": "2025-08-14T01:32:00Z",
@@ -1077,7 +1077,7 @@ TASKS = [
                 "outputs_json": {
                     "plan_id": "env_soc_008",
                     "applied_adsets_count": 2,
-                    # Match the exact order returned by apply_plan_allocations (ascending by adset_id)
+                    # Align with the precise sequence provided by apply_plan_allocations (sorted in ascending order by adset_id).
                     "applied_adsets": ["103", "106"],
                     "total_budget": 1680.0,
                     "applied_at": "2025-08-14T01:34:00Z",
@@ -1128,7 +1128,7 @@ TASKS = [
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "111", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "112", "date": "2025-08-13"}),
 
-            # No donors meet CPA>60 on image → compose a no-op envelope but include all required fields.
+            # If no donors exceed CPA>60 in the image, create a no-op envelope containing all necessary fields.
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_009",
                 "date": "2025-08-13",
@@ -1240,17 +1240,17 @@ TASKS = [
             "As the Electronics Fine Tuner, the current time is 2025-08-14T05:00:00Z. Release plan_soc_054 for the date 2025-08-13: adjust shift 20 from adset 101 to adset 112 within Electronics ensuring the category total remains constant; retain existing strategies and replicate current creatives. Reference created_at 2025-08-14T05:00:00Z, implement at 2025-08-14T05:02:00Z (request_id ap-052), and assume the plan is applied at 2025-08-14T05:03:00Z."
         ),
         actions=[
-            # Policy snapshot to be echoed verbatim in freeze_plan
+            # Exact policy details to be replicated in freeze_plan.
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # DB reads for adsets included in the plan
+            # Database queries for ad sets included in the plan.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # Freeze—budgets shift: 101: 920→900, 112: 700→720 (sum preserved, rounding respected)
+            # Hold steady—budget adjustments: 101: 920→900, 112: 700→720 (total maintained, rounding observed)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_054",
                 "date": "2025-08-13",
@@ -1282,7 +1282,7 @@ TASKS = [
                 "total_budget": 1620.0,
             }),
 
-            # Apply → verify → mark applied
+            # Execute → confirm → label as applied
             Action(name="ApplyPlanAllocations", kwargs={
                 "plan_id": "plan_soc_054",
                 "timestamp": "2025-08-14T05:02:00Z",
@@ -1295,7 +1295,7 @@ TASKS = [
                 "applied_at": "2025-08-14T05:03:00Z"
             }),
 
-            # Record run—counts reflect apply results
+            # Log execution—counts represent application outcomes.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T05:02:00Z",
@@ -1322,7 +1322,7 @@ TASKS = [
             "As the Q3 Video Uplift Lead, it is now 2025-08-14T05:10:00Z. Transition adsets 104 and 107 to video format at 2025-08-14T05:10:00Z using rotation request_id rot-018 with the justification 'Q3 video uplift'. Maintain a single-active status. If an adset is already in the video format, handle it as a no-op and document the reason as 'already_in_target_state'. Mark the process as complete at 2025-08-14T05:11:00Z."
         ),
         actions=[
-            # Material rotation for 104
+            # Rotation of material for 104
             Action(name="RotateAdCreative", kwargs={
                 "adset_id": "104",
                 "new_creative_type": "video",
@@ -1331,7 +1331,7 @@ TASKS = [
                 "rationale": "Q3 video uplift",
                 "ad_name": "rot-018-104-video"
             }),
-            # Do NOT rotate 107 (already video) — log as a no-op in the run record
+            # Do not rotate 107 (already a video) — log as a no-operation in the execution record.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "creative_rotation",
                 "started_at": "2025-08-14T05:10:00Z",
@@ -1359,12 +1359,12 @@ TASKS = [
             "Act as the Apparel Level-Setter as of 2025-08-14T01:47:00Z. Organize plan_soc_011 (date 2025-08-13) to align Apparel budgets to the category average (rounded to whole numbers) while keeping other non-Apparel categories untouched. Adhere to the timing window from start=2025-08-14T01:49:00Z to end=2025-08-14T01:50:00Z, and apply request id ap-010 for consistent audit tracking. Maintain current strategies and creatives unless a policy stipulates otherwise."
         ),
         actions=[
-            # Source names/strategies/creatives from DB
+            # Retrieve source names, strategies, and creatives from the database.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "104"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "105"}),
 
-            # Freeze equalized Apparel envelope (sum=2080; integer mean 693,693,694 with +1 to highest id 105)
+            # Lock the equalized Apparel envelope (total=2080; integer average 693,693,694 with +1 added to the highest id 105)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_011",
                 "date": "2025-08-13",
@@ -1480,7 +1480,7 @@ TASKS = [
     )
 
     ,
-    # ---------- plan_soc_012: Bid Policy Curator ----------
+    # ---------- plan_soc_012: Bid Policy Manager ----------
 
     Task(
         annotator="0",
@@ -1489,22 +1489,22 @@ TASKS = [
             "As the Bid Policy Curator, the current time is 2025-08-14T01:54:00Z. Draft plan_soc_012 (2025-08-13) to (i) change any cost_cap where bid_amount is less than 5 to lowest_cost, and (ii) redistribute +20 within Electronics by allocating it to the highest-ROAS Electronics adset and deducting −20 from the lowest-ROAS Electronics adset, both based on insights from 2025-08-13; ensure category totals remain unchanged. Note audit markers at 2025-08-14T01:56:00Z (ap-011) and 2025-08-14T01:57:00Z."
         ),
         actions=[
-            # Policy parameters for snapshot
+            # Parameters for snapshot policy
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # DB reads for all adsets used in freeze_plan (names/strategies/creatives)
+            # Database queries for all ad sets utilized in the freeze_plan (names/strategies/creatives).
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
 
-            # Insights for Electronics to deterministically select donor (lowest ROAS) and recipient (highest ROAS)
+            # Analytics for Electronics to reliably identify the donor (lowest ROAS) and recipient (highest ROAS).
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "101", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "112", "date": "2025-08-13"}),
 
-            # Freeze envelope (allocations reflect −20 from 101 → +20 to 112; 111 strategy converts to lowest_cost)
+            # Lock envelope (allocations show −20 from 101 → +20 to 112; 111 strategy transitions to lowest_cost)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_012",
                 "date": "2025-08-13",
@@ -1527,9 +1527,9 @@ TASKS = [
                 },
 
                 "allocations": [
-                    {"adset_id": "101", "budget": 900.0},  # 920 → 900 (donor)
-                    {"adset_id": "112", "budget": 720.0},  # 700 → 720 (recipient)
-                    {"adset_id": "111", "budget": 1000.0}  # unchanged allocation
+                    {"adset_id": "101", "budget": 900.0},  # 920 to 900 (source)
+                    {"adset_id": "112", "budget": 720.0},  # Recipient updated from 700 to 720.
+                    {"adset_id": "111", "budget": 1000.0}  # static allocation
                 ],
 
                 "creatives": [
@@ -1541,11 +1541,11 @@ TASKS = [
                 "strategies": [
                     {"adset_id": "101", "bid_strategy": "cost_cap", "bid_amount": 32.0},
                     {"adset_id": "112", "bid_strategy": "lowest_cost"},
-                    {"adset_id": "111", "bid_strategy": "lowest_cost"}  # convert from cost_cap 2.5
+                    {"adset_id": "111", "bid_strategy": "lowest_cost"}  # transform from cost_cap 2.5
                 ],
             }),
 
-            # Apply → verify → mark → record (audit markers per instruction)
+            # Execute → confirm → label → log (audit markers as per guidelines)
             Action(name="ApplyPlanAllocations", kwargs={
                 "plan_id": "plan_soc_012",
                 "timestamp": "2025-08-14T01:56:00Z",
@@ -1629,27 +1629,27 @@ TASKS = [
             "Assume the role of Cross-Category Balancer and the current time is 2025-08-14T02:00:30Z. Release plan_soc_013 for the date 2025-08-13. For Mobile (adsets 110, 111), increase by +15 for each adset with a CPA on 2025-08-13 of less than 25; offset these increases by decreasing −15 from Electronics donors among (101, 108, 112) where the CPA on 2025-08-13 exceeds 50. Maintain the minimum per-category of 100 and ensure category totals remain steady. If no Electronics donors match CPA > 50, create a no-op snapshot that reflects current budgets, strategies, and active creative types for adsets 101, 108, 110, 111, 112. Utilize apply timestamp 2025-08-14T02:02:00Z with request_id ap-012 and regard the plan as applied at 2025-08-14T02:04:00Z."
         ),
         actions=[
-            # Policy parameters → freeze_plan.policy_snapshot
+            # Policy settings → freeze_plan.policy_snapshot
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # CPA reads (prove no Electronics donors with CPA > 50)
+            # CPA checks (confirm absence of Electronics donors with CPA exceeding 50)
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "110", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "111", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "101", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "108", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "112", "date": "2025-08-13"}),
 
-            # Authoritative adset reads for mapping/strategies/creatives
+            # Primary ad set retrieves data for mapping, strategies, and creatives.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "108"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "110"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # No eligible donors → freeze a no-op snapshot (arrays sorted; budgets sum exactly)
+            # No valid donors → create a no-op snapshot (sorted arrays; budgets total precisely)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_013",
                 "date": "2025-08-13",
@@ -1694,7 +1694,7 @@ TASKS = [
                 "total_budget": 4400.0,
             }),
 
-            # Apply, then verify, then mark applied
+            # Execute, confirm, then indicate as applied.
             Action(name="ApplyPlanAllocations", kwargs={
                 "plan_id": "plan_soc_013",
                 "timestamp": "2025-08-14T02:02:00Z",
@@ -1707,7 +1707,7 @@ TASKS = [
                 "applied_at": "2025-08-14T02:04:00Z"
             }),
 
-            # Record run — required fields with correct key & types
+            # Log execution — necessary fields with appropriate keys and types.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T02:02:00Z",
@@ -1734,7 +1734,7 @@ TASKS = [
             "Act as the Seasonal Merchandiser with the time being 2025-08-14T02:05:00Z. Set up a new Apparel adset (adset_id 126) called 'Apparel — Seasonal' under campaign_id '3' with a daily_budget of 260, bid_strategy of lowest_cost, and status active. Make sure an active image ad is initiated on 2025-08-14 named 'Apparel — Seasonal Image v1'. Change the adset's active creative to video using rotation request_id rot-001, designate the new ad as rot-001-126-video, and provide rationale as 'seasonal refresh'."
         ),
         actions=[
-            # Action 1 — adset insert: updated_at MUST match this call's timestamp exactly (02:05:00Z)
+            # Action 1 — adset insert: updated_at must correspond exactly to this call's timestamp (02:05:00Z).
             Action(name="InsertEntity", kwargs={
                 "table": "adsets",
                 "row": {
@@ -1752,7 +1752,7 @@ TASKS = [
                 "request_id": "en-1"
             }),
 
-            # Action 2 — ad insert: must be ACTIVE per instruction (no 'paused')
+            # Action 2 — ad insert: should be ACTIVE as directed (not 'paused')
             Action(name="InsertEntity", kwargs={
                 "table": "ads",
                 "row": {
@@ -1768,7 +1768,7 @@ TASKS = [
                 "request_id": "en-2"
             }),
 
-            # Action 3 — rotate: timestamp aligns with completion (so rotated_at == 02:07:00Z)
+            # Action 3 — rotate: timestamp matches completion (thus rotated_at == 02:07:00Z)
             Action(name="RotateAdCreative", kwargs={
                 "adset_id": "126",
                 "new_creative_type": "video",
@@ -1778,7 +1778,7 @@ TASKS = [
                 "ad_name": "rot-001-126-video"
             }),
 
-            # Action 4 — record run (include request_id)
+            # Action 4 — log execution (incorporate request_id)
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "creative_rotation",
                 "started_at": "2025-08-14T02:05:00Z",
@@ -1848,7 +1848,7 @@ TASKS = [
             Action(name="VerifyPlanAgainstAdsets", kwargs={"plan_id": "plan_soc_014"}),
             Action(name="UpdatePlanStatus",
                    kwargs={"plan_id": "plan_soc_014", "status": "applied", "applied_at": "2025-08-14T02:10:00Z"}),
-            #  Add applied_at and run_status into outputs_json (what judge expects)
+            # Include applied_at and run_status in outputs_json as required by the judge.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T02:09:00Z",
@@ -1869,7 +1869,7 @@ TASKS = [
 
     ,
 
-    # ---------- Video Rollout Owner: 104,108,111 -> video ----------
+    # ---------- Video Deployment Owner: 104,108,111 -> video ----------
     Task(
         annotator="0",
         user_id="TASK_22",
@@ -1877,10 +1877,10 @@ TASKS = [
             "Take on the responsibilities of Video Rollout Owner and note the current time is 2025-08-14T02:11:00Z. Transition adsets 104 and 108 to video format at 2025-08-14T02:11:00Z, permitting only one active creative per adset. Verify adset 111's existing creative type from the database; if it is already in video format on 2025-08-13, refrain from rotating and exclude it from the count. Use rotation request_id rot-008-triad and designate the new ads as rot-008-<adset_id>-video (for instance, rot-008-104-video, rot-008-108-video). Apply the reasoning 'align to video winners' and recognize the rotation as accomplished at 2025-08-14T02:12:30Z."
         ),
         actions=[
-            # Read 111 to deterministically justify skipping it if already video
+            # Read 111 to consistently validate bypassing it if it's already a video.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
 
-            # Perform only the two non-no-op rotations
+            # Execute solely the two non-trivial rotations.
             Action(name="RotateAdCreative", kwargs={
                 "adset_id": "104",
                 "new_creative_type": "video",
@@ -1898,7 +1898,7 @@ TASKS = [
                 "ad_name": "rot-008-108-video"
             }),
 
-            # Record run with the exact expected outputs
+            # Log execution with the precise anticipated results.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "creative_rotation",
                 "started_at": "2025-08-14T02:11:00Z",
@@ -1926,16 +1926,16 @@ TASKS = [
             "As the Waste Trimmer, the current time is 2025-08-14T02:13:00Z. Publish plan_soc_015 for the date 2025-08-13. If an adset is paused, adjust its budget to 0 and distribute the freed budget EQUALLY among active peers within the SAME category, ensuring rounding is according to the policy budget_rounding_unit; do not alter other categories. In cases where there are no active peers in that category, issue a NO-OP snapshot for the adset (no redistribution). For Office, verify that adset 109 has no active peers and maintain its budget as is. The created_at time is 2025-08-14T02:13:00Z. Implement at 2025-08-14T02:15:00Z with request_id ap-014, ensure verification before finalizing, and recognize the plan as applied at 2025-08-14T02:16:00Z."
         ),
         actions=[
-            # Policy snapshot (echo verbatim in freeze_plan)
+            # Policy overview (duplicate exactly in freeze_plan)
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Authoritative read for the Office adset (paused; no peers in category → NO-OP snapshot)
+            # Definitive read for the Office adset (inactive; no counterparts in category → NO-OP snapshot)
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "109"}),
 
-            # Freeze NO-OP snapshot for 109 (keep budget; arrays complete; policy snapshot matches fetched params)
+            # Create a NO-OP snapshot for 109 (maintain budget; arrays finalized; policy snapshot aligns with retrieved parameters)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_015",
                 "date": "2025-08-13",
@@ -1964,7 +1964,7 @@ TASKS = [
                 "total_budget": 300.0,
             }),
 
-            # Apply, then VERIFY before marking applied
+            # Implement and then CONFIRM prior to designating as applied.
             Action(name="ApplyPlanAllocations", kwargs={
                 "plan_id": "plan_soc_015",
                 "timestamp": "2025-08-14T02:15:00Z",
@@ -1977,7 +1977,7 @@ TASKS = [
                 "applied_at": "2025-08-14T02:16:00Z"
             }),
 
-            # Record run with required fields (use applied_adsets_count; include applied_at & run_status)
+            # Log execution with necessary fields (utilize applied_adsets_count; incorporate applied_at & run_status).
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T02:15:00Z",
@@ -2006,18 +2006,18 @@ TASKS = [
             "In the role of Electronics Normalizer, the current time is 2025-08-14T02:18:30Z. Release plan_soc_016 for the date 2025-08-13 to align Electronics budgets toward the median while keeping the category total intact: configure adset 112 to 780, adjust adset 101 to 840, and keep adset 108 unchanged; other categories remain as they are. The created_at timestamp is 2025-08-14T02:18:30Z. Schedule the application for 2025-08-14T02:20:00Z with request_id ap-015, mandate a verification check, and regard the plan as applied at 2025-08-14T02:21:00Z."
         ),
         actions=[
-            # Policy parameters (used verbatim in policy_snapshot)
+            # Policy settings (directly utilized in policy_snapshot)
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # DB reads for authoritative mapping/strategies/creatives
+            # Database queries for official mapping, strategies, and creative assets.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "108"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # Freeze a valid plan envelope (include only adsets appearing in allocations; arrays sorted by adset_id)
+            # Seal a legitimate plan envelope (incorporate only adsets listed in allocations; arrays arranged by adset_id)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_016",
                 "date": "2025-08-13",
@@ -2037,19 +2037,19 @@ TASKS = [
                     {"adset_id": "112", "name": "Electronics - UK", "category": "Electronics", "campaign_id": "1"},
                 ],
 
-                # Strategies carried forward from DB for the adsets in allocations
+                # Strategies inherited from DB for the ad sets in allocations.
                 "strategies": [
                     {"adset_id": "101", "bid_strategy": "cost_cap", "bid_amount": 32.0},
                     {"adset_id": "112", "bid_strategy": "lowest_cost"},
                 ],
 
-                # Currently active creative types mirrored from DB
+                # Presently active creative types reflected from the database.
                 "creatives": [
                     {"adset_id": "101", "creative_type": "image"},
                     {"adset_id": "112", "creative_type": "image"},
                 ],
 
-                # Deterministic allocations (sum to total_budget)
+                # Fixed allocations (total to equal total_budget)
                 "allocations": [
                     {"adset_id": "101", "budget": 840.0},
                     {"adset_id": "112", "budget": 780.0},
@@ -2057,7 +2057,7 @@ TASKS = [
                 "total_budget": 1620.0,
             }),
 
-            # Apply, then verify before marking applied
+            # Execute, then confirm before designating as applied.
             Action(name="ApplyPlanAllocations", kwargs={
                 "plan_id": "plan_soc_016",
                 "timestamp": "2025-08-14T02:20:00Z",
@@ -2071,7 +2071,7 @@ TASKS = [
                 "applied_at": "2025-08-14T02:21:00Z"
             }),
 
-            # Record run with all expected outputs
+            # Log execution with all anticipated results.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T02:20:00Z",
@@ -2156,18 +2156,18 @@ TASKS = [
             "In your role as the Policy-Driven Planner with the current time noted as 2025-08-14T01:41:00Z, coordinate the publication of plan_soc_010 for the date 2025-08-13 focusing on Mobile. Ensure a per-category minimum of 200: precisely increase Mobile by 60, dividing it equally by setting adsets 110 and 111 to 1030 each. This adjustment should be entirely funded from adset 103 (All), reducing it to 1120, while keeping all other categories unchanged. Use the created_at timestamp 2025-08-14T01:41:00Z. The apply timestamp should be 2025-08-14T01:43:00Z with request_id ap-009, necessitate a verification pass, and regard the plan as applied at 2025-08-14T01:44:00Z."
         ),
         actions=[
-            # Policy parameters for policy_snapshot
+            # Configuration settings for policy_snapshot
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Authoritative reads for mapping/strategies/creatives
-            Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),  # All
-            Action(name="GetAdsetDetailsById", kwargs={"adset_id": "110"}),  # Mobile
-            Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),  # Mobile
+            # Authoritative reads for mappings, strategies, and creative elements.
+            Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),  # Everything
+            Action(name="GetAdsetDetailsById", kwargs={"adset_id": "110"}),  # Portable device
+            Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),  # Portable
 
-            # Freeze plan envelope (arrays sorted by adset_id; strategies carried forward unless changed)
+            # Lock the plan envelope (arrays organized by adset_id; strategies maintained unless modified).
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_010",
                 "date": "2025-08-13",
@@ -2301,7 +2301,7 @@ TASKS = [
     )
     ,
 
-    # ---------- Cross-Promo Pilot: All — Cross-Promo ----------
+    # ---------- Cross-Promotion Trial: All — Cross-Promotion ----------
     Task(
         annotator="0",
         user_id="TASK_28",
@@ -2309,7 +2309,7 @@ TASKS = [
             "Serve as the Cross-Promo Pilot with the timestamp 2025-08-14T02:27:00Z. Set up a new adset (adset_id 128) titled 'All — Cross-Promo' within campaign_id '2', classified under category All, with a daily_budget of 200, bid_strategy of lowest_cost, and status set to active. Make sure exactly one active video ad is available starting 2025-08-14 bearing the name 'All — Cross-Promo Video v1' using deterministic ad_id auto_128_20250814_1. Consider 2025-08-14T02:27:00Z as the creation timestamp and define the provisioning window as 2025-08-14T02:27:00Z–2025-08-14T02:28:30Z."
         ),
         actions=[
-            # Adset insert (request_id en-1). created_at/updated_at must match timestamp.
+            # Adset insertion (request_id en-1). created_at/updated_at should align with the timestamp.
             Action(name="InsertEntity", kwargs={
                 "table": "adsets",
                 "row": {
@@ -2327,7 +2327,7 @@ TASKS = [
                 "request_id": "en-1"
             }),
 
-            # Ad insert (request_id en-2). Include nullable end_date and deterministic ad_id.
+            # Ad insertion (request_id en-2). Add optional end_date and fixed ad_id.
             Action(name="InsertEntity", kwargs={
                 "table": "ads",
                 "row": {
@@ -2343,7 +2343,7 @@ TASKS = [
                 "request_id": "en-2"
             }),
 
-            # Record run (request_id en-3) and include run_type inside outputs_json.
+            # Log the execution (request_id en-3) and add run_type to outputs_json.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "provisioning",
                 "started_at": "2025-08-14T02:27:00Z",
@@ -2497,23 +2497,23 @@ TASKS = [
             "As the CPC Reallocator, the current time is 2025-08-14T02:33:30Z. Handle plan_soc_019 scheduled for 2025-08-13: reallocate 15 from adsets with CPC exceeding 3.0 and assign 15 to those with CPC less than 1.0 within identical categories, maintaining constant total per category. Ascertain CPC using insights for 2025-08-13 on adsets 101, 108, and 112. Given the absence of CPC>3.0 donors for these adsets, create a no-op snapshot with unchanged budgets (101=920, 108=780, 112=700). Utilize created_at 2025-08-14T02:33:30Z. Apply the timestamp 2025-08-14T02:35:00Z with request_id ap-018, insist on verification pass, and regard the plan as applied by 2025-08-14T02:36:00Z."
         ),
         actions=[
-            # Policy snapshot (use verbatim in freeze_plan.policy_snapshot)
+            # Policy snapshot (insert exactly in freeze_plan.policy_snapshot)
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Insights to compute CPC (spend/clicks) for 2025-08-13
+            # Calculations for CPC (expenditure/clicks) for 2025-08-13.
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "101", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "108", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "112", "date": "2025-08-13"}),
 
-            # Authoritative DB reads for plan envelope fields
+            # Primary database reads for plan envelope attributes.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "108"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # Freeze a no-op plan snapshot (arrays sorted by adset_id)
+            # Capture a no-op plan snapshot (arrays ordered by adset_id)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_019",
                 "date": "2025-08-13",
@@ -2591,7 +2591,7 @@ TASKS = [
             "As the Retargeting Owner, the moment is 2025-08-14T02:36:30Z. Organize adset 127 titled 'Electronics — Retargeting' under campaign_id 6, with a daily_budget of 280, employing the lowest_cost bid_strategy, status set to active, within the Electronics category. Guarantee the launch of one active image ad titled 'Electronics — Retargeting Image v1' commencing on 2025-08-14. The provisioning should be considered finalized at 2025-08-14T02:38:30Z."
         ),
         actions=[
-            # Insert the adset; updated_at must match the action timestamp exactly
+            # Add the adset; the updated_at timestamp must precisely align with the action timestamp.
             Action(name="InsertEntity", kwargs={
                 "table": "adsets",
                 "row": {
@@ -2609,7 +2609,7 @@ TASKS = [
                 "request_id": "en-1"
             }),
 
-            # Insert the initial active image ad with deterministic ad_id and full minimal schema
+            # Add the primary active image advertisement using a specific ad_id and complete minimal schema.
             Action(name="InsertEntity", kwargs={
                 "table": "ads",
                 "row": {
@@ -2625,7 +2625,7 @@ TASKS = [
                 "request_id": "en-2"
             }),
 
-            # Record the provisioning run; duration 120s and include run_status in outputs_json
+            # Log the provisioning execution; duration 120 seconds and add run_status to outputs_json.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "provisioning",
                 "started_at": "2025-08-14T02:36:30Z",
@@ -2647,7 +2647,7 @@ TASKS = [
 
     ,
 
-    # ---------- plan_soc_020: Guardrails Planner ----------
+    # ---------- plan_soc_020: Safety Boundaries Planner ----------
     Task(
         annotator="0",
         user_id="TASK_33",
@@ -2655,19 +2655,19 @@ TASKS = [
             "As the Guardrails Planner with the current time being 2025-08-14T02:38:00Z, issue plan_soc_020 for the date 2025-08-13. Adjust Mobile adsets 110 and 111 by increasing them by +20 each, financing it through a reduction in Electronics adsets 101 and 112 by −20 each. Ensure all other adsets remain unchanged, enforce a per-category minimum of 100, and maintain the exact overall budget with no net changes across categories. Mark the creation time as 2025-08-14T02:38:00Z. Execute the application at 2025-08-14T02:40:00Z with the request_id ap-019, and regard the plan as applied at 2025-08-14T02:41:00Z."
         ),
         actions=[
-            # Policy parameters for policy_snapshot
+            # Configuration settings for policy_snapshot
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # DB reads for authoritative mapping/strategies/creatives
+            # Database queries for definitive mapping, strategies, and creative assets.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "110"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # Freeze plan (arrays sorted by adset_id; strategies/creatives mirror DB; budgets adjusted as instructed)
+            # Lock plan (arrays sorted by adset_id; strategies/creatives match database; budgets modified as directed)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_020",
                 "date": "2025-08-13",
@@ -2682,7 +2682,7 @@ TASKS = [
                     "timezone": "UTC"
                 },
 
-                # Adset mapping copied from DB reads (names/categories/campaign_ids are authoritative)
+                # Adset mapping replicated from the database, with names, categories, and campaign_ids considered as the source of truth.
                 "adset_mapping": [
                     {"adset_id": "101", "name": "Electronics - CA", "category": "Electronics", "campaign_id": "1"},
                     {"adset_id": "110", "name": "App Installs - Android", "category": "Mobile", "campaign_id": "7"},
@@ -2690,7 +2690,7 @@ TASKS = [
                     {"adset_id": "112", "name": "Electronics - UK", "category": "Electronics", "campaign_id": "1"},
                 ],
 
-                # Strategies: unchanged from DB
+                # Strategies: identical to DB
                 "strategies": [
                     {"adset_id": "101", "bid_strategy": "cost_cap", "bid_amount": 32.0},
                     {"adset_id": "110", "bid_strategy": "lowest_cost"},
@@ -2698,7 +2698,7 @@ TASKS = [
                     {"adset_id": "112", "bid_strategy": "lowest_cost"},
                 ],
 
-                # Active creative types mirrored from DB
+                # Active creative entities replicated from the database.
                 "creatives": [
                     {"adset_id": "101", "creative_type": "image"},
                     {"adset_id": "110", "creative_type": "video"},
@@ -2706,7 +2706,7 @@ TASKS = [
                     {"adset_id": "112", "creative_type": "image"},
                 ],
 
-                # Budgets: 101: 920→900, 112: 700→680, 110: 1000→1020, 111: 1000→1020
+                # Budget adjustments: 101: 920 to 900, 112: 700 to 680, 110: 1000 to 1020, 111: 1000 to 1020.
                 "allocations": [
                     {"adset_id": "101", "budget": 900.0},
                     {"adset_id": "110", "budget": 1020.0},
@@ -2751,12 +2751,12 @@ TASKS = [
             Action(name="RotateAdCreative", kwargs={
                 "adset_id": "101",
                 "new_creative_type": "video",
-                "timestamp": "2025-08-14T02:43:30Z",  # rotated_at aligns with completion
+                "timestamp": "2025-08-14T02:43:30Z",  # rotated_at corresponds with completion
                 "request_id": "rot-007",
                 "rationale": "maintain video policy",
                 "ad_name": "rot-007-101-video"
             }),
-            # Verify 111 remains video (authoritative read)
+            # Confirm 111 stays as video (authoritative access)
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
 
             Action(name="RecordAutomationRun", kwargs={
@@ -2780,7 +2780,7 @@ TASKS = [
     )
 
     ,
-    # ---------- plan_soc_021: Smoother (delta cap ±25; no changes) ----------
+    # ---------- plan_soc_021: Smoother (delta cap ±25; unchanged) ----------
     Task(
         annotator="0",
         user_id="TASK_35",
@@ -2788,20 +2788,20 @@ TASKS = [
             "As the Smoother, the current time is 2025-08-14T02:42:30Z. Disseminate plan_soc_021 dated 2025-08-13. Restrict absolute budget differences compared to the existing snapshot to ±25 per adset. Focus solely on adsets 101, 108, 110, 111, and 112, maintaining allocations as per the snapshot (no changes), and do not alter strategies and creatives. Apply created_at 2025-08-14T02:42:30Z. Use apply timestamp 2025-08-14T02:44:00Z with request_id ap-020, mandate a verification pass, and recognize the plan as applied at 2025-08-14T02:45:00Z."
         ),
         actions=[
-            # Policy snapshot parameters (must mirror these values in freeze_plan)
+            # Parameters for the policy snapshot (these values must match those in freeze_plan).
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # DB reads to source authoritative mapping/strategies/creatives & current budgets
+            # Database retrieves source authoritative mappings, strategies, creatives, and current budgets.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "108"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "110"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # Freeze a no-delta snapshot (arrays sorted by adset_id)
+            # Create a static snapshot without delta changes (arrays ordered by adset_id).
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_021",
                 "date": "2025-08-13",
@@ -2825,7 +2825,7 @@ TASKS = [
                     {"adset_id": "112", "name": "Electronics - UK", "category": "Electronics", "campaign_id": "1"},
                 ],
 
-                # Strategies mirrored from DB (unchanged)
+                # Strategies replicated from DB (identical)
                 "strategies": [
                     {"adset_id": "101", "bid_strategy": "cost_cap", "bid_amount": 32.0},
                     {"adset_id": "108", "bid_strategy": "cost_cap", "bid_amount": 42.0},
@@ -2834,7 +2834,7 @@ TASKS = [
                     {"adset_id": "112", "bid_strategy": "lowest_cost"},
                 ],
 
-                # Active creative types mirrored from DB
+                # Active creative entities reflected from the database.
                 "creatives": [
                     {"adset_id": "101", "creative_type": "image"},
                     {"adset_id": "108", "creative_type": "image"},
@@ -2843,7 +2843,7 @@ TASKS = [
                     {"adset_id": "112", "creative_type": "image"},
                 ],
 
-                # Budgets identical to snapshot (no deltas → satisfies ±25 cap)
+                # Budgets match the snapshot (no changes → meets ±25 limit)
                 "allocations": [
                     {"adset_id": "101", "budget": 920.0},
                     {"adset_id": "108", "budget": 780.0},
@@ -2857,7 +2857,7 @@ TASKS = [
             Action(name="ApplyPlanAllocations",
                    kwargs={"plan_id": "plan_soc_021", "timestamp": "2025-08-14T02:44:00Z", "request_id": "ap-020"}),
 
-            # Verification required by instruction
+            # Verification mandated by directive
             Action(name="VerifyPlanAgainstAdsets", kwargs={"plan_id": "plan_soc_021"}),
 
             Action(name="UpdatePlanStatus",
@@ -2924,7 +2924,7 @@ TASKS = [
                 "started_at": "2025-08-14T02:45:30Z",
                 "ended_at": "2025-08-14T02:47:30Z",
                 "status": "completed",
-                "request_id": "en-3",  # ← unique, sequential
+                "request_id": "en-3",  # ← distinct, ordered
                 "input_ref": "en-2",
                 "outputs_json": {
                     "adset_id": "129",
@@ -2939,7 +2939,7 @@ TASKS = [
     )
 
     ,
-    # ---------- plan_soc_022: Rounding Supervisor (budgets already multiples of 10) ----------
+    # ---------- plan_soc_022: Rounding Manager (budgets already in increments of 10) ----------
     Task(
         annotator="0",
         user_id="TASK_37",
@@ -2947,20 +2947,20 @@ TASKS = [
             "As the Rounding Supervisor at 2025-08-14T02:46:30Z, issue publication of plan_soc_022 for the date 2025-08-13. Adjust all adset budgets to be rounded to the nearest multiple of 10, ensuring each category's total remains unchanged. Implement these specific changes to avoid non-operations: in Electronics, adjust adset 101 to 930 and adset 108 to 770, with adset 112 staying at 700; in Mobile, let adsets 110 and 111 remain at 1000. Use created_at 2025-08-14T02:46:30Z. Implement at 2025-08-14T02:48:00Z with request_id ap-021 and recognize the plan as applied at 2025-08-14T02:49:00Z."
         ),
         actions=[
-            # Policy snapshot (mirror these values in freeze_plan)
+            # Capture policy values (reflect these in freeze_plan).
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Authoritative DB reads for mapping/strategies/creatives
+            # Primary database queries for mapping, strategies, and creatives.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "108"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "110"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # Freeze plan (arrays sorted by adset_id)
+            # Lock plan (arrays ordered by adset_id)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_022",
                 "date": "2025-08-13",
@@ -3000,13 +3000,13 @@ TASKS = [
                     {"adset_id": "112", "creative_type": "image"},
                 ],
 
-                # Budgets (all multiples of 10); Electronics total 2400 = 930+770+700; Mobile total 2000 = 1000+1000
+                # Budgets (increments of 10); Electronics sum is 2400 = 930 + 770 + 700; Mobile sum is 2000 = 1000 + 1000.
                 "allocations": [
                     {"adset_id": "101", "budget": 930.0},  # +10
                     {"adset_id": "108", "budget": 770.0},  # -10
-                    {"adset_id": "110", "budget": 1000.0},  # unchanged
-                    {"adset_id": "111", "budget": 1000.0},  # unchanged
-                    {"adset_id": "112", "budget": 700.0},  # unchanged
+                    {"adset_id": "110", "budget": 1000.0},  # not modified
+                    {"adset_id": "111", "budget": 1000.0},  # unmodified
+                    {"adset_id": "112", "budget": 700.0},  # remained the same
                 ],
                 "total_budget": 4400.0,
             }),
@@ -3031,7 +3031,7 @@ TASKS = [
                 "input_ref": "ap-021",
                 "outputs_json": {
                     "plan_id": "plan_soc_022",
-                    "applied_adsets_count": 2,  # 101 and 108 changed
+                    "applied_adsets_count": 2,  # Lines 101 and 108 modified.
                     "applied_at": "2025-08-14T02:49:00Z",
                     "run_status": "completed"
                 },
@@ -3064,7 +3064,7 @@ TASKS = [
                 "rationale": "uniform creative for test",
                 "ad_name": "rot-008-104-video"
             }),
-            # Explicit no-op confirmation for 110
+            # Clear no-operation acknowledgment for 110
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "110"}),
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "creative_rotation",
@@ -3094,21 +3094,21 @@ TASKS = [
             "You are designated as the Viewership Optimizer and the current time is 2025-08-14T02:50:30Z. Release plan_soc_023 for the date 2025-08-13. Based on the day's viewership boost, keep the total expenditure intact while reallocating +30 from Home to Toys: adjust adset 106 to 470 and adset 107 to 430, leaving strategies and creatives the same. Use created_at 2025-08-14T02:50:30Z. Apply the timestamp 2025-08-14T02:52:00Z (request_id ap-022) and regard the plan as applied at 2025-08-14T02:53:00Z."
         ),
         actions=[
-            # (Optional context reads, fine to keep)
+            # (Optional context is acceptable to retain)
             Action(name="GetViewershipForCategory", kwargs={"category": "Home", "date": "2025-08-13"}),
             Action(name="GetViewershipForCategory", kwargs={"category": "Toys", "date": "2025-08-13"}),
 
-            # Policy snapshot for freeze_plan
+            # Current policy overview for freeze_plan
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # DB reads for authoritative mapping/strategies/creatives
-            Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"}),  # Home
-            Action(name="GetAdsetDetailsById", kwargs={"adset_id": "107"}),  # Toys
+            # Database queries for official mapping, strategies, and creative assets.
+            Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"}),  # Main
+            Action(name="GetAdsetDetailsById", kwargs={"adset_id": "107"}),  # Playthings
 
-            # Freeze plan with full envelope (arrays sorted by adset_id)
+            # Lock down the plan with complete envelope (arrays organized by adset_id)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_023",
                 "date": "2025-08-13",
@@ -3138,7 +3138,7 @@ TASKS = [
                     {"adset_id": "107", "creative_type": "video"},
                 ],
 
-                # Budgets after moving 30 from 106→107 (total preserved: 470+430=900)
+                # Budgets adjusted by shifting 30 from 106 to 107 (total maintained: 470+430=900)
                 "allocations": [
                     {"adset_id": "106", "budget": 470.0},
                     {"adset_id": "107", "budget": 430.0},
@@ -3224,7 +3224,7 @@ TASKS = [
             Action(name="ApplyPlanAllocations",
                    kwargs={"plan_id": "plan_soc_024", "timestamp": "2025-08-14T02:57:00Z", "request_id": "ap-023"}),
 
-            #  Verification step after apply
+            # Confirmation process post-application
             Action(name="VerifyPlanAgainstAdsets", kwargs={"plan_id": "plan_soc_024"}),
 
             Action(name="UpdatePlanStatus",
@@ -3301,7 +3301,7 @@ TASKS = [
 
     ,
 
-    # ---------- plan_soc_025: Strategy Guardian ----------
+    # ---------- plan_soc_025: Strategy Custodian ----------
     Task(
         annotator="0",
         user_id="TASK_42",
@@ -3309,17 +3309,17 @@ TASKS = [
             "Being the Strategy Guardian at 2025-08-14T03:00:00Z, release plan_soc_025 for the date 2025-08-13, which locks adset 111 at a cost_cap of 2.5 and adset 106 at a cost_cap of 18.0, while other adsets remain at lowest_cost and budgets stay unchanged. Note the created_at time as 2025-08-14T03:00:00Z. Employ the apply timestamp of 2025-08-14T03:02:00Z with request_id ap-024, ensure a verification pass is mandated, and declare the plan applied by 2025-08-14T03:03:00Z."
         ),
         actions=[
-            # Policy snapshot (must mirror these reads exactly in freeze_plan.policy_snapshot)
+            # Policy snapshot (should reflect these reads precisely in freeze_plan.policy_snapshot)
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # DB reads required for adset_mapping, strategies, creatives
+            # Database reads needed for adset_mapping, strategies, and creatives.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"}),
 
-            # Freeze the plan envelope — arrays sorted by adset_id
+            # Lock the plan envelope — arrays organized by adset_id
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_025",
                 "date": "2025-08-13",
@@ -3334,25 +3334,25 @@ TASKS = [
                     "timezone": "UTC"
                 },
 
-                # Sourced from the get_adset_details_by_id reads above
+                # Obtained from the get_adset_details_by_id function mentioned earlier.
                 "adset_mapping": [
                     {"adset_id": "106", "name": "Holiday - Home Goods", "category": "Home", "campaign_id": "5"},
                     {"adset_id": "111", "name": "App Installs - iOS", "category": "Mobile", "campaign_id": "7"},
                 ],
 
-                # Lock strategies exactly as specified (and as currently set in DB)
+                # Implement lock strategies precisely as defined and currently configured in the database.
                 "strategies": [
                     {"adset_id": "106", "bid_strategy": "cost_cap", "bid_amount": 18.0},
                     {"adset_id": "111", "bid_strategy": "cost_cap", "bid_amount": 2.5},
                 ],
 
-                # Mirror active creative types from DB reads
+                # Reflect active creative categories from database queries.
                 "creatives": [
                     {"adset_id": "106", "creative_type": "image"},
                     {"adset_id": "111", "creative_type": "video"},
                 ],
 
-                # Budgets unchanged; totals must sum to total_budget
+                # Budgets remain the same; the sums should equal total_budget.
                 "allocations": [
                     {"adset_id": "106", "budget": 500.0},
                     {"adset_id": "111", "budget": 1000.0},
@@ -3363,13 +3363,13 @@ TASKS = [
             Action(name="ApplyPlanAllocations",
                    kwargs={"plan_id": "plan_soc_025", "timestamp": "2025-08-14T03:02:00Z", "request_id": "ap-024"}),
 
-            # Verification required by the instruction
+            # Validation needed as per the directive.
             Action(name="VerifyPlanAgainstAdsets", kwargs={"plan_id": "plan_soc_025"}),
 
             Action(name="UpdatePlanStatus",
                    kwargs={"plan_id": "plan_soc_025", "status": "applied", "applied_at": "2025-08-14T03:03:00Z"}),
 
-            # Record exactly what happened — a no-op apply (0 changes), with applied_at and run_status included
+            # Log the precise event — a no-op apply (0 modifications), including applied_at and run_status.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T03:02:00Z",
@@ -3430,7 +3430,7 @@ TASKS = [
                 "request_id": "en-2"
             }),
 
-            # Provisioning run lasts 120s from seed time
+            # The provisioning run duration is 120 seconds from the seed timestamp.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "provisioning",
                 "started_at": "2025-08-14T02:16:30Z",
@@ -3447,7 +3447,7 @@ TASKS = [
                 "errors_json": None
             }),
 
-            # 7-day snapshot (ok if empty)
+            # 7-day overview (can be empty)
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "137", "date": "2025-08-08"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "137", "date": "2025-08-09"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "137", "date": "2025-08-10"}),
@@ -3456,7 +3456,7 @@ TASKS = [
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "137", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "137", "date": "2025-08-14"}),
 
-            # Fixed request_id & input_ref for insights snapshot
+            # Corrected request_id and input_ref for insights snapshot.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "insights_snapshot",
                 "started_at": "2025-08-14T02:16:30Z",
@@ -3514,21 +3514,21 @@ TASKS = [
             "Act as the CPC Splitter at time 2025-08-14T03:04:30Z. Execute the publication of plan_soc_026 for the date 2025-08-13. Within the Electronics section, relocate 40 from adset 101 (experiencing higher CPC on 2025-08-13) to adset 112 (experiencing lower CPC on 2025-08-13); keep all other adsets intact. Utilize created_at timestamp 2025-08-14T03:04:30Z. Employ apply timestamp 2025-08-14T03:06:00Z with request_id ap-025, necessitate a verification pass, and regard the plan as applied by 2025-08-14T03:07:00Z."
         ),
         actions=[
-            # Policy snapshot
+            # Policy overview
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Insights for the plan date
+            # Analysis for the scheduled date.
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "101", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "112", "date": "2025-08-13"}),
 
-            # DB reads for authoritative mapping/creatives/strategies
+            # Database queries for official mapping, creative assets, and strategies.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # Freeze plan envelope (preserve strategies & creatives verbatim from DB)
+            # Lock the plan envelope (maintain strategies and creatives exactly as stored in the database).
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_026",
                 "date": "2025-08-13",
@@ -3546,14 +3546,14 @@ TASKS = [
                     {"adset_id": "112", "name": "Electronics - UK", "category": "Electronics", "campaign_id": "1"},
                 ],
                 "strategies": [
-                    {"adset_id": "101", "bid_strategy": "cost_cap", "bid_amount": 32.0},  # from DB
-                    {"adset_id": "112", "bid_strategy": "lowest_cost"},  # from DB
+                    {"adset_id": "101", "bid_strategy": "cost_cap", "bid_amount": 32.0},  # from database
+                    {"adset_id": "112", "bid_strategy": "lowest_cost"},  # from database
                 ],
                 "creatives": [
-                    {"adset_id": "101", "creative_type": "image"},  # active in DB
-                    {"adset_id": "112", "creative_type": "image"},  # active in DB
+                    {"adset_id": "101", "creative_type": "image"},  # currently in the database
+                    {"adset_id": "112", "creative_type": "image"},  # currently enabled in the database
                 ],
-                # Move 40 from 101 (920 -> 880) to 112 (700 -> 740); totals preserved
+                # Transfer 40 from 101 (920 to 880) to 112 (700 to 740); maintain total values.
                 "allocations": [
                     {"adset_id": "101", "budget": 880.0},
                     {"adset_id": "112", "budget": 740.0},
@@ -3567,7 +3567,7 @@ TASKS = [
                 "request_id": "ap-025"
             }),
 
-            # Post-apply verification
+            # Verification after application
             Action(name="VerifyPlanAgainstAdsets", kwargs={"plan_id": "plan_soc_026"}),
 
             Action(name="UpdatePlanStatus", kwargs={
@@ -3635,23 +3635,23 @@ TASKS = [
             "As the CTR Normalizer, be aware that it is 2025-08-14T03:08:30Z. Release plan_soc_027 for the date 2025-08-13 to proportionally redistribute Apparel budgets among adsets 102, 104, and 105 according to their CTR from 2025-08-13, maintaining the total for the Apparel category constant. Define CTR as clicks/impressions using insights from 2025-08-13. Employ the policy budget_rounding_unit=10 with round-half-up; post-rounding, if the aggregated total diverges from the category total, adjust any +/- residual starting with the highest CTR adset, resolving ties by ascending adset_id. Retain each adset's bid_strategy and bid_amount from the DB, and replicate each adset's currently active creative type. For the day's insights: 102 has CTR=1080/27500, 104 has CTR=1280/31500, 105 has CTR=1250/31000. With the Apparel total matching the DB daily_budget sum for 102/104/105 and following the aforementioned rules, assign the final budgets precisely as: 102 → 680.0, 104 → 700.0, 105 → 700.0 (totaling 2080.0). Use timestamp 2025-08-14T03:10:00Z for application with request_id ap-026, confirm success, and deem the plan enacted at 2025-08-14T03:11:00Z."
         ),
         actions=[
-            # Policy snapshot (for freeze_plan.policy_snapshot)
+            # Snapshot of policy (for freeze_plan.policy_snapshot)
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Insights used for CTRs (explicitly referenced in the instruction)
+            # Data utilized for click-through rates (as specifically mentioned in the guidelines)
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "102", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "104", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "105", "date": "2025-08-13"}),
 
-            # DB reads to source mapping/strategies/creatives verbatim
+            # Direct database reads for source mapping, strategies, and creatives.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "104"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "105"}),
 
-            # Freeze the plan with the pinned allocations and DB-sourced envelope
+            # Lock the strategy with the assigned resources and database-derived envelope.
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_027",
                 "date": "2025-08-13",
@@ -3664,7 +3664,7 @@ TASKS = [
                     "currency": "USD",
                     "timezone": "UTC"
                 },
-                # Use exact values returned by the get_adset_details_by_id calls above
+                # Utilize the precise values obtained from the get_adset_details_by_id function calls above.
                 "adset_mapping": [
                     {"adset_id": "102", "name": "Apparel - CA", "category": "Apparel", "campaign_id": "1"},
                     {"adset_id": "104", "name": "Fall Fashion - Women", "category": "Apparel", "campaign_id": "3"},
@@ -3680,7 +3680,7 @@ TASKS = [
                     {"adset_id": "104", "creative_type": "image"},
                     {"adset_id": "105", "creative_type": "image"},
                 ],
-                # Final budgets pinned in the instruction
+                # Final budgets fixed in the guidelines.
                 "allocations": [
                     {"adset_id": "102", "budget": 680.0},
                     {"adset_id": "104", "budget": 700.0},
@@ -3787,23 +3787,23 @@ TASKS = [
             "Acting as the Purchase-Driven Planner at 2025-08-14T03:12:30Z, publish plan_soc_028 for the date 2025-08-13. Within the Apparel adsets (102, 104, 105), allocate +10 only to those adsets with purchases ≥ 5, financed by −10 from those adsets with zero purchases on 2025-08-13, while maintaining the total for the Apparel category constant and keeping each adset's strategy and creative type unchanged. Since no Apparel donors have zero purchases on 2025-08-13, maintain the current budgets of all three adsets. Use 2025-08-14T03:14:00Z (ap-027) as the timestamp for application, and acknowledge the plan as applied at 2025-08-14T03:15:00Z."
         ),
         actions=[
-            # Policy snapshot for freeze_plan.policy_snapshot
+            # Snapshot of the policy for freeze_plan.policy_snapshot.
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Insights establishing purchases (no donors with purchases=0 in Apparel on 2025-08-13)
+            # Data indicates purchases made (no donors recorded with purchases=0 in Apparel on 2025-08-13).
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "102", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "104", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "105", "date": "2025-08-13"}),
 
-            # DB reads for authoritative mapping/strategies/creatives
+            # Database queries for official mappings, strategies, and creatives.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "104"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "105"}),
 
-            # Freeze a no-op plan (budgets unchanged; envelope sourced from DB)
+            # Lock a no-op strategy (budgets remain the same; envelope retrieved from the database)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_028",
                 "date": "2025-08-13",
@@ -3918,18 +3918,18 @@ TASKS = [
             "Serving as the Electronics Floor Manager, the current time is 2025-08-14T03:16:30Z. Implement plan_soc_029 for the date 2025-08-13 to ensure Electronics ≥ 100 per adset and maintain the category total. Within the Electronics category, increase adset 112 by +20 and decrease adset 101 by −20, while keeping adset 108 unchanged. Adjust creatives to reflect the active types from DB reads: 101=image, 108=image, 112=image. Utilize the created_at timestamp 2025-08-14T03:16:30Z. Apply the use timestamp 2025-08-14T03:18:00Z with request_id ap-028, ensure it undergoes a verification pass, and acknowledge the plan as applied at 2025-08-14T03:19:00Z."
         ),
         actions=[
-            # Policy snapshot reads (values must be echoed exactly in freeze_plan.policy_snapshot)
+            # The policy snapshot values should match precisely with those in freeze_plan.policy_snapshot.
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Authoritative adset reads for mapping/strategies/creatives
+            # Primary ad set retrievals for mapping, strategies, and creatives.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "108"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # Freeze plan (arrays sorted by adset_id; budgets preserve category total 2400.0)
+            # Lock the plan (arrays ordered by adset_id; budgets maintain a total of 2400.0 across categories).
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_029",
                 "date": "2025-08-13",
@@ -3951,21 +3951,21 @@ TASKS = [
                     {"adset_id": "112", "name": "Electronics - UK", "category": "Electronics", "campaign_id": "1"},
                 ],
 
-                # Strategies unchanged from DB (carry forward)
+                # Strategies retained from DB (forwarded)
                 "strategies": [
                     {"adset_id": "101", "bid_strategy": "cost_cap", "bid_amount": 32.0},
                     {"adset_id": "108", "bid_strategy": "cost_cap", "bid_amount": 42.0},
                     {"adset_id": "112", "bid_strategy": "lowest_cost"},
                 ],
 
-                # Creatives mirrored from DB reads (explicit in instruction)
+                # Creatives duplicated from database reads (as specified in the instructions)
                 "creatives": [
                     {"adset_id": "101", "creative_type": "image"},
                     {"adset_id": "108", "creative_type": "image"},
                     {"adset_id": "112", "creative_type": "image"},
                 ],
 
-                # Allocations reflect 101 −20 → 900.0, 112 +20 → 720.0, 108 unchanged → 780.0
+                # Allocations show 101 decreased by 20 to 900.0, 112 increased by 20 to 720.0, and 108 remains the same at 780.0.
                 "allocations": [
                     {"adset_id": "101", "budget": 900.0},
                     {"adset_id": "108", "budget": 780.0},
@@ -3977,13 +3977,13 @@ TASKS = [
             Action(name="ApplyPlanAllocations",
                    kwargs={"plan_id": "plan_soc_029", "timestamp": "2025-08-14T03:18:00Z", "request_id": "ap-028"}),
 
-            # Required verification step after apply
+            # Mandatory confirmation step following application
             Action(name="VerifyPlanAgainstAdsets", kwargs={"plan_id": "plan_soc_029"}),
 
             Action(name="UpdatePlanStatus",
                    kwargs={"plan_id": "plan_soc_029", "status": "applied", "applied_at": "2025-08-14T03:19:00Z"}),
 
-            # Record run with required fields; applied_adsets_count reflects the two budget changes (101, 112)
+            # Log execution with necessary fields; applied_adsets_count indicates the two budget modifications (101, 112).
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T03:18:00Z",
@@ -4102,7 +4102,7 @@ TASKS = [
                 "request_id": "en-2"
             }),
 
-            # en-3 (unique request_id for the run record), 120s duration exactly
+            # en-3 (distinct request_id for the execution log), duration of precisely 120 seconds
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "provisioning",
                 "started_at": "2025-08-14T03:03:30Z",
@@ -4130,22 +4130,22 @@ TASKS = [
             "Assume the role of the Mobile Fixer and note the time as 2025-08-14T03:22:30Z. Publish plan_soc_031 for the date 2025-08-13. Lock adset 111 with a cost_cap of 2.5 and adset 106 with a cost_cap of 18.0. During Mobile activities on 2025-08-13, reallocate 30 of the budget from the adset with the highest CPA to the one with the lowest CPA (using defined parameters: donor=110, recipient=111 based on that day’s CPAs), keeping other categories constant. Replicate active creative types according to DB entries: adset 106=image, adset 110=video, adset 111=video. Employ created_at 2025-08-14T03:22:30Z. Use apply timestamp 2025-08-14T03:24:00Z along with request_id ap-029, ensure a verification pass, and recognize the plan as applied at 2025-08-14T03:25:00Z."
         ),
         actions=[
-            # Policy snapshot for freeze_plan.policy_snapshot (echo these exact values inside freeze_plan)
+            # Capture the policy snapshot for freeze_plan.policy_snapshot (output these specific values within freeze_plan).
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # CPA reads for 2025-08-13 to fix donor/recipient deterministically (110 higher CPA than 111)
+            # CPA adjustments for 2025-08-13 to deterministically resolve donor/recipient (110 has a higher CPA than 111).
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "110", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "111", "date": "2025-08-13"}),
 
-            # DB reads to source adset_mapping / strategies (carry forward DB unless changed) / creatives (mirror active)
+            # Fetch data from the source adset_mapping / strategies (retain existing DB unless modified) / creatives (duplicate active ones).
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "110"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
 
-            # Freeze the plan (arrays sorted by adset_id; total_budget equals sum of allocations)
+            # Lock the plan (arrays ordered by adset_id; total_budget is the sum of allocations)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_031",
                 "date": "2025-08-13",
@@ -4166,21 +4166,21 @@ TASKS = [
                     {"adset_id": "111", "name": "App Installs - iOS", "category": "Mobile", "campaign_id": "7"},
                 ],
 
-                # Strategies: lock 106 and 111 as specified; set 110 to lowest_cost per instruction
+                # Approaches: secure 106 and 111 as directed; assign 110 to lowest_cost based on the instruction.
                 "strategies": [
                     {"adset_id": "106", "bid_strategy": "cost_cap", "bid_amount": 18.0},
                     {"adset_id": "110", "bid_strategy": "lowest_cost"},
                     {"adset_id": "111", "bid_strategy": "cost_cap", "bid_amount": 2.5},
                 ],
 
-                # Creatives mirror the DB-active types called out in the instruction
+                # Creatives reflect the DB-active types specified in the guidelines.
                 "creatives": [
                     {"adset_id": "106", "creative_type": "image"},
                     {"adset_id": "110", "creative_type": "video"},
                     {"adset_id": "111", "creative_type": "video"},
                 ],
 
-                # Budgets: shift 30 from donor (110) to recipient (111); keep 106 unchanged
+                # Budgets: transfer 30 from donor (110) to recipient (111); maintain 106 as is.
                 "allocations": [
                     {"adset_id": "106", "budget": 500.0},
                     {"adset_id": "110", "budget": 970.0},
@@ -4192,7 +4192,7 @@ TASKS = [
             Action(name="ApplyPlanAllocations",
                    kwargs={"plan_id": "plan_soc_031", "timestamp": "2025-08-14T03:24:00Z", "request_id": "ap-029"}),
 
-            # Post-apply verification as required by instruction
+            # Verification after application as specified by guidelines
             Action(name="VerifyPlanAgainstAdsets", kwargs={"plan_id": "plan_soc_031"}),
 
             Action(name="UpdatePlanStatus",
@@ -4217,7 +4217,7 @@ TASKS = [
     )
     ,
 
-    # ---------- Video-Lift Owner: Toys — Video Lift ----------
+    # ---------- Video Lift Proprietor: Toys — Video Lift ----------
     Task(
         annotator="0",
         user_id="TASK_54",
@@ -4225,7 +4225,7 @@ TASKS = [
             "Take charge as the Video-Lift Owner and recognize the time as 2025-08-14T03:25:30Z. Set up a new Toys adset (adset_id 134, category Toys) titled 'Toys — Video Lift' under campaign_id '5' with a daily_budget of 225, utilizing bid_strategy lowest_cost, and setting the status to active. Ensure an active image ad commences on 2025-08-14, named 'Toys — Video Lift Image v1'. Shift the adset’s active creative to video using rotation request_id rot-004, with the reason 'video lift' at 2025-08-14T03:27:00Z. Regard the provisioning as finished at 2025-08-14T03:27:30Z."
         ),
         actions=[
-            # en-1 — create the adset (updated_at must match timestamp exactly)
+            # en-1 — generate the ad set (updated_at should correspond precisely with the timestamp)
             Action(name="InsertEntity", kwargs={
                 "table": "adsets",
                 "row": {
@@ -4243,7 +4243,7 @@ TASKS = [
                 "request_id": "en-1"
             }),
 
-            # en-2 — insert initial image ad (deterministic ad_id pattern; use seed time)
+            # en-2 — add initial image advertisement (fixed ad_id sequence; utilize seed time)
             Action(name="InsertEntity", kwargs={
                 "table": "ads",
                 "row": {
@@ -4259,7 +4259,7 @@ TASKS = [
                 "request_id": "en-2"
             }),
 
-            # rotate at 03:27:00Z; deterministic ad_name per policy
+            # rotate at 03:27:00Z; ad_name determined by policy
             Action(name="RotateAdCreative", kwargs={
                 "adset_id": "134",
                 "new_creative_type": "video",
@@ -4269,7 +4269,7 @@ TASKS = [
                 "ad_name": "rot-004-134-video"
             }),
 
-            # en-3 — record the provisioning run (exactly 120s duration; include run_status)
+            # en-3 — log the provisioning execution (duration of precisely 120 seconds; incorporate run_status)
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "provisioning",
                 "started_at": "2025-08-14T03:25:30Z",
@@ -4296,18 +4296,18 @@ TASKS = [
             "As the Bid Rounding Lead, and with the current time being 2025-08-14T03:27:30Z, release plan_soc_032 for the date 2025-08-13. Adjust cost_cap bid amounts by rounding them down to one decimal place, while keeping budgets intact. Focus on the adsets 101 (Electronics), 106 (Home), and 111 (Mobile). Set the final rounded bids to: adset 101 → cost_cap 2.5, adset 106 → cost_cap 18.0, adset 111 → cost_cap 2.5. Reflect the active creative types as per the DB reads: adset 101=image, adset 106=image, adset 111=video. Use the created_at timestamp of 2025-08-14T03:27:30Z. Implement the apply timestamp of 2025-08-14T03:29:00Z with request_id ap-030, ensure a verification pass is conducted, and consider the plan applied at 2025-08-14T03:30:00Z."
         ),
         actions=[
-            # Policy snapshot (must be echoed exactly in freeze_plan.policy_snapshot)
+            # Policy snapshot (should be precisely reflected in freeze_plan.policy_snapshot)
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # DB reads required for adset_mapping and to justify creatives/strategies as “mirrored from DB”
+            # Database reads needed for adset_mapping to validate creatives/strategies as "reflected from the database."
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
 
-            # Freeze plan envelope — arrays sorted by adset_id; budgets unchanged; strategies rounded to 1dp
+            # Lock plan envelope — arrays organized by adset_id; budgets remain the same; strategies adjusted to one decimal place.
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_032",
                 "date": "2025-08-13",
@@ -4328,21 +4328,21 @@ TASKS = [
                     {"adset_id": "111", "name": "App Installs - iOS", "category": "Mobile", "campaign_id": "7"},
                 ],
 
-                # Strategies reflect rounded cost_cap values exactly as specified in the instruction
+                # Strategies represent cost_cap values precisely as outlined in the guidelines.
                 "strategies": [
                     {"adset_id": "101", "bid_strategy": "cost_cap", "bid_amount": 2.5},
                     {"adset_id": "106", "bid_strategy": "cost_cap", "bid_amount": 18.0},
                     {"adset_id": "111", "bid_strategy": "cost_cap", "bid_amount": 2.5},
                 ],
 
-                # Creatives mirror the DB-active types (explicit in the instruction for determinism)
+                # Creatives reflect the DB-active types (as specified in the directive for determinism).
                 "creatives": [
                     {"adset_id": "101", "creative_type": "image"},
                     {"adset_id": "106", "creative_type": "image"},
                     {"adset_id": "111", "creative_type": "video"},
                 ],
 
-                # Budgets unchanged (sourced from DB daily_budgets)
+                # Budgets remain the same (retrieved from DB daily_budgets).
                 "allocations": [
                     {"adset_id": "101", "budget": 920.0},
                     {"adset_id": "106", "budget": 500.0},
@@ -4354,13 +4354,13 @@ TASKS = [
             Action(name="ApplyPlanAllocations",
                    kwargs={"plan_id": "plan_soc_032", "timestamp": "2025-08-14T03:29:00Z", "request_id": "ap-030"}),
 
-            # Post-apply verification per instruction
+            # Verification after application as per guidelines
             Action(name="VerifyPlanAgainstAdsets", kwargs={"plan_id": "plan_soc_032"}),
 
             Action(name="UpdatePlanStatus",
                    kwargs={"plan_id": "plan_soc_032", "status": "applied", "applied_at": "2025-08-14T03:30:00Z"}),
 
-            # Record actual result: 1 rounded change expected (adset 101), budgets unchanged
+            # Log the true outcome: 1 rounded adjustment anticipated (adset 101), budgets remain the same.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T03:29:00Z",
@@ -4436,19 +4436,19 @@ TASKS = [
             "Acting as the Two-Hop Reallocator at 2025-08-14T03:31:30Z, release plan_soc_033 for 2025-08-13. Adhere to the budget_rounding_unit of 10 by reallocating 20 from All to Mobile and 20 from Home to Electronics. Resolve unequivocally with 103 (All) and 106 (Home) as donors, and 111 (Mobile) and 112 (Electronics) as recipients. Establish final budgets as follows: 103→1160.0, 106→480.0, 111→1020.0, 112→720.0; maintain strategies unaltered and keep the total constant. Set created_at as 2025-08-14T03:31:30Z. Apply timestamp should be 2025-08-14T03:33:00Z with request_id ap-031, a verification pass is required, and recognize the plan as executed at 2025-08-14T03:34:00Z."
         ),
         actions=[
-            # Policy snapshot to echo in freeze_plan
+            # Policy overview to reflect in freeze_plan
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # DB reads for mapping/strategies/creatives
+            # Database queries for mappings, strategies, and creatives.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # Freeze plan — arrays sorted, creatives mirrored from DB, strategies unchanged, budgets on rounding unit
+            # Plan is frozen — arrays are sorted, creatives replicated from the database, strategies remain the same, and budgets rounded to the nearest unit.
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_033",
                 "date": "2025-08-13",
@@ -4485,10 +4485,10 @@ TASKS = [
                 ],
 
                 "allocations": [
-                    {"adset_id": "103", "budget": 1160.0},  # -20 from 1180
-                    {"adset_id": "106", "budget": 480.0},  # -20 from 500
-                    {"adset_id": "111", "budget": 1020.0},  # +20 from 1000
-                    {"adset_id": "112", "budget": 720.0},  # +20 from 700
+                    {"adset_id": "103", "budget": 1160.0},  # Subtract 20 from 1180.
+                    {"adset_id": "106", "budget": 480.0},  # Subtract 20 from 500.
+                    {"adset_id": "111", "budget": 1020.0},  # Add 20 to 1000.
+                    {"adset_id": "112", "budget": 720.0},  # Increase by 20 from 700.
                 ],
                 "total_budget": 3380.0,
             }),
@@ -4496,7 +4496,7 @@ TASKS = [
             Action(name="ApplyPlanAllocations",
                    kwargs={"plan_id": "plan_soc_033", "timestamp": "2025-08-14T03:33:00Z", "request_id": "ap-031"}),
 
-            # Post-apply verification
+            # Verification after application
             Action(name="VerifyPlanAgainstAdsets", kwargs={"plan_id": "plan_soc_033"}),
 
             Action(name="UpdatePlanStatus",
@@ -4569,16 +4569,16 @@ TASKS = [
             "Act as the Audience-Signal Planner and note that the current time is 2025-08-14T03:36:30Z. Release plan_soc_034 intended for the date 2025-08-13. Given that the All category has a single adset (adset_id 103) on 2025-08-13, there is no opportunity for intra-All reallocation; execute a no-op envelope maintaining the budget for adset 103 as it is. Apply the created_at as 2025-08-14T03:36:30Z. Implement the apply timestamp 2025-08-14T03:38:00Z with request_id ap-032, necessitate a verification pass, and deem the plan applied at 2025-08-14T03:39:00Z."
         ),
         actions=[
-            # Policy snapshot (must be echoed exactly in freeze_plan)
+            # Policy snapshot (should be replicated exactly in freeze_plan)
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # DB read for the lone All adset (103) to source mapping/strategy/creative and current budget
+            # Database retrieval for the sole All adset (103) to obtain mapping/strategy/creative and current budget details.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),
 
-            # Freeze no-op plan (arrays sorted, budgets unchanged, rounding respected)
+            # Implement a no-op plan freeze (sorted arrays, consistent budgets, and adhered rounding).
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_034",
                 "date": "2025-08-13",
@@ -4603,7 +4603,7 @@ TASKS = [
                     {"adset_id": "103", "creative_type": "video"},
                 ],
 
-                # Keep the DB budget unchanged (1180.0)
+                # Maintain the database budget at 1180.0.
                 "allocations": [
                     {"adset_id": "103", "budget": 1180.0},
                 ],
@@ -4616,7 +4616,7 @@ TASKS = [
                 "request_id": "ap-032"
             }),
 
-            # Post-apply verification
+            # Validation after application
             Action(name="VerifyPlanAgainstAdsets", kwargs={"plan_id": "plan_soc_034"}),
 
             Action(name="UpdatePlanStatus", kwargs={
@@ -4625,7 +4625,7 @@ TASKS = [
                 "applied_at": "2025-08-14T03:39:00Z"
             }),
 
-            # Record outputs including applied_adsets_count and a deterministic no-op reason
+            # Log outputs featuring applied_adsets_count along with a specified no-op reason.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T03:38:00Z",
@@ -4654,10 +4654,10 @@ TASKS = [
             "Function as the Electronics Video Champion with the current time as 2025-08-14T03:39:30Z. For adset 103, if the active creative on 2025-08-14 is already a video, document a no-op rotation citing 'already_in_target_state' as the reason. If not, switch to video at 2025-08-14T03:39:30Z, using rotation request_id rot-011, with the rationale 'consolidate video in Electronics', and designate the new ad as rot-011-103-video. Acknowledge the rotation as finalized at 2025-08-14T03:40:30Z."
         ),
         actions=[
-            # Read current creative type to deterministically decide no-op vs rotate
+            # Assess the current creative type to definitively choose between no-op and rotation.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),
 
-            # Adset 103 is already video → no-op rotation; record the run with explicit reason
+            # Adset 103 is currently a video → no rotation necessary; document the execution with a clear rationale.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "creative_rotation",
                 "started_at": "2025-08-14T03:39:30Z",
@@ -4777,7 +4777,7 @@ TASKS = [
             "Serving as the Single-Active Steward at the time 2025-08-14T03:22:00Z, implement the single-active policy for date 2025-08-13 across the account: if an adset comprises more than one active ad with the identical creative type, conclude with precisely one active ad by swapping them out for a singular new ad named rot-011-<adset_id>-<type>. Should multiple types be active, refrain from altering types during this cycle; simply condense duplicates. Utilize apply timestamp 2025-08-14T03:22:00Z with rotation request_id rot-011 and justification 'single-active policy'. Mark the enforcement as finished at 2025-08-14T03:23:00Z."
         ),
         actions=[
-            # Discover multi-active across the account (deterministic enumeration)
+            # Identify multi-active throughout the account (deterministic listing)
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "101"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "102"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "103"}),
@@ -4791,7 +4791,7 @@ TASKS = [
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "111"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "112"}),
 
-            # Collapse duplicates only where the same type has >1 active (adset 112 has two active image ads)
+            # Merge duplicates only if the same type has more than one active (adset 112 contains two active image ads).
             Action(name="RotateAdCreative", kwargs={
                 "adset_id": "112",
                 "new_creative_type": "image",
@@ -4801,7 +4801,7 @@ TASKS = [
                 "ad_name": "rot-011-112-image"
             }),
 
-            # Explicitly pause BOTH prior actives to guarantee single-active
+            # Explicitly pause BOTH previous actives to ensure single-active status.
             Action(name="UpdateAdStatus", kwargs={
                 "ad_id": "1116",
                 "status": "paused",
@@ -4815,7 +4815,7 @@ TASKS = [
                 "request_id": "rot-011-1117-pause"
             }),
 
-            # Record the enforcement run — required outputs only, unique request_id
+            # Log the enforcement execution — essential outputs only, distinct request_id.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "creative_rotation",
                 "started_at": "2025-08-14T03:22:00Z",
@@ -4843,13 +4843,13 @@ TASKS = [
             "Act as the Fair-Share Planner and the time is 2025-08-14T03:44:30Z. Release plan_soc_036 for the date 2025-08-13. In each category, reallocate +20 to the lowest-CPA adset by reducing −20 from the highest-CPA adset, ensuring category totals remain unchanged and each allocation is ≥ the per-adset minimum and aligns with the budget rounding unit. Utilize the deterministic pairs: Electronics 101 → 112; Apparel 105 → 102; Mobile 110 → 111. Plan constants: created_at 2025-08-14T03:44:30Z; apply timestamp 2025-08-14T03:46:00Z (request_id ap-034); applied_at 2025-08-14T03:47:00Z."
         ),
         actions=[
-            # Policy snapshot for freeze_plan.policy_snapshot
+            # Snapshot of the policy for freeze_plan.policy_snapshot
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Authoritative DB reads for every adset we reference (names/categories/campaign_ids/strategies/creatives)
+            # Reads from the authoritative database for each referenced ad set (names/categories/campaign IDs/strategies/creatives).
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "105"}),
@@ -4857,7 +4857,7 @@ TASKS = [
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # Freeze the plan (all mapping/strategy/creative rows must match DB exactly)
+            # Lock the plan (all mapping/strategy/creative entries must align precisely with the database).
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_036",
                 "date": "2025-08-13",
@@ -4878,7 +4878,7 @@ TASKS = [
                     {"adset_id": "111", "name": "App Installs - iOS", "category": "Mobile", "campaign_id": "7"},
                     {"adset_id": "112", "name": "Electronics - UK", "category": "Electronics", "campaign_id": "1"},
                 ],
-                # Strategies (carried forward from DB; include bid_amount only for cost_cap)
+                # Methods (transferred from the database; include bid_amount solely for cost_cap)
                 "strategies": [
                     {"adset_id": "101", "bid_strategy": "lowest_cost"},
                     {"adset_id": "102", "bid_strategy": "lowest_cost"},
@@ -4887,7 +4887,7 @@ TASKS = [
                     {"adset_id": "111", "bid_strategy": "cost_cap", "bid_amount": 2.5},
                     {"adset_id": "112", "bid_strategy": "lowest_cost"},
                 ],
-                # Active creative types from DB
+                # Retrieve active creative entities from the database.
                 "creatives": [
                     {"adset_id": "101", "creative_type": "image"},
                     {"adset_id": "102", "creative_type": "image"},
@@ -4896,19 +4896,19 @@ TASKS = [
                     {"adset_id": "111", "creative_type": "video"},
                     {"adset_id": "112", "creative_type": "image"},
                 ],
-                # Deterministic allocations (−20 donors, +20 recipients), honoring rounding and min
+                # Fixed allocations (−20 donors, +20 recipients), respecting rounding and minimums.
                 "allocations": [
-                    {"adset_id": "101", "budget": 900.0},  # −20 Electronics donor (from 920 → 900)
-                    {"adset_id": "112", "budget": 720.0},  # +20 Electronics recipient (700 → 720)
-                    {"adset_id": "105", "budget": 730.0},  # −20 Apparel donor (750 → 730)
-                    {"adset_id": "102", "budget": 610.0},  # +20 Apparel recipient (590 → 610)
-                    {"adset_id": "110", "budget": 980.0},  # −20 Mobile donor (1000 → 980)
-                    {"adset_id": "111", "budget": 1020.0},  # +20 Mobile recipient (1000 → 1020)
+                    {"adset_id": "101", "budget": 900.0},  # −20 Electronics contribution (from 920 to 900)
+                    {"adset_id": "112", "budget": 720.0},  # +20 Electronics receiver (700 → 720)
+                    {"adset_id": "105", "budget": 730.0},  # −20 Apparel contributor (750 → 730)
+                    {"adset_id": "102", "budget": 610.0},  # +20 Apparel receiver (590 → 610)
+                    {"adset_id": "110", "budget": 980.0},  # −20 Mobile donor (1000 to 980)
+                    {"adset_id": "111", "budget": 1020.0},  # +20 Mobile recipients (1000 to 1020)
                 ],
                 "total_budget": 4960.0
             }),
 
-            # Apply → verify → mark as applied
+            # Execute → confirm → designate as executed
             Action(name="ApplyPlanAllocations", kwargs={
                 "plan_id": "plan_soc_036",
                 "timestamp": "2025-08-14T03:46:00Z",
@@ -4921,7 +4921,7 @@ TASKS = [
                 "applied_at": "2025-08-14T03:47:00Z"
             }),
 
-            # Record exactly the required outputs
+            # Capture only the necessary outputs.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T03:46:00Z",
@@ -4948,7 +4948,7 @@ TASKS = [
             "Serve as the High-ROAS Video Lead and the time is 2025-08-14T03:47:30Z. Transition adsets 110 and 104 to video at 2025-08-14T03:47:30Z using rotation request_id rot-011 under the justification 'harmonize video on high-ROAS sets', maintaining single-active. If an adset already has video active at that time, consider it a no-op. Designate any new ads as rot-011-<adset_id>-video. Mark the rotation as finalized at 2025-08-14T03:48:30Z."
         ),
         actions=[
-            # Read current state to determine which rotations are necessary (110 already video → no-op; 104 rotates)
+            # Assess the current state to identify required rotations (110 is already in video format → no action; 104 requires rotation).
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "110"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "104"}),
 
@@ -4994,16 +4994,16 @@ TASKS = [
             "Act as the Swap Steward with the current time being 2025-08-14T03:48:30Z. Release plan_soc_037 for 2025-08-13, which reallocates budgets between adset 101 and adset 103 by transferring 10 from 103 to 101; maintain all other adsets as they are. Budgets must adhere to the rounding unit of 10, resulting in adset 101 = 930 and adset 103 = 1170. Use created_at 2025-08-14T03:48:30Z. Apply timestamp 2025-08-14T03:50:00Z with request_id ap-035, necessitate a verification pass, and consider the plan fully implemented by 2025-08-14T03:51:00Z."
         ),
         actions=[
-            # Policy snapshot (used verbatim in freeze_plan)
+            # Snapshot of the policy (directly utilized in freeze_plan)
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # DB reads for mapping/strategies/creatives
+            # Database queries for mappings, strategies, and creatives.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
-            # cost_cap, bid_amount 32.0, active creative: image
-            Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),  # lowest_cost, active creative: video
+            # cost_cap, bid_amount 32.0, current creative: image
+            Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),  # minimum_expense, active media: video
 
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_037",
@@ -5019,7 +5019,7 @@ TASKS = [
                     "timezone": "UTC"
                 },
 
-                # adset_mapping & creatives sourced from the DB reads; arrays sorted by adset_id
+                # adset_mapping and creatives retrieved from the database; arrays ordered by adset_id
                 "adset_mapping": [
                     {"adset_id": "101", "name": "Electronics - CA", "category": "Electronics", "campaign_id": "1"},
                     {"adset_id": "103", "name": "Brand - Video Ads", "category": "All", "campaign_id": "2"},
@@ -5074,7 +5074,7 @@ TASKS = [
             "Assume the role of the Audience Seeder and note that the current time is 2025-08-14T03:51:30Z. Establish a new adset (adset_id 132) titled 'All — New Audience' within campaign_id '2', ensuring it has a daily_budget of 210, adopts the bid_strategy lowest_cost, and is marked as active, being created_at 2025-08-14T03:51:30Z (category All). Make sure an active image ad commences on 2025-08-14 under the name 'All — New Audience Image v1'. Utilize provisioning_default_duration_secs=120 to deem the run complete at 2025-08-14T03:53:30Z. Document provisioning."
         ),
         actions=[
-            # Insert the adset (request_id sequence en-1)
+            # Add the ad set with request_id sequence en-1.
             Action(name="InsertEntity", kwargs={
                 "table": "adsets",
                 "row": {
@@ -5092,7 +5092,7 @@ TASKS = [
                 "request_id": "en-1"
             }),
 
-            # Insert the initial image ad (deterministic ad_id; request_id en-2)
+            # Add the initial image advertisement (fixed ad_id; request_id en-2)
             Action(name="InsertEntity", kwargs={
                 "table": "ads",
                 "row": {
@@ -5108,7 +5108,7 @@ TASKS = [
                 "request_id": "en-2"
             }),
 
-            # Record the provisioning run (ended_at = start + 120s); request_id en-3
+            # Log the provisioning process duration (ended_at = start + 120s); request_id en-3
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "provisioning",
                 "started_at": "2025-08-14T03:51:30Z",
@@ -5135,15 +5135,15 @@ TASKS = [
             "As the Mobile Format Pilot, and with the current time being 2025-08-14T03:54:00Z, assess Mobile adsets 110 and 111 specifically for the date 2025-08-13. Adjust any adset within {110,111} that has an active image creative and a CPA < 25 to video format at 2025-08-14T03:54:00Z using rotation request_id rot-012, justifying with 'mobile video uplift'. Should no adset be adjusted, proceed to forgo the budget bonus entirely without drafting a bonus plan. Treat the rotation process as concluded at 2025-08-14T03:55:00Z."
         ),
         actions=[
-            # CPA checks for the specified date
+            # CPA verifies for the designated date.
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "110", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "111", "date": "2025-08-13"}),
 
-            # Explicitly read active creatives to confirm image/video state
+            # Directly retrieve current creatives to verify the status of images/videos.
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "110"}),
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "111"}),
 
-            # No qualified image creatives → no rotations; record a no-op rotation run and SKIP the bonus step
+            # Lacking eligible image creatives means no rotations; execute a no-op rotation and OMIT the bonus step.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "creative_rotation",
                 "started_at": "2025-08-14T03:54:00Z",
@@ -5170,11 +5170,11 @@ TASKS = [
             "Act as the Electronics Expander, taking note that the time is 2025-08-14T03:55:30Z. Analyze the performance of adset 112 for the date 2025-08-13: if the CPA (calculated as spend divided by purchases) exceeds 7.0 and no creative rotations have occurred between 2025-08-07 and 2025-08-13, switch its active creative to video at 2025-08-14T03:55:30Z using rotation request_id rot-112-v1, with rationale 'video expansion'; designate the new ad according to the deterministic pattern rot-004-112-video, ensuring only one active creative. If not, leave it unchanged. Mark the process as finished at 2025-08-14T03:56:30Z."
         ),
         actions=[
-            # Guardrail reads
+            # Guardrail inputs
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "112", "date": "2025-08-13"}),
             Action(name="GetCreativeRotationHistory", kwargs={"adset_id": "112"}),
 
-            # Rotation executes (CPA 700/88 ≈ 7.95 > 7.0 and no recent rotations in a fresh DB reset)
+            # Rotation occurs (CPA 700/88 ≈ 7.95 > 7.0 and no recent rotations after a fresh DB reset).
             Action(name="RotateAdCreative", kwargs={
                 "adset_id": "112",
                 "new_creative_type": "video",
@@ -5184,7 +5184,7 @@ TASKS = [
                 "ad_name": "rot-004-112-video"
             }),
 
-            # Record run with required fields
+            # Log execution with necessary parameters.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "creative_rotation",
                 "started_at": "2025-08-14T03:55:30Z",
@@ -5443,7 +5443,7 @@ TASKS = [
             Action(name="InsertEntity", kwargs={
                 "table": "ads",
                 "row": {
-                    "ad_id": "auto_135_20250814_1",  # auto_{adset_id}_{YYYYMMDD}_{seq}
+                    "ad_id": "auto_135_20250814_1",  # auto_{adset_id}_{YYYYMMDD}_{sequence}
                     "adset_id": "135",
                     "name": "Apparel UGC Video v1",
                     "creative_type": "video",
@@ -5483,11 +5483,11 @@ TASKS = [
             "Assume the role of the Image Advocate, and the time is 2025-08-14T04:03:30Z. Ensure image parity by verifying that Mobile adsets 110 and 111 feature an image as the sole active creative on 2025-08-13. For any adsets where the active type isn't an image, change to image at 2025-08-14T04:03:30Z utilizing rotation request_id rot-010, naming the new ads precisely rot-010-<adset_id>-image and employing rationale 'image parity across Mobile'. Mark the rotation as complete at 2025-08-14T04:04:00Z."
         ),
         actions=[
-            # Read current state to determine which adsets require rotation (avoid redundant writes)
+            # Fetch the current status to identify ad sets that need rotation (prevent unnecessary writes).
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "110"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
 
-            # Both Mobile adsets (110, 111) currently have active video creatives → rotate both to image
+            # Both Mobile adsets (110, 111) currently feature active video creatives → switch both to image.
             Action(name="RotateAdCreative", kwargs={
                 "adset_id": "110",
                 "new_creative_type": "image",
@@ -5505,7 +5505,7 @@ TASKS = [
                 "ad_name": "rot-010-111-image"
             }),
 
-            # Record the rotation run with the required output fields
+            # Log the rotation execution along with the necessary output parameters.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "creative_rotation",
                 "started_at": "2025-08-14T04:03:30Z",
@@ -5534,27 +5534,27 @@ TASKS = [
             "Act as the ROAS Booster, and the time is 2025-08-14T04:04:30Z. Implement plan_soc_041 for the date 2025-08-13. In each category, increase the budget by +5 for adsets with ROAS ≥ 2.0 and subtract −5 from adsets with ROAS < 1.0, ensuring category totals are maintained and adhering to policy minimum allocation and budget rounding unit. Calculate ROAS from the daily insights of 2025-08-13 as revenue ÷ spend. Should a category lack donors or recipients, refrain from making changes in that category. Utilize created_at 2025-08-14T04:04:30Z. Apply timestamp 2025-08-14T04:06:00Z with request_id ap-039 and regard the plan as applied at 2025-08-14T04:07:00Z."
         ),
         actions=[
-            # Policy snapshot
+            # Policy overview
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # ROAS inputs for 2025-08-13
+            # ROAS parameters for 2025-08-13
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "101", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "112", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "110", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "111", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "106", "date": "2025-08-13"}),
 
-            # Authoritative reads for mapping/strategies/creatives (mirror DB exactly)
+            # Reliable reads for mapping/strategies/creatives (exactly reflect the mirror database)
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "110"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"}),
 
-            # ROAS pairing within categories yields no valid donor-recipient matches across these adsets → freeze no-change snapshot
+            # ROAS pairing in categories results in no valid donor-recipient pairs among these ad sets → capture a static snapshot without changes.
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_041",
                 "date": "2025-08-13",
@@ -5567,7 +5567,7 @@ TASKS = [
                     "currency": "USD",
                     "timezone": "UTC"
                 },
-                # Adset mapping (values from prior reads; sorted by adset_id)
+                # Adset association (data from previous reads; organized by adset_id)
                 "adset_mapping": [
                     {"adset_id": "101", "name": "Electronics - CA", "category": "Electronics", "campaign_id": "1"},
                     {"adset_id": "106", "name": "Holiday - Home Goods", "category": "Home", "campaign_id": "5"},
@@ -5575,7 +5575,7 @@ TASKS = [
                     {"adset_id": "111", "name": "App Installs - iOS", "category": "Mobile", "campaign_id": "7"},
                     {"adset_id": "112", "name": "Electronics - UK", "category": "Electronics", "campaign_id": "1"},
                 ],
-                # Strategies mirrored from DB (include bid_amount only for cost_cap)
+                # Techniques replicated from the database (include bid_amount solely for cost_cap)
                 "strategies": [
                     {"adset_id": "101", "bid_strategy": "cost_cap", "bid_amount": 32.0},
                     {"adset_id": "106", "bid_strategy": "cost_cap", "bid_amount": 18.0},
@@ -5583,7 +5583,7 @@ TASKS = [
                     {"adset_id": "111", "bid_strategy": "cost_cap", "bid_amount": 2.5},
                     {"adset_id": "112", "bid_strategy": "lowest_cost"},
                 ],
-                # Creatives per DB
+                # Assets per database
                 "creatives": [
                     {"adset_id": "101", "creative_type": "image"},
                     {"adset_id": "106", "creative_type": "image"},
@@ -5591,7 +5591,7 @@ TASKS = [
                     {"adset_id": "111", "creative_type": "video"},
                     {"adset_id": "112", "creative_type": "image"},
                 ],
-                # Budgets mirrored; total = 4120.0
+                # Budgets duplicated; sum = 4120.0.
                 "allocations": [
                     {"adset_id": "101", "budget": 920.0},
                     {"adset_id": "106", "budget": 500.0},
@@ -5602,7 +5602,7 @@ TASKS = [
                 "total_budget": 4120.0,
             }),
 
-            # Apply, verify, mark applied
+            # Execute, confirm, and label as executed.
             Action(name="ApplyPlanAllocations", kwargs={
                 "plan_id": "plan_soc_041",
                 "timestamp": "2025-08-14T04:06:00Z",
@@ -5615,7 +5615,7 @@ TASKS = [
                 "applied_at": "2025-08-14T04:07:00Z"
             }),
 
-            # Record the run with required outputs
+            # Log the execution along with the necessary outputs.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T04:06:00Z",
@@ -5661,7 +5661,7 @@ TASKS = [
             Action(name="InsertEntity", kwargs={
                 "table": "ads",
                 "row": {
-                    "ad_id": "auto_136_20250814_1",  # auto_{adset_id}_{YYYYMMDD}_{seq}
+                    "ad_id": "auto_136_20250814_1",  # auto_{adset_id}_{YYYYMMDD}_{sequence}
                     "adset_id": "136",
                     "name": "Home Creative Trials - Video v1",
                     "creative_type": "video",
@@ -5672,12 +5672,12 @@ TASKS = [
                 "timestamp": "2025-08-14T04:07:30Z",
                 "request_id": "en-2"
             }),
-            # Show single-active is satisfied (fresh DB → only the new ad exists, so no pause needed)
+            # Single-active condition is met (new database → only the latest ad is present, thus no pause is necessary).
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "136"}),
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "provisioning",
                 "started_at": "2025-08-14T04:07:30Z",
-                "ended_at": "2025-08-14T04:09:30Z",  # +120s per provisioning_default_duration_secs
+                "ended_at": "2025-08-14T04:09:30Z",  # +120 seconds added to provisioning_default_duration_secs
                 "status": "completed",
                 "request_id": "en-3",
                 "input_ref": "en-2",
@@ -5703,16 +5703,16 @@ TASKS = [
             "As the All-Category Flattener, at the time of 2025-08-14T04:08:30Z, implement plan_soc_042 for the date 2025-08-13 to align budgets in category All to be within ±15 of the category’s mean, ensuring compliance with policy rounding. If the budgets are already within the specified tolerance, maintain them as they are. Refer to created_at 2025-08-14T04:08:30Z. Apply the timestamp 2025-08-14T04:10:00Z (request_id ap-040) and regard the plan as implemented at 2025-08-14T04:11:00Z."
         ),
         actions=[
-            # Policy snapshot to echo verbatim in freeze_plan
+            # Policy snapshot to replicate exactly in freeze_plan.
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # DB read for category 'All' (adset 103)
+            # Database retrieval for category 'All' (adset 103)
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),
 
-            # Freeze exact snapshot (no changes needed for single-adset category)
+            # Capture a precise snapshot (no modifications required for single-adset category)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_042",
                 "date": "2025-08-13",
@@ -5752,7 +5752,7 @@ TASKS = [
                 "applied_at": "2025-08-14T04:11:00Z"
             }),
 
-            # Record run — use applied_adsets_count (not 'changes')
+            # Log execution — utilize applied_adsets_count instead of 'changes'
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T04:10:00Z",
@@ -5826,23 +5826,23 @@ TASKS = [
             "In your role as the Revenue Shifter at 2025-08-14T04:12:30Z, dispatch plan_soc_043 for the date 2025-08-13 to redistribute the budget according to the revenue data from the past 7 days: reallocate +20 from adset 107 (Toys) to adset 112 (Electronics), ensuring total balances remain intact and adhering to policy min_budget_allocation and budget_rounding_unit for the period 2025-08-07..2025-08-13. Record as created on 2025-08-14T04:12:30Z. Implement at 2025-08-14T04:14:00Z (request_id ap-041) and regard the plan as implemented by 2025-08-14T04:15:00Z."
         ),
         actions=[
-            # Policy snapshot to echo verbatim in freeze_plan
+            # Policy snapshot to replicate exactly in freeze_plan.
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Revenue justification window
+            # Revenue validation period
             Action(name="GetSalesByCategoryRange",
                    kwargs={"category": "Electronics", "start_date": "2025-08-07", "end_date": "2025-08-13"}),
             Action(name="GetSalesByCategoryRange",
                    kwargs={"category": "Toys", "start_date": "2025-08-07", "end_date": "2025-08-13"}),
 
-            # Authoritative adset reads (names/category/campaign & active creative types must come from here)
+            # The authoritative ad set retrieves (names/category/campaign and active creative types must originate from this source).
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "107"}),
 
-            # Freeze: 107: 400 → 380, 112: 700 → 720 (total 1100). Mapping/strategies/creatives mirror DB.
+            # Freeze: 107: 400 → 380, 112: 700 → 720 (total 1100). Mapping/strategies/creatives reflect the database.
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_043",
                 "date": "2025-08-13",
@@ -5855,7 +5855,7 @@ TASKS = [
                     "currency": "USD",
                     "timezone": "UTC"
                 },
-                # DB-sourced values (sorted by adset_id)
+                # Values retrieved from the database (ordered by adset_id)
                 "adset_mapping": [
                     {"adset_id": "107", "name": "Holiday - Toys", "category": "Toys", "campaign_id": "5"},
                     {"adset_id": "112", "name": "Electronics - UK", "category": "Electronics", "campaign_id": "1"},
@@ -5875,14 +5875,14 @@ TASKS = [
                 "total_budget": 1100.0,
             }),
 
-            # Apply / verify / mark
+            # Implement / confirm / label
             Action(name="ApplyPlanAllocations",
                    kwargs={"plan_id": "plan_soc_043", "timestamp": "2025-08-14T04:14:00Z", "request_id": "ap-041"}),
             Action(name="VerifyPlanAgainstAdsets", kwargs={"plan_id": "plan_soc_043"}),
             Action(name="UpdatePlanStatus",
                    kwargs={"plan_id": "plan_soc_043", "status": "applied", "applied_at": "2025-08-14T04:15:00Z"}),
 
-            # Record run (reflect apply results)
+            # Log execution (capture results from reflect apply)
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T04:14:00Z",
@@ -5912,10 +5912,10 @@ TASKS = [
             "Act as the Accessories Creative Owner with the timestamp 2025-08-14T04:15:30Z. By 2025-08-14T04:16:00Z, make sure that adset 130 concludes with precisely one active IMAGE creative labeled rot-010-130-image, utilizing rotation request_id rot-010 with the explanation 'single-active with new image'. If adset 130 lacks an active creative at the initial time, first establish a single active baseline creative with deterministic ad_id auto_130_20250814_1 named 'Accessories Promo — Video v1'. Assume the rotation commenced at 2025-08-14T04:15:30Z and finalized at 2025-08-14T04:17:00Z."
         ),
         actions=[
-            # Read existing creatives to satisfy the judge that we checked state before seeding a baseline
+            # Examine current creatives to confirm to the judge that we verified the state prior to establishing a baseline.
             Action(name="GetAdsByAdsetId", kwargs={"adset_id": "130"}),
 
-            # Deterministic baseline (harmless if none exists; required so rotation can pause prior active)
+            # Deterministic baseline (non-essential if absent; necessary for halting the previous active rotation)
             Action(name="InsertEntity", kwargs={
                 "table": "ads",
                 "row": {
@@ -5931,7 +5931,7 @@ TASKS = [
                 "request_id": "en-1"
             }),
 
-            # Rotate to image; rotate_ad_creative enforces single-active by pausing the prior active ad
+            # Rotate the image; rotate_ad_creative ensures only one ad is active by pausing the previously active ad.
             Action(name="RotateAdCreative", kwargs={
                 "adset_id": "130",
                 "new_creative_type": "image",
@@ -5941,7 +5941,7 @@ TASKS = [
                 "ad_name": "rot-010-130-image"
             }),
 
-            # Record run; started_at must be the seed time
+            # Log execution; started_at should be the initial timestamp.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "creative_rotation",
                 "started_at": "2025-08-14T04:15:30Z",
@@ -5970,18 +5970,18 @@ TASKS = [
             "Function as the Drift Controller with the time set at 2025-08-14T04:15:30Z. Announce plan_soc_044 for the date 2025-08-13, restricting net spend drift compared to 2025-08-12 to ±50 in total, while reallocating +30 to Mobile and −30 from All. Distribute +20 to adset 110 and +10 to adset 111, and decrease adset 103 by −30, fulfilling the budget_rounding_unit. Reference created_at 2025-08-14T04:15:30Z. Apply the use timestamp 2025-08-14T04:17:00Z (request_id ap-042) and regard the plan as implemented at 2025-08-14T04:18:00Z."
         ),
         actions=[
-            # Policy snapshot for freeze_plan
+            # Snapshot of the freeze_plan policy
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Authoritative reads for mapping/strategies/creatives
+            # Trusted sources for mapping, strategies, and creative concepts.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "110"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),
 
-            # Freeze plan: budgets 110:1000→1020, 111:1000→1010, 103:1180→1150 (all multiples of 10; total 3180)
+            # Budget freeze plan: 110:1000→1020, 111:1000→1010, 103:1180→1150 (all adjusted in increments of 10; cumulative total 3180)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_044",
                 "date": "2025-08-13",
@@ -6017,7 +6017,7 @@ TASKS = [
                 "total_budget": 3180.0,
             }),
 
-            # Apply, verify, mark applied
+            # Execute, confirm, and indicate as executed.
             Action(name="ApplyPlanAllocations", kwargs={
                 "plan_id": "plan_soc_044",
                 "timestamp": "2025-08-14T04:17:00Z",
@@ -6030,7 +6030,7 @@ TASKS = [
                 "applied_at": "2025-08-14T04:18:00Z"
             }),
 
-            # Record run (3 adsets affected)
+            # Log execution (3 ad sets impacted)
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T04:17:00Z",
@@ -6100,13 +6100,13 @@ TASKS = [
             "As the Home CTR Tuner at 2025-08-14T04:19:30Z, publish plan_soc_045 for the date 2025-08-13. Specify CTR precisely as clicks ÷ impressions for 2025-08-13 (consider only this date). From adsets 101..112 classified as 'Home', if there are at least two, reallocate 20 of budget from the lowest-CTR Home adset (on 2025-08-13) to the highest-CTR Home adset (on 2025-08-13); otherwise, duplicate the existing budgets, strategies, and active creative types without adjustment. Maintain the total for the Home category unchanged, adhere to min_budget_allocation and budget_rounding_unit as per policy, continue with current strategies unaltered, and replicate present active creative types. Utilize created_at timestamp 2025-08-14T04:19:30Z. Apply the apply timestamp 2025-08-14T04:21:00Z (request_id ap-043) and regard the plan as applied at 2025-08-14T04:22:00Z."
         ),
         actions=[
-            # Policy snapshot to echo verbatim in freeze_plan
+            # Policy snapshot to be replicated exactly in freeze_plan.
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Enumerate candidate adsets (101..112) to determine which are actually category 'Home' per DB
+            # List adsets numbered 101 to 112 to identify those classified as category 'Home' according to the database.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),
@@ -6119,8 +6119,8 @@ TASKS = [
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # In this DB scope there is fewer than two 'Home' adsets among 101..112 → mirror a no-change snapshot for the Home adset(s).
-            # Include only adset 106 (the confirmed Home adset) and mirror its exact DB state.
+            # In this database scope, there are less than two 'Home' adsets within 101..112 → replicate a no-change snapshot for the Home adset(s).
+            # Incorporate solely adset 106 (the verified Home adset) and replicate its precise database status.
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_045",
                 "date": "2025-08-13",
@@ -6135,22 +6135,22 @@ TASKS = [
                     "timezone": "UTC"
                 },
 
-                # DB-sourced mapping (no inventions; arrays sorted by adset_id)
+                # Mapping sourced from the database (no modifications; arrays ordered by adset_id)
                 "adset_mapping": [
                     {"adset_id": "106", "name": "Holiday - Home Goods", "category": "Home", "campaign_id": "5"},
                 ],
 
-                # Strategies mirrored unchanged from DB
+                # Strategies replicated without modifications from the database.
                 "strategies": [
                     {"adset_id": "106", "bid_strategy": "cost_cap", "bid_amount": 18.0},
                 ],
 
-                # Active creative types mirrored from DB
+                # Active creative entities replicated from the database.
                 "creatives": [
                     {"adset_id": "106", "creative_type": "image"},
                 ],
 
-                # Budgets mirrored (no change); total equals sum of allocations
+                # Budgets are identical (unchanged); overall matches the total of allocations.
                 "allocations": [
                     {"adset_id": "106", "budget": 500.0},
                 ],
@@ -6171,7 +6171,7 @@ TASKS = [
                 "applied_at": "2025-08-14T04:22:00Z"
             }),
 
-            # Record run — zero changes coherently reflected
+            # Log execution — no alterations consistently displayed
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T04:21:00Z",
@@ -6199,7 +6199,7 @@ TASKS = [
             "As the Clearance Owner, and at the time of 2025-08-14T04:22:30Z, handle the provisioning of a new adset (adset_id 137) entitled 'Electronics — Clearance' for campaign_id '6', under the category 'Electronics', with a daily_budget of 200, a bid_strategy of lowest_cost, and an active status; ensure created_at and updated_at are set to 2025-08-14T04:22:30Z. Guarantee an active video ad starts on 2025-08-14 named 'Electronics Clearance - Video v1'. Acknowledge provisioning completion at 2025-08-14T04:23:30Z."
         ),
         actions=[
-            # Insert the adset exactly as instructed; timestamps match the call time
+            # Place the adset precisely as specified; the timestamps align with the call time.
             Action(name="InsertEntity", kwargs={
                 "table": "adsets",
                 "row": {
@@ -6217,7 +6217,7 @@ TASKS = [
                 "request_id": "en-1"
             }),
 
-            # Insert the active video ad with deterministic ad_id per policy: auto_{adset_id}_{YYYYMMDD}_{seq}
+            # Add the active video advertisement using the specified ad_id format: auto_{adset_id}_{YYYYMMDD}_{seq}.
             Action(name="InsertEntity", kwargs={
                 "table": "ads",
                 "row": {
@@ -6233,7 +6233,7 @@ TASKS = [
                 "request_id": "en-2"
             }),
 
-            # Record the provisioning run; include run_type/run_status in outputs_json for judge parity
+            # Log the provisioning execution; add run_type/run_status to outputs_json for consistency in judgment.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "provisioning",
                 "started_at": "2025-08-14T04:22:30Z",
@@ -6263,25 +6263,25 @@ TASKS = [
             "As the Clicks Booster, at the time of 2025-08-14T04:23:30Z, coordinate the publication of plan_soc_046 for the date 2025-08-13. Define clicks for selection employing only data from 2025-08-13. In each category, allocate +20 to adsets with clicks ≥ 500, financed by −20 from peers with clicks ≤ 100. If there are multiple donors and/or recipients in a category, consolidate all donor reductions into a pool, and distribute the pool equally among all recipients; round according to the policy budget_rounding_unit, and if a remainder persists post-rounding, assign extra units to recipients in ascending adset_id order. Should a category lack qualifying donors (≤ 100) on 2025-08-13, maintain existing budgets, strategies, and active creative types for the adsets you have reviewed. Set created_at to 2025-08-14T04:23:30Z. Utilize apply timestamp 2025-08-14T04:25:00Z with request_id ap-044 and recognize the plan as applied at 2025-08-14T04:26:00Z."
         ),
         actions=[
-            # Policy snapshot → freeze_plan.policy_snapshot
+            # Policy state → freeze_plan.policy_snapshot
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # DB reads for mapping/strategies/creatives
+            # Database queries for mappings, strategies, and creatives.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # Clicks for 2025-08-13 (no donors ≤100 in this evaluated set)
+            # Clicks for 2025-08-13 (excluding donors with ≤100 in this analyzed group)
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "101", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "106", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "111", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "112", "date": "2025-08-13"}),
 
-            # No qualifying donors → mirror a no-change snapshot
+            # Absence of qualifying donors → reflect an unchanged snapshot
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_046",
                 "date": "2025-08-13",
@@ -6405,17 +6405,17 @@ TASKS = [
             "Operating as the Mobile Percentile Setter, the time is 2025-08-14T04:27:30Z. Release plan_soc_047 for the date 2025-08-13 that aligns Mobile budgets with the 25th percentile (calculated based on Mobile adset daily budgets on 2025-08-13), decreasing only those that exceed that percentile while maintaining the overall Mobile category total intact. Retain existing strategies as they are and replicate the current active creative types. Use the created_at time of 2025-08-14T04:27:30Z. Apply the changes with timestamp 2025-08-14T04:29:00Z using request_id ap-045, mandate verification, and regard the plan as implemented at 2025-08-14T04:30:00Z."
         ),
         actions=[
-            # Policy snapshot to echo verbatim in freeze_plan
+            # Policy snapshot to replicate exactly in freeze_plan.
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Authoritative Mobile adsets (mapping/strategies/creatives/budgets)
+            # Authoritative mobile ad configurations (mapping/strategies/creatives/budgets)
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "110"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
 
-            # 25th percentile of Mobile budgets on 2025-08-13 is 1000 (both are 1000) → no reductions → mirror snapshot (no change)
+            # The 25th percentile for Mobile budgets on 2025-08-13 is 1000 (both values are 1000) → no decreases → replicate snapshot (no alterations).
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_047",
                 "date": "2025-08-13",
@@ -6430,25 +6430,25 @@ TASKS = [
                     "timezone": "UTC"
                 },
 
-                # DB-sourced mapping (arrays sorted by adset_id)
+                # Mapping sourced from the database (arrays organized by adset_id)
                 "adset_mapping": [
                     {"adset_id": "110", "name": "App Installs - Android", "category": "Mobile", "campaign_id": "7"},
                     {"adset_id": "111", "name": "App Installs - iOS", "category": "Mobile", "campaign_id": "7"},
                 ],
 
-                # Strategies mirrored unchanged from DB (include bid_amount only for cost_cap)
+                # Strategies replicated as is from the database (include bid_amount solely for cost_cap).
                 "strategies": [
                     {"adset_id": "110", "bid_strategy": "lowest_cost"},
                     {"adset_id": "111", "bid_strategy": "cost_cap", "bid_amount": 2.5},
                 ],
 
-                # Active creative types mirrored from DB
+                # Active creative entities replicated from the database.
                 "creatives": [
                     {"adset_id": "110", "creative_type": "video"},
                     {"adset_id": "111", "creative_type": "video"},
                 ],
 
-                # Budgets mirrored (no changes); total sums to 2000.0
+                # Budgets duplicated (unchanged); overall total is 2000.0.
                 "allocations": [
                     {"adset_id": "110", "budget": 1000.0},
                     {"adset_id": "111", "budget": 1000.0},
@@ -6456,7 +6456,7 @@ TASKS = [
                 "total_budget": 2000.0,
             }),
 
-            # Apply → verify → mark applied
+            # Execute → confirm → label as applied
             Action(name="ApplyPlanAllocations", kwargs={
                 "plan_id": "plan_soc_047",
                 "timestamp": "2025-08-14T04:29:00Z",
@@ -6469,7 +6469,7 @@ TASKS = [
                 "applied_at": "2025-08-14T04:30:00Z"
             }),
 
-            # Record run — zero changes coherently reflected
+            # Log execution — no alterations consistently represented
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T04:29:00Z",
@@ -6547,27 +6547,27 @@ TASKS = [
             "Act as the ROAS Migrator with the time set to 2025-08-14T04:31:30Z. Release plan_soc_048 for the date 2025-08-13. Specify ROAS precisely as revenue ÷ spend using solely the data from 2025-08-13. Assess adsets 101, 106, 110, 111, and 112. Within every category, if there's a minimum of one donor (ROAS < 0.8) and at least one recipient (ROAS ≥ 2.5), relocate 15 of the budget from each donor and allocate the pooled funds to the single highest-ROAS recipient in that category; ensure the category total remains unchanged. If not, replicate current budgets, maintain existing strategies, and continue with the currently active creative types. Employ created_at 2025-08-14T04:31:30Z. Set the apply timestamp to 2025-08-14T04:33:00Z with request_id ap-046 and determine the plan as applied at 2025-08-14T04:34:00Z."
         ),
         actions=[
-            # Policy snapshot to echo verbatim in freeze_plan
+            # Policy snapshot to be replicated exactly in freeze_plan.
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Authoritative adset reads (every adset we will include in mapping/strategies/creatives)
+            # The authoritative adset retrieves all adsets that we will incorporate into mapping, strategies, and creatives.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "110"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "112"}),
 
-            # ROAS window pinned to 2025-08-13 (used only to decide if changes are needed)
+            # ROAS window fixed to 2025-08-13 (utilized solely for determining if adjustments are required)
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "101", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "106", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "110", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "111", "date": "2025-08-13"}),
             Action(name="GetDailyInsightsForAdset", kwargs={"adset_id": "112", "date": "2025-08-13"}),
 
-            # Result: no category among these has both donors and recipients → mirror a no-change snapshot
+            # Outcome: none of these categories contains both donors and recipients → reflect a static snapshot without changes.
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_048",
                 "date": "2025-08-13",
@@ -6582,7 +6582,7 @@ TASKS = [
                     "timezone": "UTC"
                 },
 
-                # DB-sourced mapping (sorted by adset_id)
+                # Mapping obtained from the database, ordered by adset_id.
                 "adset_mapping": [
                     {"adset_id": "101", "name": "Electronics - CA", "category": "Electronics", "campaign_id": "1"},
                     {"adset_id": "106", "name": "Holiday - Home Goods", "category": "Home", "campaign_id": "5"},
@@ -6591,7 +6591,7 @@ TASKS = [
                     {"adset_id": "112", "name": "Electronics - UK", "category": "Electronics", "campaign_id": "1"},
                 ],
 
-                # Strategies mirrored unchanged from DB (include bid_amount for cost_cap)
+                # Strategies replicated unchanged from the database (incorporate bid_amount for cost_cap).
                 "strategies": [
                     {"adset_id": "101", "bid_strategy": "cost_cap", "bid_amount": 32.0},
                     {"adset_id": "106", "bid_strategy": "cost_cap", "bid_amount": 18.0},
@@ -6600,7 +6600,7 @@ TASKS = [
                     {"adset_id": "112", "bid_strategy": "lowest_cost"},
                 ],
 
-                # Active creative types mirrored from DB
+                # Currently active creative entities reflected from the database.
                 "creatives": [
                     {"adset_id": "101", "creative_type": "image"},
                     {"adset_id": "106", "creative_type": "image"},
@@ -6609,7 +6609,7 @@ TASKS = [
                     {"adset_id": "112", "creative_type": "image"},
                 ],
 
-                # Budgets mirrored (no changes); total equals sum of allocations
+                # Budgets replicated (unchanged); total matches the sum of distributions.
                 "allocations": [
                     {"adset_id": "101", "budget": 920.0},
                     {"adset_id": "106", "budget": 500.0},
@@ -6620,7 +6620,7 @@ TASKS = [
                 "total_budget": 4120.0,
             }),
 
-            # Apply → verify → mark applied
+            # Execute → confirm → label as applied
             Action(name="ApplyPlanAllocations", kwargs={
                 "plan_id": "plan_soc_048",
                 "timestamp": "2025-08-14T04:33:00Z",
@@ -6633,7 +6633,7 @@ TASKS = [
                 "applied_at": "2025-08-14T04:34:00Z"
             }),
 
-            # Record run — zero changes, matching apply results
+            # Execute a run with no modifications, results align with the apply operation.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T04:33:00Z",
@@ -6700,13 +6700,13 @@ TASKS = [
             "Your role is the Two-Pair Shifter and the time now is 2025-08-14T04:35:30Z. Execute the publication of plan_soc_049 for the date 2025-08-13 with these specific outcomes: budgets at 102:620, 103:1150, 106:530, 107:370 (USD), achieved exclusively by +30 from 103→102 and +30 from 107→106; strategies should match the existing DB values precisely; creatives should reflect the currently active type of each adset; other adsets must remain unchanged and overall totals should stay stable. Refer to 2025-08-14T04:37:00Z (request_id ap-047) as the apply instant and 2025-08-14T04:38:00Z as the applied_at for audit purposes."
         ),
         actions=[
-            # DB reads for authoritative mapping/strategies/creatives
+            # Database queries for official mapping, strategies, and creative assets.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "102"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "103"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "107"}),
 
-            # Freeze with DB-sourced mapping/strategies; creatives mirror active types; include policy_snapshot
+            # Lock in mapping/strategies from the database; creatives reflect current types; incorporate policy_snapshot.
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_049",
                 "date": "2025-08-13",
@@ -6721,7 +6721,7 @@ TASKS = [
                     "timezone": "UTC"
                 },
 
-                # Mapping exactly as read (sorted by adset_id)
+                # Mapping precisely as retrieved (ordered by adset_id)
                 "adset_mapping": [
                     {"adset_id": "102", "name": "Apparel - CA", "category": "Apparel", "campaign_id": "1"},
                     {"adset_id": "103", "name": "Brand - Video Ads", "category": "All", "campaign_id": "2"},
@@ -6729,7 +6729,7 @@ TASKS = [
                     {"adset_id": "107", "name": "Holiday - Toys", "category": "Toys", "campaign_id": "5"},
                 ],
 
-                # Strategies mirrored from DB (include bid_amount only for cost_cap)
+                # Techniques replicated from the database (include bid_amount solely for cost_cap)
                 "strategies": [
                     {"adset_id": "102", "bid_strategy": "lowest_cost"},
                     {"adset_id": "103", "bid_strategy": "lowest_cost"},
@@ -6737,7 +6737,7 @@ TASKS = [
                     {"adset_id": "107", "bid_strategy": "lowest_cost"},
                 ],
 
-                # Creatives mirror current active types
+                # Creatives reflect the currently active types.
                 "creatives": [
                     {"adset_id": "102", "creative_type": "image"},
                     {"adset_id": "103", "creative_type": "video"},
@@ -6745,7 +6745,7 @@ TASKS = [
                     {"adset_id": "107", "creative_type": "video"},
                 ],
 
-                # +30/−30 pairs; total matches sum of allocations
+                # +30/−30 pairs; aggregate matches equal total allocations.
                 "allocations": [
                     {"adset_id": "102", "budget": 620.0},
                     {"adset_id": "103", "budget": 1150.0},
@@ -6755,7 +6755,7 @@ TASKS = [
                 "total_budget": 2670.0
             }),
 
-            # Apply → verify → mark applied
+            # Execute → confirm → label as applied
             Action(name="ApplyPlanAllocations", kwargs={
                 "plan_id": "plan_soc_049",
                 "timestamp": "2025-08-14T04:37:00Z",
@@ -6768,7 +6768,7 @@ TASKS = [
                 "applied_at": "2025-08-14T04:38:00Z"
             }),
 
-            # Record run
+            # Log execution
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T04:37:00Z",
@@ -6794,7 +6794,7 @@ TASKS = [
             "As the Mobile Performance Owner, at the time of 2025-08-14T04:38:30Z, organize the provisioning of a new Mobile adset (adset_id 138, category Mobile) titled 'Mobile — Performance' within campaign_id '7'. Set a daily_budget of 260, use the bid_strategy lowest_cost, and mark the status as active. Make sure an active video ad called 'Mobile — Performance Video v1' initiates on 2025-08-14, meeting the single-active condition. Complete the provisioning by 2025-08-14T04:39:30Z."
         ),
         actions=[
-            # Insert the adset; updated_at must equal the call timestamp
+            # Add the adset; updated_at should match the call timestamp.
             Action(name="InsertEntity", kwargs={
                 "table": "adsets",
                 "row": {
@@ -6811,7 +6811,7 @@ TASKS = [
                 "request_id": "en-1"
             }),
 
-            # Create the initial active video ad (deterministic ad_id: auto_{adset_id}_{YYYYMMDD}_{seq})
+            # Generate the first active video advertisement using the format: auto_{adset_id}_{YYYYMMDD}_{seq} for the deterministic ad_id.
             Action(name="InsertEntity", kwargs={
                 "table": "ads",
                 "row": {
@@ -6827,7 +6827,7 @@ TASKS = [
                 "request_id": "en-2"
             }),
 
-            # Record the provisioning run with required outputs (keep arguments deterministic)
+            # Log the provisioning execution with necessary outputs (ensure arguments are consistent).
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "provisioning",
                 "started_at": "2025-08-14T04:38:30Z",
@@ -6856,18 +6856,18 @@ TASKS = [
             "Act as the Bid Simplifier at the timestamp of 2025-08-14T04:39:30Z. Implement plan_soc_050 for the date 2025-08-13. Secure adset 111 at a cost_cap=2.5 and adset 106 at a cost_cap=18.0. Adjust adset 101 to the lowest_cost setting; leave budgets as they are (101:920, 106:500, 111:1000). Apply the timestamp 2025-08-14T04:41:00Z (request_id ap-048) and regard the plan as implemented by 2025-08-14T04:42:00Z."
         ),
         actions=[
-            # Policy snapshot (must be echoed verbatim in freeze_plan.policy_snapshot)
+            # Policy snapshot (should be repeated exactly in freeze_plan.policy_snapshot)
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Authoritative reads for adset mapping, strategies, creatives
+            # Reliable retrievals for ad set associations, tactics, and creative assets.
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "106"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "111"}),
 
-            # Freeze plan with DB-sourced mapping/creatives, specified strategies, budgets unchanged
+            # Lock the plan with database-based mappings/creatives, maintaining specified strategies and budgets.
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_050",
                 "date": "2025-08-13",
@@ -6880,7 +6880,7 @@ TASKS = [
                     "currency": "USD",
                     "timezone": "UTC"
                 },
-                # Sorted by adset_id
+                # Ordered by adset_id
                 "adset_mapping": [
                     {"adset_id": "101", "name": "Electronics - CA", "category": "Electronics", "campaign_id": "1"},
                     {"adset_id": "106", "name": "Holiday - Home Goods", "category": "Home", "campaign_id": "5"},
@@ -6891,13 +6891,13 @@ TASKS = [
                     {"adset_id": "106", "bid_strategy": "cost_cap", "bid_amount": 18.0},
                     {"adset_id": "111", "bid_strategy": "cost_cap", "bid_amount": 2.5},
                 ],
-                # Mirror active creative types from DB (no creative changes requested)
+                # Replicate active creative entities from the database (no alterations to creativity requested).
                 "creatives": [
                     {"adset_id": "101", "creative_type": "image"},
                     {"adset_id": "106", "creative_type": "image"},
                     {"adset_id": "111", "creative_type": "video"},
                 ],
-                # Budgets unchanged; total must equal sum of allocations
+                # Budgets remain the same; the total should match the sum of the allocations.
                 "allocations": [
                     {"adset_id": "101", "budget": 920.0},
                     {"adset_id": "106", "budget": 500.0},
@@ -6906,7 +6906,7 @@ TASKS = [
                 "total_budget": 2420.0,
             }),
 
-            # Apply → verify → mark applied
+            # Execute → confirm → indicate applied
             Action(name="ApplyPlanAllocations", kwargs={
                 "plan_id": "plan_soc_050",
                 "timestamp": "2025-08-14T04:41:00Z",
@@ -6919,7 +6919,7 @@ TASKS = [
                 "applied_at": "2025-08-14T04:42:00Z"
             }),
 
-            # Record run with coherent outputs
+            # Log execution with consistent results.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T04:41:00Z",
@@ -6988,17 +6988,17 @@ TASKS = [
             "Acting as the Percentile Governor, the time is logged as 2025-08-14T04:43:30Z. Release plan_soc_051 for the date 2025-08-13: limit Electronics by transitioning 50 from adset 101 to Apparel adset 105; maintain current strategies and mirror existing active creatives; ensure the total remains unchanged with budgets set in increments of 10. Documented at created_at 2025-08-14T04:43:30Z, apply timestamp at 2025-08-14T04:45:00Z (request_id ap-049), and finalize the plan's application by 2025-08-14T04:46:00Z."
         ),
         actions=[
-            # Policy snapshot to echo verbatim in freeze_plan
+            # Policy snapshot to replicate exactly in freeze_plan.
             Action(name="GetPolicyParameter", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "budget_rounding_unit"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "currency"}),
             Action(name="GetPolicyParameter", kwargs={"param_name": "timezone"}),
 
-            # Authoritative reads for mapping/strategies/creatives (names/categories/campaigns must match these)
+            # Valid reads for mapping/strategies/creatives (names/categories/campaigns should correspond with these)
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "101"}),
             Action(name="GetAdsetDetailsById", kwargs={"adset_id": "105"}),
 
-            # Freeze plan — arrays sorted by adset_id; values mirror DB; budgets: 101: 920→870, 105: 750→800 (total = 1670)
+            # Freeze strategy — arrays arranged by adset_id; values reflect the database; budgets: 101: 920→870, 105: 750→800 (total = 1670)
             Action(name="FreezePlan", kwargs={
                 "plan_id": "plan_soc_051",
                 "date": "2025-08-13",
@@ -7030,7 +7030,7 @@ TASKS = [
                 "total_budget": 1670.0,
             }),
 
-            # Apply → verify → mark applied
+            # Execute → validate → indicate applied
             Action(name="ApplyPlanAllocations", kwargs={
                 "plan_id": "plan_soc_051",
                 "timestamp": "2025-08-14T04:45:00Z",
@@ -7043,7 +7043,7 @@ TASKS = [
                 "applied_at": "2025-08-14T04:46:00Z"
             }),
 
-            # Record run — reflect apply results
+            # Log execution — mirror apply outcomes
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "plan_apply",
                 "started_at": "2025-08-14T04:45:00Z",
@@ -7072,7 +7072,7 @@ TASKS = [
             "As the Seasonal Creative Owner, at the time of 2025-08-14T04:46:30Z, confirm that adset 123 is set up as 'Apparel — Seasonal' within campaign_id '3', categorized under Apparel, with a daily_budget of 260, using bid_strategy lowest_cost, and maintaining an active status. Make sure it initially features an active image ad titled 'Seasonal V1' beginning on 2025-08-14. At 2025-08-14T04:47:00Z, switch the active creative to a new video ad called 'Seasonal V2' by utilizing rotation request_id rot-020, justified by 'Seasonal V2 rollout', and ensure single-active enforcement. Mark the provisioning as complete at 2025-08-14T04:48:30Z, with the rotation concluding at 2025-08-14T04:48:00Z."
         ),
         actions=[
-            # Insert/ensure the adset (deterministic fields and timestamp)
+            # Add or verify the ad set (specific fields and timestamp).
             Action(name="InsertEntity", kwargs={
                 "table": "adsets",
                 "row": {
@@ -7089,7 +7089,7 @@ TASKS = [
                 "request_id": "en-1"
             }),
 
-            # Seed an initial active image ad (include required end_date field)
+            # Initialize an active image advertisement with the mandatory end_date parameter.
             Action(name="InsertEntity", kwargs={
                 "table": "ads",
                 "row": {
@@ -7105,7 +7105,7 @@ TASKS = [
                 "request_id": "en-2"
             }),
 
-            # Record the provisioning run (ended_at = seed_time + 120s; unique request_id)
+            # Log the provisioning execution (ended_at = seed_time + 120s; distinct request_id)
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "provisioning",
                 "started_at": "2025-08-14T04:46:30Z",
@@ -7117,7 +7117,7 @@ TASKS = [
                 "errors_json": None
             }),
 
-            # Rotate to video at the specified time; tool will create the new ad row and pause the old one per single-active policy
+            # Rotate the video at the designated timestamp; the tool will generate a new ad entry and suspend the previous one according to the single-active policy.
             Action(name="RotateAdCreative", kwargs={
                 "adset_id": "123",
                 "new_creative_type": "video",
@@ -7127,7 +7127,7 @@ TASKS = [
                 "ad_name": "Seasonal V2"
             }),
 
-            # Record the rotation run with exactly the expected outputs
+            # Log the rotation execution with the precise anticipated results.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "creative_rotation",
                 "started_at": "2025-08-14T04:47:00Z",
@@ -7155,7 +7155,7 @@ TASKS = [
             "Functioning as the Video Expansion Lead at 2025-08-14T05:20:00Z, transition adset 112 to video format precisely at 2025-08-14T05:20:00Z, utilizing rotation request_id rot-020 and supporting the action with the rationale 'category parity'. For adset 102, should its active creative already be an image, regard it as a no-op stating 'already_in_target_state'. Uphold the single-active requirement. Conclude the operation by 2025-08-14T05:21:00Z."
         ),
         actions=[
-            # Perform only the material rotation; do not invoke rotate on 102 since it's already image (skip-no-op rule).
+            # Execute the material rotation exclusively; avoid calling rotate on 102 as it is already an image (apply skip-no-op rule).
             Action(name="RotateAdCreative", kwargs={
                 "adset_id": "112",
                 "new_creative_type": "video",
@@ -7164,7 +7164,7 @@ TASKS = [
                 "rationale": "category parity",
                 "ad_name": "rot-020-112-video"
             }),
-            # Record run with explicit no-op log for 102
+            # Log execution with a specified no-op entry for 102.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "creative_rotation",
                 "started_at": "2025-08-14T05:20:00Z",
@@ -7338,7 +7338,7 @@ TASKS = [
             "As the Evergreen Owner, handle the task at 2025-08-14T04:54:30Z. Set up a new adset 'Electronics — Evergreen' (adset_id 139) under campaign_id '1' with the category Electronics, a daily_budget of 240, lowest_cost as the bid_strategy, and a status of active (updated_at 2025-08-14T04:54:30Z). Make sure an active image ad initiates on 2025-08-14, titled 'Electronics Evergreen - Image v1'. Change the adset’s active creative to a video at 2025-08-14T04:56:00Z using rotation request_id rot-ever-1, with the reason 'evergreen video', naming the new ad rot-ever-1-139-video. Consider provisioning and rotation finished at 2025-08-14T04:56:00Z."
         ),
         actions=[
-            # Insert the adset; all fields are sourced from the instruction.
+            # Add the ad set; all parameters are derived from the guidelines.
             Action(name="InsertEntity", kwargs={
                 "table": "adsets",
                 "row": {
@@ -7355,7 +7355,7 @@ TASKS = [
                 "request_id": "en-1"
             }),
 
-            # Seed the initial active image ad; deterministic ad_id per rules (auto_{adset_id}_{YYYYMMDD}_{seq}).
+            # Initialize the primary active image advertisement; ad_id is generated deterministically based on the format (auto_{adset_id}_{YYYYMMDD}_{seq}).
             Action(name="InsertEntity", kwargs={
                 "table": "ads",
                 "row": {
@@ -7371,18 +7371,18 @@ TASKS = [
                 "request_id": "en-2"
             }),
 
-            # Rotate to video; tool pauses the old active and logs the rotation (audit).
+            # Switch to video; the tool halts the previous active session and records the rotation for auditing purposes.
             Action(name="RotateAdCreative", kwargs={
                 "adset_id": "139",
                 "new_creative_type": "video",
                 "timestamp": "2025-08-14T04:56:00Z",
                 "request_id": "rot-ever-1",
                 "rationale": "evergreen video",
-                # Provide explicit ad_name to avoid the default "rot-{request_id}-..." double-rot prefix.
+                # Specify ad_name to prevent the default "rot-{request_id}-..." double-rotation prefix.
                 "ad_name": "rot-ever-1-139-video"
             }),
 
-            # Record the provisioning + rotation run; outputs mirror what the judge expects.
+            # Log the provisioning and rotation process; outputs align with the judge's expectations.
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "provisioning",
                 "started_at": "2025-08-14T04:54:30Z",
@@ -7411,7 +7411,7 @@ TASKS = [
             "As the Toys Creative Owner, manage tasks starting at 2025-08-14T03:42:30Z. Initiate adset 122 under campaign_id '5', identified as 'Toys — Expansion' (category Toys), with a daily_budget of 220, implementing the lowest_cost bid_strategy, and marking status as active. Guarantee an active IMAGE ad commences on 2025-08-14, labeled 'Toys Expansion Image v1'. Switch the adset’s active creative to VIDEO at 2025-08-14T03:43:00Z using rotation request_id rot-100, with the rationale 'video test', and title the new ad 'rot-100-122-video'. Ensure single-active enforcement by pausing the previous active. Conclude rotation activities at 2025-08-14T03:44:00Z."
         ),
         actions=[
-            # 1) Create the adset — updated_at MUST equal the action timestamp exactly
+            # 1) Establish the ad set — updated_at must match the action timestamp precisely.
             Action(name="InsertEntity", kwargs={
                 "table": "adsets",
                 "row": {
@@ -7428,7 +7428,7 @@ TASKS = [
                 "request_id": "en-1"
             }),
 
-            # 2) Seed an initial ACTIVE image ad (deterministic ad_id)
+            # 2) Initialize an ACTIVE image advertisement (fixed ad_id)
             Action(name="InsertEntity", kwargs={
                 "table": "ads",
                 "row": {
@@ -7444,7 +7444,7 @@ TASKS = [
                 "request_id": "en-2"
             }),
 
-            # 3) Rotate to VIDEO with the exact required name; tool creates the new ad
+            # 3) Switch to VIDEO using the specified name; the tool generates the new ad.
             Action(name="RotateAdCreative", kwargs={
                 "adset_id": "122",
                 "new_creative_type": "video",
@@ -7454,7 +7454,7 @@ TASKS = [
                 "ad_name": "rot-100-122-video"
             }),
 
-            # 4) Explicitly pause the prior active to guarantee single-active invariant
+            # 4) Clearly pause the previously active one to ensure the single-active condition is maintained.
             Action(name="UpdateAdStatus", kwargs={
                 "ad_id": "auto_122_20250814_1",
                 "status": "paused",
@@ -7462,7 +7462,7 @@ TASKS = [
                 "request_id": "en-3"
             }),
 
-            # 5) Record run with required outputs (unique request_id; outputs match expected fields)
+            # 5) Log execution with necessary outputs (distinct request_id; outputs align with expected parameters)
             Action(name="RecordAutomationRun", kwargs={
                 "run_type": "creative_rotation",
                 "started_at": "2025-08-14T03:43:00Z",
@@ -7484,7 +7484,7 @@ TASKS = [
 
 ]
 
-#TASKS = [task for task in TASKS.values() if task.user_id in ('TASK_16', 'TASK_43', 'TASK_47', 'TASK_79', 'TASK_82', 'TASK_100')]
+# TASKS = [task for task in TASKS.values() if task.user_id in {'TASK_16', 'TASK_43', 'TASK_47', 'TASK_79', 'TASK_82', 'TASK_100'}]
 
-# Export for validation script
+# Export for verification script
 tasks = TASKS

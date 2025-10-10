@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class AddOrderItemsForPlanByKeys(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], household_id: int, week_start_date: str, store_id: int) -> str:
-        # Resolve order by keys (choose highest order_id for determinism if multiple)
+        # Sort by keys (select the highest order_id for consistency in cases of duplicates).
         plan = next(
             (
                 p
@@ -40,7 +40,7 @@ class AddOrderItemsForPlanByKeys(Tool):
         if not orders:
             return json.dumps({"error": "order not found for keys"})
         order = sorted(orders, key=lambda o: int(o.get("order_id", 0)), reverse=True)[0]
-        # Reuse AddOrderItemsFromList logic deterministically
+        # Deterministically reuse the logic for AddOrderItemsFromList.
         list_id = int(order.get("list_id"))
         items = [i for i in data.get("grocery_list_items", []) if int(i.get("list_id")) == list_id]
         oi_tbl = _tbl(data, "order_items")

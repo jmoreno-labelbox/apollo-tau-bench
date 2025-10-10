@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -32,7 +32,7 @@ class GetOverdueChecklistItemsTool(Tool):
                     item_copy["days_overdue"] = days_overdue
                     overdue_items.append(item_copy)
 
-        # Group by candidate
+        # Aggregate by candidate
         grouped_results = {}
         for item in overdue_items:
             cid = item.get("candidate_id")

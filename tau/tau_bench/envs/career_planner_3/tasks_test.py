@@ -250,7 +250,7 @@ TASKS = [
                 name="GetUsersWithLeadershipGoals",
                 kwargs={"user_ids": ["U306", "U312"]},
             ),
-            # --- Process Robert Thompson (U306) ---
+            # --- Handle Robert Thompson (U306) ---
             Action(name="GetUserGoals", kwargs={"user_id": "U306"}),
             Action(
                 name="GetUserSkillGap",
@@ -267,7 +267,7 @@ TASKS = [
                     "target_role": "Staff SRE",
                 },
             ),
-            # --- Process Michael Rodriguez (U312) ---
+            # --- Handle Michael Rodriguez (U312) ---
             Action(name="GetUserGoals", kwargs={"user_id": "U312"}),
             Action(
                 name="GetUserSkillGap",
@@ -303,7 +303,7 @@ TASKS = [
         actions=[
             Action(name="GetUserId", kwargs={"user_name": "Ava Nguyen"}),
             Action(name="GetUserId", kwargs={"user_name": "Harper Bennett"}),
-            # --- Process Ava Nguyen (U301) ---
+            # --- Handle Ava Nguyen (U301) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U301"}),
             Action(name="GetUserProfile", kwargs={"user_id": "U301"}),
             Action(
@@ -341,7 +341,7 @@ TASKS = [
                     "target_role": "Director of Data Science",
                 },
             ),
-            # --- Process Harper Bennett (U302) ---
+            # --- Execute Harper Bennett (U302) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U302"}),
         ],
         outputs=[]
@@ -353,7 +353,7 @@ TASKS = [
         instruction="Handle a readiness assessment for each member of the Engineering Team (T003). Should a member need training, propose and allocate a validated course to address their most critical skill gap.",
         actions=[
             Action(name="GetTeamMembers", kwargs={"team_id": "T003"}),
-            # --- Process Robert Thompson (U306) ---
+            # --- Handle Robert Thompson (U306) ---
             Action(name="GetUserGoals", kwargs={"user_id": "U306"}),
             Action(
                 name="GetUserSkillGap",
@@ -363,7 +363,7 @@ TASKS = [
                 name="CheckTrainingNeeded",
                 kwargs={"user_id": "U306", "target_role": "Staff SRE"},
             ),
-            # --- Process Michael Rodriguez (U312) ---
+            # --- Handle Michael Rodriguez (U312) ---
             Action(name="GetUserGoals", kwargs={"user_id": "U312"}),
             Action(
                 name="GetUserSkillGap",
@@ -395,7 +395,7 @@ TASKS = [
                 name="GetUsersWithLeadershipGoals",
                 kwargs={"user_ids": ["U306", "U312"]},
             ),
-            # --- Process Robert Thompson (U306) ---
+            # --- Handle Robert Thompson (U306) ---
             Action(name="GetUserGoals", kwargs={"user_id": "U306"}),
             Action(
                 name="GetUserSkillGap",
@@ -412,7 +412,7 @@ TASKS = [
                     "target_role": "Staff SRE",
                 },
             ),
-            # --- Process Michael Rodriguez (U312) ---
+            # --- Handle Michael Rodriguez (U312) ---
             Action(name="GetUserGoals", kwargs={"user_id": "U312"}),
             Action(
                 name="GetUserSkillGap",
@@ -440,7 +440,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 11 - ENHANCED COMPLEXITY: Added team validation, goal alignment, and multi-step assessment
+    # 11 - INCREASED COMPLEXITY: Introduced team validation, goal synchronization, and multi-phase evaluation.
     Task(
         annotator="0",
         user_id="res_111",
@@ -489,7 +489,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 12 - ENHANCED COMPLEXITY: Added comprehensive validation and assessment workflow
+    # 12 - IMPROVED COMPLEXITY: Implemented an extensive validation and evaluation process.
     Task(
         annotator="0",
         user_id="res_112",
@@ -525,7 +525,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 13 - ENHANCED COMPLEXITY: Added comprehensive team analysis and multi-user assessment
+    # 13 - IMPROVED COMPLEXITY: Incorporated detailed team evaluation and multi-user review.
     Task(
         annotator="0",
         user_id="res_113",
@@ -574,7 +574,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 14 - ENHANCED COMPLEXITY: Added comprehensive design team analysis and multi-step assessment
+    # 14 - INCREASED COMPLEXITY: Incorporated thorough design team evaluation and multi-phase assessment.
     Task(
         annotator="0",
         user_id="res_114",
@@ -607,7 +607,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 15 - ENHANCED COMPLEXITY: Added comprehensive engineering team analysis and multi-step assessment
+    # 15 - INCREASED COMPLEXITY: Introduced detailed engineering team evaluation and multi-phase assessment.
     Task(
         annotator="0",
         user_id="res_115",
@@ -648,7 +648,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 16 - ENHANCED COMPLEXITY: Added comprehensive HR analytics assessment and multi-step process
+    # 16 - IMPROVED COMPLEXITY: Introduced a detailed HR analytics evaluation and a multi-phase procedure.
     Task(
         annotator="0",
         user_id="res_116",
@@ -681,7 +681,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 17 - ENHANCED COMPLEXITY: Added comprehensive cross-team mentorship assessment
+    # 17 - INCREASED COMPLEXITY: Implemented a detailed evaluation of cross-team mentorship.
     Task(
         annotator="0",
         user_id="res_117",
@@ -722,7 +722,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 18 - ENHANCED COMPLEXITY: Added comprehensive data science team readiness program
+    # 18 - INCREASED COMPLEXITY: Implemented an extensive data science team preparedness initiative.
     Task(
         annotator="0",
         user_id="res_118",
@@ -771,7 +771,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 19 - ENHANCED COMPLEXITY: Added comprehensive engineering succession planning
+    # 19 - INCREASED COMPLEXITY: Implemented thorough engineering succession planning.
     Task(
         annotator="0",
         user_id="res_119",
@@ -782,7 +782,7 @@ TASKS = [
                 name="GetUsersWithLeadershipGoals",
                 kwargs={"user_ids": ["U306", "U312"]},
             ),
-            # --- Process Robert Thompson (U306) ---
+            # --- Handle Robert Thompson (U306) ---
             Action(name="GetUserGoals", kwargs={"user_id": "U306"}),
             Action(
                 name="GetUserSkillGap",
@@ -799,7 +799,7 @@ TASKS = [
                     "target_role": "Staff SRE",
                 },
             ),
-            # --- Process Michael Rodriguez (U312) ---
+            # --- Handle Michael Rodriguez (U312) ---
             Action(name="GetUserGoals", kwargs={"user_id": "U312"}),
             Action(
                 name="GetUserSkillGap",
@@ -827,7 +827,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 20 - COMPLEX: Conditional skill assessment and targeted training
+    # 20 - COMPLEX: Evaluation of skills based on conditions and focused training.
     Task(
         annotator="0",
         user_id="res_170",
@@ -869,7 +869,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 21 - COMPLEX: Role transition with skill assessment
+    # 21 - COMPLEX: Transitioning roles accompanied by skill evaluation
     Task(
         annotator="0",
         user_id="res_171",
@@ -882,7 +882,7 @@ TASKS = [
             Action(name="GetUserId", kwargs={"user_name": "Emily Johnson"}),
             Action(name="GetUserId", kwargs={"user_name": "Alexander Adams"}),
             Action(name="GetUserId", kwargs={"user_name": "Michael Rodriguez"}),
-            # --- Process Ava Nguyen (U301) ---
+            # --- Handle Ava Nguyen (U301) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U301"}),
             Action(name="GetUserProfile", kwargs={"user_id": "U301"}),
             Action(
@@ -920,7 +920,7 @@ TASKS = [
                     "target_role": "Director of Data Science",
                 },
             ),
-            # --- Process Michael Rodriguez (U304) ---
+            # --- Handle Michael Rodriguez (U304) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U304"}),
             Action(name="GetUserProfile", kwargs={"user_id": "U304"}),
             Action(
@@ -938,7 +938,7 @@ TASKS = [
                     "target_role": "DesignOps Lead",
                 },
             ),
-            # --- Process Ava Nguyen (U305) ---
+            # --- Handle Ava Nguyen (U305) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U305"}),
             Action(name="GetUserProfile", kwargs={"user_id": "U305"}),
             Action(
@@ -973,7 +973,7 @@ TASKS = [
                     "target_role": "Product Marketing Specialist",
                 },
             ),
-            # --- Process Robert Thompson (U306) ---
+            # --- Handle Robert Thompson (U306) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U306"}),
             Action(name="GetUserProfile", kwargs={"user_id": "U306"}),
             Action(
@@ -991,7 +991,7 @@ TASKS = [
                     "target_role": "Staff SRE",
                 },
             ),
-            # --- Process Emily Johnson (U308) ---
+            # --- Handle Emily Johnson (U308) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U308"}),
             Action(name="GetUserProfile", kwargs={"user_id": "U308"}),
             Action(
@@ -1009,7 +1009,7 @@ TASKS = [
                     "target_role": "UX Writer",
                 },
             ),
-            # --- Process Alexander Adams (U310) ---
+            # --- Handle Alexander Adams (U310) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U310"}),
             Action(name="GetUserProfile", kwargs={"user_id": "U310"}),
             Action(
@@ -1035,7 +1035,7 @@ TASKS = [
                     "target_role": "People Analytics Lead",
                 },
             ),
-            # --- Process Michael Rodriguez (U312) ---
+            # --- Handle Michael Rodriguez (U312) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U312"}),
             Action(name="GetUserProfile", kwargs={"user_id": "U312"}),
             Action(
@@ -1064,7 +1064,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 22 - COMPLEX: Succession planning with skill validation
+    # 22 - COMPLEX: Skill verification within succession planning.
     Task(
         annotator="0",
         user_id="res_172",
@@ -1105,7 +1105,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 23 - COMPLEX: Leadership readiness with skill prioritization
+    # 23 - COMPLEX: Assessing leadership preparedness while prioritizing skills
     Task(
         annotator="0",
         user_id="res_173",
@@ -1113,7 +1113,7 @@ TASKS = [
         actions=[
             Action(name="GetUserId", kwargs={"user_name": "Robert Thompson"}),
             Action(name="GetUserId", kwargs={"user_name": "Michael Rodriguez"}),
-            # --- Process Robert Thompson (U306) ---
+            # --- Handle Robert Thompson (U306) ---
             Action(
                 name="ValidateUserGoalAlignment",
                 kwargs={"user_id": "U306", "target_role": "Staff SRE"},
@@ -1133,7 +1133,7 @@ TASKS = [
                     "target_role": "Staff SRE",
                 },
             ),
-            # --- Process Michael Rodriguez (U304) ---
+            # --- Handle Michael Rodriguez (U304) ---
             Action(
                 name="ValidateUserGoalAlignment",
                 kwargs={"user_id": "U304", "target_role": "DesignOps Lead"},
@@ -1156,7 +1156,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 24 - COMPLEX: Technical leadership with team assessment
+    # 24 - COMPLEX: Technical guidance involving team evaluation
     Task(
         annotator="0",
         user_id="res_174",
@@ -1169,7 +1169,7 @@ TASKS = [
                 name="GetUsersWithLeadershipGoals",
                 kwargs={"user_ids": ["U306", "U312"]},
             ),
-            # --- Process Michael Rodriguez (U312) ---
+            # --- Handle Michael Rodriguez (U312) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U312"}),
             Action(
                 name="GetUserSkillGap",
@@ -1194,7 +1194,7 @@ TASKS = [
                     "target_role": "Backend Tech Lead",
                 },
             ),
-            # --- Process Robert Thompson (U306) ---
+            # --- Handle Robert Thompson (U306) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U306"}),
             Action(
                 name="GetUserSkillGap",
@@ -1214,7 +1214,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 25 - COMPLEX: Succession planning with conditional enrollment
+    # 25 - COMPLEX: Succession planning incorporating conditional enrollment.
     Task(
         annotator="0",
         user_id="res_175",
@@ -1270,7 +1270,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 26 - COMPLEX: Design leadership with skill prioritization
+    # 26 - COMPLEX: Leadership in design focusing on skill prioritization
     Task(
         annotator="0",
         user_id="res_176",
@@ -1278,7 +1278,7 @@ TASKS = [
         actions=[
             Action(name="GetUserId", kwargs={"user_name": "Michael Rodriguez"}),
             Action(name="GetUserId", kwargs={"user_name": "Michael Rodriguez"}),
-            # --- Process Michael Rodriguez (U304) ---
+            # --- Handle Michael Rodriguez (U304) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U304"}),
             Action(
                 name="GetUserSkillGap",
@@ -1295,7 +1295,7 @@ TASKS = [
                     "target_role": "DesignOps Lead",
                 },
             ),
-            # --- Process Michael Rodriguez (U312) ---
+            # --- Handle Michael Rodriguez (U312) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U312"}),
             Action(
                 name="GetUserSkillGap",
@@ -1323,7 +1323,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 27 - COMPLEX: Technical leadership with experience assessment
+    # 27 - COMPLEX: Technical guidance with experience evaluation
     Task(
         annotator="0",
         user_id="res_177",
@@ -1331,7 +1331,7 @@ TASKS = [
         actions=[
             Action(name="GetUserId", kwargs={"user_name": "Robert Thompson"}),
             Action(name="GetUserId", kwargs={"user_name": "Michael Rodriguez"}),
-            # --- Process Robert Thompson (U306) ---
+            # --- Handle Robert Thompson (U306) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U306"}),
             Action(
                 name="GetUserSkillGap",
@@ -1348,7 +1348,7 @@ TASKS = [
                     "target_role": "Staff SRE",
                 },
             ),
-            # --- Process Michael Rodriguez (U304) ---
+            # --- Handle Michael Rodriguez (U304) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U304"}),
             Action(
                 name="GetUserSkillGap",
@@ -1368,7 +1368,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 28 - COMPLEX: Dual career development with skill comparison
+    # 28 - COMPLEX: Concurrent career advancement with skill assessment
     Task(
         annotator="0",
         user_id="res_178",
@@ -1376,9 +1376,9 @@ TASKS = [
         actions=[
             Action(name="GetUserId", kwargs={"user_name": "Harper Bennett"}),
             Action(name="GetUserId", kwargs={"user_name": "Michael Rodriguez"}),
-            # --- Process Harper Bennett (U302) ---
+            # --- Handle Harper Bennett (U302) ---
             Action(name="GetUserGoals", kwargs={"user_id": "U302"}),
-            # --- Process Michael Rodriguez (U312) ---
+            # --- Handle Michael Rodriguez (U312) ---
             Action(name="GetUserGoals", kwargs={"user_id": "U312"}),
             Action(
                 name="GetUserSkillGap",
@@ -1406,7 +1406,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 29 - COMPLEX: Cross-functional leadership development
+    # 29 - COMPLEX: Development of leadership across various functions
     Task(
         annotator="0",
         user_id="res_179",
@@ -1453,7 +1453,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 30 - COMPLEX: Certification pathway with skill validation
+    # 30 - COMPLEX: Certification route with competency assessment
     Task(
         annotator="0",
         user_id="res_190",
@@ -1489,7 +1489,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 31 - COMPLEX: Role transition with skill assessment
+    # 31 - COMPLEX: Transitioning roles along with evaluating skills
     Task(
         annotator="0",
         user_id="res_191",
@@ -1497,7 +1497,7 @@ TASKS = [
         actions=[
             Action(name="GetUserId", kwargs={"user_name": "Ava Nguyen"}),
             Action(name="GetUserId", kwargs={"user_name": "Michael Rodriguez"}),
-            # --- Process Ava Nguyen (U305) ---
+            # --- Handle Ava Nguyen (U305) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U305"}),
             Action(
                 name="GetUserSkillGap",
@@ -1531,7 +1531,7 @@ TASKS = [
                     "target_role": "Product Marketing Specialist",
                 },
             ),
-            # --- Process Michael Rodriguez (U312) ---
+            # --- Handle Michael Rodriguez (U312) ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U312"}),
             Action(
                 name="GetUserSkillGap",
@@ -1559,7 +1559,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 32 - COMPLEX: Leadership readiness with skill prioritization
+    # 32 - COMPLEX: Assessing leadership preparedness by prioritizing skills.
     Task(
         annotator="0",
         user_id="res_192",
@@ -1599,7 +1599,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 33 - COMPLEX: Design leadership with skill prioritization
+    # 33 - COMPLEX: Leadership in design with an emphasis on skill prioritization.
     Task(
         annotator="0",
         user_id="res_193",
@@ -1607,7 +1607,7 @@ TASKS = [
         actions=[
             Action(name="GetUserId", kwargs={"user_name": "Michael Rodriguez"}),
             Action(name="GetUserId", kwargs={"user_name": "Ava Nguyen"}),
-            # --- Process Michael Rodriguez (U304) - No Training Needed ---
+            # --- Handle Michael Rodriguez (U304) - Training Not Required ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U304"}),
             Action(
                 name="GetUserSkillGap",
@@ -1628,7 +1628,7 @@ TASKS = [
                     "target_role": "DesignOps Lead",
                 },
             ),
-            # --- Process Ava Nguyen (U301) - Training Needed & Valid ---
+            # --- Process Ava Nguyen (U301) - Requires Training & Valid ---
             Action(name="GetUserTargetRole", kwargs={"user_id": "U301"}),
             Action(
                 name="GetUserSkillGap",
@@ -1672,7 +1672,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 34 - COMPLEX: Technical leadership with experience assessment
+    # 34 - COMPLEX: Technical guidance with experience evaluation
     Task(
         annotator="0",
         user_id="res_194",
@@ -1721,7 +1721,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 35 - COMPLEX: Technical milestone with skill assessment
+    # 35 - COMPLEX: Technical achievement accompanied by skill evaluation
     Task(
         annotator="0",
         user_id="res_195",
@@ -1769,7 +1769,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 36 - COMPLEX: Conditional training pathway with comprehensive assessment
+    # 36 - COMPLEX: Conditional training route featuring an extensive evaluation.
     Task(
         annotator="0",
         user_id="res_196",
@@ -1809,7 +1809,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 37 - COMPLEX: Leadership communication milestone with comprehensive evaluation
+    # 37 - COMPLEX: Leadership communication benchmark with thorough assessment
     Task(
         annotator="0",
         user_id="res_197",
@@ -1846,7 +1846,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 38 - COMPLEX: Senior data scientist accelerator with comprehensive assessment
+    # 38 - ADVANCED: Senior data scientist program with thorough evaluation
     Task(
         annotator="0",
         user_id="res_198",
@@ -1887,7 +1887,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 39 - COMPLEX: DesignOps accelerator with stakeholder alignment and comprehensive evaluation
+    # 39 - COMPLEX: DesignOps enhancement with alignment among stakeholders and thorough assessment.
     Task(
         annotator="0",
         user_id="res_199",
@@ -1924,7 +1924,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 40 - COMPLEX: Cloud security architect track with comprehensive assessment
+    # 40 - COMPLEX: Track for cloud security architects featuring an extensive evaluation.
     Task(
         annotator="0",
         user_id="res_230",

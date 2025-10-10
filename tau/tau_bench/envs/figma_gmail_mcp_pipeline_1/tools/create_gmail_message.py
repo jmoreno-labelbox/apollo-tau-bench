@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class CreateGmailMessage(Tool):  # WRITE
+class CreateGmailMessage(Tool):  # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -14,7 +14,7 @@ class CreateGmailMessage(Tool):  # WRITE
         thread_id: str = None,
         attachments_asset_ids: List[str] = None
     ) -> str:
-        # Validate input
+        # Check input for correctness.
         if not isinstance(sender_email, str) or not sender_email:
             return json.dumps({"error": "sender_email must be a non-empty string"})
         if not isinstance(workflow_type, str) or not workflow_type or workflow_type not in ['review', 'release']:
@@ -22,7 +22,7 @@ class CreateGmailMessage(Tool):  # WRITE
         gmail_messages = data.get("gmail_messages", [])
         next_num = len(gmail_messages) + 1
         message_id = f"msg_{next_num:03d}"
-        sent_ts = "2025-08-26T12:00:00Z"  # Use current date/time in production
+        sent_ts = "2025-08-26T12:00:00Z"  # Utilize the present date and time in the production environment.
         if workflow_type == "review":
             body_text_stripped = "Hi, please review the attached design."
         elif workflow_type == "release":

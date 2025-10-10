@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -36,7 +36,7 @@ class CreateNewAccountForCustomer(Tool):
             "status": "Active"
         }
 
-        # Optional fields
+        # Fields that are not mandatory
         if account_type == "Checking":
             new_account["overdraft_limit"] = 500.0
         elif account_type == "Savings":
@@ -45,10 +45,10 @@ class CreateNewAccountForCustomer(Tool):
             new_account["credit_limit"] = 10000.0
             new_account["rewards_points"] = 0
 
-        # Add to DB
+        # Insert into database
         data.setdefault("accounts", []).append(new_account)
 
-        # add to customer's account_ids
+        # append to the customer's account_ids
         customers = list(data.get("customers", {}).values())
         for customer in customers:
             if customer.get("customer_id") == customer_id:

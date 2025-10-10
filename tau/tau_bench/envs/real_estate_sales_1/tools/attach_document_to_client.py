@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class AttachDocumentToClient(Tool):
                 "error": "client_id and document_id are required"
             }, indent=2)
         
-        # Create attachment record
+        # Generate an attachment entry.
         attachment = {
             "attachment_id": 701,
             "client_id": client_id,

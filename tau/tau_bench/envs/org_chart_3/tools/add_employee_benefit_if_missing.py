@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class add_employee_benefit_if_missing(Tool):
         if benefit_plan_id in current_benefits:
             return json.dumps({"success": f"Employee {employee_id} already has benefit {benefit_plan_id}, no change needed"}, indent=2)
 
-        # Add the missing benefit
+        # Include the absent advantage.
         new_benefits = list(current_benefits)
         new_benefits.append(benefit_plan_id)
         employee["benefit_plan_ids"] = new_benefits

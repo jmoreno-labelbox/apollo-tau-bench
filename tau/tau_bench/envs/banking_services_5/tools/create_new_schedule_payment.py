@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,11 +18,11 @@ class CreateNewSchedulePayment(Tool):
         start_date_str    = kwargs.get("start_date")
         end_date_str      = kwargs.get("end_date")
 
-        # required fields
+        # mandatory fields
         if not all([customer_id, source_account_id, beneficiary_id, amount, currency, frequency, start_date_str]):
             return json.dumps({"error": "All required fields must be provided."}, indent=2)
 
-        # parse dates
+        # process date strings
         try:
             start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
         except ValueError:
@@ -34,7 +34,7 @@ class CreateNewSchedulePayment(Tool):
             except ValueError:
                 return json.dumps({"error": "end_date must be YYYY-MM-DD."}, indent=2)
 
-        # validate source account and balance
+        # check the source account and its balance
         account = next((a for a in list(data.get("accounts", {}).values()) if a["account_id"] == source_account_id), None)
         if not account:
             return json.dumps({"error": "Source account not found."}, indent=2)
@@ -44,11 +44,11 @@ class CreateNewSchedulePayment(Tool):
         if account.get("balance", 0.0) < amount:
             status = "Paused"
         else:
-            # deduct immediately
+            # subtract right away
             account["balance"] -= amount
             status = "One-Time" if frequency == "One-Time" else "Active"
 
-        # compute next_payment_date
+        # calculate next_payment_date
         if frequency == "One-Time":
             next_payment_date = start_date
         elif frequency == "Weekly":
@@ -62,7 +62,7 @@ class CreateNewSchedulePayment(Tool):
         else:
             return json.dumps({"error": f"Unsupported frequency '{frequency}'."}, indent=2)
 
-        # check end_date
+        # verify end_date
         if end_date and next_payment_date.date() > end_date.date():
             status = "Completed"
 

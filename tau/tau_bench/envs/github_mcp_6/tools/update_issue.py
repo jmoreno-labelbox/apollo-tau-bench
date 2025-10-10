@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class UpdateIssue(Tool):
         issues_data = list(data.get("issues", {}).values())
         auth_users = data.get("authentication", [])
 
-        # Get current user for tracking
+        # Retrieve the current user for monitoring purposes.
         current_user = auth_users[0]["username"] if auth_users else "system"
         update_timestamp = "2023-12-05T12:00:00Z"
 
@@ -21,7 +21,7 @@ class UpdateIssue(Tool):
                 try:
                     issue_idx = issue_entry["issue_numbers"].index(issue_number)
 
-                    # Store previous values for change tracking
+                    # Retain prior values for monitoring changes.
                     previous_values = {
                         "title": issue_entry["issue_titles"][issue_idx],
                         "body": issue_entry.get("issue_bodies", [""])[issue_idx] if issue_idx < len(issue_entry.get("issue_bodies", [])) else "",
@@ -31,10 +31,10 @@ class UpdateIssue(Tool):
                         "updated_at": issue_entry.get("updated_ts", [""])[issue_idx] if issue_idx < len(issue_entry.get("updated_ts", [])) else ""
                     }
 
-                    # Track which fields are being updated
+                    # Monitor the fields that are being modified.
                     updated_fields = []
 
-                    # Update fields if provided
+                    # Modify fields if they are supplied.
                     if title is not None and title != previous_values["title"]:
                         issue_entry["issue_titles"][issue_idx] = title
                         updated_fields.append("title")
@@ -57,7 +57,7 @@ class UpdateIssue(Tool):
                         updated_fields.append("labels")
 
                     if assignees is not None and assignees != previous_values["assignees"]:
-                        # Validate assignees parameter
+                        # Verify the assignees parameter.
                         if assignees is None:
                             assignees = []
                         elif not isinstance(assignees, list):
@@ -66,18 +66,18 @@ class UpdateIssue(Tool):
                         issue_entry["assignees"][issue_idx] = assignees
                         updated_fields.append("assignees")
 
-                    # Update timestamp
+                    # Refresh the timestamp.
                     if "updated_ts" not in issue_entry:
                         issue_entry["updated_ts"] = ["2023-12-05T12:00:00Z"] * len(issue_entry["issue_numbers"])
                     issue_entry["updated_ts"][issue_idx] = update_timestamp
 
-                    # Calculate activity metrics (mock based on changes)
+                    # Compute activity metrics (simulated based on modifications)
                     comments_added_today = 1 if any(field in ["body", "assignees"] for field in updated_fields) else 0
                     label_changes_this_week = 1 if "labels" in updated_fields else 0
                     assignee_changes = 1 if "assignees" in updated_fields else 0
                     state_changes = 1 if "state" in updated_fields else 0
 
-                    # Generate timeline events
+                    # Create events for the timeline.
                     timeline_events = []
                     for field in updated_fields:
                         if field == "labels":
@@ -91,12 +91,12 @@ class UpdateIssue(Tool):
                         elif field == "body":
                             timeline_events.append(f"Description updated")
 
-                    # Mock notifications sent (based on assignee changes)
+                    # Simulated notifications dispatched (triggered by assignee modifications)
                     notifications_sent = []
                     if "assignees" in updated_fields:
-                        notifications_sent = assignees[:3] if assignees else []  # Limit to 3
+                        notifications_sent = assignees[:3] if assignees else []  # Restrict to a maximum of three.
 
-                    # Mock automation triggered (based on label/state changes)
+                    # Automated mock initiated (due to label/state modifications).
                     automation_triggered = []
                     if "labels" in updated_fields:
                         if "bug" in (labels or []):
@@ -109,18 +109,18 @@ class UpdateIssue(Tool):
                         elif state == "open":
                             automation_triggered.append("reopened-alert")
 
-                    # Get current issue data for response
+                    # Retrieve data on the current issue for the response.
                     current_data = {
                         "number": issue_number,
                         "title": issue_entry["issue_titles"][issue_idx],
                         "state": issue_entry["issue_states"][issue_idx],
                         "labels": issue_entry["labels"][issue_idx],
                         "assignees": issue_entry["assignees"][issue_idx],
-                        "milestone": milestone,  # Use provided milestone or None
+                        "milestone": milestone,  # Utilize the supplied milestone or specify None.
                         "updated_fields": updated_fields
                     }
 
-                    # Generate version number (mock incremental version)
+                    # Create a version identifier (simulated incremental version)
                     version = len(updated_fields) + 1
 
                     result = {
@@ -152,7 +152,7 @@ class UpdateIssue(Tool):
 
         return json.dumps({
             "success": False,
-            "error": f"Issue #{issue_number} not found in repository {owner}/{repo}",
+            "error": f"Issue # "{issue_number} does not exist in the {owner}/{repo} repository."
             "error_code": "ISSUE_NOT_FOUND",
             "metadata": {
                 "repository": f"{owner}/{repo}",
@@ -160,7 +160,7 @@ class UpdateIssue(Tool):
                 "search_timestamp": update_timestamp
             },
             "suggestions": [
-                f"Check if issue #{issue_number} exists in repository {owner}/{repo}",
+                f"Check if issue # The issue number {issue_number} is present in the repository {owner}/{repo}.
                 "Verify repository name and owner are correct",
                 "Use search_issues tool to find available issues"
             ]

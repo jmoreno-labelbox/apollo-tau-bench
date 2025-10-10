@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class increase_employee_compensation(Tool):
     def invoke(data: Dict[str, Any], employee_id: str, compensation_id: str, effective_date: str,
                salary_increase_pct: Optional[float] = None, bonus_increase_pct: Optional[float] = None,
                equity_increase_amount: Optional[float] = None) -> str:
-        # Get current compensation
+        # Retrieve the current compensation.
         comp = data.get("compensation_records", [])
         current = [c for c in comp if c["employee_id"] == employee_id]
         current.sort(key=lambda c: c["effective_date"], reverse=True)
@@ -20,7 +20,7 @@ class increase_employee_compensation(Tool):
 
         latest = current[0]
 
-        # Calculate new values
+        # Compute updated values.
         new_salary = latest["base_salary"]
         new_bonus = latest["bonus_target_pct"]
         new_equity = latest["equity_grant"]
@@ -34,7 +34,7 @@ class increase_employee_compensation(Tool):
         if equity_increase_amount:
             new_equity = latest["equity_grant"] + equity_increase_amount
 
-        # Create new compensation record
+        # Generate a new salary record.
         new_comp = {
             "compensation_id": compensation_id,
             "employee_id": employee_id,
@@ -45,7 +45,7 @@ class increase_employee_compensation(Tool):
             "effective_date": effective_date
         }
 
-        # Remove old record with same ID if exists and add new one
+        # Eliminate any existing record with the same ID before adding the new entry.
         comp = [c for c in comp if c["compensation_id"] != compensation_id]
         comp.append(new_comp)
         data["compensation_records"] = comp

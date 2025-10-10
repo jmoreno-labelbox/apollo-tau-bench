@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class GetTrackingHistory(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str) -> str:
         tracking_records = data.get("tracking", [])
-        # tracking.json entries are assumed to have: order_id, tracking_history, tracking_id[], address, etc.
+        # Entries in tracking.json are expected to contain: order_id, tracking_history, tracking_id[], address, among others.
         for rec in tracking_records:
             if rec.get("order_id") == order_id:
                 return json.dumps({

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -36,7 +36,7 @@ class SearchRepositoriesTool(Tool):
 
         repos = list(data.get('repositories', {}).values())
         repo = next((c for c in repos if c["repo_name"] == query), None)
-        # repo = get_data(repos, query)
+        # repo = fetch_data(repos, query)
 
         if not repo:
             return json.dumps(
@@ -44,7 +44,7 @@ class SearchRepositoriesTool(Tool):
                 indent=2,
             )
         else:
-            # Simulate document verification logic
+            # Emulate the logic for verifying documents.
             return json.dumps(
                 {"status": "success", "exists": True, "message": "Target repo found"}, indent=2
             )

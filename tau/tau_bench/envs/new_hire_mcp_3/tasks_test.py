@@ -1375,41 +1375,41 @@ TASKS = [
 
     Task(
         annotator="R",
-        user_id="onboarding_ds_005",#p
+        user_id="onboarding_ds_005",# It seems there was an error with your request. Please provide the comment you'd like paraphrased.
         instruction=(
             "Handle asset reassignment for candidate cand_5: release old laptop LT-005, assign new laptop LT-005B, ensure completion of checklist item check_501, verify the onboarding file id_scan.pdf, apply email label 'AssetUpdate' to email email_501, log all updates, and update the candidate record."
         ),
         actions=[
-            # Update multiple email labels
+            # Modify several email tags.
             Action(name="UpdateEmailLabel", kwargs={"label_id": "label_2", "updates": {"priority": "Urgent"}}),
             Action(name="UpdateEmailLabel", kwargs={"label_id": "label_3", "updates": {"priority": "High"}}),
 
-            # Process multiple emails
+            # Handle several email messages.
             Action(name="UpdateEmail", kwargs={"email_id": "email_101", "updates": {"processed": True}}),
             Action(name="UpdateEmail", kwargs={"email_id": "email_102", "updates": {"processed": True}}),
 
-            # Apply labels to emails
+            # Assign tags to emails.
             Action(name="ApplyLabelToEmail", kwargs={"email_id": "email_101", "label_id": "label_2"}),
             Action(name="ApplyLabelToEmail", kwargs={"email_id": "email_102", "label_id": "label_3"}),
 
-            # Update onboarding files
+            # Revise onboarding documents.
             Action(name="UpdateOnboardingFile",
                    kwargs={"candidate_id": "cand_6", "updates": {"email_label_applied": True}}),
             Action(name="AddOnboardingFile", kwargs={"candidate_id": "cand_6", "file_name": "Email Confirmation",
                                                        "file_path": "/onboarding/email_confirmation.pdf"}),
 
-            # Assign an asset
+            # Allocate an asset
             Action(name="AssignAsset", kwargs={"asset_tag": "LT-MAC-001", "candidate_id": "cand_6"}),
             Action(name="UpdateAsset", kwargs={"asset_tag": "LT-MAC-001", "updates": {"status": "Assigned"}}),
 
-                # Terminal logs
+                # Console output logs
             Action(name="RecordTerminalLog",
                    kwargs={"event_type": "EMAIL_LABEL_UPDATED", "message": "Email labels 'Urgent' and 'High' applied for cand_6"}),
             Action(name="RecordTerminalLog",
                    kwargs={"event_type": "ONBOARDING_FILE_UPDATED", "message": "Onboarding files updated for cand_6"}),
             Action(name="RecordTerminalLog", kwargs={"event_type": "ASSET_ASSIGNED", "message": "Laptop assigned to cand_6"}),
 
-                # Update candidate onboarding status
+                # Revise the onboarding status of the candidate.
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_6", "updates": {"onboarding_status": "Ready"}})
             ],
             outputs = [
@@ -1455,7 +1455,7 @@ TASKS = [
 
     Task(
         annotator="R",
-        user_id="onboarding_ds_007",#p
+        user_id="onboarding_ds_007",# It seems you've entered a single letter "p." Could you please provide a specific comment to paraphrase?
         instruction=(
             "Authorize the laptop and phone requests for candidate cand_7, allocate the assets, and make sure the onboarding documents indicate the asset allocation. Desired outcome: asset requests are indicated as 'Approved'; assets PH-LAPTOP-007 and PH-IPHONE-007 are allocated to cand_7; onboarding documents display phone_assigned=True and laptop_assigned=True; terminal logs record the assignment and authorization activities."
         ),
@@ -1551,17 +1551,17 @@ TASKS = [
             "Handle the complete onboarding process for candidate cand_7: approve every asset request (laptop, phone, accessories), allocate assets, finalize all checklist items, give approval for all access checks, update several onboarding files, apply numerous email labels, and document terminal logs for each step. End state: all assets allocated; checklist items finalized; access checks approved; onboarding files updated; emails labeled; logs document all actions; candidate status indicates full onboarding."
         ),
         actions=[
-            # Asset requests approval
+            # Approval for asset requests
             Action(name="UpdateAssetRequest", kwargs={"request_id": "req_501", "updates": {"status": "Approved"}}),
             Action(name="UpdateAssetRequest", kwargs={"request_id": "req_502", "updates": {"status": "Approved"}}),
 
-            # Assign assets
+            # Allocate resources
             Action(name="AssignAsset", kwargs={"asset_tag": "PH-LAPTOP-010", "candidate_id": "cand_7"}),
             Action(name="AssignAsset", kwargs={"asset_tag": "PH-IPHONE-005", "candidate_id": "cand_7"}),
             Action(name="AssignAsset", kwargs={"asset_tag": "ACC-MOUSE-001", "candidate_id": "cand_7"}),
             Action(name="AssignAsset", kwargs={"asset_tag": "ACC-KEYBOARD-002", "candidate_id": "cand_7"}),
 
-            # Update onboarding files
+            # Revise onboarding documentation.
             Action(name="UpdateOnboardingFile", kwargs={"file_path": "files/welcome_guide.pdf",
                                                           "updates": {"laptop_assigned": True,
                                                                       "phone_assigned": True}}),
@@ -1570,21 +1570,21 @@ TASKS = [
             Action(name="UpdateOnboardingFile",
                    kwargs={"file_path": "files/policy_acknowledgment.pdf", "updates": {"acknowledged": True}}),
 
-            # Checklist completion
+            # Checklist finalized.
             Action(name="UpdateChecklistItem", kwargs={"item_id": "check_701", "updates": {"status": "Completed"}}),
             Action(name="UpdateChecklistItem", kwargs={"item_id": "check_702", "updates": {"status": "Completed"}}),
             Action(name="UpdateChecklistItem", kwargs={"item_id": "check_703", "updates": {"status": "Completed"}}),
 
-            # Access checks
+            # Permission validations
             Action(name="UpdateAccessCheck", kwargs={"check_id": "access_901", "updates": {"status": "Approved"}}),
             Action(name="UpdateAccessCheck", kwargs={"check_id": "access_902", "updates": {"status": "Approved"}}),
             Action(name="UpdateAccessCheck", kwargs={"check_id": "access_903", "updates": {"status": "Approved"}}),
 
-            # Email labels
+            # Email tags
             Action(name="ApplyLabelToEmail", kwargs={"email_id": "email_701", "label_id": "label_Welcome"}),
             Action(name="ApplyLabelToEmail", kwargs={"email_id": "email_702", "label_id": "label_Policy"}),
 
-            # Terminal logs
+            # Command line output logs
             Action(name="RecordTerminalLog", kwargs={"event_type": "ASSET_REQUEST_APPROVED",
                                                        "message": "Asset requests req_501 and req_502 approved",
                                                        "candidate_id": "cand_7"}),
@@ -1601,7 +1601,7 @@ TASKS = [
                    kwargs={"event_type": "EMAIL_LABEL_APPLIED", "message": "Emails email_701 and email_702 labeled",
                            "candidate_id": "cand_7"}),
 
-            # Candidate status update
+            # Update on candidate status
             Action(name="UpdateCandidate",
                    kwargs={"candidate_id": "cand_7", "updates": {"onboarding_status": "OnboardingCompleted"}})
         ],
@@ -2390,42 +2390,42 @@ TASKS = [
             "Handle the comprehensive multi-step onboarding for candidate cand_2: approve every pending asset request, assign all applicable assets, finalize each checklist item, authorize access checks, refresh onboarding files with asset and policy information, utilize suitable email labels, and meticulously log terminal activities throughout the process. Final goal: candidate cand_2 is fully assigned assets, checklist is finalized, access checks are authorized, onboarding files are updated, emails bear appropriate labels, and the candidate's status reads as fully completed."
         ),
         actions=[
-            # Asset requests approval
+            # Approval for asset requests
             Action(name="UpdateAssetRequest", kwargs={"request_id": "req_201", "updates": {"status": "Approved"}}),
             Action(name="UpdateAssetRequest", kwargs={"request_id": "req_202", "updates": {"status": "Approved"}}),
 
-            # Asset assignments
+            # Allocation of assets
             Action(name="AssignAsset", kwargs={"asset_tag": "PH-LAPTOP-002", "candidate_id": "cand_2"}),
             Action(name="AssignAsset", kwargs={"asset_tag": "PH-IPHONE-002", "candidate_id": "cand_2"}),
             Action(name="AssignAsset", kwargs={"asset_tag": "ACC-MOUSE-003", "candidate_id": "cand_2"}),
 
-            # Onboarding files updates
+            # Updates to onboarding documents
             Action(name="UpdateOnboardingFile", kwargs={"file_path": "files/welcome_guide_cand2.pdf", "updates": {"laptop_assigned": True, "phone_assigned": True}}),
             Action(name="UpdateOnboardingFile", kwargs={"file_path": "files/id_scan_cand2.pdf", "updates": {"verified": True}}),
             Action(name="UpdateOnboardingFile", kwargs={"file_path": "files/policy_ack_cand2.pdf", "updates": {"acknowledged": True}}),
 
-            # Checklist items completion
+            # Completion of checklist items
             Action(name="UpdateChecklistItem", kwargs={"item_id": "check_201", "updates": {"status": "Completed"}}),
             Action(name="UpdateChecklistItem", kwargs={"item_id": "check_202", "updates": {"status": "Completed"}}),
             Action(name="UpdateChecklistItem", kwargs={"item_id": "check_203", "updates": {"status": "Completed"}}),
 
-            # Access checks approval
+            # Authorization for access verification
             Action(name="UpdateAccessCheck", kwargs={"check_id": "access_201", "updates": {"status": "Approved"}}),
             Action(name="UpdateAccessCheck", kwargs={"check_id": "access_202", "updates": {"status": "Approved"}}),
 
-            # Email labels
+            # Email tags
             Action(name="ApplyLabelToEmail", kwargs={"email_id": "email_201", "label_id": "label_Welcome"}),
             Action(name="ApplyLabelToEmail", kwargs={"email_id": "email_202", "label_id": "label_Policy"}),
             Action(name="ApplyLabelToEmail", kwargs={"email_id": "email_203", "label_id": "label_Onboarding"}),
 
-            # Terminal logs
+            # Command line logs
             Action(name="RecordTerminalLog", kwargs={"event_type": "ASSET_REQUEST_APPROVED", "message": "Asset requests req_201 and req_202 approved", "candidate_id": "cand_2"}),
             Action(name="RecordTerminalLog", kwargs={"event_type": "ASSETS_ASSIGNED", "message": "Laptop, phone, and mouse assigned", "candidate_id": "cand_2"}),
             Action(name="RecordTerminalLog", kwargs={"event_type": "CHECKLIST_COMPLETED", "message": "Checklist items completed", "candidate_id": "cand_2"}),
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_CHECK_APPROVED", "message": "Access checks approved", "candidate_id": "cand_2"}),
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_LABELS_APPLIED", "message": "Emails labeled 'Welcome', 'Policy', 'Onboarding'", "candidate_id": "cand_2"}),
 
-            # Candidate update
+            # Update on the candidate
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_2", "updates": {"onboarding_status": "OnboardingCompleted"}})
         ],
         outputs=[]
@@ -2491,46 +2491,46 @@ TASKS = [
 
     Task(
         annotator="R",
-        user_id="onboarding_ds_016",#p
+        user_id="onboarding_ds_016",# It seems you entered a single letter, which does not provide enough context for paraphrasing. Please provide a complete comment for me to paraphrase.
         instruction=(
             "Oversee the entire multi-step onboarding for candidate cand_1: authorize all asset requests, allocate all assets, finalize all checklist items, authorize all access checks, update all onboarding files, apply multiple email labels, and document detailed terminal logs for each step. End state: all assets allocated, onboarding files revised, checklist items finalized, access checks authorized, emails labeled, and candidate status indicates full completion."
         ),
         actions=[
-            # Asset requests approval
+            # Approval for asset requests
             Action(name="UpdateAssetRequest", kwargs={"request_id": "req_101", "updates": {"status": "Approved"}}),
             Action(name="UpdateAssetRequest", kwargs={"request_id": "req_102", "updates": {"status": "Approved"}}),
 
-            # Asset assignments
+            # Asset allocations
             Action(name="AssignAsset", kwargs={"asset_tag": "PH-LAPTOP-001", "candidate_id": "cand_1"}),
             Action(name="AssignAsset", kwargs={"asset_tag": "PH-IPHONE-001", "candidate_id": "cand_1"}),
             Action(name="AssignAsset", kwargs={"asset_tag": "ACC-MOUSE-002", "candidate_id": "cand_1"}),
             Action(name="AssignAsset", kwargs={"asset_tag": "ACC-KEYBOARD-002", "candidate_id": "cand_1"}),
 
-            # Onboarding files updates
+            # Updates to onboarding files
             Action(name="UpdateOnboardingFile", kwargs={"file_path": "files/welcome_guide.pdf", "updates": {"laptop_assigned": True, "phone_assigned": True}}),
             Action(name="UpdateOnboardingFile", kwargs={"file_path": "files/id_scan.pdf", "updates": {"verified": True}}),
             Action(name="UpdateOnboardingFile", kwargs={"file_path": "files/policy_acknowledgment.pdf", "updates": {"acknowledged": True}}),
 
-            # Checklist items completion
+            # Completion of checklist items
             Action(name="UpdateChecklistItem", kwargs={"item_id": "check_101", "updates": {"status": "Completed"}}),
             Action(name="UpdateChecklistItem", kwargs={"item_id": "check_102", "updates": {"status": "Completed"}}),
 
-            # Access checks approval
+            # Authorization for access verification
             Action(name="UpdateAccessCheck", kwargs={"check_id": "access_101", "updates": {"status": "Approved"}}),
             Action(name="UpdateAccessCheck", kwargs={"check_id": "access_102", "updates": {"status": "Approved"}}),
 
-            # Email labels
+            # Email tags
             Action(name="ApplyLabelToEmail", kwargs={"email_id": "email_101", "label_id": "label_Welcome"}),
             Action(name="ApplyLabelToEmail", kwargs={"email_id": "email_102", "label_id": "label_Policy"}),
 
-            # Terminal logs
+            # Console logs
             Action(name="RecordTerminalLog", kwargs={"event_type": "ASSET_REQUEST_APPROVED", "message": "Asset requests req_101 and req_102 approved", "candidate_id": "cand_1"}),
             Action(name="RecordTerminalLog", kwargs={"event_type": "ASSETS_ASSIGNED", "message": "Laptop, phone, mouse, and keyboard assigned", "candidate_id": "cand_1"}),
             Action(name="RecordTerminalLog", kwargs={"event_type": "CHECKLIST_COMPLETED", "message": "Checklist items completed", "candidate_id": "cand_1"}),
             Action(name="RecordTerminalLog", kwargs={"event_type": "ACCESS_CHECK_APPROVED", "message": "Access checks approved", "candidate_id": "cand_1"}),
             Action(name="RecordTerminalLog", kwargs={"event_type": "EMAIL_LABELS_APPLIED", "message": "Emails labeled 'Welcome' and 'Policy'", "candidate_id": "cand_1"}),
 
-            # Candidate update
+            # Update on the candidate
             Action(name="UpdateCandidate", kwargs={"candidate_id": "cand_1", "updates": {"onboarding_status": "OnboardingCompleted"}})
         ],
         outputs=[]

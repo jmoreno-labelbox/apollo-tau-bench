@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class UpdateAccessRequestStatusTool(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # support either approve/notes or explicit status
+        # support either approval/comments or a defined status
         status = kwargs.get("status")
         approve = kwargs.get("approve")
         notes = kwargs.get("notes")

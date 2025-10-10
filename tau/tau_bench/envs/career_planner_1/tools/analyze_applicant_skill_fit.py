@@ -6,20 +6,20 @@ from typing import Any
 class AnalyzeApplicantSkillFit(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], applicant_id: str = None, role: str = None) -> str:
-        # Retrieve user skills - manage the actual data structure
+        # Fetch user skills - handle the current data structure.
         user_skill_names = set()
 
-        # Locate the user within the users data
+        # Find the user in the user data set.
         user = next((u for u in data.get("users", {}).values() if u.get("user_id") == applicant_id), {}).values()
         if user:
-            # Examine the skills_current field (actual data structure)
+            # Inspect the skills_current attribute (current data schema).
             user_skills = user.get("skills_current", [])
             if isinstance(user_skills, list):
                 for skill_obj in user_skills:
                     if isinstance(skill_obj, dict) and skill_obj.get("skill"):
                         user_skill_names.add(skill_obj.get("skill"))
 
-            # Additionally verify if a legacy "skills" field exists
+            # Also check for the presence of an older "skills" field.
             if not user_skill_names:
                 user_skills = user.get("skills", [])
                 if isinstance(user_skills, list):
@@ -29,7 +29,7 @@ class AnalyzeApplicantSkillFit(Tool):
                         elif isinstance(skill, dict) and skill.get("skill"):
                             user_skill_names.add(skill.get("skill"))
 
-        # Attempt to use the user_skills table as a backup
+        # Try utilizing the user_skills table as a fallback option.
         if not user_skill_names:
             user_skills_entry = next(
                 (u for u in data.get("user_skills", {}).values() if u.get("user_id") == applicant_id), {}
@@ -43,11 +43,11 @@ class AnalyzeApplicantSkillFit(Tool):
                         elif isinstance(skill, dict) and skill.get("skill"):
                             user_skill_names.add(skill.get("skill"))
 
-        # Debug: Verify if the user was located
+        # Check: Confirm the user's location status.
         if not user_skill_names:
             return f"Error: No skills found for user {applicant_id}"
 
-        # Retrieve role skills with mapping assistance
+        # Obtain role skills with mapping support.
         role_mapping = {
             "AI Researcher": "Senior Data Scientist",
             "Security Analyst": "Cloud Security Specialist",
@@ -72,7 +72,7 @@ class AnalyzeApplicantSkillFit(Tool):
         )
         role_skills_raw = role_rec.get("required_skills", [])
 
-        # Carefully extract skill names from possibly mixed data
+        # Diligently retrieve skill names from potentially unstructured data.
         role_skill_names = set()
         for skill_item in role_skills_raw:
             if isinstance(skill_item, str):
@@ -80,20 +80,20 @@ class AnalyzeApplicantSkillFit(Tool):
             elif isinstance(skill_item, dict) and skill_item.get("skill"):
                 role_skill_names.add(skill_item.get("skill"))
 
-        # Identify matches - manage both direct matches and hierarchical skills
+        # Detect matches - handle both exact matches and hierarchical competencies.
         matched = []
         missing = []
 
-        # Examine each skill requirement for the role
+        # Review the skill prerequisites for the position.
         for role_skill in role_skill_names:
-            # Verify for a direct match initially
+            # First, confirm a direct match.
             if role_skill in user_skill_names:
                 matched.append(role_skill)
             else:
-                # Determine if any user skill aligns with this role requirement
+                # Check if any user skills match the requirements of this role.
                 skill_matched = False
 
-                # Retrieve the specific skills for this role requirement from the catalog
+                # Obtain the required skills for this position from the catalog.
                 role_rec = next(
                     (
                         r
@@ -108,7 +108,7 @@ class AnalyzeApplicantSkillFit(Tool):
                         and skill_category.get("skill") == role_skill
                     ):
                         specific_skills = skill_category.get("specific_skills", [])
-                        # Verify if the user possesses any of the specific skills in this category
+                        # Check if the user has any of the designated skills in this category.
                         for user_skill in user_skill_names:
                             if user_skill in specific_skills:
                                 matched.append(role_skill)
@@ -120,7 +120,7 @@ class AnalyzeApplicantSkillFit(Tool):
                 if not skill_matched:
                     missing.append(role_skill)
 
-        # Structure the response
+        # Organize the reply.
         match_count = len(matched)
         skill_percentage = (
             round((match_count / len(role_skill_names)) * 100)

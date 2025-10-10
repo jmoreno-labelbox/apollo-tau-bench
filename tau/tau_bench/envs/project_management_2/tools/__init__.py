@@ -1,5 +1,4 @@
-import uuid
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .search_tasks import SearchTasks
 from .create_task import CreateTask

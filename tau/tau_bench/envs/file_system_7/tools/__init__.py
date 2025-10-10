@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 from .scan_incomplete_tasks_tool import ScanIncompleteTasksTool
 from .parse_file_check_instructions_tool import ParseFileCheckInstructionsTool

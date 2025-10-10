@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class GetAllPitchesForGame(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         game_pk = kwargs.get("game_pk")
 
-        # 1) Validate
+        # 1) Verify
         if game_pk is None:
             return json.dumps({"error": "Missing required field: game_pk"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         pitches: List[Dict[str, Any]] = list(data.get("pitches", {}).values())
 
-        # 3) Filter and deterministic order within game
+        # 3) Apply filtering and establish a fixed sequence in the game.
         result = [p for p in pitches if p.get("game_pk") == game_pk]
         if not result:
             return json.dumps({"error": f"No pitches found for game_pk {game_pk}"}, indent=2)

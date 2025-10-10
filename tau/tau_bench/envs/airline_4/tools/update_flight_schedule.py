@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class UpdateFlightSchedule(Tool):
         max_preview: int = 0
     ) -> str:
         dates_list = dates or []
-        # 🔹 Normalize + validate immediately when status is provided
+        # 🔹 Immediately normalize and validate when a status is given.
         if status is not None:
             s = _norm_status(status)
             if s and s not in FLIGHT_STATUS:
@@ -37,9 +37,9 @@ class UpdateFlightSchedule(Tool):
                     "provided": status,
                     "allowed": sorted(list(FLIGHT_STATUS))
                 })
-            status = s  # overwrite with normalized lowercase
+            status = s  # replace with normalized lowercase
 
-        # basic validation
+        # fundamental verification
         if not isinstance(dates_list, list):
             return _json({"error": "invalid_dates_param"})
         if not dates_list and not (start_date and end_date):
@@ -51,7 +51,7 @@ class UpdateFlightSchedule(Tool):
         if not f:
             return _json({"error": "not_found", "entity": "flight", "flight_number": flight_number})
 
-        # Build target date set deterministically
+        # Establish the target date in a deterministic manner.
         targets: Set[str] = set()
         if dates_list:
             for d in dates_list:
@@ -61,7 +61,7 @@ class UpdateFlightSchedule(Tool):
             for d in (f.get("dates") or {}):
                 if start_date <= d <= end_date:
                     targets.add(d)
-            # create missing dates within the window
+            # generate absent dates within the specified range
             from datetime import datetime, timedelta
             def iter_days(s: str, e: str):
                 ds = datetime.strptime(s, "%Y-%m-%d").date()

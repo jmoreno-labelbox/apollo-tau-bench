@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -45,7 +45,7 @@ class SendBatchReminderEmailsTool(Tool):
             context = { "name": candidate.get("candidate_name"), "tasks": ", ".join([t.get("task_name", "") for t in overdue_tasks]) }
             rendered = _get_hardcoded_template_and_render(template_name, context)
 
-            # Create Email
+            # Generate Email
             new_email_id = _next_str_id(emails, "message_id", "msg_")
             new_email = {
                 "message_id": new_email_id,
@@ -61,7 +61,7 @@ class SendBatchReminderEmailsTool(Tool):
             }
             emails.append(new_email)
 
-            # Update checklist items
+            # Revise checklist entries
             updated_items = []
             for item in overdue_tasks:
                 item["reminder_sent_flag"] = True

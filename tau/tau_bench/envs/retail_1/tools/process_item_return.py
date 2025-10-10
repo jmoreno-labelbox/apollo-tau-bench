@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class ProcessItemReturn(Tool): # WRITE
+class ProcessItemReturn(Tool): # CREATE
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str, item_ids: list[str], payment_method_id: str) -> str:
         orders = data["orders"]
@@ -17,7 +17,7 @@ class ProcessItemReturn(Tool): # WRITE
             return json.dumps({"error": "Order not found"})
         order = order[0]
 
-        # Check if the item exists in the order
+        # Verify the presence of the item in the order.
         items = order.get("items", [])
 
         refund_amount = 0.0
@@ -29,7 +29,7 @@ class ProcessItemReturn(Tool): # WRITE
             if item["item_id"] in item_ids:
                 items.remove(item)
 
-        # Check if the gift card has enough balance
+        # Verify if the gift card balance is sufficient.
         user_id = order["user_id"]
         users = data["users"]
         user = [row for row in users if row["user_id"] == user_id]
@@ -47,7 +47,7 @@ class ProcessItemReturn(Tool): # WRITE
             payment_method["balance"] += refund_amount
             payment_method["balance"] = round(payment_method["balance"], 2)
 
-        # Add a return entry to the payment history
+        # Include a return record in the payment history.
         payment_info = {
             "transaction_type": "return",
             "amount": refund_amount,

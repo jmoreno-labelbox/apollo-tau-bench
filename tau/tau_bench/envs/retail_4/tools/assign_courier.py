@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class AssignCourier(Tool):
 
         Data Sources: couriers.json (courier_id, name, coverage_area, contact_info)
         """
-        # Validate input parameters
+        # Check the input arguments for validity.
         if order_value is not None and order_values is not None:
             return json.dumps({
                 "error": "Cannot specify both order_value and order_values. Use one or the other.",
@@ -28,14 +28,14 @@ class AssignCourier(Tool):
                 "status": "failed"
             })
 
-        # Validate tracking_ids parameter if provided
+        # Check the tracking_ids parameter for validity if it is included.
         if tracking_ids is not None:
-            # For single tracking ID mode, accept either single tracking ID or require all to be the same
+            # In single tracking ID mode, allow either a single tracking ID or mandate uniformity across all IDs.
             if len(tracking_ids) == 1:
-                # Single tracking ID for all orders - this is what we want
+                # Unified tracking ID for all orders - this is our goal.
                 single_tracking_id = tracking_ids[0]
             elif len(tracking_ids) > 1:
-                # Check if all tracking IDs are the same
+                # Verify that all tracking IDs are identical.
                 if len(set(tracking_ids)) == 1:
                     single_tracking_id = tracking_ids[0]
                 else:
@@ -49,7 +49,7 @@ class AssignCourier(Tool):
                     "status": "failed"
                 })
 
-        # Build list of order values to process
+        # Create a list of order values for processing.
         values_to_process = []
         if order_value is not None:
             if order_value < 0:
@@ -73,7 +73,7 @@ class AssignCourier(Tool):
                     })
             values_to_process = order_values
 
-        # Rule: Assign couriers only if destination country matches their coverage areas
+        # Condition: Only assign couriers if the destination country falls within their designated coverage regions.
         couriers = data.get("couriers", [])
         eligible_couriers = []
 
@@ -88,19 +88,19 @@ class AssignCourier(Tool):
                 "status": "failed"
             })
 
-        # Select courier based on preference or use automatic selection
-        selected_courier = eligible_couriers[0]  # Simple selection logic
+        # Choose a courier based on user preference or enable automatic selection.
+        selected_courier = eligible_couriers[0]  # Basic selection criteria
         if "courier_id" in kwargs:
             courier_id = kwargs["courier_id"]
             selected_courier = next((c for c in eligible_couriers if c.get("courier_id") == courier_id), selected_courier)
 
-        # Get courier's tracking pool for fallback generation
+        # Retrieve the courier's tracking pool for backup generation.
         tracking_ids_pool = selected_courier.get("tracking_ids", [])
 
-        # Process location information if provided
+        # Handle location data if available.
         delivery_location = None
         if location:
-            # Validate location has required fields
+            # Check that the location contains all necessary fields.
             required_location_fields = ["city", "country"]
             missing_fields = [field for field in required_location_fields if not location.get(field)]
 
@@ -119,41 +119,41 @@ class AssignCourier(Tool):
                 "country": location.get("country")
             }
 
-            # Verify location country matches destination_country parameter
+            # Check if the location's country corresponds to the destination_country parameter.
             if delivery_location["country"] != destination_country:
                 return json.dumps({
                     "error": f"Location country '{delivery_location['country']}' does not match destination_country '{destination_country}'",
                     "status": "failed"
                 })
 
-        # Generate single tracking ID for all orders (whether single or multiple)
+        # Create a unified tracking ID for all orders, regardless of quantity.
         batch_mode = len(values_to_process) > 1
 
         if tracking_ids is not None:
-            # Use the provided single tracking ID
+            # Utilize the specified single tracking ID.
             assigned_tracking_id = single_tracking_id
             tracking_source = "custom_provided"
         else:
-            # Generate single tracking ID
+            # Create a unique tracking identifier.
             if batch_mode:
-                # For multiple orders, create a batch tracking ID
+                # Generate a batch tracking ID for several orders.
                 batch_identifier = f"BATCH{len(values_to_process):02d}"
                 courier_code = selected_courier.get("courier_id", "").replace("#", "").replace("COU", "C")
                 assigned_tracking_id = f"TRK{batch_identifier}{courier_code}"
             else:
-                # For single order, use standard generation with single tracking
+                # Utilize standard generation with individual tracking for single orders.
                 base_tracking_id = tracking_ids_pool[0] if tracking_ids_pool else "TRK001"
                 total_value = values_to_process[0]
                 assigned_tracking_id = f'{base_tracking_id}-{total_value}'
             tracking_source = "courier_pool_generated"
 
-        # Process each order value with the same tracking ID
+        # Handle all order values using the identical tracking ID.
         courier_assignments = []
         total_order_value = sum(values_to_process)
         high_value_orders = 0
 
         for i, current_order_value in enumerate(values_to_process):
-            # Rule: High-value orders (>$1000 total) require payment verification before fulfillment
+            # Guideline: Orders exceeding $1000 must undergo payment verification prior to processing.
             requires_insurance = current_order_value > 1000.0
             if requires_insurance:
                 high_value_orders += 1
@@ -161,12 +161,12 @@ class AssignCourier(Tool):
             courier_assignments.append({
                 "order_index": i + 1 if batch_mode else None,
                 "order_value": current_order_value,
-                "assigned_tracking_id": assigned_tracking_id,  # Same tracking ID for all
+                "assigned_tracking_id": assigned_tracking_id,  # Uniform tracking ID for all.
                 "tracking_source": tracking_source,
                 "requires_insurance": requires_insurance,
             })
 
-        # Calculate batch metrics
+        # Compute metrics for the batch.
         batch_metrics = {
             "total_orders": len(values_to_process),
             "total_order_value": round(total_order_value, 2),
@@ -175,7 +175,7 @@ class AssignCourier(Tool):
             "min_order_value": min(values_to_process),
             "max_order_value": max(values_to_process),
             "single_tracking_id_used": True,
-            "tracking_id_sharing": True  # Always true now since we always use single tracking
+            "tracking_id_sharing": True  # Always valid now as we consistently utilize single tracking.
         }
 
         result = {
@@ -190,7 +190,7 @@ class AssignCourier(Tool):
             },
             "tracking_configuration": {
                 "single_tracking_id": assigned_tracking_id,
-                "shared_across_orders": True,  # Always true now
+                "shared_across_orders": True,  # Currently always true
                 "tracking_source": tracking_source,
                 "custom_tracking_provided": tracking_ids is not None,
                 "courier_tracking_pool_size": len(tracking_ids_pool)

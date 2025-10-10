@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -32,7 +32,7 @@ class SetTicketPrice(Tool):
         if not d:
             return _json({"error": "date_not_found", "date": date})
 
-        # normalize status and enforce if required
+        # standardize status and apply enforcement if necessary
         status = _norm_status(d.get("status"))
         if require_available and status != "available":
             return _json({
@@ -41,13 +41,13 @@ class SetTicketPrice(Tool):
                           f"cannot set ticket price unless 'available'."
             })
 
-        # --- Canonical write: prices live under dated-flight 'prices' bucket ---
+        # --- Canonical write: prices are stored in the 'prices' bucket for dated flights ---
         prices = d.setdefault("prices", {})
         new_price = _round2(float(price))
         changed = int(prices.get(fare_class) != new_price)
         prices[fare_class] = new_price
 
-        # "After" snapshot for verification
+        # Post-snapshot for validation
         after = {
             "flight_number": flight_number,
             "date": date,

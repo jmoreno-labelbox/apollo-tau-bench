@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class UpdateCompReportStatusTool(Tool):
         rec["status"] = new_status
         rec["updated_at"] = HARD_TS
 
-        # --- Create Audit Event Entry ---
+        # --- Generate Audit Event Record ---
         audit_rows = data.setdefault("audit_events", [])
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {

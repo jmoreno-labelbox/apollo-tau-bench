@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class CreateReps(Tool):
     @staticmethod
-        # main invoke function
+        # primary execution function
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         report_type = kwargs.get("report_type")
         game_pk = kwargs.get("game_pk")
@@ -20,11 +20,11 @@ class CreateReps(Tool):
         playlists = _load_table(data, "video_playlists")
         for link in video_data:
             playlists.append({"report_id": report_id, "internal_portal_link": link})
-        # return result
+        # return outcome
         return json.dumps({"report_id": report_id}, indent=2)
 
     @staticmethod
-        # info metadata
+        # information metadata
     def get_info() -> Dict[str, Any]:
-        # return result
+        # return outcome
         return {"type": "function", "function": {"name": "report", "description": "Persists report and playlist artifacts.", "parameters": {"type": "object", "properties": {"report_type": {"type": "string"}, "game_pk": {"type": "string"}, "s3_pdf_path": {"type": "string"}, "insights_data": {"type": "string"}, "video_data": {"type": "array", "items": {"type": "string"}}}, "required": ["report_type", "game_pk", "s3_pdf_path", "insights_data"]}}}

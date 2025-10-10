@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,13 +11,13 @@ class create_review_cycle(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         p = _params(data, kwargs)
 
-        # required fields
+        # mandatory fields
         miss = _require(p, ["cycle_id","artifact_id","started_at","timestamp","request_id"])
         if miss: return miss
         w = _require_write(p)
         if w: return w
 
-        # ID_RULE: review_cycle_id — rev-<artifact_id>-<YYYYMMDD>-<seq>
+        # ID_RULE: review_cycle_id — rev-<artifact_id>-<YYYYMMDD>-<sequence_number>
         m = re.match(r"^rev-(?P<art>[^-]+)-(?P<date>\d{8})-(?P<seq>\d+)$", p["cycle_id"])
         if not m:
             return _err("invalid_cycle_id_format")
@@ -31,7 +31,7 @@ class create_review_cycle(Tool):
         if date_from_id != ts_date:
             return _err("cycle_id_date_mismatch")
 
-        # deterministic output; no thread attached at creation time
+        # predictable output; no thread associated during initialization
         c= {
             "cycle_id": p["cycle_id"],
             "artifact_id": p["artifact_id"],

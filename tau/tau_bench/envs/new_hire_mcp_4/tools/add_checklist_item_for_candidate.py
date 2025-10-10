@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class AddChecklistItemForCandidate(Tool):
         if not item["item_id"] or not item["candidate_id"]:
             return json.dumps({"error": "missing_required_fields"}, indent=2)
         data.setdefault("checklist_items", [])
-        # upsert by item_id
+        # insert or update using item_id
         for i, it in enumerate(data["checklist_items"]):
             if it.get("item_id") == item["item_id"]:
                 updated = dict(it)

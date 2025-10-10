@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class RepriceReservation(Tool):
         require_available: bool = True,
         cabins_source: Optional[str] = "reservation",
         cabin: Optional[str] = None,
-        fallback_to_flights: Optional[bool] = None,  # tolerate caller arg; no behavior change
+        fallback_to_flights: Optional[bool] = None,  # accept caller argument; functionality remains unchanged
     ) -> str:
         cabins_source  = (cabins_source or "reservation")
         explicit_cabin = (cabin or "").lower()
@@ -57,7 +57,7 @@ class RepriceReservation(Tool):
             out["note"] = "noop_reservation_not_found"
             return _json(out)
 
-        # choose cabin deterministically
+        # select cabin in a deterministic manner
         if cabins_source == "cabin" and explicit_cabin:
             cabin_used = explicit_cabin
         else:

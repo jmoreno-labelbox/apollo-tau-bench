@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class CaV2CalculateBankTotal(Tool):
         total_balance = 0.0
         account_details = []
 
-        # Calculate liquid assets only (checking and savings accounts)
+        # Compute solely the liquid assets (checking and savings accounts).
         liquid_account_types = ["checking", "savings"]
 
         for account in bank_accounts:
@@ -28,7 +28,7 @@ class CaV2CalculateBankTotal(Tool):
                 "balance": balance
             })
 
-            # Only add liquid accounts to total
+            # Include only liquid accounts in the total.
             if account_type in liquid_account_types:
                 total_balance += balance
 

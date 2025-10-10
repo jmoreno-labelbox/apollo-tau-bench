@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,11 +17,11 @@ class ConsolidateEmailThreadsAndCleanupTool(Tool):
         candidate_emails = [e for e in all_emails if e.get("candidate_id_nullable") == candidate_id]
         updated_emails = []
 
-        # Threading by subject
+        # Organizing by topic
         subject_groups = {}
         for email in candidate_emails:
             subject = str(email.get("subject", "")).strip()
-            # Normalize subject by removing Re: Fwd: etc.
+            # Standardize the subject line by eliminating prefixes like Re: and Fwd:.
             clean_subject = re.sub(r"^(Re|Fwd|RE|FWD):\s*", "", subject)
             if clean_subject not in subject_groups:
                 subject_groups[clean_subject] = []
@@ -35,11 +35,11 @@ class ConsolidateEmailThreadsAndCleanupTool(Tool):
                         email["thread_id_nullable"] = thread_id
                         updated_emails.append(email)
 
-        # Cleanup old drafts
+        # Remove outdated drafts
         for email in candidate_emails:
             if email.get("draft_flag") and _days_between(email.get("date_ts", "0"), HARD_TS) > age_days:
                 email["draft_flag"] = False
-                email["sent_flag"] = False # It was never sent
+                email["sent_flag"] = False # It was not dispatched.
                 if email not in updated_emails:
                     updated_emails.append(email)
 

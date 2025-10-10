@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,8 +22,8 @@ class ResolveBlockedTask(Tool):
         if not task:
             return json.dumps({"error": f"Task '{task_id}' not found"})
 
-        # if task.get("status") != "blocked":
-        #     return json.dumps({"error": "Task is not in blocked status"})
+        # if task["status"] != "blocked":
+        # return json.dumps({"error": "Task is not in a blocked state"})
 
         unresolved_deps = []
 

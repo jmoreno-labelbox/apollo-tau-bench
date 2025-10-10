@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class DeleteDevice(Tool):
         devices[:] = [d for d in devices if d.get("id") != device_id]
         if len(devices) == original_len:
             return json.dumps({"error": "Device not found"}, indent=2)
-        # Remove from any room mapping
+        # Eliminate from all room mappings.
         rooms_doc: Dict[str, Any] = data.get("rooms", {})
         for room in rooms_doc.get("rooms", []):
             room_devices = room.get("devices", [])

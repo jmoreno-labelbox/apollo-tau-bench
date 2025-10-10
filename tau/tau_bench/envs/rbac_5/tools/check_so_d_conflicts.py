@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -29,7 +29,7 @@ class CheckSoDConflicts(Tool):
         if not user_id:
             return json.dumps({"error": "user_id is required"})
 
-        # Validate user exists
+        # Check if the user is present.
         if not _find_by_id(list(data.get("users", {}).values()), "user_id", user_id):
             return json.dumps({"error": f"user_id {user_id} not found"})
 
@@ -39,97 +39,97 @@ class CheckSoDConflicts(Tool):
             exp = _parse_iso(ur.get("expires_on"))
             return (exp is None) or (exp > on_dt)
 
-        # Get user's active role assignments
+        # Retrieve the active role assignments for the user.
         assignments = [
             ur for ur in data.get("user_roles", [])
             if ur.get("user_id") == user_id and is_active(ur)
         ]
 
         active_role_ids = {ur.get("role_id") for ur in assignments}
-        # If test_role_id is provided, simulate adding it
+        # If test_role_id is specified, mimic the addition process.
         if test_role_id:
             active_role_ids = set(active_role_ids)
             active_role_ids.add(test_role_id)
 
-        # Define SoD conflict rules based on role analysis
+        # Establish SoD conflict regulations derived from role assessment.
         sod_conflicts = [
-            # Finance SoD conflicts
+            # Financial segregation of duties conflicts
             {
                 "conflict_id": "FINANCE_SOD_001",
                 "name": "Finance Processing vs Audit Access",
                 "description": "Users cannot both process financial transactions and audit them",
-                "conflicting_roles": ["ROL-031", "ROL-033"],  # finance-invoice-processor vs finance-audit-access
+                "conflicting_roles": ["ROL-031", "ROL-033"],  # finance-invoice-handler compared to finance-audit-permissions
                 "risk_level": "HIGH"
             },
             {
                 "conflict_id": "FINANCE_SOD_002",
                 "name": "Budget Admin vs Audit Access",
                 "description": "Users cannot both manage budgets and audit financial records",
-                "conflicting_roles": ["ROL-032", "ROL-033"],  # finance-budget-admin vs finance-audit-access
+                "conflicting_roles": ["ROL-032", "ROL-033"],  # finance-budget-management vs finance-audit-permissions
                 "risk_level": "HIGH"
             },
-            # Engineering SoD conflicts
+            # Creating SoD conflict resolutions
             {
                 "conflict_id": "ENGINEERING_SOD_001",
                 "name": "Code Development vs Production Deployment",
                 "description": "Developers cannot deploy their own code to production without review",
-                "conflicting_roles": ["ROL-002", "ROL-025"],  # engineering-code-commit vs operations-deployment-admin
+                "conflicting_roles": ["ROL-002", "ROL-025"],  # development-code-commit versus operations-deployment-management
                 "risk_level": "CRITICAL"
             },
             {
                 "conflict_id": "ENGINEERING_SOD_002",
                 "name": "Code Development vs Production Access",
                 "description": "Developers should not have direct production system access",
-                "conflicting_roles": ["ROL-002", "ROL-003"],  # engineering-code-commit vs engineering-prod-access
+                "conflicting_roles": ["ROL-002", "ROL-003"],  # engineering-code-commit compared to engineering-prod-access
                 "risk_level": "HIGH"
             },
-            # Operations admin conflicts
+            # Conflicts in operations administration
             {
                 "conflict_id": "OPERATIONS_SOD_001",
                 "name": "System Admin vs Database Admin",
                 "description": "Excessive administrative privileges across system and database layers",
-                "conflicting_roles": ["ROL-026", "ROL-027"],  # operations-system-admin vs operations-db-admin
+                "conflicting_roles": ["ROL-026", "ROL-027"],  # system-admin for operations vs db-admin for operations
                 "risk_level": "MEDIUM"
             },
             {
                 "conflict_id": "OPERATIONS_SOD_002",
                 "name": "System Admin vs Network Admin",
                 "description": "Excessive administrative privileges across system and network layers",
-                "conflicting_roles": ["ROL-026", "ROL-028"],  # operations-system-admin vs operations-network-admin
+                "conflicting_roles": ["ROL-026", "ROL-028"],  # system-admin for operations vs network-admin for operations
                 "risk_level": "MEDIUM"
             },
-            # HR SoD conflicts
+            # HR segregation of duties conflicts
             {
                 "conflict_id": "HR_SOD_001",
                 "name": "Employee Data Access vs Payroll Admin",
                 "description": "Users cannot both access employee data and manage payroll",
-                "conflicting_roles": ["ROL-017", "ROL-018"],  # hr-employee-data-read vs hr-payroll-admin
+                "conflicting_roles": ["ROL-017", "ROL-018"],  # hr-employee-data-access versus hr-payroll-management
                 "risk_level": "HIGH"
             },
             {
                 "conflict_id": "HR_SOD_002",
                 "name": "Employee Data Access vs Benefits Admin",
                 "description": "Users cannot both access employee data and manage benefits",
-                "conflicting_roles": ["ROL-017", "ROL-020"],  # hr-employee-data-read vs hr-benefits-admin
+                "conflicting_roles": ["ROL-017", "ROL-020"],  # hr-employee-data-access versus hr-benefits-management
                 "risk_level": "MEDIUM"
             },
-            # Sales SoD conflicts
+            # Sales segregation of duties conflicts
             {
                 "conflict_id": "SALES_SOD_001",
                 "name": "Lead Management vs Commission Viewing",
                 "description": "Sales leads managers should not view commission data to prevent manipulation",
-                "conflicting_roles": ["ROL-013", "ROL-015"],  # sales-lead-manager vs sales-commission-view
+                "conflicting_roles": ["ROL-013", "ROL-015"],  # sales-lead-manager compared to sales-commission-view
                 "risk_level": "MEDIUM"
             }
         ]
 
-        # Check for conflicts
+        # Verify for any discrepancies.
         detected_conflicts = []
         role_map = {r.get("role_id"): r for r in list(data.get("roles", {}).values())}
 
         for conflict in sod_conflicts:
             conflicting_role_ids = conflict["conflicting_roles"]
-            # Check if user has ALL roles in the conflicting set
+            # Verify if the user possesses EVERY role in the conflicting group.
             if all(role_id in active_role_ids for role_id in conflicting_role_ids):
                 conflict_entry = {
                     "conflict_id": conflict["conflict_id"],

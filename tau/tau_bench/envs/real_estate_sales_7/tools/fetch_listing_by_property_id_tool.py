@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,13 +17,13 @@ class FetchListingByPropertyIdTool(Tool):
 
         listing = _collect_listing_by_property(data, property_id)
         if not listing:
-            # Error handling rule: check sales for historical data
+            # Validation rule for errors: verify sales against historical records.
             sales = _collect_sales_history(data, property_id)
             if not sales:
                 return _err(
                     f"no listing or sales history for {property_id}", code="not_found"
                 )
-            # Provide a synthetic listing-like view from latest sale
+            # Generate a synthetic overview similar to a listing based on the most recent sale.
             srec = _latest(sales, "sale_date") or sales[0]
             out = {
                 "listing_id": None,

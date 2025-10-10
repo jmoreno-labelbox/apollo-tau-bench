@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,12 +21,12 @@ class GetItemIdByProduct(Tool):
         products = list(data.get("products", {}).values())
         suppliers = data.get("suppliers", [])
 
-        # Build stock information map from all suppliers
+        # Create a stock data map utilizing information from all suppliers.
         stock_info_map = {}
         for supplier in suppliers:
             item_stock = supplier.get("item_stock", {})
             for item_id, stock_level in item_stock.items():
-                # Track all suppliers that have this item and their stock levels
+                # Monitor all suppliers associated with this item and their inventory levels.
                 if item_id not in stock_info_map:
                     stock_info_map[item_id] = []
                 stock_info_map[item_id].append({
@@ -34,7 +34,7 @@ class GetItemIdByProduct(Tool):
                     "stock_level": stock_level
                 })
 
-        # Convert product_type to lowercase for case-insensitive matching
+        # Transform product_type to lowercase for uniform matching regardless of case.
         product_type_lower = []
         if product_type:
             product_type_lower = [ptype.lower() for ptype in product_type]
@@ -58,79 +58,79 @@ class GetItemIdByProduct(Tool):
                 if product_id == requested_product_id:
                     product_found = True
 
-                    # Apply product type filter if specified
+                    # Implement the product type filter if provided.
                     if product_type_lower:
-                        # Check if product name contains any of the specified types
+                        # Verify if the product name includes any of the designated types.
                         type_matches = any(
                             ptype in product_name
                             for ptype in product_type_lower
                         )
 
                         if not type_matches:
-                            # Product doesn't match type filter, skip it
+                            # Skip the product as it doesn't meet the type filter criteria.
                             continue
 
-                    # Extract all item IDs (variant IDs) for this product with availability and stock filtering
+                    # Retrieve all variant IDs for this product, applying filters for availability and stock.
                     product_items = []
                     for item_id, variant_info in variants.items():
                         is_available = variant_info.get("available", False)
 
-                        # Check stock status across all suppliers
+                        # Verify inventory levels for all vendors.
                         item_stock_info = stock_info_map.get(item_id, [])
                         has_stock = False
                         best_stock_level = "not_in_inventory"
                         supplier_count = 0
 
-                        # Check if any supplier has this item with actual stock
+                        # Verify if any supplier currently has this item in stock.
                         for supplier_stock in item_stock_info:
                             stock_level = supplier_stock["stock_level"]
                             supplier_count += 1
 
-                            # Consider item as having stock if any supplier has numeric stock > 0
+                            # An item is considered in stock if at least one supplier has a numeric stock greater than zero.
                             if isinstance(stock_level, (int, str)) and str(stock_level).isdigit() and int(stock_level) > 0:
                                 has_stock = True
                                 if best_stock_level == "not_in_inventory" or (isinstance(best_stock_level, (int, str)) and int(stock_level) > int(best_stock_level)):
                                     best_stock_level = stock_level
-                            elif not has_stock:  # Only update if we haven't found stock yet
+                            elif not has_stock:  # Update only if stock has not been located.
                                 if best_stock_level == "not_in_inventory":
                                     best_stock_level = stock_level
 
-                        # Apply stock exclusion filter if enabled
+                        # Implement stock exclusion filter if activated.
                         if exclude_no_stock and not has_stock:
-                            # Item has no stock or is out_of_stock/discontinued across all suppliers
+                            # The item is either unavailable or has been discontinued by all suppliers.
                             total_excluded_no_stock += 1
                             continue
 
-                        # Apply availability filter if show_available is specified
+                        # Implement availability filter when show_available is provided.
                         if show_available is not None:
                             if show_available and not is_available:
-                                # Want available items only, but this item is not available
+                                # Require only in-stock items, but this item is out of stock.
                                 total_unavailable_variants += 1
                                 continue
                             elif not show_available and is_available:
-                                # Want unavailable items only, but this item is available
+                                # Desire only items that are out of stock, but this item is in stock.
                                 total_available_variants += 1
                                 continue
 
-                        # Track totals for summary
+                        # Monitor totals for aggregation.
                         if is_available:
                             total_available_variants += 1
                         else:
                             total_unavailable_variants += 1
 
-                        # Determine stock status description
+                        # Assess the inventory status description.
                         stock_status = "not_in_inventory"
                         total_stock_across_suppliers = 0
 
                         if has_stock:
                             stock_status = "in_stock"
-                            # Calculate total stock across all suppliers
+                            # Compute the overall inventory from all suppliers.
                             for supplier_stock in item_stock_info:
                                 stock_level = supplier_stock["stock_level"]
                                 if isinstance(stock_level, (int, str)) and str(stock_level).isdigit():
                                     total_stock_across_suppliers += int(stock_level)
                         elif item_stock_info:
-                            # Has stock entries but no actual stock
+                            # Contains stock records but lacks physical stock.
                             stock_statuses = [s["stock_level"] for s in item_stock_info]
                             if all(status == "out_of_stock" for status in stock_statuses):
                                 stock_status = "out_of_stock"
@@ -155,7 +155,7 @@ class GetItemIdByProduct(Tool):
                         product_items.append(item_detail)
                         total_variants_found += 1
 
-                    if product_items:  # Only add if there are items after filtering
+                    if product_items:  # Add only if items remain post-filtering.
                         product_info = {
                             "product_id": product_id,
                             "product_name": product.get("name"),
@@ -174,12 +174,12 @@ class GetItemIdByProduct(Tool):
             if not product_found:
                 products_not_found.append(requested_product_id)
 
-        # Create a flat list of all item IDs for easy access
+        # Generate a single-level list of all item identifiers for quick retrieval.
         all_item_ids = []
         for product_info in matching_items:
             all_item_ids.extend([item["item_id"] for item in product_info["item_ids"]])
 
-        # Determine filter description for response
+        # Establish filter specifications for the output.
         availability_filter_description = "all items"
         if show_available is True:
             availability_filter_description = "available items only"

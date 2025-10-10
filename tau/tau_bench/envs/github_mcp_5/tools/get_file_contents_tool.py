@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class GetFileContentsTool(Tool):
         owner = kwargs.get('owner')
         repo = kwargs.get('repo')
         path = kwargs.get('path')
-        ref = kwargs.get('ref', 'main') # Default to main branch
+        ref = kwargs.get('ref', 'main') # Set to main branch by default.
 
         if not all([owner, repo, path]):
             return json.dumps({

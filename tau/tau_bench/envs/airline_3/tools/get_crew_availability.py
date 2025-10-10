@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,7 +26,7 @@ class GetCrewAvailability(Tool):
         filtered_crew = []
 
         for crew in crew_members:
-            # Apply filters
+            # Implement filters
             if crew_id and crew.get("crew_member_id") != crew_id:
                 continue
             if role and crew.get("role") != role:
@@ -36,7 +36,7 @@ class GetCrewAvailability(Tool):
             if status and crew.get("status") != status:
                 continue
 
-            # Get current assignments
+            # Retrieve active assignments.
             current_assignments = []
             total_flight_hours = 0
             for assignment in flight_crew_assignments:
@@ -46,25 +46,25 @@ class GetCrewAvailability(Tool):
                         "role": assignment.get("assigned_role")
                     })
 
-            # Calculate workload based on flight log
+            # Determine the workload using the flight log.
             flight_log = crew.get("flight_log", [])
             recent_flights = []
             for flight in flight_log:
                 try:
                     flight_date = datetime.strptime(flight.get("date", ""), "%Y-%m-%d").date()
                     days_ago = (datetime(2025, 9, 15, 0, 0, 0).date() - flight_date).days
-                    if days_ago <= 30:  # Last 30 days
+                    if days_ago <= 30:  # Previous 30 days
                         recent_flights.append(flight)
                         total_flight_hours += flight.get("hours_flown", {}).get("total", 0)
                 except (ValueError, TypeError):
                     continue
 
-            # Determine availability status
+            # Assess availability status
             if crew.get("status") != "Active":
                 availability = "unavailable"
-            elif len(current_assignments) >= 3:  # More than 3 current assignments
+            elif len(current_assignments) >= 3:  # Over three active tasks
                 availability = "high_workload"
-            elif total_flight_hours >= 80:  # More than 80 hours in last 30 days
+            elif total_flight_hours >= 80:  # Over 80 hours in the past 30 days
                 availability = "high_workload"
             elif len(current_assignments) == 0:
                 availability = "available"
@@ -85,11 +85,11 @@ class GetCrewAvailability(Tool):
 
             filtered_crew.append(crew_info)
 
-        # Sort by availability priority and name
+        # Order by availability priority and name.
         availability_priority = {"available": 1, "moderate_workload": 2, "high_workload": 3, "unavailable": 4}
         filtered_crew.sort(key=lambda x: (availability_priority.get(x["availability"], 5), x["name"]))
 
-        # Calculate summary statistics
+        # Compute summary statistics.
         total_crew = len(filtered_crew)
         availability_counts = {}
         role_counts = {}
@@ -116,13 +116,13 @@ class GetCrewAvailability(Tool):
             "crew_members": filtered_crew
         }
 
-        # Add quick recommendations if no specific filters
+        # Provide immediate suggestions when no particular filters are applied.
         if not any([crew_id, role, home_base, status]) and total_crew > 0:
             available_crew = [c for c in filtered_crew if c["availability"] == "available"]
             if available_crew:
                 response["recommendations"] = {
                     "available_crew_count": len(available_crew),
-                    "sample_available": available_crew[:3]  # First 3 available crew members
+                    "sample_available": available_crew[:3]  # Initial three available crew members
                 }
 
         return json.dumps(response, indent=2)

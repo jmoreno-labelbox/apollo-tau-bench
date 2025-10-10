@@ -12,15 +12,15 @@ class FindWorkflow(Tool):
         name = workflow_name
 
         for wf in data.get("hr_workflows", {}).values():
-            # Verify if the workflow name matches initially
+            # Check if the workflow name is consistent at the start.
             if wf.get("workflow_name", "").lower() == name.lower():
-                # Verify the presence of a top-level employee_id (e.g., Performance Review)
+                # Check for the existence of a top-level employee_id (e.g., Performance Evaluation).
                 if wf.get("employee_id") == uid:
                     payload = {"workflow_id": wf.get("workflow_id")}
                     out = json.dumps(payload)
                     return out
 
-                # Confirm if the user is included in the 'candidates' list (e.g., Succession Planning)
+                # Verify if the user is part of the 'candidates' list (e.g., Succession Planning)
                 if any(
                     candidate.get("employee_id") == uid
                     for candidate in wf.get("candidates", [])
@@ -29,7 +29,7 @@ class FindWorkflow(Tool):
                     out = json.dumps(payload)
                     return out
 
-                # Verify if the user appears in the 'target_audience' list (e.g., Training Initiative)
+                # Check if the user is included in the 'target_audience' list (e.g., Training Initiative).
                 if uid in wf.get("target_audience", []):
                     payload = {"workflow_id": wf.get("workflow_id")}
                     out = json.dumps(payload)

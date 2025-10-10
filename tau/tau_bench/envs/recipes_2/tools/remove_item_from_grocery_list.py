@@ -1,4 +1,4 @@
-# Copyright Sierra
+# © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class RemoveItemFromGroceryList(Tool):
 
         items = data.get("grocery_list_items", [])
         original_count = len(items)
-        # Filter out the item with the matching ID
+        # Remove the item that has the corresponding ID.
         data["grocery_list_items"] = [item for item in items if item.get("item_id") != item_id]
 
         if len(data["grocery_list_items"]) < original_count:

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .create_project_budget import CreateProjectBudget
 from .calculate_project_cost import CalculateProjectCost

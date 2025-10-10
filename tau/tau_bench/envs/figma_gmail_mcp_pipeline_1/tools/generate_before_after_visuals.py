@@ -1,28 +1,28 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class GenerateBeforeAfterVisuals(Tool):  # WRITE
+class GenerateBeforeAfterVisuals(Tool):  # GENERATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
         release_id: str,
         hero_artifact_ids: List[str]
     ) -> str:
-        # Validate input
+        # Verify the input.
         if not isinstance(release_id, str) or not release_id:
             return json.dumps({"error": "release_id must be a non-empty string"})
 
         if not isinstance(hero_artifact_ids, list) or not all(isinstance(aid, str) for aid in hero_artifact_ids):
             return json.dumps({"error": "hero_artifact_ids must be a list of strings"})
 
-        # Generate deterministic visual name based on release_id
+        # Create a consistent visual identifier derived from release_id.
         visual_name = f"before_after_visual_{release_id}"
 
-        # Create a deterministic hash-like suffix based on hero_artifact_ids
+        # Generate a consistent hash-style suffix derived from hero_artifact_ids.
         artifacts_string = "".join(sorted(hero_artifact_ids))
         artifacts_hash = custom_hash(artifacts_string) % 10000
         visual_name_with_hash = f"{visual_name}_{artifacts_hash:04d}"

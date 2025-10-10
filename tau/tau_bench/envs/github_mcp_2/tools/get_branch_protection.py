@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class GetBranchProtection(Tool):
         if "branch_protections" not in repo:
             repo["branch_protections"] = [False] * len(repo.get("branches", []))
 
-        # Initialize if missing
+        # Set up if not present
         if "branch_protection_rules" not in repo:
             repo["branch_protection_rules"] = {}
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Corporation
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class FetchMortgageRatesForClientTool(Tool):
             return _err("credit_score (int) and region (string) are required")
 
         rates = []
-        # Create lender lookup map for efficient name resolution
+        # Generate a lender mapping for quick name identification.
         lenders_map = {
             l.get("lender_id"): l.get("name") for l in data.get("lenders", [])
         }
@@ -39,7 +39,7 @@ class FetchMortgageRatesForClientTool(Tool):
                 }
             )
 
-        # Choose best_available_rate among qualifying, else among all (higher penalty)
+        # Select best_available_rate from qualifying options first; if none, then from all available (with higher penalty).
         best_rate = None
         best_term_years = None
         qualifying = [x for x in rates if x["qualifies"]]
@@ -65,7 +65,7 @@ class FetchMortgageRatesForClientTool(Tool):
 
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        # Tool does not fetch client profile directly to respect privacy layering
+        # The tool avoids directly retrieving client profiles to uphold privacy measures.
         return {
             "type": "function",
             "function": {

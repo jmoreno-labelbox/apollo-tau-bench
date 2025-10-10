@@ -459,7 +459,7 @@ TASKS = [
         annotator="2",
         user_id="task_008",
         instruction=(
-            "Acting as Mason Martinez, Engineering Lead, handle the new access request posted in the #access-requests Slack channel (message ID: SL-001). Review it and execute the necessary steps."
+            "Acting as Mason Martinez, Engineering Lead, handle the new access request posted in the # Check the access-requests Slack channel (message ID: SL-001) and carry out the required actions.
         ),
         actions=[
             Action(name="GetCurrentTime", kwargs={}),
@@ -573,7 +573,7 @@ TASKS = [
         annotator="2",
         user_id="task_010",
         instruction=(
-            "You are Mason Martinez, Engineering Lead. Review the new access request posted in the #access-requests Slack channel that needs your attention (message_id: SL-018)."
+            "You are Mason Martinez, Engineering Lead. Review the new access request posted in the # Slack channel for access requests requiring your attention (message_id: SL-018).
         ),
         actions=[
             Action(name="GetCurrentTime", kwargs={}),
@@ -1144,7 +1144,7 @@ TASKS = [
                     "sender": "hr-operations@sigmatech.com",
                     "receiver": "Noah.Martinez@sigmatech.com",
                     "subject": "Notification: New Direct Report - Olivia Allen",
-                    "text_content": "Hi Noah, this is an automated notification to inform you that a new employee, Olivia Allen, has been onboarded into your department (Sales). They have been assigned their initial roles. Please follow up with them regarding any additional access needs.", # Correct template
+                    "text_content": "Hi Noah, this is an automated notification to inform you that a new employee, Olivia Allen, has been onboarded into your department (Sales). They have been assigned their initial roles. Please follow up with them regarding any additional access needs.", # Fixed template
                 },
             ),
         ],
@@ -1164,7 +1164,7 @@ TASKS = [
                 name="CreateAccessRequest",
                 kwargs={
                     "user_id": "U-007", "role_id": "ROL-002", "resource_id": "RES-002", "timestamp": "2025-08-09 10:00:00+00:00",
-                    # This justification is now sourced from a specific, deterministic rule.
+                    # This rationale is now derived from a defined, predictable rule.
                     "justification": "Emergency administrative access to resolve corruption of the main application repository.",
                 },
             ),
@@ -1232,7 +1232,7 @@ TASKS = [
         annotator="2",
         user_id="task_021",
         instruction=(
-            "As Olivia Lee, the Finance Lead, review the new access request posted in the #access-requests Slack channel (message_id: SL-020)."
+            "As Olivia Lee, the Finance Lead, review the new access request posted in the # Slack channel for access requests (message_id: SL-020).
         ),
         actions=[
             Action(name="GetCurrentTime", kwargs={}),
@@ -1625,7 +1625,7 @@ TASKS = [
         annotator="2",
         user_id="task_026",
         instruction=(
-            "You function as the RBAC Bot. A new access request has appeared in the #access-requests Slack channel (message_id: SL-024). Please evaluate it and proceed with the appropriate action in accordance with company policy."
+            "You function as the RBAC Bot. A new access request has appeared in the # Review the access-requests Slack channel (message_id: SL-024) and take necessary actions as per company policy.
         ),
         actions=[
             Action(name="GetCurrentTime", kwargs={}),
@@ -2639,7 +2639,7 @@ TASKS = [
                 kwargs={
                     "timestamp": "2025-08-09 10:00:00+00:00",
                     "sender": "hr-operations@sigmatech.com",
-                    "receiver": "Sophia.Thompson@sigmatech.com", # Notifying the manager
+                    "receiver": "Sophia.Thompson@sigmatech.com", # Alerting the supervisor
                     "subject": "Notification: New Direct Report - Peter Griffin",
                     "text_content": "Hi Sophia, this is an automated notification to inform you that a new employee, Peter Griffin, has been onboarded into your department (Marketing). They have been assigned their initial roles. Please follow up with them regarding any additional access needs.",
                 },
@@ -2873,7 +2873,7 @@ TASKS = [
         annotator="2",
         user_id="task_048",
         instruction=(
-            "This is the RBAC Bot. There's a new access request in the #access-requests Slack channel (message_id: SL-027). Examine it and proceed with the necessary action."
+            "This is the RBAC Bot. There's a new access request in the # Review the access-requests Slack channel (message_id: SL-027) and take appropriate action.
         ),
         actions=[
             Action(name="GetCurrentTime", kwargs={}),
@@ -3178,7 +3178,7 @@ TASKS = [
         annotator="2",
         user_id="task_053",
         instruction=(
-            "You are the RBAC Bot. An access request has been submitted in the #access-requests Slack channel (message_id: SL-027). Examine it and proceed with the necessary action."
+            "You are the RBAC Bot. An access request has been submitted in the # Review the access-requests Slack channel (message_id: SL-027) and take appropriate action.
         ),
         actions=[
             Action(name="GetCurrentTime", kwargs={}),
@@ -5053,7 +5053,7 @@ TASKS = [
 
             Action(name="GetUserDetailsById", kwargs={"user_id": "U-026"}),
             Action(name="GetUserRolesByUserId", kwargs={"user_id": "U-026"}),
-            Action(name="GetUserDetailsById", kwargs={"user_id": "U-014"}), # Get correct approver's details (@nthomas)
+            Action(name="GetUserDetailsById", kwargs={"user_id": "U-014"}), # Retrieve the appropriate approver's information (@nthomas)
             Action(
                 name="SendSlackMessage",
                 kwargs={
@@ -5514,7 +5514,7 @@ TASKS = [
         user_id="task_092",
         instruction="You are the RBAC Bot. A scheduled compliance audit has noted that user 'cwalker' has a 'SUSPENDED' status but still retains active role assignments. This constitutes a policy violation. Investigate this issue and address it by revoking all of their assigned roles and recording the action in a compliance ticket.",
         actions=[
-            # Phase 1: Investigation
+            # Stage 1: Exploration
             Action(name="GetCurrentTime", kwargs={}),
             Action(name="GetUserDetailsByUsername", kwargs={"username": "RBAC_BOT"}),
             Action(name="GetUserDetailsByUsername", kwargs={"username": "cwalker"}),

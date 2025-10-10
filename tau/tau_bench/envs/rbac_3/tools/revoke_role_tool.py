@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -35,10 +35,10 @@ class RevokeRoleTool(Tool):
         )
         out = dict(base)
         out["audit_log_id"] = audit.get("log_id")
-        # Surface action_type so downstream validators see the literal before use
+        # Expose action_type so downstream validators can access the literal prior to utilization.
         out["action_type"] = "revoke_role"
-        # Add subject and body as requested
-        # For revoke operations, we use APPROVED since the revocation was successfully processed
+        # Include the subject and body as specified.
+        # We utilize APPROVED for revoke operations as the revocation has been successfully executed.
         out["subject"] = f"{role_id} APPROVED"
         out["body"] = f"{actor_id} {_HARD_TS}"
         return json.dumps(out, indent=2)

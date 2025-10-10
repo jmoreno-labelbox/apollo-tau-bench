@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class UpdateMealPlanEntryNotes(Tool):
             if rid_key in (notes_map or {}):
                 e["notes"] = notes_map[rid_key]
                 updated += 1
-        # Deterministic header write to ensure write semantics even if no entries updated
+        # Predictable header writing to maintain write semantics regardless of entry updates.
         plan = _require(data, "meal_plans", "meal_plan_id", int(meal_plan_id))
         if plan is not None:
             plan["notes_last_updated_at"] = "2025-01-01T00:00:00"

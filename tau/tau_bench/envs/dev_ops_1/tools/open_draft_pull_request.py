@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class OpenDraftPullRequest(Tool):
         prs = _get_table(data, "pull_requests")
         build_runs = _get_table(data, "build_runs")
         artifacts = _get_table(data, "artifacts")
-        # Determine max existing PR number, supporting both 'number' (data file) and 'pr_number' (our tool records)
+        # Identify the highest current PR number, accommodating both 'number' (data file) and 'pr_number' (records from our tool).
         current_max = 0
         for p in prs:
             val = p.get("pr_number")
@@ -21,7 +21,7 @@ class OpenDraftPullRequest(Tool):
             if isinstance(val2, int) and val2 > current_max:
                 current_max = val2
         pr_number = current_max + 1
-        # Resolve structured links from existing records
+        # Extract structured links from current entries.
         br = next((r for r in build_runs if r.get("run_id") == run_id), {})
         art = next((a for a in artifacts if a.get("run_id") == run_id), {})
         links = {

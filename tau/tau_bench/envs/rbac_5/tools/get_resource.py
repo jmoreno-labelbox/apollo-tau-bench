@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,26 +26,26 @@ class GetResource(Tool):
 
         resources = data.get("resources", [])
 
-        # If resource_id is provided, return single resource
+        # Return the single resource if resource_id is specified.
         if resource_id:
             resource = _find_by_id(resources, "resource_id", resource_id)
             if not resource:
                 return json.dumps({"error": f"resource_id {resource_id} not found"})
             return json.dumps({"ok": True, "resource": resource})
 
-        # Filter resources based on provided criteria
+        # Select resources according to specified parameters.
         filtered_resources = []
         for resource in resources:
-            # Filter by name
+            # Name-based filtering
             if name and name not in resource.get("name", ""):
                 continue
-            # Filter by owner_id if provided
+            # Apply filter based on owner_id if specified.
             if owner_id and resource.get("owner_id") != owner_id:
                 continue
-            # Filter by criticality if provided
+            # Apply a filter based on criticality if it is specified.
             if criticality and resource.get("criticality") != criticality:
                 continue
-            # Filter by compliance_scope if provided (handle null values)
+            # Filter by compliance_scope if available (manage null values)
             if compliance_scope:
                 resource_scope = resource.get("compliance_scope")
                 if resource_scope != compliance_scope:

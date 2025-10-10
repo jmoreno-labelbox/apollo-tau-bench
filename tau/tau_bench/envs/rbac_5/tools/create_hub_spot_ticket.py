@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -31,34 +31,34 @@ class CreateHubSpotTicket(Tool):
         if not subject or not description or not assignee_id or not requester_id:
             return json.dumps({"error": "subject, description, assignee_id, and requester_id are required"})
 
-        # Validate priority
+        # Check priority validity.
         valid_priorities = ["HIGH", "MEDIUM", "LOW"]
         if priority not in valid_priorities:
             return json.dumps({"error": f"priority must be one of: {valid_priorities}"})
 
-        # Validate status
+        # Check status validity
         valid_statuses = ["OPEN", "IN_PROGRESS", "CLOSED"]
         if status not in valid_statuses:
             return json.dumps({"error": f"status must be one of: {valid_statuses}"})
 
-        # Validate assignee exists
+        # Check if the assignee is present.
         users = list(data.get("users", {}).values())
         assignee = _find_by_id(users, "user_id", assignee_id)
         if not assignee:
             return json.dumps({"error": f"Assignee {assignee_id} not found"})
 
-        # Validate requester exists
+        # Check if the requester is present.
         requester = _find_by_id(users, "user_id", requester_id)
         if not requester:
             return json.dumps({"error": f"Requester {requester_id} not found"})
 
-        # Apply deterministic rules for security incidents
+        # Implement fixed guidelines for handling security incidents.
         if category == "SECURITY_INCIDENT":
-            # Ensure operations manager (U-005) is assigned for security incidents
+            # Assign operations manager (U-005) to handle security incidents.
             if assignee_id != "U-005":
                 assignee_id = "U-005"
 
-            # Ensure subject follows SIEM alert format
+            # Verify that the subject adheres to the SIEM alert structure.
             if not subject.startswith("SIEM Alert: "):
                 subject = "SIEM Alert: Unauthorized Access Attempt"
 

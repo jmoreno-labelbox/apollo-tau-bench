@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class ValidateReturnEligibility(Tool):
         if not order:
             return json.dumps({}, indent=2)
         status = str(order.get("status", ""))
-        eligible_statuses = {"Delivered", "Completed"}  # align with SOP
+        eligible_statuses = {"Delivered", "Completed"}  # conform to SOP
         eligible = status in eligible_statuses
         out = {"order_id": order_id, "status": status, "eligible": eligible}
         if not eligible:

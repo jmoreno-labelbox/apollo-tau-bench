@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class GetMaintenanceLogs(Tool):
     ) -> str:
         from datetime import datetime
 
-        # Validate date parameters first
+        # First, verify the date parameters.
         if start_date:
             try:
                 start_date_obj = datetime.strptime(start_date, "%Y-%m-%d").date()
@@ -41,7 +41,7 @@ class GetMaintenanceLogs(Tool):
                     "received": end_date
                 })
             
-            # Validate date range
+            # Check the validity of the date range.
             if start_date and end_date_obj < start_date_obj:
                 return json.dumps({
                     "status": "invalid_date_range",
@@ -54,15 +54,15 @@ class GetMaintenanceLogs(Tool):
         filtered_logs = []
 
         for log in maintenance_logs:
-            # Apply aircraft filter
+            # Implement aircraft filtering.
             if aircraft_id and log.get("aircraft_id") != aircraft_id:
                 continue
 
-            # Apply maintenance type filter
+            # Implement filter for maintenance types.
             if maintenance_type and log.get("type") != maintenance_type:
                 continue
 
-            # Apply date filters
+            # Implement date filtering
             if start_date:
                 try:
                     log_date = datetime.strptime(log.get("date", ""), "%Y-%m-%d").date()
@@ -81,7 +81,7 @@ class GetMaintenanceLogs(Tool):
 
             filtered_logs.append(log)
 
-        # Sort by date (most recent first)
+        # Order by date with the latest first.
         filtered_logs.sort(key=lambda x: x.get("date", ""), reverse=True)
 
         response = {

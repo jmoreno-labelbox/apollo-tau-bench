@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class AddAuditLog(Tool):
         payload_json = kwargs.get("payload_json", {})
         
         logs = data.get("audit_logs", [])
-        # Automatically generate the next audit_id
+        # Auto-generate the subsequent audit_id.
         new_id = max([log.get("audit_id", 0) for log in logs]) + 1 if logs else 12001
 
         new_log = {
@@ -28,7 +28,7 @@ class AddAuditLog(Tool):
             "entity_id": entity_id,
             "action_enum": action_enum,
             "payload_json": payload_json,
-            "created_at": "2025-08-25T11:00:05Z" # Using a fixed timestamp for consistency
+            "created_at": "2025-08-25T11:00:05Z" # Employing a static timestamp for uniformity.
         }
         data["audit_logs"].append(new_log)
         return json.dumps(new_log)

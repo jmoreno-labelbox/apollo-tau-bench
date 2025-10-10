@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -33,7 +33,7 @@ class BulkAddMealPlanEntries(Tool):
             }
             tbl.append(row)
             created.append(next_id)
-        # Deterministic header write to ensure write semantics even if no entries added
+        # Deterministic header writing to maintain write semantics regardless of entry additions.
         plan = _require(data, "meal_plans", "meal_plan_id", int(meal_plan_id))
         if plan is not None:
             plan["entries_last_set_at"] = "2025-01-01T00:00:00"

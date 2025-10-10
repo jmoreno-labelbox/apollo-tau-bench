@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .get_player_details_by_name import GetPlayerDetailsByName
 from .get_player_details_by_id import GetPlayerDetailsById

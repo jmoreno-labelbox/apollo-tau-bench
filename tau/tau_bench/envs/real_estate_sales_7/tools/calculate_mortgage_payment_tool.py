@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class CalculateMortgagePaymentTool(Tool):
         if None in (loan_amount, down_payment, best_rate) or term_years is None:
             return _err("loan_amount, down_payment, best_rate, term_years are required")
 
-        # Standard fixed-rate mortgage monthly payment: P * (r/12) / (1 - (1+r/12)^(-n))
+        # Monthly payment for a standard fixed-rate mortgage: P * (r/12) / (1 - (1 + r/12)^(-n))
         r = float(best_rate) / 100.0
         n = term_years * 12
         if r <= 0:
@@ -43,7 +43,7 @@ class CalculateMortgagePaymentTool(Tool):
 
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        # Business Rule: use actual mortgage profile inputs upstream
+        # Business Rule: utilize real mortgage profile data from upstream inputs.
         return {
             "type": "function",
             "function": {

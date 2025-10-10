@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class GetAccountDetailsByCustomerIdAndAccountId(Tool):
                 "error": "customer_id and account_id are both required."
             }, indent=2)
 
-        # Look up the account
+        # Retrieve the account information.
         acct = next(
             (a for a in list(data.get("accounts", {}).values())
              if a.get("customer_id") == customer_id and a.get("account_id") == account_id),
@@ -32,7 +32,7 @@ class GetAccountDetailsByCustomerIdAndAccountId(Tool):
                 "error": f"No account found for customer_id '{customer_id}' with account_id '{account_id}'."
             }, indent=2)
 
-        # Return the account details
+        # Provide the account information.
         return json.dumps({
             "account_id":            acct["account_id"],
             "customer_id":           acct["customer_id"],

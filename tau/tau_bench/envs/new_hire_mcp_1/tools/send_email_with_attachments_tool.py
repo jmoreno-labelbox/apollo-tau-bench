@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,19 +21,19 @@ class SendEmailWithAttachmentsTool(Tool):
         if not candidate:
             return _err(f"Candidate '{candidate_id}' not found.", code="not_found")
 
-        # Dynamic context generation for specific templates
+        # Dynamic creation of context for particular templates.
         if template_name == "it_support_request" and "failure_notes" in template_context:
-            # Handle dictionary from analyze_system_access_failures
+            # Process the dictionary from analyze_system_access_failures.
             if isinstance(template_context['failure_notes'], dict):
                 failures = template_context['failure_notes']
                 failure_notes_str = "\n".join([f"- {sys}: {', '.join(details.get('failure_notes', []))}" for sys, details in failures.items()])
                 template_context['failure_notes'] = failure_notes_str
 
-            # Default recipient for IT support requests
+            # Standard recipient for IT assistance inquiries
             kwargs.setdefault('to_emails', ['it-support@example.com'])
 
         if template_name == "asset_fulfillment_notification":
-            # Ensure asset_name and asset_tag are in context
+            # Verify that asset_name and asset_tag are present in the context.
             if "asset_name" not in template_context or "asset_tag" not in template_context:
                 return _err("asset_fulfillment_notification template requires asset_name and asset_tag in template_context.")
 

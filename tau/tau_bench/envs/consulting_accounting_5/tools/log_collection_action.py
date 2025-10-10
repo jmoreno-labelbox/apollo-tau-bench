@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class LogCollectionAction(Tool):
         new_action = {
             "audit_id": kwargs["audit_id"],
             "invoice_id": kwargs["invoice_id"],
-            "event_type": kwargs["event_type"],   # e.g., "reminder_sent", "phone_call"
+            "event_type": kwargs["event_type"],   # for example, "reminder_delivered", "telephone_contact"
             "event_date": kwargs["event_date"],
             "outcome": kwargs.get("outcome", ""),
             "notes": kwargs.get("notes", "")

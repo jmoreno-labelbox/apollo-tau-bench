@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Technologies
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,14 +11,14 @@ class ShortlistSuccessorCandidate(Tool):
         user_id = kwargs["user_id"]
         target_role = kwargs["target_role"]
 
-        # Generate deterministic date based on user_id and target_role
+        # Create a consistent date using user_id and target_role.
         import hashlib
 
         hash_input = f"{user_id}_{target_role}"
         hash_value = int(hashlib.md5(hash_input.encode()).hexdigest()[:8], 16)
-        days_offset = hash_value % 30  # 0-29 days from base date
+        days_offset = hash_value % 30  # 0-29 days from the reference date
 
-        # Use a fixed base date for deterministic results
+        # Utilize a constant base date for consistent outcomes.
         base_date = "2025-06-01"
         from datetime import datetime, timedelta
 

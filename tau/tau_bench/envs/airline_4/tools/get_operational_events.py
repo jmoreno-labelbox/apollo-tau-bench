@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,11 +21,11 @@ class GetOperationalEvents(Tool):
         events_src = data.get("operational_events", [])
         out: List[Dict[str, Any]] = []
         for ev in events_src:
-            # be tolerant to schema: date / event_date / timestamp
+            # support schema variations: date / event_date / timestamp
             raw = ev.get("date") or ev.get("event_date") or ev.get("timestamp")
             if not raw:
                 continue
-            day = str(raw)[:10]  # YYYY-MM-DD from ISO datetimes too
+            day = str(raw)[:10]  # Extract YYYY-MM-DD format from ISO date-time strings as well.
             if not (start_date <= day <= end_date):
                 continue
             if flight_number and ev.get("flight_number") != flight_number:

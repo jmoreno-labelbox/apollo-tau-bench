@@ -1,8 +1,8 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 
 
-# Helper function
+# Utility function
 def _require(data, key, error_msg=None):
     """Require a key to exist in data."""
     if key not in data or data[key] is None:

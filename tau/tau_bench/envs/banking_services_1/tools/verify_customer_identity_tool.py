@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -44,7 +44,7 @@ class VerifyCustomerIdentityTool(Tool):
                 indent=2,
             )
 
-        # Simulate document verification logic
+        # Emulate the logic for verifying documents.
         return json.dumps(
             {"status": "success", "verified": True, "confidence": 0.97}, indent=2
         )

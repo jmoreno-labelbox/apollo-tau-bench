@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -51,7 +51,7 @@ class UpdateGroceryListWithSubstitutesByPlanKeys(Tool):
                 ing = _ingredient_by_id(data, new_iid)
                 it["grocery_section"] = (ing or {}).get("grocery_section", "Misc")
                 updated += 1
-            # Mark all items as validated even if no substitution applied
+            # Flag all items as validated regardless of whether any substitution was made.
             it["substitutions_validated"] = True
             validated += 1
         gl["last_substitutions_applied_at"] = "2025-01-01T12:25:00"

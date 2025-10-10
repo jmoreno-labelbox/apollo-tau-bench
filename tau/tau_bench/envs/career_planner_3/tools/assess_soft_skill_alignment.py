@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class AssessSoftSkillAlignment(Tool):
         target_role = kwargs.get("target_role")
         soft_skills = data.get("soft_skills", [])
 
-        # Find soft skills that are applicable to the target role
+        # Identify relevant soft skills for the desired position.
         applicable_skills = []
         for s in soft_skills:
             if target_role in s.get("applicable_roles", []):

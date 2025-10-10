@@ -1,7 +1,7 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 
-# Helper function
+# Utility function
 def _load_table(data, table_name):
     """Load table from data, return as list of values."""
     table = data.get(table_name, {})

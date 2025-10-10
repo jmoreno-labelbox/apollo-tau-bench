@@ -16,7 +16,7 @@ class SplitTransactionBetweenAccounts(Tool):
             return json.dumps({'error': 'Original transaction not found or missing fields.'})
         if abs(sum(s['amount'] for s in splits)) != abs(orig_txn['amount']):
             return json.dumps({'error': 'Split amounts must sum to original transaction amount.'})
-        # Remove original transaction (simulate split)
+        # Delete the initial transaction (emulate split).
         transactions.remove(orig_txn)
         new_txns = []
         for s in splits:

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -46,7 +46,7 @@ class GetIngredientInfoTool(Tool):
             the 'data' key contains the ingredient object. On failure,
             it contains a structured error object.
         """
-        # 1. Validate Inputs
+        # 1. Check Input Validity
         param_definitions = {
             "ingredient_id": {"type": int, "required": True}
         }
@@ -59,15 +59,15 @@ class GetIngredientInfoTool(Tool):
 
         ingredient_id = kwargs["ingredient_id"]
 
-        # 2. Data Retrieval
+        # 2. Data Acquisition
         ingredient_record = next(
             (i for i in list(data.get("ingredients", {}).values()) if i.get("ingredient_id") == ingredient_id),
             None
         )
 
-        # 3. Handle not found cases
+        # 3. Manage cases where items are not found
         if not ingredient_record:
             return _build_error_response("NOT_FOUND", {"entity": "Ingredient", "entity_id": ingredient_id})
 
-        # 4. Return a standardized success response
+        # 4. Provide a uniform success response.
         return _build_success_response(ingredient_record)

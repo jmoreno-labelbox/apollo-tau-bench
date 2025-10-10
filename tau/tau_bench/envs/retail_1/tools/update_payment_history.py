@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class UpdatePaymentHistory(Tool): # WRITE
+class UpdatePaymentHistory(Tool): # CREATE
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str, transaction_type: str, payment_info_to_update: Dict[str, Any]) -> str:
         db = list(data.get("orders", {}).values())

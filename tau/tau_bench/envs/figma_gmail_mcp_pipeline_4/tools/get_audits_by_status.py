@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,17 +20,17 @@ class GetAuditsByStatus(Tool):
 
         audits = data.get('audits', [])
 
-        # If audit_id is provided, return specific audit
+        # Return the specific audit if an audit_id is given.
         if audit_id:
             for audit in audits:
                 if audit.get('audit_id') == audit_id:
                     return json.dumps(audit, indent=2)
             return json.dumps({"error": f"Audit with ID '{audit_id}' not found."})
 
-        # Filter audits by criteria
+        # Apply criteria to filter audits.
         results = []
         for audit in audits:
-            # Apply filters
+            # Implement filters
             if status:
                 if audit.get('status') != status:
                     continue
@@ -43,7 +43,7 @@ class GetAuditsByStatus(Tool):
                 if audit.get('artifact_id') != artifact_id:
                     continue
 
-            # Apply date filters
+            # Implement date constraints.
             if created_after:
                 audit_created = audit.get('created_ts', '')
                 if audit_created < created_after:

@@ -224,7 +224,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 8
+    # number_of_edges: 8
     Task(
         annotator="0",
         user_id="MED_13",
@@ -253,7 +253,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 9
+    # number_of_complexity_edges: 9
     Task(
         annotator="0",
         user_id="MED_15",
@@ -267,7 +267,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 7
+    # edges_complexity: 7
     Task(
         annotator="0",
         user_id="MED_16",
@@ -283,7 +283,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 9
+    # number_of_complex_edges: 9
     Task(
         annotator="0",
         user_id="MED_17",
@@ -298,7 +298,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 8
+    # number_of_edges: 8
     Task(
         annotator="0",
         user_id="MED_18",
@@ -313,7 +313,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="MED_19",
@@ -327,7 +327,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_edges_in_complexity: 13
     Task(
         annotator="0",
         user_id="MED_20",
@@ -344,7 +344,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Auto Task 11
+    # Automated Task 11
     Task(
         annotator="0",
         user_id="HARD_1",
@@ -394,7 +394,7 @@ TASKS = [
     ),
 
 
-    # --- Fixed user_229 ---
+    # --- Resolved issue for user_229 ---
     Task(
         annotator="0",
         user_id="HARD_3",
@@ -433,7 +433,7 @@ TASKS = [
     ),
 
 
-    # --- Fixed user_221 ---
+    # --- Resolved user_221 issues ---
     Task(
         annotator="0",
         user_id="HARD_4",
@@ -504,7 +504,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_complexity_edges: 15
     Task(
         annotator="0",
         user_id="HARD_7",
@@ -519,7 +519,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 15
+    # number_of_complexity_edges: 15
     Task(
         annotator="0",
         user_id="HARD_8",
@@ -534,7 +534,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 15
+    # number_of_complexity_edges: 15
     Task(
         annotator="0",
         user_id="HARD_9",
@@ -550,7 +550,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 15
+    # number_of_edges: 15
     Task(
         annotator="0",
         user_id="HARD_10",
@@ -566,7 +566,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 13
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="HARD_11",
@@ -581,7 +581,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 15
+    # number_of_complex_edges: 15
     Task(
         annotator="0",
         user_id="HARD_12",
@@ -596,7 +596,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="HARD_13",
@@ -613,7 +613,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 14
+    # number_of_complex_edges: 14
     Task(
         annotator="0",
         user_id="HARD_14",
@@ -629,7 +629,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 17
+    # number_of_complexity_edges: 17
     Task(
         annotator="0",
         user_id="HARD_15",
@@ -646,7 +646,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 18
+    # number_of_complex_edges: 18
     Task(
         annotator="0",
         user_id="HARD_16",
@@ -679,7 +679,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 17
+    # number_of_complexity_edges: 17
     Task(
         annotator="0",
         user_id="HARD_17",
@@ -694,7 +694,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_complexity_edges: 14
     Task(
         annotator="0",
         user_id="HARD_18",
@@ -719,7 +719,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_complexity_edges: 14
     Task(
         annotator="0",
         user_id="HARD_19",
@@ -748,7 +748,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_complexity_edges: 13
     Task(
         annotator="0",
         user_id="HARD_20",
@@ -777,7 +777,7 @@ TASKS = [
         outputs=[]
         ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="HARD_21",
@@ -808,7 +808,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="HARD_22",
@@ -838,7 +838,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 12
+    # number_of_edges: 12
     Task(
         annotator="0",
         user_id="HARD_23",
@@ -872,7 +872,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_complexity_edges: 14
     Task(
         annotator="0",
         user_id="HARD_24",
@@ -887,7 +887,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # edges_complexity: 15
     Task(
         annotator="0",
         user_id="HARD_25",
@@ -927,7 +927,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 13
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="HARD_26",
@@ -964,7 +964,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_edges: 15
     Task(
         annotator="0",
         user_id="HARD_27",
@@ -998,7 +998,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 13
+    # number_of_complexity_edges: 13
     Task(
         annotator="0",
         user_id="HARD_28",
@@ -1029,7 +1029,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges:  15
+    # number_of_complexity_edges: 15
     Task(
         annotator="0",
         user_id="HARD_29",
@@ -1064,7 +1064,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="HARD_30",
@@ -1091,7 +1091,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # edge_complexity: 14
     Task(
         annotator="0",
         user_id="HARD_31",
@@ -1130,7 +1130,7 @@ TASKS = [
         outputs=[]
         ),
 
-    # complexity_edges: 13
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="HARD_32",
@@ -1159,7 +1159,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="HARD_33",
@@ -1190,7 +1190,7 @@ TASKS = [
         outputs=[]
         ),
 
-    # complexity_edges:  14
+    # number_of_complexity_edges: 14
     Task(
         annotator="0",
         user_id="HARD_34",
@@ -1220,7 +1220,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_complexity_edges: 14
     Task(
         annotator="0",
         user_id="HARD_35",
@@ -1251,7 +1251,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_complexity_edges: 13
     Task(
         annotator="0",
         user_id="HARD_36",
@@ -1279,7 +1279,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_complexity_edges: 15
     Task(
         annotator="0",
         user_id="HARD_37",
@@ -1307,7 +1307,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_complex_edges: 14
     Task(
         annotator="0",
         user_id="HARD_38",
@@ -1335,7 +1335,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="HARD_39",
@@ -1369,7 +1369,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # edges_complexity: 14
     Task(
         annotator="0",
         user_id="HARD_40",
@@ -1387,7 +1387,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_complexity_edges: 13
     Task(
         annotator="0",
         user_id="HARD_41",
@@ -1407,7 +1407,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 15
+    # number_of_complex_edges: 15
     Task(
         annotator="0",
         user_id="HARD_42",
@@ -1422,7 +1422,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 17
+    # number_of_edges: 17
     Task(
         annotator="0",
         user_id="HARD_43",
@@ -1440,7 +1440,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="HARD_44",
@@ -1458,7 +1458,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 13
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="HARD_45",
@@ -1489,7 +1489,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_complexity_edges: 13
     Task(
         annotator="0",
         user_id="HARD_46",
@@ -1520,7 +1520,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="HARD_47",
@@ -1536,7 +1536,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_complexity_edges: 13
     Task(
         annotator="0",
         user_id="HARD_48",
@@ -1551,7 +1551,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_complexity_edges: 13
     Task(
         annotator="0",
         user_id="HARD_49",
@@ -1582,7 +1582,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="HARD_50",
@@ -1710,7 +1710,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 16
+    # number_of_edges: 16
     Task(
         annotator="0",
         user_id="EXP_4",
@@ -1727,7 +1727,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 18
+    # number_of_complexity_edges: 18
     Task(
         annotator="0",
         user_id="EXP_5",
@@ -1745,7 +1745,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 17
+    # number_of_complexity_edges: 17
     Task(
         annotator="0",
         user_id="EXP_6",
@@ -1765,7 +1765,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 19
+    # number_of_edges: 19
     Task(
         annotator="0",
         user_id="EXP_7",
@@ -1786,7 +1786,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 19
+    # number_of_edges_in_complexity: 19
     Task(
         annotator="0",
         user_id="EXP_8",
@@ -1838,7 +1838,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 21
+    # number_of_edges: 21
     Task(
         annotator="0",
         user_id="EXP_10",
@@ -1856,7 +1856,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 23
+    # number_of_edges_in_complexity: 23
     Task(
         annotator="0",
         user_id="EXP_11",
@@ -1873,7 +1873,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 21
+    # number_of_complexity_edges: 21
     Task(
         annotator="0",
         user_id="EXP_12",
@@ -1891,7 +1891,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_edges_in_complexity: 15
     Task(
         annotator="0",
         user_id="EXP_13",
@@ -1921,7 +1921,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 17
+    # edges_complexity: 17
     Task(
         annotator="0",
         user_id="EXP_14",
@@ -1961,7 +1961,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 19
+    # number_of_edges: 19
     Task(
         annotator="0",
         user_id="EXP_15",
@@ -1996,7 +1996,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 20
+    # number_of_complexity_edges: 20
     Task(
         annotator="0",
         user_id="EXP_16",
@@ -2012,7 +2012,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 18
+    # number_of_complexity_edges: 18
     Task(
         annotator="0",
         user_id="EXP_17",
@@ -2029,7 +2029,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 20
+    # number_of_edges: 20
     Task(
         annotator="0",
         user_id="EXP_18",
@@ -2064,7 +2064,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 20
+    # number_of_edges: 20
     Task(
         annotator="0",
         user_id="EXP_19",
@@ -2106,7 +2106,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="EXP_20",
@@ -2148,7 +2148,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_complex_edges: 15
     Task(
         annotator="0",
         user_id="EXP_21",
@@ -2188,7 +2188,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="EXP_22",
@@ -2225,7 +2225,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_edges: 15
     Task(
         annotator="0",
         user_id="EXP_23",
@@ -2241,7 +2241,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 18
+    # number_of_edges: 18
     Task(
         annotator="0",
         user_id="EXP_24",
@@ -2261,7 +2261,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 19
+    # number_of_complexity_edges: 19
     Task(
         annotator="0",
         user_id="EXP_25",
@@ -2281,7 +2281,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
     annotator="0",
     user_id="EXP_26",
@@ -2299,7 +2299,7 @@ TASKS = [
     outputs=[]
     ),
 
-    # complexity_edges: 18
+    # number_of_complexity_edges: 18
     Task(
         annotator="0",
         user_id="EXP_27",
@@ -2320,7 +2320,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 16
+    # number_of_complexity_edges: 16
     Task(
         annotator="0",
         user_id="EXP_28",
@@ -2338,7 +2338,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 19
+    # number_of_edges: 19
     Task(
         annotator="0",
         user_id="EXP_29",
@@ -2356,7 +2356,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="EXP_30",
@@ -2375,257 +2375,257 @@ TASKS = [
         outputs=[]
     ),
 
-#     ### BACKUP TASKS ####
+#     ### BACKUP TASKS #### ### TASKS FOR BACKUP ####
 #     #####################
-    # # complexity_edges:  18
-    # Task(
-    #     annotator="0",
-    #     user_id="EXP_43",
-    #     instruction="You are the safety-and-workflow posture coordinator for marketing updates on thread_010, operating with DLP and intent awareness. Provide a non-procedural, audit-ready record that shows: labels marketing and triaged present on thread_010 effective 2024-08-24T18:20:00Z; a memo from anna.brand@company.com recorded at 2024-08-24T18:22:00Z with exact body 'Requires copy tweak on hero headline and UTM link validation'; a DLP evaluation at 2024-08-24T18:23:00Z that applies label dlp-flag only upon detection; awareness of release_009 via its diff summary; dlp_config and intent_keywords consulted; the terminal log 'DLP posture recorded' at 2024-08-24T18:26:00Z; label safety/checked present at 2024-08-24T18:27:00Z with a no-op confirmation at 2024-08-24T18:28:00Z; and the exported assets for art_001 as the stable reference.",
-    #     actions=[
+    # # # number_of_edges: 18
+    # Function(
+    # annotator_id="0",
+    # user_identifier="EXP_43",
+    # instruction="Act as the coordinator for safety and workflow regarding marketing updates on thread_010, ensuring compliance with DLP and intent awareness. Generate a non-procedural, audit-ready log that includes: labels for marketing and triaged on thread_010 effective from 2024-08-24T18:20:00Z; a memo from anna.brand@company.com timestamped at 2024-08-24T18:22:00Z with the exact content 'Requires copy tweak
+    # actionsList = [
     #         Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_010", "add_labels": ["marketing", "triaged"], "remove_labels": [], "changed_ts": "2024-08-24T18:20:00Z"}),
-    #         Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_010", "from_email": "anna.brand@company.com", "body": "Requires copy tweak on hero headline and UTM link validation", "created_ts": "2024-08-24T18:22:00Z"}),
-    #         Action(name="DlpScanAndLabelThread", kwargs={"thread_id": "thread_010", "label_if_found": "dlp-flag", "changed_ts": "2024-08-24T18:23:00Z"}),
+    # Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_010", "from_email": "anna.brand@company.com", "body": "Needs adjustments on main headline and validation of UTM link", "created_ts": "2024-08-24T18:22:00Z"}),
+    # Action(name="DlpScanAndLabelThread", kwargs={"thread_id": "thread_010", "label_if_detected": "dlp-flag", "modified_timestamp": "2024-08-24T18:23:00Z"}),
     #         Action(name="GetReleaseDiffSummary", kwargs={"release_id": "release_009"}),
     #         Action(name="ReadSystemConfig", kwargs={"config_key": "dlp_config"}),
-    #         Action(name="ReadSystemConfig", kwargs={"config_key": "intent_keywords"}),
-    #         Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-24T18:26:00Z", "message": "DLP posture recorded"}),
+    # Action(name="ReadSystemConfig", parameters={"config_key": "intent_keywords"}),
+    # Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-24T18:26:00Z", "message": "DLP status logged"}),
     #         Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_010", "add_labels": ["safety/checked"], "remove_labels": [], "changed_ts": "2024-08-24T18:27:00Z"}),
     #         Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_010", "add_labels": [], "remove_labels": [], "changed_ts": "2024-08-24T18:28:00Z"}),
     #         Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
     #     ],
-    #     outputs=[
+    # results=[
     #         """[
     # {
-    # "asset_id": "asset_001",
-    # "profile": null,
-    # "file_name": null,
-    # "mime_type": null
+    # "asset_identifier": "asset_001",
+    # "profile": None,
+    # "file_name": None,
+    # "mime_type": undefined
     # },
     # {
-    # "asset_id": "asset_002",
-    # "profile": null,
-    # "file_name": null,
-    # "mime_type": null
+    # "asset_identifier": "asset_002",
+    # "profile": None,
+    # "file_name": None,
+    # "mime_type": undefined
     # }
     # ]"""
-    # ]
+    # It seems there is no comment provided to paraphrase. Please provide a comment for me to rewrite.
     # ),
 
-    # # complexity_edges: 17
-    # Task(
-    #     annotator="0",
-    #     user_id="EXP_44",
-    #     instruction="You are the guarded release-communications coordinator operating under the release/ lineage with attachment and DLP guardrails. Provide a non-procedural, audit-ready snapshot confirming: releases discoverable with version_prefix 'release/'; release_001 validated via its diff summary; a draft in thread_006 from emma.creative@company.com at 2024-08-22T17:00:00Z with subject 'Release 1.2.0 Announcement' and body 'Highlights and changes included.'; attachment policy validation via Gmail relmsg_9cc87e81; a conversation posture where Design/Release and announced are present and draft is absent as of 2024-08-22T17:06:00Z; the closing note 'APPROVE rollout.' at 2024-08-22T17:07:00Z; a DLP scan on thread_006 with the terminal log 'DLP scan complete' at 2024-08-22T17:08:00Z; and the exported Figma assets for art_001 as the stable reference.",
-    #     actions=[
-    #         Action(name="ListReleases", kwargs={"version_prefix": "release/"}),
+    # # # number_of_edges: 17
+    # Operation(
+    # annotator_id="0",
+    # user_identifier="EXP_44",
+    # instruction="You are the release communications coordinator responsible for managing release lineage with attachment and DLP safeguards. Provide a concise, audit-ready overview confirming: releases are identifiable with version_prefix 'release/'; release_001 verified through its diff summary; a draft in thread_006 from emma.creative@company.com dated 2024-08-22T17:00:00Z with subject 'Release 1.2.0 Announcement' and content 'Highlights and changes included.'; attachment policy
+    # operations=[
+    # Action(name="ListReleases", kwargs={"version_prefix": "release/"})
     #         Action(name="GetReleaseDiffSummary", kwargs={"release_id": "release_001"}),
-    #         Action(name="ComposeReleaseEmailDraft", kwargs={"release_id": "release_001", "thread_id": "thread_006", "from_email": "emma.creative@company.com", "created_ts": "2024-08-22T17:00:00Z", "subject": "Release 1.2.0 Announcement", "body": "Highlights and changes included."}),
+    # Action(name="ComposeReleaseEmailDraft", kwargs={"release_id": "release_001", "thread_id": "thread_006", "from_email": "emma.creative@company.com", "created_ts": "2024-08-22T17:00:00Z", "subject": "Announcement for Release 1.2.0", "body": "Included highlights and changes."}),
     #         Action(name="GuardAttachmentPolicyOnDraft", kwargs={"message_id": "relmsg_9cc87e81"}),
-    #         Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_006", "add_labels": ["Design/Release", "announced"], "remove_labels": ["draft"], "changed_ts": "2024-08-22T17:06:00Z"}),
+    # Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_006", "labels_to_add": ["Design/Release", "announced"], "labels_to_remove": ["draft"], "timestamp_modified": "2024-08-22T17:06:00Z"}),
     #         Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_006", "from_email": "emma.creative@company.com", "body": "APPROVE rollout.", "created_ts": "2024-08-22T17:07:00Z"}),
     #         Action(name="DlpScanThread", kwargs={"thread_id": "thread_006"}),
-    #         Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-22T17:08:00Z", "message": "DLP scan complete"}),
-    #         Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
+    # Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-22T17:08:00Z", "message": "DLP scan finished"}),
+    # Action(name="ListAssetsForArtifact", parameters={"artifact_id": "art_001"}),
     #     ],
-    #     outputs=[
+    # results=[
     #         """[
     # {
-    # "asset_id": "asset_001",
-    # "profile": null,
-    # "file_name": null,
-    # "mime_type": null
+    # "asset_identifier": "asset_001",
+    # "profile": none,
+    # "file_name": None,
+    # "mime_type": undefined
     # },
     # {
-    # "asset_id": "asset_002",
-    # "profile": null,
-    # "file_name": null,
-    # "mime_type": null
+    # "asset_identifier": "asset_002",
+    # "profile": None,
+    # "file_name": None,
+    # "mime_type": None
     # }
     # ]"""
-    # ]
+    # 
     # ),
 
 
-    # # complexity_edges: 17
-    # Task(
-    #     annotator="0",
-    #     user_id="EXP_45",
-    #     instruction="You are the cross-surface provenance steward coordinating a deterministic brand note within review governance. Provide an audit-ready, non-procedural record that demonstrates: a review for art_003 created at 2024-08-23T12:45:00Z (cycle_7a255cf0) and associated with thread_001 at 2024-08-23T12:50:00Z; status NEEDS_REVIEW effective 2024-08-23T12:55:00Z; a stakeholder nudge captured in thread_001 from sophie.marketing@company.com at 2024-08-23T12:58:00Z with body 'Brand guidance incoming.'; a label stance where Brand/Review is present and urgent absent as of 2024-08-23T12:59:00Z; a brand comment on Figma art_003 by sophie.marketing@company.com anchored node-2:7 at 2024-08-23T12:00:00Z with body 'Please update the brand color token to Brand/Primary/600.'; and the author-scoped Figma comment list for artifact_id art_003 filtered to author_email sophie.marketing@company.com since 2024-08-01T00:00:00Z.",
-    #     actions=[
-    #         Action(name="StartReviewCycle", kwargs={"artifact_id": "art_003", "created_ts": "2024-08-23T12:45:00Z"}),
-    #         Action(name="LinkReviewToThread", kwargs={"cycle_id": "cycle_7a255cf0", "thread_id": "thread_001", "changed_ts": "2024-08-23T12:50:00Z"}),
-    #         Action(name="AdvanceReviewStatus", kwargs={"cycle_id": "cycle_7a255cf0", "new_status": "NEEDS_REVIEW", "changed_ts": "2024-08-23T12:55:00Z"}),
-    #         Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_001", "from_email": "sophie.marketing@company.com", "body": "Brand guidance incoming.", "created_ts": "2024-08-23T12:58:00Z"}),
+    # # # number_of_edges: 17
+    # Operation(
+    # labeler="0",
+    # user_identifier="EXP_45",
+    # instruction="You are the cross-surface provenance steward responsible for coordinating a deterministic brand note within the review governance framework. Generate an audit-ready, non-procedural record that outlines: a review for art_003 dated 2024-08-23T12:45:00Z (cycle_7a255cf0) linked to thread_001 at 2024-08-23T12:50:00Z; a status of NEEDS_REVIEW effective 2024-08
+    # operations=[
+    # Action(name="InitiateReviewCycle", kwargs={"artifact_id": "art_003", "created_timestamp": "2024-08-23T12:45:00Z"}),
+    # Action(name="LinkReviewToThread", kwargs={"cycle_id": "cycle_7a255cf0", "thread_id": "thread_001", "updated_timestamp": "2024-08-23T12:50:00Z"}),
+    # Action(name="AdvanceReviewStatus", kwargs={"cycle_id": "cycle_7a255cf0", "status_update": "NEEDS_REVIEW", "timestamp": "2024-08-23T12:55:00Z"}),
+    # Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_001", "from_email": "sophie.marketing@company.com", "body": "Brand guidance on the way.", "created_ts": "2024-08-23T12:58:00Z"}),
     #         Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_001", "add_labels": ["Brand/Review"], "remove_labels": ["urgent"], "changed_ts": "2024-08-23T12:59:00Z"}),
-    #         Action(name="CreateFigmaComment", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "body": "Please update the brand color token to Brand/Primary/600.", "anchor_ref": "node-2:7", "created_ts": "2024-08-23T12:00:00Z"}),
+    # Action(name="CreateFigmaComment", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "body": "Update the brand color token to Brand/Primary/600.", "anchor_ref": "node-2:7", "created_ts": "2024-08-23T12:00:00Z"}),
     #         Action(name="ListFigmaComments", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "since_ts": "2024-08-01T00:00:00Z"}),
     #     ],
-    #     outputs=[
+    # results=[
     #         """[
     # {
-    # "comment_id": "cmt_10b86546",
-    # "author_email": "sophie.marketing@company.com",
-    # "anchor_ref": "node-2:7",
-    # "body": "Please update the brand color token to Brand/Primary/600.",
-    # "created_ts": "2024-08-23T12:00:00Z"
+    # "comment_identifier": "cmt_10b86546",
+    # "author_contact": "sophie.marketing@company.com",
+    # "anchor_reference": "node-2:7",
+    # "body": "Update the brand color token to Brand/Primary/600."
+    # "created_timestamp": "2024-08-23T12:00:00Z"
     # }
     # ]"""
-    # ]
+    # It seems there was a mistake in your input. Please provide a comment to paraphrase.
     # ),
 
-#     # # complexity_edges: 13
-#     # Task(
-#     #     annotator="0",
-#     #     user_id="EXP_46",
-#     #     instruction="You own accessibility feedback coordination for the admin panel header. Target state: an active design-review conversation in Gmail (label “design-review”, participant chris.engineer@company.com, keyword “Design”); art_003 carries a canonical note by sophie.marketing@company.com at 2024-08-26T10:00:00Z anchored node-3:header with body “Add ARIA labels and keyboard navigation support.”; thread_001 posture shows a11y and figma-sync present and urgent absent with changed_ts 2024-08-26T10:00:00Z; a kickoff message from chris.engineer@company.com at 2024-08-26T10:01:00Z with body “Accessibility improvements in progress - adding ARIA labels and keyboard navigation support”; and exported assets for art_001 as handoff evidence. Use resolution_notes Accessibility improvements in progress - adding ARIA labels and keyboard navigation support or similar.",
-#     #     actions=[
+#     # # # # edges complexity: 13
+#     # # Operation(
+#     # annotator="0",
+#     # user_id = "EXP_46",
+#     # #     instruction="You are responsible for coordinating accessibility feedback for the admin panel header. Desired outcome: an ongoing design-review discussion in Gmail (label 'design-review', participant chris.engineer@company.com, keyword 'Design'); art_003 should contain a primary note from sophie.marketing@company.com dated 2024-08-26T10:00:00Z linked to node-3:header with the content 'Add ARIA labels and keyboard navigation support.'; thread_
+#     # #     tasks=[
 #     #         Action(name="SearchGmailThreads", kwargs={"label": "design-review", "participant": "chris.engineer@company.com", "keyword": "Design"}),
-#     #         Action(name="CreateFigmaComment", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "body": "Add ARIA labels and keyboard navigation support.", "anchor_ref": "node-3:header", "created_ts": "2024-08-26T10:00:00Z"}),
+#     # #         Action(name="CreateFigmaComment", kwargs={"artifact_id": "art_003", "author_email": "sophie.marketing@company.com", "body": "Incorporate ARIA labels and enable keyboard navigation.", "anchor_ref": "node-3:header", "created_ts": "2024-08-26T10:00:00Z"}),
 #     #         Action(name="UpdateThreadLabels", kwargs={"thread_id": "thread_001", "add_labels": ["a11y", "figma-sync"], "remove_labels": ["urgent"], "changed_ts": "2024-08-26T10:00:00Z"}),
-#     #         Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_001", "from_email": "chris.engineer@company.com", "body": "Accessibility improvements in progress - adding ARIA labels and keyboard navigation support", "created_ts": "2024-08-26T10:01:00Z"}),
-#     #         Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
+#     # #         Action(name="AppendMessageToThread", kwargs={"thread_id": "thread_001", "from_email": "chris.engineer@company.com", "body": "Working on accessibility enhancements - incorporating ARIA labels and keyboard navigation", "created_ts": "2024-08-26T10:01:00Z"}),
+#     # Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_001"}),
 #     #     ],
-#     #     outputs=[
+#     # outputs = [
 #     #     """[
 #     #     {
-#     #     "asset_id": "asset_001",
-#     #     "profile": null,
-#     #     "file_name": null,
-#     #     "mime_type": null
+#     # "asset_id": "asset_001",
+#     # #     "profile": None,
+#     # #     "file_name": None,
+#     # #     "mime_type": none
 #     #     },
 #     #     {
 #     #     "asset_id": "asset_002",
-#     #     "profile": null,
-#     #     "file_name": null,
-#     #     "mime_type": null
-#     #     }
+#     # #     "profile": None,
+#     # #     "file_name": None,
+#     # #     "mime_type": None
+#     # }
 #     #     ]"""
 #     #     ]
-#     # ),
+#     # # )
 
-#     # # complexity_edges: 14
-#     # Task(
-#     # annotator="0",
-#     # user_id="EXP_47",
-#     # instruction="You own settings-screen accessibility and brand guidance with FRAME scope. Target state: FRAME artifacts covered for owner jake.design@company.com tagged “revise” modified_since 2024-08-01T00:00:00Z; export availability evidenced by assets for art_012; a brand note on art_012 by sophie.marketing@company.com at 2024-08-28T09:00:00Z anchored node-12:1 with body “Align tokens with brand v3.”; thread_010 labels show a11y and triaged present and design removed with changed_ts 2024-08-28T09:02:00Z; audit narrative “Brand v3 guidance posted for settings screen” at 2024-08-28T09:03:00Z; authoritative reference is the canonical artifact summary for art_012.",
-#     # actions=[
-#     #     Action(name="ListArtifacts", kwargs={
-#     #     "owner_email": "jake.design@company.com",
-#     #     "tag": "revise",
-#     #     "artifact_type": "FRAME",
-#     #     "modified_since": "2024-08-01T00:00:00Z"
+#     # # # # edges_complexity: 14
+#     # # Function(
+#     # # labeler="0",
+#     # user_id = "EXP_47",
+#     # # directive="You are responsible for the accessibility and branding of the settings screen within the FRAME scope. Desired outcome: FRAME materials associated with owner jake.design@company.com noted as “revise” since 2024-08-01T00:00:00Z; export readiness confirmed by assets for art_012; a branding comment on art_012 by sophie.marketing@company.com dated 2024-08-28T09:00:00Z linked to node-
+#     # # list_of_actions=[
+#     # #     Action(name="ListArtifacts", parameters={
+#     # "owner_email": "jake.design@company.com",
+#     # "tag": "update",
+#     # "artifact_type": "FRAME",
+#     # #     "last_updated": "2024-08-01T00:00:00Z"
 #     #     }),
-#     #     Action(name="ListAssetsForArtifact", kwargs={"artifact_id": "art_012"}),
-#     #     Action(name="CreateFigmaComment", kwargs={
-#     #     "artifact_id": "art_012",
+#     # #     Action(name="ListAssetsForArtifact", parameters={"artifact_id": "art_012"}),
+#     # #     Action(identifier="CreateFigmaComment", parameters={
+#     # "artifact_id": "art_012",
 #     #     "author_email": "sophie.marketing@company.com",
-#     #     "body": "Align tokens with brand v3.",
-#     #     "anchor_ref": "node-12:1",
+#     # "body": "Synchronize tokens with brand version 3."
+#     # "anchor_ref": "node-12:1",
 #     #     "created_ts": "2024-08-28T09:00:00Z"
 #     #     }),
-#     #     Action(name="UpdateThreadLabels", kwargs={
-#     #     "thread_id": "thread_010",
-#     #     "add_labels": ["a11y", "triaged"],
-#     #     "remove_labels": ["design"],
-#     #     "changed_ts": "2024-08-28T09:02:00Z"
+#     # #     Action(name="ModifyThreadLabels", kwargs={
+#     # "thread_id": "thread_010",
+#     # "add_labels": ["accessibility", "categorized"],
+#     # "remove_labels": ["design"],
+#     # #     "modified_timestamp": "2024-08-28T09:02:00Z"
 #     #     }),
-#     #     Action(name="LogTerminalEvent", kwargs={
+#     # #     Action(name="LogTerminalEvent", parameters={
 #     #     "log_ts": "2024-08-28T09:03:00Z",
-#     #     "message": "Brand v3 guidance posted for settings screen"
+#     # #     "message": "Brand v3 instructions uploaded for settings interface"
 #     #     }),
-#     #     Action(name="GetArtifactSummary", kwargs={"artifact_id": "art_012"}),
+#     # Action(name="RetrieveArtifactSummary", kwargs={"artifact_id": "art_012"}),
 #     # ],
-#     # outputs=[
+#     # outputs = [
 #     # """{
 #     # "artifact_id": "art_012",
-#     # "artifact_name": "Settings Screen",
+#     # "artifact_name": "Configuration Interface",
 #     # "artifact_type": "FRAME",
-#     # "owner_email": "jake.design@company.com
+#     # # "owner_email": "jake.design@company.com"
 #     # ",
 #     # "deep_link": "https://www.figma.com/file/xyz789ghi012/Mobile-App?node-id=2%3A4
-#     # ",
-#     # "current_tags": [
-#     # "settings",
-#     # "mobile",
-#     # "app",
-#     # "revise"
-#     # ],
-#     # "modified_ts": "2024-08-23T10:30:00Z"
+#     # # "
+#     # # "active_tags": [
+#     # # Configuration options
+#     # # "cellular",
+#     # # "application",
+#     # # "update"
+#     # # ]
+#     # # "modified_timestamp": "2024-08-23T10:30:00Z"
 #     # }"""
-#     # ]
+#     # # End of input
 #     # ),
 
-#     # # complexity_edges: 13
-#     # Task(
-#     #     annotator="0",
-#     #     user_id="HARD_401",
-#     #     instruction=(
-#     #         "You own a11y preparation hygiene for the marketing website FILE scope. "
-#     #         "The audit-ready snapshot should evidence: FILE artifacts for owner anna.brand@company.com tagged website and modified on/after 2024-08-01T00:00:00Z confirming art_006; "
-#     #         "for art_006, an audit-in-progress lifecycle with the tag present at 2024-08-28T13:00:00Z, a preparation note “Prepared audit for art_006” at 2024-08-28T13:05:00Z, and the tag cleared at 2024-08-28T13:20:00Z. "
-#     #         "Return the canonical artifact summary for art_006."
+#     # # # Number of edges in complexity: 13
+#     # # Function(
+#     # #     labeler="0",
+#     # user_id = "HARD_401",
+#     # #     command=(
+#     # #         "You are responsible for ensuring a11y readiness for the marketing website FILE scope."
+#     # The snapshot prepared for audit must show: FILE artifacts for owner anna.brand@company.com labeled as website and modified on or after 2024-08-01T00:00:00Z verifying art_006;
+#     # #         "For art_006, an ongoing audit lifecycle with the tag recorded on 2024-08-28T13:00:00Z, a preparation note stating 'Prepared audit for art_006' at 2024-08-28T13:05:00Z, and the tag removed on 2024-08-28T13:20:00Z."
+#     # #         "Fetch the standard artifact summary for art_006."
 #     #     ),
-#     #     actions=[
+#     # #     operations=[
 #     #         Action(name="ListArtifacts", kwargs={"owner_email": "anna.brand@company.com", "tag": "website", "artifact_type": "FILE", "modified_since": "2024-08-01T00:00:00Z"}),
 #     #         Action(name="AddArtifactTag", kwargs={"artifact_id": "art_006", "tag": "audit-in-progress", "changed_ts": "2024-08-28T13:00:00Z"}),
-#     #         Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-28T13:05:00Z", "message": "Prepared audit for art_006"}),
+#     # #         Action(name="LogTerminalEvent", kwargs={"log_ts": "2024-08-28T13:05:00Z", "message": "Audit prepared for art_006"}),
 #     #         Action(name="RemoveArtifactTag", kwargs={"artifact_id": "art_006", "tag": "audit-in-progress", "changed_ts": "2024-08-28T13:20:00Z"}),
-#     #         Action(name="GetArtifactSummary", kwargs={"artifact_id": "art_006"}),
+#     # #         Action(name="RetrieveArtifactSummary", kwargs={"artifact_id": "art_006"}),
 #     #     ],
-#     #     outputs=[
+#     # outputs = [
 #     #     """{
-#     #     "artifact_id": "art_006",
-#     #     "artifact_name": "Marketing Website",
-#     #     "artifact_type": "FILE",
-#     #     "owner_email": "anna.brand@company.com",
-#     #     "deep_link": "https://www.figma.com/file/def456ghi789/Marketing-Website",
-#     #     "current_tags": [
-#     #     "marketing",
-#     #     "website",
-#     #     "landing-pages"
+#     # "artifact_id": "art_006",
+#     # "artifact_name": "Promotional Website",
+#     # "artifact_type": "DOCUMENT",
+#     # "owner_email": "anna.brand@company.com",
+#     # "deep_link": "https://www.figma.com/file/def456ghi789/Marketing-Website",
+#     # #     "active_tags": [
+#     # #     "advertising",
+#     # #     "site",
+#     # #     "destination-pages"
 #     #     ],
 #     #     "modified_ts": "2024-08-28T13:20:00Z"
 #     #     }"""
 #     #     ]
 #     # ),
 
-#     # # complexity_edges: 13
-#     # Task(
-#     #     annotator="0",
-#     #     user_id="HARD_402",
-#     #     instruction=(
-#     #         "You own release-communications readiness for the design system under the release/ lineage. "
-#     #         "The audit-ready snapshot should evidence: lineage discoverability via version_prefix “release/”; "
-#     #         "for release_001, a draft in thread_006 from emma.creative@company.com created at 2024-08-28T11:00:00Z with subject “Release 1.2.0 Announcement” and body “Highlights and changes included.” validated against attachment policy using message_id relmsg_0d5cb1ea; "
-#     #         "thread posture where Design/Release and announced are present and draft is absent with changed_ts 2024-08-28T11:05:00Z. "
-#     #         "Return the diff summary for release_001."
+#     # # # # number_of_edges: 13
+#     # # Operation(
+#     # #     labeler="0",
+#     # user_id = "HARD_402"
+#     # #     command=(
+#     # You are responsible for the release communications preparation for the design system associated with the release lineage.
+#     # The audit-ready snapshot must demonstrate lineage traceability through the version_prefix "release/";
+#     # #         "For release_001, a draft in thread_006 by emma.creative@company.com dated 2024-08-28T11:00:00Z with the subject “Release 1.2.0 Announcement” and content “Highlights and changes included.” checked for compliance with attachment policy using message_id relmsg_0d5cb1ea;"
+#     # #         "Thread status indicating Design/Release and announced are available, while draft is missing, with changed_ts 2024-08-28T11:05:00Z."
+#     # #         "Provide the difference summary for release_001."
 #     #     ),
-#     #     actions=[
-#     #         Action(name="ListReleases", kwargs={"version_prefix": "release/"}),
-#     #         Action(name="ComposeReleaseEmailDraft", kwargs={
-#     #         "release_id": "release_001",
-#     #         "thread_id": "thread_006",
-#     #         "from_email": "emma.creative@company.com",
+#     # #     operations=[
+#     # #         Action(name="ListReleases", kwargs={"version_prefix": "release/"})
+#     # #         Action(identifier="ComposeReleaseEmailDraft", parameters={
+#     # "release_identifier": "release_001",
+#     # "thread_id": "thread_006",
+#     # "from_email": "emma.creative@company.com",
 #     #         "created_ts": "2024-08-28T11:00:00Z",
-#     #         "subject": "Release 1.2.0 Announcement",
-#     #         "body": "Highlights and changes included."
+#     # #         "subject": "Announcement for Release 1.2.0",
+#     # #         "body": "Included are highlights and modifications."
 #     #         }),
-#     #         Action(name="GuardAttachmentPolicyOnDraft", kwargs={"message_id": "relmsg_0d5cb1ea"}),
-#     #         Action(name="UpdateThreadLabels", kwargs={
-#     #         "thread_id": "thread_006",
-#     #         "add_labels": ["Design/Release", "announced"],
-#     #         "remove_labels": ["draft"],
+#     # Action(name="GuardAttachmentPolicyOnDraft", kwargs={"message_id": "relmsg_0d5cb1ea"}),
+#     # #         Action(name="ModifyThreadLabels", kwargs={
+#     # "thread_identifier": "thread_006",
+#     # "add_labels": ["Design/Release", "disclosed"],
+#     # #         "remove_labels": ["incomplete"],
 #     #         "changed_ts": "2024-08-28T11:05:00Z"
 #     #         }),
 #     #         Action(name="GetReleaseDiffSummary", kwargs={"release_id": "release_001"}),
 #     #     ],
-#     #     outputs=[
+#     # #     results=[
 #     #     """{
 #     #     "release_id": "release_001",
-#     #     "added": 0,
-#     #     "updated": 0,
-#     #     "removed": 0
+#     # #     "included": 0,
+#     # #     "modified": 0,
+#     # #     "deleted": 0
 #     #     }"""
 #     #     ]
 #     # ),

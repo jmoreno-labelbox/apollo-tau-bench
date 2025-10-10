@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,14 +9,14 @@ class UpdateCustomerDetails(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         customer_id = kwargs.get('customer_id')
-        customers = list(data.get("customers", {}).values())  # Lista []
+        customers = list(data.get("customers", {}).values())  # Array []
         updated_customer = None
         for customer in customers:
             if customer.get("customer_id") == customer_id:
                 for key, value in kwargs.items():
                     if key != 'customer_id':
                         customer[key] = value
-                customer["updated_at"] = "2025-07-28T16:38:15Z"  # Current time
+                customer["updated_at"] = "2025-07-28T16:38:15Z"  # System time
                 updated_customer = customer
                 break
         return json.dumps({"updated_customer": updated_customer})

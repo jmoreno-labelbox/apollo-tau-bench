@@ -1,7 +1,7 @@
 from tau_bench.types import Action, Task
 
 TASKS = [
-    # Task 1
+    # Activity 1
     Task(
         annotator="faris",
         user_id="faris_001_comp_analysis_client13_htx025",
@@ -46,7 +46,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 2
+    # Assignment 2
     Task(
         annotator="faris",
         user_id="faris_002_comp_client10_htx021_skip_review",
@@ -91,7 +91,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 3
+    # Activity 3
     Task(
         annotator="faris",
         user_id="faris_003_investment_comp_client12_htx044",
@@ -132,7 +132,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 4
+    # Activity 4
     Task(
         annotator="faris",
         user_id="faris_004_luxury_comp_client13_htx025_amenities",
@@ -169,7 +169,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 5
+    # Activity 5
     Task(
         annotator="faris",
         user_id="faris_005_montrose_comp_client11_htx012",
@@ -206,7 +206,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 6
+    # Activity 6
     Task(
         annotator="faris",
         user_id="faris_006_budget_comp_client7_htx036_400k",
@@ -251,7 +251,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 7
+    # Activity 7
     Task(
         annotator="faris",
         user_id="faris_007_medical_center_comp_client8_htx049",
@@ -291,7 +291,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 8
+    # Activity 8
     Task(
         annotator="faris",
         user_id="faris_008_first_time_buyer_client2_htx017",
@@ -327,7 +327,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 9
+    # Assignment 9
     Task(
         annotator="faris",
         user_id="faris_009_heights_analysis_client15_htx001",
@@ -365,7 +365,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 10
+    # Assignment 10
     Task(
         annotator="faris",
         user_id="faris_010_river_oaks_analysis_client16_htx007",
@@ -440,7 +440,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 12
+    # Assignment 12
     Task(
         annotator="faris",
         user_id="faris_012_comp_analysis_client9_htx024",
@@ -477,7 +477,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 13
+    # Assignment 13
     Task(
         annotator="faris",
         user_id="faris_013_family_weekend_open_houses_client15_htx042",
@@ -522,7 +522,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 14
+    # Activity 14
     Task(
         annotator="faris",
         user_id="faris_014_campaign_curation_client5_htx026",
@@ -546,7 +546,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 15
+    # Assignment 15
     Task(
         annotator="faris",
         user_id="faris_015_client_comms_client4_briefing",
@@ -572,7 +572,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 16
+    # Activity 16
     Task(
         annotator="faris",
         user_id="faris_016_plan_route_client4_broker2",
@@ -615,7 +615,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 17
+    # Activity 17
     Task(
         annotator="faris",
         user_id="faris_017_open_house_client11_broker6",
@@ -660,7 +660,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 18
+    # Activity 18
     Task(
         annotator="faris",
         user_id="faris_018_campaign_update_broker1",
@@ -684,7 +684,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 19
+    # Assignment 19
     Task(
         annotator="faris",
         user_id="faris_019_client_followup_client3_broker3",
@@ -707,7 +707,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 20
+    # Objective 20
     Task(
         annotator="faris",
         user_id="faris_020_mortgage_search_client6_broker6",
@@ -751,7 +751,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 21
+    # Assignment 21
     Task(
         annotator="faris",
         user_id="faris_021_urgent_route_client9_broker9",
@@ -795,7 +795,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 22
+    # Assignment 22
     Task(
         annotator="faris",
         user_id="faris_022_new_campaign_broker10",
@@ -831,7 +831,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 23
+    # Activity 23
     Task(
         annotator="faris",
         user_id="faris_023_report_details_client4_broker2",
@@ -855,7 +855,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 24
+    # Assignment 24
     Task(
         annotator="faris",
         user_id="faris_024_mortgage_check_client18_broker6",
@@ -893,7 +893,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 25
+    # Assignment 25
     Task(
         annotator="faris",
         user_id="faris_025_create_comp_report_with_metrics_client12_broker7",
@@ -935,7 +935,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 26
+    # Assignment 26
     Task(
         annotator="faris",
         user_id="faris_026_comp_analysis_client9_htx024",
@@ -972,7 +972,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 27
+    # Assignment 27
     Task(
         annotator="faris",
         user_id="faris_027_open_house_email_client5_broker6",
@@ -1015,7 +1015,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 28
+    # Activity 28
     Task(
         annotator="faris",
         user_id="faris_028_briefing_for_campaign_client_7_broker15",
@@ -1039,7 +1039,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 29
+    # Activity 29
     Task(
         annotator="faris",
         user_id="faris_029_review_client_comms_client_8_broker12",
@@ -1063,7 +1063,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 30
+    # Assignment 30
     Task(
         annotator="faris",
         user_id="faris_030_financial_check_client19_broker1",
@@ -1222,7 +1222,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 35
+    # Activity 35
     Task(
         annotator="faris",
         user_id="faris_035_create_mortgage_audit_client_17",
@@ -1258,7 +1258,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 36
+    # Assignment 36
     Task(
         annotator="faris",
         user_id="faris_036_plan_route_with_inactive_broker_client5_broker1",
@@ -1294,7 +1294,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 37
+    # Assignment 37
     Task(
         annotator="faris",
         user_id="faris_037_generate_and_send_briefing_client_20_broker10",
@@ -1318,7 +1318,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 38
+    # Activity 38
     Task(
         annotator="faris",
         user_id="faris_038_find_investment_properties_client18_broker6",
@@ -1347,7 +1347,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 39
+    # Objective 39
     Task(
         annotator="faris",
         user_id="faris_039_sales_history_and_metrics_client3_broker3",
@@ -1392,7 +1392,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 40
+    # Assignment 40
     Task(
         annotator="faris",
         user_id="faris_040_send_client6_broker3",
@@ -1466,7 +1466,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 42
+    # Assignment 42
     Task(
         annotator="faris",
         user_id="faris_042_fetch_multiple_listings_and_email_client_10_broker11",
@@ -1497,7 +1497,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 43
+    # Objective 43
     Task(
         annotator="faris",
         user_id="faris_043_update_report_status_and_notify_broker_report_2",
@@ -1533,7 +1533,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 44
+    # Activity 44
     Task(
         annotator="faris",
         user_id="faris_044_comp_report_inactive_broker_client_2_broker_1",
@@ -1612,7 +1612,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 46
+    # Activity 46
     Task(
         annotator="faris",
         user_id="faris_046_viewing_route_client20_broker2",
@@ -1656,7 +1656,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 47
+    # Assignment 47
     Task(
         annotator="faris",
         user_id="faris_047_open_house_search_client1_broker1",
@@ -1702,7 +1702,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 48
+    # Activity 48
     Task(
         annotator="faris",
         user_id="faris_048_new_homeowner_campaign_client_3_broker3",
@@ -1742,7 +1742,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 49
+    # Assignment 49
     Task(
         annotator="faris",
         user_id="faris_049_review_calendar_client14_broker1",
@@ -1766,7 +1766,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 50
+    # Assignment 50
     Task(
         annotator="faris",
         user_id="faris_050_mortgage_prequal_client1_broker1",
@@ -1797,7 +1797,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 51
+    # Activity 51
     Task(
         annotator="faris",
         user_id="faris_051_comp_analysis_client19_htx030_broker1",
@@ -1871,7 +1871,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 53
+    # Assignment 53
     Task(
         annotator="faris",
         user_id="faris_053_comp_analysis_email_client13_htx025",
@@ -1916,7 +1916,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 54
+    # Activity 54
     Task(
         annotator="faris",
         user_id="faris_054_neighborhood_comps_client_1_broker1",
@@ -1967,7 +1967,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 55
+    # Objective 55
     Task(
         annotator="faris",
         user_id="faris_055_audit_mortgage_creation_client20",
@@ -2008,7 +2008,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 56
+    # Assignment 56
     Task(
         annotator="faris",
         user_id="faris_056_route_planning_client10_broker11",
@@ -2086,7 +2086,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 58
+    # Activity 58
     Task(
         annotator="faris",
         user_id="faris_058_investor_search_client13_broker6",
@@ -2123,7 +2123,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 59
+    # Activity 59
     Task(
         annotator="faris",
         user_id="faris_059_sales_history_and_metrics_client_9_broker_9",
@@ -2160,7 +2160,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 60
+    # Assignment 60
     Task(
         annotator="faris",
         user_id="faris_060_comp_analysis_metrics_client8_htx049",
@@ -2205,7 +2205,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 61
+    # Activity 61
     Task(
         annotator="faris",
         user_id="faris_061_fetch_route_and_followup_client_10_broker11",
@@ -2238,7 +2238,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 62
+    # Activity 62
     Task(
         annotator="faris",
         user_id="faris_062_fetch_multiple_listings_client_1_broker1",
@@ -2279,7 +2279,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 63
+    # Activity 63
     Task(
         annotator="faris",
         user_id="faris_063_update_report_status_report_7_broker1",
@@ -2312,7 +2312,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 64
+    # Assignment 64
     Task(
         annotator="faris",
         user_id="faris_064_comp_report_inactive_broker_client_5_broker_1",

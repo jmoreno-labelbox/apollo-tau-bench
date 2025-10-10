@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,14 +13,14 @@ class GetPurchasedItems(Tool):
 
         Data Sources: orders.json (order items), products.json (additional product details), users.json (user validation)
         """
-        # Rule: Validate user identity exists before processing any user requests
+        # Policy: Confirm the existence of user identity prior to handling any requests.
         users = list(data.get("users", {}).values())
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
             return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
-        # Find the specific order
+        # Determine the exact sequence.
         orders = list(data.get("orders", {}).values())
         target_order = None
 
@@ -35,7 +35,7 @@ class GetPurchasedItems(Tool):
                 "status": "failed"
             })
 
-        # Get order details
+        # Retrieve order information.
         order_status = target_order.get("status")
         order_timestamp = target_order.get("timestamp")
         order_items = target_order.get("items", [])
@@ -48,7 +48,7 @@ class GetPurchasedItems(Tool):
                 "status": "failed"
             })
 
-        # Enrich item details with additional product information
+        # Augment item specifications with supplementary product data.
         products = list(data.get("products", {}).values())
         detailed_items = []
         total_order_value = 0.0
@@ -60,7 +60,7 @@ class GetPurchasedItems(Tool):
             item_name = order_item.get("name")
             item_options = order_item.get("options", {})
 
-            # Find additional product details from products.json
+            # Retrieve more product information from products.json.
             additional_details = {}
             for product in products:
                 if product.get("product_id") == product_id:
@@ -75,11 +75,11 @@ class GetPurchasedItems(Tool):
                         }
                     break
 
-            # Calculate if price has changed since purchase
+            # Determine if the price has fluctuated since the time of purchase.
             current_price = additional_details.get("current_price", item_price)
             price_change = current_price - item_price if current_price != item_price else 0
 
-            # Build comprehensive item details
+            # Create detailed specifications for the item.
             item_detail = {
                 "item_id": item_id,
                 "product_id": product_id,
@@ -101,11 +101,11 @@ class GetPurchasedItems(Tool):
             detailed_items.append(item_detail)
             total_order_value += item_price
 
-        # Calculate order summary information
+        # Compute summary details for the order.
         total_paid = sum(payment.get("amount", 0) for payment in payment_history if payment.get("transaction_type") == "payment")
         total_refunded = sum(payment.get("amount", 0) for payment in payment_history if payment.get("transaction_type") == "refund")
 
-        # Get tracking information if available
+        # Retrieve tracking details if present.
         tracking_info = []
         for fulfillment in fulfillments:
             tracking_info.append({
@@ -116,7 +116,7 @@ class GetPurchasedItems(Tool):
                 "timestamp": fulfillment.get("timestamp")
             })
 
-        # Rule: Maintain data integrity: order totals must match sum of item prices
+        # Rule: Ensure data accuracy: order totals should equal the aggregate of item prices.
         price_integrity_check = abs(total_order_value - total_paid + total_refunded) < 0.01
 
         result = {

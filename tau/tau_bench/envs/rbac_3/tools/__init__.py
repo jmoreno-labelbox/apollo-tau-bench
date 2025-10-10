@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .get_access_request_tool import GetAccessRequestTool
 from .review_access_request_tool import ReviewAccessRequestTool

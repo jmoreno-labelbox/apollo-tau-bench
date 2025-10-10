@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,7 +24,7 @@ class GetBranchContent(Tool):
                 indent=2
             )
 
-        # Support either {"repositories": [...]} or a direct list
+        # Accept either {"repositories": [...]} format or a plain list.
         repos = list(data.get("repositories", {}).values())
 
         repo = next(
@@ -46,12 +46,12 @@ class GetBranchContent(Tool):
 
         idx = branches.index(branch)
 
-        # Fetch aligned per-branch artifacts (defensive against missing keys)
+        # Retrieve aligned artifacts for each branch (to handle potential missing keys)
         branch_files_all = repo.get("branch_files", [])
         branch_contents_all = repo.get("branch_contents", [])
         branch_shas_all = repo.get("branch_shas", [])
 
-        # Fallbacks: if per-branch arrays are missing, fall back to repo-wide files/contents
+        # Fallbacks: in the absence of per-branch arrays, utilize repository-wide files/contents instead.
         files  = None
         contents  = None
 

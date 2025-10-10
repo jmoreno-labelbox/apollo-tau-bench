@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,7 +26,7 @@ class RecordSale(Tool):
             if not product:
                 return json.dumps({"error": f"Product with SKU {sku} not found."})
 
-            # Check inventory availability
+            # Verify stock levels
             total_available = 0
             for inv in inventory:
                 if inv.get("sku") == sku:
@@ -35,7 +35,7 @@ class RecordSale(Tool):
             if total_available < quantity:
                 return json.dumps({"error": f"Insufficient stock for product {sku}. Available: {total_available}, Requested: {quantity}"})
 
-            # Update inventory
+            # Refresh stock levels
             remaining_quantity = quantity
             for inv in inventory:
                 if inv.get("sku") == sku and remaining_quantity > 0:

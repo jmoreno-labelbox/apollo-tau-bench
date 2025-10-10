@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,18 +22,18 @@ class UpdateReleaseVersion(Tool):
 
         releases = data.get('releases', [])
 
-        # Find the release
+        # Locate the deployment.
         release_found = False
         for release in releases:
             if release.get('release_id') == release_id:
                 release_found = True
                 old_version = release.get('version_id')
 
-                # Update release information
+                # Revise release details
                 release['version_id'] = version_id
                 release['last_updated'] = datetime.now().isoformat()
 
-                # Update optional fields if provided
+                # Modify optional fields if they are supplied.
                 if release_name:
                     release['release_name'] = release_name
                 if owner_email:
@@ -41,7 +41,7 @@ class UpdateReleaseVersion(Tool):
                 if thread_id:
                     release['thread_id_nullable'] = thread_id
 
-                # Log the version change
+                # Record the version update.
                 if 'version_history' not in release:
                     release['version_history'] = []
                 release['version_history'].append({

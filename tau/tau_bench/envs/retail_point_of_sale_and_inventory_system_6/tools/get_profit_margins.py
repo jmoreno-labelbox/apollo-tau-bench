@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright notice.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,15 +20,15 @@ class get_profit_margins(Tool):
             if ((sku is not None) and (product["sku"] == sku)) or (
                 (barcode is not None) and (product["barcode"] == barcode)
             ):
-                # Get the sku if barcode was used
+                # Retrieve the SKU if a barcode was utilized.
                 sku = product["sku"]
 
-                # Use the discount rate if the product is marked as discountable, otherwise set as 0
+                # Apply the discount rate for discountable products; otherwise, assign 0.
                 discount_rate = (
                     product["discount_rate"] if product["is_discountable"] else 0.0
                 )
 
-                # Calculate the discount amount
+                # Compute the amount of the discount.
                 # discount = round(product["price"] * discount_rate, 2)
 
                 tax_rate = product["tax_rate"]
@@ -60,19 +60,19 @@ class get_profit_margins(Tool):
 
         out = []
         for sku in sku_list:
-            # Get the price info for the item
+            # Retrieve the pricing details for the item.
             line_item_info = get_profit_margins.get_detailed_item_price(data, sku=sku)
             line_item_info = json.loads(line_item_info)
 
-            # Unpack values
+            # Extract values
             sku = line_item_info["sku"]
             unit_price = line_item_info["unit_price"]
             unit_tax_rate = line_item_info["tax_rate"]
             discount_rate = line_item_info["discount_rate"]
             cost = line_item_info["cost"]
 
-            # Calculate line item totals
-            # TODO: discount needs more work to account for different discount types
+            # Compute totals for each line item.
+            # TODO: enhance discount implementation to handle various discount types.
             unit_discount = unit_price * discount_rate
             item_sub_total = unit_price - unit_discount
             item_discount = round(unit_discount, 2)

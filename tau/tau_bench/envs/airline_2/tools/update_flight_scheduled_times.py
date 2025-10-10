@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class UpdateFlightScheduledTimes(Tool):
         for f in list(data.get("flights", {}).values()):
             if f.get("flight_number") != flight_number:
                 continue
-            # only update fields that are provided
+            # update only the supplied fields
             if scheduled_departure_time_est is not None:
                 f["scheduled_departure_time_est"] = scheduled_departure_time_est
             if scheduled_arrival_time_est is not None:

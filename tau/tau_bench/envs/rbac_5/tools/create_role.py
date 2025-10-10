@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,7 +23,7 @@ class CreateRole(Tool):
         if not role_name or not description:
             return json.dumps({"error": "role_name and description are required"})
 
-        # Enforce uniqueness by role_name (case-insensitive)
+        # Ensure role_name is unique (ignoring case).
         existing_roles = list(data.get("roles", {}).values())
         for r in existing_roles:
             if str(r.get("role_name", "")).strip().lower() == role_name.lower():

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class get_user_goals_by_type(Tool):
 
         filtered_goals = goals
 
-        # Filter by goal type if provided
+        # Apply a filter based on the specified goal type, if available.
         if goal_type:
             filtered_goals = [
                 g
@@ -27,7 +27,7 @@ class get_user_goals_by_type(Tool):
                 if g.get("goal_type", "").lower() == goal_type.lower()
             ]
 
-        # Filter by keywords in goal description if provided
+        # Apply filters based on keywords in the goal description if available.
         if goal_description_keywords:
             keywords = goal_description_keywords.lower().split()
             filtered_goals = [

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class GetPromotionInfo(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         promo_id = kwargs.get("promotion_id")
-        # Deterministic output for CI: always return PROMO-202508 info
+        # Consistent output for CI: always provide PROMO-202508 details.
         if promo_id == "PROMO-202508":
             result = {"promotion_id": "PROMO-202508", "name": "Back to School", "discount": 15}
         else:

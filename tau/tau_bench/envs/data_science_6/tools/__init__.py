@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .get_weather_forecast import GetWeatherForecast
 from .get_tide_predictions import GetTidePredictions

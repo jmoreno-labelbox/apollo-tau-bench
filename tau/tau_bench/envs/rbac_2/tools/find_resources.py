@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class FindResources(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         name_keyword = kwargs.get("name_keyword")
         criticality = kwargs.get("criticality")
-        owner_id = kwargs.get("owner_id")  # The ESSENTIAL new parameter
+        owner_id = kwargs.get("owner_id")  # The CRUCIAL new parameter
 
         try:
             resources = data.get('resources', [])
@@ -25,7 +25,7 @@ class FindResources(Tool):
                 continue
             if criticality and criticality.upper() != resource.get("criticality", "").upper():
                 continue
-            # This is the new, required logic
+            # This is the updated, necessary logic.
             if owner_id and owner_id != resource.get("owner_id"):
                 continue
             matching_resources.append(resource)
@@ -44,7 +44,7 @@ class FindResources(Tool):
                     "properties": {
                         "name_keyword": {"type": "string", "description": "A keyword to search for within the resource name."},
                         "criticality": {"type": "string", "description": "The criticality level to filter by."},
-                        "owner_id": {"type": "string", "description": "The user ID of the resource owner to filter by."} # The new parameter info
+                        "owner_id": {"type": "string", "description": "The user ID of the resource owner to filter by."} # Details about the new parameter
                     },
                     "required": []
                 }

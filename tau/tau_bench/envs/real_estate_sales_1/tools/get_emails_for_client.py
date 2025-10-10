@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class GetEmailsForClient(Tool):
         if not client_id:
             return json.dumps({"error": "client_id is required"}, indent=2)
         
-        # Get emails for client (from database or mock data)
+        # Retrieve client emails from the database or mock data.
         emails = list(data.get('emails', {}).values())
         client_emails = [e for e in emails if e.get('client_id') == client_id]
         

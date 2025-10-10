@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .get_device_by_id_or_filter import GetDeviceByIdOrFilter
 from .get_sensor_by_id_or_filter import GetSensorByIdOrFilter

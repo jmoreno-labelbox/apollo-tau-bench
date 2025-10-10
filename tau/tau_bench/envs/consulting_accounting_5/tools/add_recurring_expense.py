@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class AddRecurringExpense(Tool):
             "recurring_id": kwargs["recurring_id"],
             "category_code": kwargs["category_code"],
             "amount": kwargs["amount"],
-            "frequency": kwargs["frequency"],  # e.g., "monthly", "quarterly"
+            "frequency": kwargs["frequency"],  # for example, "monthly", "quarterly"
             "vendor": kwargs.get("vendor", ""),
             "start_date": kwargs.get("start_date", None),
             "end_date": kwargs.get("end_date", None)

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -32,12 +32,12 @@ class VerifySpaceRequirementsTool(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         destination_path = kwargs["destination_path"]
 
-        # Get the total size from the last calculation
+        # Obtain the overall size from the previous computation.
         total_size = data.get("last_total_size", 0)
 
-        # Get available space for the destination
+        # Retrieve the free space for the target location.
         disk_space_key = f"disk_space_{destination_path.replace('/', '_')}"
-        available_space = data.get(disk_space_key, 10**12)  # Default to 1TB if not found
+        available_space = data.get(disk_space_key, 10**12)  # Set to 1TB if absent.
 
         if total_size <= available_space:
             return json.dumps({

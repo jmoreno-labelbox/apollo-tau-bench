@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -41,7 +41,7 @@ class GetStockLevels(Tool):
                 'threshold': low_stock_threshold
             }, indent=2)
 
-        # Get low stock across all suppliers
+        # Retrieve low inventory from all suppliers.
         all_low_stock = []
         for supplier in suppliers:
             for item, stock in supplier['item_stock'].items():

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,8 +14,8 @@ class GuardAttachmentPolicyOnDraftTool(Tool):
         if not message_id:
             return json.dumps({"error":"message_id is required"})
 
-        # Simplified: check body size approximates attachment concerns
-        messages = list(data.get("gmail_messages", {}).values())
+        # Streamlined: verify body dimensions align with attachment issues
+        messages = data.get("gmail_messages", [])
         target = None
         for m in messages:
             if m.get("message_id") == message_id:

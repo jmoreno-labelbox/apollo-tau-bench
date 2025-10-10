@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class TriggerSmokeValidationV2(Tool):
         pr = next((p for p in prs if (p.get("links") or {}).get("run_id") == run_id), None)
         if not pr:
             return _error(f"No PR linked to run '{run_id}'.")
-        # Deterministic result: look for existing test_runs with this test_target; else completed
+        # Guaranteed outcome: search for existing test_runs associated with this test_target; if none, mark as completed.
         test_runs = _get_table(data, "test_runs")
         found = next((t for t in test_runs if t.get("test_type") or t.get("report_uri")), None)
         status = "completed" if found is not None else "completed"

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class CancelPaymentByScheduledPaymentId(Tool):
         customer_id = kwargs.get("customer_id", "").strip()
         scheduled_payment_id = kwargs.get("scheduled_payment_id", "").strip()
 
-        # Validate inputs
+        # Check input values for correctness.
         missing = []
         if not customer_id:
             missing.append("customer_id")
@@ -26,7 +26,7 @@ class CancelPaymentByScheduledPaymentId(Tool):
                 indent=2
             )
 
-        # Find and cancel the payment
+        # Locate and terminate the payment.
         scheduled_payments = data.get("scheduled_payments", [])
         for payment in scheduled_payments:
             if (payment.get("payment_id") == scheduled_payment_id and

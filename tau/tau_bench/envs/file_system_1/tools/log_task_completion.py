@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright notice.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class LogTaskCompletion(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         task_logs = data.get('task_logs', [])
 
-        # Automatically generate notes based on task type
+        # Generate notes automatically depending on the type of task.
         task_type = kwargs.get("task_type")
         task_id = kwargs.get("task_id")
 

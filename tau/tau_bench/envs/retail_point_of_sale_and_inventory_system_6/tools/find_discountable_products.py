@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,9 +19,9 @@ class find_discountable_products(Tool):
         out = []
 
         for product in products:
-            # If supplier_id is sent, only include products from that supplier
+            # Include only products from the specified supplier if supplier_id is provided.
             if (supplier_id is None) or (product["supplier_id"] == supplier_id):
-                # Filter to discountable products and add to the return list
+                # Select products eligible for discounts and include them in the return list.
                 if product["is_discountable"]:
                     out.append(product["name"])
 

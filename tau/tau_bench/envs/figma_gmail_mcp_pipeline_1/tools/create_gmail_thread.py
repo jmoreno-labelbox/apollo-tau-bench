@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class CreateGmailThread(Tool):  # WRITE
+class CreateGmailThread(Tool):  # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -14,7 +14,7 @@ class CreateGmailThread(Tool):  # WRITE
         workflow_type: str,
         current_labels: List[str]
     ) -> str:
-        # Validate input
+        # Verify input validity.
         if not isinstance(sender_email, str) or not sender_email:
             return json.dumps({"error": "sender_email must be a non-empty string"})
         if not isinstance(recipients_emails, list) or not all(isinstance(e, str) for e in recipients_emails):
@@ -30,7 +30,7 @@ class CreateGmailThread(Tool):  # WRITE
         gmail_threads = data.get("gmail_threads", [])
         next_num = len(gmail_threads) + 1
         thread_id = f"thread_{next_num:03d}"
-        created_ts = "2025-08-26T12:00:00Z"  # Use current date/time in production
+        created_ts = "2025-08-26T12:00:00Z"  # Utilize the present date and time in the production environment.
         if workflow_type == "review":
             subject = f"Review designs for {sender_email}"
         elif workflow_type == "release":

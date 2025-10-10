@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class AddDeviceToRoom(Tool):
         _, room = _find(rooms, room_id)
         if not room:
             return json.dumps({"error": f"room '{room_id}' not found"}, indent=2)
-        # verify device exists
+        # check if the device is present
         if not _find(list(data.get("devices", {}).values()), device_id)[1]:
             return json.dumps({"error": f"device '{device_id}' not found"}, indent=2)
         if device_id in room.get("devices", []):

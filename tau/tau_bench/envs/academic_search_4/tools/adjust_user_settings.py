@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -35,9 +35,9 @@ class AdjustUserSettings(Tool):
             new_pref = {
                 "preference_id": f"pref_{uuid.uuid4().hex[:4]}",
                 "user_id": user_id,
-                "notification_channel": notification_channel if notification_channel else "none", # Default value
-                "preferred_email": "", # Assuming an empty default
-                "ui_theme": ui_theme if ui_theme else "light" # Default value
+                "notification_channel": notification_channel if notification_channel else "none", # Initial value
+                "preferred_email": "", # Presuming a blank default state
+                "ui_theme": ui_theme if ui_theme else "light" # Initial value
             }
             data['user_preferences'].append(new_pref)
             pref = new_pref
@@ -52,9 +52,9 @@ class AdjustUserSettings(Tool):
                 break
 
         if pref_found or user_obj:
-            if research_field and user_obj: # Se research_field foi modificado, retorna o objeto user
+            if research_field and user_obj: # Se o campo de pesquisa foi alterado, retorne o objeto usuário.
                 return json.dumps({"success": True, "user": user_obj})
-            elif pref_found: # Senão, retorna as preferências (se foram modificadas/criadas)
+            elif pref_found: # Caso contrário, retorna as preferências (se houve alterações/criações).
                 return json.dumps({"success": True, "settings": pref})
 
         return json.dumps({"error": f"Settings for user ID '{user_id}' not found and could not be created."})

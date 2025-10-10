@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class CreateOrderForPlanListByKeys(Tool):
         scheduled_slot_start_ts: str,
         scheduled_slot_end_ts: str,
     ) -> str:
-        # Find list by plan keys
+        # Retrieve list using plan keys.
         plan = next(
             (
                 p

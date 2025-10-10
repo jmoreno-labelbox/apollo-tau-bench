@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class AddNewFileInRepo(Tool):
                 indent=2
             )
 
-        # Preferred repository access pattern
+        # Optimal method for accessing the repository.
         repos = list(data.get("repositories", {}).values())
         if not isinstance(repos, list):
             return json.dumps(
@@ -35,7 +35,7 @@ class AddNewFileInRepo(Tool):
                 indent=2
             )
 
-        # Locate repository
+        # Find the repository.
         repo = next(
             (r for r in repos if r.get("owner") == owner and r.get("repo_name") == repo_name),
             None
@@ -54,7 +54,7 @@ class AddNewFileInRepo(Tool):
             )
         idx = branches.index(branch_name)
 
-        # Ensure per-branch structures exist and are aligned to branches length
+        # Verify that per-branch structures are present and correspond to the lengths of the branches.
         branch_files_all = repo.setdefault("branch_files", [])
         branch_contents_all = repo.setdefault("branch_contents", [])
 
@@ -72,18 +72,18 @@ class AddNewFileInRepo(Tool):
                 indent=2
             )
 
-        # Prevent duplicate file_name in the branch
+        # Avoid duplicate file_name within the branch.
         if file_name in branch_files:
             return json.dumps(
                 {"error": f"File '{file_name}' already exists in branch '{branch_name}'."},
                 indent=2
             )
 
-        # Append to branch-scoped arrays (same index)
+        # Add to arrays scoped to the branch (at the same index)
         branch_files.append(file_name)
         branch_contents.append(file_content)
 
-        # If 'main' branch, also append to repo-wide file lists (avoid duplicates)
+        # For the 'main' branch, additionally add to the repository-wide file lists (prevent duplicates).
         if branch_name == "main":
             repo.setdefault("file_paths", [])
             repo.setdefault("file_contents", [])

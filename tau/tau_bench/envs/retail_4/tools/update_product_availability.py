@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class UpdateProductAvailability(Tool):
         product_to_update = None
         product_index = None
 
-        # Find the product
+        # Calculate the multiplication.
         for i, product in enumerate(products):
             if product.get("product_id") == product_id:
                 product_to_update = product
@@ -27,7 +27,7 @@ class UpdateProductAvailability(Tool):
         if not product_to_update:
             return json.dumps({"error": f"Product {product_id} not found", "status": "failed"})
 
-        # Rule: Confirm item_id exists in product variants before including in orders
+        # Validation: Ensure item_id is present in product variants prior to adding to orders.
         variants = product_to_update.get("variants", {})
         if item_id not in variants:
             return json.dumps({
@@ -39,11 +39,11 @@ class UpdateProductAvailability(Tool):
         old_availability = variant_to_update.get("available", False)
         old_price = variant_to_update.get("price", 0)
 
-        # WRITE OPERATION: Update variant availability in products.json
+        # UPDATE OPERATION: Modify variant availability in products.json
         variant_to_update["available"] = available
         variant_to_update["last_updated"] = datetime.now().isoformat()
 
-        # Rule: Use exact variant pricing from product catalog - authorized price modification
+        # Guideline: Apply precise variant pricing from the product catalog - approved price adjustments.
         price_updated = False
         if new_price is not None:
             if new_price < 0:
@@ -51,7 +51,7 @@ class UpdateProductAvailability(Tool):
             variant_to_update["price"] = new_price
             price_updated = True
 
-        # Update the product in the data structure
+        # Modify the product within the data structure.
         data["products"][product_index] = product_to_update
 
         result = {

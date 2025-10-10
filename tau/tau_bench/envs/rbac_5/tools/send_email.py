@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class SendEmail(Tool):
         if not sender or not receiver or not subject or not text_content:
             return json.dumps({"error": "sender, receiver, subject, and text_content are required"})
 
-        # Create email record
+        # Generate email entry
         email = {
             "email_id": _next_id(data, "emails", "EM"),
             "timestamp": timestamp,

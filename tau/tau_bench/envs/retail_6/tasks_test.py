@@ -1,9 +1,9 @@
 from tau_bench.types import Action, Task
 
 TASKS = [
-    # HARD
-    # GOLD 1
-    # complexity_edges: 13
+    # DIFFICULT
+    # GOLD-1
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="TASK_HARD_001",
@@ -21,7 +21,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_complexity_edges: 13
     Task(
         annotator="0",
         user_id="TASK_HARD_002",
@@ -39,7 +39,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_edges: 15
     Task(
         annotator="0",
         user_id="TASK_HARD_003",
@@ -58,7 +58,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_004",
@@ -77,7 +77,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # edge_complexity: 13
     Task(
         annotator="0",
         user_id="TASK_HARD_005",
@@ -94,7 +94,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # edges_complexity: 15
     Task(
         annotator="0",
         user_id="TASK_HARD_006",
@@ -114,7 +114,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_007",
@@ -134,7 +134,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_complexity_edges: 15
     Task(
         annotator="0",
         user_id="TASK_HARD_008",
@@ -153,7 +153,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="TASK_HARD_009",
@@ -171,7 +171,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_010",
@@ -190,8 +190,8 @@ TASKS = [
         outputs=[]
     ),
 
-    # GOLD 2
-    # complexity_edges: 15 HARD
+    # GOLD level 2
+    # complexity_edges: 15 DIFFICULT
     Task(
         annotator="0",
         user_id="TASK_HARD_011",
@@ -207,7 +207,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13 HARD
+    # complexity_edges: 13 DIFFICULT
     Task(
         annotator="0",
         user_id="TASK_HARD_012",
@@ -222,7 +222,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_013",
@@ -238,7 +238,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_edges: 15
     Task(
         annotator="0",
         user_id="TASK_HARD_014",
@@ -257,7 +257,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_complexity_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_015",
@@ -273,7 +273,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_complexity_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_016",
@@ -289,7 +289,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_complexity_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_017",
@@ -305,7 +305,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_edges: 15
     Task(
         annotator="0",
         user_id="TASK_HARD_018",
@@ -324,7 +324,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_complexity_edges: 13
     Task(
         annotator="0",
         user_id="TASK_HARD_019",
@@ -338,7 +338,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_020",
@@ -354,7 +354,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_021",
@@ -376,7 +376,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_edges: 15
     Task(
         annotator="0",
         user_id="TASK_HARD_022",
@@ -392,7 +392,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_023",
@@ -406,7 +406,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_024",
@@ -422,8 +422,8 @@ TASKS = [
         outputs=[]
     ),
 
-    # GOLD 3
-    # complexity_edges: 15
+    # GOLD Tier 3
+    # number_of_edges: 15
     Task(
         annotator="0",
         user_id="TASK_HARD_025",
@@ -438,7 +438,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_complexity_edges: 15
     Task(
         annotator="0",
         user_id="TASK_HARD_026",
@@ -457,7 +457,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_complexity_edges: 13
     Task(
         annotator="0",
         user_id="TASK_HARD_027",
@@ -475,7 +475,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_028",
@@ -493,7 +493,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="TASK_HARD_029",
@@ -510,7 +510,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_complexity_edges: 15
     Task(
         annotator="0",
         user_id="TASK_HARD_030",
@@ -529,7 +529,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_complexity_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_031",
@@ -548,7 +548,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_complexity_edges: 13
     Task(
         annotator="0",
         user_id="TASK_HARD_032",
@@ -565,7 +565,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_complexity_edges: 15
     Task(
         annotator="0",
         user_id="TASK_HARD_033",
@@ -585,7 +585,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # edges_complexity: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_034",
@@ -601,7 +601,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="TASK_HARD_035",
@@ -617,7 +617,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_edges: 15
     Task(
         annotator="0",
         user_id="TASK_HARD_036",
@@ -636,7 +636,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="TASK_HARD_037",
@@ -654,7 +654,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # edges_complexity: 15
     Task(
         annotator="0",
         user_id="TASK_HARD_038",
@@ -671,8 +671,8 @@ TASKS = [
         outputs=[]
     ),
 
-    # GOLD 4
-    # complexity_edges: 14
+    # GOLD IV
+    # number_of_complexity_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_039",
@@ -692,7 +692,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_040",
@@ -708,7 +708,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_complexity_edges: 13
     Task(
         annotator="0",
         user_id="TASK_HARD_041",
@@ -725,7 +725,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_042",
@@ -741,7 +741,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_complexity_edges: 13
     Task(
         annotator="0",
         user_id="TASK_HARD_043",
@@ -759,7 +759,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_complexity_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_044",
@@ -775,7 +775,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 14
+    # number_of_complexity_edges: 14
     Task(
         annotator="0",
         user_id="TASK_HARD_045",
@@ -792,7 +792,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_complexity_edges: 13
     Task(
         annotator="0",
         user_id="TASK_HARD_046",
@@ -808,7 +808,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 15
+    # number_of_edges: 15
     Task(
         annotator="0",
         user_id="TASK_HARD_047",
@@ -827,7 +827,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 13
+    # number_of_edges: 13
     Task(
         annotator="0",
         user_id="TASK_HARD_048",
@@ -845,7 +845,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # ADDITIONAL
+    # EXTRA
     Task(
         annotator="0",
         user_id="TASK_HARD_049",
@@ -880,9 +880,9 @@ TASKS = [
         outputs=[]
     ),
 
-    # EXPERT
-    # GOLD 1
-    # complexity_edges: 18
+    # SPECIALIST
+    # GOLD Level 1
+    # number_of_complex_edges: 18
     Task(
         annotator="0",
         user_id="TASK_EXP_001",
@@ -905,7 +905,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 16
+    # number_of_edges: 16
     Task(
         annotator="0",
         user_id="TASK_EXP_002",
@@ -932,7 +932,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 23
+    # number_of_edges: 23
     Task(
         annotator="0",
         user_id="TASK_EXP_003",
@@ -951,7 +951,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 20
+    # number_of_complex_edges: 20
     Task(
         annotator="0",
         user_id="TASK_EXP_004",
@@ -968,7 +968,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 20
+    # number_of_edges: 20
     Task(
         annotator="0",
         user_id="TASK_EXP_005",
@@ -986,8 +986,8 @@ TASKS = [
         outputs=[]
     ),
 
-    # GOLD 2
-    # complexity_edges: 27 #EXP
+    # GOLD Level 2
+    # complexity_edges: 27 # complexity_edges: 27 #EXPONENTIALLY_COMPLEX
     Task(
         annotator="0",
         user_id="TASK_EXP_006",
@@ -1009,7 +1009,7 @@ TASKS = [
     ),
 
 
-    # complexity_edges: 18
+    # number_of_complexity_edges: 18
     Task(
         annotator="0",
         user_id="TASK_EXP_007",
@@ -1036,7 +1036,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 21
+    # number_of_edges: 21
     Task(
         annotator="0",
         user_id="TASK_EXP_008",
@@ -1053,7 +1053,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 20
+    # number_of_complexity_edges: 20
     Task(
         annotator="0",
         user_id="TASK_EXP_009",
@@ -1071,7 +1071,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 21 EXP
+    # complexity_edges: 21 exponential
     Task(
         annotator="0",
         user_id="TASK_EXP_010",
@@ -1090,7 +1090,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 22 EXP
+    # complexity_edges: 22 experience points
     Task(
         annotator="0",
         user_id="TASK_EXP_011",
@@ -1109,7 +1109,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 18 EXP
+    # complexity_edges: 18 EXPONENT
     Task(
         annotator="0",
         user_id="TASK_EXP_012",
@@ -1126,8 +1126,8 @@ TASKS = [
         outputs=[]
     ),
 
-    # GOLD 3
-    # complexity_edges: 17
+    # GOLD level 3
+    # number_of_edges: 17
     Task(
         annotator="0",
         user_id="TASK_EXP_013",
@@ -1149,7 +1149,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 18
+    # number_of_complex_edges: 18
     Task(
         annotator="0",
         user_id="TASK_EXP_014",
@@ -1172,7 +1172,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 16
+    # number_of_edges: 16
     Task(
         annotator="0",
         user_id="TASK_EXP_015",
@@ -1199,7 +1199,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 30
+    # number_of_edges: 30
     Task(
         annotator="0",
         user_id="TASK_EXP_016",
@@ -1225,7 +1225,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 16
+    # number_of_complexity_edges: 16
     Task(
         annotator="0",
         user_id="TASK_EXP_017",
@@ -1249,7 +1249,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 22
+    # number_of_edges: 22
     Task(
         annotator="0",
         user_id="TASK_EXP_018",
@@ -1266,7 +1266,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 16
+    # number_of_complexity_edges: 16
     Task(
         annotator="0",
         user_id="TASK_EXP_019",
@@ -1280,7 +1280,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 21
+    # number_of_edges: 21
     Task(
         annotator="0",
         user_id="TASK_EXP_020",
@@ -1297,8 +1297,8 @@ TASKS = [
         outputs=[]
     ),
 
-    # GOLD 4
-    # complexity_edges: 18
+    # GOLD IV
+    # number_of_complexity_edges: 18
     Task(
         annotator="0",
         user_id="TASK_EXP_021",
@@ -1325,7 +1325,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 17
+    # number_of_complexity_edges: 17
     Task(
         annotator="0",
         user_id="TASK_EXP_022",
@@ -1345,7 +1345,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 18
+    # number_of_complexity_edges: 18
     Task(
         annotator="0",
         user_id="TASK_EXP_023",
@@ -1370,7 +1370,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 18
+    # number_of_complexity_edges: 18
     Task(
         annotator="0",
         user_id="TASK_EXP_024",
@@ -1394,7 +1394,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 17
+    # number_of_complexity_edges: 17
     Task(
         annotator="0",
         user_id="TASK_EXP_025",
@@ -1417,7 +1417,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # ADDITIONAl
+    # ADDITIONAL
     Task(
         annotator="0",
         user_id="TASK_EXP_026",
@@ -1517,9 +1517,9 @@ TASKS = [
         outputs=[]
     ),
 
-    # MEDIUM
-    # GOLD 1
-    # complexity_edges: 11
+    # AVERAGE
+    # GOLD level 1
+    # number_of_complexity_edges: 11
     Task(
         annotator="0",
         user_id="TASK_MED_001",
@@ -1536,7 +1536,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 10
+    # number_of_complexity_edges: 10
     Task(
         annotator="0",
         user_id="TASK_MED_002",
@@ -1551,7 +1551,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 9
+    # number_of_complexity_edges: 9
     Task(
         annotator="0",
         user_id="TASK_MED_003",
@@ -1565,7 +1565,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 12
+    # number_of_edges: 12
     Task(
         annotator="0",
         user_id="TASK_MED_004",
@@ -1579,7 +1579,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 11
+    # number_of_complexity_edges: 11
     Task(
         annotator="0",
         user_id="TASK_MED_005",
@@ -1594,7 +1594,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 10
+    # number_of_complexity_edges: 10
     Task(
         annotator="0",
         user_id="TASK_MED_006",
@@ -1611,9 +1611,9 @@ TASKS = [
         outputs=[]
     ),
 
-    # GOLD 2
+    # GOLD level 2
 
-    # complexity_edges: 11
+    # number_of_edges: 11
     Task(
         annotator="0",
         user_id="TASK_MED_007",
@@ -1630,7 +1630,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 10
+    # number_of_complexity_edges: 10
     Task(
         annotator="0",
         user_id="TASK_MED_008",
@@ -1645,7 +1645,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 9
+    # number_of_complexity_edges: 9
     Task(
         annotator="0",
         user_id="TASK_MED_009",
@@ -1661,7 +1661,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 10
+    # number_of_complexity_edges: 10
     Task(
         annotator="0",
         user_id="TASK_MED_010",
@@ -1675,7 +1675,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 11
+    # number_of_edges: 11
     Task(
         annotator="0",
         user_id="TASK_MED_011",
@@ -1692,8 +1692,8 @@ TASKS = [
         outputs=[]
     ),
 
-    # GOLD 3
-    # complexity_edges: 10
+    # GOLD tier 3
+    # number_of_edges: 10
     Task(
         annotator="0",
         user_id="TASK_MED_012",
@@ -1710,7 +1710,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 10
+    # num_edges: 10
     Task(
         annotator="0",
         user_id="TASK_MED_013",
@@ -1725,7 +1725,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 10
+    # number_of_complexity_edges: 10
     Task(
         annotator="0",
         user_id="TASK_MED_014",
@@ -1740,7 +1740,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 10
+    # number_of_complexity_edges: 10
     Task(
         annotator="0",
         user_id="TASK_MED_015",
@@ -1754,7 +1754,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 11
+    # number_of_edges: 11
     Task(
         annotator="0",
         user_id="TASK_MED_016",
@@ -1769,7 +1769,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 11
+    # number_of_edges: 11
     Task(
         annotator="0",
         user_id="TASK_MED_017",
@@ -1786,8 +1786,8 @@ TASKS = [
         outputs=[]
     ),
 
-    # GOLD 4
-    # complexity_edges: 11
+    # GOLD IV
+    # number_of_edges: 11
     Task(
         annotator="0",
         user_id="TASK_MED_018",
@@ -1804,7 +1804,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 10
+    # number_of_edges: 10
     Task(
         annotator="0",
         user_id="TASK_MED_019",
@@ -1819,7 +1819,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # complexity_edges: 10
+    # number_of_edges: 10
     Task(
         annotator="0",
         user_id="TASK_MED_020",

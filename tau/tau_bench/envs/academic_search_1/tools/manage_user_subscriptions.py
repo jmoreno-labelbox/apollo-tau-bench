@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -37,7 +37,7 @@ class ManageUserSubscriptions(Tool):
 
         elif action.lower() == 'remove':
             initial_count = len(subscriptions)
-            # Create a new list excluding the subscription to be removed
+            # Generate a new list that omits the subscription intended for removal.
             data['subscriptions'] = [sub for sub in subscriptions if not (sub.get('user_id') == user_id and sub.get('topic') == topic)]
 
             if len(data['subscriptions']) < initial_count:

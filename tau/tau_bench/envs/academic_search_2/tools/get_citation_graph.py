@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,14 +20,14 @@ class GetCitationGraph(Tool):
 
         citations = list(data.get('citations', {}).values())
 
-        # Logic from the old FindCommonCitations tool
+        # Implementation from the previous FindCommonCitations utility.
         if compare_with_article_id:
             cites1 = {c['cited_article_id'] for c in citations if c.get('source_article_id') == article_id}
             cites2 = {c['cited_article_id'] for c in citations if c.get('source_article_id') == compare_with_article_id}
             common_citations = list(cites1.intersection(cites2))
             return json.dumps({"article1_id": article_id, "article2_id": compare_with_article_id, "common_citations": common_citations}, indent=2)
 
-        # Original logic of GetCitationGraph
+        # Initial implementation of GetCitationGraph
         else:
             cited_by = [c['source_article_id'] for c in citations if c.get('cited_article_id') == article_id]
             cites = [c['cited_article_id'] for c in citations if c.get('source_article_id') == article_id]

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -28,11 +28,11 @@ class CleanOriginalDirectoryTool(Tool):
         target_directory = kwargs["target_directory"]
         cleaned_count = 0
 
-        # Count files that were in the file_list (these are the ones being cleaned)
+        # Count the files present in the file_list (these are the ones targeted for removal).
         if "file_list" in data:
             cleaned_count = len(data["file_list"])
 
-        # Store the cleaned files count for output
+        # Save the number of processed files for output.
         data["cleaned_files_count"] = cleaned_count
 
         return json.dumps({"status": "success", "cleaned_files_count": cleaned_count})

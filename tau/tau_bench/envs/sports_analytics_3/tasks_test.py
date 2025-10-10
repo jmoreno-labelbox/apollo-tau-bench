@@ -63,11 +63,11 @@ Task(
             "Function as an MLB Analyst and compile an opponent scouting report titled 'Opponent pitch strengths and attack tendencies' for the forthcoming Cyclones game after 2024-06-10 and determine the venue name. Produce an Opponent Analysis scouting report for the designated opponent, supported by high-grade pitch evidence (A−/A/A+) from that team's pitches."
         ),
   actions=[
-    # Current team and next scheduled game
+    # Active team and upcoming match date
     Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),
     Action(name="GetNextGame", kwargs={"current_date": "2024-06-10", "team_id": 10}),
 
-    # Opponent team context (pull both sides, then use the non-MIL side as the opponent in reporting)
+    # Context of the opposing team (retrieve data from both sides, then utilize the non-MIL side for reporting the opponent).
     Action(name="GetTeamDetailsById", kwargs={"team_id": 9}),
     Action(name="GetVenueById", kwargs={"venue_id": 10}),
 
@@ -77,7 +77,7 @@ Task(
     ),    
 
 
-    # # Scouting report for this matchup (opponent-focused)
+    # # # Opponent analysis report for this matchup
     Action(
       name="CreateScoutingReport",
       kwargs={
@@ -87,13 +87,13 @@ Task(
       },
     ),
 
-    # # Vision ingestion for pitch/grade evidence
+    # # # Ingesting visual data for pitch/grade validation
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull opponent pitchers' pitches (treat away club as opponent for determinism)
+    # # # Retrieve pitches from opposing pitchers (consider the away team as the opponent for consistency)
     Action(
       name="GetAllPlayersOfTeam",
       kwargs={"team_id": 9},
@@ -103,7 +103,7 @@ Task(
       kwargs={"pitcher_ids": [2,13]},
     ),
 
-    # # Keep only high-grade (A-tier) executions to inform the scouting narrative
+    # # # Retain only top-tier (A-grade) performances to guide the scouting story
     Action(
       name="GetFilteredGradesByPitchIds",
       kwargs={
@@ -112,7 +112,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Tracking workflow activities
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success","game_pk": 2024000006,}),
   ],
   outputs=[]
@@ -124,19 +124,19 @@ Task(
             "In your role as MLB Analyst, provide a dual-sided pitch-quality comparison for the Lightning vs Cyclones matchup, highlighting A-tier pitches (A+/A/A−) for each team's pitching staff, and formulate development reports for all players, listed in ascending order based on their IDs."
         ),
   actions=[
-    # Teams
-    Action(name="GetTeamDetailsByName", kwargs={"name": "Lightning"}),  # treat as home for this comparison
-    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),      # away
+    # Groups
+    Action(name="GetTeamDetailsByName", kwargs={"name": "Lightning"}),  # consider as a baseline for this comparison
+    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),      # distant
 
-    # Ingestion logs (roster → snowflake, pitch/vision → hawkeye)
+    # Data ingestion logs (roster to Snowflake, pitch/vision to Hawkeye)
     Action(name="CreateIngestionLog", kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500}),
     Action(name="CreateIngestionLog", kwargs={"source_name": "hawkeye",   "status_code": 200, "records_ingested": 500}),
 
-    # Roster for both sides
-    Action(name="GetAllPlayersOfTeam", kwargs={"team_id": 9}),  # CIN players
-    Action(name="GetAllPlayersOfTeam", kwargs={"team_id": 8}),  # COL players
+    # Lineup for each team
+    Action(name="GetAllPlayersOfTeam", kwargs={"team_id": 9}),  # CIN participants
+    Action(name="GetAllPlayersOfTeam", kwargs={"team_id": 8}),  # COL athletes
 
-    # Pitchers' pitches for both sides (IDs inferred by pitch presence)
+    # Pitches from both teams (IDs determined by the existence of pitches)
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [2,13]},
@@ -151,7 +151,7 @@ Task(
         "pitch_ids": [5,7,23,28,29,32,45,52,54],
         "grades": ["A+", "A", "A-"]
       },
-    ), # CLE A-tier
+    ), # CLE top tier
     
     Action(
       name="GetFilteredGradesByPitchIds",
@@ -166,13 +166,13 @@ Task(
     
     Action(name="CreateNewReport", kwargs={"player_id": 13, "week_of_date": "2025-08-10"}),
     
-    # Action(name="AddNewHighlight", kwargs={
-    #   "name": "Lightning vs Cyclones Highlights",
-    #   "clip_count": 6,
-    #   "report_id": 11
+    # Action(identifier="AddNewHighlight", parameters={
+    # "title": "Highlights of Lightning vs Cyclones",
+    # "number_of_clips": 6,
+    # "report_identifier": 11
     # }),
 
-    # Workflow
+    # Process flow
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success"}),
   ],
   outputs=[]
@@ -201,7 +201,7 @@ Task(
       "report_id": 11
     }),
 
-    # WRITE: Coaching goal
+    # Establish coaching objective
     Action(name="CreateNewGoal", kwargs={
       "dev_report_id": 11,
       "player_id": 1,
@@ -232,11 +232,11 @@ Task(
     
     Action(name="GetAllPitchesByPitcherIds", kwargs={"pitcher_ids": [5]}),
 
-    # Evidence logs (vision for pitch analytics)
+    # Data records (insights for pitch analysis)
     Action(name="CreateIngestionLog", kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500}),
      
 
-    # Report + insight + highlight + goal
+    # Summary + analysis + emphasis + objective
     Action(name="CreateNewReport", kwargs={"player_id": 5, "week_of_date": "2025-08-10"}),
     Action(name="CreateNewInsight", kwargs={
       "report_id": 11,
@@ -310,11 +310,11 @@ Task(
             "Assuming the role of a MLB Analyst, compile an opponent scouting report titled 'Opponent pitch strengths and attack tendencies' for the subsequent Cyclones game post-2024-06-10 and provide the venue name. Submit an Opponent Analysis scouting report for the selected opponent, based on high-grade pitch evidence (A−/A/A+) from the team's pitches."
         ),
   actions=[
-    # Current team and next scheduled game
+    # Active team and upcoming match date
     Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),
     Action(name="GetNextGame", kwargs={"current_date": "2024-06-10", "team_id": 10}),
 
-    # Opponent team context (pull both sides, then use the non-MIL side as the opponent in reporting)
+    # Context for the opposing team (retrieve data from both sides, then utilize the non-MIL side as the adversary in reporting).
     Action(name="GetTeamDetailsById", kwargs={"team_id": 9}),
     Action(name="GetVenueById", kwargs={"venue_id": 10}),
 
@@ -324,7 +324,7 @@ Task(
     ),    
 
 
-    # # Scouting report for this matchup (opponent-focused)
+    # # # Opponent analysis for this matchup
     Action(
       name="CreateScoutingReport",
       kwargs={
@@ -334,13 +334,13 @@ Task(
       },
     ),
 
-    # # Vision ingestion for pitch/grade evidence
+    # # # Ingesting vision data for pitch/grade validation
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull opponent pitchers' pitches (treat away club as opponent for determinism)
+    # # # Retrieve pitches from opposing pitchers (consider away team as the opponent for consistency)
     Action(
       name="GetAllPlayersOfTeam",
       kwargs={"team_id": 9},
@@ -350,7 +350,7 @@ Task(
       kwargs={"pitcher_ids": [2,13]},
     ),
 
-    # # Keep only high-grade (A-tier) executions to inform the scouting narrative
+    # # # Retain only top-quality (A-tier) performances to guide the scouting storyline
     Action(
       name="GetFilteredGradesByPitchIds",
       kwargs={
@@ -359,7 +359,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow management
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success","game_pk": 2024000006,}),
   ],
   outputs=[]
@@ -388,7 +388,7 @@ Task(
       "report_id": 11
     }),
 
-    # WRITE: Coaching goal
+    # Establish coaching objective
     Action(name="CreateNewGoal", kwargs={
       "dev_report_id": 11,
       "player_id": 3,
@@ -414,11 +414,11 @@ Task(
 
     Action(name="CreateIngestionLog", kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500}),
 
-    # Evidence logs (vision for pitch analytics)
+    # Data records for visual pitch analysis.
     Action(name="CreateIngestionLog", kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500}),
      
 
-    # Report + insight + highlight + goal
+    # Summary + analysis + emphasis + objective
     Action(name="CreateNewReport", kwargs={"player_id": 5, "week_of_date": "2025-08-10"}),
     Action(name="CreateNewInsight", kwargs={
       "report_id": 11,
@@ -451,11 +451,11 @@ Task(
             "As a MLB Analyst, you are to prepare an opponent scouting report called 'Opponent pitch strengths and attack tendencies' for the following Cyclones game after 2024-06-10, and specify the venue name. Provide an Opponent Analysis scouting report for the detailed opponent, supported by high-grade pitch data (A−/A/A+) from that team's pitches."
         ),
   actions=[
-    # Current team and next scheduled game
+    # Active team and upcoming match.
     Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),
     Action(name="GetNextGame", kwargs={"current_date": "2024-06-10", "team_id": 10}),
 
-    # Opponent team context (pull both sides, then use the non-MIL side as the opponent in reporting)
+    # Context for the opposing team (retrieve data from both sides, then utilize the non-MIL side as the adversary in the report).
     Action(name="GetTeamDetailsById", kwargs={"team_id": 9}),
     Action(name="GetVenueById", kwargs={"venue_id": 10}),
 
@@ -465,7 +465,7 @@ Task(
     ),    
 
 
-    # # Scouting report for this matchup (opponent-focused)
+    # # # Opponent analysis for this matchup
     Action(
       name="CreateScoutingReport",
       kwargs={
@@ -475,13 +475,13 @@ Task(
       },
     ),
 
-    # # Vision ingestion for pitch/grade evidence
+    # # # Ingesting vision data for pitch/grade validation
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull opponent pitchers' pitches (treat away club as opponent for determinism)
+    # # # Retrieve pitches from opposing pitchers (consider away team as the opponent for consistency)
     Action(
       name="GetAllPlayersOfTeam",
       kwargs={"team_id": 9},
@@ -491,7 +491,7 @@ Task(
       kwargs={"pitcher_ids": [2,13]},
     ),
 
-    # # Keep only high-grade (A-tier) executions to inform the scouting narrative
+    # # # Retain only top-quality (A-tier) executions for the scouting narrative.
     Action(
       name="GetFilteredGradesByPitchIds",
       kwargs={
@@ -500,7 +500,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow documentation
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success","game_pk": 2024000006,}),
   ],
   outputs=[]
@@ -530,7 +530,7 @@ Task(
       "report_id": 11
     }),
 
-    # WRITE: Coaching goal for bad-graded set
+    # Establish coaching objectives for poorly graded set.
     Action(name="CreateNewGoal", kwargs={
       "dev_report_id": 11,
       "player_id": 8,
@@ -567,7 +567,7 @@ Task(
       "report_id": 11
     }),
 
-    # WRITE: Coaching goal
+    # Establish coaching objective
     Action(name="CreateNewGoal", kwargs={
       "dev_report_id": 11,
       "player_id": 1,
@@ -587,11 +587,11 @@ Task(
             "Being a MLB Analyst, your objective is to construct an opponent scouting report 'Opponent pitch strengths and attack tendencies' for the next Cyclones game following 2024-06-10 and provide the venue name. Compile an Opponent Analysis scouting report for the chosen opponent, based on high-grade pitch performance (A−/A/A+) from that team's pitches."
         ),
   actions=[
-    # Current team and next scheduled game
+    # Active team and upcoming match date
     Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),
     Action(name="GetNextGame", kwargs={"current_date": "2024-06-10", "team_id": 10}),
 
-    # Opponent team context (pull both sides, then use the non-DET side as the opponent in reporting)
+    # Context for the opposing team (retrieve data from both teams, then utilize the non-DET side as the adversary in the report).
     Action(name="GetTeamDetailsById", kwargs={"team_id": 9}),
     Action(name="GetVenueById", kwargs={"venue_id": 10}),
 
@@ -601,7 +601,7 @@ Task(
     ),    
 
 
-    # # Scouting report for this matchup (opponent-focused)
+    # # # Analysis report for this matchup (focusing on the opponent)
     Action(
       name="CreateScoutingReport",
       kwargs={
@@ -611,13 +611,13 @@ Task(
       },
     ),
 
-    # # Vision ingestion for pitch/grade evidence
+    # # # Ingesting vision data for pitch/grade validation
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull opponent pitchers' pitches (treat away club as opponent for determinism)
+    # # # Retrieve pitches from opponent pitchers (consider the away team as the opponent for consistency)
     Action(
       name="GetAllPlayersOfTeam",
       kwargs={"team_id": 9},
@@ -627,7 +627,7 @@ Task(
       kwargs={"pitcher_ids": [2,13]},
     ),
 
-    # # Keep only high-grade (A-tier) executions to inform the scouting narrative
+    # # # Retain only top-tier (A-grade) executions to guide the scouting story
     Action(
       name="GetFilteredGradesByPitchIds",
       kwargs={
@@ -636,7 +636,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow tracking
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success","game_pk": 2024000006,}),
   ],
   outputs=[]
@@ -683,7 +683,7 @@ Task(
             "As a MLB Analyst, your aim is to evaluate Lightning (STL) pitcher Isabella Davis's pitching performance for the week beginning 2025-08-10. Grade the ungraded pitches by comparing intended (5) versus actual quadrant (7) and calculating the miss distance (2.2), which results in a representative grade (B+). Deliver a concise scouting package: a montage of 6 clips titled 'Scott - Analysis', and establish a new goal."
         ),
   actions=[
-    # Start from get details by name
+    # Begin by retrieving details based on the name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Lightning"},
@@ -692,12 +692,12 @@ Task(
       name="GetPlayerDetailsByName",
       kwargs={"full_name": "Isabella Davis"},
     ),
-    # Pull all pitches for the pitcher
+    # Retrieve all pitches made by the pitcher.
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [3]},
     ),
-    # Retrieve details for a representative pitch (for context)
+    # Obtain information for a sample pitch (for reference).
     Action(
       name="GetGradesByPitchIds",
       kwargs={"pitch_ids": [25,30]}
@@ -712,7 +712,7 @@ Task(
       },
     ),
 
-    # # WRITE: Log supporting ingestion
+    # # # LOG: Support for ingestion process
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -723,7 +723,7 @@ Task(
     ),
 
 
-    # # WRITE:   dev report for Isabella Davis
+    # # # CREATE:   development report for Isabella Davis
     Action(
       name="CreateNewReport",
       kwargs={
@@ -732,7 +732,7 @@ Task(
       },
     ),
 
-    # # WRITE: Grade a representative changeup
+    # # # IMPLEMENT: Evaluate a typical changeup
     Action(
       name="CreateNewGrade",
       kwargs={
@@ -745,7 +745,7 @@ Task(
       },
     ),
 
-    # # WRITE: Initialize a K-montage highlights reel tied to the report
+    # # # CREATE: Set up a K-montage highlights compilation linked to the report
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -755,7 +755,7 @@ Task(
       },
     ),
 
-    # # WRITE: Attach a   development goal
+    # # # SET: Link a developmental objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -767,7 +767,7 @@ Task(
       },
     ),
 
-    # # WRITE: Record the workflow run (success at creation)
+    # # # LOG: Capture the workflow execution (successful upon creation)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -905,7 +905,7 @@ Task(
             "Act as an MLB Analyst to evaluate all pitch grades for Lightning pitcher James Brown, identifying the (D, B-) graded pitches, and generate analyst conclusions: create a highlights reel titled 'Lightning bad pitches: James Brown' with 5 clips and draft a development report featuring a development goal."
         ),
   actions=[
-    # Start from get details by name
+    # Begin by retrieving details using the name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Lightning"},
@@ -923,19 +923,19 @@ Task(
       },
     ),
 
-    # Retrieve all pitches thrown by the player
+    # Fetch all pitches delivered by the player.
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [8]},
     ),
 
-    # Retrieve grades for all of those pitch IDs
+    # Fetch grades for all specified pitch IDs.
     Action(
       name="GetGradesByPitchIds",
       kwargs={"pitch_ids": [3,12,36,50],"grades":["D","B-"]}
     ),
 
-    # # # WRITE: Log supporting aggregation/ingestion for this grade review (vision-related → hawkeye)
+    # # # # # LOG: Document aggregation/ingestion details for this grade review (vision-related → hawkeye)
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -946,7 +946,7 @@ Task(
     ),
 
 
-    # # # WRITE:   player development report
+    # # # # # CREATE:   player progress report
     Action(
       name="CreateNewReport",
       kwargs={
@@ -955,7 +955,7 @@ Task(
       },
     ),
 
-    # # WRITE: Initialize a highlights reel for the best-graded pitches (A+/A/A− or top-N)
+    # # # CREATE: Set up a highlights reel for the highest-rated pitches (A+/A/A− or top-N)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -965,7 +965,7 @@ Task(
       },
     ),
 
-    # # WRITE: Attach a   development goal
+    # # # SET: Link a development objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -977,7 +977,7 @@ Task(
       },
     ),
 
-    # # WRITE: Record the workflow run (success at creation; only create_workflow exists)
+    # # # LOG: Capture the workflow execution (successful upon creation; only create_workflow is present)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -995,11 +995,11 @@ Task(
             "Operate as an MLB Analyst to assess Lightning (STL) pitcher Isabella Davis’s average-grade pitches (C+) throughout the week of 2025-08-10. Intend to produce a highlight set named 'Lightning pitches: Isabella Davis' with 6 clips per pitch, showcasing the consistent patterns from the C+ category; complete a development report with a specified goal."
         ),
   actions=[
-    # Start from get details by name
+    # Begin by retrieving details using the name.
     Action(name="GetTeamDetailsByName", kwargs={"name": "Lightning"}),
     Action(name="GetPlayerDetailsByName", kwargs={"full_name": "Isabella Davis"}),
 
-    # Retrieve all pitches thrown by the player and grades for them
+    # Obtain all pitches thrown by the player along with their corresponding grades.
     Action(name="GetAllPitchesByPitcherIds", kwargs={"pitcher_ids": [3]}),
     Action(name="GetGradesByPitchIds", kwargs={"pitch_ids": [25,30],"grades":["C+"]}),
 
@@ -1008,14 +1008,14 @@ Task(
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # WRITE: Log supporting aggregation (vision → hawkeye)
+    # # # RECORD: Log for aggregation support (vision → hawkeye)
     Action(name="CreateIngestionLog", kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500}),
      
 
-    # # (Optional) WRITE:   report to anchor highlights in reporting
+    # # # (Optional) RECORD: document key points in the report for anchoring.
     Action(name="CreateNewReport", kwargs={"player_id": 3, "week_of_date": "2025-08-10"}),
 
-    # WRITE: Highlights for best-graded pitches
+    # Document: Top-rated pitch features
     Action(name="AddNewHighlight", kwargs={
       "name": "Lightning pitches: Isabella Davis",
       "clip_count": 6,
@@ -1032,7 +1032,7 @@ Task(
       },
     ),
 
-    # WRITE: Workflow run
+    # Execute: Workflow execution
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success"}),
   ],
   outputs=[]
@@ -1055,11 +1055,11 @@ Task(
     
     Action(name="GetAllPitchesByPitcherIds", kwargs={"pitcher_ids": [5]}),
 
-    # Evidence logs (vision for pitch analytics)
+    # Data records (insights for pitch analysis)
     Action(name="CreateIngestionLog", kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500}),
      
 
-    # Report + insight + highlight + goal
+    # Summary, analysis, emphasis, objective
     Action(name="CreateNewReport", kwargs={"player_id": 5, "week_of_date": "2025-08-10"}),
     Action(name="CreateNewInsight", kwargs={
       "report_id": 11,
@@ -1093,7 +1093,7 @@ Task(
             "Acting as an MLB Analyst, aim to Assess the Cyclones (MIL) roster, focusing on Evelyn Martin for the week of 2025-08-10. Supply a compact scouting package: a curated highlight set titled 'Cyclones roster focus' (3 clips), and devise a new improvement goal."
         ),
   actions=[
-    # Start from get details by name (team), then proceed
+    # Begin with retrieving details using the name (team), then continue.
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -1110,7 +1110,7 @@ Task(
       name="GetAllPlayersOfTeam",
       kwargs={"team_id": 8},
     ),
-    # Confirm focal player by exact name
+    # Verify the focal player using their precise name.
     Action(
       name="GetPlayerDetailsByName",
       kwargs={"full_name": "Evelyn Martin"},
@@ -1118,11 +1118,11 @@ Task(
 
     
 
-    # WRITE: Log supporting data ingestion
+    # Record data ingestion support logs.
     
 
 
-    # WRITE: File   dev report for Evelyn Martin
+    # Create a development report for Evelyn Martin.
     Action(
       name="CreateNewReport",
       kwargs={
@@ -1131,7 +1131,7 @@ Task(
       },
     ),
 
-    # WRITE: Initialize a highlights reel context for this study
+    # Set up a highlights reel context for this research.
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -1143,7 +1143,7 @@ Task(
 
     
 
-    # # WRITE: Attach a   development goal
+    # # # SET: Link a development objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -1155,7 +1155,7 @@ Task(
       },
     ),
 
-    # WRITE: Track this analysis as a workflow run
+    # Log this analysis as a workflow execution.
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -1175,7 +1175,7 @@ Task(
             "In the capacity of an MLB Analyst, your objective is to Review the Cyclones (COL) roster with a spotlight on Alexander Taylor for the week of 2025-08-10. Assemble a concise scouting package: present a curated highlight set titled 'Cyclones roster focus' (4 clips), along with a player-development goal."
         ),
   actions=[
-    # Start from get details by name (team)
+    # Begin by retrieving details using the team name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Cyclones"},
@@ -1189,7 +1189,7 @@ Task(
       kwargs={"full_name": "Alexander Taylor"},
     ),
 
-    # WRITE: Log supporting data ingestion
+    # Record data ingestion activities.
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -1200,7 +1200,7 @@ Task(
     ),
 
 
-    # WRITE:   dev report for Alexander Taylor
+    # Create a development report for Alexander Taylor.
     Action(
       name="CreateNewReport",
       kwargs={
@@ -1209,7 +1209,7 @@ Task(
       },
     ),
 
-    # WRITE: Initialize a highlights reel
+    # Create a highlights compilation.
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -1219,7 +1219,7 @@ Task(
       },
     ),
 
-    # WRITE: Attach a   development goal
+    # Assign a development objective.
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -1231,7 +1231,7 @@ Task(
       },
     ),
 
-    # WRITE: Record the workflow run (success at creation)
+    # Log the workflow execution (successful upon creation)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -1249,13 +1249,13 @@ Task(
             "Being an MLB Analyst, your task is to summarize all details for the game that was cancelled in Denver on 2024-07-28, including player information from both teams and umpire details within a 'Cancelled-Game' scouting report, with 'Game Cancelled' and a 5-clip highlight named 'Match Cancelled'."
         ),
   actions=[
-    # Venue + games on the date
+    # Event location and scheduled games for the date
     Action(name="GetAllVenueInCity", kwargs={"city": "Denver"}),
     Action(name="FindGamesOnDate", kwargs={"date": "2024-07-28"}),
     Action(name="CreateIngestionLog", kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500}),
 
-    # Resolve the specific game at any Portland venue
-    # (Pick the first game whose venue_id is in the Portland venue list)
+    # Address the particular game at any location in Portland.
+    # (Select the initial game with a venue_id that exists in the Portland venue list)
     Action(
       name="GetTeamDetailsById",
       kwargs={"team_id": 7},
@@ -1265,7 +1265,7 @@ Task(
       kwargs={"team_id": 6},
     ),
 
-    # Rosters for both sides
+    # Team rosters for each side
     Action(
       name="GetAllPlayersOfTeam",
       kwargs={"team_id": 7},
@@ -1275,7 +1275,7 @@ Task(
       kwargs={"team_id": 6},
     ),
 
-    # Umpire model calibration for the selected game
+    # Calibration of the umpire model for the chosen match.
     Action(
       name="GetModelDetailByGame",
       kwargs={"game_pk": 2024000001},
@@ -1285,10 +1285,10 @@ Task(
       kwargs={"umpire_id": 8},
     ),
 
-    # Evidence logs per policy (roster/lookup → snowflake; model/video context → hawkeye)
+    # Policy-specific evidence logs (roster/lookup → Snowflake; model/video context → Hawkeye)
     
 
-    # Scouting report + highlights
+    # Evaluation summary and key moments
     Action(
       name="CreateScoutingReport",
       kwargs={
@@ -1307,7 +1307,7 @@ Task(
       },
     ),
 
-    # Workflow bookkeeping
+    # Process documentation
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success"}),
   ],
   outputs=[]
@@ -1319,13 +1319,13 @@ Task(
             "As an MLB Analyst, you should Examine the Falcons (CIN) roster context focusing on Sarah Williams, and generate analyst outputs: initiate a highlights reel with 5 clips titled 'Falcons roster focus' and compile a development report featuring a development goal."
         ),
   actions=[
-    # Start from get details by name (team)
+    # Fetch details using the team name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Falcons"},
     ),
-    # Action(
-    #   name="GetAllPlayersOfTeam",
+    # Execute(
+    # identifier="RetrieveAllTeamPlayers",
     #   kwargs={"team_id": 7},
     # ),
     Action(
@@ -1337,10 +1337,10 @@ Task(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
-    # WRITE: Log supporting data ingestion
+    # Record data ingestion support logs.
 
 
-    # WRITE:   dev report for Sarah Williams
+    # Create a development report for Sarah Williams.
     Action(
       name="CreateNewReport",
       kwargs={
@@ -1349,7 +1349,7 @@ Task(
       },
     ),
 
-    # WRITE: Initialize a highlights reel
+    # Set up a highlights compilation.
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -1359,7 +1359,7 @@ Task(
       },
     ),
 
-    # WRITE: Attach a   development goal
+    # Assign a development objective.
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -1371,7 +1371,7 @@ Task(
       },
     ),
 
-    # WRITE: Record the workflow run (success at creation)
+    # Log the workflow execution (successful upon creation)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -1389,7 +1389,7 @@ Task(
             "As an MLB Analyst, you aim to evaluate the pitch mix and execution during the week of 2025-08-10 for Cyclones (COL) pitcher Alexander Taylor. Compose a 4-clip montage titled 'Cyclones pitch study: Alexander Taylor'; include a development note with a new goal, and add a representative execution-grading entry for one pitch (with smallest pitch id) from this period to support the assessment. The intended quadrant model was 3 while the actual quadrant was 2, with a miss distance of 1.4 inches, resulting in an execution grade of A."
         ),
   actions=[
-    # Start from get details by name
+    # Retrieve details based on the name.
     Action(
       name="GetTeamDetailsByAbbreviation",
       kwargs={"abbreviation": "COL"},
@@ -1398,7 +1398,7 @@ Task(
       name="GetPlayerDetailsByName",
       kwargs={"full_name": "Alexander Taylor"},
     ),
-    # Pull all pitches for the pitcher
+    # Retrieve all pitches thrown by the pitcher.
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [7]},
@@ -1408,7 +1408,7 @@ Task(
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # WRITE: Log supporting pitch ingestion
+    # Record logs for pitch data ingestion.
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -1419,7 +1419,7 @@ Task(
     ),
 
 
-    # WRITE:   dev report for Alexander Taylor
+    # Create a development report for Alexander Taylor.
     Action(
       name="CreateNewReport",
       kwargs={
@@ -1428,7 +1428,7 @@ Task(
       },
     ),
 
-    # # WRITE: Grade one representative pitch from the dataset
+    # # # GENERATE: Pitch for grade one representative from the dataset
     Action(
       name="CreateNewGrade",
       kwargs={
@@ -1441,7 +1441,7 @@ Task(
       },
     ),
 
-    # # WRITE: Initialize a highlights reel tied to the report
+    # # # CREATE: Set up a highlights reel associated with the report
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -1451,7 +1451,7 @@ Task(
       },
     ),
 
-    # # WRITE: Attach a   development goal
+    # # # SET: Link a development objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -1463,7 +1463,7 @@ Task(
       },
     ),
 
-    # # WRITE: Record the workflow run (success at creation)
+    # # # LOG: Capture the workflow execution (successful upon creation)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -1481,7 +1481,7 @@ Task(
             "As an MLB Analyst, your task is to prepare a game-level pitch analysis and summary highlights for the match between the MIL at home and the PIT. Deliver an opponent-ready scouting note titled 'Game Summary' and a game summary montage named 'MIL vs PIT – Pitch Log Summary' with 5 clips."
         ),
   actions=[
-    # Teams & game context
+    # Team dynamics and game environment
     Action(
       name="GetTeamDetailsByAbbreviation",
       kwargs={"abbreviation": "MIL"},
@@ -1495,7 +1495,7 @@ Task(
       kwargs={"home_id": 8, "away_id": 4},
     ),
 
-    # Ingestion logs per policy (roster/lookup → snowflake)
+    # Policy-based ingestion logs (roster/lookup → snowflake)
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
@@ -1505,13 +1505,13 @@ Task(
       kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull all pitches for the identified game
+    # # # Retrieve all pitches for the specified game
     Action(
       name="GetAllPitchesForGame",
       kwargs={"game_pk": 2024000008},
     ),
 
-    # # Sensor/vision ingestion for pitch events → trackman
+    # # # Ingesting sensor/vision data for pitch events → trackman
      
 
     Action(
@@ -1524,7 +1524,7 @@ Task(
     ),
 
 
-    # # Game summary highlights (clip_count equals number of pitches)
+    # # # Summary of the game highlights (clip_count represents the total pitches)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -1534,7 +1534,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow management记录
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -1553,7 +1553,7 @@ Task(
             "In your role as an MLB Analyst, assess Lightning (STL) pitcher Isabella Davis's pitches for the week of 2025-08-10. Grade all the ungraded pitches with the intended quadrant (5) versus the actual quadrant (7) and a miss distance (2.2) that results in a representative grade (B+). Deliver a compact scouting package: a 6-clip montage titled 'Scott - Analysis', and create a new goal."
         ),
   actions=[
-    # Start from get details by name
+    # Begin by retrieving details using the name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Lightning"},
@@ -1562,12 +1562,12 @@ Task(
       name="GetPlayerDetailsByName",
       kwargs={"full_name": "Isabella Davis"},
     ),
-    # Pull all pitches for the pitcher
+    # Retrieve all pitches for the specified pitcher.
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [3]},
     ),
-    # Retrieve details for a representative pitch (for context)
+    # Obtain information regarding a sample pitch (for reference).
     Action(
       name="GetGradesByPitchIds",
       kwargs={"pitch_ids": [25,30]}
@@ -1582,7 +1582,7 @@ Task(
       },
     ),
 
-    # # WRITE: Log supporting ingestion
+    # # # LOG: Record ingestion support
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -1593,7 +1593,7 @@ Task(
     ),
 
 
-    # # WRITE:   dev report for Scott Arnold
+    # # # CREATE: development report for Scott Arnold
     Action(
       name="CreateNewReport",
       kwargs={
@@ -1602,7 +1602,7 @@ Task(
       },
     ),
 
-    # # WRITE: Grade a representative changeup
+    # # # EVALUATE: Assign a rating to a typical changeup
     Action(
       name="CreateNewGrade",
       kwargs={
@@ -1615,7 +1615,7 @@ Task(
       },
     ),
 
-    # # WRITE: Initialize a K-montage highlights reel tied to the report
+    # # # CREATE: Set up a K-montage highlight reel linked to the report
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -1625,7 +1625,7 @@ Task(
       },
     ),
 
-    # # WRITE: Attach a   development goal
+    # # # ASSIGN: Link a development objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -1637,7 +1637,7 @@ Task(
       },
     ),
 
-    # # WRITE: Record the workflow run (success at creation)
+    # # # LOG: Save the workflow execution (successful upon creation)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -1656,7 +1656,7 @@ Task(
             "As an MLB Analyst, evaluate all pitches by Falcons (CIN) pitcher Sarah Williams and deliver a highlight set titled 'Falcons best pitches: Sarah Williams' showcasing 'A' grade pitches, alongside a development note with the goal."
         ),
   actions=[
-    # Start from get details by name
+    # Begin by retrieving details using the name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Falcons"},
@@ -1666,13 +1666,13 @@ Task(
       kwargs={"full_name": "Sarah Williams"},
     ),
 
-    # Retrieve all pitches thrown by the player
+    # Fetch all pitches delivered by the player.
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [5]},
     ),
 
-    # Retrieve grades for all of those pitch IDs
+    # Fetch the grades associated with all specified pitch IDs.
     Action(
       name="GetGradesByPitchIds",
       kwargs={"pitch_ids": [11,16,20,35,53,58],"grades":["A"]}
@@ -1680,7 +1680,7 @@ Task(
 
     Action(name="CreateIngestionLog", kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500}),
 
-    # # WRITE: Log supporting aggregation/ingestion for this grade review
+    # # # LOG: Document aggregation/ingestion details for this grade review
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -1691,7 +1691,7 @@ Task(
     ),
 
 
-    # # # # WRITE:   player development report
+    # # # # # # # GENERATE: player growth assessment
     Action(
       name="CreateNewReport",
       kwargs={
@@ -1700,7 +1700,7 @@ Task(
       },
     ),
 
-    # # # WRITE: Initialize a highlights reel for the best-graded pitches (A+/A/A− or top-N)
+    # # # # # CREATE: Set up a highlights compilation for the highest-rated pitches (A+/A/A− or top-N)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -1710,7 +1710,7 @@ Task(
       },
     ),
 
-    # # # WRITE: Attach a   development goal
+    # # # # # SET: Link a development objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -1722,7 +1722,7 @@ Task(
       },
     ),
 
-    # # # WRITE: Record the workflow run (success at creation; only create_workflow exists)
+    # # # # # LOG: Store the workflow execution (successful upon creation; only create_workflow is present)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -1740,7 +1740,7 @@ Task(
             "As an MLB Analyst, analyze all pitch grades for Lightning pitcher James Brown and identify the pitches graded as (D, B-). Produce analyst outputs by initiating a highlights reel named 'Lightning bad pitches: James Brown' with 5 clips and filing a development report with a development goal."
         ),
   actions=[
-    # Start from get details by name
+    # Initiate retrieval of details using the name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Lightning"},
@@ -1758,19 +1758,19 @@ Task(
       },
     ),
 
-    # Retrieve all pitches thrown by the player
+    # Fetch all pitches delivered by the player.
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [8]},
     ),
 
-    # Retrieve grades for all of those pitch IDs
+    # Fetch grades for all specified pitch IDs.
     Action(
       name="GetGradesByPitchIds",
       kwargs={"pitch_ids": [3,12,36,50],"grades":["D","B-"]}
     ),
 
-    # # # WRITE: Log supporting aggregation/ingestion for this grade review (vision-related → hawkeye)
+    # # # # # LOG: Document aggregation/ingestion assistance for this grade review (vision-related → hawkeye)
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -1781,7 +1781,7 @@ Task(
     ),
 
 
-    # # # WRITE:   player development report
+    # # # # # GENERATE: player growth report
     Action(
       name="CreateNewReport",
       kwargs={
@@ -1790,7 +1790,7 @@ Task(
       },
     ),
 
-    # # WRITE: Initialize a highlights reel for the best-graded pitches (A+/A/A− or top-N)
+    # # # CREATE: Set up a highlights compilation for the highest-rated pitches (A+/A/A− or top-N)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -1800,7 +1800,7 @@ Task(
       },
     ),
 
-    # # WRITE: Attach a   development goal
+    # # # DEFINE: Set a development objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -1812,7 +1812,7 @@ Task(
       },
     ),
 
-    # # WRITE: Record the workflow run (success at creation; only create_workflow exists)
+    # # # LOG: Document the workflow execution (successful upon creation; only create_workflow is present)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -1830,11 +1830,11 @@ Task(
             "As an MLB Analyst, your task is to Profile the Lightning (STL) pitcher Isabella Davis's average-grade pitches (C+) during the week of 2025-08-10. You should develop a highlight set titled 'Lightning pitches: Isabella Davis' with 6 clips per pitch, demonstrating consistent patterns from the C+ category; and file a report focused on development with a specific goal."
         ),
   actions=[
-    # Start from get details by name
+    # Initiate by retrieving details using the name.
     Action(name="GetTeamDetailsByName", kwargs={"name": "Lightning"}),
     Action(name="GetPlayerDetailsByName", kwargs={"full_name": "Isabella Davis"}),
 
-    # Retrieve all pitches thrown by the player and grades for them
+    # Fetch all pitches thrown by the player along with their corresponding grades.
     Action(name="GetAllPitchesByPitcherIds", kwargs={"pitcher_ids": [3]}),
     Action(name="GetGradesByPitchIds", kwargs={"pitch_ids": [25,30],"grades":["C+"]}),
 
@@ -1843,14 +1843,14 @@ Task(
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # WRITE: Log supporting aggregation (vision → hawkeye)
+    # # # LOG: Record aggregation support (vision → hawkeye)
     Action(name="CreateIngestionLog", kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500}),
      
 
-    # # (Optional) WRITE:   report to anchor highlights in reporting
+    # # # (Optional) RECORD: document key points in the report
     Action(name="CreateNewReport", kwargs={"player_id": 3, "week_of_date": "2025-08-10"}),
 
-    # WRITE: Highlights for best-graded pitches
+    # Document key features of top-rated pitches.
     Action(name="AddNewHighlight", kwargs={
       "name": "Lightning pitches: Isabella Davis",
       "clip_count": 6,
@@ -1867,7 +1867,7 @@ Task(
       },
     ),
 
-    # WRITE: Workflow run
+    # Execute: Workflow execution
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success"}),
   ],
   outputs=[]
@@ -1979,7 +1979,7 @@ Task(
       "report_id": 11
     }),
 
-    # WRITE: Coaching goal for bad-graded set
+    # Establish a coaching objective for poorly graded items.
     Action(name="CreateNewGoal", kwargs={
       "dev_report_id": 11,
       "player_id": 8,
@@ -2016,7 +2016,7 @@ Task(
       "report_id": 11
     }),
 
-    # WRITE: Coaching goal
+    # Establish coaching objectives
     Action(name="CreateNewGoal", kwargs={
       "dev_report_id": 11,
       "player_id": 1,
@@ -2053,7 +2053,7 @@ Task(
       "report_id": 11
     }),
 
-    # WRITE: Coaching goal
+    # Establish coaching objective
     Action(name="CreateNewGoal", kwargs={
       "dev_report_id": 11,
       "player_id": 3,
@@ -2121,9 +2121,9 @@ Task(
     Action(name="GetAllPitchesByPitcherIds", kwargs={"pitcher_ids": [1,4]}),
 
     Action(name="CreateIngestionLog", kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500}),
-    # 
+    # It seems that there is no comment provided for me to paraphrase. Please provide a comment for me to rephrase.
 
-    # # # High-grade include list (keep only A/B tiers)
+    # # # # High-quality inclusion list (retain only A/B levels)
     Action(
       name="GetFilteredGradesByPitchIds",
       kwargs={
@@ -2238,19 +2238,19 @@ Task(
             "As a MLB Analyst, ensure to provide a comparative analysis of pitch quality from both sides for the Lightning vs Cyclones matchup. Highlight A-tier pitches (A+/A/A−) for each team's pitching staff, and compile development reports for all players in ascending order of their ids."
         ),
   actions=[
-    # Teams
-    Action(name="GetTeamDetailsByName", kwargs={"name": "Lightning"}),  # treat as home for this comparison
-    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),      # away
+    # Groups
+    Action(name="GetTeamDetailsByName", kwargs={"name": "Lightning"}),  # consider as the base for this comparison
+    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),      # distant
 
-    # Ingestion logs (roster → snowflake, pitch/vision → hawkeye)
+    # Data ingestion logs (roster to Snowflake, pitch/vision to Hawkeye)
     Action(name="CreateIngestionLog", kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500}),
     Action(name="CreateIngestionLog", kwargs={"source_name": "hawkeye",   "status_code": 200, "records_ingested": 500}),
 
-    # Roster for both sides
-    Action(name="GetAllPlayersOfTeam", kwargs={"team_id": 9}),  # CLE players
-    Action(name="GetAllPlayersOfTeam", kwargs={"team_id": 8}),  # MIN players
+    # Lineup for each team
+    Action(name="GetAllPlayersOfTeam", kwargs={"team_id": 9}),  # CLE participants
+    Action(name="GetAllPlayersOfTeam", kwargs={"team_id": 8}),  # Minimum players
 
-    # Pitchers' pitches for both sides (IDs inferred by pitch presence)
+    # Pitches from both teams' pitchers (IDs derived from the presence of pitches)
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [2,13]},
@@ -2265,7 +2265,7 @@ Task(
         "pitch_ids": [5,7,23,28,29,32,45,52,54],
         "grades": ["A+", "A", "A-"]
       },
-    ), # CIN A-tier
+    ), # CIN Tier A
     
     Action(
       name="GetFilteredGradesByPitchIds",
@@ -2280,13 +2280,13 @@ Task(
     
     Action(name="CreateNewReport", kwargs={"player_id": 13, "week_of_date": "2025-08-10"}),
     
-    # Action(name="AddNewHighlight", kwargs={
-    #   "name": "Lightning vs Cyclones Highlights",
-    #   "clip_count": 6,
-    #   "report_id": 11
+    # Action(identifier="AddNewHighlight", parameters={
+    # "title": "Highlights of Lightning vs Cyclones",
+    # "number_of_clips": 6,
+    # "report_identifier": 11
     # }),
 
-    # Workflow
+    # Process sequence
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success"}),
   ],
   outputs=[]
@@ -2315,7 +2315,7 @@ Task(
       "report_id": 11
     }),
 
-    # WRITE: Coaching goal
+    # Establish coaching objective
     Action(name="CreateNewGoal", kwargs={
       "dev_report_id": 11,
       "player_id": 1,
@@ -2344,11 +2344,11 @@ Task(
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # Evidence logs (vision for pitch analytics)
+    # Data records (insights for pitch analysis)
     Action(name="CreateIngestionLog", kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500}),
      
 
-    # Report + insight + highlight + goal
+    # Summary + analysis + emphasis + objective
     Action(name="CreateNewReport", kwargs={"player_id": 5, "week_of_date": "2025-08-10"}),
     Action(name="CreateNewInsight", kwargs={
       "report_id": 11,
@@ -2381,7 +2381,7 @@ Task(
             "In your capacity as a MLB Analyst, compile a comprehensive pitch analysis and summarize highlights for the game between MIL hosting PIT on 2024-03-05. Prepare a scouting note 'Game Summary' ready for opponents and curate a game summary montage titled 'MIL vs PIT – Pitch Log Summary' with 5 clips."
         ),
   actions=[
-    # Teams & game context
+    # Teams and the context of the game
     Action(
       name="GetTeamDetailsByAbbreviation",
       kwargs={"abbreviation": "MIL"},
@@ -2395,19 +2395,19 @@ Task(
       kwargs={"home_id": 8, "away_id": 4},
     ),
 
-    # Ingestion logs per policy (roster/lookup → snowflake)
+    # Logs for ingestion based on policy (roster/lookup → snowflake)
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull all pitches for the identified game
+    # # # Retrieve all pitches for the specified game
     Action(
       name="GetAllPitchesForGame",
       kwargs={"game_pk": 2024000008},
     ),
 
-    # # Sensor/vision ingestion for pitch events → trackman
+    # # # Ingesting sensor/vision data for pitch events → trackman
      Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500},
@@ -2425,7 +2425,7 @@ Task(
     
 
 
-    # # Game summary highlights (clip_count equals number of pitches)
+    # # # Summary of the game highlights (clip_count corresponds to the total pitches)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -2435,7 +2435,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow management
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -2454,11 +2454,11 @@ Task(
             "Your task as a MLB Analyst is to assemble an opponent scouting report 'Opponent pitch strengths and attack tendencies' for the upcoming Cyclones game following 2024-06-10, including the venue name. Deliver an Opponent Analysis scouting report for the identified opponent, filtered for high-grade pitches of levels (A−/A/A+) from that opponent."
         ),
   actions=[
-    # Current team and next scheduled game
+    # Active team and upcoming match.
     Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),
     Action(name="GetNextGame", kwargs={"current_date": "2024-06-10", "team_id": 10}),
 
-    # Opponent team context (pull both sides, then use the non-MIL side as the opponent in reporting)
+    # Context for the opposing team (gather information from both sides, then utilize the non-MIL side as the adversary in the report).
     Action(name="GetTeamDetailsById", kwargs={"team_id": 9}),
     Action(name="GetVenueById", kwargs={"venue_id": 10}),
 
@@ -2468,7 +2468,7 @@ Task(
     ),    
 
 
-    # # Scouting report for this matchup (opponent-focused)
+    # # # Opponent analysis for this matchup
     Action(
       name="CreateScoutingReport",
       kwargs={
@@ -2478,13 +2478,13 @@ Task(
       },
     ),
 
-    # # Vision ingestion for pitch/grade evidence
+    # # # Capturing visual data for pitch/grade validation
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull opponent pitchers' pitches (treat away club as opponent for determinism)
+    # # # Retrieve the pitches of opposing pitchers (consider the away team as the opponent for consistency)
     Action(
       name="GetAllPlayersOfTeam",
       kwargs={"team_id": 9},
@@ -2494,7 +2494,7 @@ Task(
       kwargs={"pitcher_ids": [2,13]},
     ),
 
-    # # Keep only high-grade (A-tier) executions to inform the scouting narrative
+    # # # Retain only top-tier (A-grade) executions to guide the scouting storyline
     Action(
       name="GetFilteredGradesByPitchIds",
       kwargs={
@@ -2503,7 +2503,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow management
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success","game_pk": 2024000006,}),
   ],
   outputs=[]
@@ -2630,11 +2630,11 @@ Task(
 
     Action(name="CreateIngestionLog", kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500}),
 
-    # Evidence logs (vision for pitch analytics)
+    # Data records (perspective for pitch analysis)
     Action(name="CreateIngestionLog", kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500}),
      
 
-    # Report + insight + highlight + goal
+    # Summary, analysis, emphasis, objective.
     Action(name="CreateNewReport", kwargs={"player_id": 5, "week_of_date": "2025-08-10"}),
     Action(name="CreateNewInsight", kwargs={
       "report_id": 11,
@@ -2698,27 +2698,27 @@ Task(
             "As an MLB Analyst, you aim to generate a game-level pitch analysis and summary for the match where the Cyclones host the Cyclones. Provide a scouting report 'Game Summary' that is ready for the opponent, and create a game summary montage titled 'MIL vs PIT – Pitch Log Summary' including 5 clip highlights."
         ),
   actions=[
-    # Teams & game context
-    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),     # home
-    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),  # away
+    # Team and game environment
+    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),     # main directory
+    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),  # distant
     Action(
       name="GetGameByHomeAway",
       kwargs={"home_id": 8, "away_id": 4},
     ),
 
-    # Ingestion logs per policy (roster/lookup → snowflake)
+    # Logs of data ingestion by policy (roster/lookup → snowflake)
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull all pitches for the identified game
+    # # # Retrieve all pitches for the specified game
     Action(
       name="GetAllPitchesForGame",
       kwargs={"game_pk": 2024000008},
     ),
 
-    # # Sensor/vision ingestion for pitch events → trackman
+    # # # Ingesting sensor/vision data for pitch events → trackman
      
 
     Action(
@@ -2731,7 +2731,7 @@ Task(
     ),
 
 
-    # # Game summary highlights (clip_count equals number of pitches)
+    # # # Summary of the game highlights (clip_count represents the total pitches)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -2741,7 +2741,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow record-keeping
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -2803,7 +2803,7 @@ Task(
             "Functioning as an MLB Analyst, intend to fabricate a detailed game-level pitch analysis and summary highlights for the game between MIL playing at their home against the PIT. Present an opponent-prepared scouting note 'Game Summary' and a game summary video titled 'MIL vs PIT – Pitch Log Summary' featuring 5 clip highlights."
         ),
   actions=[
-    # Teams & game context
+    # Team dynamics and gameplay context
     Action(
       name="GetTeamDetailsByAbbreviation",
       kwargs={"abbreviation": "MIL"},
@@ -2817,7 +2817,7 @@ Task(
       kwargs={"home_id": 8, "away_id": 4},
     ),
 
-    # Ingestion logs per policy (roster/lookup → snowflake)
+    # Logs of data ingestion by policy (roster/lookup → snowflake)
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
@@ -2827,13 +2827,13 @@ Task(
       kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull all pitches for the identified game
+    # # # Retrieve all pitches for the specified game
     Action(
       name="GetAllPitchesForGame",
       kwargs={"game_pk": 2024000008},
     ),
 
-    # # Sensor/vision ingestion for pitch events → trackman
+    # # # Ingesting sensor/vision data for pitch events → trackman
      
 
     Action(
@@ -2846,7 +2846,7 @@ Task(
     ),
 
 
-    # # Game summary highlights (clip_count equals number of pitches)
+    # # # Summary of game highlights (clip_count represents the total pitches)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -2856,7 +2856,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow tracking
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -2875,7 +2875,7 @@ Task(
             "As someone analyzing MLB, you are to orchestrate a comprehensive game-level pitch analysis and summary highlights for the match where the Cyclones host COL. Offer a scouting note 'Game Summary' suitable for the opponent, and compose a game summary montage with the title 'LAD vs COL – Pitch Log Summary' including 5 clip highlights."
         ),
   actions=[
-    # Teams & game context
+    # Team and game environment
     Action(
       name="GetTeamDetailsByAbbreviation",
       kwargs={"abbreviation": "LAD"},
@@ -2889,19 +2889,19 @@ Task(
       kwargs={"home_id": 1, "away_id": 10},
     ),
 
-    # Ingestion logs per policy (roster/lookup → snowflake)
+    # Policy-specific ingestion logs (roster/lookup → Snowflake)
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull all pitches for the identified game
+    # # # Retrieve all pitches for the specified game
     Action(
       name="GetAllPitchesForGame",
       kwargs={"game_pk": 2024000007},
     ),
 
-    # # # Sensor/vision ingestion for pitch events → trackman
+    # # # # Sensor/vision data collection for pitch events → TrackMan
      
 
     Action(
@@ -2914,7 +2914,7 @@ Task(
     ),
 
 
-    # # Game summary highlights (clip_count equals number of pitches)
+    # # # Summary of the game highlights (clip_count represents the total pitches)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -2924,7 +2924,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow management
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -2943,7 +2943,7 @@ Task(
             "In your role as an MLB Analyst, set out to create a thorough game-level pitch analysis and highlight summary for the match where MIL is at home playing against the Cyclones. Deliver a scouting report 'Game Summary' prepared for the opponent and a game summary compilation titled 'MIL vs PIT – Pitch Log Summary' including 5 clip highlights."
         ),
   actions=[
-    # Teams & game context
+    # Team and game environment
     Action(
       name="GetTeamDetailsByAbbreviation",
       kwargs={"abbreviation": "MIL"},
@@ -2954,19 +2954,19 @@ Task(
       kwargs={"home_id": 8, "away_id": 4},
     ),
 
-    # Ingestion logs per policy (roster/lookup → snowflake)
+    # Policy-specific ingestion logs (roster/lookup → snowflake)
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull all pitches for the identified game
+    # # # Retrieve all pitches for the specified game
     Action(
       name="GetAllPitchesForGame",
       kwargs={"game_pk": 2024000008},
     ),
 
-    # # Sensor/vision ingestion for pitch events → trackman
+    # # # Ingesting sensor/vision data for pitch events → trackman
      
 
     Action(
@@ -2979,7 +2979,7 @@ Task(
     ),
 
 
-    # # Game summary highlights (clip_count equals number of pitches)
+    # # # Summary of the game highlights (clip_count represents the total pitches)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -2989,7 +2989,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow management
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -3008,7 +3008,7 @@ Task(
             "As an MLB Analyst, your task is to craft a game-level pitch analysis and highlight summary for the match where the Cyclones host the PIT. Provide an opponent-ready scouting note titled 'Game Summary' and produce a game summary montage called 'MIL vs PIT – Pitch Log Summary' including 5 clip highlights"
         ),
   actions=[
-    # Teams & game context
+    # Teams and gameplay environment
     Action(
       name="GetTeamDetailsByAbbreviation",
       kwargs={"abbreviation": "PIT"},
@@ -3019,19 +3019,19 @@ Task(
       kwargs={"home_id": 8, "away_id": 4},
     ),
 
-    # Ingestion logs per policy (roster/lookup → snowflake)
+    # Policy-based ingestion logs (roster/lookup → snowflake)
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull all pitches for the identified game
+    # # # Retrieve all pitches for the specified game
     Action(
       name="GetAllPitchesForGame",
       kwargs={"game_pk": 2024000008},
     ),
 
-    # # Sensor/vision ingestion for pitch events → trackman
+    # # # Capture sensor/vision data for pitch events → trackman
      
 
     Action(
@@ -3044,7 +3044,7 @@ Task(
     ),
 
 
-    # # Game summary highlights (clip_count equals number of pitches)
+    # # # Summary of the game highlights (clip_count corresponds to the total pitches)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -3054,7 +3054,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow tracking
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -3162,7 +3162,7 @@ Task(
       "report_id": 11
     }),
 
-    # WRITE: Coaching goal
+    # Establish coaching objective
     Action(name="CreateNewGoal", kwargs={
       "dev_report_id": 11,
       "player_id": 3,
@@ -3223,11 +3223,11 @@ Task(
             "As a MLB Analyst, your task is to compile a scouting report on 'Opponent pitch strengths and attack tendencies' for the next Cyclones game following 2024-06-10, and include the venue name. Produce an Opponent Analysis report for the selected opponent, supported by high-grade pitch evidence (A−/A/A+) from that team’s pitches."
         ),
   actions=[
-    # Current team and next scheduled game
+    # Active team and upcoming match date
     Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),
     Action(name="GetNextGame", kwargs={"current_date": "2024-06-10", "team_id": 10}),
 
-    # Opponent team context (pull both sides, then use the non-MIL side as the opponent in reporting)
+    # Context for the opposing team (retrieve data from both teams, then use the non-MIL side as the adversary in the report).
     Action(name="GetTeamDetailsById", kwargs={"team_id": 9}),
     Action(name="GetVenueById", kwargs={"venue_id": 10}),
 
@@ -3237,7 +3237,7 @@ Task(
     ),    
 
 
-    # # Scouting report for this matchup (opponent-focused)
+    # # # Analysis report on the opponent for this matchup
     Action(
       name="CreateScoutingReport",
       kwargs={
@@ -3247,13 +3247,13 @@ Task(
       },
     ),
 
-    # # Vision ingestion for pitch/grade evidence
+    # # # Capture visual data for pitch/grade validation
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull opponent pitchers' pitches (treat away club as opponent for determinism)
+    # # # Retrieve pitch data from opposing pitchers (consider away team as the opponent for consistency)
     Action(
       name="GetAllPlayersOfTeam",
       kwargs={"team_id": 9},
@@ -3263,7 +3263,7 @@ Task(
       kwargs={"pitcher_ids": [2,13]},
     ),
 
-    # # Keep only high-grade (A-tier) executions to inform the scouting narrative
+    # # # Retain only top-tier (A-grade) performances to guide the scouting narrative
     Action(
       name="GetFilteredGradesByPitchIds",
       kwargs={
@@ -3272,7 +3272,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow management
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success","game_pk": 2024000006,}),
   ],
   outputs=[]
@@ -3290,11 +3290,11 @@ Task(
 
     Action(name="CreateIngestionLog", kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500}),
 
-    # Evidence logs (vision for pitch analytics)
+    # Data records (insights for pitch analysis)
     Action(name="CreateIngestionLog", kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500}),
      
 
-    # Report + insight + highlight + goal
+    # Summary + analysis + emphasis + objective
     Action(name="CreateNewReport", kwargs={"player_id": 5, "week_of_date": "2025-08-10"}),
     Action(name="CreateNewInsight", kwargs={
       "report_id": 11,
@@ -3327,7 +3327,7 @@ Task(
             "In your role as a MLB Analyst, assess the performance of Cyclones hitter Evelyn Martin against various pitch sequences, and generate a highlights reel with 3 clips under the name 'Cyclones AB study: Evelyn Martin'. Submit a report including a development goal."
         ),
   actions=[
-    # Start from get details by name
+    # Initiate retrieval of details using the name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Cyclones"},
@@ -3336,7 +3336,7 @@ Task(
       name="GetPlayerDetailsByName",
       kwargs={"full_name": "Evelyn Martin"},
     ),
-    # Pull all pitches faced by the hitter
+    # Retrieve all pitches encountered by the batter.
     Action(
       name="GetAllPitchesByHitterIds",
       kwargs={"hitter_ids": [1]},
@@ -3346,10 +3346,10 @@ Task(
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # WRITE: Log supporting ingestion for AB review
+    # Generate logs to facilitate ingestion for the AB review process.
      
 
-    # WRITE:   dev report for Jennifer Roberts
+    # Create a development report for Jennifer Roberts.
     Action(
       name="CreateNewReport",
       kwargs={
@@ -3359,7 +3359,7 @@ Task(
     ),
 
 
-    # WRITE: Initialize a highlights reel tied to the report
+    # Create a highlights compilation linked to the report.
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -3369,7 +3369,7 @@ Task(
       },
     ),
 
-    # WRITE: Attach a   development goal
+    # Assign a development objective.
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -3381,7 +3381,7 @@ Task(
       },
     ),
 
-    # WRITE: Record the workflow run (success at creation)
+    # Log the workflow execution (successful upon creation)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -3399,19 +3399,19 @@ Task(
             "Functioning as a MLB Analyst, produce a comparative analysis of pitch quality for the Lightning vs Cyclones game, showcasing A-tier pitches (A+/A/A−) from each team’s pitching staff. Prepare development reports for all players, organized in ascending order based on their IDs."
         ),
   actions=[
-    # Teams
-    Action(name="GetTeamDetailsByName", kwargs={"name": "Lightning"}),  # treat as home for this comparison
-    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),      # away
+    # Groups
+    Action(name="GetTeamDetailsByName", kwargs={"name": "Lightning"}),  # consider as the base for this comparison
+    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),      # distant
 
-    # Ingestion logs (roster → snowflake, pitch/vision → hawkeye)
+    # Data ingestion records (roster to Snowflake, pitch/vision to Hawkeye)
     Action(name="CreateIngestionLog", kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500}),
     Action(name="CreateIngestionLog", kwargs={"source_name": "hawkeye",   "status_code": 200, "records_ingested": 500}),
 
-    # Roster for both sides
-    Action(name="GetAllPlayersOfTeam", kwargs={"team_id": 9}),  # CLE players
-    Action(name="GetAllPlayersOfTeam", kwargs={"team_id": 8}),  # MIN players
+    # Lineup for each team
+    Action(name="GetAllPlayersOfTeam", kwargs={"team_id": 9}),  # CLE participants
+    Action(name="GetAllPlayersOfTeam", kwargs={"team_id": 8}),  # Minimum players
 
-    # Pitchers' pitches for both sides (IDs inferred by pitch presence)
+    # Pitches from both teams (IDs deduced from pitch occurrence)
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [2,13]},
@@ -3426,7 +3426,7 @@ Task(
         "pitch_ids": [5,7,23,28,29,32,45,52,54],
         "grades": ["A+", "A", "A-"]
       },
-    ), # CIN A-tier
+    ), # CIN top tier
     
     Action(
       name="GetFilteredGradesByPitchIds",
@@ -3440,13 +3440,13 @@ Task(
     Action(name="CreateNewReport", kwargs={"player_id": 4, "week_of_date": "2025-08-10"}),
     Action(name="CreateNewReport", kwargs={"player_id": 13, "week_of_date": "2025-08-10"}),
     
-    # Action(name="AddNewHighlight", kwargs={
-    #   "name": "Lightning vs Cyclones Highlights",
-    #   "clip_count": 6,
-    #   "report_id": 11
+    # Action(identifier="AddNewHighlight", parameters={
+    # "title": "Highlights of Lightning vs Cyclones",
+    # "clip_total": 6,
+    # "reportIdentifier": 11
     # }),
 
-    # Workflow
+    # Process flow
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success"}),
   ],
   outputs=[]
@@ -3458,7 +3458,7 @@ Task(
             "As a MLB Analyst, create a detailed pitch analysis and summary highlights for the game between MIL at home and PIT. Provide a scouting note tailored for opponents titled 'Game Summary' and a game summary montage named 'MIL vs PIT – Pitch Log Summary' complete with a 5-clip highlight."
         ),
   actions=[
-    # Teams & game context
+    # Team and game environment
     Action(
       name="GetTeamDetailsByAbbreviation",
       kwargs={"abbreviation": "MIL"},
@@ -3472,19 +3472,19 @@ Task(
       kwargs={"home_id": 8, "away_id": 4},
     ),
 
-    # Ingestion logs per policy (roster/lookup → snowflake)
+    # Policy-based ingestion logs (roster/lookup → snowflake)
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull all pitches for the identified game
-    # Action(
-    #   name="GetAllPitchesForGame",
-    #   kwargs={"game_pk": 2024000008},
+    # # # Retrieve all pitches for the specified game
+    # Execute(
+    # identifier="RetrieveAllPitchesForGame",
+    # kwargs={"game_id": 2024000008},
     # ),
 
-    # # Sensor/vision ingestion for pitch events → trackman
+    # # # Ingesting sensor/vision data for pitching events → trackman
      
 
     Action(
@@ -3497,7 +3497,7 @@ Task(
     ),
 
 
-    # # Game summary highlights (clip_count equals number of pitches)
+    # # # Summary of game highlights (clip_count represents the total pitches)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -3507,7 +3507,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow management
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -3670,7 +3670,7 @@ Task(
             "As a MLB Analyst, assess the Lightning pitcher James Brown by gathering all of his pitch grades, pinpoint the graded pitches, and generate analyst outputs: set up a highlights reel titled 'Lightning bad pitches: James Brown' using the graded pitches (D, B-) with 5 clips, and compile a development report with a goal."
         ),
   actions=[
-    # Start from get details by name
+    # Initiate retrieval of details using the name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Lightning"},
@@ -3688,19 +3688,19 @@ Task(
       },
     ),
 
-    # Retrieve all pitches thrown by the player
+    # Fetch all pitches delivered by the player.
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [8]},
     ),
 
-    # Retrieve grades for all of those pitch IDs
+    # Fetch grades for all specified pitch IDs.
     Action(
       name="GetGradesByPitchIds",
       kwargs={"pitch_ids": [3,12,36,50],"grades":["D","B-"]}
     ),
 
-    # # # WRITE: Log supporting aggregation/ingestion for this grade review (vision-related → hawkeye)
+    # # # # # RECORD: Log for aggregation/ingestion pertaining to this grade review (vision-related → hawkeye)
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -3711,7 +3711,7 @@ Task(
     ),
      
 
-    # # # WRITE:   player development report
+    # # # # # CREATE:   player progress report
     Action(
       name="CreateNewReport",
       kwargs={
@@ -3720,7 +3720,7 @@ Task(
       },
     ),
 
-    # # WRITE: Initialize a highlights reel for the best-graded pitches (A+/A/A− or top-N)
+    # # # CREATE: Set up a highlights compilation for the highest-rated pitches (A+/A/A− or top-N)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -3730,7 +3730,7 @@ Task(
       },
     ),
 
-    # # WRITE: Attach a   development goal
+    # # # DEFINE: Set a development objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -3742,7 +3742,7 @@ Task(
       },
     ),
 
-    # # WRITE: Record the workflow run (success at creation; only create_workflow exists)
+    # # # LOG: Document the workflow execution (successful upon creation; only create_workflow is present)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -3760,27 +3760,27 @@ Task(
             "As a MLB Analyst, coordinate the creation of a pitch analysis and game summary for the hometown match of the Cyclones versus the Cyclones. Provide a scouting note titled 'Game Summary' and a summary montage 'MIL vs PIT – Pitch Log Summary' featuring 5 highlight clips."
         ),
   actions=[
-    # Teams & game context
-    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),     # home
-    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),  # away
+    # Teams and gameplay context
+    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),     # main directory
+    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),  # not present
     Action(
       name="GetGameByHomeAway",
       kwargs={"home_id": 8, "away_id": 4},
     ),
 
-    # Ingestion logs per policy (roster/lookup → snowflake)
+    # Policy-specific ingestion logs (roster/lookup → snowflake)
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull all pitches for the identified game
+    # # # Retrieve all pitches for the specified game
     Action(
       name="GetAllPitchesForGame",
       kwargs={"game_pk": 2024000008},
     ),
 
-    # # Sensor/vision ingestion for pitch events → trackman
+    # # # Ingesting sensor/vision data for pitch events → trackman
      
 
     Action(
@@ -3793,7 +3793,7 @@ Task(
     ),
 
 
-    # # Game summary highlights (clip_count equals number of pitches)
+    # # # Summary of the game highlights (clip_count represents the total pitches)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -3803,7 +3803,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow record-keeping
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -3822,27 +3822,27 @@ Task(
             "Being a MLB Analyst, generate a pitch analysis and game summary highlights for the Cyclones versus the Cyclones at home. Supply a scouting note labeled 'Game Summary' and a montage titled 'LAD vs COL – Pitch Log Summary' with 5 selected highlight clips."
         ),
   actions=[
-    # Teams & game context
-    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),     # home
-    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),  # away
+    # Team and match environment
+    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),     # main directory
+    Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),  # distant
     Action(
       name="GetGameByHomeAway",
       kwargs={"home_id": 1, "away_id": 10},
     ),
 
-    # Ingestion logs per policy (roster/lookup → snowflake)
+    # Logs for ingestion by policy (roster/lookup → snowflake)
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull all pitches for the identified game
+    # # # Retrieve all pitches for the specified game
     Action(
       name="GetAllPitchesForGame",
       kwargs={"game_pk": 2024000007},
     ),
 
-    # # Sensor/vision ingestion for pitch events → trackman
+    # # # Ingesting sensor/vision data for pitch events → trackman
      
 
     Action(
@@ -3855,7 +3855,7 @@ Task(
     ),
 
 
-    # # Game summary highlights (clip_count equals number of pitches)
+    # # # Summary of the game highlights (clip_count represents the total pitches)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -3865,7 +3865,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow management records
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -3884,7 +3884,7 @@ Task(
             "As a MLB Analyst, compile a game-level pitch analysis and summary highlights for the home match of the MIL versus the PIT. Issue a scouting note named 'Game Summary' and a montage titled 'MIL vs PIT – Pitch Log Summary' incorporating 5 highlight clips."
         ),
   actions=[
-    # Teams & game context
+    # Team and game environment
     Action(
       name="GetTeamDetailsByAbbreviation",
       kwargs={"abbreviation": "MIL"},
@@ -3898,19 +3898,19 @@ Task(
       kwargs={"home_id": 8, "away_id": 4},
     ),
 
-    # Ingestion logs per policy (roster/lookup → snowflake)
+    # Logs of data ingestion by policy (roster/lookup → snowflake)
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull all pitches for the identified game
+    # # # Retrieve all pitches for the specified game
     Action(
       name="GetAllPitchesForGame",
       kwargs={"game_pk": 2024000008},
     ),
 
-    # # Sensor/vision ingestion for pitch events → trackman
+    # # # Ingesting sensor/vision data for pitch events → trackman
      
 
     Action(
@@ -3923,7 +3923,7 @@ Task(
     ),
 
 
-    # # Game summary highlights (clip_count equals number of pitches)
+    # # # Summary of the game highlights (clip_count represents the total pitches)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -3933,7 +3933,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow management records
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -3952,11 +3952,11 @@ Task(
             "In your role as a MLB Analyst, prepare a scouting report 'Opponent pitch strengths and attack tendencies' for the Cyclones' upcoming game after 2024-06-10, including the venue name. Deliver this as an Opponent Analysis scouting report for the chosen opponent, showcasing top-grade pitch evidence (A−/A/A+) from the team's pitches."
         ),
   actions=[
-    # Current team and next scheduled game
+    # Present team and upcoming match.
     Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),
     Action(name="GetNextGame", kwargs={"current_date": "2024-06-10", "team_id": 10}),
 
-    # Opponent team context (pull both sides, then use the non-DET side as the opponent in reporting)
+    # Context for the opposing team (retrieve data from both sides, then utilize the non-DET side as the adversary in the report)
     Action(name="GetTeamDetailsById", kwargs={"team_id": 9}),
     Action(name="GetVenueById", kwargs={"venue_id": 10}),
 
@@ -3966,7 +3966,7 @@ Task(
     ),    
 
 
-    # # Scouting report for this matchup (opponent-focused)
+    # # # Opponent analysis for this matchup
     Action(
       name="CreateScoutingReport",
       kwargs={
@@ -3976,13 +3976,13 @@ Task(
       },
     ),
 
-    # # Vision ingestion for pitch/grade evidence
+    # # # Processing vision data for pitch/grade validation
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull opponent pitchers' pitches (treat away club as opponent for determinism)
+    # # # Retrieve pitches from opposing pitchers (consider away team as the opponent for consistency)
     Action(
       name="GetAllPlayersOfTeam",
       kwargs={"team_id": 9},
@@ -3992,7 +3992,7 @@ Task(
       kwargs={"pitcher_ids": [2,13]},
     ),
 
-    # # Keep only high-grade (A-tier) executions to inform the scouting narrative
+    # # # Retain only top-tier (A-level) executions to guide the scouting story.
     Action(
       name="GetFilteredGradesByPitchIds",
       kwargs={
@@ -4001,7 +4001,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow management
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success","game_pk": 2024000006,}),
   ],
   outputs=[]
@@ -4013,7 +4013,7 @@ Task(
             "In your capacity as a MLB Analyst, orchestrate a game-level pitch analysis and summary highlights for the match between the MIL at home and the Cyclones. Submit a scouting note titled 'Game Summary' and a montage called 'MIL vs PIT – Pitch Log Summary' with 5 selected highlight clips."
         ),
   actions=[
-    # Teams & game context
+    # Team and game environment
     Action(
       name="GetTeamDetailsByAbbreviation",
       kwargs={"abbreviation": "MIL"},
@@ -4024,19 +4024,19 @@ Task(
       kwargs={"home_id": 8, "away_id": 4},
     ),
 
-    # Ingestion logs per policy (roster/lookup → snowflake)
+    # Logs of ingestion by policy (roster/lookup → snowflake)
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull all pitches for the identified game
+    # # # Retrieve all pitches for the specified game
     Action(
       name="GetAllPitchesForGame",
       kwargs={"game_pk": 2024000008},
     ),
 
-    # # Sensor/vision ingestion for pitch events → trackman
+    # # # Ingesting sensor/visual data for pitch events → trackman
      
 
     Action(
@@ -4049,7 +4049,7 @@ Task(
     ),
 
 
-    # # Game summary highlights (clip_count equals number of pitches)
+    # # # Summary of game highlights (clip_count represents the total pitches)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -4059,7 +4059,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Tracking workflow activities
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -4243,11 +4243,11 @@ Task(
             "As an MLB Analyst, compile a scouting report on 'Opponent pitch strengths and attack tendencies' for the upcoming Cyclones game after 2024-06-10 and return the venue name. Submit an Opponent Analysis scouting report for the specified opponent, anchored by high-grade pitch evidence (A−/A/A+) from the team's pitchers"
         ),
   actions=[
-    # Current team and next scheduled game
+    # Active team and upcoming match.
     Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),
     Action(name="GetNextGame", kwargs={"current_date": "2024-06-10", "team_id": 10}),
 
-    # Opponent team context (pull both sides, then use the non-DET side as the opponent in reporting)
+    # Context for the opposing team (retrieve data from both teams, then utilize the non-DET team for reporting purposes).
     Action(name="GetTeamDetailsById", kwargs={"team_id": 9}),
     Action(name="GetVenueById", kwargs={"venue_id": 10}),
 
@@ -4257,7 +4257,7 @@ Task(
     ),    
 
 
-    # # Scouting report for this matchup (opponent-focused)
+    # # # Opponent analysis for this matchup
     Action(
       name="CreateScoutingReport",
       kwargs={
@@ -4267,13 +4267,13 @@ Task(
       },
     ),
 
-    # # Vision ingestion for pitch/grade evidence
+    # # # Ingesting vision data for pitch and grade validation
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull opponent pitchers' pitches (treat away club as opponent for determinism)
+    # # # Retrieve the pitches of opposing pitchers (consider the away team as the opponent for consistency)
     Action(
       name="GetAllPlayersOfTeam",
       kwargs={"team_id": 9},
@@ -4283,7 +4283,7 @@ Task(
       kwargs={"pitcher_ids": [2,13]},
     ),
 
-    # # Keep only high-grade (A-tier) executions to inform the scouting narrative
+    # # # Retain only top-tier (A-grade) performances to guide the scouting story.
     Action(
       name="GetFilteredGradesByPitchIds",
       kwargs={
@@ -4292,7 +4292,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow management
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success","game_pk": 2024000006,}),
   ],
   outputs=[]
@@ -4320,7 +4320,7 @@ Task(
             "You are a MLB Analyst tasked with generating a pitch analysis at the game level and summary highlights for the match where MIL is hosting PIT. Provide a scouting note labeled 'Game Summary' suitable for opponents and assemble a summary montage of the game titled 'MIL vs PIT – Pitch Log Summary' featuring 5 highlight clips."
         ),
   actions=[
-    # Teams & game context
+    # Team and game environment
     Action(
       name="GetTeamDetailsByAbbreviation",
       kwargs={"abbreviation": "MIL"},
@@ -4334,19 +4334,19 @@ Task(
       kwargs={"home_id": 8, "away_id": 4},
     ),
 
-    # Ingestion logs per policy (roster/lookup → snowflake)
+    # Policy-based ingestion logs (roster/lookup → snowflake)
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull all pitches for the identified game
+    # # # Retrieve all pitches for the specified game
     Action(
       name="GetAllPitchesForGame",
       kwargs={"game_pk": 2024000008},
     ),
 
-    # # Sensor/vision ingestion for pitch events → trackman
+    # # # Ingesting sensor/vision data for pitch events → Trackman
      
 
     Action(
@@ -4359,7 +4359,7 @@ Task(
     ),
 
 
-    # # Game summary highlights (clip_count equals number of pitches)
+    # # # Summary of the game highlights (clip_count represents the total pitches)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -4369,7 +4369,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow management
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -4394,11 +4394,11 @@ Task(
 
     Action(name="CreateIngestionLog", kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500}),
 
-    # Evidence logs (vision for pitch analytics)
+    # Data records (framework for pitch analysis)
     Action(name="CreateIngestionLog", kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500}),
      
 
-    # Report + insight + highlight + goal
+    # Summary + analysis + emphasis + objective
     Action(name="CreateNewReport", kwargs={"player_id": 5, "week_of_date": "2025-08-10"}),
     Action(name="CreateNewInsight", kwargs={
       "report_id": 11,
@@ -4431,7 +4431,7 @@ Task(
             "You are a MLB Analyst assigned to create a game-level pitch analysis and summary highlights for the match between MIL at home and PIT. Supply an opponent-ready scouting note entitled 'Game Summary' and a game summary montage called 'MIL vs PIT – Pitch Log Summary' with 5 clips."
         ),
   actions=[
-    # Teams & game context
+    # Team and game environment
     Action(
       name="GetTeamDetailsByAbbreviation",
       kwargs={"abbreviation": "MIL"},
@@ -4445,19 +4445,19 @@ Task(
       kwargs={"home_id": 8, "away_id": 4},
     ),
 
-    # Ingestion logs per policy (roster/lookup → snowflake)
+    # Policy-specific ingestion logs (roster/lookup → snowflake)
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull all pitches for the identified game
+    # # # Retrieve all pitches for the specified game
     Action(
       name="GetAllPitchesForGame",
       kwargs={"game_pk": 2024000008},
     ),
 
-    # # Sensor/vision ingestion for pitch events → trackman
+    # # # Ingesting sensor/vision data for pitch events → trackman
      
 
     Action(
@@ -4470,7 +4470,7 @@ Task(
     ),
 
 
-    # # Game summary highlights (clip_count equals number of pitches)
+    # # # Summary of the game highlights (clip_count represents the total pitches)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -4480,7 +4480,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow record-keeping
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -4499,11 +4499,11 @@ Task(
             "You are a MLB Analyst tasked to compile a scouting report titled 'Opponent pitch strengths and attack tendencies' for the upcoming Cyclones game following 2024-06-10 and specify the venue. Deliver an Opponent Analysis scouting report for the determined opponent, supported by high-grade pitch evidence (A−/A/A+) from that team’s pitchers."
         ),
   actions=[
-    # Current team and next scheduled game
+    # Active team and upcoming match date
     Action(name="GetTeamDetailsByName", kwargs={"name": "Cyclones"}),
     Action(name="GetNextGame", kwargs={"current_date": "2024-06-10", "team_id": 10}),
 
-    # Opponent team context (pull both sides, then use the non-DET side as the opponent in reporting)
+    # Context for opposing team (retrieve data for both sides, then utilize the non-DET side as the adversary in the report).
     Action(name="GetTeamDetailsById", kwargs={"team_id": 9}),
     Action(name="GetVenueById", kwargs={"venue_id": 10}),
 
@@ -4513,7 +4513,7 @@ Task(
     ),    
 
 
-    # # Scouting report for this matchup (opponent-focused)
+    # # # Opponent analysis for this matchup
     Action(
       name="CreateScoutingReport",
       kwargs={
@@ -4523,13 +4523,13 @@ Task(
       },
     ),
 
-    # # Vision ingestion for pitch/grade evidence
+    # # # Acquisition of vision data for pitch/grade validation
     Action(
       name="CreateIngestionLog",
       kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # Pull opponent pitchers' pitches (treat away club as opponent for determinism)
+    # # # Retrieve pitches from opposing pitchers (consider away team as the opponent for consistency)
     Action(
       name="GetAllPlayersOfTeam",
       kwargs={"team_id": 9},
@@ -4539,7 +4539,7 @@ Task(
       kwargs={"pitcher_ids": [2,13]},
     ),
 
-    # # Keep only high-grade (A-tier) executions to inform the scouting narrative
+    # # # Retain only top-tier (A-grade) executions to guide the scouting narrative
     Action(
       name="GetFilteredGradesByPitchIds",
       kwargs={
@@ -4548,7 +4548,7 @@ Task(
       },
     ),
 
-    # # Workflow bookkeeping
+    # # # Workflow record-keeping
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success","game_pk": 2024000006,}),
   ],
   outputs=[]
@@ -4604,7 +4604,7 @@ Task(
             "As a MLB Analyst, your task is to evaluate the Lightning pitcher James Brown by accessing all of his pitch grades, determine the graded pitches, and generate analyst outcomes: set up a highlights reel named 'Lightning bad pitches: James Brown' utilizing the graded pitches (D, B-) with 5 clips, and submit a development report with a goal."
         ),
   actions=[
-    # Start from get details by name
+    # Begin by retrieving details using the name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Lightning"},
@@ -4614,19 +4614,19 @@ Task(
       kwargs={"full_name": "James Brown"},
     ),
 
-    # Retrieve all pitches thrown by the player
+    # Fetch all pitches thrown by the player.
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [8]},
     ),
 
-    # Retrieve grades for all of those pitch IDs
+    # Fetch grades for all specified pitch IDs.
     Action(
       name="GetGradesByPitchIds",
       kwargs={"pitch_ids": [3,12,36,50],"grades":["D","B-"]}
     ),
 
-    # # # WRITE: Log supporting aggregation/ingestion for this grade review (vision-related → hawkeye)
+    # # # # # LOG: Document aggregation/ingestion support for this grade review (vision-related → hawkeye)
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -4637,7 +4637,7 @@ Task(
     ),
      
 
-    # # # WRITE:   player development report
+    # # # # # GENERATE: player progress report
     Action(
       name="CreateNewReport",
       kwargs={
@@ -4646,7 +4646,7 @@ Task(
       },
     ),
 
-    # # WRITE: Initialize a highlights reel for the best-graded pitches (A+/A/A− or top-N)
+    # # # CREATE: Set up a highlights reel for the highest-rated pitches (A+/A/A− or top-N)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -4656,7 +4656,7 @@ Task(
       },
     ),
 
-    # # WRITE: Attach a   development goal
+    # # # SET: Associate a development objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -4668,7 +4668,7 @@ Task(
       },
     ),
 
-    # # WRITE: Record the workflow run (success at creation; only create_workflow exists)
+    # # # LOG: Capture the workflow execution (successful at creation; solely create_workflow present)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -4729,7 +4729,7 @@ Task(
             "Working as a MLB Analyst, your objective is to analyze pitch mix and execution for Cyclones (COL) pitcher Alexander Taylor during the week of 2025-08-10. Produce a 4-clip montage titled 'Cyclones pitch study: Alexander Taylor'; write a development note with a new goal; include a representative execution-grade entry for one pitch (with the smallest pitch id) from this timeframe to reinforce the assessment. The intended quadrant model was 3 while the actual quadrant was 2, with a deviation of 1.4 inches, resulting in an execution grade of A."
         ),
   actions=[
-    # Start from get details by name
+    # Begin by retrieving details using the name.
     Action(
       name="GetTeamDetailsByAbbreviation",
       kwargs={"abbreviation": "COL"},
@@ -4738,7 +4738,7 @@ Task(
       name="GetPlayerDetailsByName",
       kwargs={"full_name": "Alexander Taylor"},
     ),
-    # Pull all pitches for the pitcher
+    # Retrieve all pitches thrown by the pitcher.
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [7]},
@@ -4748,7 +4748,7 @@ Task(
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # WRITE: Log supporting pitch ingestion
+    # Record logs for pitch ingestion support
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -4759,7 +4759,7 @@ Task(
     ),
 
 
-    # WRITE:   dev report for Alexander Taylor
+    # Create a development report for Alexander Taylor.
     Action(
       name="CreateNewReport",
       kwargs={
@@ -4768,7 +4768,7 @@ Task(
       },
     ),
 
-    # # WRITE: Grade one representative pitch from the dataset
+    # # # GENERATE: Pitch for the first-grade representative from the dataset
     Action(
       name="CreateNewGrade",
       kwargs={
@@ -4781,7 +4781,7 @@ Task(
       },
     ),
 
-    # # WRITE: Initialize a highlights reel tied to the report
+    # # # CREATE: Set up a highlights compilation associated with the report
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -4791,7 +4791,7 @@ Task(
       },
     ),
 
-    # # WRITE: Attach a   development goal
+    # # # SET: Assign a development objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -4803,7 +4803,7 @@ Task(
       },
     ),
 
-    # # WRITE: Record the workflow run (success at creation)
+    # # # LOG: Document the workflow execution (successful upon creation)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -4862,7 +4862,7 @@ Task(
             "As an MLB Analyst, you need to evaluate Lightning (STL) pitcher Isabella Davis’s pitches for the week of 2025-08-10, grade all ungraded pitches considering intended (5) versus actual quadrant (7) and miss distance (2.2) which produces a representative grade (B+). Offer a concise scouting package: a 6-clip montage titled 'Scott - Analysis', and establish a new goal."
         ),
   actions=[
-    # Start from get details by name
+    # Begin by retrieving details using the name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Lightning"},
@@ -4871,12 +4871,12 @@ Task(
       name="GetPlayerDetailsByName",
       kwargs={"full_name": "Isabella Davis"},
     ),
-    # Pull all pitches for the pitcher
+    # Retrieve all pitch data for the specified pitcher.
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [3]},
     ),
-    # Retrieve details for a representative pitch (for context)
+    # Obtain information for a sample pitch (for reference)
     Action(
       name="GetGradesByPitchIds",
       kwargs={"pitch_ids": [25,30]}
@@ -4891,7 +4891,7 @@ Task(
       },
     ),
 
-    # # WRITE: Log supporting ingestion
+    # # # LOG: Support for data ingestion
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -4902,7 +4902,7 @@ Task(
     ),
 
 
-    # # WRITE:   dev report for Isabella Davis
+    # # # CREATE:  development report for Isabella Davis
     Action(
       name="CreateNewReport",
       kwargs={
@@ -4911,7 +4911,7 @@ Task(
       },
     ),
 
-    # # WRITE: Grade a representative changeup
+    # # # EVALUATE: Assess a typical changeup
     Action(
       name="CreateNewGrade",
       kwargs={
@@ -4924,7 +4924,7 @@ Task(
       },
     ),
 
-    # # WRITE: Initialize a K-montage highlights reel tied to the report
+    # # # CREATE: Set up a K-montage highlights compilation linked to the report
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -4934,7 +4934,7 @@ Task(
       },
     ),
 
-    # # WRITE: Attach a   development goal
+    # # # SET: Assign a development objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -4946,7 +4946,7 @@ Task(
       },
     ),
 
-    # # WRITE: Record the workflow run (success at creation)
+    # # # LOG: Capture the workflow execution (successful upon creation)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -4965,7 +4965,7 @@ Task(
             "Act as an MLB Analyst to assess the pitch portfolio of Falcons (CIN) pitcher Sarah Williams and compile a succinct package: a highlight set named 'Falcons best pitches: Sarah Williams' to feature grade 'A' pitches; along with a development note including the intended goal."
         ),
   actions=[
-    # Start from get details by name
+    # Begin by retrieving details using the name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Falcons"},
@@ -4975,13 +4975,13 @@ Task(
       kwargs={"full_name": "Sarah Williams"},
     ),
 
-    # Retrieve all pitches thrown by the player
+    # Obtain all pitches delivered by the player.
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [5]},
     ),
 
-    # Retrieve grades for all of those pitch IDs
+    # Fetch grades for all specified pitch IDs.
     Action(
       name="GetGradesByPitchIds",
       kwargs={"pitch_ids": [11,16,20,35,53,58],"grades":["A"]}
@@ -4989,7 +4989,7 @@ Task(
 
     Action(name="CreateIngestionLog", kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500}),
 
-    # # WRITE: Log supporting aggregation/ingestion for this grade review
+    # # # RECORD: Log assistance for the aggregation/ingestion related to this grade review
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -5000,7 +5000,7 @@ Task(
     ),
 
 
-    # # # # WRITE:   player development report
+    # # # # # # # GENERATE: player progress report
     Action(
       name="CreateNewReport",
       kwargs={
@@ -5009,7 +5009,7 @@ Task(
       },
     ),
 
-    # # # WRITE: Initialize a highlights reel for the best-graded pitches (A+/A/A− or top-N)
+    # # # # # CREATE: Set up a highlights compilation for the highest-rated pitches (A+/A/A− or top-N)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -5019,7 +5019,7 @@ Task(
       },
     ),
 
-    # # # WRITE: Attach a   development goal
+    # # # # # DEFINE: Set a development objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -5031,7 +5031,7 @@ Task(
       },
     ),
 
-    # # # WRITE: Record the workflow run (success at creation; only create_workflow exists)
+    # # # # # LOG: Capture the workflow execution (successful upon creation; only create_workflow is present)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -5049,7 +5049,7 @@ Task(
             "Function as an MLB Analyst to examine all pitch grades for Lightning pitcher James Brown. Identify pitches graded (D, B-), and generate analytical outputs: initiate a highlight reel titled 'Lightning bad pitches: James Brown' with 5 clips and provide a development report with a development goal."
         ),
   actions=[
-    # Start from get details by name
+    # Retrieve details using the name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Lightning"},
@@ -5067,19 +5067,19 @@ Task(
       },
     ),
 
-    # Retrieve all pitches thrown by the player
+    # Get all pitches made by the player.
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [8]},
     ),
 
-    # Retrieve grades for all of those pitch IDs
+    # Fetch grades for all specified pitch IDs.
     Action(
       name="GetGradesByPitchIds",
       kwargs={"pitch_ids": [3,12,36,50],"grades":["D","B-"]}
     ),
 
-    # # # WRITE: Log supporting aggregation/ingestion for this grade review (vision-related → hawkeye)
+    # # # # # LOG: Record aggregation/ingestion details for this grade review (vision-related → hawkeye)
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -5090,7 +5090,7 @@ Task(
     ),
 
 
-    # # # WRITE:   player development report
+    # # # # # CREATE:   player growth assessment
     Action(
       name="CreateNewReport",
       kwargs={
@@ -5099,7 +5099,7 @@ Task(
       },
     ),
 
-    # # WRITE: Initialize a highlights reel for the best-graded pitches (A+/A/A− or top-N)
+    # # # CREATE: Set up a highlights compilation for the highest-rated pitches (A+/A/A− or top-N)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -5109,7 +5109,7 @@ Task(
       },
     ),
 
-    # # WRITE: Attach a   development goal
+    # # # SET: Link a development objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -5121,7 +5121,7 @@ Task(
       },
     ),
 
-    # # WRITE: Record the workflow run (success at creation; only create_workflow exists)
+    # # # LOG: Document the workflow execution (successful upon creation; only create_workflow is present)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -5139,11 +5139,11 @@ Task(
             "Operate as an MLB Analyst to profile Lightning (STL) pitcher Isabella Davis’s average-grade pitches (C+) during the week of 2025-08-10. Aim to generate a highlight set named 'Lightning pitches: Isabella Davis' with 6 clips per pitch, highlighting recurring patterns from the C+ range; and furnish a development report with a goal."
         ),
   actions=[
-    # Start from get details by name
+    # Begin by retrieving details using the name.
     Action(name="GetTeamDetailsByName", kwargs={"name": "Lightning"}),
     Action(name="GetPlayerDetailsByName", kwargs={"full_name": "Isabella Davis"}),
 
-    # Retrieve all pitches thrown by the player and grades for them
+    # Obtain all pitches made by the player along with their corresponding grades.
     Action(name="GetAllPitchesByPitcherIds", kwargs={"pitcher_ids": [3]}),
     Action(name="GetGradesByPitchIds", kwargs={"pitch_ids": [25,30],"grades":["C+"]}),
 
@@ -5152,14 +5152,14 @@ Task(
       kwargs={"source_name": "snowflake", "status_code": 200, "records_ingested": 500},
     ),
 
-    # # WRITE: Log supporting aggregation (vision → hawkeye)
+    # # # LOG: Record aggregation support (vision → hawkeye)
     Action(name="CreateIngestionLog", kwargs={"source_name": "hawkeye", "status_code": 200, "records_ingested": 500}),
      
 
-    # # (Optional) WRITE:   report to anchor highlights in reporting
+    # # # (Optional) RECORD: document key points in the report
     Action(name="CreateNewReport", kwargs={"player_id": 3, "week_of_date": "2025-08-10"}),
 
-    # WRITE: Highlights for best-graded pitches
+    # Document key features of top-rated pitches.
     Action(name="AddNewHighlight", kwargs={
       "name": "Lightning pitches: Isabella Davis",
       "clip_count": 6,
@@ -5176,7 +5176,7 @@ Task(
       },
     ),
 
-    # WRITE: Workflow run
+    # Execute: Workflow execution
     Action(name="CreateWorkflow", kwargs={"dag_name": "generate_reports", "status": "success"}),
   ],
   outputs=[]
@@ -5188,7 +5188,7 @@ Task(
             "Work as an MLB Analyst to study all pitch grades of Lightning pitcher James Brown and identify those with (D, B-) grades. Produce analytical outputs by starting a highlight reel called 'Lightning bad pitches: James Brown' with 5 clips and documenting a development report with a development goal."
         ),
   actions=[
-    # Start from get details by name
+    # Begin by retrieving information using the name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Lightning"},
@@ -5206,19 +5206,19 @@ Task(
       },
     ),
 
-    # Retrieve all pitches thrown by the player
+    # Obtain all pitches delivered by the player.
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [8]},
     ),
 
-    # Retrieve grades for all of those pitch IDs
+    # Fetch grades for all specified pitch IDs.
     Action(
       name="GetGradesByPitchIds",
       kwargs={"pitch_ids": [3,12,36,50],"grades":["D","B-"]}
     ),
 
-    # # # WRITE: Log supporting aggregation/ingestion for this grade review (vision-related → hawkeye)
+    # # # # # RECORD: Log assistance for the aggregation/ingestion process regarding this grade review (vision-related → hawkeye)
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -5229,7 +5229,7 @@ Task(
     ),
 
 
-    # # # WRITE:   player development report
+    # # # # # CREATE:   player growth report
     Action(
       name="CreateNewReport",
       kwargs={
@@ -5238,7 +5238,7 @@ Task(
       },
     ),
 
-    # # WRITE: Initialize a highlights reel for the best-graded pitches (A+/A/A− or top-N)
+    # # # CREATE: Set up a highlights reel for the highest-rated pitches (A+/A/A− or top-N)
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -5248,7 +5248,7 @@ Task(
       },
     ),
 
-    # # WRITE: Attach a   development goal
+    # # # SET: Link a development objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -5260,7 +5260,7 @@ Task(
       },
     ),
 
-    # # WRITE: Record the workflow run (success at creation; only create_workflow exists)
+    # # # LOG: Document the workflow execution (successful upon creation; solely create_workflow is present)
     Action(
       name="CreateWorkflow",
       kwargs={
@@ -5323,7 +5323,7 @@ Task(
       "report_id": 11
     }),
 
-    # WRITE: Coaching goal
+    # Define the objective for coaching.
     Action(name="CreateNewGoal", kwargs={
       "dev_report_id": 11,
       "player_id": 1,
@@ -5362,7 +5362,7 @@ Task(
       "report_id": 11
     }),
 
-    # WRITE: Coaching goal
+    # Define coaching objectives
     Action(name="CreateNewGoal", kwargs={
       "dev_report_id": 11,
       "player_id": 1,
@@ -5399,7 +5399,7 @@ Task(
       "report_id": 11
     }),
 
-    # WRITE: Coaching goal
+    # Establish coaching objective
     Action(name="CreateNewGoal", kwargs={
       "dev_report_id": 11,
       "player_id": 3,
@@ -5454,7 +5454,7 @@ Task(
             "In the role of a MLB Analyst, evaluate the Lightning (STL) pitcher Isabella Davis’s pitches for the week beginning 2025-08-10. Grade all ungraded pitches considering intended (5) vs. actual quadrant (7) and miss distance (2.2) resulting in a representative grade of (B+). Deliver a succinct scouting package: a 6-clip montage titled 'Scott - Analysis', and devise a new goal."
         ),
   actions=[
-    # Start from get details by name
+    # Begin by retrieving details using the name.
     Action(
       name="GetTeamDetailsByName",
       kwargs={"name": "Lightning"},
@@ -5463,12 +5463,12 @@ Task(
       name="GetPlayerDetailsByName",
       kwargs={"full_name": "Isabella Davis"},
     ),
-    # Pull all pitches for the pitcher
+    # Retrieve all pitches thrown by the pitcher.
     Action(
       name="GetAllPitchesByPitcherIds",
       kwargs={"pitcher_ids": [3]},
     ),
-    # Retrieve details for a representative pitch (for context)
+    # Obtain information for a contextual representative pitch.
     Action(
       name="GetGradesByPitchIds",
       kwargs={"pitch_ids": [25,30]}
@@ -5483,7 +5483,7 @@ Task(
       },
     ),
 
-    # # WRITE: Log supporting ingestion
+    # # # LOG: Enable ingestion support
     Action(
       name="CreateIngestionLog",
       kwargs={
@@ -5494,7 +5494,7 @@ Task(
     ),
 
 
-    # # WRITE:   dev report for Scott Arnold
+    # # # CREATE:   development report for Scott Arnold
     Action(
       name="CreateNewReport",
       kwargs={
@@ -5503,7 +5503,7 @@ Task(
       },
     ),
 
-    # # WRITE: Grade a representative changeup
+    # # # IMPLEMENT: Evaluate a sample changeup
     Action(
       name="CreateNewGrade",
       kwargs={
@@ -5516,7 +5516,7 @@ Task(
       },
     ),
 
-    # # WRITE: Initialize a K-montage highlights reel tied to the report
+    # # # CREATE: Set up a K-montage highlights compilation linked to the report
     Action(
       name="AddNewHighlight",
       kwargs={
@@ -5526,7 +5526,7 @@ Task(
       },
     ),
 
-    # # WRITE: Attach a   development goal
+    # # # SET: Link a development objective
     Action(
       name="CreateNewGoal",
       kwargs={
@@ -5538,7 +5538,7 @@ Task(
       },
     ),
 
-    # # WRITE: Record the workflow run (success at creation)
+    # # # LOG: Capture the workflow execution (successful on creation)
     Action(
       name="CreateWorkflow",
       kwargs={

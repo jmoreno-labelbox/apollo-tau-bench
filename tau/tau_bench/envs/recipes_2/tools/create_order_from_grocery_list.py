@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class CreateOrderFromGroceryList(Tool):
         total_cents = kwargs.get("total_cents")
         
         orders = list(data.get("orders", {}).values())
-        # Automatically generate the next order_id
+        # Automatically create the subsequent order_id.
         new_id = max([order.get("order_id", 0) for order in orders]) + 1 if orders else 10001
 
         new_order = {

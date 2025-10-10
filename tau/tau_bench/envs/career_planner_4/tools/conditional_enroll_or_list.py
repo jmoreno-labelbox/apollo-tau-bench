@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,10 +15,10 @@ class conditional_enroll_or_list(Tool):
         threshold: int,
         enroll_date: str,
     ) -> str:
-        # Dummy condition: if the numeric part of user_id is odd, simulate enrollment.
+        # Placeholder condition: if the numeric component of user_id is odd, emulate enrollment.
         if int(user_id[1:]) % 2 == 1:
-            # Simulate enrolling the user and updating the goal.
-            # (In a real system, we would check the current progress from data.)
+            # Emulate user enrollment and goal modification.
+            # (In a practical application, we would verify the ongoing status using data.)
             return json.dumps(
                 {
                     "result": f"User {user_id} enrolled in {course_id} and goal {goal_id} updated to {threshold}%."
@@ -26,7 +26,7 @@ class conditional_enroll_or_list(Tool):
                 indent=2,
             )
         else:
-            # Otherwise simulate returning a list of current enrollments.
+            # Alternatively, mimic the retrieval of a list of active enrollments.
             return json.dumps(
                 {
                     "result": f"User {user_id} already meets threshold; enrollments listed."

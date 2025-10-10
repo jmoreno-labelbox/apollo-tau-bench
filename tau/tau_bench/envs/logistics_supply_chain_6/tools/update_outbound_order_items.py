@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,12 +22,12 @@ class UpdateOutboundOrderItems(Tool):
 
                 warehouse_id = order["warehouse_id"]
 
-                # Process additions
+                # Handle new entries
                 if items_to_add:
                     for item_to_add in items_to_add:
                         sku = item_to_add["sku"]
                         quantity = item_to_add["quantity"]
-                        # Check stock
+                        # Verify inventory levels
                         stock_found = False
                         for inv_item in inventory:
                             if inv_item["warehouse_id"] == warehouse_id and inv_item["sku"] == sku:
@@ -38,7 +38,7 @@ class UpdateOutboundOrderItems(Tool):
                         if not stock_found:
                             return json.dumps({"error": f"SKU {sku} not found in warehouse {warehouse_id}"}, indent=2)
 
-                        # Allocate stock and add item
+                        # Assign inventory and include item.
                         for inv_item in inventory:
                             if inv_item["warehouse_id"] == warehouse_id and inv_item["sku"] == sku:
                                 inv_item["quantity_allocated"] += quantity
@@ -47,7 +47,7 @@ class UpdateOutboundOrderItems(Tool):
                                 order["total_cost"] += inv_item.get("unit_cost", 0) * quantity
                                 break
 
-                # Process removals
+                # Handle removals
                 if items_to_remove:
                     for item_to_remove in items_to_remove:
                         sku_to_remove = item_to_remove["sku"]
@@ -59,7 +59,7 @@ class UpdateOutboundOrderItems(Tool):
                                 if order_item["quantity"] < quantity_to_remove:
                                     return json.dumps({"error": f"Cannot remove {quantity_to_remove} of SKU {sku_to_remove}, only {order_item['quantity']} in order."}, indent=2)
 
-                                # De-allocate stock
+                                # Release inventory
                                 for inv_item in inventory:
                                     if inv_item["warehouse_id"] == warehouse_id and inv_item["sku"] == sku_to_remove:
                                         inv_item["quantity_allocated"] -= quantity_to_remove

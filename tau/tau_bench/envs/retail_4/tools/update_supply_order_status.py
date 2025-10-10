@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class UpdateSupplyOrderStatus(Tool):
 
         Writes to: supply_orders.json (updates existing supply order status)
         """
-        # Rule: Supply orders with status 'cancelled' require alternative sourcing and cannot be fulfilled
+        # Rule: Orders marked as 'cancelled' need alternative sourcing and cannot be completed.
         valid_statuses = ["pending", "fulfilled", "cancelled"]
         if new_status not in valid_statuses:
             return json.dumps({
@@ -21,7 +21,7 @@ class UpdateSupplyOrderStatus(Tool):
                 "status": "failed"
             })
 
-        # Find the supply order to update
+        # Locate the supply order for modification.
         supply_orders = data.get("supply_orders", [])
         supply_order_to_update = None
         order_index = None
@@ -35,7 +35,7 @@ class UpdateSupplyOrderStatus(Tool):
         if not supply_order_to_update:
             return json.dumps({"error": f"Supply order {supply_order_id} not found", "status": "failed"})
 
-        # Rule: Supply orders must reference valid supplier_id and existing product_id
+        # Requirement: Supply orders should include a valid supplier_id and a corresponding product_id.
         supplier_id = supply_order_to_update.get("supplier_id")
         product_id = supply_order_to_update.get("product_id")
 
@@ -45,25 +45,25 @@ class UpdateSupplyOrderStatus(Tool):
                 "status": "failed"
             })
 
-        # WRITE OPERATION: Update supply order status in supply_orders.json
+        # UPDATE ACTION: Modify the status of the supply order in supply_orders.json.
         old_status = supply_order_to_update.get("status")
         supply_order_to_update["status"] = new_status
         supply_order_to_update["last_updated"] = datetime.now().isoformat()
 
-        # Add delivery information if provided and status is fulfilled
+        # Include delivery details when available and status is marked as fulfilled.
         if delivery_date and new_status == "fulfilled":
             supply_order_to_update["delivery_date"] = delivery_date
             supply_order_to_update["fulfilled_date"] = datetime.now().isoformat()
 
-        # Track cancellation reason for alternative sourcing
+        # Log the reason for cancellation related to alternative sourcing.
         if new_status == "cancelled" and old_status != "cancelled":
             supply_order_to_update["cancelled_date"] = datetime.now().isoformat()
             supply_order_to_update["requires_alternative_sourcing"] = True
 
-        # Update the supply order in the data structure
+        # Modify the supply order within the data structure.
         data["supply_orders"][order_index] = supply_order_to_update
 
-        # Calculate impact metrics
+        # Compute impact measurements.
         quantity = supply_order_to_update.get("quantity", 0)
         total_cost = supply_order_to_update.get("total_cost", 0)
 

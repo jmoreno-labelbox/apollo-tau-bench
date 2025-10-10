@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class GetAssetExportSummary(Tool):
         assets = data.get('assets', [])
         figma_artifacts = data.get('figma_artifacts', [])
 
-        # If asset_id is provided, return specific asset
+        # Return the specific asset if asset_id is given.
         if asset_id:
             asset_info = None
             for asset in assets:
@@ -32,7 +32,7 @@ class GetAssetExportSummary(Tool):
             if not asset_info:
                 return json.dumps({"error": f"Asset with ID '{asset_id}' not found."})
 
-            # Enrich with artifact information
+            # Enhance with artifact details.
             artifact_id_ref = asset_info.get('artifact_id_nullable')
             artifact_info = None
             if artifact_id_ref:
@@ -48,10 +48,10 @@ class GetAssetExportSummary(Tool):
 
             return json.dumps(summary, indent=2)
 
-        # Return summary across all assets
+        # Provide a summary for all assets.
         all_assets = assets
 
-        # Apply filters
+        # Implement filters
         if artifact_id:
             all_assets = [a for a in all_assets if a.get('artifact_id_nullable') == artifact_id]
 
@@ -61,7 +61,7 @@ class GetAssetExportSummary(Tool):
         if dlp_scan_status:
             all_assets = [a for a in all_assets if a.get('dlp_scan_status') == dlp_scan_status]
 
-        # Apply date filters
+        # Implement date constraints.
         if created_after:
             all_assets = [a for a in all_assets if a.get('created_ts', '') >= created_after]
 
@@ -77,20 +77,20 @@ class GetAssetExportSummary(Tool):
             "assets": all_assets
         }
 
-        # Group assets by profile
+        # Organize assets according to their profiles.
         for asset in all_assets:
             profile = asset.get('export_profile')
             if profile not in summary["by_profile"]:
                 summary["by_profile"][profile] = 0
             summary["by_profile"][profile] += 1
 
-            # Group by artifact
+            # Organize by artifact
             artifact_ref = asset.get('artifact_id_nullable')
             if artifact_ref not in summary["by_artifact"]:
                 summary["by_artifact"][artifact_ref] = 0
             summary["by_artifact"][artifact_ref] += 1
 
-            # Group by DLP status
+            # Aggregate by DLP status
             dlp_status = asset.get('dlp_scan_status', 'UNKNOWN')
             if dlp_status not in summary["by_dlp_status"]:
                 summary["by_dlp_status"][dlp_status] = 0

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -55,7 +55,7 @@ class GetFlightSchedule(Tool):
         else:
             end_date_obj = start_date_obj
 
-        # Generate date range
+        # Create a range of dates.
         date_range = []
         current_date = start_date_obj
         while current_date <= end_date_obj:
@@ -66,7 +66,7 @@ class GetFlightSchedule(Tool):
         scheduled_flights = []
 
         for flight in flights:
-            # Apply origin/destination filters if provided
+            # Implement origin/destination filters if they are specified.
             if origin and flight.get("origin") != origin:
                 continue
             if destination and flight.get("destination") != destination:
@@ -87,7 +87,7 @@ class GetFlightSchedule(Tool):
                         "aircraft_id": flight.get("aircraft_id")
                     })
 
-        # Sort by date and departure time
+        # Order by date and departure time.
         scheduled_flights.sort(key=lambda x: (x["date"], x["scheduled_departure"]))
 
         response = {

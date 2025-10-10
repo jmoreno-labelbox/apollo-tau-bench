@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class AddArtifactTagTool(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         artifact_id = _require_str(kwargs.get("artifact_id"), "artifact_id")
         tag = _require_str(kwargs.get("tag"), "tag")
-        changed_ts = _require_str(kwargs.get("changed_ts"), "changed_ts")  # must be provided
+        changed_ts = _require_str(kwargs.get("changed_ts"), "changed_ts")  # is required
         if not (artifact_id and tag and changed_ts):
             return json.dumps({"error":"artifact_id, tag, changed_ts are required"})
 
@@ -27,7 +27,7 @@ class AddArtifactTagTool(Tool):
             tags.append(tag)
         row["modified_ts"] = max(changed_ts, row.get("modified_ts",""))
 
-        # Log
+        # Record
         logs = _safe_table(data, "terminal_logs")
         logs.append({"log_ts": changed_ts, "message": f"INFO: Tag '{tag}' added to {artifact_id}"})
         return json.dumps({"success": True, "artifact_id": artifact_id, "tag": tag}, indent=2)

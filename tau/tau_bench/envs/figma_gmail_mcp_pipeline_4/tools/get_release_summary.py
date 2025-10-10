@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class GetReleaseSummary(Tool):
         releases = data.get('releases', [])
         gmail_threads = list(data.get('gmail_threads', {}).values())
 
-        # If release_id is provided, return specific release
+        # If release_id is supplied, return the corresponding release.
         if release_id:
             release_info = None
             for release in releases:
@@ -31,7 +31,7 @@ class GetReleaseSummary(Tool):
             if not release_info:
                 return json.dumps({"error": f"Release with ID '{release_id}' not found."})
 
-            # Enrich with thread information
+            # Supplement with thread details.
             thread_id = release_info.get('thread_id_nullable')
             thread_info = None
             if thread_id:
@@ -47,10 +47,10 @@ class GetReleaseSummary(Tool):
 
             return json.dumps(summary, indent=2)
 
-        # Return summary across all releases
+        # Provide an overview of all versions.
         all_releases = releases
 
-        # Apply filters
+        # Implement filters
         if figma_file_id:
             all_releases = [r for r in all_releases if r.get('figma_file_id') == figma_file_id]
 
@@ -71,20 +71,20 @@ class GetReleaseSummary(Tool):
             "releases": all_releases
         }
 
-        # Group releases by owner
+        # Categorize releases based on their owner.
         for release in all_releases:
             owner = release.get('owner_email')
             if owner not in summary["by_owner"]:
                 summary["by_owner"][owner] = 0
             summary["by_owner"][owner] += 1
 
-            # Group by file
+            # Organize by file
             file_id = release.get('figma_file_id')
             if file_id not in summary["by_file"]:
                 summary["by_file"][file_id] = 0
             summary["by_file"][file_id] += 1
 
-            # Group by status
+            # Organize by status
             release_status = release.get('status', 'DRAFT')
             if release_status not in summary["by_status"]:
                 summary["by_status"][release_status] = 0

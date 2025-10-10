@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class CreateOutboundOrder(Tool):
         outbound_orders = list(data.get("outbound_orders", {}).values())
         warehouses = list(data.get("warehouses", {}).values())
 
-        # --- Auto-increment unique ID ---
+        # --- Automatically generate a unique identifier ---
         max_order_num = 0
         for order in outbound_orders:
             order_id = order.get("order_id", "ORD-0000")
@@ -22,7 +22,7 @@ class CreateOutboundOrder(Tool):
                 max_order_num = max(max_order_num, int(order_num_str))
         new_order_id = f"ORD-{max_order_num + 1:04d}"
 
-        # --- Look up warehouse details for defaults ---
+        # --- Retrieve default warehouse information ---
         warehouse_id = kwargs.get("warehouse_id")
         warehouse_details = next(
             (wh for wh in warehouses if wh.get("warehouse_id") == warehouse_id), {}

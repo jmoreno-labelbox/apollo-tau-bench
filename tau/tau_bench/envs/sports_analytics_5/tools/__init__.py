@@ -1,8 +1,8 @@
-# Copyright Sierra
+# Copyright Sierra Technologies
 
 
 
-# Helper function
+# Utility function
 def _require_tables(data, table_names):
     """Check if required tables exist in data."""
     missing = [t for t in table_names if t not in data or not data[t]]

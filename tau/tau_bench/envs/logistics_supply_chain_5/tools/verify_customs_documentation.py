@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class VerifyCustomsDocumentation(Tool):
         documentation_complete = True
         missing_docs = []
 
-        # Check required documentation
+        # Verify necessary documentation
         if not shipment.get("bill_of_lading"):
             documentation_complete = False
             missing_docs.append("bill_of_lading")

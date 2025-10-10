@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -44,7 +44,7 @@ class GetHouseholdInventoryTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains a list of enriched inventory items.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Data
         param_definitions = {
             "household_id": {"type": int, "required": True}
         }
@@ -54,11 +54,11 @@ class GetHouseholdInventoryTool(Tool):
 
         household_id = kwargs["household_id"]
 
-        # 2. Pre-condition Check: Ensure the household exists
+        # 2. Pre-condition Validation: Verify the existence of the household.
         if not any(h.get("household_id") == household_id for h in data.get("households", [])):
             return _build_error_response("NOT_FOUND", {"entity": "Household", "entity_id": household_id})
 
-        # 3. Data Retrieval and Enrichment (Hydration)
+        # 3. Data Acquisition and Enhancement (Hydration)
         inventory_items = [i for i in data.get("inventory_items", []) if i.get("household_id") == household_id]
 
         enriched_items = []
@@ -72,8 +72,8 @@ class GetHouseholdInventoryTool(Tool):
             enriched_item["ingredient_name"] = ingredient_meta.get("ingredient_name") if ingredient_meta else "Unknown Ingredient"
             enriched_items.append(enriched_item)
 
-        # 4. Sort results alphabetically for consistency
+        # 4. Organize results in alphabetical order for uniformity.
         enriched_items.sort(key=lambda x: x.get("ingredient_name", ""))
 
-        # 5. Return the standardized success response
+        # 5. Provide the standardized success response.
         return _build_success_response(enriched_items)

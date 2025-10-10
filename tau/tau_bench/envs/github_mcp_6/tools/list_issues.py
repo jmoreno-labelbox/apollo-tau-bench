@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class ListIssues(Tool):
         """List issues filtered by label/state. When no labels are provided, returns all issues."""
         issues_data = list(data.get("issues", {}).values())
 
-        # Handle None or empty labels as "retrieve all"
+        # Treat None or empty labels as a request to "fetch all".
         if labels is None:
             labels = []
 
@@ -22,11 +22,11 @@ class ListIssues(Tool):
                     issue_state = issue_entry["issue_states"][i]
                     issue_labels = issue_entry["labels"][i]
 
-                    # Filter by state
+                    # Apply state-based filtering.
                     if state != "all" and issue_state != state:
                         continue
 
-                    # Filter by labels (if labels filter is provided and not empty)
+                    # Apply filtering based on labels, provided that the labels filter is present and contains values.
                     if labels and not any(label in issue_labels for label in labels):
                         continue
 

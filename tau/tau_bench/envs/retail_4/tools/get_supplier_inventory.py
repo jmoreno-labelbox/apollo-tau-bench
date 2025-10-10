@@ -1,4 +1,4 @@
-# Copyright Sierra
+# © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,18 +11,18 @@ class GetSupplierInventory(Tool):
         """
         Get supplier inventory filtered by product types, item IDs, stock availability, and stock level with comparison options
         """
-        # Find supplier
+        # Locate vendor
         suppliers = data.get("suppliers", [])
         target_supplier = next((s for s in suppliers if s.get("supplier_id") == supplier_id), None)
 
         if not target_supplier:
             return json.dumps({"error": f"Supplier {supplier_id} not found", "status": "failed"})
 
-        # Validate stock_level parameter
+        # Check the stock_level parameter for validity.
         if stock_level is not None and stock_level < 0:
             return json.dumps({"error": "Stock level filter must be non-negative", "status": "failed"})
 
-        # Validate stock_level_comparison parameter
+        # Check the stock_level_comparison parameter for validity.
         valid_comparisons = ["above", "below", "equal"]
         if stock_level_comparison and stock_level_comparison not in valid_comparisons:
             return json.dumps({
@@ -30,14 +30,14 @@ class GetSupplierInventory(Tool):
                 "status": "failed"
             })
 
-        # If stock_level_comparison is provided, stock_level must also be provided
+        # If stock_level_comparison is supplied, stock_level must be included as well.
         if stock_level_comparison and stock_level is None:
             return json.dumps({
                 "error": "stock_level must be provided when using stock_level_comparison",
                 "status": "failed"
             })
 
-        # Get product mapping
+        # Retrieve product mapping.
         products = list(data.get("products", {}).values())
         item_to_product_map = {}
         product_details_map = {}
@@ -57,25 +57,25 @@ class GetSupplierInventory(Tool):
                 for item_id in variants.keys():
                     item_to_product_map[item_id] = product_id
 
-        # Filter supplier inventory
+        # Refine supplier stock list.
         supplier_item_stock = target_supplier.get("item_stock", {})
         matching_items = []
 
         for item_id, stock_level_value in supplier_item_stock.items():
-            # Apply stock_available filter if specified
+            # Implement stock_available filter if provided.
             if stock_available is not None:
                 if stock_available:
-                    # Only include items with numeric stock > 0
+                    # Filter to include only items with stock quantity greater than zero.
                     if not (isinstance(stock_level_value, (int, str)) and str(stock_level_value).isdigit() and int(stock_level_value) > 0):
                         continue
                 else:
-                    # Only include out_of_stock or discontinued items
+                    # Include only items that are out of stock or no longer available.
                     if stock_level_value not in ["out_of_stock", "discontinued"]:
                         continue
 
-            # Apply stock_level filter with comparison if specified
+            # Implement stock_level filter with comparison if provided.
             if stock_level is not None:
-                # Only check numeric stock levels against the threshold
+                # Verify only the numeric stock levels against the specified threshold.
                 if isinstance(stock_level_value, (int, str)) and str(stock_level_value).isdigit():
                     numeric_stock = int(stock_level_value)
 
@@ -87,18 +87,18 @@ class GetSupplierInventory(Tool):
                         elif stock_level_comparison == "equal" and numeric_stock != stock_level:
                             continue
                     else:
-                        # Default behavior (greater than or equal to)
+                        # Standard operation (greater than or equal to)
                         if numeric_stock < stock_level:
                             continue
                 else:
-                    # Non-numeric stock levels (out_of_stock, discontinued) don't meet numeric requirements
+                    # Non-numeric inventory statuses (out_of_stock, discontinued) fail to satisfy numeric criteria.
                     continue
 
-            # Apply item_ids filter if specified
+            # Use item_ids filter when provided.
             if item_ids and item_id not in item_ids:
                 continue
 
-            # Apply product_types filter if specified
+            # Implement the product_types filter when provided.
             product_id = item_to_product_map.get(item_id)
             if product_types and product_id:
                 product_name = product_details_map.get(product_id, {}).get("product_name", "").lower()
@@ -106,11 +106,11 @@ class GetSupplierInventory(Tool):
                 if not type_matches:
                     continue
 
-            # Get product and variant details
+            # Retrieve details for the product and its variants.
             if product_id and product_id in product_details_map:
                 product_info = product_details_map[product_id]
 
-                # Get variant details
+                # Retrieve variant information
                 product_variants = next((p.get("variants", {}) for p in products if p.get("product_id") == product_id), {})
                 variant_info = product_variants.get(item_id, {})
 

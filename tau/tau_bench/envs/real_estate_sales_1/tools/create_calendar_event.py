@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,9 +24,9 @@ class CreateCalendarEvent(Tool):
                 "error": "broker_id, client_id, title, start_at, and end_at are required"
             }, indent=2)
         
-        # Create calendar event with unique ID
+        # Generate a calendar event with a distinct identifier.
         import time
-        timestamp = str(int(time.time() * 1000))  # millisecond timestamp
+        timestamp = str(int(time.time() * 1000))  # timestamp in milliseconds
         event_id = f"EVENT-{client_id}-{timestamp}"
         event = {
             "event_id": event_id,

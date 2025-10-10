@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,14 +11,14 @@ class SendNotification(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         notifications = list(data.get("notifications", {}).values())
         
-        # Generate a new unique ID
+        # Create a new distinct identifier.
         if not notifications:
             new_id_num = 1
         else:
             new_id_num = max(int(n["id"].split("_")[1]) for n in notifications) + 1
         new_id = f"notification_{new_id_num:03d}"
         
-        # Create the new notification object
+        # Instantiate a new notification object.
         new_notification = {
             "id": new_id,
             "project_id": kwargs.get("project_id"),
@@ -27,7 +27,7 @@ class SendNotification(Tool):
             "message": kwargs.get("message"),
             "recipient_id": kwargs.get("recipient_id"),
             "channel": kwargs.get("channel", "slack"),
-            "sent_at": "2025-01-28T00:00:00Z",  # Use a consistent placeholder timestamp
+            "sent_at": "2025-01-28T00:00:00Z",  # Employ a uniform placeholder for timestamps.
             "read_at": None
         }
         

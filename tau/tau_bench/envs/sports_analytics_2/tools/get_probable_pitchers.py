@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class GetProbablePitchers(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         team_id = kwargs.get("team_id")
-        # Deterministic stub: return two pitchers for team 13, else empty
+        # Fixed response: provide two pitchers for team 13; otherwise, return an empty result.
         if team_id == 13:
             return json.dumps({"probable_pitcher_ids": [101, 102]}, indent=2)
         return json.dumps({"probable_pitcher_ids": []}, indent=2)

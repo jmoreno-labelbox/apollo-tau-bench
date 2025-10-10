@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,7 +23,7 @@ class AnalyzeSystemAccessFailuresTool(Tool):
         if system_name:
             failures = [f for f in failures if f.get("system_name") == system_name]
 
-        # Group by system
+        # Categorize by system
         analysis = {}
         for f in failures:
             sys_name = f.get("system_name")
@@ -39,7 +39,7 @@ class AnalyzeSystemAccessFailuresTool(Tool):
             if f.get("note_nullable"):
                 analysis[sys_name]["failure_notes"].append(f.get("note_nullable"))
 
-        # Convert set to list for JSON serialization
+        # Transform the set into a list for JSON encoding.
         for sys_name in analysis:
             analysis[sys_name]["candidates_affected"] = list(analysis[sys_name]["candidates_affected"])
             analysis[sys_name]["affected_candidate_count"] = len(analysis[sys_name]["candidates_affected"])

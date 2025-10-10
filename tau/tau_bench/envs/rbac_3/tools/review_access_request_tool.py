@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,8 +22,8 @@ class ReviewAccessRequestTool(Tool):
                 req["reviewed_by"] = reviewer_id
                 req["decision_notes"] = notes
                 req["decision_at"] = _HARD_TS
-                # Idempotent audit entry so downstream list/filters never come
-                # up empty
+                # Idempotent audit entry to ensure downstream lists/filters are unaffected.
+                # leave empty
                 logs = data.setdefault("audit_logs", [])
                 log_id = f"LOG-{request_id}-decision"
                 audit_entry = {
@@ -41,7 +41,7 @@ class ReviewAccessRequestTool(Tool):
                     logs.append(audit_entry)
                 out = dict(req)
                 out["audit_log"] = audit_entry
-                # Add subject and body as requested
+                # Include the subject and body as specified.
                 status = req["status"]
                 out["subject"] = f"{request_id} {status}"
                 out["body"] = f"{reviewer_id} {_HARD_TS}"

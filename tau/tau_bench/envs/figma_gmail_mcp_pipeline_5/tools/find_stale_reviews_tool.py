@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class FindStaleReviewsTool(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        now_iso = _require_str(kwargs.get("now_iso"), "now_iso")  # comparison baseline
+        now_iso = _require_str(kwargs.get("now_iso"), "now_iso")  # reference point for comparison
         if not now_iso:
             return json.dumps({"error":"now_iso is required (ISO timestamp baseline)"})
 

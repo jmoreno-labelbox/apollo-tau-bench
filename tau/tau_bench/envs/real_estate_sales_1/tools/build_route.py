@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class BuildRoute(Tool):
                 "error": "client_id, date, stops_ordered_json, and created_by_broker_id are required"
             }, indent=2)
         
-        # Create route record
+        # Generate route entry
         route = {
             "route_id": 401,
             "client_id": client_id,

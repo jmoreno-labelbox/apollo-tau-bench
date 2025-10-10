@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright notice.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class SetTidePredictions(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         station_id = kwargs.get("station_id")
-        # This is a simulation; in a real environment, this would fetch data from NOAA.
+        # This simulates behavior; in a live setting, it would retrieve data from NOAA.
 
         tide_prediction_data = {
             "station_id": station_id,

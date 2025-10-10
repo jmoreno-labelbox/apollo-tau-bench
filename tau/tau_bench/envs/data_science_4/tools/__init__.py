@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 from .set_project_config import SetProjectConfig
 from .set_geocode_city import SetGeocodeCity

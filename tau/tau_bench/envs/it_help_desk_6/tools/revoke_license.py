@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class RevokeLicense(Tool):
         inv = _find_one(data["license_inventory"], license_id=license_id)
         if not inv:
             return json.dumps({"status": "error", "reason": "license_not_found"})
-        # find active assignment
+        # retrieve current assignment
         row = None
         for a in data["license_assignments"]:
             if (

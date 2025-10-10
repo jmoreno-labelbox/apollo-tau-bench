@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 
 def _loc_table(data, table_name):
@@ -27,7 +27,7 @@ from .get_asset import GetAsset
 from .get_tms_job import GetTmsJob
 from .get_localization_workflow import GetLocalizationWorkflow
 
-_table = {}  # Global table storage
+_table = {}  # Worldwide table storage
 
 
 ALL_TOOLS = [

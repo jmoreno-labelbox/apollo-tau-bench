@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class CreateAdset(Tool):
         req = ["campaign_id", "name", "daily_budget", "bid_strategy", "status", "created_at"]
         err = _require(kwargs, req)
         if err: return _fail(err)
-        _assert_table(data, "campaigns")  # ensure table exists
+        _assert_table(data, "campaigns")  # verify the table's existence
         adsets = _assert_table(data, "adsets")
         new_id = _next_numeric_id(adsets, "adset_id")
         rec = {

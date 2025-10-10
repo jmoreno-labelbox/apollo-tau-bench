@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -68,7 +68,7 @@ class GetKitComponents(Tool):
                                            "(e.g., 'Basic Robotic Starter Kit')."
                         }
                     },
-                    # Nenhum campo é obrigatório; exige‑se pelo menos um na lógica
+                    # Nenhum campo é mandatório; pelo menos um é necessário na lógica.
                     "required": []
                 }
             }

@@ -1,4 +1,4 @@
-# --- Tripwire Policy Addendum (constants the code can also import) ---
+# --- Tripwire Policy Supplement (constants that the code can also utilize) ---
 CANONICAL_PRICE_BUCKET = "prices"
 REQUIRE_AVAILABLE_APPLIES_TO_WRITES_ONLY = True
 ASSIGNMENT_VISIBILITY_REQUIRED = True

@@ -1,42 +1,42 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class EvaluateAccessibility(Tool):  # READ
+class EvaluateAccessibility(Tool):  # RETRIEVE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
         artifact_id: str
     ) -> str:
-        # Validate input
+        # Check input for correctness.
         if not isinstance(artifact_id, str) or not artifact_id:
             return json.dumps({"error": "artifact_id must be a non-empty string"})
 
         artifacts = data.get("figma_artifacts", [])
 
-        # Find the artifact
+        # Locate the artifact.
         artifact = next((a for a in artifacts if a.get("artifact_id") == artifact_id), None)
         if not artifact:
             return json.dumps({"error": f"Artifact {artifact_id} not found"})
 
-        # Use page_id as layer_id and artifact_name as layer_name
+        # Utilize page_id as layer_id and artifact_name as layer_name.
         layer_id = artifact.get("page_id")
         layer_name = artifact.get("artifact_name")
 
         if not layer_id or not layer_name:
             return json.dumps({"error": f"Missing page_id or artifact_name for artifact {artifact_id}"})
 
-        # Generate deterministic but "random" values using hash of artifact_id
+        # Produce consistent yet "random" values by hashing the artifact_id.
         hash_value = custom_hash(artifact_id)
 
-        # Select violation_type deterministically
+        # Choose violation_type in a deterministic manner.
         violation_types = ["TOUCH_TARGET", "CONTRAST", "TEXT_SIZING", "RTL"]
         violation_type = violation_types[abs(hash_value) % len(violation_types)]
 
-        # Generate violation_details_json and recommended_fix_summary based on violation_type
+        # Create violation_details_json and recommended_fix_summary according to the violation_type.
         if violation_type == "TOUCH_TARGET":
             sizes = ["32x32px", "36x36px", "40x40px"]
             current_size = sizes[abs(hash_value // 3) % len(sizes)]
@@ -61,15 +61,15 @@ class EvaluateAccessibility(Tool):  # READ
             violation_details_json = f'{{"current_size": "{current_size}", "required_size": "16px", "description": "Text too small for readability"}}'
             recommended_fix_summary = "Increase font size to minimum 16px for better readability"
 
-        else:  # RTL
+        else:  # Register Transfer Level
             issues = ["Fixed positioning", "Hardcoded margins", "Icon alignment"]
             issue = issues[abs(hash_value // 13) % len(issues)]
             violation_details_json = f'{{"issue": "{issue}", "description": "Layout doesn\'t adapt to RTL languages"}}'
             recommended_fix_summary = "Implement flexible layout that supports RTL languages"
 
-        # Generate severity deterministically
+        # Produce severity in a deterministic manner.
         severities = ["LOW", "MEDIUM", "HIGH"]
-        severity = severities[abs(hash_value // 17) % len(severities)]  # Use different hash division for variety
+        severity = severities[abs(hash_value // 17) % len(severities)]  # Employ varied hash partitioning for diversity.
 
         return json.dumps({
             "artifact_id": artifact_id,

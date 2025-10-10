@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Technologies
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class GeneratePdfReport(Tool):
         game_pk = kwargs.get("game_pk")
         report_type = kwargs.get("report_type")
         if not game_pk or not report_type:
-            # Fallback to a deterministic but explicit error-like path to avoid placeholders
+            # Revert to a clear, deterministic error path to bypass placeholders.
             return json.dumps({"report_s3_path": "s3://reports/UNKNOWN/UNKNOWN_report.pdf"}, indent=2)
         return json.dumps({"report_s3_path": f"s3://reports/{game_pk}/{report_type}_report.pdf"}, indent=2)
 

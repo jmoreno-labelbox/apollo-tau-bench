@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class CreateRefundTransaction(Tool): # WRITE
+class CreateRefundTransaction(Tool): # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -33,7 +33,7 @@ class CreateRefundTransaction(Tool): # WRITE
                 item_info = item
 
         total_refund_amount = item_info["unit_price"] * (1 + original_transaction["tax_rate"]) * quantity - item_info["discount"]
-        refund_transaction["total_amount"] = total_refund_amount * -1  # Negative for refund
+        refund_transaction["total_amount"] = total_refund_amount * -1  # Refund not approved.
 
         total_tax = item_info["unit_price"] * original_transaction["tax_rate"] * quantity
         refund_transaction["tax_amount"] = total_tax
@@ -43,7 +43,7 @@ class CreateRefundTransaction(Tool): # WRITE
         item_info["quantity"] = quantity
         refund_transaction["line_items"] = [item_info]
 
-        # Insert into transactions table
+        # Add to transactions table
         transactions.append(refund_transaction)
 
         return json.dumps(refund_transaction)

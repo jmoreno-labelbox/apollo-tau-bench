@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class CreateMealPlan(Tool):
         created_by_user_id = kwargs.get("created_by_user_id")
 
         meal_plans = data.get("meal_plans", [])
-        # Automatically generate the next meal_plan_id
+        # Automatically create the subsequent meal_plan_id.
         new_id = max([plan.get("meal_plan_id", 0) for plan in meal_plans]) + 1 if meal_plans else 6001
 
         new_plan = {
@@ -22,7 +22,7 @@ class CreateMealPlan(Tool):
             "household_id": household_id,
             "week_start_date": week_start_date,
             "created_by_user_id": created_by_user_id,
-            "created_at": "2025-08-20T11:00:00Z" # Using a fixed timestamp for consistency
+            "created_at": "2025-08-20T11:00:00Z" # Employing a static timestamp for uniformity
         }
         data["meal_plans"].append(new_plan)
         return json.dumps(new_plan)

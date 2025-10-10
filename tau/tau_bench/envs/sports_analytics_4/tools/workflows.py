@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class Workflows(Tool):
     @staticmethod
-        # main invoke function
+        # primary execution method
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         runs = _load_table(data, "workflow_runs")
         run = {
@@ -16,11 +16,11 @@ class Workflows(Tool):
             "report_id": kwargs.get("report_id"),
         }
         runs.append(run)
-        # return result
+        # return output
         return json.dumps({"status": "ok"}, indent=2)
 
     @staticmethod
-        # info metadata
+        # metadata information
     def get_info() -> Dict[str, Any]:
-        # return result
+        # return output
         return {"type": "function", "function": {"name": "wrokingRun", "description": "Persists a workflow run row.", "parameters": {"type": "object", "properties": {"dag_name": {"type": "string"}, "status": {"type": "string"}, "report_id": {"type": "string"}}, "required": ["dag_name", "status"]}}}

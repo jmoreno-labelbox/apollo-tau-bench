@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class GetRepository(Tool):
         """Get detailed information about a specific repository."""
         repositories = list(data.get("repositories", {}).values())
 
-        # Find the repository
+        # Locate the repository.
         target_repo = None
         for repository in repositories:
             repo_name = repository.get("repo_name") or repository.get("name")

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .authenticate_user import AuthenticateUser
 from .get_repo_info_for_owner import GetRepoInfoForOwner

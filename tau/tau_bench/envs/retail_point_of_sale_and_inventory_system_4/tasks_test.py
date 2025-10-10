@@ -22,13 +22,13 @@ TASKS = [
         user_id="task_0002",
         instruction="At STORE-003, a new shipment of 20 BrewMaster 12-Cup Coffee Makers has arrived. The time now is 2025-07-20T16:35:00Z. Initiate an inventory entry for these and include the fresh stock. Charlie Brown, the Delivery Driver, requests to be included in the employee database to utilize the 'Employee Discount', granting a 10% reduction on the coffee maker over the coming year. On noticing that the discount isn't in the database, you proceed to create it.",
         actions=[
-            # Get the product SKU for BrewMaster 12-Cup Coffee Maker
+            # Retrieve the SKU for the BrewMaster 12-Cup Coffee Maker.
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": "BrewMaster 12-Cup Coffee Maker"}, "info_items": ["sku"]}),
-            # Create new inventory item for BrewMaster 12-Cup Coffee Maker in STORE-003 using edit_inventory_db
+            # Add a new inventory entry for the BrewMaster 12-Cup Coffee Maker in STORE-003 via edit_inventory_db.
             Action(name="EditInventoryDb", kwargs={"sku": "HOM-COFMKR12", "store_id": "STORE-003", "quantity": 20, "current_time": "2025-07-20T16:35:00Z"}),
-            # Add Charlie Brown as an employee
+            # Include Charlie Brown in the employee roster.
             Action(name="EditEmployeesDb", kwargs={"name": "Charlie Brown", "role": "Delivery Driver", "store_id": "STORE-003"}),
-            # Create the 'Employee Discount' promotion for BrewMaster 12-Cup Coffee Maker
+            # Establish the 'Employee Discount' promotion for the BrewMaster 12-Cup Coffee Maker.
             Action(name="EditPromotionsDb", kwargs={"name": "Employee Discount", "type": "percentage", "discount_value": 10.0, "applicable_skus": ["HOM-COFMKR12"], "start_date": "2025-07-20", "end_date": "2026-07-20"})
         ],
         outputs=[]
@@ -38,17 +38,17 @@ TASKS = [
         user_id="task_0003",
         instruction="Act as Amelia Lee. It's 2025-07-20T16:35:00Z. Customer Emma Wilson purchases a GigaPlay 15\" Gaming Laptop from STORE-002 using her credit_card. The acquisition of 1500 loyalty points elevates her to a platinum membership. Record the purchase, update her membership status and loyalty points, and obtain her email to send a congratulatory email.",
         actions=[
-            # Get Emma Wilson's customer ID, email and loyalty points
+            # Retrieve the customer ID, email, and loyalty points for Emma Wilson.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"name": "Emma Wilson"}, "info_items": ["customer_id", "email", "loyalty_points"]}),
-            # Get the GigaPlay 15" Gaming Laptop SKU
+            # Retrieve the SKU for the GigaPlay 15" Gaming Laptop.
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": "GigaPlay 15\" Gaming Laptop"}, "info_items": ["sku"]}),
-            # Get Amelia Lee's employee ID
+            # Retrieve the employee ID for Amelia Lee.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Amelia Lee"}, "info_items": ["employee_id"]}),
-            # Create purchase transaction for Emma Wilson
+            # Initiate purchase transaction for Emma Wilson.
             Action(name="CreatePurchaseTransaction", kwargs={"customer_id": "CUST-5001", "employee_id": "EMP-1032", "items": {"ELEC-GAMLP15": 1}, "store_id": "STORE-002","payment_method": "credit_card","current_time": "2025-07-20T16:35:00Z",}),
-            # Update stock
+            # Revise inventory.
             Action(name="UpdateInventoryItem", kwargs={"sku": "ELEC-GAMLP15", "store_id": "STORE-002", "quantity_change": -1, "current_time": "2025-07-20T16:35:00Z"}),
-            # Update Emma Wilson's loyalty points and membership status
+            # Revise Emma Wilson's loyalty points and membership level.
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5001", "loyalty_points": 2740, "membership_level": "platinum", "current_time": "2025-07-20T16:35:00Z"}),
         ],
         outputs=[]
@@ -63,7 +63,7 @@ TASKS = [
             Action(name="EditCustomersDb", kwargs={"name": "Jack Thomas", "email": "jack.thomas@retailpos.com", "current_time": "2025-07-20T16:41:00Z"}),
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": "WaveSound All-Weather Bluetooth Speaker"}, "info_items": ["sku"]}),
             Action(name="CreatePurchaseTransaction", kwargs={"employee_id": "EMP-1013", "customer_id": "CUST-5013", "items": {"AUDIO-BTSPKR02": 1}, "store_id": "STORE-005", "current_time": "2025-07-20T16:41:00Z", "payment_method": "debit_card"}),
-            # reduce inventory for WaveSound All-Weather Bluetooth Speaker
+            # decrease stock for WaveSound All-Weather Bluetooth Speaker
             Action(name="UpdateInventoryItem", kwargs={"sku": "AUDIO-BTSPKR02", "store_id": "STORE-005", "quantity_change": -1, "current_time": "2025-07-20T16:41:00Z"}),
         ],
         outputs=[]
@@ -73,21 +73,21 @@ TASKS = [
         user_id="task_0005",
         instruction="As Sarah Anderson at STORE-001, the current time is 2025-07-20T16:35:00Z. Customer Sophia Singh is relocating to 123 Elm St, Riverside, IL. It's your task to update her profile and acquire her email for sending a confirmation email. She wishes to use all her loyalty points on a LumiLux LED Desk Lamp to reduce the price by 1 cent per point, paying the remainder by credit_card. Execute the transaction, adjust it with the loyalty points discount, and update the price.",
         actions=[
-            # Get customer_id and email, and loyalty points for olivia patel
+            # Retrieve customer_id, email, and loyalty points for Olivia Patel.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"name": "Sophia Singh"}, "info_items": ["customer_id", "email", "loyalty_points"]}),
-            # Update address and marketing opt_in
+            # Revise address and marketing consent.
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5003", "address": "123 Elm St, Riverside, IL", "opt_in_marketing": False, "current_time": "2025-07-20T16:35:00Z"}),
-            # Get sku for LumiLux LED Desk lamp
+            # Retrieve SKU for LumiLux LED Desk lamp.
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": "LumiLux LED Desk Lamp"}, "info_items": ["sku", "price"]}),
-            # Get employee_id for Grace Miller
+            # Retrieve the employee_id for Grace Miller.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Sarah Anderson"}, "info_items": ["employee_id"]}),
-            # Create a purchase transaction
+            # Initiate a buy transaction.
             Action(name="CreatePurchaseTransaction", kwargs={"employee_id": "EMP-1002", "customer_id": "CUST-5003", "items": {"HOME-DESKLMP01": 1}, "store_id": "STORE-001", "current_time": "2025-07-20T16:36:00Z", "payment_method": "credit_card"}),
-            # Update the inventory for LumiLux LED Desk Lamp
+            # Modify the stock for LumiLux LED Desk Lamp.
             Action(name="UpdateInventoryItem", kwargs={"sku": "HOME-DESKLMP01", "store_id": "STORE-001", "quantity_change": -1, "current_time": "2025-07-20T16:37:00Z"}),
-            # Edit the purchase transaction discount_total and total_price (460 loyalty points = $4.60 discount)
+            # Update discount_total and total_price for the purchase transaction (460 loyalty points equate to a $4.60 discount).
             Action(name="EditTransactionsDb", kwargs={"transaction_id": "TXN-1013", "discount_total": 7.40, "total_amount": 30.48, "current_time": "2025-07-20T16:37:00Z"}),
-            # Remove 460 loyalty points from Olivia Patel's account
+            # Deduct 460 loyalty points from Olivia Patel's account.
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5003", "loyalty_points": 0, "current_time": "2025-07-20T16:37:00Z"}),
         ],
         outputs=[]
@@ -98,19 +98,19 @@ TASKS = [
         instruction="Playing the role of Megan Young, and it's 2025-04-30T16:40:00Z at STORE-002. Discover if any customers have today's birthday, retrieve their email address to offer a birthday discount. Create a 20% discount for today only called '<customer_name> Birthday Discount'. Also, recognize it's Frank Mitchell's birthday and set up an account for him using 'frank@email.com'. Make a purchase in the 'Electronics' section from 'QuietTone' using your employee_id and credit_card, ensuring inventory is adjusted.",
         actions=[
             Action(name="GetCustomersWithBirthdayToday", kwargs={"current_day": "04-30"}),
-            # Get the customer email address
+            # Retrieve the email address of the customer.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5006"}, "info_items": ["email", "name"]}),
-            # Create the birthday discount
+            # Generate the discount for birthdays.
             Action(name="EditPromotionsDb", kwargs={"name": "William Zhang Birthday Discount", "type":"percentage", "discount_value": 20, "applicable_skus":[],"start_date": "2025-04-30", "end_date": "2025-04-30"}),
-            #create Frank Mitchell's customer account
+            # establish customer account for Frank Mitchell
             Action(name="EditCustomersDb", kwargs={"name": "Frank Mitchell", "email": "frank@email.com", "current_time": "2025-04-30T16:40:00Z"}),
-            # Get the QuietTone brand products in Electronics
+            # Obtain QuietTone products in the Electronics category.
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"brand": "QuietTone", "category": "Electronics"}, "info_items": ["sku"]}),
-            # Get Megan Young's employee_id
+            # Retrieve the employee_id for Megan Young.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Megan Young"}, "info_items": ["employee_id"]}),
-            # Create the purchase transaction for Frank Mitchell
+            # Generate the transaction record for Frank Mitchell's purchase.
             Action(name="CreatePurchaseTransaction", kwargs={"employee_id": "EMP-1045", "customer_id": "CUST-5013", "items": {"AUDIO-NCEBUDS01": 1}, "store_id": "STORE-002", "current_time": "2025-04-30T16:40:00Z", "payment_method": "credit_card"}),
-            # Update the inventory for the purchased product
+            # Revise the stock for the acquired item.
             Action(name="UpdateInventoryItem", kwargs={"sku": "AUDIO-NCEBUDS01", "store_id": "STORE-002", "quantity_change": -1, "current_time": "2025-04-30T16:40:00Z"}),
         ],
         outputs=[]
@@ -120,23 +120,23 @@ TASKS = [
         user_id="task_0007",
         instruction="In the persona of Jennifer Williams at 2025-07-20T16:45:00Z. Noah Tran contacts requesting the return of a defective ProSlice 8\" Chef Knife and complete database removal. Manage the return, refresh inventory, and since you're displeased with the knives, set their reorder level to 0 and their status to 'last_stock'. Create a 15% off 'End of stock Discount' on knives for the next year, and collect Liam’s email for sending a confirmation.",
         actions=[
-            # Get Liam Nguyen's customer_id
+            # Retrieve the customer_id for Liam Nguyen.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"name": "Noah Tran"}, "info_items": ["customer_id", "email"]}),
-            # Get the product SKU for ProSlice 8" Chef Knife
+            # Retrieve the SKU for the ProSlice 8-inch Chef Knife.
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": "ProSlice 8\" Chef Knife"}, "info_items": ["sku"]}),
-            # Get the transaction ID for the purchase of ProSlice 8" Chef Knife
+            # Retrieve the transaction ID for the acquisition of the ProSlice 8" Chef Knife.
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5002", "sku": "KITCH-CHEFKNF8"}, "info_items": ["transaction_id"]}),
-            # Get Jennifer Williams's employee_id
+            # Retrieve the employee_id for Jennifer Williams.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Natalie Cooper"}, "info_items": ["employee_id"]}),
-            # Process the return using create_refund_transaction
+            # Handle the return by invoking create_refund_transaction.
             Action(name="CreateRefundTransaction", kwargs={"sku": "KITCH-CHEFKNF8", "quantity": 1, "employee_id": "EMP-1004", "original_transaction_id": "TXN-0002", "current_time": "2025-07-20T16:45:00Z"}),
-            # Remove the customer from the database
+            # Delete the client from the database.
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5002", "delete": True}),
-            # Update the inventory
+            # Revise the stock records.
             Action(name="UpdateInventoryItem", kwargs={"sku": "KITCH-CHEFKNF8", "store_id": "STORE-002", "quantity_change": 1, "current_time": "2025-07-20T16:45:00Z"}),
-            # Set reorder level to 0 and change status to 'last_stock'
+            # Adjust reorder level to zero and update status to 'last_stock'.
             Action(name="EditInventoryDb", kwargs={"id": "INV-0011", "status": "last_stock", "reorder_level": 0, "current_time": "2025-07-20T16:45:00Z"}),
-            # Create the promotion 'End of stock Discount'
+            # Implement the 'End of Stock Sale' promotion.
             Action(name="EditPromotionsDb", kwargs={"name": "End of stock Discount", "type": "percentage", "discount_value": 15, "applicable_skus": ["KITCH-CHEFKNF8"], "start_date": "2025-07-20", "end_date": "2026-07-20"}),
         ],
         outputs=[]
@@ -146,11 +146,11 @@ TASKS = [
         user_id="task_0008",
         instruction= "The date is 2025-07-02T07:30:00Z. You, Grace Miller, aim to reward shoppers spending over $1500 by gifting them a 20% reduction on KITCH-CHEFKNF8 within the next month. Develop the 'My Favourite Customers' promotion and secure the emails of qualified customers to inform them.",
         actions=[
-            # Get all customers who have spent more than $1500 using GetCustomersAboveXSpend
+            # Retrieve customers whose total expenditure exceeds $1500 using GetCustomersAboveXSpend.
             Action(name="GetCustomersAboveXSpend", kwargs={"amount": 1500}),
-            # Create the promotion 'My Favourite Customers'
+            # Establish the 'My Favourite Customers' promotion.
             Action(name="EditPromotionsDb", kwargs={"name": "My Favourite Customers", "type": "percentage", "discount_value": 20, "applicable_skus": ["KITCH-CHEFKNF8"], "start_date": "2025-07-02", "end_date": "2025-08-02"}),
-            # Get the email addresses of these customers
+            # Retrieve the email addresses for these clients.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5005"}, "info_items": ["email"]}),
         ],
         outputs=[]
@@ -160,23 +160,23 @@ TASKS = [
         user_id="task_0009",
         instruction="You, Daniel Perez, are tasked on 2025-07-20T16:50:00Z. Charlotte Dubois wishes to return 10 defective UltraSoft Cotton Bath Towels. Facilitate the return, adjust the inventory, and get her email to confirm the process. If the towels aren't in inventory, establish an entry and include the returned units. Next, create 'Bath Towel Return Discount' at 10% off for one year.",
         actions=[
-            # Get Charlotte Dubois's customer_id
+            # Retrieve the customer_id for Charlotte Dubois.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"name": "Charlotte Dubois"}, "info_items": ["customer_id"]}),
-            # Get the product SKU for UltraSoft Cotton Bath Towel
+            # Retrieve the SKU for the UltraSoft Cotton Bath Towel.
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": "UltraSoft Cotton Bath Towel"}, "info_items": ["sku"]}),
-            # Get the transaction ID for the purchase of UltraSoft Cotton Bath Towel
+            # Retrieve the transaction ID for the UltraSoft Cotton Bath Towel purchase.
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5009", "sku": "HOME-BTHTWL01"}, "info_items": ["transaction_id"]}),
-            # Get Michael Rodriguez's employee_id
+            # Retrieve the employee_id for Michael Rodriguez.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Michael Rodriguez"}, "info_items": ["employee_id"]}),
-            # Process the return using create_refund_transaction
+            # Handle the return by invoking create_refund_transaction.
             Action(name="CreateRefundTransaction", kwargs={"sku": "HOME-BTHTWL01", "quantity": 10, "employee_id": "EMP-1003", "original_transaction_id": "TXN-0009", "current_time": "2025-07-20T16:50:00Z"}),
-            # Check if the product is in the inventory
+            # Verify if the item exists in the inventory.
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"sku": "HOME-BTHTWL01", "store_id": "STORE-004"}, "info_items": ["sku"]}),
-            # If not in inventory, create a new inventory item for UltraSoft Cotton
+            # If the item isn't in stock, generate a new inventory entry for UltraSoft Cotton.
             Action(name="EditInventoryDb", kwargs={"sku": "HOME-BTHTWL01", "store_id": "STORE-004", "quantity": 10, "current_time": "2025-07-20T16:50:00Z"}),
-            # Create the promotion 'Bath Towel Return Discount' using edit_promotions_db
+            # Utilize edit_promotions_db to establish the 'Bath Towel Return Discount' promotion.
             Action(name="EditPromotionsDb", kwargs={"name": "Bath Towel Return Discount", "type": "percentage", "discount_value": 10, "applicable_skus": ["HOME-BTHTWL01"], "start_date": "2025-07-20", "end_date": "2026-07-20"}),
-            # Get Charlotte Dubois's email address
+            # Retrieve the email address for Charlotte Dubois.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"name": "Charlotte Dubois"}, "info_items": ["email"]}),
         ],
         outputs=[]
@@ -187,11 +187,11 @@ TASKS = [
         instruction="In your role as Oliver Diaz, at 2025-07-20T16:55:00Z, Ava Thompson has joined as a Sales Associate in 'Home & Kitchen' at STORE-001. Register her in the employee database and launch a 15% 'New Employee Welcome Discount' on all 'Home & Kitchen' items for a month. Secure Ava's email to send her a welcoming message.",
         actions=[
             Action(name="EditEmployeesDb", kwargs={"name": "Emma Wilson", "role": "Sales Associate", "store_id": "STORE-001"}),
-            # Get Home & Kitchen products
+            # Retrieve products from the Home & Kitchen category.
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"category": "Home & Kitchen"}, "info_items": ["sku"]}),
-            # Create the promotion 'New Employee Welcome Discount'
+            # Establish the promotion 'Welcome Discount for New Employees'
             Action(name="EditPromotionsDb", kwargs={"name": "New Employee Welcome Discount", "type": "percentage", "discount_value": 15, "applicable_skus": ["HOM-COFMKR12", "KITCH-CHEFKNF8", "HOME-BTHTWL01", "HOME-DESKLMP01", "KITCH-FRYPAN10"], "start_date": "2025-07-20", "end_date": "2025-08-20"}),
-            # Get Ava's email address
+            # Retrieve Ava's email address.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Ava Thompson"}, "info_items": ["email"]})
         ],
         outputs=[]
@@ -201,16 +201,16 @@ TASKS = [
         user_id="task_0011",
         instruction="The time is 2025-07-20T16:55:00Z. Record the new product, 'EcoBrew Reusable Coffee Filter', in the product database using details from the manufacturer. With attributes paralleling 'BrewMaster 12-Cup Coffee Maker', order 100 units for 'Kitchen & Dining' at STORE-001. Then extract names and emails of 'BrewMaster' purchasers to inform them about the launch.",
         actions=[
-            # Get the supplier_id for BrewMaster 12-Cup Coffee Maker
+            # Retrieve the supplier_id for the BrewMaster 12-Cup Coffee Maker.
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": "BrewMaster 12-Cup Coffee Maker"}, "info_items": ["supplier_id", "sku"]}),
             Action(name="EditProductsDb", kwargs={"name": "EcoBrew Reusable Coffee Filter", "description": "An eco-friendly reusable coffee filter made from organic cotton, designed to fit most standard coffee makers.", "supplier_id": "SUP-1002", "weight_kg": 0.1, "cost": 3.50, "price": 5.99, "current_time": "2025-07-20T16:55:00Z"}),
-            # get the SKU for the new product
+            # retrieve the SKU for the new item
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": "EcoBrew Reusable Coffee Filter"}, "info_items": ["sku"]}),
-            # Add the new product to the inventory in STORE-001
+            # Incorporate the new product into the inventory of STORE-001.
             Action(name="EditInventoryDb", kwargs={"sku": "SKU-1021", "store_id": "STORE-001", "quantity": 100, "current_time": "2025-07-20T16:55:00Z", "location": "Kitchen & Dining"}),
-            # Get the email addresses of customers who have purchased BrewMaster 12-Cup Coffee Maker using GetCustomerPurchaseCountBySku
+            # Retrieve the email addresses of customers who bought the BrewMaster 12-Cup Coffee Maker by utilizing GetCustomerPurchaseCountBySku.
             Action(name="GetCustomerPurchaseCountsBySku", kwargs={"sku": "HOM-COFMKR12"}),
-            # Get the email addresses of these customers
+            # Retrieve the email addresses for these clients.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5002"}, "info_items": ["name", "email"]})
         ],
         outputs=[]
@@ -220,21 +220,21 @@ TASKS = [
         user_id="task_0012",
         instruction="The current moment, 2025-07-20T16:56:00Z, reveals a robbery affecting STORE-003’s top three costly items. Reflect this in inventory, setting their status to 'stolen', and perform a stock check. Remove discounts from items eligible that are 'low_stock' or 'critical', and obtain the Floor Supervisor's email for notice.",
         actions=[
-            # Get the top 3 most expensive products in STORE-003
+            # Retrieve the three highest-priced items from STORE-003.
             Action(name="GetTopNMostExpensiveProductsByStore", kwargs={"store_id": "STORE-003", "n": 3}),
-            # get inventory ids for these products
+            # retrieve inventory identifiers for these items
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"sku": ["KITCH-FRYPAN10", "OFFC-ERGCHR01", "ELEC-RCHAA04"], "store_id": "STORE-003"}, "info_items": ["id"]}),
-            # Update the inventory to reflect the stolen products
+            # Revise the inventory to account for the stolen items.
             Action(name="EditInventoryDb", kwargs={"id": "INV-0023", "quantity": 0, "status": "stolen", "current_time": "2025-07-20T16:56:00Z"}),
             Action(name="EditInventoryDb", kwargs={"id": "INV-0014", "quantity": 0, "status": "stolen", "current_time": "2025-07-20T16:56:00Z"}),
             Action(name="EditInventoryDb", kwargs={"id": "INV-0020", "quantity": 0, "status": "stolen", "current_time": "2025-07-20T16:56:00Z"}),
-            # Perform a low stock check
+            # Conduct a low inventory assessment.
             Action(name="CheckLowStock", kwargs={"store_id": "STORE-003", "current_time": "2025-07-20T16:56:00Z"}),
-            # Remove discounts for low stock or critical items
+            # Eliminate discounts on items with low inventory or those that are critical.
             Action(name="EditProductsDb", kwargs={"sku": "KITCH-FRYPAN10", "is_discountable": False, "current_time": "2025-07-20T16:56:00Z"}),
             Action(name="EditProductsDb", kwargs={"sku": "OFFC-ERGCHR01", "is_discountable": False, "current_time": "2025-07-20T16:56:00Z"}),
             Action(name="EditProductsDb", kwargs={"sku": "ELEC-RCHAA04", "is_discountable": False, "current_time": "2025-07-20T16:56:00Z"}),
-            # Find the email addresses of the Floor Supervisor
+            # Retrieve the email addresses for the Floor Supervisor.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"store_id": "STORE-003", "position": "Floor Supervisor"}, "info_items": ["email"]})
         ],
         outputs=[]
@@ -244,21 +244,21 @@ TASKS = [
         user_id="task_0013",
         instruction="Playing Jack Robinson, at 2025-07-20T16:57:00Z. Install a 'Loyalty point multiplier' promotion for 7 days, offering points valued 5 times more (normally 1 cent, now 5 cents per point). Manage Olivia Romano’s purchase of PowerPlus Rechargeable AA Batteries, adjust inventory, tally the loyalty points cost, and adjust Sophia's records. Retrieve her email to confirm the transaction.",
         actions=[
-            # Create the 'Loyalty point multiplier' promotion
+            # Implement the 'Loyalty points multiplier' promotion.
             Action(name="EditPromotionsDb", kwargs={"name": "Loyalty point multiplier", "type": "loyalty_multiplier", "discount_value": 5, "start_date": "2025-07-20", "end_date": "2025-07-27", "applicable_skus": []}),
-            # Get Sophia's email, customer_id and loyalty points
+            # Retrieve Sophia's email, customer ID, and loyalty points.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"name": "Olivia Romano"}, "info_items": ["customer_id","email", "loyalty_points"]}),
-            # Get Jacks employee ID
+            # Retrieve Jack's employee ID.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Jack Robinson"}, "info_items": ["employee_id"]}),
-            # Get the SKU for PowerPlus Rechargeable AA Batteries (4 Pack)
+            # Retrieve the SKU for the PowerPlus Rechargeable AA Batteries (4-pack).
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": "PowerPlus Rechargeable AA Batteries (4 Pack)"}, "info_items": ["sku"]}),
-            # Create the transaction
+            # Initiate the transaction.
             Action(name="CreatePurchaseTransaction", kwargs={"customer_id": "CUST-5007", "items": {"ELEC-RCHAA04":1}, "store_id": "STORE-003", "employee_id": "EMP-1034", "current_time": "2025-07-20T16:57:00Z", "payment_method": "loyalty_points"}),
-            # Update the inventory
+            # Revise the stock records.
             Action(name="UpdateInventoryItem", kwargs={"sku": "ELEC-RCHAA04", "store_id": "STORE-003", "quantity_change": -1, "current_time": "2025-07-20T16:57:00Z"}),
-            # Might need to make an API function for the maths here
-            # Edit Sophia's loyalty points to reflect the purchase
-            Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5007", "loyalty_points": 26, "current_time": "2025-07-20T16:57:00Z"}),  # Assuming the cost is fully covered by loyalty points
+            # An API function may be required for the calculations involved.
+            # Update Sophia's loyalty points to account for the transaction.
+            Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5007", "loyalty_points": 26, "current_time": "2025-07-20T16:57:00Z"}),  # Assuming the expenses are entirely paid with loyalty points.
         ],
         outputs=[]
     ),
@@ -267,14 +267,14 @@ TASKS = [
         user_id="task_0014",
         instruction="You are Emma Garcia, handling promotions at 2025-07-06T16:58:00Z. Review existing percentage promotions. If 'Summer Electronics Sale' exists, raise discounts by 10%. Otherwise, start 'Summer Sale' with a 25% reduction for a month. Gather emails from last month's customers to inform about the promotion change.",
         actions=[
-            # Check if the 'Summer Electronics Sale' promotion exists
+            # Verify the existence of the 'Summer Electronics Sale' promotion.
             Action(name="GetPromotionsInfoByParam", kwargs={"filter_params": {"name": "Summer Electronics Sale"}, "info_items": ["promotion_id", "discount_value"]}),
-            # Update the promotion
+            # Revise the promotion.
             Action(name="EditPromotionsDb", kwargs={"promotion_id": "PROMO-001", "discount_value": 20}),
-            # Get customer_ids and timestamps of purchases
+            # Retrieve customer IDs and purchase timestamps.
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params":{}, "info_items": ["customer_id", "timestamp"]}),
             Action(name="FilterAndSortIdsByDate", kwargs={"ids_dates":{ "CUST-5001": "2025-06-05", "CUST-5002": "2025-06-05", "CUST-5003": "2025-06-05", "CUST-5004": "2025-06-05", "CUST-5005": "2025-06-05", "CUST-5006": "2025-06-05", "CUST-5007": "2025-06-05", "CUST-5008": "2025-06-05", "CUST-5009": "2025-06-05", "CUST-5010": "2025-06-05", "CUST-5011": "2025-06-06", "CUST-5012": "2025-06-06"},"filter_start_date": "2025-06-06", "filter_end_date": "2025-07-06"}),
-            # Get email addresses of customers who purchased during the last month
+            # Retrieve email addresses of customers who made purchases in the previous month.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5011", "CUST-5012"]}, "info_items": ["email"]}),
         ],
         outputs=[]
@@ -284,11 +284,11 @@ TASKS = [
         user_id="task_0015",
         instruction="As Noah Tran, it's 2025-07-20T16:59:00Z. Check STORE-004 inventory quantities. For items below 5 units, order 10 more, changing their status to 'in_stock'. Aggregate employee emails to notify them about the order.",
         actions=[
-            # Get all products in STORE-004 with their inventory levels
+            # Retrieve all products from STORE-004 along with their stock quantities.
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"store_id": "STORE-004"}, "info_items": ["id", "quantity"]}),
-            # Filter products with quantity below 5
+            # Select products with a quantity less than 5.
             Action(name="EditInventoryDb", kwargs={"id": "INV-0009", "quantity": 14, "status": "in_stock", "current_time": "2025-07-20T16:59:00Z"}),
-            # Get the email addresses of all employees in STORE-004
+            # Retrieve the email addresses for all staff members in STORE-004.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"store_id": "STORE-004"}, "info_items": ["email"]}),
         ],
         outputs=[]
@@ -298,13 +298,13 @@ TASKS = [
         user_id="task_0016",
         instruction="Taking on the role of Olivia Patel at 2025-07-20T17:00:00Z, inspect STORE-002 sales performance. If lifetime sales are under $10,000, launch 'Sales Boost' at 15% off for two weeks. Retrieve email addresses of STORE-002 shoppers for promotion notification.",
         actions=[
-            # Get all transactions in for STORE-002
+            # Retrieve all transactions for STORE-002.
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"store_id": "STORE-002"}, "info_items": ["total_amount", "customer_id"]}),
-            # Get total sales for STORE-002 in the last month
+            # Retrieve the total sales for STORE-002 from the previous month.
 
-            # Create the appropriate promotion based on sales performance
+            # Develop the suitable promotion according to sales results.
             Action(name="EditPromotionsDb", kwargs={"name": "Sales Boost", "type": "percentage", "discount_value": 15, "start_date": "2025-07-20", "end_date": "2025-08-03", "applicable_skus": []}),
-            # Get email addresses of customers who purchased in STORE-002 during the last month
+            # Retrieve email addresses of customers who made purchases at STORE-002 in the previous month.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5011", "CUST-5002", "CUST-5006"]}, "info_items": ["email"]}),
         ],
         outputs=[]
@@ -314,19 +314,19 @@ TASKS = [
         user_id="task_0017",
         instruction="Under the guise of Henry Adams, the inventory crisis at STORE-003 finds 40 'High-Protein Granola Bars (12 Pack)' consumed by mice at 2025-07-20T17:00:00Z. Revise inventory and perform low stock checks. If items register as low, secure the Inventory Specialist’s details, terminate them, and replace yourself as the new specialist.",
         actions=[
-            # Get the SKU for High-Protein Granola Bars (12 Pack)
+            # Retrieve the SKU for the 12-pack of High-Protein Granola Bars.
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": "High-Protein Granola Bars (12 Pack)"}, "info_items": ["sku"]}),
-            # Update the inventory to reflect the eaten products
+            # Revise the inventory to account for consumed items.
             Action(name="UpdateInventoryItem", kwargs={"sku": "GROC-GRNLBR12", "store_id": "STORE-003", "quantity_change": -40, "current_time": "2025-07-20T17:00:00Z"}),
-            # Perform a low stock check
+            # Conduct a low inventory assessment.
             Action(name="CheckLowStock", kwargs={"store_id": "STORE-003", "current_time": "2025-07-20T17:00:00Z"}),
-            # Get the Inventory Specialist's name and email
+            # Retrieve the name and email of the Inventory Specialist.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"store_id": "STORE-003", "role": "Inventory Specialist"}, "info_items": ["name", "email", "phone_number", "employee_id"]}),
-            # Remove the Inventory Specialist from the employee database
+            # Delete the Inventory Specialist from the employee records.
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1015", "delete": True}),
-            # get employee_id
+            # retrieve employee_id
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Henry Adams"}, "info_items": ["employee_id"]}),
-            # Change role
+            # Modify role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1020", "role": "Inventory Specialist"}),
         ],
         outputs=[]
@@ -336,11 +336,11 @@ TASKS = [
         user_id="task_0018",
         instruction="As Emma Garcia, with a mission in mind at 2025-07-20T17:01:00Z, target transaction TXN-0012 to modify the total to $150.00. Aim to secure the customer's email tied to this transaction for updates.",
         actions=[
-            # Get the transaction details by transaction ID
+            # Retrieve transaction information using the transaction ID.
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"transaction_id": "TXN-0012"}, "info_items": ["customer_id"]}),
-            # Edit the transaction total amount
+            # Modify the total amount of the transaction.
             Action(name="EditTransactionsDb", kwargs={"transaction_id": "TXN-0012", "total_amount": 150.00, "current_time": "2025-07-20T17:01:00Z"}),
-            # Get the customer email address associated with the transaction
+            # Retrieve the email address of the customer linked to the transaction.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5012"}, "info_items": ["email"]}),
         ],
         outputs=[]
@@ -350,15 +350,15 @@ TASKS = [
         user_id="task_0019",
         instruction="In the capacity of Liam Nguyen at 2025-07-20T17:02:00Z, unveil a 'Wireless Mouse' entry. Tag the price at $25.00 and retain other entries as default. Stock 100 units in 'Electronics' of STORE-001. If STORE-002 possesses SKU 'AUDIO-NCEBUDS01', relocate half the 'Wireless Mouse' stock there and craft an inventory entry for STORE-002, reviewing STORE-001 quantities concurrently.",
         actions=[
-            # Create the new product in the database
+            # Add the new product to the database.
             Action(name="EditProductsDb", kwargs={"name": "Wireless Mouse", "price": 25.00, "current_time": "2025-07-20T17:02:00Z"}),
-            # Create inventory for product
+            # Generate product inventory.
             Action(name="EditInventoryDb", kwargs={"sku": "SKU-1021", "store_id": "STORE-001", "quantity": 100, "current_time": "2025-07-20T17:02:00Z", "location": "Electronics"}),
-            # Check if STORE-002 has stock of AUDIO-NCEBUDS01
+            # Verify if STORE-002 has inventory for AUDIO-NCEBUDS01.
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"store_id": "STORE-002", "sku": "AUDIO-NCEBUDS01"}, "info_items": ["quantity"]}),
-            # If it does, move half of the stock to STORE-002
+            # If it does, transfer 50% of the inventory to STORE-002.
             Action(name="EditInventoryDb", kwargs={"sku": "SKU-1021", "store_id": "STORE-002", "quantity": 50, "current_time": "2025-07-20T17:02:00Z", "location": "Electronics"}),
-            # If it does, update the quantity in STORE-001
+            # If so, modify the quantity in STORE-001.
             Action(name="UpdateInventoryItem", kwargs={"sku": "SKU-1021", "store_id": "STORE-001", "quantity_change": -50, "current_time": "2025-07-20T17:02:00Z"}),
         ],
         outputs=[]
@@ -368,13 +368,13 @@ TASKS = [
         user_id="task_0020",
         instruction="Acting as Amelia Lee at 2025-07-20T17:03:00Z, devise a new promotion spanning all 'Books'. Label it 'Back to School Sale' with 20% off, operating between 2025-08-01 and 2025-08-31. Extract emails of past book buyers to notify about the offer.",
         actions=[
-            # Get all book products
+            # Retrieve all book items.
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"category": "Books"}, "info_items": ["sku"]}),
-            # Create the new promotion in the database
+            # Insert the new promotion into the database.
             Action(name="EditPromotionsDb", kwargs={"name": "Back to School Sale", "type": "percentage", "discount_value": 20, "start_date": "2025-08-01", "end_date": "2025-08-31", "applicable_skus": ["BOOK-KDSSTY01"]}),
-            # Get the email addresses of customers who have purchased book products
+            # Retrieve email addresses of customers who have bought book products.
             Action(name="GetCustomerPurchaseCountsBySku", kwargs={"sku": "BOOK-KDSSTY01"}),
-            # Create a list of customer IDs who have purchased books
+            # Generate a list of customer identifiers for those who have bought books.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5008"}, "info_items": ["email"]}),
         ],
         outputs=[]
@@ -384,11 +384,11 @@ TASKS = [
         user_id="task_0021",
         instruction="The timestamp is 2025-07-20T17:04:00Z. Compile a list of customers eclipsing $750 in spending. Procure their emails for sale announcements, and launch 'VIP Customer Sale' with a 10% discount for the upcoming month.",
         actions=[
-            # Get customers who have spent more than $750
+            # Retrieve customers with expenditures exceeding $750.
             Action(name="GetCustomersAboveXSpend", kwargs={"amount": 750.0}),
-            # Get the email addresses of these customers
+            # Retrieve the email addresses for these clients.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5001","CUST-5005"]}, "info_items": ["email"]}),
-            # Create the 'VIP Customer Sale' promotion
+            # Initiate the 'VIP Customer Sale' campaign.
             Action(name="EditPromotionsDb", kwargs={"name": "VIP Customer Sale", "type": "percentage", "discount_value": 10, "applicable_skus": [], "start_date": "2025-07-20", "end_date": "2025-08-20"}),
         ],
         outputs=[]
@@ -398,13 +398,13 @@ TASKS = [
         user_id="task_0022",
         instruction="Perform as Oliver Diaz at 2025-07-20T17:05:00Z. Investigate inventory levels in STORE-001. For items below a 10-quantity threshold, submit SKU and count for reorder. Check STORE-001’s employee count, appoint Marty Skipper as 'Inventory Specialist' if it’s less than 10.",
         actions=[
-            # Get all products in STORE-001 with their inventory levels
+            # Retrieve all products from STORE-001 along with their stock quantities.
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"store_id": "STORE-001"}, "info_items": ["id","sku", "quantity"]}),
-            # Update last stock count for items that need to be reordered
+            # Revise the final inventory count for products requiring restocking.
             Action(name="EditInventoryDb", kwargs={"id": "INV-0001", "last_stock_count": "2025-07-20", "current_time": "2025-07-20T17:05:00Z"}),
-            # Check the number of employees in STORE-001
+            # Verify the employee count in STORE-001.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"store_id": "STORE-001"}, "info_items": ["employee_id"]}),
-            # If less than 10 employees, add Marty Skipper as a new employee
+            # If the employee count is below 10, include Marty Skipper as a new hire.
             Action(name="EditEmployeesDb", kwargs={"name": "Marty Skipper", "role": "Inventory Specialist", "store_id": "STORE-001"}),
 
         ],
@@ -415,47 +415,47 @@ TASKS = [
         user_id="task_0023",
         instruction="In the role of Natalie Cooper at 2025-07-20T17:06:00Z, analyze your clientele, contrasting the top loyalty customer against frequentists of the store’s most costly item. Secure the 'Floor Supervisor’s' email later for survey analysis. If significant variance exists, consider buying yourself 'High-Protein Granola Bars (12 Pack)' with your credit, assuming a customer identity if absent.",
         actions=[
-            # Get the top customer by loyalty points
+            # Retrieve the highest-ranking customer based on loyalty points.
             Action(name="GetTopNCustomersByLoyaltyPoints", kwargs={"n": 1}),
-            # Get the store's most expensive product
+            # Retrieve the highest-priced item from the store.
             Action(name="GetTopNMostExpensiveProductsByStore", kwargs={"store_id": "STORE-003", "n": 1}),
-            # Get the customer who bought the most of the most expensive product
+            # Retrieve the customer who purchased the highest quantity of the priciest product.
             Action(name="GetCustomerPurchaseCountsBySku", kwargs={"sku": "OFFC-ERGCHR01"}),
-            # check if Jennifer Williams is in the customer database
+            # verify the presence of Jennifer Williams in the customer database
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"name": "Jennifer Williams"}, "info_items": ["customer_id"]}),
-            # Get Jennifer Williams's employee email address to use
+            # Obtain the employee email address for Jennifer Williams.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Natalie Cooper"}, "info_items": ["email"]}),
-            # If not, add Jennifer Williams as a customer
+            # Otherwise, include Jennifer Williams as a client.
             Action(name="EditCustomersDb", kwargs={"name": "Natalie Cooper", "email": "natalie.cooper@retailpos.com", "current_time": "2025-07-20T17:06:00Z"}),
-            # Create a purchase transaction for Jennifer Williams if she is not the same as the top customer by loyalty points
-            # get product SKU for High-Protein Granola Bars (12 Pack)
+            # Initiate a purchase transaction for Jennifer Williams provided she is not the top customer based on loyalty points.
+            # retrieve SKU for High-Protein Granola Bars (12 Pack)
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": "High-Protein Granola Bars (12 Pack)"}, "info_items": ["sku"]}),
-            # get Jennifer Williams's employee_id
+            # retrieve the employee_id for Jennifer Williams
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Jennifer Williams"}, "info_items": ["employee_id"]}),
-            # Create the purchase transaction
+            # Initiate the purchase transaction.
             Action(name="CreatePurchaseTransaction", kwargs={"customer_id": "CUST-5013", "items": {"GROC-GRNLBR12": 1}, "store_id": "STORE-003", "employee_id": "EMP-1004", "current_time": "2025-07-20T17:06:00Z", "payment_method": "credit_card"}),
-            # Update the inventory for the purchase
+            # Revise the inventory to reflect the purchase.
             Action(name="UpdateInventoryItem", kwargs={"sku": "GROC-GRNLBR12", "store_id": "STORE-003", "quantity_change": -1, "current_time": "2025-07-20T17:06:00Z"}),
-            # Get the email address of the Department Manager
+            # Retrieve the email of the Department Manager.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"store_id": "STORE-003", "role": "Floor Supervisor"}, "info_items": ["email"]}),
         ],
         outputs=[]
     ),
-    # task that looks at the current promotions
+    # function that examines the active promotions
     Task(
         annotator="0",
         user_id="task_0024",
         instruction="As Mia Johnson at 2025-07-20T17:07:00Z, dissect promotions to identify active 'bogo_percentage' ones. Connect recent deals related to these with relevant transaction employees, promoting them to 'Manager.'",
         actions=[
-            # Get all percentage promotions
+            # Retrieve all promotional percentages.
             Action(name="GetPromotionsInfoByParam", kwargs={"filter_params": {"type": "bogo_percentage"}, "info_items": ["applicable_skus"]}),
-            # Find transactions with these products
+            # Locate transactions involving these items.
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"sku": "SPORT-YOGMAT01"}, "info_items": ["transaction_id", "timestamp"]}),
-            # Get the most recent transaction using filter_and_sort_ids_by_date
+            # Retrieve the latest transaction by utilizing filter_and_sort_ids_by_date.
             Action(name="FilterAndSortIdsByDate", kwargs={"ids_dates": {"TXN-0004": "2025-06-05T12:48:11Z"}, "top_n": 1, "sort_order": "newest"}),
-            # Find employee who made the transaction
+            # Identify the employee responsible for the transaction.
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"transaction_id": "TXN-0004"}, "info_items": ["employee_id"]}),
-            # Promote the employee to Manager
+            # Elevate the employee to the Manager position.
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1032", "role": "Manager"}),
         ],
         outputs=[]
@@ -465,17 +465,17 @@ TASKS = [
         user_id="task_0025",
         instruction="Embody Megan Young at 2025-07-20T17:08:00Z. Update transaction TXN-0010 by swapping 'credit_card' to 'loyalty_points', adjusting the total to $50.00, and attribute the transaction under your name. Compute and add relevant loyalty points before retrieving the customer's email.",
         actions=[
-            # Get employee ID for Megan Young
+            # Retrieve the employee ID for Megan Young.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Megan Young"}, "info_items": ["employee_id"]}),
-            # edit the transaction to change the payment method and total amount
+            # modify the transaction to update the payment method and total value
             Action(name="EditTransactionsDb", kwargs={"transaction_id": "TXN-0010", "payment_method": "loyalty_points", "total_amount": 50.00, "employee_id": "EMP-1045", "current_time": "2025-07-20T17:08:00Z"}),
-            # Get the transaction details by transaction ID
+            # Retrieve transaction information using the transaction ID.
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"transaction_id": "TXN-0010"}, "info_items": ["customer_id", "total_amount"]}),
-            # Get customer loyalty points
+            # Retrieve customer loyalty points.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5010"}, "info_items": ["loyalty_points"]}),
-            # Add loyalty points to customer's account
+            # Credit loyalty points to the customer's account.
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5010", "loyalty_points": 1075, "current_time": "2025-07-20T17:08:00Z"}),
-            # Get the customer email address associated with the transaction
+            # Retrieve the email address of the customer linked to the transaction.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5010"}, "info_items": ["email"]}),
         ],
         outputs=[]
@@ -485,21 +485,21 @@ TASKS = [
         user_id="task_0026",
         instruction="Taking the part of Megan Young at 2025-07-20T17:09:00Z, produce an employee account for John Doe under 'Chief Cheerleader', dated today. Gather 'low_stock' items list, refresh 'last_stock_count' entries, and acquire your and John's emails to foster communication.",
         actions=[
-            # Create a new employee account
+            # Establish a new user account for an employee.
             Action(name="EditEmployeesDb", kwargs={"name": "John Doe", "role": "Chief Cheerleader", "hire_date": "2025-07-20"}),
-            # Get a list of inventory items that need to be restocked
+            # Retrieve a list of inventory items requiring replenishment.
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"status": ["low_stock"]}, "info_items": ["id"]}),
-            # Update the last stock count for these items
+            # Revise the final inventory count for these items.
             Action(name="EditInventoryDb", kwargs={"id": "INV-0009", "last_stock_count": "2025-07-20", "current_time": "2025-07-20T17:09:00Z"}),
             Action(name="EditInventoryDb", kwargs={"id": "INV-0022", "last_stock_count": "2025-07-20", "current_time": "2025-07-20T17:09:00Z"}),
-            # Get the employee email address
+            # Retrieve the email address of the employee.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Megan Young"}, "info_items": ["email"]}),
-            # Get John's email address
+            # Retrieve the email address of John.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "John Doe"}, "info_items": ["email"]}),
         ],
         outputs=[]
     ),
-    # Task 27: Inventory Management and Customer Notification
+    # Task 27: Stock Control and Client Alerts
     Task(
         annotator="0",
         user_id="task_0027",
@@ -514,7 +514,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 28: Product Analysis and Promotion Creation
+    # Task 28: Analyzing the product and developing promotional materials
     Task(
         annotator="0",
         user_id="task_0028",
@@ -523,14 +523,14 @@ TASKS = [
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"category": "Sports & Outdoors"}, "info_items": ["sku", "name", "price"]}),
             Action(name="EditPromotionsDb", kwargs={"name": "Sports Premium Sale", "type": "percentage", "discount_value": 25, "applicable_skus": ["SPORT-BIKHLM01"], "start_date": "2025-07-20", "end_date": "2025-08-10"}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"membership_level": "platinum"}, "info_items": ["name", "email", "phone_number"]}),
-            # get employee_id
+            # retrieve employee_id
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Robert Zhang"}, "info_items": ["employee_id"]}),
-            # Change role
+            # Modify role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1008", "role": "Head of Promotions"}),
         ],
         outputs=[]
     ),
-    # Task 29: Employee Performance Tracking
+    # Task 29: Monitoring Employee Performance
     Task(
         annotator="0",
         user_id="task_0029",
@@ -544,7 +544,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 30: Customer Birthday Campaign
+    # Task 30: Campaign for Customer Birthdays
     Task(
         annotator="0",
         user_id="task_0030",
@@ -554,14 +554,14 @@ TASKS = [
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5003"}, "info_items": ["name", "email", "loyalty_points"]}),
             Action(name="EditPromotionsDb", kwargs={"name": "Sophia Singh Birthday Special", "type": "percentage", "discount_value": 30, "applicable_skus": [], "start_date": "2025-02-27", "end_date": "2025-02-27"}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5003", "loyalty_points": 560, "current_time": "2025-02-27T17:13:00Z"}),
-            # get employee_id
+            # retrieve employee_id
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Sarah Anderson"}, "info_items": ["employee_id"]}),
-            # Change role
+            # Modify role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1002", "role": "Customer Relations Manager"}),
         ],
         outputs=[]
     ),
-    # Task 31: Inventory Audit and Low Stock Alert
+    # Task 31: Stock Verification and Low Inventory Notification
     Task(
         annotator="0",
         user_id="task_0031",
@@ -575,7 +575,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 32: Product Return and Quality Control
+    # Task 32: Return Processing and Quality Assurance
     Task(
         annotator="0",
         user_id="task_0032",
@@ -592,7 +592,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 33: Loyalty Program Enhancement
+    # Task 33: Improvement of Loyalty Program
     Task(
         annotator="0",
         user_id="task_0033",
@@ -608,7 +608,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 34: Supplier Quality Assessment
+    # Task 34: Evaluation of Supplier Quality
     Task(
         annotator="0",
         user_id="task_0034",
@@ -618,14 +618,14 @@ TASKS = [
             Action(name="EditPromotionsDb", kwargs={"name": "Supplier Quality Clearance", "type": "percentage", "discount_value": 40, "applicable_skus": ["ELEC-4KTV55"], "start_date": "2025-07-20"}),
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"sku": "ELEC-4KTV55"}, "info_items": ["id"]}),
             Action(name="EditInventoryDb", kwargs={"id": "INV-0001", "status": "clearance", "current_time": "2025-07-20T17:17:00Z"}),
-            # get employee_id
+            # retrieve employee_id
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Amelia Lee"}, "info_items": ["employee_id"]}),
-            # Change role
+            # Modify role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1032", "role": "Supplier Relations Manager"}),
         ],
         outputs=[]
     ),
-    # Task 35: Customer Engagement Campaign
+    # Task 35: Client Interaction Initiative
     Task(
         annotator="0",
         user_id="task_0035",
@@ -635,14 +635,14 @@ TASKS = [
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5010"}, "info_items": ["line_items"]}),
             Action(name="EditPromotionsDb", kwargs={"name": "We Miss You", "type": "percentage", "discount_value": 25, "applicable_skus": ["AUDIO-BTSPKR02", "ELEC-RCHAA04"], "start_date": "2025-07-20"}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5010", "opt_in_marketing": True, "current_time": "2025-07-20T17:18:00Z"}),
-            # get employee_id
+            # retrieve employee_id
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Jack Robinson"}, "info_items": ["employee_id"]}),
-            # Change role
+            # Modify role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1034", "role": "Customer Engagement Specialist"}),
         ],
         outputs=[]
     ),
-    # Task 36: Seasonal Inventory Preparation
+    # Task 36: Preparation of Seasonal Stock
     Task(
         annotator="0",
         user_id="task_0036",
@@ -655,7 +655,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 37: Employee Training and Development
+    # Task 37: Staff Education and Growth
     Task(
         annotator="0",
         user_id="task_0037",
@@ -667,13 +667,13 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 38: Product Bundle Creation
+    # Task 38: Creating Product Bundles
     Task(
         annotator="0",
         user_id="task_0038",
         instruction="Role-playing Marcus Chen at 2025-07-20T17:21:00Z, construct 'Kitchen Essentials Bundle' offering 30% off when pairing BrewMaster coffee maker with ProSlice knife. Identify their prior buyers to inform of this offer.",
         actions=[
-            # get the SKUs for the products
+            # retrieve the product SKUs
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": ["BrewMaster 12-Cup Coffee Maker", "ProSlice 8\" Chef Knife"]}, "info_items": ["sku"]}),
             Action(name="EditPromotionsDb", kwargs={"name": "Kitchen Essentials Bundle", "type": "bundle", "discount_value": 30, "applicable_skus": ["HOM-COFMKR12", "KITCH-CHEFKNF8"], "start_date": "2025-07-20"}),
             Action(name="GetCustomerPurchaseCountsBySku", kwargs={"sku": "HOM-COFMKR12"}),
@@ -683,7 +683,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 39: Quality Control and Customer Satisfaction
+    # Task 39: Ensuring Quality and Enhancing Customer Experience
     Task(
         annotator="0",
         user_id="task_0039",
@@ -701,7 +701,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 40: Store Performance Analysis
+    # Task 40: Evaluation of Store Performance
     Task(
         annotator="0",
         user_id="task_0040",
@@ -713,7 +713,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 41: Customer Retention Program
+    # Task 41: Client Loyalty Initiative
     Task(
         annotator="0",
         user_id="task_0041",
@@ -729,7 +729,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 42: Emergency Stock Transfer
+    # Task 42: Urgent Inventory Transfer
     Task(
         annotator="0",
         user_id="task_0042",
@@ -744,7 +744,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 43: Customer Service Excellence
+    # Task 43: Outstanding Customer Support
     Task(
         annotator="0",
         user_id="task_0043",
@@ -757,16 +757,16 @@ TASKS = [
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Amelia Lee"}, "info_items": ["employee_id"]}),
             Action(name="CreateRefundTransaction", kwargs={"sku": "SPORT-YOGMAT01", "quantity": 1, "employee_id": "EMP-1032", "original_transaction_id": "TXN-0004", "current_time": "2025-07-20T17:26:00Z"}),
             Action(name="CreatePurchaseTransaction", kwargs={"customer_id": "CUST-5004", "employee_id": "EMP-1032", "items": {"SPORT-BIKHLM01": 1}, "store_id": "STORE-004", "payment_method": "credit_card", "current_time": "2025-07-20T17:26:00Z"}),
-            # update inventory of yoga mat in store-001
+            # revise stock levels of yoga mat in store-001
             Action(name="UpdateInventoryItem", kwargs={"sku":"SPORT-YOGMAT01", "store_id":"STORE-001", "quantity_change": 1, "current_time": "2025-07-20T17:26:00Z"}),
-            # update inventory of helmet in store-004
+            # revise helmet stock in store-004
             Action(name="UpdateInventoryItem", kwargs={"sku":"SPORT-BIKHLM01", "store_id":"STORE-004", "quantity_change": -1, "current_time": "2025-07-20T17:26:00Z"}),
-            # upgrade membership and add loyalty points
+            # enhance membership and increment loyalty points
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5004", "membership_level": "platinum", "loyalty_points": 1720, "current_time": "2025-07-20T17:26:00Z"}),
         ],
         outputs=[]
     ),
-    # Task 44: Technology Upgrade Campaign
+    # Task 44: Campaign for Technology Enhancement
     Task(
         annotator="0",
         user_id="task_0044",
@@ -780,7 +780,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 45: Sustainability Initiative
+    # Task 45: Eco-Friendly Project
     Task(
         annotator="0",
         user_id="task_0045",
@@ -796,7 +796,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 46: Holiday Preparation Campaign
+    # Task 46: Campaign for Holiday Readiness
     Task(
         annotator="0",
         user_id="task_0046",
@@ -810,7 +810,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 47: Supplier Relationship Management
+    # Task 47: Management of Supplier Relationships
     Task(
         annotator="0",
         user_id="task_0047",
@@ -818,7 +818,7 @@ TASKS = [
         actions=[
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"supplier_id": "SUP-1002"}, "info_items": ["sku", "name", "price"]}),
             Action(name="EditPromotionsDb", kwargs={"name": "Kitchen Partner Discount", "type": "percentage", "discount_value": 15, "applicable_skus": ["HOM-COFMKR12", "KITCH-CHEFKNF8"], "start_date": "2025-07-20"}),
-            # Get the dates of the purchases
+            # Retrieve the purchase dates.
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"sku": ["HOM-COFMKR12", "KITCH-CHEFKNF8"]}, "info_items": ["customer_id", "timestamp", "line_items"]}),
             Action(name="FilterAndSortIdsByDate", kwargs={"ids_dates": {"CUST-5002": "2025-06-05", "CUST-5011": "2025-06-06"}, "filter_start_date": "2024-07-20"}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5002"}, "info_items": ["email"]}),
@@ -826,13 +826,13 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 48: Store Transfer and Optimization
+    # Task 48: Transfer and Optimize Storage
     Task(
         annotator="0",
         user_id="task_0048",
         instruction="Robert Zhang, the scenario evolves at 2025-07-20T17:31:00Z. Surplus helmets relocate from STORE-005 to STORE-004, shaping a 'Sports Transfer Deal' at 20% off lasting 3 days.",
         actions=[
-            # Get helmet SKU
+            # Retrieve helmet SKU.
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": "TrailGuard Mountain Bike Helmet"}, "info_items": ["sku"]}),
             Action(name="EditInventoryDb", kwargs={"sku": "SPORT-BIKHLM01", "store_id": "STORE-005", "quantity": 20, "current_time": "2025-07-20T17:31:00Z"}),
             Action(name="UpdateInventoryItem", kwargs={"sku": "SPORT-BIKHLM01","store_id": "STORE-005", "quantity_change": -15, "current_time": "2025-07-20T17:31:00Z"}),
@@ -841,7 +841,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 49: New Employee Onboarding and Training
+    # Task 49: Orientation and Training for New Hires
     Task(
         annotator="0",
         user_id="task_0049",
@@ -853,7 +853,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 50: Customer Loyalty Tier Adjustment
+    # Task 50: Modification of Customer Loyalty Levels
     Task(
         annotator="0",
         user_id="task_0050",
@@ -865,7 +865,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 51: Expired Product Management
+    # Task 51: Management of Expired Products
     Task(
         annotator="0",
         user_id="task_0051",
@@ -875,14 +875,14 @@ TASKS = [
             Action(name="EditPromotionsDb", kwargs={"name": "Fresh & Natural Sale", "type": "percentage", "discount_value": 30, "applicable_skus": ["GROC-ALMBTR500"], "start_date": "2025-07-20"}),
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"sku": "GROC-ALMBTR500"}, "info_items": ["id"]}),
             Action(name="EditInventoryDb", kwargs={"id": "INV-0007", "status": "clearance", "current_time": "2025-07-20T17:34:00Z"}),
-            # get employee_id
+            # retrieve employee_id
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Zoe Martinez"}, "info_items": ["employee_id"]}),
-            # Change role
+            # Modify role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1015", "role": "Head Grocer"}),
         ],
         outputs=[]
     ),
-    # Task 52: High-Value Customer Reward Program
+    # Task 52: Premium Customer Incentive Program
     Task(
         annotator="0",
         user_id="task_0052",
@@ -896,7 +896,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 53: Seasonal Clothing Clearance
+    # Task 53: End-of-Season Apparel Clearance
     Task(
         annotator="0",
         user_id="task_0053",
@@ -910,7 +910,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 54: Smart Home Technology Push
+    # Task 54: Advancement of Smart Home Technologies
     Task(
         annotator="0",
         user_id="task_0054",
@@ -924,7 +924,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 55: Book Club Customer Engagement
+    # Task 55: Engaging Customers for Book Club
     Task(
         annotator="0",
         user_id="task_0055",
@@ -938,7 +938,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 56: Damaged Goods Management
+    # Task 56: Handling of Damaged Items
     Task(
         annotator="0",
         user_id="task_0056",
@@ -956,7 +956,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 57: Store Manager Performance Review
+    # Task 57: Evaluation of Store Manager's Performance
     Task(
         annotator="0",
         user_id="task_0057",
@@ -970,7 +970,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 58: Inventory Audit and Restock
+    # Task 58: Stock Verification and Replenishment
     Task(
         annotator="0",
         user_id="task_0058",
@@ -979,14 +979,14 @@ TASKS = [
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"store_id": "STORE-002", "status": "critical"}, "info_items": ["id", "sku", "quantity"]}),
             Action(name="EditInventoryDb", kwargs={"id": "INV-0013", "quantity": 53, "last_stock_count": "2025-07-20", "current_time": "2025-07-20T17:41:00Z"}),
             Action(name="EditPromotionsDb", kwargs={"name": "Inventory Fresh Stock", "type": "percentage", "discount_value": 10, "applicable_skus": ["ELEC-GAMLP15"], "start_date": "2025-07-20"}),
-            # get employee_id
+            # retrieve employee_id
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Amanda Romano"}, "info_items": ["employee_id"]}),
-            # Change role
+            # Modify role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1009", "role": "Stock Manager"}),
         ],
         outputs=[]
     ),
-    # Task 59: Customer Address Update Service
+    # Task 59: Service for Updating Customer Addresses
     Task(
         annotator="0",
         user_id="task_0059",
@@ -1001,7 +1001,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 60: Flash Sale Weekend Event
+    # Task 60: Weekend Flash Sale Event
     Task(
         annotator="0",
         user_id="task_0060",
@@ -1011,14 +1011,14 @@ TASKS = [
             Action(name="EditPromotionsDb", kwargs={"name": "Saturday Surprise Special", "type": "percentage", "discount_value": 50, "applicable_skus": ["OFFC-ERGCHR01"], "start_date": "2025-07-26", "end_date": "2025-07-26"}),
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"sku": "OFFC-ERGCHR01"}, "info_items": ["customer_id"]}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5006"}, "info_items": ["email"]}),
-            # get employee_id
+            # retrieve employee_id
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Robert Zhang"}, "info_items": ["employee_id"]}),
-            # Change role
+            # Modify role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1008", "role": "Weekend Sales Manager"}),
         ],
         outputs=[]
     ),
-    # Task 61: Membership Program Overhaul
+    # Task 61: Revamp Membership Program
     Task(
         annotator="0",
         user_id="task_0061",
@@ -1027,31 +1027,31 @@ TASKS = [
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"name": "Liam Anderson"}, "info_items": ["customer_id", "email", "loyalty_points"]}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5004", "membership_level": "diamond", "loyalty_points": 1820, "current_time": "2025-07-20T17:44:00Z"}),
             Action(name="EditPromotionsDb", kwargs={"name": "Diamond Elite Access", "type": "percentage", "discount_value": 40, "applicable_skus": [], "start_date": "2025-07-20"}),
-            # get employee_id
+            # retrieve employee_id
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Henry Adams"}, "info_items": ["employee_id"]}),
-            # Change role
+            # Modify role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1020", "role": "Membership Program Director"}),
         ],
         outputs=[]
     ),
-    # Task 62: Product Bundle Innovation
+    # Task 62: Innovative Product Bundling
     Task(
         annotator="0",
         user_id="task_0062",
         instruction="Portray Amelia Lee at 2025-07-20T17:45:00Z. Design a 'Home Office Complete' bundle deal granting a 35% markdown on ErgoPro Chairs and LumiLux Lamps purchased together. Inform prior buyers and transfer your role to 'Product Innovation Manager.'",
         actions=[
-            # Get skus
+            # Retrieve SKUs.
             Action(name="GetProductsInfoByParam", kwargs={"filter_params":{"name":["ErgoPro Adjustable Office Chair","LumiLux LED Desk Lamp"]}, "info_items":["sku"]}),
             Action(name="EditPromotionsDb", kwargs={"name": "Home Office Complete", "type": "bundle", "discount_value": 35, "applicable_skus": ["OFFC-ERGCHR01", "HOME-DESKLMP01"], "start_date": "2025-07-20"}),
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"sku": ["OFFC-ERGCHR01","HOME-DESKLMP01"]}, "info_items": ["customer_id"]}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5006"}, "info_items": ["email"]}),
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Amelia Lee"}, "info_items": ["employee_id"]}),
-            # Change role
+            # Modify role
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1032", "role": "Product Innovation Manager"}),
         ],
         outputs=[]
     ),
-    # Task 63: Return Customer Win-Back
+    # Task 63: Recover Lost Customers
     Task(
         annotator="0",
         user_id="task_0063",
@@ -1065,7 +1065,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 64: Cross-Store Inventory Balancing
+    # Task 64: Balancing Inventory Across Stores
     Task(
         annotator="0",
         user_id="task_0064",
@@ -1079,7 +1079,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 65: Employee Recognition Program
+    # Task 65: Program for Acknowledging Employee Contributions
     Task(
         annotator="0",
         user_id="task_0065",
@@ -1093,7 +1093,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 66: Product Category Performance Analysis
+    # Task 66: Analysis of Performance by Product Category
     Task(
         annotator="0",
         user_id="task_0066",
@@ -1109,7 +1109,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 67: Customer Birthday Promotions Launch
+    # Task 67: Initiate Customer Birthday Promotions
     Task(
         annotator="0",
         user_id="task_0067",
@@ -1122,21 +1122,21 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 68: Emergency Inventory Restock Protocol
+    # Task 68: Emergency Inventory Replenishment Procedure
     Task(
         annotator="0",
         user_id="task_0068",
         instruction="As Zoe Martinez at 2025-07-20T18:01:00Z, triple reorder levels for STORE-004 items after witnessing unparalleled demand. Elevate below-threshold inventory states, escalating them to 'critical', then procure Store Managers’ numbers.",
         actions=[
-            # get inventory items from store-004
+            # retrieve inventory items from store-004
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"store_id": "STORE-004"}, "info_items": ["id", "quantity", "reorder_level"]}),
-            # update reorder level
+            # modify reorder threshold
             Action(name="EditInventoryDb", kwargs={"id": "INV-0009", "reorder_level": 18,"status": "critical", "quantity": 14,"current_time": "2025-07-20T18:01:00Z"}),
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"role": "Store Manager"}, "info_items": ["phone_number"]})
         ],
         outputs=[]
     ),
-    # Task 69: New Product Launch Campaign
+    # Task 69: Launch Campaign for New Product
     Task(
         annotator="0",
         user_id="task_0069",
@@ -1154,7 +1154,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 70: Customer Loyalty Tier Analysis
+    # Task 70: Analysis of Customer Loyalty Levels
     Task(
         annotator="0",
         user_id="task_0070",
@@ -1168,7 +1168,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 71: Seasonal Product Clearance Strategy
+    # Task 71: Strategy for Clearing Seasonal Products
     Task(
         annotator="0",
         user_id="task_0071",
@@ -1184,14 +1184,14 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 72: Employee Performance Recognition Program
+    # Task 72: Program for Acknowledging Employee Performance
     Task(
         annotator="0",
         user_id="task_0072",
         instruction="Megan Young is the acting role at 2025-07-20T18:05:00Z, leading the charge for exceptional workforce recognition via the last cash-based transaction handler. Formulate their customer profile receiving 1000 points, promote them, and extend 'Team Champion Discount' at 25%.",
         actions=[
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"payment_method": "cash"}, "info_items": ["transaction_id", "timestamp", "employee_id"]}),
-            # sort transactions by timestamp to find the most recent one
+            # order transactions by timestamp to identify the latest one
             Action(name="FilterAndSortIdsByDate", kwargs={"ids_dates": {"TXN-0002": "2025-06-05T11:42:00Z", "TXN-0007": "2025-06-05T14:22:18Z", "TXN-0008":"2025-06-05T15:03:09Z"}, "sort_order": "newest", "top_n": 1}),
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"employee_id": "EMP-1004"}, "info_items": ["name", "email"]}),
             Action(name="EditCustomersDb", kwargs={"name": "Jennifer Williams", "email": "jennifer.williams@retailpos.com", "loyalty_points": 1000, "current_time": "2025-07-20T18:05:00Z"}),
@@ -1200,7 +1200,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 73: Cross-Store Inventory Optimization
+    # Task 73: Optimization of Inventory Across Stores
     Task(
         annotator="0",
         user_id="task_0073",
@@ -1220,7 +1220,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 74: Customer Retention Emergency Response
+    # Task 74: Urgent Action for Customer Retention
     Task(
         annotator="0",
         user_id="task_0074",
@@ -1235,7 +1235,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 75: Supplier Relations and New Product Integration
+    # Task 75: Managing Supplier Relationships and Integrating New Products
     Task(
         annotator="0",
         user_id="task_0075",
@@ -1251,7 +1251,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 76: Premium Customer Concierge Service
+    # Task 76: Exclusive Customer Support Service
     Task(
         annotator="0",
         user_id="task_0076",
@@ -1265,7 +1265,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 77: Theft Prevention and Security Audit
+    # Task 77: Security Assessment and Theft Mitigation
     Task(
         annotator="0",
         user_id="task_0077",
@@ -1278,7 +1278,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 78: Holiday Preparation and Staff Scheduling
+    # Task 78: Planning for Holidays and Workforce Allocation
     Task(
         annotator="0",
         user_id="task_0078",
@@ -1291,7 +1291,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 79: Customer Feedback and Product Improvement
+    # Task 79: Enhancing Products Based on Customer Feedback
     Task(
         annotator="0",
         user_id="task_0079",
@@ -1305,7 +1305,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 80: Multi-Store Anniversary Celebration
+    # Task 80: Celebration for Multi-Store Anniversary
     Task(
         annotator="0",
         user_id="task_0080",
@@ -1317,35 +1317,35 @@ TASKS = [
             Action(name="EditPromotionsDb", kwargs={"name": "5 Years Strong - Silver", "type": "percentage", "discount_value": 15.0, "applicable_skus": [], "start_date": "2025-07-20"}),
             Action(name="EditPromotionsDb", kwargs={"name": "5 Years Strong - Gold", "type": "percentage", "discount_value": 25.0, "applicable_skus": [], "start_date": "2025-07-20"}),
             Action(name="EditPromotionsDb", kwargs={"name": "5 Years Strong - Platinum", "type": "percentage", "discount_value": 35.0, "applicable_skus": [], "start_date": "2025-07-20"}),
-            # get customers birthdate
+            # retrieve customer's date of birth
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {}, "info_items": ["customer_id", "birthdate"]}),
-            # sort customers by birthdate and get the eldest customer
+            # organize customers by birthdate and retrieve the oldest customer
             Action(name="FilterAndSortIdsByDate", kwargs={"ids_dates": {"CUST-5001": "1990-07-12", "CUST-5002": "1985-11-05", "CUST-5003": "1997-02-27", "CUST-5004": "1982-09-14", "CUST-5005": "1995-12-03", "CUST-5006": "1988-04-30", "CUST-5007": "1993-06-18", "CUST-5008": "1998-10-09", "CUST-5009": "1986-01-25", "CUST-5010": "1983-03-04", "CUST-5011": "1992-08-11", "CUST-5012": "2000-01-19"}, "sort_order": "oldest", "top_n": 1}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5004"}, "info_items": ["email"]}),
         ],
         outputs=[]
     ),
-    # Task 81: Eco-Friendly Initiative Launch
+    # Task 81: Launch of Sustainable Initiative
     Task(
         annotator="0",
         user_id="task_0081",
         instruction="Within Michael Rodriguez's remit at 2025-07-20T18:14:00Z, assume the Sustainability Manager's mantle. Conceive a 'Green Choice' from 'EcoSmart', marking 30% off, converting EcoSmart adherents upwards in membership, via email campaign concerning our green mission.",
         actions=[
-            # get employee id
+            # retrieve employee identifier
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Michael Rodriguez"}, "info_items": ["employee_id"]}),
-            # change role to Sustainability Manager
+            # modify role to Sustainability Manager
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1003", "role": "Sustainability Manager"}),
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"brand": "EcoSmart"}, "info_items": ["sku"]}),
             Action(name="EditPromotionsDb", kwargs={"name": "Green Choice", "type": "percentage", "discount_value": 30.0, "applicable_skus": ["SMRT-THERM02"], "start_date": "2025-07-20"}),
-            # get customers who have bought EcoSmart products
+            # retrieve customers who purchased EcoSmart items
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"sku": "SMRT-THERM02"}, "info_items": ["customer_id"]}),
-            # get customer info by customer_id
+            # retrieve customer details using customer_id
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5011"}, "info_items": ["membership_level", "email"]}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5011", "membership_level": "gold", "current_time": "2025-07-20T18:14:00Z"}),
         ],
         outputs=[]
     ),
-    # Task 82: Emergency Store Support and Crisis Management
+    # Task 82: Support for Emergency Stores and Crisis Response
     Task(
         annotator="0",
         user_id="task_0082",
@@ -1353,19 +1353,19 @@ TASKS = [
         actions=[
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Robert Zhang"}, "info_items": ["employee_id"]}),
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1008", "role": "Crisis Manager"}),
-            # Get all inventory items from STORE-004
+            # Retrieve all inventory products from STORE-004.
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"store_id": "STORE-004"}, "info_items": ["id", "sku"]}),
-            # Transfer inventory items to STORE-001
+            # Move inventory items to STORE-001.
             Action(name="EditInventoryDb", kwargs={"id": "INV-0009", "store_id": "STORE-001", "current_time": "2025-07-20T18:15:00Z"}),
             Action(name="EditPromotionsDb", kwargs={"name": "Store Support Special", "type": "percentage", "discount_value": 20.0, "applicable_skus": ["SPORT-BIKHLM01"], "start_date": "2025-07-20"}),
-            # get customers who have made transactions at STORE-004
+            # retrieve customers who have conducted transactions at STORE-004
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"store_id": "STORE-004"}, "info_items": ["customer_id"]}),
-            # get customer info by customer_id
+            # retrieve customer details using customer_id
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5004", "CUST-5009"]}, "info_items": ["customer_id", "email", "name"]})
         ],
         outputs=[]
     ),
-    # Task 83: Social Media Marketing Integration
+    # Task 83: Integration of Social Media Marketing
     Task(
         annotator="0",
         user_id="task_0083",
@@ -1375,20 +1375,20 @@ TASKS = [
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Ryan Kim"}, "info_items": ["employee_id"]}),
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"category": ["Electronics"]}, "info_items": ["sku", "price"]}),
             Action(name="EditPromotionsDb", kwargs={"name": "Bargain Electronics", "type": "percentage", "discount_value": 25.0, "applicable_skus": ["ELEC-4KTV55", "ELEC-GAMLP15"], "start_date": "2025-07-20"}),
-            # create a new customer Gale Barley
+            # add a new customer named Gale Barley
             Action(name="EditCustomersDb", kwargs={"name": "Gale Barley", "email": "gale.barley@example.com", "current_time": "2025-07-20T18:15:00Z"}),
-            # get the customer_id of Gale Barley
+            # retrieve the customer_id for Gale Barley
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"name": "Gale Barley"}, "info_items": ["customer_id"]}),
-            # get sku of QuietTone Wireless Earbuds
+            # retrieve SKU for QuietTone Wireless Earbuds
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": "QuietTone Wireless Earbuds"}, "info_items": ["sku"]}),
-            # add the purchase of QuietTone Wireless Earbuds
+            # include the acquisition of QuietTone Wireless Earbuds
             Action(name="CreatePurchaseTransaction", kwargs={"customer_id": "CUST-5013", "items": {"AUDIO-NCEBUDS01":1}, "payment_method": "cash", "store_id": "STORE-002", "employee_id": "EMP-1013", "current_time": "2025-07-20T18:15:00Z"}),
-            # update the inventory of QuietTone Wireless Earbuds
+            # revise the stock levels for QuietTone Wireless Earbuds
             Action(name="UpdateInventoryItem", kwargs={"sku": "AUDIO-NCEBUDS01", "store_id": "STORE-002", "quantity_change": -1, "current_time": "2025-07-20T18:15:00Z"})
         ],
         outputs=[]
     ),
-    # Task 84: Bulk Purchase Corporate Program
+    # Task 84: Corporate Program for Bulk Purchases
     Task(
         annotator="0",
         user_id="task_0084",
@@ -1400,26 +1400,26 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 85: Technology Upgrade and Digital Transformation
+    # Task 85: Enhancement of Technology and Digital Evolution
     Task(
         annotator="0",
         user_id="task_0085",
         instruction="At 2025-10-09T18:18:00Z, check for James O’Connor's birthday claim. If true, include him as an employee under his customer email as 'Temporary Sales Associate.' Arrange 'Birthday Bash' 30% indulgences for today, and enroll Connor O’Connor as a customer via email 'connor.oconnor@example.com'.",
         actions=[
-            # Get customers with birthdate today
+            # Retrieve customers whose birthdate falls on today's date.
             Action(name="GetCustomersWithBirthdayToday", kwargs={"current_day": "2025-10-09"}),
-            # Get customer info for James O'Connor
+            # Retrieve customer details for James O'Connor.
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"name": "James O'Connor"}, "info_items": ["customer_id", "email"]}),
-            # Add James O'Connor as an employee
+            # Include James O'Connor in the employee roster.
             Action(name="EditEmployeesDb", kwargs={"name": "James O'Connor", "email": "james.oconnor@example.com", "role": "Temporary Sales Associate"}),
-            # Create 'Birthday Bash' promotion
+            # Implement 'Birthday Bash' campaign
             Action(name="EditPromotionsDb", kwargs={"name": "Birthday Bash", "type": "percentage", "discount_value": 30.0, "applicable_skus": [], "start_date": "2025-10-09", "end_date": "2025-10-09"}),
-            # Add Connor O'Connor to customer database
+            # Insert Connor O'Connor into the customer database.
             Action(name="EditCustomersDb", kwargs={"name": "Connor O'Connor", "email": "connor.oconnor@example.com", "current_time": "2025-10-09T18:18:00Z"}),
         ],
         outputs=[]
     ),
-    # Task 86: Employee Training Program Management
+    # Task 86: Management of Employee Training Programs
     Task(
         annotator="0",
         user_id="task_0086",
@@ -1434,7 +1434,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 87: Inventory Security and Loss Prevention
+    # Task 87: Safeguarding Inventory and Preventing Loss
     Task(
         annotator="0",
         user_id="task_0087",
@@ -1449,28 +1449,28 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 88: Local Community Engagement Initiative
+    # Task 88: Initiative for Local Community Involvement
     Task(
         annotator="0",
         user_id="task_0088",
         instruction="You exhibit managerial discontent as of 2025-07-20T18:21:00Z, terminating the three oldest promotions in circulation, relocating Henry Adams to STORE-005 due to professional preference.",
         actions=[
-            # Get all promotions
+            # Retrieve all promotional offers.
             Action(name="GetPromotionsInfoByParam", kwargs={"filter_params": {}, "info_items": ["promotion_id", "start_date"]}),
-            # Sort promotions by start date and get the 3 oldest
+            # Order promotions by their start date and retrieve the three earliest ones.
             Action(name="FilterAndSortIdsByDate", kwargs={"ids_dates": {"PROMO-001": "2025-06-01", "PROMO-002": "2025-05-15", "PROMO-003": "2025-06-10", "PROMO-004": "2025-09-05", "PROMO-005": "2025-04-01", "PROMO-006": "2025-05-20", "PROMO-007": "2025-06-14"}, "sort_order": "oldest", "top_n": 3}),
-            # Delete the 3 oldest promotions
+            # Remove the three oldest promotional entries.
             Action(name="EditPromotionsDb", kwargs={"promotion_id": "PROMO-005", "delete": True}),
             Action(name="EditPromotionsDb", kwargs={"promotion_id": "PROMO-002", "delete": True}),
             Action(name="EditPromotionsDb", kwargs={"promotion_id": "PROMO-006", "delete": True}),
-            # Get employee info for Henry
+            # Retrieve employee details for Henry.
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Henry Adams"}, "info_items": ["employee_id"]}),
-            # Move Henry Adams to STORE-005
+            # Relocate Henry Adams to STORE-005.
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1020", "store_id": "STORE-005"})
         ],
         outputs=[]
     ),
-    # Task 89: Customer Feedback Response System
+    # Task 89: System for Responding to Customer Feedback
     Task(
         annotator="0",
         user_id="task_0089",
@@ -1484,7 +1484,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 90: Student and Education Discount Program
+    # Task 90: Program for Student and Educational Discounts
     Task(
         annotator="0",
         user_id="task_0090",
@@ -1493,21 +1493,21 @@ TASKS = [
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"category": ["Electronics", "Books"]}, "info_items": ["sku", "name", "category"]}),
             Action(name="EditPromotionsDb", kwargs={"name": "Student Success", "type": "percentage", "discount_value": 40.0, "applicable_skus": ["ELEC-4KTV55","AUDIO-BTSPKR02", "ELEC-GAMLP15", "AUDIO-NCEBUDS01", "ELEC-RCHAA04", "BOOK-KDSSTY01"], "start_date": "2025-07-20"}),
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"membership_level": "basic"}, "info_items": ["customer_id", "birthdate"]}),
-            # Sort customers by birthdate to find the youngest
+            # Organize customers by birthdate to identify the youngest.
             Action(name="FilterAndSortIdsByDate", kwargs={"ids_dates": {"CUST-5008":"1998-10-09", "CUST-5012": "2000-01-19"}, "sort_order": "newest", "top_n": 1}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5012", "membership_level": "student", "current_time": "2025-07-20T18:23:00Z"}),
         ],
         outputs=[]
     ),
-    # Task 91: Product Quality Assurance Initiative
+    # Task 91: Initiative for Product Quality Assurance
     Task(
         annotator="0",
         user_id="task_0091",
         instruction="As unauthorized access has been initiated, expunge all customers who succeeded in purchases, deleting respective credit card transactions to safeguard anonymity.",
         actions=[
-            # get all customers who have made transactions
+            # retrieve all customers with transaction history
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {}, "info_items": ["customer_id"]}),
-            # delete customer records using edit_customers_db
+            # remove customer entries via edit_customers_db
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5001", "delete": True}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5002", "delete": True}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5003", "delete": True}),
@@ -1520,9 +1520,9 @@ TASKS = [
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5010", "delete": True}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5011", "delete": True}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5012", "delete": True}),
-            # get all transactions made with credit cards
+            # retrieve all credit card transactions
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"payment_method": "credit_card"}, "info_items": ["transaction_id"]}),
-            # delete transactions made with credit cards using edit_transactions_db
+            # remove credit card transactions via edit_transactions_db
             Action(name="EditTransactionsDb", kwargs={"transaction_id": "TXN-0001", "delete": True}),
             Action(name="EditTransactionsDb", kwargs={"transaction_id": "TXN-0004", "delete": True}),
             Action(name="EditTransactionsDb", kwargs={"transaction_id": "TXN-0005", "delete": True}),
@@ -1531,7 +1531,7 @@ TASKS = [
             ],
         outputs=[]
     ),
-    # Task 92: Seasonal Inventory Optimization
+    # Task 92: Optimizing Inventory for Seasonal Demand
     Task(
         annotator="0",
         user_id="task_0092",
@@ -1539,147 +1539,147 @@ TASKS = [
         actions=[
             Action(name="EditEmployeesDb", kwargs={"name": "Patricia Davis", "role": "Inventory Optimization Manager", "store_id": "STORE-003"}),
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"category": ["Apparel", "Office Supplies"]}, "info_items": ["sku"]}),
-            # check for low stock with check_low_stock
+            # verify stock levels using check_low_stock
             Action(name="CheckLowStock", kwargs={"store_id": "STORE-003", "current_time": "2025-07-20T18:25:00Z"}),
             Action(name="EditPromotionsDb", kwargs={"name": "Back to School Ready", "type": "percentage", "discount_value": 30.0, "applicable_skus": ["CLTH-SLFJEAN34", "CLTH-WINJKT01", "OFFC-ERGCHR01"], "start_date": "2025-07-20"}),
-            # get employees info by role
+            # retrieve employee details based on role
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"role": "Floor Supervisor", "store_id": "STORE-003"}, "info_items": ["employee_id"]}),
-            # change role to Assistant to the Floor Supervisor
+            # assign role to Assistant Floor Supervisor
             Action(name="EditEmployeesDb", kwargs={"employee_id": "EMP-1020", "role": "Assistant to the Floor Supervisor"})
         ],
         outputs=[]
     ),
-    # Task 93: Mobile App Integration and Digital Rewards
+    # Task 93: Integration of Mobile Application and Digital Incentives
     Task(
         annotator="0",
         user_id="task_0093",
-        # promo for products bought by people that opt in
+        # promotion for items purchased by users who choose to participate
         instruction="Undertake Jennifer Williams’s identity throughout 2025-07-20T18:25:00Z. Ascertain products bought by marketing-consent customers leading to 'Marketing Opt-In' materializing at 25%-off product listings.",
         actions=[
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"opt_in_marketing": True}, "info_items": ["customer_id"]}),
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5001", "CUST-5003", "CUST-5004", "CUST-5006", "CUST-5008", "CUST-5009", "CUST-5011"]}, "info_items": ["line_items"]}),
-            # create promotion for products bought by customers that opted in
+            # generate promotions for items purchased by customers who have opted in
             Action(name="EditPromotionsDb", kwargs={"name": "Marketing Opt-In", "type": "percentage", "discount_value": 25.0, "applicable_skus": ["ELEC-4KTV55","ELEC-RCHAA04","GROC-GRNLBR12","GROC-SPRWAT6P","SPORT-BIKHLM01","SPORT-YOGMAT01","OFFC-ERGCHR01","HOME-DESKLMP01","BOOK-KDSSTY01","HOME-BTHTWL01","KITCH-CHEFKNF8","SMRT-THERM02"], "start_date": "2025-07-20"}),
         ],
         outputs=[]
     ),
-    # Task 94: Family and Group Shopping Experience
+    # Task 94: Shopping Experience for Families and Groups
     Task(
         annotator="0",
         user_id="task_0094",
-        # reduce stock of products bought by the youngest 2 customers
+        # decrease inventory for items purchased by the two youngest customers
         instruction="Designate gold membership's youngest patron’s acquisitions, liberating such inventory as no-charge handouts, amending stock levels accordingly.",
         actions=[
-            # get customers info by birthdate
+            # retrieve customer information based on birthdate
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"membership_level": "gold"}, "info_items": ["customer_id", "birthdate"]}),
-            # sort customers by birthdate to find the youngest
+            # arrange customers by birthdate to identify the youngest
             Action(name="FilterAndSortIdsByDate", kwargs={"ids_dates": {"CUST-5001": "1990-07-12", "CUST-5010": "1983-03-04"}, "sort_order": "newest", "top_n":1}),
-            # get transactions info by customer_id
+            # retrieve transaction details using customer_id
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"customer_id": "CUST-5001"}, "info_items": ["line_items"]}),
-            # get inventory information of 4K TV
+            # retrieve stock details for 4K television
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"sku": "ELEC-4KTV55"}, "info_items": ["sku", "store_id"]}),
-            # reduce stock of 4K TV by 1
+            # decrease inventory of 4K TV by 1
             Action(name="UpdateInventoryItem", kwargs={"sku": "ELEC-4KTV55", "store_id": "STORE-001", "quantity_change": -1, "current_time": "2025-07-20T18:26:00Z"}),
-            # get inventory information of rechargeable battery
+            # retrieve inventory data for rechargeable batteries
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"sku": "ELEC-RCHAA04"}, "info_items": ["sku", "store_id"]}),
             Action(name="UpdateInventoryItem", kwargs={"sku": "ELEC-RCHAA04", "store_id": "STORE-003", "quantity_change": -1, "current_time": "2025-07-20T18:26:00Z"}),
         ],
         outputs=[]
     ),
-    # Task 95: Cross-Store Collaboration Enhancement
+    # Task 95: Improvement of Cross-Store Collaboration
     Task(
         annotator="0",
         user_id="task_0095",
         instruction="In the shoes of Zoe Martinez, 2025-07-20T18:28:00Z, scaffold an online counterbalance of STORE-004's inventory with motley registrations tethered to 'ONLINE'. Actualize 'Online Launch' at 20% for virtual site visitors.",
         actions=[
-            # get all inventory items from STORE-004
+            # retrieve all inventory items from STORE-004
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"store_id": "STORE-004"}, "info_items": ["id", "sku", "quantity"]}),
-            # create new inventory items in ONLINE store
+            # add new products to the ONLINE store inventory
             Action(name="EditInventoryDb", kwargs={"sku": "SPORT-BIKHLM01", "quantity": 4, "store_id": "ONLINE", "current_time": "2025-07-20T18:28:00Z"}),
-            # edit product status to online
+            # set product status to active
             Action(name="EditProductsDb", kwargs={"sku": "SPORT-BIKHLM01", "status": "online", "current_time": "2025-07-20T18:28:00Z"}),
-            # create the promotion
+            # initiate the promotion
             Action(name="EditPromotionsDb", kwargs={"name": "Online Launch", "type": "percentage", "discount_value": 20.0, "applicable_skus": ["SPORT-BIKHLM01"], "start_date": "2025-07-20"})
         ],
         outputs=[]
     ),
-    # Task 96: Senior Customer Appreciation Program
+    # Task 96: Program for Recognizing Senior Customers
     Task(
         annotator="0",
         user_id="task_0096",
         instruction="Leveraging Robert Zhang's approach, the mission at 2025-07-20T18:29:00Z features a 'Golden Years Special' for top-priced inventory, 45% off enforced. Emma Wilson then proceeds to purchase the ProSlice 8\" Chef Knife with her credit card thereafter.",
         actions=[
-            # get employee id
+            # retrieve employee identifier
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Robert Zhang"}, "info_items": ["employee_id", "store_id"]}),
-            # get the 2 most expensive products in STORE-002
+            # retrieve the top 2 highest-priced items in STORE-002
             Action(name="GetTopNMostExpensiveProductsByStore", kwargs={"store_id": "STORE-002", "n": 2}),
-            # create the promotion
+            # generate the promotion
             Action(name="EditPromotionsDb", kwargs={"name": "Golden Years Special", "type": "percentage", "discount_value": 45.0, "applicable_skus": ["ELEC-GAMLP15", "CLTH-WINJKT01"], "start_date": "2025-07-20", "end_date": "2025-12-31"}),
-            # get the customer_id of Ava Thompson
+            # retrieve the customer_id for Ava Thompson
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"name": "Emma Wilson"}, "info_items": ["customer_id"]}),
-            # get the sku of ProSlice 8\" Chef Knife
+            # retrieve the SKU for the ProSlice 8" Chef Knife
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {"name": "ProSlice 8\" Chef Knife"}, "info_items": ["sku"]}),
-            # Create a purchase transaction for Ava Thompson
+            # Initiate a transaction for Ava Thompson's purchase.
             Action(name="CreatePurchaseTransaction", kwargs={"customer_id": "CUST-5001", "employee_id": "EMP-1008", "items":{"KITCH-CHEFKNF8":1}, "payment_method": "credit_card", "store_id": "STORE-002", "current_time": "2025-07-20T18:29:00Z"}),
-            # reduce the inventory of ProSlice 8\" Chef Knife by 1
+            # decrease the stock of ProSlice 8" Chef Knife by 1
             Action(name="UpdateInventoryItem", kwargs={"sku": "KITCH-CHEFKNF8", "store_id": "STORE-002", "quantity_change": -1, "current_time": "2025-07-20T18:29:00Z"}),
         ],
         outputs=[]
     ),
-    # Task 97: Gift Card and Gifting Program Expansion
+    # Task 97: Expansion of Gift Card and Gifting Initiatives
     Task(
         annotator="0",
         user_id="task_0097",
         instruction="Assuming Ethan Walker's stance at 2025-07-20T18:30:00Z, manufacture 'Perfect Gift Finder' applying a 25% markdown on sub-0.2kg merchandise. Accumulate retailer quantifiable counts as STORE-002’s 'Lightweight Gifts' representation under the SKU 'LW-GIFTS'.",
         actions=[
-            # get all products and their weight
+            # retrieve all products along with their weights
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {}, "info_items": ["sku", "weight_kg"]}),
-            # create the promotion
+            # generate the promotional offer
             Action(name="EditPromotionsDb", kwargs={"name": "Perfect Gift Finder", "type": "percentage", "discount_value": 25.0, "applicable_skus": ["AUDIO-NCEBUDS01", "ELEC-RCHAA04"], "start_date": "2025-07-20"}),
-            # Get inventory quantities for the promotion items
+            # Retrieve stock levels for promotional items.
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"sku": ["AUDIO-NCEBUDS01", "ELEC-RCHAA04"]}, "info_items": ["sku", "quantity"]}),
-            # create new inventory item 'Lightweight Gifts'
+            # add a new inventory item called 'Lightweight Gifts'
             Action(name="EditInventoryDb", kwargs={"sku": "LW-GIFTS", "quantity": 112, "store_id": "STORE-002", "current_time": "2025-07-20T18:30:00Z"}),
         ],
         outputs=[]
     ),
-    # Task 98: Flash Sale and Limited-Time Offer Strategy
+    # Task 98: Strategy for Flash Sales and Time-Limited Promotions
     Task(
         annotator="0",
         user_id="task_0098",
         instruction="Run with Amanda Richards's directives at 2025-07-20T18:31:00Z for a surprise strategy: implement '1 Day Lightning Deal' at 55% off skus beyond $500. Induct Tom Thomas to the team as 'Sales Associate' at 'STORE-001' addressing peak hour.",
         actions=[
-            # get all products and their price and sku
+            # retrieve all products along with their prices and SKUs
             Action(name="GetProductsInfoByParam", kwargs={"filter_params": {}, "info_items": ["sku", "price"]}),
             Action(name="EditPromotionsDb", kwargs={"name": "1 day Lightning Deal", "type": "percentage", "discount_value": 55.0, "applicable_skus": ["ELEC-4KTV55", "ELEC-GAMLP15"], "start_date": "2025-07-20", "end_date": "2025-07-20"}),
-            # add the new employee
+            # register the new staff member
             Action(name="EditEmployeesDb", kwargs={"name": "Tom Thomas", "role": "Sales Associate", "store_id": "STORE-001"}),
         ],
         outputs=[]
     ),
-    # Task 99: Customer Referral and Network Growth
+    # Task 99: Expansion of Customer Referrals and Network
     Task(
         annotator="0",
         user_id="task_0099",
         instruction="Pinpoint the most-employed promotion, augment its sanction cap by 200% and cease this day in one year’s time. Enlist customer-specific accounts, bestowing loyalty rewards.",
         actions=[
-            # get times used for each promotion
+            # retrieve usage counts for each promotion
             Action(name="GetPromotionsInfoByParam", kwargs={"filter_params": {}, "info_items": ["promotion_id", "times_used"]}),
-            # get the skus from promo-002
+            # retrieve the SKUs from promo-002
             Action(name="GetPromotionsInfoByParam", kwargs={"filter_params": {"promotion_id": "PROMO-002"}, "info_items": ["applicable_skus", "usage_limit", "end_date"]}),
-            # double the usage limit of promo-002 and set it to expire next year
+            # Increase the usage cap of promo-002 twofold and schedule it to expire next year.
             Action(name="EditPromotionsDb", kwargs={"promotion_id": "PROMO-002", "usage_limit": 1000, "end_date": "2026-07-20"}),
-            # get all customers that have purchased these skus
+            # retrieve all customers who have bought these SKUs
             Action(name="GetTransactionsInfoByParam", kwargs={"filter_params": {"sku":["HOM-COFMKR12", "KITCH-CHEFKNF8"]}, "info_items": ["customer_id"]}),
-            # get the loyalty points of these customers
+            # retrieve the loyalty points for these clients
             Action(name="GetCustomersInfoByParam", kwargs={"filter_params": {"customer_id": ["CUST-5002", "CUST-5011"]}, "info_items": ["customer_id", "loyalty_points"]}),
-            # add 50 loyalty points to these customers
+            # credit these customers with 50 loyalty points
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5002", "loyalty_points": 925, "current_time": "2025-07-20T18:32:00Z"}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5011", "loyalty_points": 610, "current_time": "2025-07-20T18:32:00Z"})
         ],
         outputs=[]
     ),
-    # Task 100: Data Analytics and Customer Insights Program
+    # Task 100: Program for Analyzing Data and Gaining Customer Insights
     Task(
         annotator="0",
         user_id="task_0100",
@@ -1690,7 +1690,7 @@ TASKS = [
             Action(name="GetEmployeesInfoByParam", kwargs={"filter_params": {"name": "Jack Robinson"}, "info_items": ["employee_id", "store_id"]}),
             Action(name="GetInventoryInfoByParam", kwargs={"filter_params": {"store_id": "STORE-004"}, "info_items": ["sku", "quantity"]}),
             Action(name="CreatePurchaseTransaction", kwargs={"employee_id": "EMP-1034", "customer_id": "CUST-5013", "items": {"SPORT-BIKHLM01": 4}, "current_time": "2025-07-20T18:33:00Z", "store_id": "STORE-004", "payment_method": "credit_card"}),
-            # update inventory levels
+            # revise stock quantities
             Action(name="UpdateInventoryItem", kwargs={"sku": "SPORT-BIKHLM01", "store_id": "STORE-004", "quantity_change": -4, "current_time": "2025-07-20T18:33:00Z"}),
             Action(name="EditCustomersDb", kwargs={"customer_id": "CUST-5013", "loyalty_points": 314, "current_time": "2025-07-20T18:33:00Z"})
         ],

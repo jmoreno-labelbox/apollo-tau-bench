@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,12 +12,12 @@ class LogErrorMessage(Tool):
         error_logs = data.get('error_messages', [])
         new_id = f"err_msg_{max((int(e['msg_id'].split('_')[-1]) for e in error_logs), default=0) + 1:03d}"
 
-        # Automatically generate message based on error type and task details
+        # Generate messages automatically according to the error type and task information.
         error_type = kwargs.get("error_type")
         task_type = kwargs.get("task_type")
         task_id = kwargs.get("task_id")
 
-        # Generate appropriate message based on error type
+        # Create a suitable message according to the type of error encountered.
         if error_type == "permission_denied":
             message = f"Permission denied while executing {task_type} task {task_id}"
         elif error_type == "file_not_found":

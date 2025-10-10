@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class CreateLocalizationWorkflow(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         table = _table(data, 'localization_workflow')
         wid = kwargs.get('id')
-        # --- FIX: Generate ID if not provided ---
+        # --- ISSUE RESOLUTION: Create ID when none is supplied ---
         if not wid:
             wid = f"loc_workflow_{len(table) + 1:04d}"
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,38 +17,38 @@ class SearchProductsByFilter(Tool):
         matching_products = []
         show_all = kwargs.get("show_all", False)
 
-        # Rule: Check product availability status before allocation - never allocate unavailable items
+        # Condition: Verify item availability prior to allocation - do not allocate items that are out of stock.
         for product in products:
             product_name = product.get("name", "").lower()
             product_id = product.get("product_id")
             variants = product.get("variants", {})
             limit = kwargs.get("limit", None)
 
-            # Filter by category if specified
+            # Apply category filtering if provided.
             if category and category.lower() not in product_name:
                 continue
 
-            # Check variants for price and availability filtering
+            # Verify options for filtering by price and availability.
             valid_variants = []
             for variant_id, variant in variants.items():
                 variant_price = variant.get("price", 0)
                 variant_available = variant.get("available", False)
                 variant_options = variant.get("options", {})
 
-                # Rule: Check product availability status before allocation
+                # Guideline: Verify product availability prior to distribution.
                 if not show_all:
                     if available_only and not variant_available:
                         continue
 
-                # Apply price filters
+                # Implement price filtering.
                 if min_price is not None and variant_price < min_price:
                     continue
                 if max_price is not None and variant_price > max_price:
                     continue
 
-                # Apply options filter if provided
+                # Implement the options filter if it exists.
                 if options:
-                    # Check if all specified options match the variant options
+                    # Verify that all designated options correspond with the variant options.
                     options_match = True
                     for option_key, option_value in options.items():
                         variant_option_value = variant_options.get(option_key)
@@ -57,9 +57,9 @@ class SearchProductsByFilter(Tool):
                             options_match = False
                             break
 
-                        # Handle multiple values for the same option (e.g., color: ["red", "blue"])
+                        # Support multiple entries for a single option (e.g., color: ["red", "blue"])
                         if isinstance(option_value, list):
-                            # Check if variant's option value matches any of the provided values
+                            # Verify if the variant's option value aligns with any of the specified values.
                             variant_value_str = str(variant_option_value).lower().strip()
                             value_matches = any(
                                 variant_value_str == str(val).lower().strip()
@@ -69,7 +69,7 @@ class SearchProductsByFilter(Tool):
                                 options_match = False
                                 break
                         else:
-                            # Single value comparison (existing logic)
+                            # Individual value evaluation (current implementation)
                             variant_value_str = str(variant_option_value).lower().strip()
                             search_value_str = str(option_value).lower().strip()
 
@@ -99,18 +99,18 @@ class SearchProductsByFilter(Tool):
                     "sample_variants": valid_variants
                 })
 
-        # Filter based on price flag if provided and return only a single product
+        # Filter by the price flag if available and return just one product.
         price_flag = kwargs.get("price_flag")
 
         if price_flag == "cheapest":
-            # Sort sample_variants within each product by price
+            # Organize sample_variants by price for each product.
             for product in matching_products:
                 if "sample_variants" in product:
                     product["sample_variants"].sort(key=lambda v: v["price"])
-                    product["sample_variants"] = product["sample_variants"][:limit]  # Limit to cheapest variant
+                    product["sample_variants"] = product["sample_variants"][:limit]  # Restrict to the least expensive option.
 
         elif price_flag == "expensive":
-            # Sort sample_variants within each product by price in descending order
+            # Arrange sample_variants for each product in descending order based on price.
             for product in matching_products:
                 if "sample_variants" in product:
                     product["sample_variants"].sort(key=lambda v: v["price"], reverse=True)

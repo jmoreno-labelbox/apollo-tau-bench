@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class ScanFlightsByDate(Tool):
                         "date": date,
                         "status": day.get("status"),
                         "scheduled_departure_time_est": f.get("scheduled_departure_time_est")})
-        # sort by scheduled time then flight number
+        # organize by scheduled time followed by flight number
         out.sort(key=lambda x: (x.get("scheduled_departure_time_est",""), x.get("flight_number","")))
         return _j(out)
 

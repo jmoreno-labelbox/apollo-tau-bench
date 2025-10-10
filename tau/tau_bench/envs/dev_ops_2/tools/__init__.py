@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .ingest_ci_webhook_v2 import IngestCiWebhookV2
 from .guardrail_validate_sender_v2 import GuardrailValidateSenderV2

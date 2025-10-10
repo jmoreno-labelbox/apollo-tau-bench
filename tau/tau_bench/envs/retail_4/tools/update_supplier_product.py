@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -33,7 +33,7 @@ class UpdateSupplierProduct(Tool):
                 "status": "failed"
             })
 
-        # Validate all stock levels are non-negative
+        # Ensure all inventory quantities are zero or greater.
         for i, level in enumerate(stock_levels):
             if not isinstance(level, int) or level < 0:
                 return json.dumps({
@@ -41,7 +41,7 @@ class UpdateSupplierProduct(Tool):
                     "status": "failed"
                 })
 
-        # Validate product exists in products.json
+        # Check if the product is present in products.json.
         products = list(data.get("products", {}).values())
         target_product = None
 
@@ -56,7 +56,7 @@ class UpdateSupplierProduct(Tool):
                 "status": "failed"
             })
 
-        # Validate all item IDs exist in the product's variants
+        # Check that all item IDs are present in the product variants.
         product_variants = target_product.get("variants", {})
         invalid_items = []
         valid_items = []
@@ -73,7 +73,7 @@ class UpdateSupplierProduct(Tool):
                 "status": "failed"
             })
 
-        # Find the supplier
+        # Locate the vendor.
         suppliers = data.get("suppliers", [])
         supplier_to_update = None
         supplier_index = None
@@ -90,18 +90,18 @@ class UpdateSupplierProduct(Tool):
                 "status": "failed"
             })
 
-        # WRITE OPERATION: Update supplier products and item stock
+        # UPDATE OPERATION: Modify supplier products and inventory levels.
         supplier_products = supplier_to_update.get("products", [])
         item_stock = supplier_to_update.get("item_stock", {})
 
-        # Add product to supplier's product list if not already present
+        # Include the product in the supplier's product list if it isn't already there.
         product_added = False
         if product_id not in supplier_products:
             supplier_products.append(product_id)
             supplier_to_update["products"] = supplier_products
             product_added = True
 
-        # Update item stock levels for all provided items
+        # Revise inventory quantities for all specified items.
         stock_updates = []
         items_added = 0
         items_updated = 0
@@ -110,7 +110,7 @@ class UpdateSupplierProduct(Tool):
             stock_level = stock_levels[i]
             old_stock = item_stock.get(item_id, "not_in_inventory")
 
-            # Set new stock level
+            # Update stock quantity.
             item_stock[item_id] = stock_level
 
             if old_stock == "not_in_inventory":
@@ -120,7 +120,7 @@ class UpdateSupplierProduct(Tool):
                 items_updated += 1
                 status = "updated"
 
-            # Get variant details for additional info
+            # Retrieve variant information for further details.
             variant_info = product_variants.get(item_id, {})
 
             stock_updates.append({
@@ -139,10 +139,10 @@ class UpdateSupplierProduct(Tool):
         supplier_to_update["product_updated"] = datetime.now().isoformat()
         supplier_to_update["last_updated"] = datetime.now().isoformat()
 
-        # Update the supplier in the data structure
+        # Modify the supplier within the data structure.
         data["suppliers"][supplier_index] = supplier_to_update
 
-        # Calculate summary metrics
+        # Compute aggregate statistics.
         total_stock_added = sum(stock_levels)
 
         result = {

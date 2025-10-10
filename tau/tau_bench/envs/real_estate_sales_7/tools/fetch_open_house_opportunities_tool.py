@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class FetchOpenHouseOpportunitiesTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         property_candidates = kwargs.get("property_candidates") or []
-        # Enhancement: support simplified single date that auto-expands to 3 days
+        # Improvement: enable single date input that automatically extends to a 3-day span.
         date = kwargs.get("date")
         date_range_start = kwargs.get("date_range_start")
         date_range_end = kwargs.get("date_range_end")
@@ -24,7 +24,7 @@ class FetchOpenHouseOpportunitiesTool(Tool):
                 date_range_start = f"{start_dt.strftime('%Y-%m-%d')}T00:00:00Z"
                 date_range_end = f"{end_dt.strftime('%Y-%m-%d')}T23:59:59Z"
             except Exception:
-                # Fallback best-effort
+                # Best-effort fallback
                 date_str = str(date)
                 date_range_start = f"{date_str}T00:00:00Z"
                 try:
@@ -39,7 +39,7 @@ class FetchOpenHouseOpportunitiesTool(Tool):
         open_houses = []
         for oh in data.get("open_houses", []):
             if str(oh.get("property_id")) in prop_set:
-                # Check if open house dates overlap with search range
+                # Verify if the open house dates intersect with the search period.
                 oh_start = oh.get("start_at", "")
                 oh_end = oh.get("end_at", "")
                 if oh_start <= date_range_end and oh_end >= date_range_start:
@@ -54,7 +54,7 @@ class FetchOpenHouseOpportunitiesTool(Tool):
 
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        # Supports Route Optimization Protocol (planning viewings)
+        # Facilitates Route Optimization Protocol (scheduling viewings)
         return {
             "type": "function",
             "function": {

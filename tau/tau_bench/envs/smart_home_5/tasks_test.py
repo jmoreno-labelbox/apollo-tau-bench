@@ -1,7 +1,7 @@
 from tau_bench.types import Action, Task
 
 TASKS = [
-    # Task 1 – Create and activate a complex evening scene
+    # Task 1 – Generate and initiate a detailed nighttime environment.
     Task(
         annotator="0",
         user_id="res_01",
@@ -74,7 +74,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 2 – Schedule annual HVAC filter replacement reminder
+    # Task 2 – Set up a yearly reminder for HVAC filter replacement.
     Task(
         annotator="0",
         user_id="res_02",
@@ -130,7 +130,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 3 – Check thermometer reading, heat the house, and prepare for winter
+    # Task 3 – Verify thermometer measurement, warm the house, and get ready for winter.
     Task(
         annotator="0",
         user_id="res_03",
@@ -187,7 +187,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 4 – Build a packing list for a camping trip
+    # Task 4 – Create a checklist for camping supplies
     Task(
         annotator="0",
         user_id="res_04",
@@ -261,7 +261,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 5 – Downgrade medication reminder priority and deactivate it, plus prepare for next refill
+    # Task 5 – Lower the priority of the medication reminder, disable it, and get ready for the upcoming refill.
     Task(
         annotator="0",
         user_id="res_05",
@@ -320,7 +320,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 6 – Install new washing machine, create a one-off laundry reminder, and prepare supplies
+    # Task 6 – Set up the new washing machine, establish a single laundry reminder, and gather necessary supplies.
     Task(
         annotator="0",
         user_id="res_06",
@@ -406,7 +406,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 7 – Remove bedside lamp from East Bedroom entirely
+    # Task 7 – Completely eliminate the bedside lamp from the East Bedroom.
     Task(
         annotator="0",
         user_id="res_07",
@@ -465,7 +465,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 8 – Start movie time scene right away and prepare supplies
+    # Task 8 – Immediately initiate the movie time scene and gather necessary materials.
     Task(
         annotator="0",
         user_id="res_08",
@@ -517,7 +517,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 9 – Use sensor readings to pre-cool the living room and prepare supplies
+    # Task 9 – Utilize sensor data to pre-cool the living area and gather necessary supplies.
     Task(
         annotator="0",
         user_id="res_09",
@@ -581,7 +581,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 10 – Create and immediately run a party mode scene
+    # Task 10 – Generate and execute a party mode scene right away.
     Task(
         annotator="0",
         user_id="res_10",
@@ -649,7 +649,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 11 – Modify weekend grocery list and check kitchen safety
+    # Task 11 – Update the weekend shopping list and verify kitchen safety.
     Task(
         annotator="0",
         user_id="res_11",
@@ -712,7 +712,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 12 – Add a smart coffee maker in the kitchen, start brewing, and prepare supplies
+    # Task 12 – Install a smart coffee maker in the kitchen, initiate brewing, and gather necessary supplies.
     Task(
         annotator="0",
         user_id="res_12",
@@ -801,7 +801,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 13 – Create and schedule an accessible scene for grandmother's visit
+    # Task 13 – Develop and arrange an accessible environment for the grandmother's visit.
     Task(
         annotator="0",
         user_id="res_13",
@@ -881,7 +881,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 14 – Focused study scene for West Bedroom
+    # Task 14 – Concentrated study environment for West Bedroom
     Task(
         annotator="0",
         user_id="res_14",
@@ -943,7 +943,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 15 – Replace the existing dishwasher with a new model and start a quick cycle
+    # Task 15 – Install a new dishwasher model and initiate a quick cycle.
     Task(
         annotator="0",
         user_id="res_15",
@@ -1012,7 +1012,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 16 – Bedroom fire-drill safety check with lighting alert, supplies list, and follow-up reminder
+    # Task 16 – Conduct a safety check for the bedroom fire drill, including a lighting alert, inventory of supplies, and a follow-up notification.
     Task(
         annotator="0",
         user_id="res_16",
@@ -1091,7 +1091,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 17 – Expand reading list, check lamp state, and set daily reading reminder
+    # Task 17 – Update reading list, verify lamp status, and establish daily reading notification.
     Task(
         annotator="0",
         user_id="res_17",
@@ -1131,7 +1131,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 18 – Activate enhanced night-time security mode
+    # Task 18 – Enable advanced nighttime security mode
     Task(
         annotator="0",
         user_id="res_18",
@@ -1182,7 +1182,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 19 – Prepare the house for a two-week vacation
+    # Task 19 – Get the house ready for a two-week trip.
     Task(
         annotator="0",
         user_id="res_19",
@@ -1265,7 +1265,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 20 – Create a garden-maintenance list and weekly reminder, after inspecting leak sensor and checking outdoor faucet
+    # Task 20 – Generate a garden upkeep checklist and weekly alert following the inspection of the leak sensor and verification of the outdoor faucet.
     Task(
         annotator="0",
         user_id="res_20",
@@ -1314,7 +1314,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 21 – Bedtime scene for children's bedrooms
+    # Task 21 – Nighttime setting for kids' rooms
     Task(
         annotator="0",
         user_id="res_21",
@@ -1372,7 +1372,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 22 – Install master bedroom air-purifier, check air quality, start it, and prepare supplies
+    # Task 22 – Set up the air purifier in the master bedroom, monitor air quality, activate it, and gather necessary supplies.
     Task(
         annotator="0",
         user_id="res_22",
@@ -1453,7 +1453,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 23 – Balance climate after reading thermometer, adjust heater and curtains, and prepare supplies
+    # Task 23 – Stabilize climate post-thermometer reading by tweaking heater and curtains, and gather necessary supplies.
     Task(
         annotator="0",
         user_id="res_23",
@@ -1490,7 +1490,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 24 – Create and run an eco-morning energy-savvy scene
+    # Task 24 – Develop and execute an energy-efficient morning scene.
     Task(
         annotator="0",
         user_id="res_24",
@@ -1562,7 +1562,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 25 – Leak check, safety shut-off, supplies list, and follow-up reminder
+    # Task 25 – Verify for leaks, implement safety shut-off, prepare supplies inventory, and set a follow-up reminder.
     Task(
         annotator="0",
         user_id="res_25",
@@ -1613,7 +1613,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 26 – Replace outdated credit-card bill reminder with a new schedule, supplies list, and safety check
+    # Task 26 – Update the obsolete credit card bill reminder with a revised schedule, inventory list, and safety verification.
     Task(
         annotator="0",
         user_id="res_26",
@@ -1665,7 +1665,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 27 – Install a smart TV, expand movie scene, check sensor, and prepare supplies
+    # Task 27 – Set up a smart TV, enlarge the movie scene, verify the sensor, and gather materials.
     Task(
         annotator="0",
         user_id="res_27",
@@ -1744,7 +1744,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 28 – Build a birthday-party supplies list and check kitchen safety
+    # Task 28 – Create a list of supplies for the birthday party and verify kitchen safety.
     Task(
         annotator="0",
         user_id="res_28",
@@ -1780,7 +1780,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 29 – Nightly camera check, supplies list, and safety shut-off
+    # Task 29 – Evening camera inspection, inventory checklist, and safety shutdown.
     Task(
         annotator="0",
         user_id="res_29",
@@ -1835,7 +1835,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 30 – Install replacement bedside lamp in East Bedroom, check device state, and prepare supplies
+    # Task 30 – Replace bedside lamp in East Bedroom, verify device status, and gather materials.
     Task(
         annotator="0",
         user_id="res_30",
@@ -1899,7 +1899,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 31 – Improve air quality with purifier and AC adjustments, plus supplies list and safety check
+    # Task 31 – Enhance air quality through adjustments to the purifier and AC, along with a supplies inventory and safety inspection.
     Task(
         annotator="0",
         user_id="res_31",
@@ -1938,7 +1938,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 32 – Create a "Return Home" scene and run it, plus supplies and safety checks
+    # Task 32 – Develop and execute a "Return Home" scene, including resource and safety assessments.
     Task(
         annotator="0",
         user_id="res_32",
@@ -1993,7 +1993,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 33 – Set up Olivia's daily homework reminder, supplies list, and device safety check
+    # Task 33 – Configure the daily homework alert for Olivia, create a list of required supplies, and perform a device safety inspection.
     Task(
         annotator="0",
         user_id="res_33",
@@ -2067,7 +2067,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 34 – Install washing machine in Basement, start a quick wash, prepare supplies, and ensure safety
+    # Task 34 – Set up washing machine in the basement, initiate a quick wash cycle, gather necessary supplies, and verify safety measures.
     Task(
         annotator="0",
         user_id="res_34",
@@ -2133,7 +2133,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 35 – Create a Focus Study scene for West Bedroom leveraging air-quality sensor and supplies list
+    # Task 35 – Develop a Focus Study environment for the West Bedroom using the air-quality sensor and inventory list.
     Task(
         annotator="0",
         user_id="res_35",
@@ -2195,7 +2195,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 36 – Update shopping list, add missing items, check kitchen safety, and set weekly grocery reminder
+    # Task 36 – Revise shopping list, include omitted items, verify kitchen safety, and establish weekly grocery reminder.
     Task(
         annotator="0",
         user_id="res_36",
@@ -2237,7 +2237,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 37 – Replace old Good Night scene with an upgraded version and prepare supplies
+    # Task 37 – Update the outdated Good Night scene with a new version and gather necessary materials.
     Task(
         annotator="0",
         user_id="res_37",
@@ -2294,7 +2294,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 38 – Schedule battery-replacement reminder, prepare supplies list, and ensure safety after checking smoke detector
+    # Task 38 – Set a reminder for battery replacement, compile a list of needed supplies, and verify safety after inspecting the smoke detector.
     Task(
         annotator="0",
         user_id="res_38",
@@ -2346,7 +2346,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 39 – Install robot vacuum, run clean-up scene, prepare supplies, and check safety
+    # Task 39 – Set up robot vacuum, initiate cleaning mode, gather materials, and verify safety measures.
     Task(
         annotator="0",
         user_id="res_39",
@@ -2423,7 +2423,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 40 – Prepare for David Lee's dinner visit
+    # Task 40 – Get ready for David Lee's dinner visit.
     Task(
         annotator="0",
         user_id="res_40",

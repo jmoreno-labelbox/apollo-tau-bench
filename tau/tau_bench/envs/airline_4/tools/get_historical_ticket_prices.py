@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -28,7 +28,7 @@ class GetHistoricalTicketPrices(Tool):
             return _json({"flight_number": flight_number, "fare_class": fare_class, "history": []})
 
         for d, rec in dates_map.items():
-            # lexicographic-safe ISO date window
+            # ISO date range that is lexicographically secure
             if start_date and d < start_date:
                 continue
             if end_date and d > end_date:

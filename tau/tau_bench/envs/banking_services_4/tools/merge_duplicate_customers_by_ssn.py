@@ -13,7 +13,7 @@ class MergeDuplicateCustomersBySSN(Tool):
         matches = [c for c in customers.values() if c.get('personal_info', {}).values().get('ssn_last_4') == ssn_last_4]
         if len(matches) < 2:
             return json.dumps({'error': 'Less than two customers with this SSN'})
-        # Only merge if all fields to be merged exist
+        # Merge only if all fields required for merging are present.
         for c in matches:
             if 'account_ids' not in c:
                 return json.dumps({'error': 'Customer merge not supported: account_ids field missing in one or more records.'})

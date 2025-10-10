@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,14 +26,14 @@ class CreateInventoryAdjustment(Tool):
 
         adjustment_id = f"ADJ-{warehouse_id}"
 
-        # Update inventory quantities
+        # Revise stock levels.
         old_quantity = inventory_item.get("quantity_on_hand", 0)
         new_quantity = old_quantity + adjustment_quantity
         inventory_item["quantity_on_hand"] = new_quantity
         inventory_item["quantity_available"] = inventory_item.get("quantity_available", 0) + adjustment_quantity
         inventory_item["last_counted_date"] = get_current_year_month_day()
 
-        # Create adjustment record
+        # Generate a modification entry.
         adjustment_record = {
             "adjustment_id": adjustment_id,
             "sku": sku,
@@ -50,7 +50,7 @@ class CreateInventoryAdjustment(Tool):
             data["inventory_adjustments"] = []
         data["inventory_adjustments"].append(adjustment_record)
 
-        # Calculate total adjustment value
+        # Compute the overall adjustment amount.
         product_master = list(data.get("inventory", {}).values())
         product = next((p for p in product_master if p.get("sku") == sku), None)
         unit_price = product.get("unit_cost", 0) if product else 0

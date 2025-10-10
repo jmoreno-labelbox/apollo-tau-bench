@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class SetCoastalMeteorology(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         station_id = kwargs.get("station_id")
-        # This is a simulation; in a real environment, this would fetch data from NOAA.
+        # This is a simulated scenario; in a real-world setting, data would be retrieved from NOAA.
 
         coastal_meteorology_data = {
             "station_id": station_id,

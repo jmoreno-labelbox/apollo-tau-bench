@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class AssignAssetToCandidateTool(Tool):
         if not asset_request_id or not asset_tag:
             return _err("asset_request_id and asset_tag are required.")
 
-        # Find asset and request
+        # Locate the asset and submit a request.
         asset = next((a for a in data.get("inventory_assets", []) if a.get("asset_tag") == asset_tag), None)
         request = next((r for r in data.get("asset_requests", []) if str(r.get("request_id")) == str(asset_request_id)), None)
 
@@ -28,11 +28,11 @@ class AssignAssetToCandidateTool(Tool):
         if asset.get("status") != "Available":
             return _err(f"Asset '{asset_tag}' is not available for assignment.")
 
-        # Assign asset
+        # Allocate asset
         asset["status"] = "Assigned"
         asset["assigned_candidate_id_nullable"] = request.get("candidate_id")
 
-        # Update request
+        # Modification request
         request["status"] = "Completed"
         request["asset_tag_nullable"] = asset_tag
         request["updated_ts"] = HARD_TS

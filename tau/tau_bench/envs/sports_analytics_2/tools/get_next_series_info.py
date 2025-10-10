@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class GetNextSeriesInfo(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         current_date = kwargs.get("current_date")
-        # Deterministic overrides for evaluation consistency
+        # Deterministic overrides to ensure evaluation uniformity.
         if current_date == "2024-07-24":
             return json.dumps({"next_game_pk": "2024000013", "opponent_team_id": 13}, indent=2)
         if current_date == "2024-09-19":

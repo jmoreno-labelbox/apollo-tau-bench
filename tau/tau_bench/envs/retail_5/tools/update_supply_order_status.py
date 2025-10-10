@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,7 +23,7 @@ class UpdateSupplyOrderStatus(Tool):
         old_status = order['status']
         order['status'] = new_status
 
-        # If order is completed, update inventory
+        # Upon order completion, refresh inventory levels.
         if new_status == 'completed':
             suppliers = data['suppliers']
             supplier = next((s for s in suppliers if s['supplier_id'] == order['supplier_id']), None)

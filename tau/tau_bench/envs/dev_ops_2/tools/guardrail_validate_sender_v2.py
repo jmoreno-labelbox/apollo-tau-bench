@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class GuardrailValidateSenderV2(Tool):
         run = next((r for r in build_runs if r.get("run_id") == run_id), None)
         if not run:
             return _error(f"Run '{run_id}' not found.")
-        # Validate branch exists in branches dataset
+        # Check if the branch is present in the branches dataset.
         allowed = any(b.get("name") == run.get("branch") for b in branches)
         run["validated"] = bool(allowed)
         return json.dumps({"validated": bool(allowed)}, indent=2)

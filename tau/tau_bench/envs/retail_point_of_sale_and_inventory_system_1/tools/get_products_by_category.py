@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class GetProductsByCategory(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         category = kwargs.get('category')
-        products = list(data.get("products", {}).values())  # Lista []
+        products = list(data.get("products", {}).values())  # Array []
         results = [product for product in products if product.get("category") == category]
         return json.dumps(results)
 

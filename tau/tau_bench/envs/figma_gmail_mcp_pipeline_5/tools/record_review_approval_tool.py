@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class RecordReviewApprovalTool(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         cycle_id = _require_str(kwargs.get("cycle_id"), "cycle_id")
         approver_email = _require_str(kwargs.get("approver_email"), "approver_email")
-        decision = _require_str(kwargs.get("decision"), "decision")  # APPROVED|CHANGES_REQUESTED|BLOCKED
+        decision = _require_str(kwargs.get("decision"), "decision")  # AUTHORIZED|MODIFICATIONS_NEEDED|DENIED
         decided_ts = _require_str(kwargs.get("decided_ts"), "decided_ts")
         comment = kwargs.get("comment","")
         if not all([cycle_id, approver_email, decision, decided_ts]):

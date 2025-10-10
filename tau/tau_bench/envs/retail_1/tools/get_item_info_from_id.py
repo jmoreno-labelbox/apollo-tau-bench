@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Sierra copyright
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class GetItemInfoFromId(Tool): # READ
+class GetItemInfoFromId(Tool): # READ DATA
     @staticmethod
     def invoke(data: Dict[str, Any], item_id: str) -> str:
         products = list(data.get("products", {}).values())

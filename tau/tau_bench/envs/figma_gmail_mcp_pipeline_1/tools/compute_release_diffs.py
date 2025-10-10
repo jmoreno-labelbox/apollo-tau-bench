@@ -1,18 +1,18 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class ComputeReleaseDiffs(Tool):  # READ
+class ComputeReleaseDiffs(Tool):  # READ DATA
     @staticmethod
     def invoke(
         data: Dict[str, Any],
         release_id: str,
         changelog_highlights: List[str]
     ) -> str:
-        # Validate input
+        # Verify the input.
         if not isinstance(release_id, str) or not release_id:
             return json.dumps({"error": "release_id must be a non-empty string"})
 
@@ -22,7 +22,7 @@ class ComputeReleaseDiffs(Tool):  # READ
         releases = data.get("releases", [])
         figma_artifacts = data.get("figma_artifacts", [])
 
-        # Find the current release
+        # Locate the latest version.
         current_release = next((r for r in releases if r.get("release_id") == release_id), None)
         if not current_release:
             return json.dumps({"error": f"Release with release_id '{release_id}' not found"})
@@ -30,29 +30,29 @@ class ComputeReleaseDiffs(Tool):  # READ
         current_figma_file_id = current_release.get("figma_file_id")
         current_created_ts = current_release.get("created_ts")
 
-        # Find the previous release with the same figma_file_id (based on created_ts)
+        # Retrieve the prior release that shares the same figma_file_id, using created_ts for reference.
         same_file_releases = [
             r for r in releases
             if r.get("figma_file_id") == current_figma_file_id and r.get("release_id") != release_id
         ]
 
-        # Sort by created_ts and find the most recent one before current release
+        # Order by created_ts and identify the latest entry prior to the current release.
         previous_release = None
         if same_file_releases:
-            # Filter releases that are before the current release
+            # Select releases that precede the current release.
             prior_releases = [
                 r for r in same_file_releases
                 if r.get("created_ts", "") < current_created_ts
             ]
             if prior_releases:
-                # Sort by created_ts descending and take the first (most recent)
+                # Order by created_ts in descending order and select the first entry (latest).
                 prior_releases.sort(key=lambda x: x.get("created_ts", ""), reverse=True)
                 previous_release = prior_releases[0]
 
         prior_release_id_nullable = previous_release.get("release_id") if previous_release else None
         previous_created_ts = previous_release.get("created_ts") if previous_release else None
 
-        # Find all figma_artifacts with the same figma_file_id
+        # Retrieve all figma_artifacts sharing the same figma_file_id.
         same_file_artifacts = [
             artifact for artifact in figma_artifacts
             if artifact.get("figma_file_id") == current_figma_file_id
@@ -60,7 +60,7 @@ class ComputeReleaseDiffs(Tool):  # READ
 
         frames_added = []
         frames_updated = []
-        frames_removed = []  # Always empty as specified
+        frames_removed = []  # Consistently cleared as required
         component_version_bumps = []
 
         for artifact in same_file_artifacts:
@@ -68,7 +68,7 @@ class ComputeReleaseDiffs(Tool):  # READ
             frame_id = artifact.get("frame_id_nullable")
             artifact_name = artifact.get("artifact_name", "")
 
-            # Only process artifacts that have a frame_id
+            # Process artifacts solely with a frame_id.
             if frame_id:
                 if previous_created_ts and artifact_modified_ts:
                     if artifact_modified_ts > previous_created_ts:
@@ -76,12 +76,12 @@ class ComputeReleaseDiffs(Tool):  # READ
                     else:
                         frames_added.append(frame_id)
                 else:
-                    # If no previous release, consider all as added
+                    # Treat everything as newly added if there are no prior releases.
                     frames_added.append(frame_id)
 
-            # Generate component version bump for each artifact
+            # Create a version increment for each artifact component.
             if artifact_name:
-                # Remove spaces and generate random version
+                # Eliminate spaces and create a random variant.
                 component_name = artifact_name.replace(" ", "")
                 version_num = len(component_name)
                 component_version_bumps.append(f"{component_name}-v1.{version_num}")

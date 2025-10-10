@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,7 +26,7 @@ class ListOpenAlertsForRepo(Tool):
                 indent=2
             )
 
-        # Normalize optional severity
+        # Standardize optional severity levels.
         severity_filter = None
         if severity_raw:
             sev = severity_raw.lower()
@@ -37,7 +37,7 @@ class ListOpenAlertsForRepo(Tool):
                 )
             severity_filter = sev
 
-        # Load alerts DB
+        # Initialize alerts database.
         alerts_db = data.get("code_scanning_alerts", [])
         if not isinstance(alerts_db, list):
             return json.dumps(
@@ -45,7 +45,7 @@ class ListOpenAlertsForRepo(Tool):
                 indent=2
             )
 
-        # Find repo bucket
+        # Locate repository bucket
         rec = next((r for r in alerts_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             return json.dumps(
@@ -59,7 +59,7 @@ class ListOpenAlertsForRepo(Tool):
             arr = rec.get(key, [])
             return arr[i] if i < len(arr) else None
 
-        # Build list of open alerts, optionally filter by severity/ref
+        # Create a list of active alerts, with an option to filter by severity/reference.
         indexed: List[tuple] = [(num, i) for i, num in enumerate(alert_numbers)]
         indexed.sort(key=lambda t: t[0])
 

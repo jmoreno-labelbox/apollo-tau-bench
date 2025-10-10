@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,21 +15,21 @@ class UpdateInventoryStock(Tool):
         Writes to: suppliers.json (updates item_stock levels)
         Data Sources: suppliers.json (supplier_id, item_stock), products.json (item availability)
         """
-        # Validate that at least one item identifier is provided
+        # Ensure that at least one item ID is supplied.
         if not item_id and not item_ids:
             return json.dumps({
                 "error": "Either item_id or item_ids must be provided",
                 "status": "failed"
             })
 
-        # Build the list of items to process
+        # Create the collection of items for processing.
         items_to_process = []
         if item_id:
             items_to_process.append(item_id)
         if item_ids:
             items_to_process.extend(item_ids)
 
-        # Remove duplicates while preserving order
+        # Eliminate duplicates while maintaining sequence.
         items_to_process = list(dict.fromkeys(items_to_process))
 
         if not items_to_process:
@@ -38,7 +38,7 @@ class UpdateInventoryStock(Tool):
                 "status": "failed"
             })
 
-        # Handle stock levels - can be single value or list
+        # Manage inventory quantities - may be a single value or an array.
         stock_levels_list = []
         if new_stock_level is not None and new_stock_levels is not None:
             return json.dumps({
@@ -48,7 +48,7 @@ class UpdateInventoryStock(Tool):
         elif new_stock_level is not None:
             if new_stock_level < 0:
                 return json.dumps({"error": "Stock level cannot be negative", "status": "failed"})
-            # Single stock level for all items
+            # Unified stock level for all products.
             stock_levels_list = [new_stock_level] * len(items_to_process)
         elif new_stock_levels is not None:
             if len(new_stock_levels) != len(items_to_process):
@@ -56,7 +56,7 @@ class UpdateInventoryStock(Tool):
                     "error": f"Number of stock levels ({len(new_stock_levels)}) must match number of items ({len(items_to_process)})",
                     "status": "failed"
                 })
-            # Validate all stock levels are non-negative
+            # Ensure all inventory quantities are zero or greater.
             for i, level in enumerate(new_stock_levels):
                 if level < 0:
                     return json.dumps({
@@ -81,7 +81,7 @@ class UpdateInventoryStock(Tool):
         supplier_to_update = None
         supplier_index = None
 
-        # Find the supplier
+        # Locate the vendor.
         for i, supplier in enumerate(suppliers):
             if supplier.get("supplier_id") == supplier_id:
                 supplier_to_update = supplier
@@ -91,7 +91,7 @@ class UpdateInventoryStock(Tool):
         if not supplier_to_update:
             return json.dumps({"error": f"Supplier {supplier_id} not found", "status": "failed"})
 
-        # Get product availability information if exclude_unavailable is True
+        # Retrieve product availability data when exclude_unavailable is set to True.
         item_availability_map = {}
         if exclude_unavailable:
             products = list(data.get("products", {}).values())
@@ -100,7 +100,7 @@ class UpdateInventoryStock(Tool):
                 for variant_id, variant_info in variants.items():
                     item_availability_map[variant_id] = variant_info.get("available", False)
 
-        # Validate all items exist in supplier's stock and filter by availability if needed
+        # Check that all items are in the supplier's inventory and apply availability filters if necessary.
         item_stock = supplier_to_update.get("item_stock", {})
         missing_items = []
         unavailable_items = []
@@ -111,14 +111,14 @@ class UpdateInventoryStock(Tool):
                 missing_items.append(item)
                 continue
 
-            # Check availability if exclude_unavailable is True
+            # Verify availability when exclude_unavailable is set to True.
             if exclude_unavailable:
                 is_available = item_availability_map.get(item, False)
                 if not is_available:
                     unavailable_items.append(item)
                     continue
 
-            # Item passes all filters
+            # Item meets all filter criteria.
             filtered_items.append((item, stock_levels_list[i]))
 
         if missing_items:
@@ -137,12 +137,12 @@ class UpdateInventoryStock(Tool):
                 "unavailable_items": unavailable_items if exclude_unavailable else []
             })
 
-        # WRITE OPERATION: Update stock levels for filtered items
+        # UPDATE OPERATION: Modify inventory counts for selected items
         update_results = []
         for item, stock_level_to_apply in filtered_items:
             old_stock = item_stock[item]
 
-            # Handle different stock statuses
+            # Manage various stock conditions.
             if old_stock in ["discontinued", "out_of_stock"]:
                 if stock_action in ["add", "subtract"]:
                     update_results.append({
@@ -150,14 +150,14 @@ class UpdateInventoryStock(Tool):
                         "status": "error",
                         "message": f"Cannot modify stock for {old_stock} item",
                         "previous_stock": old_stock,
-                        "new_stock": old_stock  # No change
+                        "new_stock": old_stock  # No modifications.
                     })
                     continue
-                # Allow "set" to restore from discontinued/out_of_stock
+                # Enable "set" to revert from discontinued/out_of_stock status.
                 item_stock[item] = stock_level_to_apply
                 new_stock_value = stock_level_to_apply
             else:
-                # Numeric stock levels
+                # Quantitative inventory levels
                 old_stock_num = int(old_stock) if isinstance(old_stock, (int, str)) and str(old_stock).isdigit() else 0
 
                 if stock_action == "set":
@@ -184,10 +184,10 @@ class UpdateInventoryStock(Tool):
         supplier_to_update["item_stock"] = item_stock
         supplier_to_update["stock_updated"] = datetime.now().isoformat()
 
-        # Update the supplier in the data structure
+        # Modify the supplier in the data structure.
         data["suppliers"][supplier_index] = supplier_to_update
 
-        # Calculate summary statistics
+        # Compute overall statistics.
         successful_updates = [r for r in update_results if r["status"] == "success"]
         failed_updates = [r for r in update_results if r["status"] == "error"]
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class PayToBeneficiary(Tool):
         amount = kwargs.get("amount")
         currency = kwargs.get("currency")
 
-        # validate inputs
+        # check input values
         missing = [p for p in ("beneficiary_id", "source_account_id", "amount", "currency")
                    if not kwargs.get(p)]
         if missing:
@@ -24,7 +24,7 @@ class PayToBeneficiary(Tool):
                 indent=2
             )
 
-        # find beneficiary
+        # identify recipient
         bene = next((b for b in list(data.get("beneficiaries", {}).values())
                      if b["beneficiary_id"] == beneficiary_id), None)
         if not bene:
@@ -33,7 +33,7 @@ class PayToBeneficiary(Tool):
                 indent=2
             )
 
-        # find source account
+        # locate source account
         acct = next((a for a in list(data.get("accounts", {}).values())
                      if a["account_id"] == source_account_id), None)
         if not acct:
@@ -43,14 +43,14 @@ class PayToBeneficiary(Tool):
             )
 
 
-        # balance check
+        # verify balance
         if acct.get("balance", 0.0) < amount:
             return json.dumps(
                 {"error": "Insufficient balance in source account."},
                 indent=2
             )
 
-        # perform debit
+        # execute debit operation
         acct["balance"] -= amount
         target_acc_num = bene["account_details"].get("account_number")
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class UpdateOutboundOrderStatus(Tool):
                 if carrier_id:
                     order["carrier_id"] = carrier_id
 
-                # If shipped, deduct from on_hand and allocated quantities
+                # Upon shipment, reduce the on_hand and allocated quantities.
                 if new_status.lower() == "shipped" and "items" in order:
                     warehouse_id = order["warehouse_id"]
                     for item in order["items"]:

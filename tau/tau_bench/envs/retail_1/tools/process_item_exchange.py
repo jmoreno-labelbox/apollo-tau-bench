@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class ProcessItemExchange(Tool): # WRITE
+class ProcessItemExchange(Tool): # CREATE
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str, item_ids: list[str], new_item_ids: list[str], payment_method_id: str) -> str:
         orders = data["orders"]
@@ -18,7 +18,7 @@ class ProcessItemExchange(Tool): # WRITE
             return json.dumps({"error": "Order not found"})
         order = order[0]
 
-        # Check if the item exists in the order
+        # Verify the presence of the item in the order.
         items = order.get("items", [])
 
         removed_price = 0.0
@@ -48,7 +48,7 @@ class ProcessItemExchange(Tool): # WRITE
 
         exchange_cost = added_price - removed_price
 
-        # Check if the gift card has enough balance
+        # Verify if the gift card balance is sufficient.
         user_id = order["user_id"]
         users = data["users"]
         user = [row for row in users if row["user_id"] == user_id]

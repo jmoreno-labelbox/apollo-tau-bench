@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright held by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,14 +26,14 @@ class GetPolicyException(Tool):
 
         exceptions = data.get("policy_exceptions", [])
 
-        # If exception_id is provided, return single exception
+        # Return a single exception if exception_id is supplied.
         if exception_id:
             exception = _find_by_id(exceptions, "exception_id", exception_id)
             if not exception:
                 return json.dumps({"error": f"exception_id {exception_id} not found"})
             return json.dumps({"ok": True, "policy_exception": exception})
 
-        # Filter exceptions based on provided criteria
+        # Filter exceptions according to specified criteria.
         filtered_exceptions = []
         for exception in exceptions:
             if user_id and exception.get("user_id") != user_id:

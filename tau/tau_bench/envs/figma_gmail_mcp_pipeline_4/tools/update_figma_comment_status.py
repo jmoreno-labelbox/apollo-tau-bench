@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,14 +20,14 @@ class UpdateFigmaCommentStatus(Tool):
         if not all([comment_id, new_status]):
             return json.dumps({"error": "comment_id and new_status are required."})
 
-        # Validate status values
+        # Check the validity of status values.
         valid_statuses = ['OPEN', 'IN_PROGRESS', 'RESOLVED', 'CLOSED', 'ARCHIVED']
         if new_status not in valid_statuses:
             return json.dumps({"error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"})
 
         figma_comments = data.get('figma_comments', [])
 
-        # Find the comment
+        # Please provide the comment you would like me to paraphrase.
         comment_found = False
         for comment in figma_comments:
             if comment.get('comment_id') == comment_id:
@@ -35,30 +35,30 @@ class UpdateFigmaCommentStatus(Tool):
                 old_status = comment.get('comment_status', 'OPEN')
                 old_resolved = comment.get('resolved_flag', False)
 
-                # Update comment status
+                # Revise status of comment
                 comment['comment_status'] = new_status
                 comment['last_updated'] = datetime.now().isoformat()
 
-                # Update resolved flag based on status
+                # Modify the resolved flag according to the status.
                 if new_status in ['RESOLVED', 'CLOSED', 'ARCHIVED']:
                     comment['resolved_flag'] = True
                     comment['resolved_at'] = datetime.now().isoformat()
                 else:
                     comment['resolved_flag'] = False
 
-                # Update assignee if provided
+                # Modify the assignee if specified.
                 if assignee_email:
                     comment['assignee_email'] = assignee_email
                 elif 'assignee_email' in comment:
                     del comment['assignee_email']
 
-                # Update priority if provided
+                # Modify the priority if it is specified.
                 if priority_level:
                     comment['priority_level'] = priority_level
                 elif 'priority_level' in comment:
                     del comment['priority_level']
 
-                # Add resolution notes
+                # Include notes on resolution
                 if resolution_notes:
                     if 'resolution_history' not in comment:
                         comment['resolution_history'] = []
@@ -69,7 +69,7 @@ class UpdateFigmaCommentStatus(Tool):
                         "assignee": assignee_email
                     })
 
-                # Log the status change
+                # Record the status update.
                 if 'status_history' not in comment:
                     comment['status_history'] = []
                 comment['status_history'].append({

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -49,7 +49,7 @@ class PlaceGroceryOrderTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the newly created and calculated order object.
         """
-        # 1. Validate Inputs
+        # 1. Check Input Validity
         param_definitions = {
             "household_id": {"type": int, "required": True}, "store_id": {"type": int, "required": True},
             "list_id": {"type": int, "required": True}, "user_id": {"type": int, "required": True},
@@ -59,7 +59,7 @@ class PlaceGroceryOrderTool(Tool):
         if validation_error:
             return _build_error_response(validation_error["error_code"], validation_error["details"])
 
-        # 2. Pre-condition Checks
+        # 2. Validation of Preconditions
         list_id = kwargs["list_id"]
         store_id = kwargs["store_id"]
 
@@ -69,14 +69,14 @@ class PlaceGroceryOrderTool(Tool):
         if list_record.get("status_enum") == "ordered":
             return _build_error_response("UNSUPPORTED_OPERATION", {"operation": "Place Order", "entity": f"GroceryList {list_id} has already been ordered."})
 
-        # 3. Core Logic
-        # 3a. Create the main Order record
+        # 3. Main Functionality
+        # 3a. Generate the primary Order entry.
         orders_table = data.setdefault("orders", [])
         max_order_id = max((o.get("order_id", 0) for o in orders_table), default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["orders"])
         new_order_id = max_order_id + 1
 
         timestamp = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
-        # Simplification for scheduling: next day between 6-8 PM
+        # Streamlined scheduling: the following day from 6 to 8 PM.
         delivery_start = (datetime.now(timezone.utc) + timedelta(days=1)).replace(hour=18, minute=0, second=0, microsecond=0).isoformat().replace('+00:00', 'Z')
         delivery_end = (datetime.now(timezone.utc) + timedelta(days=1)).replace(hour=20, minute=0, second=0, microsecond=0).isoformat().replace('+00:00', 'Z')
 
@@ -86,7 +86,7 @@ class PlaceGroceryOrderTool(Tool):
             "placed_ts": timestamp, "scheduled_slot_start_ts": delivery_start, "scheduled_slot_end_ts": delivery_end
         }
 
-        # 3b. Create Order Items and calculate subtotal
+        # 3b. Generate Order Items and compute subtotal
         sub_map = {s["original_ingredient_id"]: s["substitute_product_id"] for s in kwargs.get("substitutions", [])}
         list_items = [item for item in data.get("grocery_list_items", []) if item.get("list_id") == list_id]
         oi_table = data.setdefault("order_items", [])
@@ -101,9 +101,9 @@ class PlaceGroceryOrderTool(Tool):
             if product_id_to_add:
                  substitute_product_id_for_log = product_id_to_add
             else:
-                # Find the best in-stock product if no substitution was provided
+                # Identify the top available product when no alternatives are offered.
                 candidate_products = [p for p in data.get("store_products", []) if p.get("store_id") == store_id and p.get("ingredient_id") == ingredient_id and p.get("stock_status_enum") in ("in_stock", "low")]
-                if not candidate_products: continue # Skip item if not available and not substituted
+                if not candidate_products: continue # Ignore the item if it's unavailable and has no substitute.
                 product_id_to_add = min(candidate_products, key=lambda p: p.get("price_cents", float('inf')))["product_id"]
 
             product_record = next((p for p in data.get("store_products", []) if p.get("product_id") == product_id_to_add), None)
@@ -116,17 +116,17 @@ class PlaceGroceryOrderTool(Tool):
             })
             subtotal_cents += product_record.get("price_cents", 0)
 
-        # 3c. Finalize totals and update statuses
+        # 3c. Complete total calculations and refresh status information.
         new_order_record["subtotal_cents"] = subtotal_cents
         new_order_record["total_cents"] = subtotal_cents + DEFAULT_BUSINESS_RULES["DEFAULT_ORDER_FEE_CENTS"]
         orders_table.append(new_order_record)
         list_record["status_enum"] = "ordered"
 
-        # 4. Auditing
+        # 4. Review and verification
         _log_audit_event(
             data, household_id=kwargs["household_id"], user_id=kwargs["user_id"], entity_type="orders",
             entity_id=new_order_id, action_enum="create", payload_json={"list_id": list_id, "store_id": store_id}
         )
 
-        # 5. Response
+        # 5. Reply
         return _build_success_response(new_order_record)

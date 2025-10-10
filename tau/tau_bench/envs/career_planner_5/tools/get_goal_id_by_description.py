@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class get_goal_id_by_description(Tool):
             (g for g in goals_data if g.get("user_id") == user_id), None
         )
         if user_goals_obj:
-            # Find a goal where the description contains the keyword (case-insensitive)
+            # Locate a goal whose description includes the specified keyword, regardless of case.
             goal = next(
                 (
                     g

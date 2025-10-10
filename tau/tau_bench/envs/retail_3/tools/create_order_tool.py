@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,8 +18,8 @@ class CreateOrderTool(Tool):
         {
           "order_id": "#Wxxxxxxx",
           "user_id": "...",
-          "address": {...},              # from users.json or override
-          "items": [resolved variants],  # one entry per unit
+          "address": {...},              # from users.json or replace
+          "items": [resolved variants],  # single entry for each unit
           "fulfillments": [],
           "status": "pending",
           "payment_history": [],

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class UpdateOrderStatus(Tool):
         Writes to: orders.json (updates existing order status and fulfillments)
         Data Sources: couriers.json for tracking validation
         """
-        # Validate input parameters
+        # Verify input arguments.
         if not order_id and not order_ids:
             return json.dumps({
                 "error": "Either order_id or order_ids must be provided",
@@ -34,7 +34,7 @@ class UpdateOrderStatus(Tool):
                 "status": "failed"
             })
 
-        # Rule: Only process orders with valid status: pending, processed, delivered, cancelled
+        # Condition: Only handle orders that have a valid status: pending, processed, delivered, or cancelled.
         valid_statuses = ["pending", "processed", "delivered", "cancelled", "for return"]
         if new_status not in valid_statuses:
             return json.dumps({
@@ -42,7 +42,7 @@ class UpdateOrderStatus(Tool):
                 "status": "failed"
             })
 
-        # Build list of orders to process
+        # Create a list of orders for processing.
         orders_to_process = []
         if order_id:
             orders_to_process.append(order_id.strip())
@@ -55,7 +55,7 @@ class UpdateOrderStatus(Tool):
                 "status": "failed"
             })
 
-        # Validate tracking and courier if provided
+        # Check the tracking and courier information if available.
         selected_courier = None
         if tracking_id and courier_id:
             couriers = data.get("couriers", [])
@@ -68,7 +68,7 @@ class UpdateOrderStatus(Tool):
             if not selected_courier:
                 return json.dumps({"error": f"Courier {courier_id} not found", "status": "failed"})
 
-            # Rule: Cross-reference tracking_id assignments with courier's tracking pools to prevent duplicates
+            # Directive: Verify tracking_id allocations against the courier's tracking pools to avoid duplication.
             courier_tracking_ids = selected_courier.get("tracking_ids", [])
             if tracking_id not in courier_tracking_ids:
                 return json.dumps({
@@ -81,13 +81,13 @@ class UpdateOrderStatus(Tool):
                 "status": "failed"
             })
 
-        # Find and process all orders
+        # Locate and handle all orders.
         orders = list(data.get("orders", {}).values())
         successful_updates = []
         failed_updates = []
 
         for order_id_input in orders_to_process:
-            # Add # prefix if not provided (for convenience)
+            # Add # Prefix with # if absent (for ease of use)
             formatted_order_id = order_id_input if order_id_input.startswith("#") else f"#{order_id_input}"
 
             order_found = False
@@ -96,7 +96,7 @@ class UpdateOrderStatus(Tool):
                     order_found = True
                     old_status = order.get("status")
 
-                    # Add fulfillment information if tracking details provided
+                    # Include fulfillment details when tracking information is available.
                     if tracking_id and courier_id and selected_courier:
                         fulfillment_entry = {
                             "tracking_id": tracking_id,
@@ -106,16 +106,16 @@ class UpdateOrderStatus(Tool):
                             "timestamp": datetime.now().isoformat()
                         }
 
-                        # WRITE OPERATION: Update fulfillments array
+                        # UPDATE OPERATION: Modify fulfillments array
                         if "fulfillments" not in order:
                             order["fulfillments"] = []
                         order["fulfillments"].append(fulfillment_entry)
 
-                    # WRITE OPERATION: Update order status in orders.json
+                    # UPDATE OPERATION: Modify the order status within orders.json
                     order["status"] = new_status
                     order["last_updated"] = datetime.now().isoformat()
 
-                    # Update the order in the data structure
+                    # Modify the sequence within the data structure.
                     data["orders"][i] = order
 
                     successful_updates.append({
@@ -139,7 +139,7 @@ class UpdateOrderStatus(Tool):
                     "error": "Order not found"
                 })
 
-        # Prepare comprehensive response
+        # Develop a thorough reply.
         result = {
             "status": "success" if successful_updates else "failed",
             "batch_processing": len(orders_to_process) > 1,

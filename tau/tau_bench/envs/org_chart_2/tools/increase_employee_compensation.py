@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class increase_employee_compensation(Tool):
     ) -> str:
 
         comp_records = data.get("compensation_records", [])
-        # Get current compensation
+        # Retrieve the current compensation.
         current_comp_list = [c for c in comp_records if c["employee_id"] == employee_id]
         if not current_comp_list:
             return json.dumps(
@@ -30,26 +30,26 @@ class increase_employee_compensation(Tool):
         current_comp_list.sort(key=lambda c: c["effective_date"], reverse=True)
         current_comp = current_comp_list[0]
 
-        # Start with current values
+        # Initialize with the existing values.
         new_comp = current_comp.copy()
 
-        # Update with new required values
+        # Revise to include the new necessary values.
         new_comp["compensation_id"] = compensation_id
         new_comp["effective_date"] = effective_date
 
-        # Calculate new salary if applicable
+        # Determine the updated salary if necessary.
         if salary_increase_pct is not None:
             new_comp["base_salary"] = int(
                 current_comp["base_salary"] * (1 + salary_increase_pct / 100)
             )
 
-        # Calculate new equity if applicable
+        # Determine new equity if relevant.
         if equity_increase_amount is not None:
             new_comp["equity_grant"] = (
                 current_comp["equity_grant"] + equity_increase_amount
             )
 
-        # Add the new record, preserving history
+        # Insert the new entry while maintaining historical data.
         comp_records.append(new_comp)
         data["compensation_records"] = comp_records
         return json.dumps(

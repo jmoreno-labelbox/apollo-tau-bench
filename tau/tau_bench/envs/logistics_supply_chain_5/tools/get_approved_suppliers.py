@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,20 +12,20 @@ class GetApprovedSuppliers(Tool):
         product_master = list(data.get("product_master", {}).values())
         preferred_supplier = kwargs.get("preferred_supplier", None)
 
-        # Find the product to get its category
+        # Calculate the product to determine its category.
         product = next((p for p in product_master if p.get("sku") == sku), None)
         if not product:
             return json.dumps({"error": f"Product {sku} not found"})
 
         product_category = product.get("category", "")
 
-        # Find suppliers that provide products in this category
+        # Identify vendors that offer items within this category.
         approved_suppliers = []
         for supplier in suppliers:
             supplier_categories = supplier.get("product_categories", [])
 
             if preferred_supplier and supplier.get("supplier_id") == preferred_supplier:
-                # If a preferred supplier is specified, prioritize it
+                # Prioritize if a designated supplier is indicated.
                 approved_suppliers.insert(0, {
                     "supplier_id": supplier.get("supplier_id"),
                     "supplier_name": supplier.get("supplier_name"),
@@ -37,7 +37,7 @@ class GetApprovedSuppliers(Tool):
                 })
                 break
             else:
-                # Check if supplier serves this product category and is active
+                # Verify if the supplier is active and provides this product category.
                 if (any(cat in product_category for cat in supplier_categories) and
                     supplier.get("relationship_status") == "Active" and
                     supplier.get("performance_rating", 0) >= 4.0):

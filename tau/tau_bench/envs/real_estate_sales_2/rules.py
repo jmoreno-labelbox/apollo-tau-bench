@@ -32,7 +32,7 @@ RULES = [
     "Apply `validate_drive_time_hops` to determine whether the route hops comply with the maximum drive time constraint.",
 ]
 
-# --- Evaluator-facing guidance to reduce false negatives ---
+# --- Guidance for evaluators to minimize false negatives ---
 EVALUATOR_SETTINGS: Dict[str, object] = {
     "human_label_equivalence": {
         "Packet follow-up": ["Review Starter Packet"],
@@ -51,7 +51,7 @@ EVALUATOR_SETTINGS: Dict[str, object] = {
     ]
 }
 
-# --- Allowed tools for the evaluator ---
+# --- Tools permitted for the evaluator ---
 EVALUATOR_SETTINGS.setdefault("allowed_tools", [
     "lookup_property_with_latest_listing",
     "query_active_listings",

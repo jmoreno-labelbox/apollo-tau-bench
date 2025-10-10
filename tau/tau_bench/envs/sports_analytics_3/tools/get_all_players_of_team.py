@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Inc.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class GetAllPlayersOfTeam(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         team_id = kwargs.get("team_id")
 
-        # 1) Validate
+        # 1) Verify
         if team_id is None:
             return json.dumps({"error": "Missing required field: team_id"}, indent=2)
 
-        # 2) Get DB from passed-in data
+        # Retrieve the database from the provided input data.
         players: List[Dict[str, Any]] = list(data.get("players", {}).values())
 
-        # 3) Filter players by exact team_id
+        # 3) Select players based on the specific team_id.
         matching_players = [
             player for player in players
             if player.get("current_team_id") == team_id

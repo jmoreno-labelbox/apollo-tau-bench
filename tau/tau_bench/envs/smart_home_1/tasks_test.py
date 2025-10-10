@@ -1,8 +1,8 @@
 from tau_bench.types import Action, Task
-# list of tasks
+# collection of activities
 TASKS = [
     # ─────────────────────────────────────────────────────────────────────────────
-    # Living-room air-quality­/temperature quick fix with scheduled rollback
+    # Quick solution for living room air quality/temperature with a planned revert.
     Task(
         annotator="0",
         user_id="res_01",
@@ -50,7 +50,7 @@ TASKS = [
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # Movie-night scene with full state capture & restoration
+    # Scene for movie night featuring complete state capture and recovery.
     Task(
         annotator="0",
         user_id="res_02",
@@ -112,7 +112,7 @@ TASKS = [
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # Week-day sunrise routine plus nightly dishwasher run
+    # Morning sunrise procedure for weekdays along with evening dishwasher operation
     Task(
         annotator="0",
         user_id="res_03",
@@ -155,7 +155,7 @@ TASKS = [
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # Leaving-home full shutdown with evening presence light
+    # Complete shutdown when leaving home with evening illumination activated.
     Task(
         annotator="0",
         user_id="res_04",
@@ -178,7 +178,7 @@ TASKS = [
             Action(name="ListDevices",           kwargs={"type": "curtain"}),
             Action(name="ListDevices",           kwargs={"type": "ac"}),
 
-            # Eight lights off
+            # Deactivate eight lights.
             *[Action(name="UpdateDeviceState",
                      kwargs={"device_id": did, "update": {"power": "off"}})
               for did in ["light_lr_ceiling", "light_lr_floor", "light_br_ceiling",
@@ -201,7 +201,7 @@ TASKS = [
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # Smoke / CO emergency lighting & HVAC shutdown
+    # Emergency lighting and HVAC system shutdown for smoke/CO detection.
     Task(
         annotator="0",
         user_id="res_05",
@@ -244,7 +244,7 @@ TASKS = [
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # NEW DEVICE – Living-room humidifier & 2-hour auto-off
+    # NEW DEVICE – Humidifier for the living room with a 2-hour automatic shut-off feature.
     Task(
         annotator="0",
         user_id="res_06",
@@ -291,7 +291,7 @@ TASKS = [
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # NEW SENSOR + DEVICE – Basement freeze-protection heater
+    # NEW SENSOR + DEVICE – Heater for freeze protection in the basement
     Task(
         annotator="0",
         user_id="res_07",
@@ -331,7 +331,7 @@ TASKS = [
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # NEW DEVICE – Garden sprinkler with daily cycle
+    # NEW DEVICE – Garden sprinkler featuring a daily schedule.
     Task(
         annotator="0",
         user_id="res_08",
@@ -387,7 +387,7 @@ TASKS = [
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # NEW SENSOR – Solar-power-aware AC control
+    # NEW SENSOR – AC control with solar power awareness
     Task(
         annotator="0",
         user_id="res_09",
@@ -434,7 +434,7 @@ TASKS = [
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # NEW SENSOR – Ambient-light-driven smart dimming
+    # NEW SENSOR – Intelligent dimming based on ambient light detection
     Task(
         annotator="0",
         user_id="res_10",
@@ -475,7 +475,7 @@ TASKS = [
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # Afternoon nap mode with timed restore
+    # Midday sleep mode with scheduled wake-up.
     Task(
         annotator="0",
         user_id="res_11",
@@ -532,7 +532,7 @@ TASKS = [
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # Leak-detected automatic dishwasher kill & alert lights
+    # Leak detection system for automatic dishwasher with shutdown and alert indicators.
     Task(
         annotator="0",
         user_id="res_12",
@@ -564,7 +564,7 @@ TASKS = [
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # Mid-day energy-save check using motion & camera status
+    # Midday energy-saving assessment based on motion detection and camera activity.
     Task(
         annotator="0",
         user_id="res_13",
@@ -603,7 +603,7 @@ TASKS = [
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # Guest-prep lighting in East Bedroom with midnight shutdown
+    # Lighting for guest preparation in the East Bedroom with a midnight cutoff.
     Task(
         annotator="0",
         user_id="res_14",
@@ -647,7 +647,7 @@ TASKS = [
     ),
 
     # ─────────────────────────────────────────────────────────────────────────────
-    # Daily 08:00 sensor-battery audit with blinking alert
+    # Daily 08:00 sensor battery check with flashing notification.
     Task(
         annotator="0",
         user_id="res_15",
@@ -698,7 +698,7 @@ TASKS = [
           increasing to 50% brightness at 06:30.
         """,
         actions=[
-            # create and schedule coffee maker
+            # set up and program coffee machine
             Action(name="CreateDevice",           kwargs={
                 "id": "coffee_maker_kt",
                 "type": "coffee_maker",
@@ -723,7 +723,7 @@ TASKS = [
             Action(name="ListDevices",           kwargs={"type": "curtain"}),
             Action(name="ListDevices",           kwargs={"type": "light"}),
 
-            # bedroom curtain & light
+            # curtain and lighting for the bedroom
             Action(name="UpdateDeviceState",     kwargs={
                 "device_id": "curtain_br",
                 "update": {"position":50}
@@ -936,7 +936,7 @@ TASKS = [
                 "model": "SmartShade Pro",
                 "firmware_version": "1.0.0",
                 "state_params": ["position","power"],
-                "state": {"position": 0, "power": "off"}          # 0 = closed
+                "state": {"position": 0, "power": "off"}          # 0 indicates closed status.
             }),
             Action(name="CreateDevice",          kwargs={
                 "id": "speaker_by",
@@ -952,7 +952,7 @@ TASKS = [
             Action(name="ScheduleDeviceUpdate", kwargs={
                 "device_id": "umbrella_by",
                 "timestamp": "2025-07-06T06:30:00",
-                "update": {"power": "on", "position": 100}        # 100 = fully open
+                "update": {"power": "on", "position": 100}        # 100 represents completely open.
             }),
             Action(name= "ScheduleDeviceUpdateTimer", kwargs={
                 "device_id": "speaker_by",
@@ -1526,7 +1526,7 @@ TASKS = [
             Action(name="ListScenes",   kwargs={}),
             Action(name="ListDevices",  kwargs={"type": "light"}),
             Action(name="ListDevices",  kwargs={"type": "curtain"}),
-            # 16:00 actions
+            # 16:00 activities
             Action(name="ScheduleSceneRun",     kwargs={
                 "scene_id": "scene_movie_time",
                 "timestamp": "2025-08-18T16:00:00"
@@ -1537,7 +1537,7 @@ TASKS = [
                 "update": {"power":"on","brightness":10}
             }),
 
-            # 18:30 restore actions
+            # 18:30 revert operations
             Action(name="ScheduleDeviceUpdate", kwargs={
                 "device_id": "light_lr_floor",
                 "timestamp": "2025-08-18T18:30:00",

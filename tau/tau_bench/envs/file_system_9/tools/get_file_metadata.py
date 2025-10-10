@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,9 +18,9 @@ class GetFileMetadata(Tool):
                     for file in directory.get("files", []):
                         if f"{directory.get('path')}/{file.get('filename')}" == filepath:
                             return json.dumps(file)
-                # If the inner loop finishes, the file was not found on this server
+                # If the inner loop completes, the file is not present on this server.
                 return json.dumps({"error": f"File not found: {filepath} on server {server_hostname}"})
-        # If the outer loop finishes, the server was not found
+        # If the outer loop completes, the server was not located.
         return json.dumps({"error": f"Server not found: {server_hostname}"})
 
     @staticmethod

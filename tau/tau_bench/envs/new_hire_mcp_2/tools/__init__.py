@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .set_candidate_fields import SetCandidateFields
 from .update_asset_request import UpdateAssetRequest

@@ -11,6 +11,8 @@ from openai import OpenAI
 import argparse
 from typing import List, Tuple
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import threading
 
 def extract_comments(content: str) -> List[Tuple[int, str, str]]:
     """
@@ -126,6 +128,12 @@ def main():
         default=None,
         help="Limit number of files to process (for testing)"
     )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=5,
+        help="Number of parallel workers (default: 5)"
+    )
     args = parser.parse_args()
     
     # Get API key from environment
@@ -151,20 +159,41 @@ def main():
         py_files = py_files[:args.limit]
     
     print(f"Found {len(py_files)} Python files to process")
+    print(f"Using {args.workers} parallel workers")
     if args.dry_run:
         print("DRY RUN MODE - No files will be modified\n")
     
     total_changes = 0
     files_processed = 0
     files_failed = 0
+    lock = threading.Lock()
     
-    for py_file in py_files:
+    def process_with_progress(py_file):
+        nonlocal files_processed, files_failed, total_changes
         changes, success = process_file(py_file, client, args.dry_run)
-        total_changes += changes
-        if success:
-            files_processed += 1
-        else:
-            files_failed += 1
+        
+        with lock:
+            total_changes += changes
+            if success:
+                files_processed += 1
+            else:
+                files_failed += 1
+            
+            total_done = files_processed + files_failed
+            if total_done % 10 == 0:
+                print(f"\nProgress: {total_done}/{len(py_files)} files ({total_changes} comments changed)\n")
+        
+        return changes, success
+    
+    with ThreadPoolExecutor(max_workers=args.workers) as executor:
+        futures = {executor.submit(process_with_progress, py_file): py_file for py_file in py_files}
+        
+        for future in as_completed(futures):
+            try:
+                future.result()
+            except Exception as e:
+                py_file = futures[future]
+                print(f"\nError processing {py_file}: {e}\n")
     
     print(f"\n{'='*60}")
     print(f"SUMMARY")

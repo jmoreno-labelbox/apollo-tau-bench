@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class CreateNewGoal(Tool):
         coach_id = kwargs.get("coach_id")
         target_review_date = kwargs.get("target_review_date")
 
-        # Validate required
+        # Verify necessity
         missing = []
         for field, val in [
             ("dev_report_id", dev_report_id),

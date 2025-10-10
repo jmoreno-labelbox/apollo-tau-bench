@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class CreateFigmaCommentTool(Tool):
 
         comments = _safe_table(data, "figma_comments")
         comment_id = _det_id("cmt", [artifact_id, author_email, anchor_ref, created_ts, body[:32]])
-        # idempotent upsert by comment_id
+        # Idempotent update or insert based on comment_id
         idx = _index_by(comments, "comment_id")
         row = {
             "comment_id": comment_id,

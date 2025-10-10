@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,11 +23,11 @@ class CreatePermission(Tool):
         if not action or not resource_id or not description:
             return json.dumps({"error": "action, resource_id, and description are required"})
 
-        # Validate resource exists
+        # Check for resource existence.
         if not _find_by_id(data.get("resources", []), "resource_id", resource_id):
             return json.dumps({"error": f"resource_id {resource_id} not found"})
 
-        # Enforce uniqueness by (action, resource_id)
+        # Ensure that (action, resource_id) combination is unique.
         for p in list(data.get("permissions", {}).values()):
             if str(p.get("action", "")).strip().lower() == action.lower() and p.get("resource_id") == resource_id:
                 return json.dumps({"error": f"permission with action '{action}' for {resource_id} already exists"})

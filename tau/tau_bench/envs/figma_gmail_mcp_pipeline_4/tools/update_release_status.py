@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,29 +20,29 @@ class UpdateReleaseStatus(Tool):
         if not all([release_id, new_status]):
             return json.dumps({"error": "release_id and new_status are required."})
 
-        # Validate status values
+        # Check the validity of status values.
         valid_statuses = ['DRAFT', 'IN_REVIEW', 'APPROVED', 'PUBLISHED', 'ARCHIVED']
         if new_status not in valid_statuses:
             return json.dumps({"error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"})
 
         releases = data.get('releases', [])
 
-        # Find the release
+        # Locate the deployment.
         release_found = False
         for release in releases:
             if release.get('release_id') == release_id:
                 release_found = True
                 old_status = release.get('status', 'DRAFT')
 
-                # Update release status
+                # Modify the release state.
                 release['status'] = new_status
                 release['last_updated'] = datetime.now().isoformat()
 
-                # Update thread association
+                # Revise thread linkage
                 if thread_id:
                     release['thread_id_nullable'] = thread_id
 
-                # Add version notes
+                # Include version details.
                 if version_notes:
                     if 'version_history' not in release:
                         release['version_history'] = []
@@ -52,12 +52,12 @@ class UpdateReleaseStatus(Tool):
                         "notes": version_notes
                     })
 
-                # Update metadata
+                # Revise metadata
                 if release_metadata:
                     for key, value in release_metadata.items():
                         release[key] = value
 
-                # Log the status change
+                # Record the status update.
                 if 'status_history' not in release:
                     release['status_history'] = []
                 release['status_history'].append({

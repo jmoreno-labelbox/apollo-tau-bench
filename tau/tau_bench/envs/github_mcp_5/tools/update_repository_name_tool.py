@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,7 +25,7 @@ class UpdateRepositoryNameTool(Tool):
             new_target_name = target_name + "_v2"
             repos = list(data.get('repositories', {}).values())
             repo = next((c for c in repos if c["repo_name"] == new_target_name), None)
-            # repo = get_data(repos, new_target_name)
+            # repo = fetch_data(repos, new_target_name)
 
             if not repo:
                 return json.dumps(
@@ -33,7 +33,7 @@ class UpdateRepositoryNameTool(Tool):
                     indent=2,
                 )
             else:
-                # Simulate document verification logic
+                # Emulate the logic for verifying documents.
                 return json.dumps(
                     {"status": "error", "message": f"New Target repo name {new_target_name} already exists in the database."}, indent=2
                 )

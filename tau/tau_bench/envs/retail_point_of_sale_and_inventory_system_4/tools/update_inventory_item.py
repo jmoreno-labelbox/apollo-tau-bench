@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class UpdateInventoryItem(Tool): # WRITE
+class UpdateInventoryItem(Tool): # CREATE
     @staticmethod
     def invoke(data: Dict[str, Any], sku: str, store_id: str, quantity_change: int, current_time: str) -> str:
         db = list(data.get("inventory", {}).values())

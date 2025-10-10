@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,8 +21,8 @@ class AddSecurityGroupRule(Tool):
         rec = {
             "rule_id": rid,
             "group_id": _as_id(group_id),
-            "direction": str(direction),  # "ingress" | "egress"
-            "protocol": str(protocol),  # e.g., "tcp"
+            "direction": str(direction),  # "entry" | "exit"
+            "protocol": str(protocol),  # for example, "tcp"
             "port": int(port),
             "cidr": str(cidr),
             "description": str(description),

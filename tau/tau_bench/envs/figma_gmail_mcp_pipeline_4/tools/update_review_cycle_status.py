@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class UpdateReviewCycleStatus(Tool):
         if not all([cycle_id, new_status]):
             return json.dumps({"error": "cycle_id and new_status are required."})
 
-        # Validate status values
+        # Check the validity of status values.
         valid_statuses = ['IN_FLIGHT', 'NEEDS_REVIEW', 'APPROVED', 'CHANGES_REQUESTED', 'ESCALATED']
         if new_status not in valid_statuses:
             return json.dumps({"error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"})
@@ -27,20 +27,20 @@ class UpdateReviewCycleStatus(Tool):
         review_cycles = data.get('review_cycles', [])
         review_approvals = data.get('review_approvals', [])
 
-        # Find the review cycle
+        # Identify the review process.
         cycle_found = False
         for cycle in review_cycles:
             if cycle.get('cycle_id') == cycle_id:
                 cycle_found = True
                 old_status = cycle.get('status')
 
-                # Update the cycle status
+                # Revise the status of the cycle.
                 cycle['status'] = new_status
                 cycle['last_updated'] = datetime.now().isoformat()
 
-                # Handle status-specific logic
+                # Manage logic based on status conditions.
                 if new_status == 'APPROVED' and approver_id:
-                    # Create approval record
+                    # Generate approval entry
                     approval_id = f"approval_{uuid.uuid4().hex[:8]}"
                     new_approval = {
                         "approval_id": approval_id,
@@ -53,7 +53,7 @@ class UpdateReviewCycleStatus(Tool):
                     review_approvals.append(new_approval)
 
                 elif new_status == 'CHANGES_REQUESTED' and comments:
-                    # Add change request to comments
+                    # Incorporate modification request into comments.
                     if 'change_requests' not in cycle:
                         cycle['change_requests'] = []
                     cycle['change_requests'].append({
@@ -63,7 +63,7 @@ class UpdateReviewCycleStatus(Tool):
                         "comments": comments
                     })
 
-                # Log the status change
+                # Record the change in status.
                 if 'status_history' not in cycle:
                     cycle['status_history'] = []
                 cycle['status_history'].append({

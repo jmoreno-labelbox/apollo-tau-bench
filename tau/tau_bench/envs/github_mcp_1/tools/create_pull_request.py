@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -35,11 +35,11 @@ class CreatePullRequest(Tool):
         if not isinstance(pr_files_input, list) or not all(isinstance(x, str) for x in pr_files_input):
             return json.dumps({"error": "pr_files must be a list of filenames (strings)."}, indent=2)
 
-        # Load PR DB (supports dict with 'pull_requests' or top-level list)
+        # Load the PR database (accepts a dictionary with 'pull_requests' or a top-level list).
         pr_db = list(data.get("pull_requests", {}).values())
 
 
-        # Find or create repo bucket
+        # Locate or establish a repository bucket.
         rec = next((r for r in pr_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             rec = {
@@ -65,11 +65,11 @@ class CreatePullRequest(Tool):
             }
             pr_db.append(rec)
 
-        # Deterministic number & timestamps
+        # Fixed numbers and time indicators
         new_pr_number = get_next_pr_number(data)
         new_ts = get_current_timestamp()
 
-        # Ensure arrays exist
+        # Verify the presence of arrays.
         rec.setdefault("pr_numbers", [])
         rec.setdefault("pr_titles", [])
         rec.setdefault("pr_bodies", [])
@@ -88,7 +88,7 @@ class CreatePullRequest(Tool):
         rec.setdefault("created_ts", [])
         rec.setdefault("updated_ts", [])
 
-        # Append aligned fields
+        # Add aligned fields.
         rec["pr_numbers"].append(new_pr_number)
         rec["pr_titles"].append(pr_title)
         rec["pr_bodies"].append(pr_body)
@@ -99,10 +99,10 @@ class CreatePullRequest(Tool):
         rec["mergeable_flags"].append(True)
         rec["merged_flags"].append(False)
 
-        # DB shape expects a nested list per PR: [ [ "fileA", "fileB" ] ]
+        # The database structure requires a nested list format for each PR: [ [ "fileA", "fileB" ] ].
         rec["pr_files"].append([list(pr_files_input)])
 
-        # Empty placeholders for comments/reviews (match nested shapes)
+        # Blank placeholders for feedback/reviews (align nested structures)
         rec["pr_comments"].append([[]])
         rec["pr_comment_users"].append([[]])
         rec["reviewers"].append([[]])
@@ -112,10 +112,10 @@ class CreatePullRequest(Tool):
         rec["created_ts"].append(new_ts)
         rec["updated_ts"].append(new_ts)
 
-        add_terminal_message(data, f"Pull request #{new_pr_number} created for {owner}/{repo_name}.", get_current_timestamp())
+        add_terminal_message(data, f"Pull request # A new pull request number {new_pr_number} has been generated for {owner}/{repo_name}.", get_current_timestamp())
 
         return json.dumps({
-            "success": f"Pull request #{new_pr_number} created for {owner}/{repo_name}.",
+            "success": f"Pull request # A new pull request number {new_pr_number} has been generated for the repository {owner}/{repo_name}.
             "pull_request": {
                 "number": new_pr_number,
                 "title": pr_title,

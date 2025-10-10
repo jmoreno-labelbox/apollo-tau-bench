@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .create_meal_plan import CreateMealPlan
 from .add_recipe_to_meal_plan import AddRecipeToMealPlan

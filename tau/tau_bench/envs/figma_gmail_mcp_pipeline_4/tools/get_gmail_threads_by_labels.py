@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,17 +20,17 @@ class GetGmailThreadsByLabels(Tool):
 
         gmail_threads = list(data.get('gmail_threads', {}).values())
 
-        # If thread_id is provided, return specific thread
+        # Return the specified thread if thread_id is given.
         if thread_id:
             for thread in gmail_threads:
                 if thread.get('thread_id') == thread_id:
                     return json.dumps(thread, indent=2)
             return json.dumps({"error": f"Thread with ID '{thread_id}' not found."})
 
-        # Filter threads by criteria
+        # Sort threads based on specified criteria.
         results = []
         for thread in gmail_threads:
-            # Apply filters
+            # Implement filters
             if labels:
                 thread_labels = thread.get('current_labels', [])
                 if not any(label in thread_labels for label in labels):
@@ -45,7 +45,7 @@ class GetGmailThreadsByLabels(Tool):
                 if not any(keyword.lower() in subject for keyword in subject_keywords):
                     continue
 
-            # Apply date filters
+            # Implement date filtering.
             if created_after:
                 thread_created = thread.get('created_ts', '')
                 if thread_created < created_after:

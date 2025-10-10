@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class LogInvoiceAuditEvent(Tool):
         new_event = {
             "audit_id": f"AUD_{kwargs['invoice_id']}",
             "invoice_id": kwargs["invoice_id"],
-            "event_type": kwargs.get("event_type")  , # e.g., "reminder_sent", "escalation"
+            "event_type": kwargs.get("event_type")  , # for example, "notification_dispatched", "escalation"
             "notes": kwargs.get("notes", "")
         }
         data["invoice_audit"].append(new_event)

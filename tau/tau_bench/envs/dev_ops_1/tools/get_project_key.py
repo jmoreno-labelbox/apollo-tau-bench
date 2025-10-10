@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class GetProjectKey(Tool):
         if project_id:
             proj = next((p for p in projects if p.get("id") == project_id), None)
         if not proj:
-            # Fallback deterministically to the lexicographically smallest id
+            # Revert to the lexicographically smallest ID in a deterministic manner.
             proj = sorted(projects, key=lambda x: x.get("id", ""))[0] if projects else None
         key = (proj or {}).get("project_key")
         return json.dumps({"project_key": key}, indent=2)

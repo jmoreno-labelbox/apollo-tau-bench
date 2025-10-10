@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,8 +19,8 @@ class ApplyCuisineCap(Tool):
             if c < int(max_per_cuisine):
                 selected.append(int(rid))
                 counts[cz] = c + 1
-        # Read-only behavior: return selection without mutating database
-        return json.dumps({"cuisine_limited_ids": selected})
+        # Non-modifying operation: retrieve selection without altering the database.
+        return json({"cuisine_limited_ids": selected})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

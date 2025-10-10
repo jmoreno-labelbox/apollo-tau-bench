@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,7 +22,7 @@ class ValidateDriveTimeConstraintsTool(Tool):
         max_constraint = min(30, max_hop_minutes)
         segments = []
         if property_list:
-            # Use deterministic mock times similar to the route optimizer
+            # Employ fixed mock times akin to the route optimizer.
             for a, b in zip(["start"] + property_list[:-1], property_list):
                 travel = 18 if a == "start" else 15
                 travel_minutes = min(travel, max_constraint)

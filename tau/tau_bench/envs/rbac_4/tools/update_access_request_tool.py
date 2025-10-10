@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,20 +17,20 @@ class UpdateAccessRequestTool(Tool):
         updated_on = kwargs.get("updated_on")
         updated_by = kwargs.get("updated_by")
 
-        # Required parameters
+        # Necessary parameters
         missing = [k for k in ("request_id","status","updated_on","updated_by") if kwargs.get(k) is None]
         if missing:
             return json.dumps({"error": f"Missing: {', '.join(missing)}"}, indent=2)
 
-        # Basic status check
+        # Fundamental status verification
         if status not in UpdateAccessRequestTool._ALLOWED:
             return json.dumps({"error": f"Invalid status '{status}'. Allowed: {sorted(UpdateAccessRequestTool._ALLOWED)}"}, indent=2)
 
-        # Load tables
+        # Import tables
         access_requests = data.get("access_requests", [])
         users = list(data.get("users", {}).values())
 
-        # Anchors
+        # Reference points
         req = next((r for r in access_requests if r.get("request_id") == request_id), None)
         if not req:
             return json.dumps({"error": f"Unknown request_id '{request_id}'"}, indent=2)
@@ -38,7 +38,7 @@ class UpdateAccessRequestTool(Tool):
         if not any(u.get("user_id") == updated_by for u in users):
             return json.dumps({"error": f"Unknown updated_by '{updated_by}'"}, indent=2)
 
-        # Update in place (basic)
+        # In-place update (simple)
         req["status"] = status
         req["updated_on"] = updated_on
         req["updated_by"] = updated_by

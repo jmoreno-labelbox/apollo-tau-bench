@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class EditInventoryDb(Tool): # WRITE
+class EditInventoryDb(Tool): # GENERATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -27,11 +27,11 @@ class EditInventoryDb(Tool): # WRITE
             idx, row = _find_by_id(db, "id", id)
             if row:
                 if delete:
-                    # --- DELETE ---
+                    # --- REMOVE ---
                     del db[idx]
                     return json.dumps({"result": "deleted"})
                 else:
-                    # --- UPDATE ---
+                    # --- MODIFICATION ---
                     if sku is not None: row["sku"] = sku
                     if store_id is not None: row["store_id"] = store_id
                     if quantity is not None: row["quantity"] = quantity
@@ -46,7 +46,7 @@ class EditInventoryDb(Tool): # WRITE
             else:
                 return json.dumps({"error": f"Inventory {id} not found"})
         else:
-            # --- CREATE ---
+            # --- INITIALIZE ---
             if sku is None or store_id is None or quantity is None or current_time is None:
                 return json.dumps({"error": "Missing required field for creation (sku, store_id, quantity, current_time)"})
             new_row = {

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -31,13 +31,13 @@ class UpdateOutboundOrderStatus(Tool):
         return_related_statuses = [
             "Returned",
             "Partially Returned",
-            "Cancelled - Damaged Stock", # Ou outros status que impliquem devolução/cancelamento com impacto em retorno
+            "Cancelled - Damaged Stock", # Ou outros estados que envolvam reembolso/cancelamento afetando o retorno.
             "Processing Return",
             "Incorrect Item Returned",
             "Cancelled - Force Majeure",
-            "On Hold - Fraud Investigation", # Dependendo da política de fraude/retorno
+            "On Hold - Fraud Investigation", # Conforme a política de fraude/reembolso.
             "Cancelled - Expired Stock",
-            "Cancelled" # Se um cancelamento genérico também implica em retorno
+            "Cancelled" # Um cancelamento genérico também resulta em um retorno.
         ]
         if new_status in return_related_statuses:
             order['return_status'] = new_status

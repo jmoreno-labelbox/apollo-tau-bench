@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class DeleteBranch(Tool):
                 indent=2
             )
 
-        # Preferred repository access pattern
+        # Optimal method for accessing the repository
         repos: List[Dict[str, Any]] = list(data.get("repositories", {}).values())
         if not isinstance(repos, list):
             return json.dumps(
@@ -35,7 +35,7 @@ class DeleteBranch(Tool):
                 indent=2
             )
 
-        # Locate repository
+        # Find repository
         repo = next(
             (r for r in repos if r.get("owner") == owner and r.get("repo_name") == repo_name),
             None
@@ -54,7 +54,7 @@ class DeleteBranch(Tool):
                 indent=2
             )
 
-        # Do not allow deleting default branch
+        # Prevent the deletion of the default branch.
         default_branch = repo.get("default_branch", "main")
         if branch_name == default_branch:
             return json.dumps(
@@ -64,7 +64,7 @@ class DeleteBranch(Tool):
 
         idx = branches.index(branch_name)
 
-        # Ensure per-branch arrays exist and are aligned to current branches
+        # Verify that per-branch arrays are present and aligned with the current branches.
         branch_files_all: List[List[str]] = repo.setdefault("branch_files", [])
         branch_contents_all: List[List[str]] = repo.setdefault("branch_contents", [])
         branch_shas: List[str] = repo.setdefault("branch_shas", [])
@@ -77,10 +77,10 @@ class DeleteBranch(Tool):
         while len(branch_shas) < len(branches):
             branch_shas.append("")
 
-        # Collect removed info (defensive indexing)
+        # Gather deleted data (defensive indexing)
         removed_files = branch_files_all[idx] if idx < len(branch_files_all) else []
 
-        # Perform deletions (keep arrays aligned)
+        # Execute deletions while maintaining array alignment.
         branches.pop(idx)
         if idx < len(branch_files_all):
             branch_files_all.pop(idx)

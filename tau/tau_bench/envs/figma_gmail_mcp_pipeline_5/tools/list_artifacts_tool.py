@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class ListArtifactsTool(Tool):
         owner_email = kwargs.get("owner_email")
         tag = kwargs.get("tag")
         artifact_type = kwargs.get("artifact_type")
-        modified_since = kwargs.get("modified_since")  # ISO string
+        modified_since = kwargs.get("modified_since")  # ISO formatted string
 
         rows = data.get("figma_artifacts", [])
         out: List[Dict[str, Any]] = []

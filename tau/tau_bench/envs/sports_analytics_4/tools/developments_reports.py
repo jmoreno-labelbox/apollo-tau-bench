@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class DevelopmentsReports(Tool):
     @staticmethod
-        # main invoke function
+        # primary call function
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         week_of = kwargs.get("week_of")
         report_count = kwargs.get("report_count")
@@ -16,11 +16,11 @@ class DevelopmentsReports(Tool):
             "week_of": week_of,
             "report_count": report_count
         })
-        # return result
+        # return output
         return json.dumps({"status": "ok"}, indent=2)
 
     @staticmethod
-        # info metadata
+        # metadata information
     def get_info() -> Dict[str, Any]:
-        # return result
+        # return output
         return {"type": "function", "function": {"name": "reportings", "description": "Persists player development reports to database.", "parameters": {"type": "object", "properties": {"week_of": {"type": "string"}, "report_count": {"type": "integer"}}, "required": ["week_of"]}}}

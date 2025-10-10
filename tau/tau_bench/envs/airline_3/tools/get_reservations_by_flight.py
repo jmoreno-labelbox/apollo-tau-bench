@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,7 +26,7 @@ class GetReservationsByFlight(Tool):
             flights = reservation.get("flights", [])
             for flight in flights:
                 if flight.get("flight_number") == flight_number:
-                    # Apply optional filters
+                    # Implement optional filters.
                     if date and flight.get("date") != date:
                         continue
                     if origin and flight.get("origin") != origin:

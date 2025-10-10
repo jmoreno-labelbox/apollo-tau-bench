@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class add_goal(Tool):
             if entry["user_id"] == user_id:
                 entry["goals"].append(goal)
                 break
-        else:  # no existing goal list for this user
+        else:  # this user does not have a current goal list
             data.setdefault("goals", []).append({"user_id": user_id, "goals": [goal]})
         return json.dumps({"success": f"goal {goal['goal_id']} added for {user_id}"})
 

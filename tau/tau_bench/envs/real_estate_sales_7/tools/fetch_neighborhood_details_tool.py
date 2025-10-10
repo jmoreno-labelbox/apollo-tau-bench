@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class FetchNeighborhoodDetailsTool(Tool):
         if neighborhood_id is None and name is None:
             return _err("Either neighborhood_id (int) or name (string) is required")
 
-        # Search by neighborhood_id first if provided
+        # Prioritize searching by neighborhood_id if it is available.
         if neighborhood_id is not None:
             rec = next(
                 (
@@ -27,13 +27,13 @@ class FetchNeighborhoodDetailsTool(Tool):
                 None,
             )
         else:
-            # Search by name with case-insensitive partial matching
+            # Perform a case-insensitive search for name matches using partial input.
             name_lower = name.lower()
             rec = None
             for n in data.get("neighborhoods", []):
                 n_name = n.get("name", "").lower()
-                # Check if the search name is contained in the neighborhood name or vice versa
-                # This handles cases like "Heights" matching "The Heights"
+                # Verify if the search term is present in the neighborhood name or if the neighborhood name is included in the search term.
+                # This manages scenarios such as "Heights" aligning with "The Heights."
                 if name_lower in n_name or n_name in name_lower:
                     rec = n
                     break

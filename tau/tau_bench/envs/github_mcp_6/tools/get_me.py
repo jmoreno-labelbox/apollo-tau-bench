@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,21 +26,21 @@ class GetMe(Tool):
                 "suggestions": ["Ensure authentication data is loaded", "Check system configuration"]
             }, indent=2)
 
-        # Extract auth_key from instruction if provided
+        # Retrieve the auth_key from the instruction if it exists.
         if instruction and not auth_key:
-            # Look for pattern: "auth_key is xxx (owner: yyy)"
+            # Search for the pattern: "auth_key is xxx (owned by: yyy)"
             auth_key_match = re.search(r'auth_key is ([a-zA-Z0-9_]+) \(owner: ([^)]+)\)', instruction)
             if auth_key_match:
                 auth_key = auth_key_match.group(1)
                 if not username:
                     username = auth_key_match.group(2)
 
-        # Determine authentication method and find user
+        # Identify the authentication technique and locate the user.
         user = None
         auth_method = "default"
 
         if username and auth_key:
-            # Full authentication: validate both username and auth_key match
+            # Complete authentication: verify that both username and auth_key are correct.
             auth_method = "username_and_key"
             for auth_user in auth_users:
                 if auth_user.get("username") == username and auth_user.get("auth_key") == auth_key:
@@ -67,7 +67,7 @@ class GetMe(Tool):
                 }, indent=2)
 
         elif auth_key and not username:
-            # Auth key only: find user by matching AUTH_KEY
+            # Retrieve user by comparing AUTH_KEY.
             auth_method = "auth_key_only"
             for auth_user in auth_users:
                 if auth_user.get("auth_key") == auth_key:
@@ -93,7 +93,7 @@ class GetMe(Tool):
                 }, indent=2)
 
         elif username and not auth_key:
-            # Username only: find user by username (less secure)
+            # Retrieve user based solely on username (lower security).
             auth_method = "username_only"
             for auth_user in auth_users:
                 if auth_user.get("username") == username:
@@ -118,17 +118,17 @@ class GetMe(Tool):
                     ]
                 }, indent=2)
         else:
-            # No parameters provided: use first user (backward compatibility)
+            # No parameters supplied: default to the first user for backward compatibility.
             auth_method = "default"
             user = auth_users[0]
 
         final_username = user["username"]
 
-        # Calculate repository statistics
+        # Compute repository metrics.
         owned_repos = [repo for repo in repositories if repo["owner"] == final_username]
         total_owned = len(owned_repos)
 
-        # Get organization memberships (users with shared email domains)
+        # Retrieve memberships for organizations (users sharing email domains).
         user_domain = user["email"].split("@")[1]
         organizations = list(set([
             auth_user["email"].split("@")[1]
@@ -136,13 +136,13 @@ class GetMe(Tool):
             if auth_user["email"].split("@")[1] == user_domain and auth_user["username"] != final_username
         ]))
 
-        # Mock additional user data based on username patterns
+        # Generate supplementary user data following username patterns.
         display_name = final_username.replace("-", " ").title()
         avatar_url = f"https://avatars.githubusercontent.com/{final_username}"
         member_since = "2023-01-15T09:30:00Z"
         two_factor_enabled = "team" in final_username or "lead" in final_username
 
-        # Enhanced response with authentication validation
+        # Improved response with authentication verification.
         result = {
             "success": True,
             "authenticated": True,

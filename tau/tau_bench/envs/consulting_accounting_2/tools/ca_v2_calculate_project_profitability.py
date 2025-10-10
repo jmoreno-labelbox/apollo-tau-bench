@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,19 +15,19 @@ class CaV2CalculateProjectProfitability(Tool):
         if not project_id:
             return _error("project_id is required.")
 
-        # Get project details
+        # Retrieve project information.
         projects = list(data.get("projects", {}).values())
         project = _find_one(projects, "project_id", project_id)
         if not project:
             return _error(f"Project '{project_id}' not found.")
 
-        # Calculate revenue from invoices
+        # Compute revenue based on invoices.
         invoice_lines = data.get("invoice_lines", [])
         project_lines = _find_all(invoice_lines, "project_id", project_id)
         total_revenue = sum(line.get("line_amount", 0) for line in project_lines)
         total_hours = sum(line.get("hours_billed", 0) for line in project_lines)
 
-        # Calculate effective hourly rate
+        # Determine the effective hourly wage.
         effective_rate = total_revenue / total_hours if total_hours > 0 else 0
         expected_rate = project.get("override_hourly_rate") or project.get("default_hourly_rate", 0)
 

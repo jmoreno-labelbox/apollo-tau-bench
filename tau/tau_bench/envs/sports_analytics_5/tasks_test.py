@@ -125,7 +125,7 @@ No additional outputs are necessary.
                 "gslides_link": "https://docs.google.com/presentation/d/post_game_review",
                 "s3_pdf_path": "s3://reports/scouting/post_game/2024000008.pdf"
             }),
-            # FIX: use the required key 'playlist_name'
+            # CORRECT: utilize the mandatory key 'playlist_name'
             Action(name="CreateVideoPlaylist", kwargs={
                 "playlist_name": "Positive Reinforcement", "clip_count": 3, "report_id": 13
             }),
@@ -170,19 +170,19 @@ Provide no additional output.
             Action(name="FindNextScheduledGame", kwargs={"current_date": "2024-07-23"}),
             Action(name="GetOpponentForTeamInGame", kwargs={"game_pk": 2024000011, "team_id": 10}),
 
-            # Persist policy-governed trend thresholds (EB+FDR gate recorded deterministically)
+            # Store thresholds defined by policy for trends (EB+FDR gate logged in a deterministic manner)
             Action(name="FilterTrends", kwargs={"min_pitches": 50, "min_swings": 30, "min_bbe": 25, "fdr_threshold": 0.10}),
 
-            # Create the pre-game scouting report with canonical naming derived from resolved identifiers
+            # Generate the pre-game scouting report using standardized names based on resolved identifiers.
             Action(name="CreateScoutingReport", kwargs={
                 "report_type": "Pre-Game",
                 "game_pk": 2024000011,
                 "core_narrative_text": "pre_series_policy_v1",
                 "gslides_link": "https://slides.example.org/pre/2024000011",
                 "s3_pdf_path": "s3://reports/scouting/pre/2024-07-23_g2024000011_team10_vs8.pdf"
-            }),  # -> {"report_id": 13}
+            }),  # -> {"reportId": 13}
 
-            # Attach the two curated insights (template-enforced text and allowed types)
+            # Bind the two selected insights (text adhering to the template and permissible types).
             Action(name="AddCuratedInsight", kwargs={
                 "report_id": 13,
                 "player_id": 1,
@@ -198,7 +198,7 @@ Provide no additional output.
                 "supporting_stat_value": 0.193
             }),
 
-            # Create the two standard playlists; links are provided by the system if omitted; clip counts are explicit per policy
+            # Generate the two default playlists; system will supply links if not included; clip quantities are specified according to policy.
             Action(name="CreateVideoPlaylist", kwargs={
                 "report_id": 13,
                 "playlist_name": "Positive Reinforcement",
@@ -210,7 +210,7 @@ Provide no additional output.
                 "clip_count": 3
             }),
 
-            # Log the workflow run deterministically
+            # Record the workflow execution in a consistent manner.
             Action(name="LogWorkflowRun", kwargs={
                 "dag_name": "pre_series_package",
                 "game_pk": 2024000011,
@@ -767,10 +767,10 @@ Convey no additional values.
             """
         ),
         actions=[
-            # Confirm game is Final (policy gate)
+            # Verify that the game is finalized (policy gate).
             Action(name="GetGameDetails", kwargs={"game_pk": 2024000008}),
 
-            # Record the plate-umpire calibration deterministically
+            # Log the plate-umpire calibration in a deterministic manner.
             Action(name="WriteUmpireGameModel", kwargs={
                 "game_pk": 2024000008,
                 "umpire_id": 2,
@@ -780,7 +780,7 @@ Convey no additional values.
                 "confidence_interval": "90%"
             }),
 
-            # Three deterministic pitch-execution grades
+            # Three fixed pitch-execution ratings
             Action(name="WritePitchExecutionGrade", kwargs={
                 "pitch_id": 28,
                 "game_pk": 2024000008,
@@ -803,7 +803,7 @@ Convey no additional values.
                 "miss_distance_inches": 1.9
             }),
 
-            # Persist the catcher-view 12x12 zone encoding for this game
+            # Save the 12x12 zone encoding for the catcher-view in this game.
             Action(name="GridEncodePitchLocations", kwargs={
                 "game_pk": 2024000008,
                 "min_x": -0.95, "max_x": 0.95,
@@ -811,7 +811,7 @@ Convey no additional values.
                 "persist": True
             }),
 
-            # Create the post-game scouting document with deterministic content
+            # Generate the post-game analysis report with fixed information.
             Action(name="CreateScoutingReport", kwargs={
                 "report_type": "Post-Game",
                 "game_pk": 2024000008,
@@ -820,7 +820,7 @@ Convey no additional values.
                 "s3_pdf_path": "s3://reports/scouting/post/2024-03-05_g2024000008_umpire_exec.pdf"
             }),
 
-            # Attach policy-compliant curated playlists to the created report (first report_id in a clean reset is 13)
+            # Link curated playlists that adhere to policy to the generated report (the initial report_id after a clean reset is 13).
             Action(name="CreateVideoPlaylist", kwargs={
                 "report_id": 13,
                 "playlist_name": "Positive Reinforcement",
@@ -832,13 +832,13 @@ Convey no additional values.
                 "clip_count": 2
             }),
 
-            # Compute leverage summary with explicit threshold (no hidden default)
+            # Calculate leverage summary using a specified threshold (without any implicit default).
             Action(name="ComputeGameLeverageSummary", kwargs={
                 "game_pk": 2024000008,
                 "threshold": 1.5
             }),
 
-            # Deterministic run log
+            # Run log for deterministic execution
             Action(name="LogWorkflowRun", kwargs={
                 "dag_name": "post_game_review",
                 "status": "success",
@@ -1146,7 +1146,7 @@ No further outputs are needed.
             """
         ),
         actions=[
-            # Proposal realism/QC/modeling coverage (harmonization + grid encoding persisted)
+            # Proposal for realism, quality control, and modeling coverage (harmonization and persistent grid encoding).
             Action(name="CanonicalizePitchTypes", kwargs={"game_pk": 2024000004}),
             Action(name="GridEncodePitchLocations", kwargs={
                 "game_pk": 2024000004,
@@ -1154,7 +1154,7 @@ No further outputs are needed.
                 "min_z": 1.0,  "max_z": 4.0,
                 "persist": True
             }),
-            # Pre-game brief
+            # Pre-match briefing
             Action(name="CreateScoutingReport", kwargs={
                 "report_type": "pre-game",
                 "game_pk": 2024000004,
@@ -1162,7 +1162,7 @@ No further outputs are needed.
                 "gslides_link": "https://docs.google.com/presentation/d/series_pitching_plan",
                 "s3_pdf_path": "s3://reports/scouting/opponent_analysis/2024000004.pdf"
             }),
-            # Curated insights (policy-compliant keys)
+            # Selected insights (compliant keys with policy)
             Action(name="AddCuratedInsight", kwargs={
                 "report_id": 13, "player_id": 2,
                 "insight_text": "situational_risp_high",
@@ -1187,14 +1187,14 @@ No further outputs are needed.
                 "insight_type": "execution",
                 "supporting_stat_value": 0.56
             }),
-            # Playlists (correct arg key)
+            # Playlists (valid argument key)
             Action(name="CreateVideoPlaylist", kwargs={
                 "playlist_name": "Positive Reinforcement", "clip_count": 3, "report_id": 13
             }),
             Action(name="CreateVideoPlaylist", kwargs={
                 "playlist_name": "Teaching Moments", "clip_count": 2, "report_id": 13
             }),
-            # Workflow record
+            # Process log
             Action(name="LogWorkflowRun", kwargs={
                 "dag_name": "pre_series_scouting_packet",
                 "game_pk": 2024000004,
@@ -1221,9 +1221,9 @@ No additional outputs are required.
             """
         ),
         actions=[
-            # Gate on the completed game context
+            # Gate within the finalized game environment
             Action(name="GetGameDetails", kwargs={"game_pk": 2024000008}),
-            # Three execution evaluations (deterministic, policy-compliant fields)
+            # Three execution assessments (deterministic, policy-adherent areas)
             Action(name="WritePitchExecutionGrade", kwargs={
                 "pitch_id": 29, "game_pk": 2024000008,
                 "intended_quadrant_model": "down_away",
@@ -1242,7 +1242,7 @@ No additional outputs are required.
                 "actual_quadrant": "down_away",
                 "miss_distance_inches": 1.2
             }),
-            # Post-game brief
+            # Post-match summary
             Action(name="CreateScoutingReport", kwargs={
                 "report_type": "post-game",
                 "game_pk": 2024000008,
@@ -1250,7 +1250,7 @@ No additional outputs are required.
                 "gslides_link": "https://docs.google.com/presentation/d/post_game_review",
                 "s3_pdf_path": "s3://reports/scouting/post_game/2024000008.pdf"
             }),
-            # FIX: attach required curated playlists (correct key: playlist_name)
+            # CORRECT: link necessary curated playlists (correct key: playlist_name)
             Action(name="CreateVideoPlaylist", kwargs={
                 "playlist_name": "Positive Reinforcement", "clip_count": 3, "report_id": 13
             }),
@@ -1346,7 +1346,7 @@ No additional outputs are required.
                 "insight_type": "execution",
                 "supporting_stat_value": 0.56
             }),
-            # FIX: use the correct key 'playlist_name' (not 'name')
+            # CORRECT: utilize the appropriate key 'playlist_name' instead of 'name'
             Action(name="CreateVideoPlaylist", kwargs={
                 "playlist_name": "Positive Reinforcement", "clip_count": 3, "report_id": 13
             }),
@@ -1466,34 +1466,34 @@ No additional outputs are required.
             """
         ),
         actions=[
-            # Create two initial goals (dev_report 10/player 11; dev_report 6/player 10)
+            # Establish two starting objectives (dev_report 10/player 11; dev_report 6/player 10)
             Action(name="CreatePlayerDevGoal", kwargs={"dev_report_id": 10, "player_id": 11, "goal_text": "raise_chase_swing_decisions_10pct", "coach_id": 501, "target_review_date": "2024-05-06"}),
             Action(name="CreatePlayerDevGoal", kwargs={"dev_report_id": 6, "player_id": 10, "goal_text": "improve_zone_coverage_inner_third", "coach_id": 501, "target_review_date": "2024-05-06"}),
 
-            # Approve the two initial goals (goal_ids are deterministic in this snapshot)
+            # Authorize the two primary objectives (goal_ids are fixed in this snapshot).
             Action(name="ApprovePlayerDevGoal", kwargs={"goal_id": 20}),
             Action(name="ApprovePlayerDevGoal", kwargs={"goal_id": 21}),
 
-            # Create two additional goals for the same report/player pairs (dependent on prior approvals' dev_report_id/player_id values)
+            # Establish two more objectives for the identical report/player combinations based on the previously approved dev_report_id/player_id values.
             Action(name="CreatePlayerDevGoal", kwargs={"dev_report_id": 10, "player_id": 11, "goal_text": "optimize_two_strike_approach", "coach_id": 501, "target_review_date": "2024-05-06"}),
             Action(name="CreatePlayerDevGoal", kwargs={"dev_report_id": 6, "player_id": 10, "goal_text": "shorten_load_timing", "coach_id": 501, "target_review_date": "2024-05-06"}),
 
-            # Approve those two goals
+            # Authorize the two objectives.
             Action(name="ApprovePlayerDevGoal", kwargs={"goal_id": 22}),
             Action(name="ApprovePlayerDevGoal", kwargs={"goal_id": 23}),
 
-            # Create a third goal for each same report/player pair
+            # Establish a third objective for every report/player combination.
             Action(name="CreatePlayerDevGoal", kwargs={"dev_report_id": 10, "player_id": 11, "goal_text": "improve_line_drive_rate_5pct", "coach_id": 501, "target_review_date": "2024-05-06"}),
             Action(name="CreatePlayerDevGoal", kwargs={"dev_report_id": 6, "player_id": 10, "goal_text": "improve_baserun_jump_reads", "coach_id": 501, "target_review_date": "2024-05-06"}),
 
-            # Approve the final two goals
+            # Authorize the last two objectives.
             Action(name="ApprovePlayerDevGoal", kwargs={"goal_id": 24}),
             Action(name="ApprovePlayerDevGoal", kwargs={"goal_id": 25}),
 
-            # Trends QC (EB shrinkage, FDR 0.10, with required minima)
+            # Quality Control for trends (EB shrinkage, FDR 0.10, with necessary minima)
             Action(name="FilterTrends", kwargs={"min_pitches": 50, "min_swings": 30, "min_bbe": 25, "fdr_threshold": 0.1, "use_eb_shrinkage": True, "control": "FDR"}),
 
-            # Workflow bookkeeping
+            # Process record-keeping
             Action(name="LogWorkflowRun", kwargs={"dag_name": "player_development_goals", "status": "success", "start_time_utc": "2024-05-06T00:00:00Z", "end_time_utc": "2024-05-06T00:00:00Z", "log_s3_path": "s3://logs/dev/2024-05-06_objectives.json"}),
         ],
         outputs=[]
@@ -1895,7 +1895,7 @@ Acceptance criteria (goal-oriented, non-procedural):
                 "s3_pdf_path": "s3://reports/scouting/post_game/2024000008.pdf"
             }),
 
-            # Curated insights using canonical pitch codes (FF, SL)
+            # Compiled insights utilizing standard pitch codes (FF, SL)
             Action(name="AddCuratedInsight", kwargs={
                 "report_id": 13, "player_id": 8,
                 "insight_text": "situational_risp_high", "insight_type": "situational",
@@ -1917,7 +1917,7 @@ Acceptance criteria (goal-oriented, non-procedural):
                 "supporting_stat_value": 0.56
             }),
 
-            # Policy-mandated playlists
+            # Playlists required by policy
             Action(name="CreateVideoPlaylist", kwargs={
                 "playlist_name": "Positive Reinforcement",
                 "clip_count": 3,
@@ -2502,7 +2502,7 @@ Acceptance criteria (goal-oriented, non-procedural):
                 "gslides_link": "https://docs.google.com/presentation/d/post_game_review",
                 "s3_pdf_path": "s3://reports/scouting/post_game/2024000008.pdf"
             }),
-            # FIX: collapse duplicates and sort by supporting_stat_value DESC then player_id ASC
+            # RESOLVE: eliminate duplicates and order by supporting_stat_value in descending order, followed by player_id in ascending order.
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 4, "insight_text": "execution_ff_high", "insight_type": "execution", "supporting_stat_value": 0.60}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 8, "insight_text": "execution_sl_low", "insight_type": "execution", "supporting_stat_value": 0.56}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 8, "insight_text": "situational_risp_high", "insight_type": "situational", "supporting_stat_value": 0.55}),
@@ -2552,7 +2552,7 @@ Acceptance criteria (goal-oriented, non-procedural):
                 "gslides_link": "https://docs.google.com/presentation/d/series_pitching_plan",
                 "s3_pdf_path": "s3://reports/scouting/opponent_analysis/2024000004.pdf"
             }),
-            # FIX: collapse duplicate 'situational_risp_high' and sort DESC by supporting_stat_value then player_id ASC
+            # RESOLVE: merge duplicate 'situational_risp_high' entries and order by supporting_stat_value in descending order, followed by player_id in ascending order.
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 4, "insight_text": "execution_ff_high", "insight_type": "execution", "supporting_stat_value": 0.62}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 8, "insight_text": "execution_sl_low", "insight_type": "execution", "supporting_stat_value": 0.57}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 2, "insight_text": "situational_risp_high", "insight_type": "situational", "supporting_stat_value": 0.53}),
@@ -2604,7 +2604,7 @@ Acceptance criteria (goal-oriented, non-procedural):
                 "gslides_link": "https://docs.google.com/presentation/d/post_game_review",
                 "s3_pdf_path": "s3://reports/scouting/post_game/2024000008.pdf"
             }),
-            # FIX: collapse duplicate insights and enforce deterministic ordering (DESC by value, then player_id ASC)
+            # RESOLVE: merge redundant insights and apply consistent ordering (DESC by value, then ASC by player_id)
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 4, "insight_text": "execution_ff_high", "insight_type": "execution", "supporting_stat_value": 0.60}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 8, "insight_text": "execution_sl_low", "insight_type": "execution", "supporting_stat_value": 0.56}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 8, "insight_text": "situational_risp_high", "insight_type": "situational", "supporting_stat_value": 0.55}),
@@ -2871,7 +2871,7 @@ Refrain from creating or changing any other records.
                 "gslides_link": "https://slides.example.org/post/2024000008",
                 "s3_pdf_path": "s3://reports/scouting/post/2024-03-05_g2024000008_post.pdf"
             }),
-            # Insights ordered by supporting_stat_value DESC per policy
+            # Insights sorted in descending order by supporting_stat_value for each policy.
             Action(name="AddCuratedInsight", kwargs={
                 "report_id": 13,
                 "player_id": 7,
@@ -2966,7 +2966,7 @@ No other records are created or modified.
                 "gslides_link": "https://slides.example.org/post/2024000003",
                 "s3_pdf_path": "s3://reports/scouting/post/2024-07-22_g2024000003_post.pdf"
             }),
-            # Insights in DESC order by supporting_stat_value per policy
+            # Sort insights in descending order based on supporting_stat_value for each policy.
             Action(name="AddCuratedInsight", kwargs={
                 "report_id": 13,
                 "player_id": 11,
@@ -3069,7 +3069,7 @@ No other records are created or modified.
                 "gslides_link": "https://slides.example.org/post/2024000003",
                 "s3_pdf_path": "s3://reports/scouting/post/2024-07-22_g2024000003_post.pdf"
             }),
-            # Curated insights in strict DESC order by supporting_stat_value
+            # Organized insights in descending order based on supporting_stat_value.
             Action(name="AddCuratedInsight", kwargs={
                 "report_id": 13,
                 "player_id": 11,
@@ -3140,11 +3140,11 @@ Acceptance criteria (goal-oriented, non-procedural):
             Action(name="GridEncodePitchLocations", kwargs={"game_pk": 2024000008, "min_x": -1.5, "max_x": 1.5, "min_z": 1.0, "max_z": 4.0, "persist": True}),
             Action(name="FilterTrends", kwargs={"game_pk": 2024000008, "min_pitches": 50, "min_swings": 30, "min_bbe": 25, "fdr_threshold": 0.10}),
             Action(name="CreateScoutingReport", kwargs={"report_type": "post-game", "game_pk": 2024000008, "core_narrative_text": "post_game_review", "gslides_link": "https://docs.google.com/presentation/d/post_game_review", "s3_pdf_path": "s3://reports/scouting/post_game/2024000008.pdf", "draft_status": "published"}),
-            # Curated insights (unique, sorted by value DESC then player_id ASC)
+            # Filtered insights (distinct, ordered by value in descending order and player_id in ascending order)
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 4, "insight_text": "execution_ff_high", "insight_type": "execution", "supporting_stat_value": 0.62}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 8, "insight_text": "situational_risp_high", "insight_type": "situational", "supporting_stat_value": 0.55}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 2, "insight_text": "predictability_firstpitch_high", "insight_type": "predictability", "supporting_stat_value": 0.36}),
-            # Playlists (policy-mandated names)
+            # Playlists (names mandated by policy)
             Action(name="CreateVideoPlaylist", kwargs={"playlist_name": "Positive Reinforcement", "clip_count": 3, "report_id": 13}),
             Action(name="CreateVideoPlaylist", kwargs={"playlist_name": "Teaching Moments", "clip_count": 3, "report_id": 13}),
             Action(name="LogWorkflowRun", kwargs={"dag_name": "post_game_review", "status": "success", "start_time_utc": "2025-08-18T18:00:00Z", "end_time_utc": "2025-08-18T18:20:00Z", "log_s3_path": "s3://workflow/logs/post_game_review/2024000008/2025-08-18-1.log", "game_pk": 2024000008})
@@ -3175,11 +3175,11 @@ Acceptance criteria (goal-oriented, non-procedural):
             Action(name="GridEncodePitchLocations", kwargs={"game_pk": 2024000008, "min_x": -1.5, "max_x": 1.5, "min_z": 1.0, "max_z": 4.0, "persist": True}),
             Action(name="FilterTrends", kwargs={"game_pk": 2024000008, "min_pitches": 50, "min_swings": 30, "min_bbe": 25, "fdr_threshold": 0.10}),
             Action(name="CreateScoutingReport", kwargs={"report_type": "post-game", "game_pk": 2024000008, "core_narrative_text": "post_game_review", "gslides_link": "https://docs.google.com/presentation/d/post_game_review", "s3_pdf_path": "s3://reports/scouting/post_game/2024000008.pdf", "draft_status": "published"}),
-            # Curated insights (unique, sorted)
+            # Selected insights (distinct, ordered)
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 8, "insight_text": "situational_risp_high", "insight_type": "situational", "supporting_stat_value": 0.57}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 4, "insight_text": "execution_ff_high", "insight_type": "execution", "supporting_stat_value": 0.51}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 2, "insight_text": "predictability_firstpitch_high", "insight_type": "predictability", "supporting_stat_value": 0.35}),
-            # Playlists
+            # Music collections
             Action(name="CreateVideoPlaylist", kwargs={"playlist_name": "Positive Reinforcement", "clip_count": 3, "report_id": 13}),
             Action(name="CreateVideoPlaylist", kwargs={"playlist_name": "Teaching Moments", "clip_count": 3, "report_id": 13}),
             Action(name="LogWorkflowRun", kwargs={"dag_name": "post_game_review", "status": "success", "start_time_utc": "2025-08-18T18:25:00Z", "end_time_utc": "2025-08-18T18:45:00Z", "log_s3_path": "s3://workflow/logs/post_game_review/2024000008/2025-08-18-2.log", "game_pk": 2024000008})
@@ -3220,7 +3220,7 @@ Acceptance criteria (goal-oriented, non-procedural):
             Action(name="WritePitchExecutionGrade", kwargs={"pitch_id": 45, "game_pk": 2024000008, "intended_quadrant_model": "down_in", "actual_quadrant": "middle_in", "miss_distance_inches": 5.0}),
             Action(name="FilterTrends", kwargs={"game_pk": 2024000008, "min_pitches": 50, "min_swings": 30, "min_bbe": 25, "fdr_threshold": 0.10}),
             Action(name="CreateScoutingReport", kwargs={"report_type": "post-game", "game_pk": 2024000008, "core_narrative_text": "post_game_review", "gslides_link": "https://docs.google.com/presentation/d/post_game_review", "s3_pdf_path": "s3://reports/scouting/post_game/2024000008.pdf", "draft_status": "published"}),
-            # Six insights (unique, sorted)
+            # Six distinct, ordered insights
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 4, "insight_text": "execution_ff_high", "insight_type": "execution", "supporting_stat_value": 0.66}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 8, "insight_text": "execution_sl_low", "insight_type": "execution", "supporting_stat_value": 0.60}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 8, "insight_text": "situational_risp_high", "insight_type": "situational", "supporting_stat_value": 0.58}),
@@ -3272,7 +3272,7 @@ Acceptance criteria (goal-oriented, non-procedural):
                 "s3_pdf_path": "s3://reports/scouting/post_game/2024000008.pdf",
                 "draft_status": "published"
             }),
-            # Explicit audit log entry for draft_status transition (fix from judge)
+            # Clear audit log entry for transition of draft_status (correction from judge)
             Action(name="LogIngestionEvent", kwargs={
                 "source_name": "scouting_reports",
                 "status_code": 200,
@@ -3281,7 +3281,7 @@ Acceptance criteria (goal-oriented, non-procedural):
                 "message": "report_published report_id=13 draft_status=published",
                 "game_pk": 2024000008
             }),
-            # Insights in required order and canonicalized
+            # Insights arranged in the necessary sequence and standardized.
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 2, "insight_text": "execution_ff_high", "insight_type": "execution", "supporting_stat_value": 0.67}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 4, "insight_text": "execution_sl_low", "insight_type": "execution", "supporting_stat_value": 0.61}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 8, "insight_text": "situational_risp_high", "insight_type": "situational", "supporting_stat_value": 0.59}),
@@ -3656,7 +3656,7 @@ No other records should be established or altered.
                 "coach_id": 501,
                 "target_review_date": "2024-03-06"
             }),
-            # Approve the two goals created above (IDs are deterministic in this snapshot: 20, 21)
+            # Authorize the two previously established goals (IDs are fixed in this snapshot: 20, 21).
             Action(name="ApprovePlayerDevGoal", kwargs={"goal_id": 20}),
             Action(name="ApprovePlayerDevGoal", kwargs={"goal_id": 21}),
             Action(name="FilterTrends", kwargs={
@@ -4124,7 +4124,7 @@ Outcomes for acceptance only:
                 "gslides_link": "https://slides.example.org/post/2024000008",
                 "s3_pdf_path": "s3://reports/scouting/post/2024-03-05_g2024000008_post.pdf"
             }),
-            # Insights ordered by supporting_stat_value DESC across all entries
+            # Insights sorted by supporting_stat_value in descending order for all records.
             Action(name="AddCuratedInsight", kwargs={
                 "report_id": 13,
                 "player_id": 11,
@@ -4252,7 +4252,7 @@ Acceptance outcomes (deterministic end-state):
                 "suggestion_text": "report_published report_id=13 draft_status=published",
                 "is_manual_alert": True
             }),
-            # Curated insights — ensure NO duplicates of 'predictability_firstpitchstrike_high'
+            # Filtered insights — guarantee NO repetitions of 'predictability_firstpitchstrike_high'
             Action(name="AddCuratedInsight", kwargs={
                 "report_id": 13,
                 "player_id": 8,
@@ -4333,7 +4333,7 @@ Acceptance outcomes (deterministic end-state):
                 "gslides_link": "https://slides.example.org/post/2024000008",
                 "s3_pdf_path": "s3://reports/scouting/post/2024-03-05_g2024000008_post.pdf"
             }),
-            # Insights ordered DESC
+            # Insights arranged in descending order.
             Action(name="AddCuratedInsight", kwargs={
                 "report_id": 13,
                 "player_id": 11,
@@ -4860,7 +4860,7 @@ Acceptance outcomes (deterministic end-state):
                     "is_manual_alert": True,
                 },
             ),
-            # Six curated insights, all unique
+            # Six distinct insights, each one original
             Action(
                 name="AddCuratedInsight",
                 kwargs={
@@ -4921,7 +4921,7 @@ Acceptance outcomes (deterministic end-state):
                     "supporting_stat_value": 0.60,
                 },
             ),
-            # Playlists
+            # Collections of music tracks.
             Action(
                 name="CreateVideoPlaylist",
                 kwargs={"playlist_name": "Platoon Review", "clip_count": 3, "report_id": 13},
@@ -5083,7 +5083,7 @@ Acceptance criteria (goal-oriented, non-procedural):
                 "gslides_link": "https://docs.google.com/presentation/d/post_game_review",
                 "s3_pdf_path": "s3://reports/scouting/post_game/2024000008.pdf"
             }),
-            # FIX: collapse duplicates and sort curated insights by supporting_stat_value DESC then player_id ASC
+            # RESOLVE: eliminate duplicates and order curated insights by supporting_stat_value in descending order followed by player_id in ascending order.
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 4, "insight_text": "execution_ff_high", "insight_type": "execution", "supporting_stat_value": 0.60}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 8, "insight_text": "execution_sl_low", "insight_type": "execution", "supporting_stat_value": 0.56}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 8, "insight_text": "situational_risp_high", "insight_type": "situational", "supporting_stat_value": 0.55}),
@@ -6009,7 +6009,7 @@ Acceptance outcomes (terminal DB state):
                 "operator_note": "report_published report_id=13 draft_status=published",
                 "is_manual_alert": True
             }),
-            # Four curated insights (all unique codes)
+            # Four distinct insights (each with a unique code)
             Action(name="AddCuratedInsight", kwargs={
                 "report_id": 13, "player_id": 4,
                 "insight_text": "execution_ff_high", "insight_type": "execution", "supporting_stat_value": 0.62
@@ -6026,7 +6026,7 @@ Acceptance outcomes (terminal DB state):
                 "report_id": 13, "player_id": 8,
                 "insight_text": "predictability_sequencing_high", "insight_type": "predictability", "supporting_stat_value": 0.56
             }),
-            # Policy playlists
+            # Policy collections
             Action(name="CreateVideoPlaylist", kwargs={
                 "playlist_name": "Positive Reinforcement", "clip_count": 3, "report_id": 13
             }),
@@ -6141,7 +6141,7 @@ No extra outputs are needed.
                 "insight_type": "predictability",
                 "supporting_stat_value": 0.36
             }),
-            # FIX: use the correct key 'playlist_name'
+            # CORRECT: utilize the appropriate key 'playlist_name'
             Action(name="CreateVideoPlaylist", kwargs={
                 "playlist_name": "Positive Reinforcement", "clip_count": 3, "report_id": 13
             }),
@@ -6198,7 +6198,7 @@ End-state criteria (terminal DB state):
                 }
             ),
             Action(name="ComputeGameLeverageSummary", kwargs={"game_pk": 2024000008, "threshold": 1.5}),
-            # Execution grades
+            # Performance ratings
             Action(
                 name="WritePitchExecutionGrade",
                 kwargs={
@@ -6223,7 +6223,7 @@ End-state criteria (terminal DB state):
                     "miss_distance_inches": 10.2, "grade": "Major Miss"
                 }
             ),
-            # Dossier
+            # File
             Action(
                 name="CreateScoutingReport",
                 kwargs={
@@ -6235,7 +6235,7 @@ End-state criteria (terminal DB state):
                     "draft_status": "published"
                 }
             ),
-            # Six curated insights (metrics/theme tokens comply with validator)
+            # Six selected insights (metrics/theme tokens adhere to validator standards)
             Action(
                 name="AddCuratedInsight",
                 kwargs={"report_id": 13, "player_id": 4, "insight_text": "execution_ff_high", "insight_type": "execution", "supporting_stat_value": 0.64}
@@ -6248,7 +6248,7 @@ End-state criteria (terminal DB state):
                 name="AddCuratedInsight",
                 kwargs={"report_id": 13, "player_id": 3, "insight_text": "situational_risp_high", "insight_type": "situational", "supporting_stat_value": 0.56}
             ),
-            Action(  # platoon-style content expressed within allowed theme set
+            Action(  # content presented in a platoon format adhering to specified themes
                 name="AddCuratedInsight",
                 kwargs={"report_id": 13, "player_id": 7, "insight_text": "tendency_lhh_high", "insight_type": "tendency", "supporting_stat_value": 0.55}
             ),
@@ -6260,10 +6260,10 @@ End-state criteria (terminal DB state):
                 name="AddCuratedInsight",
                 kwargs={"report_id": 13, "player_id": 5, "insight_text": "tendency_chase_low", "insight_type": "tendency", "supporting_stat_value": 0.32}
             ),
-            # Policy playlists
+            # Policy collections
             Action(name="CreateVideoPlaylist", kwargs={"playlist_name": "Positive Reinforcement", "clip_count": 3, "report_id": 13}),
             Action(name="CreateVideoPlaylist", kwargs={"playlist_name": "Teaching Moments", "clip_count": 3, "report_id": 13}),
-            # Publication audit + workflow log
+            # Publication review and workflow record
             Action(
                 name="CreateManualAlertEvent",
                 kwargs={
@@ -6345,17 +6345,17 @@ Return only the report id of the summary.
                     "draft_status": "published"
                 }
             ),
-            # Curated insights (exactly the six rows, in order)
+            # Selected insights (precisely the six rows, in sequence)
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 4, "insight_text": "execution_ff_high",               "insight_type": "execution",      "supporting_stat_value": 0.63}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 7, "insight_text": "predictability_sequencing_high",   "insight_type": "predictability", "supporting_stat_value": 0.60}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 8, "insight_text": "tendency_chase_low",               "insight_type": "tendency",       "supporting_stat_value": 0.57}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 3, "insight_text": "situational_risp_high",            "insight_type": "situational",    "supporting_stat_value": 0.52}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 6, "insight_text": "stamina_lategame_low",             "insight_type": "stamina",        "supporting_stat_value": 0.49}),
             Action(name="AddCuratedInsight", kwargs={"report_id": 13, "player_id": 2, "insight_text": "tendency_bunt_low",                "insight_type": "tendency",       "supporting_stat_value": 0.47}),
-            # Required coaching playlists
+            # Essential training playlists
             Action(name="CreateVideoPlaylist", kwargs={"report_id": 13, "playlist_name": "Positive Reinforcement", "clip_count": 3}),
             Action(name="CreateVideoPlaylist", kwargs={"report_id": 13, "playlist_name": "Teaching Moments",       "clip_count": 3}),
-            # Publication audit (manual)
+            # Manual publication review
             Action(
                 name="CreateManualAlertEvent",
                 kwargs={
@@ -6368,7 +6368,7 @@ Return only the report id of the summary.
                     "is_manual_alert": True
                 }
             ),
-            # Workflow run record (policy requirement)
+            # Record of workflow execution (compliance necessity)
             Action(
                 name="LogWorkflowRun",
                 kwargs={
@@ -6410,7 +6410,7 @@ Acceptance results (final DB state):
                 "game_pk": 2024000008, "min_pitches": 50, "min_swings": 30, "min_bbe": 25,
                 "fdr_threshold": 0.10, "min_effect_size": 0.05, "use_eb_shrinkage": True, "control": "FDR"
             }),
-            # Create dossier first, then record publication audit, then compute leverage summary so manual activity is captured
+            # First, generate the dossier, followed by documenting the publication audit, and then calculate the leverage summary to ensure manual activities are recorded.
             Action(name="CreateScoutingReport", kwargs={
                 "report_type": "post-game", "game_pk": 2024000008,
                 "label": "post_game_highlev_teach_v1",
@@ -6428,7 +6428,7 @@ Acceptance results (final DB state):
                 "is_manual_alert": True
             }),
             Action(name="ComputeGameLeverageSummary", kwargs={"game_pk": 2024000008, "threshold": 1.5}),
-            # Curated insights (ordered by supporting_stat_value desc; no duplicate 'predictability')
+            # Organized insights (sorted by supporting_stat_value in descending order; unique 'predictability' values only)
             Action(name="AddCuratedInsight", kwargs={
                 "report_id": 13, "player_id": 4,
                 "insight_text": "execution_ff_high", "insight_type": "execution", "supporting_stat_value": 0.60
@@ -6453,14 +6453,14 @@ Acceptance results (final DB state):
                 "report_id": 13, "player_id": 5,
                 "insight_text": "tendency_chase_low", "insight_type": "tendency", "supporting_stat_value": 0.33
             }),
-            # Policy playlists
+            # Policy collections
             Action(name="CreateVideoPlaylist", kwargs={
                 "playlist_name": "Positive Reinforcement", "clip_count": 3, "report_id": 13
             }),
             Action(name="CreateVideoPlaylist", kwargs={
                 "playlist_name": "Teaching Moments", "clip_count": 3, "report_id": 13
             }),
-            # Workflow log
+            # Process log
             Action(name="LogWorkflowRun", kwargs={
                 "dag_name": "post_game_highlev_teach_v1", "status": "success",
                 "start_time_utc": "2025-08-22T01:25:00Z",
@@ -6960,7 +6960,7 @@ Explicit arguments only; no hidden defaults.
             Action(name="CreatePlayerDevGoal", kwargs={"dev_report_id": 12, "player_id": 9, "goal_text": "Elevate hard-hit% (95+ EV +3pp)", "coach_id": 502, "target_review_date": "2025-08-18", "goal_status": "Proposed"}),
             Action(name="ApprovePlayerDevGoal", kwargs={"goal_id": 19}),
             Action(name="FilterTrends", kwargs={"min_pitches": 50, "min_swings": 30, "min_bbe": 25, "fdr_threshold": 0.1}),
-            # Dev report playlists (policy-enforced names and clip counts)
+            # Development report for playlists (names and clip quantities as per policy requirements)
             Action(name="CreateVideoPlaylist", kwargs={"report_id": 11, "playlist_name": "Positive Reinforcement", "clip_count": 4}),
             Action(name="CreateVideoPlaylist", kwargs={"report_id": 11, "playlist_name": "Teaching Moments", "clip_count": 3}),
             Action(name="CreateVideoPlaylist", kwargs={"report_id": 12, "playlist_name": "Positive Reinforcement", "clip_count": 4}),

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,8 +16,8 @@ class CalculateRouteOptimizationTool(Tool):
         if not property_list or not start_address or max_hop_minutes is None:
             return _err("property_list, start_address, max_hop_minutes are required")
 
-        # Deterministic pseudo-optimizer: keep input order; assign stable hop times <= max_hop_minutes
-        # Route Optimization Protocol constraint: <= 30 minutes between stops
+        # Deterministic pseudo-optimizer: maintain input sequence; allocate consistent hop durations not exceeding max_hop_minutes.
+        # Route Optimization Protocol limitation: maximum of 30 minutes between stops
         max_constraint = min(30, max_hop_minutes)
 
         route = list(property_list)
@@ -38,7 +38,7 @@ class CalculateRouteOptimizationTool(Tool):
         total_time = 0
         for s in segments:
             total_time += int(s["travel_minutes"])
-        # add fixed viewing times (deterministic) to reach sample 165 in spec, but keep travel constraint
+        # implement predetermined viewing times to achieve sample 165 as per specifications while maintaining travel limitations
         viewing_time = 120 if len(route) >= 3 else 60
         total_time_minutes = total_time + viewing_time
 
@@ -58,7 +58,7 @@ class CalculateRouteOptimizationTool(Tool):
 
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        # Route Optimization Protocol
+        # Routing Efficiency Protocol
         return {
             "type": "function",
             "function": {

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,12 +24,12 @@ class AddNewLoanForCustomer(Tool):
         customers = list(data.get("customers", {}).values())
         loan_applications = data.get("loan_applications", [])
 
-        # Get customer object
+        # Retrieve customer instance.
         customer = next((c for c in customers if c["customer_id"] == customer_id), None)
         if not customer:
             return json.dumps({"error": "Customer not found."}, indent=2)
 
-        # Get loan application
+        # Retrieve loan application.
         application = next((a for a in loan_applications if a["application_id"] == loan_application_id), None)
         if not application:
             return json.dumps({"error": "Loan application not found."}, indent=2)
@@ -38,11 +38,11 @@ class AddNewLoanForCustomer(Tool):
         decision = application.get("decision", {})
         loan_type = loan_details.get("loan_type")
 
-        # Generate IDs
+        # Create identifiers
         loan_id = get_next_loan_id()
         loan_account_id = get_next_loanacc_id()
 
-        # Create loan account
+        # Establish loan account.
         new_account = {
             "account_id": loan_account_id,
             "customer_id": customer_id,
@@ -57,14 +57,14 @@ class AddNewLoanForCustomer(Tool):
         data.setdefault("accounts", []).append(new_account)
         customer.setdefault("account_ids", []).append(loan_account_id)
 
-        # Loan fields based on DB structure
+        # Loan attributes derived from database schema.
         principal_amount = decision.get("approved_amount")
         interest_rate = decision.get("interest_rate")
         term_months = loan_details.get("requested_term_months")
         origination_date = datetime.utcnow().strftime("%Y-%m-%d")
         maturity_date = (datetime.utcnow().replace(year=datetime.utcnow().year + (term_months // 12))).strftime("%Y-%m-%d")
 
-        # Calculate monthly payment using simple amortization formula
+        # Compute the monthly payment using the basic amortization equation.
         r = interest_rate / 100 / 12
         n = term_months
         if r > 0:
@@ -72,14 +72,14 @@ class AddNewLoanForCustomer(Tool):
         else:
             monthly_payment = principal_amount / n
 
-        # Add loan to database
+        # Insert loan into database.
         new_loan = {
             "loan_id": loan_id,
             "customer_id": customer_id,
             "account_id": loan_account_id,
             "loan_type": loan_type,
             "principal_amount": principal_amount,
-            "current_balance": principal_amount,  # Assuming full disbursement
+            "current_balance": principal_amount,  # Presuming complete allocation
             "interest_rate": interest_rate,
             "term_months": term_months,
             "origination_date": origination_date,

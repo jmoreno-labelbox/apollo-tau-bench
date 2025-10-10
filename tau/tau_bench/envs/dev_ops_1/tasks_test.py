@@ -1423,13 +1423,13 @@ TASKS = [
         ),
         actions=[
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_026"}, "outputs": {}, "status": "started"}),
-            # Seed from DB fields only; do not invent payload text
+            # Populate only from database fields; avoid generating payload content.
             Action(name="ReceiveTicketWebhook", kwargs={"event": "issue_created", "payload": {"ticket_key": "work_026"}}),
             Action(name="NormalizeIssue", kwargs={"ticket_key": "work_026"}),
             Action(name="SummarizeIssue", kwargs={"ticket_key": "work_026"}),
             Action(name="ComputeImpactScore", kwargs={"ticket_key": "work_026", "fingerprint": "renderer_character_load_access_violation_xyz"}),
             Action(name="ResolveOwnerFromMap", kwargs={"module_or_path": "src/game/engine/renderer.cpp"}),
-            # Persist deterministic fields in one minimal update (include exact summary)
+            # Save deterministic fields in a single compact update (with precise summary included).
             Action(name="UpdateTicketFields", kwargs={"ticket_key": "work_026", "fields": {"impact_score": 2, "owner_team": "team_001", "triage_status": "In Triage", "labels": ["auto-triage"], "summary_text": "Issue :: "}}),
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_026"}, "outputs": {}, "status": "routed"}),
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_026"}, "outputs": {"ticket_key": "work_026"}, "status": "completed"}),
@@ -1454,7 +1454,7 @@ TASKS = [
             Action(name="ComputeImpactScore", kwargs={"ticket_key": "work_026", "fingerprint": "renderer_character_load_access_violation_xyz"}),
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_026"}, "outputs": {}, "status": "scored"}),
             Action(name="ResolveOwnerFromMap", kwargs={"module_or_path": "src/game/engine/renderer.cpp"}),
-            # Persist actual computed values (single update, include summary and owner)
+            # Store the finalized computed values (one update, encompassing summary and owner).
             Action(name="UpdateTicketFields", kwargs={"ticket_key": "work_026", "fields": {"impact_score": 2, "owner_team": "team_001", "triage_status": "In Triage", "labels": ["auto-triage"], "summary_text": "Issue :: "}}),
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_026"}, "outputs": {}, "status": "routed"}),
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_026"}, "outputs": {"ticket_key": "work_026"}, "status": "completed"}),
@@ -1477,7 +1477,7 @@ TASKS = [
             Action(name="ComputeImpactScore", kwargs={"ticket_key": "work_027"}),
             Action(name="LinkDuplicateIssue", kwargs={"primary_ticket_key": "work_027", "duplicate_ticket_key": "work_026", "confidence": 0.91}),
             Action(name="ResolveOwnerFromMap", kwargs={"module_or_path": "assets/textures/character_models/"}),
-            # Persist computed fields and routing in one minimal update (exact summary from summarize_issue)
+            # Save calculated fields and routing in a single, concise update (precise summary from summarize_issue).
             Action(name="UpdateTicketFields", kwargs={"ticket_key": "work_027", "fields": {"impact_score": 2, "owner_team": "team_002", "triage_status": "In Triage", "labels": ["auto-triage"], "summary_text": "Issue :: "}}),
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_027"}, "outputs": {}, "status": "routed"}),
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_027"}, "outputs": {"ticket_key": "work_027"}, "status": "completed"}),
@@ -1667,7 +1667,7 @@ TASKS = [
             Action(name="ComputeImpactScore", kwargs={"ticket_key": "work_029"}),
             Action(name="LinkDuplicateIssue", kwargs={"primary_ticket_key": "work_030", "duplicate_ticket_key": "work_029", "confidence": 0.78}),
             Action(name="UpdateTicketFields", kwargs={"ticket_key": "work_029", "fields": {"impact_score": 2, "labels": ["auto-triage", "duplicate"]}}),
-            # Complete the same automation run deterministically
+            # Execute the identical automation run in a consistent manner.
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_029"}, "outputs": {}, "status": "deduplicated"}),
             Action(name="RecordAutomationRun", kwargs={"automation_type": "bug-intake", "inputs": {"ticket_key": "work_029"}, "outputs": {"ticket_key": "work_029"}, "status": "completed"}),
             Action(name="ReturnScalar", kwargs={"value": "work_029"}),

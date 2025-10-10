@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class AssignTrackingNumber(Tool):
         Writes to: orders.json (updates order fulfillments with tracking info)
         Data Sources: orders.json (order status validation), couriers.json (courier availability)
         """
-        # Validate input parameters
+        # Verify input arguments
         if not order_id and not order_ids:
             return json.dumps({
                 "error": "Either order_id or order_ids must be provided",
@@ -29,7 +29,7 @@ class AssignTrackingNumber(Tool):
                 "status": "failed"
             })
 
-        # Build list of orders to process
+        # Create a list of orders for processing.
         orders_to_process = []
         batch_mode = False
 
@@ -45,16 +45,16 @@ class AssignTrackingNumber(Tool):
                 "status": "failed"
             })
 
-        # Handle both preferred_courier_id and courier_id parameters for backward compatibility
+        # Manage both preferred_courier_id and courier_id parameters to ensure backward compatibility.
         selected_courier_preference = preferred_courier_id or courier_id
 
-        # Find and validate all orders
+        # Retrieve and verify all orders.
         orders = list(data.get("orders", {}).values())
         valid_orders = []
         invalid_orders = []
 
         for order_id_input in orders_to_process:
-            # Add # prefix if not provided (for convenience)
+            # Add # Prefix with # if absent (for ease of use)
             formatted_order_id = order_id_input if order_id_input.startswith("#") else f"#{order_id_input}"
 
             order_found = False
@@ -62,7 +62,7 @@ class AssignTrackingNumber(Tool):
                 if order.get("order_id") == formatted_order_id:
                     current_status = order.get("status")
 
-                    # Check if order is eligible for tracking assignment
+                    # Verify if the order qualifies for tracking assignment.
                     if current_status != "pending":
                         invalid_orders.append({
                             "order_id": formatted_order_id,
@@ -94,7 +94,7 @@ class AssignTrackingNumber(Tool):
                 "failed_assignments": len(invalid_orders)
             })
 
-        # Get destination country from first order if not provided
+        # Obtain the destination country from the initial order if it is unspecified.
         if not destination_country:
             first_order = valid_orders[0]["order_data"]
             order_address = first_order.get("address", {})
@@ -106,7 +106,7 @@ class AssignTrackingNumber(Tool):
                     "status": "failed"
                 })
 
-        # Rule: Assign couriers only if destination country matches their coverage areas
+        # Condition: Allocate couriers solely when the destination country aligns with their service regions.
         couriers = data.get("couriers", [])
         eligible_couriers = []
 
@@ -121,16 +121,16 @@ class AssignTrackingNumber(Tool):
                 "status": "failed"
             })
 
-        # Select courier based on preference or use automatic selection
+        # Choose a courier according to preference or opt for automatic selection.
         selected_courier = None
         selection_method = "automatic"
 
         if selected_courier_preference:
-            # Find the preferred courier if provided
+            # Identify the selected courier if available.
             selected_courier = next((c for c in eligible_couriers if c.get("courier_id") == selected_courier_preference), None)
 
             if not selected_courier:
-                # Preferred courier not available, provide alternatives
+                # Preferred shipping option is unavailable; please suggest alternatives.
                 available_courier_options = [
                     {"courier_id": c.get("courier_id"), "name": c.get("name"), "rating": c.get("rating", 0)}
                     for c in eligible_couriers
@@ -142,25 +142,25 @@ class AssignTrackingNumber(Tool):
                 })
             selection_method = "preferred"
         else:
-            # Use automatic selection logic - select highest rated courier
+            # Implement automated selection criteria to choose the top-rated courier.
             eligible_couriers.sort(key=lambda x: x.get("rating", 0), reverse=True)
             selected_courier = eligible_couriers[0]
 
-        # Generate tracking ID based on mode (single or batch)
+        # Create a tracking identifier according to the mode (single or batch).
         if batch_mode:
-            # Create single tracking ID for all orders in batch
+            # Generate a unified tracking ID for every order in the batch.
             batch_identifier = f"BATCH{len(valid_orders):02d}"
             courier_code = selected_courier.get("courier_id", "").replace("#", "").replace("COU", "C")
             assigned_tracking_id = f"TRK{batch_identifier}{courier_code}"
             tracking_generation_method = "single_batch_tracking"
         else:
-            # Single order - generate tracking ID based on order_id + courier_id
+            # Generate tracking ID for a single order using order_id combined with courier_id.
             order_number = valid_orders[0]["order_id"].replace("#", "")
             courier_code = selected_courier.get("courier_id", "").replace("#", "").replace("COU", "C")
             assigned_tracking_id = f"TRK{order_number}{courier_code}"
             tracking_generation_method = "order_courier_based"
 
-        # Process each valid order with the same tracking ID
+        # Handle all legitimate orders sharing the same tracking ID.
         successful_assignments = []
         total_batch_value = 0.0
 
@@ -169,15 +169,15 @@ class AssignTrackingNumber(Tool):
             order_index = order_info["order_index"]
             formatted_order_id = order_info["order_id"]
 
-            # Calculate order value for insurance requirements
+            # Compute the value of the order for insurance purposes.
             order_items = order_data.get("items", [])
             order_value = sum(item.get("price", 0) * item.get("quantity", 1) for item in order_items)
             total_batch_value += order_value
 
-            # Rule: High-value orders (>$1000 total) require payment verification before fulfillment
+            # Policy: Orders exceeding $1000 must undergo payment verification prior to processing.
             requires_insurance = order_value > 1000.0
 
-            # WRITE OPERATION: Add fulfillment information to order
+            # EXECUTE OPERATION: Incorporate fulfillment details into the order.
             fulfillment_entry = {
                 "tracking_id": assigned_tracking_id,
                 "courier_id": selected_courier.get("courier_id"),
@@ -196,12 +196,12 @@ class AssignTrackingNumber(Tool):
                 order_data["fulfillments"] = []
             order_data["fulfillments"].append(fulfillment_entry)
 
-            # Update order status to processed
+            # Change order status to processed.
             previous_status = order_data.get("status")
             order_data["status"] = "processed"
             order_data["last_updated"] = datetime.now().isoformat()
 
-            # Update the order in the data structure
+            # Modify the sequence in the data structure.
             data["orders"][order_index] = order_data
 
             successful_assignments.append({
@@ -217,10 +217,10 @@ class AssignTrackingNumber(Tool):
                 "assigned_date": fulfillment_entry["assigned_date"]
             })
 
-        # Check if batch requires insurance (total value > $1000)
+        # Verify if the batch needs insurance (total value exceeds $1000).
         batch_requires_insurance = total_batch_value > 1000.0 if batch_mode else None
 
-        # Prepare comprehensive response
+        # Develop a detailed reply.
         result = {
             "status": "success",
             "processing_summary": {

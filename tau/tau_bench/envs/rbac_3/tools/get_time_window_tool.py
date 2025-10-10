@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -42,13 +42,13 @@ class GetTimeWindowTool(Tool):
         h = GetTimeWindowTool._parse_offset(hours, "h") if hours else 0.0
         delta = timedelta(days=d, hours=h)
 
-        # Determine window direction
+        # Identify the orientation of the window.
         if d < 0 or h < 0:
             start, end = base + delta, base
         else:
             start, end = base, base + delta
 
-        # Keep the exact "+00:00" style if present in input
+        # Maintain the precise "+00:00" format if it appears in the input.
         def fmt(dt: datetime) -> str:
             s = dt.isoformat()
             if s.endswith("+00:00"):

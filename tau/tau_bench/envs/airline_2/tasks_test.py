@@ -66,7 +66,7 @@ TASKS = [
                 "crew_member_id": "CM004",
                 "assigned_role": "Captain"
             }),
-            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> ARP_ATL
+            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> Address Resolution Protocol - Address Translation Layer
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_ATL",
                 "event_type": "Crew Replacement",
@@ -120,7 +120,7 @@ TASKS = [
             "You need to start the related diversion protocols and ensure records have been reflected in the logs and events."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "DEN"}),                         # -> ARP_DEN
+            Action(name="GetAirportByCode", kwargs={"iata_code": "DEN"}),                         # -> ARP_DENIED
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT003", "date": "2024-05-03"}),
             Action(name="AppendMaintenanceLog", kwargs={
                 "aircraft_id": "AC001",
@@ -155,12 +155,12 @@ TASKS = [
         ),
         actions=[
             Action(name="GetCrewMemberByEmployeeCode", kwargs={"employee_code": "EMP004"}),  # -> CM004
-            Action(name="GetCrewCertifications", kwargs={"crew_member_id": "CM004","certification_code":"E195-E2"}),  # confirm cert exists
+            Action(name="GetCrewCertifications", kwargs={"crew_member_id": "CM004","certification_code":"E195-E2"}),  # verify certificate presence
             Action(name="GetCrewAssignments", kwargs={"crew_member_id": "CM004"}),
             Action(name="ScanFlightsByDate", kwargs={"date":"2024-05-10","flight_numbers": ["HAT002","HAT011","HAT004","HAT003","HAT010"]}),
-            # check conflicts
+            # verify conflicts
             Action(name="UpdateCrewMemberStatus", kwargs={"crew_member_id": "CM004", "new_status": "Training"}),
-            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> ARP_ATL
+            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> Address Resolution Protocol - Address Translation Layer
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_ATL",
                 "event_type": "Crew Training",
@@ -185,15 +185,15 @@ TASKS = [
             " ensure records have been reflected in the events at DFW."
         ),
         actions=[
-            # Flight and airport context
-            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> ARP_ATL
-            Action(name="GetAirportByCode", kwargs={"iata_code": "DFW"}),  # -> ARP_DFW
+            # Aviation and airport environment
+            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> Address Resolution Protocol - Address Translation Layer
+            Action(name="GetAirportByCode", kwargs={"iata_code": "DFW"}),  # -> ARP Data Flow Widget
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT004", "date": "2024-05-13"}),
 
-            # Departure-station disruptions and passenger impact
+            # Disruptions at departure stations and their effect on passengers
             Action(name="EventsAtAirportOn", kwargs={"airport_id": "ARP_ATL", "date": "2024-05-13"}),
 
-            # Aircraft and technical context
+            # Aviation and engineering context
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_DFW",
                 "event_type": "BAGGAGE_HANDLING",
@@ -206,7 +206,7 @@ TASKS = [
                 "new_status": "baggage delay"
             }),
 
-            # Preventive follow-up (deterministic, conditional-by-instruction)
+            # Deterministic conditional follow-up for prevention.
             Action(name="AppendMaintenanceLog", kwargs={
                 "aircraft_id": "AC002",
                 "maintenance_type": "Unscheduled",
@@ -227,11 +227,11 @@ TASKS = [
             "You need to Initiate the needed protocol for MCO "
         ),
         actions=[
-            # Confirm local situation and enumerate impacted services
+            # Verify the local conditions and list the affected services.
             Action(name="GetAirportByCode", kwargs={"iata_code": "MCO"}),  # -> ARP_MCO
             Action(name="ScanFlightsByDate", kwargs={"origin":'MCO',"date": "2024-05-16"}),
 
-            # Operational record of the fuel allocation plan
+            # Operational log of the fuel distribution strategy
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_MCO",
                 "event_type": "Fuel Disruption",
@@ -239,7 +239,7 @@ TASKS = [
                 "event_timestamp_utc": "2024-05-16T08:40:00Z"
             }),
 
-            # Reflect decisions on the flight-days
+            # Incorporate decisions into the flight days.
             Action(name="UpdateFlightStatusForDate", kwargs={
                 "flight_numbers": ["HAT214", "HAT217"],
                 "date": "2024-05-16",
@@ -251,7 +251,7 @@ TASKS = [
                 "new_status": "canceled"
             }),
 
-            # Stakeholder communication
+            # Communication with stakeholders
             Action(name="SendUserNotification", kwargs={
                 "channel_or_user_id": "ops-mco",
                 "message": "Fuel program MCO: HAT214, HAT217 delayed, HAT101, HAT299, HAT298, HAT028, HAT017, HAT075, HAT161, HAT153, HAT048 canceled."
@@ -268,17 +268,17 @@ TASKS = [
             "You need to initiate the Crew Duty-Limit Mitigation protocol for HAT249 and set the flight status to delayed"
         ),
         actions=[
-            # Flight context
+            # Flight environment
             Action(name="GetAirportByCode", kwargs={"iata_code": "LAX"}),  # -> ARP_LAX
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT249", "date": "2024-05-16"}),
 
-            # Identify currently assigned crew (context) and audit duty for the two at-risk employees
+            # Determine the active crew members (context) and review the responsibilities for the two employees at risk.
             Action(name="GetCrewAssignments", kwargs={"flight_number": "HAT249"}),
             Action(name="GetCrewMemberByEmployeeCode", kwargs={"employee_code": "EMP004"}),  # -> CM004
-            #Action(name="ComputeCrewDutyCounts", kwargs={"crew_member_id": "CM004","reference_date":"2024-05-16"}),
+            # Action(name="ComputeCrewDutyCounts", kwargs={"crew_member_id": "CM004", "reference_date": "2024-05-16"}),
             Action(name="UpdateCrewMemberStatus", kwargs={"crew_member_id": "CM004", "new_status": "Inactive"}),
 
-            # Assign standby crew and confirm certifications for the international route
+            # Designate backup crew and verify qualifications for the international flight.
             Action(name="GetCrewMemberByEmployeeCode", kwargs={"employee_code": "EMP007"}),  # -> CM007
             Action(name="CreateCrewAssignment", kwargs={
                 "flight_number": "HAT249",
@@ -286,7 +286,7 @@ TASKS = [
                 "assigned_role": "Captain"
             }),
 
-            # Update flight status and log the event
+            # Revise flight status and record the event.
             Action(name="UpdateFlightStatusForDate", kwargs={
                 "flight_numbers": ["HAT249"],
                 "date": "2024-05-16",
@@ -313,18 +313,18 @@ TASKS = [
             "You need to Initiate the needed protocol for this incident and ensure records have been reflected in the events."
         ),
         actions=[
-            # Airport + day context
-            Action(name="GetAirportByCode", kwargs={"iata_code": "LAX"}),  # -> ARP_LAX
+            # Airport combined with daily context
+            Action(name="GetAirportByCode", kwargs={"iata_code": "LAX"}),  # -> Airport_LAX
             Action(name="EventsAtAirportOn", kwargs={"airport_id": "ARP_LAX", "date": "2024-05-16"}),
             Action(name="ScanFlightsByDate", kwargs={"date": "2024-05-16"}),
 
-            # Focus on the potentially impacted departures in the same concourse window
+            # Concentrate on the departures that may be affected within the same concourse timeframe.
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT155", "date": "2024-05-16"}),
 
-            # Pull manifests to support owner tracing
+            # Retrieve manifests to enable owner tracking.
             Action(name="FindReservationsByFlightDay", kwargs={"flight_number": "HAT155", "date": "2024-05-16"}),
 
-            # Operational record for safety/compliance
+            # Safety and compliance operational documentation
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_LAX",
                 "event_type": "UNATTENDED_BAGGAGE",
@@ -332,14 +332,14 @@ TASKS = [
                 "event_timestamp_utc": "2024-05-16T08:40:00Z"
             }),
 
-            # Transparent status while the area is being cleared
+            # Clear area with a transparent status indicator.
             Action(name="UpdateFlightStatusForDate", kwargs={
                 "flight_numbers": ["HAT155"],
                 "date": "2024-05-16",
                 "new_status": "security-hold"
             }),
 
-            # Stakeholder comms
+            # Communication with stakeholders
             Action(name="SendUserNotification", kwargs={
                 "channel_or_user_id": "ops-lax",
                 "message": "Security advisory: temporary boarding pause for HAT155 at LAX."
@@ -358,26 +358,26 @@ TASKS = [
             "You have to initiate the needed protocol and refund all reservations for this flight."
         ),
         actions=[
-            # Airport + flight-day context
+            # Airport and flight-day information.
             Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> ARP_ATL
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT164", "date": "2024-05-16"}),
 
-            # Aircraft actioning: ground the tail and log maintenance follow-up
+            # Aircraft servicing: secure the tail and document maintenance follow-up.
             Action(name="GetAircraftByTail", kwargs={"tail_number": "PR-GOL"}),  # -> AC001
             Action(name="SetAircraftStatus", kwargs={"aircraft_id": "AC001", "new_status": "In Maintenance"}),
 
-            # Cancel the flight for the operational record
+            # Void the flight in the operational log.
             Action(name="UpdateFlightStatusForDate", kwargs={
                 "flight_numbers": ["HAT164"],
                 "date": "2024-05-16",
                 "new_status": "canceled"
             }),
 
-            # Manifest to support refunds/notifications (refunds are captured in the event narrative per protocol)
-            #Action(name="FindReservationsByFlightDay", kwargs={"flight_number": "HAT164", "date": "2024-05-16"}),
+            # Manifest for managing refunds/notifications (refunds documented in the event narrative as per protocol).
+            # Action(name="RetrieveReservationsByFlightDate", kwargs={"flight_number": "HAT164", "date": "2024-05-16"}),
             Action(name="RefundReservationsByFlightDay", kwargs={"flight_number": "HAT164", "date": "2024-05-16"}),
 
-            # Maintenance tracking
+            # Monitoring maintenance activities
             Action(name="AppendMaintenanceLog", kwargs={
                 "aircraft_id": "AC001",
                 "maintenance_type": "Unscheduled",
@@ -386,7 +386,7 @@ TASKS = [
                 "event_timestamp_utc": "2024-05-16T08:40:00Z"
             }),
 
-            # Operational event (documents cancellation, refunds per policy, and comms)
+            # Operational activities (document cancellations, refunds according to policy, and communications)
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_ATL",
                 "event_type": "AIRCRAFT_AOG",
@@ -412,7 +412,7 @@ TASKS = [
             "You need to support connection protection for HAT170,HAT124 at DFW on 2024-05-22."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "DFW"}),  # ARP_DFW
+            Action(name="GetAirportByCode", kwargs={"iata_code": "DFW"}),  # ARP_DallasFortWorth
 
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT170", "date": "2024-05-22"}),
             Action(name="FindReservationsByFlightDay", kwargs={"flight_number": "HAT170", "date": "2024-05-22"}),
@@ -452,7 +452,7 @@ TASKS = [
             "You need to initiate the needed protocol for parties harper_gonzalez_3796 and james_lee_6136."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # ARP_ATL
+            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # ARP_AccessTimeLog
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT299", "date": "2024-05-22"}),
             Action(name="FindReservationsByFlightDay", kwargs={"flight_number": "HAT299", "date": "2024-05-22"}),
             Action(name="FindReservationsByUser", kwargs={"user_id": "harper_gonzalez_3796"}),
@@ -480,7 +480,7 @@ TASKS = [
             "You need to initiate the needed protocol and refund latest duplicates."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "BOS"}),  # -> ARP_BOS
+            Action(name="GetAirportByCode", kwargs={"iata_code": "BOS"}),  # ARP_BOS
             Action(name="FindReservationsByUser", kwargs={"user_id": "raj_sanchez_7079"}),
             Action(name="RefundReservation", kwargs={"reservation_id": "CPQKE9"}),
             Action(name="CreateOperationalEvent", kwargs={
@@ -618,8 +618,8 @@ TASKS = [
             "on 2024-05-16, selecting the lowest available fare."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEA
-            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> ARP_ATL
+            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> Address Resolution Protocol Search
+            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> Address Resolution Protocol - Address Translation Layer
             Action(name="FindFlights", kwargs={
                 "origin": "SEA",
                 "destination": "ATL",
@@ -656,8 +656,8 @@ TASKS = [
             "You need to handle her request."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEA
-            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> ARP_ATL
+            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEARCH
+            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> ARP_ADDRESS_TRANSLATION_LAYER
             Action(name="FindFlights", kwargs={
                 "origin": "SEA",
                 "destination" : "ATL",
@@ -694,7 +694,7 @@ TASKS = [
             "You need to handle her request."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_SEA
+            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> Address Resolution Protocol - Source Error Adjustment
 
             Action(name="FindReservationsByUser", kwargs={
                 "user_id": "sofia_rossi_7655",
@@ -741,7 +741,7 @@ TASKS = [
         ),
         actions=[
             Action(name="GetAirportByCode", kwargs={"iata_code": "LAS"}),  # -> ARP_LAS
-            Action(name="GetAirportByCode", kwargs={"iata_code": "MCO"}),  # -> ARP_MCO
+            Action(name="GetAirportByCode", kwargs={"iata_code": "MCO"}),  # -> ARP_ModelConfigurationObject
 
             Action(name="FindReservationsByUser", kwargs={
                 "user_id": "olivia_gonzalez_2305",
@@ -796,7 +796,7 @@ TASKS = [
             "You need to update flight as returned for inspection and then initiate the AOG protocol"
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "ORD"}),  # -> ARP_ORD
+            Action(name="GetAirportByCode", kwargs={"iata_code": "ORD"}),  # -> Address Resolution Protocol Order
             Action(name="GetAircraftByTail", kwargs={"tail_number": "PT-MUI"}), #-> AC006
             Action(name="UpdateFlightStatusForDate", kwargs={
                 "flight_numbers": ["HAT139"],
@@ -833,7 +833,7 @@ TASKS = [
             "Follow the needed protocol to inspect the aircraft."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "EWR"}),  # -> ARP_EWR
+            Action(name="GetAirportByCode", kwargs={"iata_code": "EWR"}),  # -> ARP_ErrorWarningRegister
             Action(name="GetAircraftByTail", kwargs={"tail_number": "PT-MUI"}), #-> AC006
             Action(name="SetAircraftStatus", kwargs={"aircraft_id": "AC006", "new_status": "In Maintenance"}),
 
@@ -863,7 +863,7 @@ TASKS = [
             "You need to schedule A-Check maintenance for aircrafts that dont have A-Check log or the last A-check done more than 30 days ago."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> ARP_ATL
+            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> Address Resolution Protocol - Address Translation Layer
             Action(name="MaintenanceLogs", kwargs={}),
             Action(name="GetAircraftByAirport", kwargs={'airport_id': 'ARP_ATL'}),
             Action(name="AppendMaintenanceLog", kwargs={
@@ -985,8 +985,8 @@ TASKS = [
             "you need to cancel affected flights"
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "BOS"}),  # -> ARP_BOS
-            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEA
+            Action(name="GetAirportByCode", kwargs={"iata_code": "BOS"}),  # -> ARP_BASE_OF_STACK
+            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEARCH
             Action(name="FindFlights", kwargs={
                 "origin": "BOS",
                 "destination": "SEA",
@@ -1249,7 +1249,7 @@ TASKS = [
             "You need to Schedule a Minor delay at DFW by 30 minutes for HAT170 and ensure that all connecting flights are protected accordingly."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "DFW"}),  # ARP_DFW
+            Action(name="GetAirportByCode", kwargs={"iata_code": "DFW"}),  # ARP Data Forwarding Widget
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT170", "date": "2024-05-18"}),
             Action(name="DelayFlightActualTimesForDate", kwargs={
                 "flight_number": "HAT170", "date": "2024-05-18", "delay_minutes": 30
@@ -1340,7 +1340,7 @@ TASKS = [
             "You need to follow the Health Risk Possibility Protocol."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "BOS"}),  # -> ARP_BOS
+            Action(name="GetAirportByCode", kwargs={"iata_code": "BOS"}),  # -> Address Resolution Protocol - Beginning of Stream
             Action(name="FindReservationsByUser", kwargs={"user_id": "ava_li_8840"}),
             Action(name="RefundReservation", kwargs={"reservation_id": "VHG5XU"}),
 
@@ -1379,7 +1379,7 @@ TASKS = [
             "HAT210 is scheduled to depart from Gate C11 in few hours. You need to invoke the Wildlife Strike protocol to ground the affected aircraft, then reassign HAT210’s departure to Gate C9 with 30-minute delay for HAT210."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "BOS"}),  # -> ARP_BOS
+            Action(name="GetAirportByCode", kwargs={"iata_code": "BOS"}),  # -> ARP_BASE_OS
             Action(name="GetAircraftByTail", kwargs={"tail_number": "D-A-IGX"}),  # -> AC023
             Action(name="SetAircraftStatus", kwargs={"aircraft_id": "AC023", "new_status": "In Maintenance"}),
 
@@ -1513,7 +1513,7 @@ TASKS = [
             "You need to cancel the flight for today, and aircraft PS-MND should be repositioned from MCO to PHX to cover operations until maintenance on PP-LTM is completed."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHX
+            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHOENIX
             Action(name="GetAircraftByTail", kwargs={"tail_number": "PP-LTM"}),  # -> AC003
             Action(name="SetAircraftStatus", kwargs={"aircraft_id": "AC003", "new_status": "In Maintenance"}),
             Action(name="AppendMaintenanceLog", kwargs={
@@ -1561,7 +1561,7 @@ TASKS = [
             "You need to upgrade them to business class following protocols."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHX
+            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHOENIX
             Action(name="GetAircraftByTail", kwargs={"tail_number": "PP-PTM"}), # -> AC008
             Action(name="FindReservationsByUser", kwargs={
                 "user_id": "mia_kovacs_8269",
@@ -1597,7 +1597,7 @@ TASKS = [
             "You need to delay departure by 20 minutes, use remote gate (D20) for discreet boarding."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "LGA"}),  # -> ARP_LGA
+            Action(name="GetAirportByCode", kwargs={"iata_code": "LGA"}),  # ARP_LGA
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_LGA",
                 "event_type": "Minor Delay",
@@ -1640,7 +1640,7 @@ TASKS = [
             "You need to apply a minor delay boarding by 20 minutes and then ask for a vest replacement."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "LGA"}),  # -> ARP_LGA
+            Action(name="GetAirportByCode", kwargs={"iata_code": "LGA"}),  # -> Address Resolution Protocol - Local Gateway Address
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_LGA",
                 "event_type": "Minor Delay",
@@ -1684,7 +1684,7 @@ TASKS = [
             "You need to arrange for a spare to be delivered and postpone boarding (minor delay) by 30 minutes."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "ORD"}),  # -> ARP_ORD
+            Action(name="GetAirportByCode", kwargs={"iata_code": "ORD"}),  # -> ARP_ORDER
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_ORD",
                 "event_type": "Minor Delay",
@@ -1749,7 +1749,7 @@ TASKS = [
                 }
             ),
 
-            # Set the flight status only
+            # Update the flight status exclusively.
             Action(
                 name="UpdateFlightStatusForDate",
                 kwargs={
@@ -1759,7 +1759,7 @@ TASKS = [
                 }
             ),
 
-            # Apply the timing delay separately - uses singular 'flight_number'
+            # Implement the timing delay individually - utilizes singular 'flight_number'
             Action(
                 name="DelayFlightActualTimesForDate",
                 kwargs={
@@ -1771,7 +1771,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # TASK - Wheelchair Boarding + Lift Breakdown (HAT219 LGA -> PHX, 2024-05-30)
+    # ASSIGNMENT - Wheelchair Access + Lift Failure (HAT219 LGA -> PHX, 2024-05-30)
     Task(
         annotator="0",
         user_id="task_45",
@@ -1795,7 +1795,7 @@ TASKS = [
                 }
             ),
 
-            # Notify origin and destination ops channels
+            # Alert the operational channels for both origin and destination.
             Action(
                 name="SendUserNotification",
                 kwargs={
@@ -1811,7 +1811,7 @@ TASKS = [
                 }
             ),
 
-            # Mark the flight delayed (status only)
+            # Set the flight status to delayed.
             Action(
                 name="UpdateFlightStatusForDate",
                 kwargs={
@@ -1821,7 +1821,7 @@ TASKS = [
                 }
             ),
 
-            # Apply the operational delay to actual times (singular flight_number)
+            # Implement the operational delay to real times (for a single flight_number).
             Action(
                 name="DelayFlightActualTimesForDate",
                 kwargs={
@@ -2042,7 +2042,7 @@ TASKS = [
             "You need to follow the Health Risk Possibility Protocol."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "BOS"}),  # -> ARP_BOS
+            Action(name="GetAirportByCode", kwargs={"iata_code": "BOS"}),  # -> ARP_BaseOperatingSystem
             Action(name="FindReservationsByUser", kwargs={"user_id": "isabella_khan_8788"}),
             Action(name="RefundReservation", kwargs={"reservation_id": "2M27GS"}),
 
@@ -2081,9 +2081,9 @@ TASKS = [
             "You need to divert to the nearest suitable ( MSY ) airport, coordinate with ground operations for medical assistance, and update operational events accordingly."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEA
-            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHX
-            Action(name="GetAirportByCode", kwargs={"iata_code": "MSY"}),  # -> ARP_MSY
+            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEARCH
+            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHOENIX
+            Action(name="GetAirportByCode", kwargs={"iata_code": "MSY"}),  # -> Address Resolution Protocol - Master Synchronization Yield
 
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT236", "date": "2024-05-22"}),
 
@@ -2122,8 +2122,8 @@ TASKS = [
             "You need to initiate Rodent Onboard Emergency protocol by diverting to the nearest suitable ( airport id ARP_MSY ) airport."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEA
-            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHX
+            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEARCH
+            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHOENIX
 
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT236", "date": "2024-05-22"}),
 
@@ -2221,7 +2221,7 @@ TASKS = [
             "You need to initiate Rodent Onboard Emergency protocol ,closest airport is the origin so return there. "
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEA
+            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEARCH
 
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT236", "date": "2024-05-22"}),
 
@@ -2336,7 +2336,7 @@ TASKS = [
             "You need to set the aircraft status to maintenance and update its base assignment and record the event at PHX with type AIRCRAFT_MOVED and message: 'Aircraft N-DXJ moved to LAS'"
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # ARP_PHX
+            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # ARP_PHOENIX
             Action(name="GetAirportByCode", kwargs={"iata_code": "LAS"}),  # ARP_LAS
 
             Action(name="GetAircraftByTail", kwargs={"tail_number": "N-DXJ"}),  # -> AC016
@@ -2379,7 +2379,7 @@ TASKS = [
             "You need to retrieve the reservation details, verify the current flight information, and update all flight dates to be one day later."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "LGA"}),  # -> ARP_LGA
+            Action(name="GetAirportByCode", kwargs={"iata_code": "LGA"}),  # ARP_LGA
             Action(name="FindReservationsByUser", kwargs={"user_id":"lucas_kovacs_3548"}),
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT065", "date": "2024-05-08"}),
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT262", "date": "2024-05-08"}),
@@ -2427,7 +2427,7 @@ TASKS = [
             "You need to confirm the route and affected flight numbers and update their status to canceled"
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHX
+            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHOENIX
             #Action(name="GetAirportByCode", kwargs={"iata_code": "LAS"}),  # -> ARP_LAS
             Action(name="ScanFlightsByDate", kwargs={
                 "date": "2024-05-16",
@@ -2457,8 +2457,8 @@ TASKS = [
             "You need to book the closest available flight from LGA to PHX for him."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "LGA"}),  # -> ARP_LGA
-            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHX
+            Action(name="GetAirportByCode", kwargs={"iata_code": "LGA"}),  # -> Address Resolution Protocol for Local Gateway Access
+            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHOENIX
 
             Action(name="FindReservationsByUser", kwargs={
                 "user_id": "raj_kovacs_4682",
@@ -2532,13 +2532,13 @@ TASKS = [
         ),
         actions=[
             Action(name="GetCrewMemberByEmployeeCode", kwargs={"employee_code": "EMP004"}),  # -> CM004
-            Action(name="GetCrewCertifications", kwargs={"crew_member_id": "CM004"}),  # confirm cert exists
+            Action(name="GetCrewCertifications", kwargs={"crew_member_id": "CM004"}),  # verify certificate presence
             Action(name="GetCrewAssignments", kwargs={"crew_member_id": "CM004"}),
             Action(name="ScanFlightsByDate",
                    kwargs={"date": "2024-05-10", "flight_numbers": ["HAT002", "HAT011", "HAT004", "HAT003", "HAT010"]}),
 
             Action(name="UpdateCrewMemberStatus", kwargs={"crew_member_id": "CM004", "new_status": "Training"}),
-            Action(name="GetAirportByCode", kwargs={"iata_code": "LAX"}),  # -> ARP_LAX
+            Action(name="GetAirportByCode", kwargs={"iata_code": "LAX"}),  # -> Airport Arrival at LAX
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_LAX",
                 "event_type": "Crew Training",
@@ -2552,7 +2552,7 @@ TASKS = [
             Action(name="FindAvailableCrew", kwargs={
                 "role":"Captain",
                 "status":"Active",
-                #"home_base_iata": "LAX"
+                # "home_base_airport_code": "LAX"
             }), #CM001
             Action(name="CreateCrewAssignment", kwargs={
                 "flight_number": "HAT002",
@@ -2592,9 +2592,9 @@ TASKS = [
             "Find a replacement for him at for him there to continue and set CM004 status to 'Sick Leave'"
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEA
-            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHX
-            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> ARP_ATL
+            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_QUERY
+            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHOENIX
+            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> Address Resolution Protocol Address Translation Layer
 
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT236", "date": "2024-05-22"}),
 
@@ -2681,7 +2681,7 @@ TASKS = [
             "Your job is to ask a spare and delay boarding by 20 minutes."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEA
+            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEARCH
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_SEA",
                 "event_type": "Minor Delay",
@@ -2737,7 +2737,7 @@ TASKS = [
                 "crew_member_id": "CM004",
                 "assigned_role": "Captain"
             }),
-            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> ARP_ATL
+            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> Address Resolution Protocol - Address Translation Layer
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_ATL",
                 "event_type": "Crew Replacement",
@@ -2770,7 +2770,7 @@ TASKS = [
                 "crew_member_id": "CM004",
                 "assigned_role": "Captain"
             }),
-            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> ARP_ATL
+            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> Address Resolution Protocol - Address Translation Layer
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_ATL",
                 "event_type": "Crew Replacement",
@@ -2790,8 +2790,8 @@ TASKS = [
 
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "LAX"}),  # -> ARP_LAX
-            Action(name="GetAirportByCode", kwargs={"iata_code": "EWR"}),  # -> ARP_EWR
+            Action(name="GetAirportByCode", kwargs={"iata_code": "LAX"}),  # -> LAX_ARP
+            Action(name="GetAirportByCode", kwargs={"iata_code": "EWR"}),  # -> ARP_ErrorWriteRequest
             Action(name="FindFlights", kwargs={
                 "origin": "LAX",
                 "destination": "EWR",
@@ -2839,7 +2839,7 @@ TASKS = [
                 "event_type": "Weather",
                 "details": "SIGMET impacts LAX operations; apply 120-minutes delay to affected flights.",
                 "event_timestamp_utc": "2024-05-22T01:10:00Z"
-            }), #HAT094 HAT103 HAT186
+            }), # HAT094, HAT103, HAT186
             Action(name="UpdateFlightStatusForDate", kwargs={
                 "flight_numbers": ["HAT094"],
                 "date": "2024-05-22",
@@ -2872,7 +2872,7 @@ TASKS = [
             "You need to set the flight status to 'canceled' and initiate the Aircraft AOG protocol for this case."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "LAX"}),  # -> ARP_LAX
+            Action(name="GetAirportByCode", kwargs={"iata_code": "LAX"}),  # -> LAX_ARP
             Action(name="GetAircraftByTail", kwargs={"tail_number": "PR-GOL"}),  # -> AC001
             Action(name="SetAircraftStatus", kwargs={"aircraft_id": "AC001", "new_status": "In Maintenance"}),
             Action(name="AppendMaintenanceLog", kwargs={
@@ -2912,7 +2912,7 @@ TASKS = [
         actions=[
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT004", "date": "2024-05-26"}),
 
-            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> ARP_ATL
+            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> Address Resolution Protocol - Address Translation Layer
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_ATL",
                 "event_type": "BAGGAGE_HANDLING",
@@ -2920,7 +2920,7 @@ TASKS = [
                 "event_timestamp_utc": "2024-05-26T08:40:00Z"
             }),
 
-            Action(name="GetAirportByCode", kwargs={"iata_code": "DFW"}),  # -> ARP_DFW
+            Action(name="GetAirportByCode", kwargs={"iata_code": "DFW"}),  # -> ARP_Dallas_FortWorth
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_DFW",
                 "event_type": "BAGGAGE_HANDLING",
@@ -2953,7 +2953,7 @@ TASKS = [
             "You need to initiate the Fuel Supply Disruption protocol for MCO with HAT101, HAT299, HAT298, HAT028 as low-priority and cancel them separately."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "MCO"}),  # -> ARP_MCO
+            Action(name="GetAirportByCode", kwargs={"iata_code": "MCO"}),  # -> Address Resolution Protocol - Mobile Communications Operator
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_MCO",
                 "event_type": "Fuel Disruption",
@@ -2998,7 +2998,7 @@ TASKS = [
             "You need to initiate the Crew Duty-Limit Mitigation protocol for HAT004 and find a replacement for that employee and set the flight status to delayed."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> ARP_ATL
+            Action(name="GetAirportByCode", kwargs={"iata_code": "ATL"}),  # -> ARP_AllocationTableLookup
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT004", "date": "2024-05-16"}),
 
             Action(name="GetCrewAssignments", kwargs={"flight_number": "HAT004"}),
@@ -3044,7 +3044,7 @@ TASKS = [
             "You need to Initiate AOG protocol, and update the flight status to returned."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "DEN"}),  # -> ARP_DEN
+            Action(name="GetAirportByCode", kwargs={"iata_code": "DEN"}),  # ARP_DENY
             Action(name="GetAircraftByTail", kwargs={"tail_number": "PT-MUI"}),  # -> AC006
             Action(name="SetAircraftStatus", kwargs={"aircraft_id": "AC006", "new_status": "In Maintenance"}),
             Action(name="UpdateFlightStatusForDate", kwargs={
@@ -3159,9 +3159,9 @@ TASKS = [
             "You need to divert flight HAT038 (flying from DFW to SEA) with aircraft (AC007) to DEN"
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "DEN"}),  # -> ARP_DEN
-            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEA
-            Action(name="GetAirportByCode", kwargs={"iata_code": "DFW"}),  # -> ARP_DFW
+            Action(name="GetAirportByCode", kwargs={"iata_code": "DEN"}),  # -> ARP_DENIED
+            Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),  # -> ARP_SEARCH
+            Action(name="GetAirportByCode", kwargs={"iata_code": "DFW"}),  # -> Address Resolution Protocol - Data Frame Wrapper
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_DEN",
                 "event_type": "Diversion",
@@ -3198,8 +3198,8 @@ TASKS = [
             "You need to log the event and assign CM025 as the replacement and notify ops channel with the same message as the log event."
         ),
         actions=[
-            Action(name="GetAirportByCode", kwargs={"iata_code": "LGA"}),  # -> ARP_LGA
-            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHX
+            Action(name="GetAirportByCode", kwargs={"iata_code": "LGA"}),  # -> Address Resolution Protocol for Local Gateway Access
+            Action(name="GetAirportByCode", kwargs={"iata_code": "PHX"}),  # -> ARP_PHOENIX
             Action(name="UpdateCrewMemberStatus", kwargs={"crew_member_id": "CM003", "new_status": "Sick Leave"}),
             Action(name="GetCrewAssignments", kwargs={"crew_member_id": "CM003", "flight_number": "HAT002"}),
             Action(name="GetCrewAssignments", kwargs={"crew_member_id": "CM025", }),
@@ -3363,7 +3363,7 @@ TASKS = [
             "Log the event with message: 'Advanced last outbound bank by {minutes} minutes due to overnight icing risk. Flights: {flight_numbers}.'"
         ),
         actions=[
-            # Verify station
+            # Confirm station validation.
             Action(name="GetAirportByCode", kwargs={"iata_code": "BOS"}),
 
             Action(name="GetFlightScheduledTimes", kwargs={"flight_number": "HAT247"}),
@@ -3399,7 +3399,7 @@ TASKS = [
                 },
             ),
 
-            # Log one consolidated ops event for the whole bank
+            # Record a single unified operations event for the entire bank.
             Action(
                 name="CreateOperationalEvent",
                 kwargs={
@@ -3731,7 +3731,7 @@ TASKS = [
         outputs=[]
     )
     ,
-    # 11) LAS crew legality - two cancels + dual logs + notify
+    # 11) LAS team compliance - two cancellations + dual logs + alert
     Task(
         annotator="0",
         user_id="task_92",
@@ -3739,7 +3739,7 @@ TASKS = [
             "Execute crew scheduling at LAS on 2024-05-30T05:20:00Z. "
             "No legal crew before duty window closes; You need to cancel HAT175 and HAT266 from LAS to IAH."
             "Log the Crew shortage with details as 'Crew legality exceeded; HAT175 & HAT266 canceled.'"
-            #"Notify operation channel as LAS with the same message"
+            # "Send the identical message to the operation channel designated as LAS."
         ),
         actions=[
             Action(name="GetAirportByCode", kwargs={"iata_code": "LAS"}),
@@ -3768,16 +3768,16 @@ TASKS = [
             "log the weather event with 'Downline SEA LVP ground stop impacting HAT021, HAT025.' "
         ),
         actions=[
-            # Airports involved: destination + each origin so we can log at all relevant stations
+            # Airports included: destination plus every origin to ensure logging at all pertinent locations.
             Action(name="GetAirportByCode", kwargs={"iata_code": "SEA"}),
             Action(name="GetAirportByCode", kwargs={"iata_code": "LGA"}),
             Action(name="GetAirportByCode", kwargs={"iata_code": "ORD"}),
 
-            # Look up both flights for the operating day
+            # Retrieve information for both flights on the scheduled day.
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT021", "date": "2024-05-20"}),
             Action(name="LookupFlightDay", kwargs={"flight_number": "HAT025", "date": "2024-05-20"}),
 
-            # Set both flights to Delayed (correct casing)
+            # Mark both flights as Delayed (with the correct capitalization)
             Action(
                 name="UpdateFlightStatusForDate",
                 kwargs={"flight_numbers": ["HAT021"], "date": "2024-05-20", "new_status": "delayed"}
@@ -3787,7 +3787,7 @@ TASKS = [
                 kwargs={"flight_numbers": ["HAT025"], "date": "2024-05-20", "new_status": "delayed"}
             ),
 
-            # Log at SEA (destination) with the exact message required
+            # Record at SEA (destination) with the precise message needed.
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_SEA",
                 "event_type": "Weather",
@@ -3795,7 +3795,7 @@ TASKS = [
                 "event_timestamp_utc": "2024-05-20T09:00:00Z",
             }),
 
-            # Log at each origin so QA sees the “origins” requirement satisfied
+            # Record each origin to ensure QA confirms the "origins" requirement is met.
             Action(name="CreateOperationalEvent", kwargs={
                 "airport_id": "ARP_LGA",
                 "event_type": "Weather",

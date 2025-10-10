@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,9 +27,9 @@ class ListPullRequestFiles(Tool):
             if pr_files:
                 return json.dumps({"files": pr_files}, indent=2)
         except Exception:
-            pass  # fallback below
+            pass  # alternative below
 
-        # fallback to compute diff
+        # revert to calculating the difference
         head_branch = pr_block["head_branches"][idx]
         base_branch = pr_block["base_branches"][idx]
 

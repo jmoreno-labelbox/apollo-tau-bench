@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class IdentifyOverflowOptions(Tool):
         if not current_warehouse:
             return json.dumps({"error": f"Warehouse {warehouse_id} not found"})
 
-        # Find nearby warehouses with available capacity
+        # Locate nearby warehouses that have available storage space.
         overflow_options = []
         for warehouse in warehouses:
             if warehouse.get("warehouse_id") != warehouse_id:
@@ -31,7 +31,7 @@ class IdentifyOverflowOptions(Tool):
                     })
 
         return json.dumps({
-            "overflow_options": overflow_options[:3],  # Top 3 options
+            "overflow_options": overflow_options[:3],  # Three best choices
             "required_capacity": required_capacity
         })
 

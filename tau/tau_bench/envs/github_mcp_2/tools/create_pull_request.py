@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,15 +16,15 @@ class CreatePullRequest(Tool):
 
         me = _auth(data)["username"]
         repo = _find_repo_record(data, repo_name)
-        # print("repooo:", repo)
+        # print("repository:", repo)
 
-        # Ensure pull request record exists
+        # Verify that a pull request entry is present.
         pr_block = next(
             (b for b in _prs(data) if b.get("owner") == me and b.get("repo_name") == repo_name),
             None,
         )
         if not pr_block:
-            # ✅ Create PR block if it doesn't exist
+            # ✅ Generate PR block if absent
             pr_block = {
                 "owner": me,
                 "repo_name": repo_name,
@@ -48,7 +48,7 @@ class CreatePullRequest(Tool):
             }
             _prs(data).append(pr_block)
 
-        # Append PR metadata
+        # Add pull request metadata
         pr_number = 1
         pr_block["pr_numbers"].append(pr_number)
         pr_block["pr_titles"].append(title)
@@ -62,7 +62,7 @@ class CreatePullRequest(Tool):
         pr_block["created_ts"].append("2025-08-23T12:00:00Z")
         pr_block["updated_ts"].append("2025-08-23T12:00:00Z")
 
-        # Detect changed files based on filenames and content
+        # Identify modified files by analyzing both their names and content.
         try:
             head_idx = repo["branches"].index(head)
             base_idx = repo["branches"].index(base)
@@ -73,7 +73,7 @@ class CreatePullRequest(Tool):
         base_files = set(repo["branch_files"][base_idx])
         file_diff = head_files.symmetric_difference(base_files)
 
-        # Also check for content changes if filenames are same
+        # Additionally, verify for content modifications when the filenames match.
         if not file_diff:
             file_diff = set()
             for path in repo["branch_files"][head_idx]:
@@ -90,12 +90,12 @@ class CreatePullRequest(Tool):
 
         changed_files = sorted(list(file_diff))
 
-        # Append changed file list as nested list (List[List[str]])
+        # Add modified file list as a nested structure (List[List[str]])
         if "pr_files" not in pr_block:
             pr_block["pr_files"] = []
         pr_block["pr_files"].append([changed_files])
 
-        # Initialize empty nested structures for comments/reviews if needed
+        # Set up empty nested structures for comments/reviews if required.
         pr_block.setdefault("pr_comments", []).append([[]])
         pr_block.setdefault("pr_comment_users", []).append([[]])
         pr_block.setdefault("reviewers", []).append([[]])

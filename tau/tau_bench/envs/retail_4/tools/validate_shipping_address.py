@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,17 +11,17 @@ class ValidateShippingAddress(Tool):
         """
         Validate shipping address for order fulfillment
         """
-        # Rule: Validate user identity exists before processing any user requests
+        # Requirement: Ensure the user's identity is confirmed prior to handling any requests.
         users = list(data.get("users", {}).values())
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
             return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
-        # Use custom address if provided, otherwise use user's stored address
+        # Utilize the specified address if available; otherwise, fallback to the user's saved address.
         address = custom_address if custom_address else user.get("address", {})
 
-        # Rule: Validate all required address fields: address1, city, country, state, zip
+        # Requirement: Ensure all mandatory address fields are validated: address1, city, country, state, zip.
         required_fields = ["address1", "city", "country", "state", "zip"]
         missing_fields = []
 
@@ -35,7 +35,7 @@ class ValidateShippingAddress(Tool):
                 "status": "failed"
             })
 
-        # Additional validation for supported countries
+        # Extra checks for validated countries.
         couriers = data.get("couriers", [])
         supported_countries = set()
         for courier in couriers:

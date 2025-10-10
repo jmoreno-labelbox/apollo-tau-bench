@@ -137,7 +137,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Repeat on other failure categories/routing projects to ensure diversity while staying deterministic
+    # Apply the same approach to additional failure categories and routing projects to maintain diversity while ensuring determinism.
     Task(
         annotator="0",
         user_id="v2_task_006",

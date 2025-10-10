@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class FindTrackingByOrderTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         order_id = kwargs.get("order_id")
-        # Reads the tracking data from the in-memory state.
+        # Fetches the tracking information from the in-memory state.
         tracking_data = data.get("tracking", [])
 
         tr = next((t for t in tracking_data if t.get("order_id") == order_id), None)
@@ -21,7 +21,7 @@ class FindTrackingByOrderTool(Tool):
                 indent=2,
             )
 
-        # The 'item_ids' field will now reflect any changes made previously.
+        # The 'item_ids' field will now update to show any prior modifications.
         return json.dumps(tr, indent=2)
 
     @staticmethod

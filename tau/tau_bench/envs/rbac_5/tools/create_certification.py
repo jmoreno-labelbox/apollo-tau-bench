@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class CreateCertification(Tool):
         if not reviewer_id or not resource_id:
             return json.dumps({"error": "reviewer_id and resource_id are required"})
 
-        # Validate reviewer and resource exist
+        # Verify the existence of the reviewer and resource.
         if not _find_by_id(list(data.get("users", {}).values()), "user_id", reviewer_id):
             return json.dumps({"error": f"reviewer_id {reviewer_id} not found"})
         if not _find_by_id(data.get("resources", []), "resource_id", resource_id):
@@ -37,14 +37,14 @@ class CreateCertification(Tool):
         if status not in valid_status:
             return json.dumps({"error": f"status must be one of: {valid_status}"})
 
-        # Determine due_date deterministically if not provided: +90 days from now
+        # Calculate due_date if unspecified: 90 days from the current date.
         if not due_date:
             base = _parse_iso(get_current_timestamp()) or datetime.now(tz=timezone.utc)
             due_dt = base + timedelta(days=90)
-            # Match dataset style with +00:00 suffix
+            # Align dataset format to include +00:00 suffix.
             due_date = due_dt.strftime("%Y-%m-%d %H:%M:%S+00:00")
 
-        # completed_on only if COMPLETED
+        # set completed_on only when status is COMPLETED
         completed_on: Optional[str]
         if status == "COMPLETED":
             completed_on = completed_on_kw or get_current_timestamp()

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class UpdateFixItemStatus(Tool):
         if not all([fix_item_id, new_status]):
             return json.dumps({"error": "fix_item_id and new_status are required."})
 
-        # Validate status values
+        # Check the validity of status values.
         valid_statuses = ['PENDING', 'IN_PROGRESS', 'APPLIED', 'DEFERRED', 'VERIFIED']
         if new_status not in valid_statuses:
             return json.dumps({"error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"})
@@ -28,18 +28,18 @@ class UpdateFixItemStatus(Tool):
         fix_items = data.get('fix_items', [])
         fix_plans = data.get('fix_plans', [])
 
-        # Find the fix item
+        # Locate the correction item.
         item_found = False
         for item in fix_items:
             if item.get('item_id') == fix_item_id:
                 item_found = True
                 old_status = item.get('status')
 
-                # Update the item status
+                # Modify the status of the item.
                 item['status'] = new_status
                 item['last_updated'] = datetime.now().isoformat()
 
-                # Handle status-specific logic
+                # Manage logic based on status conditions.
                 if new_status == 'IN_PROGRESS' and assignee_id:
                     item['assignee_id'] = assignee_id
                     item['started_at'] = datetime.now().isoformat()
@@ -59,12 +59,12 @@ class UpdateFixItemStatus(Tool):
                     if implementation_notes:
                         item['verification_notes'] = implementation_notes
 
-                # Update fix plan progress
+                # Revise the progress of the fix plan.
                 plan_id = item.get('plan_id')
                 if plan_id:
                     for plan in fix_plans:
                         if plan.get('plan_id') == plan_id:
-                            # Recalculate completion percentage
+                            # Recompute the completion ratio.
                             plan_items = [i for i in fix_items if i.get('plan_id') == plan_id]
                             completed_items = [i for i in plan_items if i.get('status') in ['APPLIED', 'VERIFIED']]
                             completion_percentage = (len(completed_items) / len(plan_items)) * 100 if plan_items else 0
@@ -72,7 +72,7 @@ class UpdateFixItemStatus(Tool):
                             plan['completion_percentage'] = round(completion_percentage, 2)
                             plan['last_updated'] = datetime.now().isoformat()
 
-                            # Update plan status if all items are completed
+                            # Change plan status when all items are finished.
                             if completion_percentage == 100:
                                 plan['status'] = 'COMPLETED'
                                 plan['completed_at'] = datetime.now().isoformat()
@@ -81,7 +81,7 @@ class UpdateFixItemStatus(Tool):
 
                             break
 
-                # Log the status change
+                # Record the status update.
                 if 'status_history' not in item:
                     item['status_history'] = []
                 item['status_history'].append({

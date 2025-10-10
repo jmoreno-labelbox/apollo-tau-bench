@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,20 +12,20 @@ class GetInsightbyreportid(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         report_id = kwargs.get("report_id")
 
-        # 1) Validate
+        # 1) Verify
         if report_id is None:
             return json.dumps({"error": "Missing required field: report_id"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database
         insights: List[Dict[str, Any]] = list(data.get("curated_insights", {}).values())
 
-        # 3) Exact match lookup (no normalization)
+        # 3) Direct match retrieval (without normalization)
         matches = [i for i in insights if i.get("report_id") == report_id]
 
         if not matches:
             return json.dumps({"error": f"No insights found for report_id {report_id}"}, indent=2)
 
-        # 4) Deterministic ordering
+        # 4) Fixed sequence
         matches.sort(key=lambda i: int(i.get("insight_id", 0)))
 
         return json.dumps(matches, indent=2)

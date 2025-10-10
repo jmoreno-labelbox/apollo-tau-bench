@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -32,7 +32,7 @@ class ExtractTaskInstructionsTool(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         target_task_id = kwargs["task_id"]
 
-        # Retrieve task from database
+        # Fetch task from the database.
         task_record = None
         for record in data.get("file_check_db", []):
             if record["task_id"] == target_task_id:
@@ -42,14 +42,14 @@ class ExtractTaskInstructionsTool(Tool):
         if task_record is None:
             return json.dumps({"error": f"Task ID {target_task_id} not found."})
 
-        # Extract pre-parsed instructions from task record
+        # Retrieve pre-processed directives from the task log.
         instruction_data = task_record.get("parsed_instructions", {})
 
-        # Initialize storage if needed
+        # Set up storage if required.
         if "task_instructions" not in data:
             data["task_instructions"] = []
 
-        # Build simplified instruction entry from detailed parsed data
+        # Construct a streamlined instruction input from the analyzed data.
         simplified_entry = {
             "task_id": target_task_id,
             "remote_address": task_record.get("remote_server"),

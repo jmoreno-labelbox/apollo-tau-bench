@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -55,7 +55,7 @@ class GenerateGroceryListFromMealPlanTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the ID of the new list and its item IDs.
         """
-        # 1. Validate Inputs
+        # 1. Confirm Input Validity
         param_definitions = {
             "meal_plan_id": {"type": int, "required": True},
             "household_id": {"type": int, "required": True},
@@ -69,18 +69,18 @@ class GenerateGroceryListFromMealPlanTool(Tool):
         household_id = kwargs["household_id"]
         user_id = kwargs["user_id"]
 
-        # 2. Pre-condition Checks
+        # 2. Preconditions Verification
         meal_plan = next((p for p in data.get("meal_plans", []) if p.get("meal_plan_id") == meal_plan_id), None)
         if not meal_plan:
             return _build_error_response("NOT_FOUND", {"entity": "MealPlan", "entity_id": meal_plan_id})
         if meal_plan.get("household_id") != household_id:
             return _build_error_response("UNSUPPORTED_OPERATION", {"operation": "Generate List", "entity": "MealPlan does not belong to the specified household."})
 
-        # 3. Core Logic: Calculate Net Needs
+        # 3. Main Functionality: Compute Net Requirements
         all_ingredients_meta = list(data.get("ingredients", {}).values())
         context = {"ingredients": all_ingredients_meta}
 
-        # 3a. Aggregate all required ingredients for the plan, normalizing units
+        # 3a. Compile all necessary ingredients for the plan, standardizing units.
         plan_entries = [e for e in data.get("meal_plan_entries", []) if e.get("meal_plan_id") == meal_plan_id]
         recipe_ids = {e["recipe_id"] for e in plan_entries}
         required_ingredients_list = [ri for ri in data.get("recipe_ingredients", []) if ri["recipe_id"] in recipe_ids]
@@ -90,14 +90,14 @@ class GenerateGroceryListFromMealPlanTool(Tool):
             normalized_req = _normalize_domain_data("unit_measurement", req, context)
             required_totals[normalized_req["ingredient_id"]] += normalized_req["quantity"]
 
-        # 3b. Get available inventory, normalizing units
+        # 3b. Retrieve available stock, standardizing units.
         inventory_items = [i for i in data.get("inventory_items", []) if i.get("household_id") == household_id]
         available_totals = collections.defaultdict(float)
         for item in inventory_items:
             normalized_item = _normalize_domain_data("unit_measurement", item, context)
             available_totals[normalized_item["ingredient_id"]] += normalized_item["quantity"]
 
-        # 3c. Calculate what needs to be bought
+        # 3c. Determine the items that need to be purchased.
         net_needed_items = []
         for ingredient_id, required_qty in required_totals.items():
             needed_qty = required_qty - available_totals.get(ingredient_id, 0)
@@ -111,7 +111,7 @@ class GenerateGroceryListFromMealPlanTool(Tool):
                     "pantry_staple_flag": ingredient_meta.get("pantry_staple_flag", False)
                 })
 
-        # 4. Create Grocery List and Items
+        # 4. Generate Grocery List and Items
         gl_table = data.setdefault("grocery_lists", [])
         max_list_id = max((g.get("list_id", 0) for g in gl_table), default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["grocery_lists"])
         new_list_id = max_list_id + 1
@@ -135,13 +135,13 @@ class GenerateGroceryListFromMealPlanTool(Tool):
             gli_table.append(new_item_record)
             created_item_ids.append(max_item_id)
 
-        # 5. Auditing
+        # 5. Review and verification
         _log_audit_event(
             data, household_id=household_id, user_id=user_id, entity_type="grocery_lists",
             entity_id=new_list_id, action_enum="create", payload_json={"source_meal_plan_id": meal_plan_id}
         )
 
-        # 6. Response
+        # 6. Reply
         return _build_success_response({
             "list_id": new_list_id,
             "items_added_count": len(created_item_ids),

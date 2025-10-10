@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Corporation
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,14 +14,14 @@ class CancelOrder(Tool):
         Writes to: orders.json (updates order status to cancelled)
         Data Sources: users.json for validation
         """
-        # Rule: Validate user identity exists before processing any user requests
+        # Requirement: Confirm the existence of user identity prior to handling any user requests.
         users = list(data.get("users", {}).values())
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
             return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
-        # Find the order to cancel
+        # Determine the cancellation sequence.
         orders = list(data.get("orders", {}).values())
         order_to_cancel = None
         order_index = None
@@ -40,7 +40,7 @@ class CancelOrder(Tool):
 
         current_status = order_to_cancel.get("status")
 
-        # Rule: Only process orders with valid status - can't cancel delivered orders
+        # Condition: Process orders solely with a valid status - cancellation of delivered orders is not permitted.
         if current_status == "cancelled":
             return json.dumps({
                 "error": f"Order {order_id} is already cancelled",
@@ -53,11 +53,11 @@ class CancelOrder(Tool):
                 "status": "failed"
             })
 
-        # Calculate refund amount from payment history
+        # Determine the refund total based on the payment records.
         payment_history = order_to_cancel.get("payment_history", [])
         total_paid = sum(payment.get("amount", 0) for payment in payment_history if payment.get("transaction_type") == "payment")
 
-        # WRITE OPERATION: Update order status to cancelled
+        # UPDATE OPERATION: Set order status to cancelled
         order_to_cancel["status"] = "cancelled"
         order_to_cancel["cancellation_info"] = {
             "cancelled_by": "customer",
@@ -66,7 +66,7 @@ class CancelOrder(Tool):
             "previous_status": current_status
         }
 
-        # Add refund transaction to payment history
+        # Include refund transactions in the payment history.
         if total_paid > 0:
             refund_transaction = {
                 "transaction_type": "refund",
@@ -78,7 +78,7 @@ class CancelOrder(Tool):
 
         order_to_cancel["last_updated"] = datetime.now().isoformat()
 
-        # Update the order in the data structure
+        # Modify the order within the data structure.
         data["orders"][order_index] = order_to_cancel
 
         result = {

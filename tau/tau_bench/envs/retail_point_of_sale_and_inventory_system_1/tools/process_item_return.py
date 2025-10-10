@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,8 +13,8 @@ class ProcessItemReturn(Tool):
         quantity_returned = kwargs.get('quantity_returned')
         unit_price = kwargs.get('unit_price')
 
-        transactions = list(data.get("transactions", {}).values())  # Lista []
-        inventory = list(data.get("inventory", {}).values())  # Lista []
+        transactions = list(data.get("transactions", {}).values())  # Array []
+        inventory = list(data.get("inventory", {}).values())  # Array []
 
         for txn in transactions:
             if txn.get("transaction_id") == transaction_id:

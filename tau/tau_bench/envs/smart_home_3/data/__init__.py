@@ -6,7 +6,7 @@ FOLDER_PATH = os.path.dirname(__file__)
 
 def load_data() -> dict[str, Any]:
     db: dict[str, Any] = {}
-    # auto-generated from files present in data/
+    # automatically created from files located in data/
     tables = ['custom_lists', 'devices', 'members', 'reminders', 'rooms', 'scenes', 'sensors']
     for name in tables:
         path = os.path.join(FOLDER_PATH, f"{name}.json")

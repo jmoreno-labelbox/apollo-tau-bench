@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -62,7 +62,7 @@ class FlagOverlapLastMonthOnListByPlanKeys(Tool):
         )
         matched = 0
         flagged_ids: List[int] = []
-        # Update database: set recent_overlap_flag on items with recent overlap
+        # Modify the database: activate recent_overlap_flag for items exhibiting recent overlap.
         for it in data.get("grocery_list_items", []):
             if int(it.get("list_id")) != int(gl.get("list_id")):
                 continue
@@ -72,7 +72,7 @@ class FlagOverlapLastMonthOnListByPlanKeys(Tool):
                 flagged_ids.append(int(it.get("item_id")))
             else:
                 it["recent_overlap_flag"] = False
-        # Update grocery list timestamp
+        # Refresh the timestamp on the grocery list.
         gl["last_overlap_flagged_at"] = "2025-01-01T12:20:00"
         return json.dumps({"flagged_item_ids": flagged_ids, "matched_count": matched})
 

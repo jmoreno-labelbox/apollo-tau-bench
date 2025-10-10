@@ -11,7 +11,7 @@ class AddGoal(Tool):
             if entry["user_id"] == user_id:
                 entry["goals"].append(goal)
                 break
-        else:  # no current goal list for this user
+        else:  # this user has no active goal list
             data.setdefault("goals", []).append({"user_id": user_id, "goals": [goal]})
         payload = {"success": f"goal {goal['goal_id']} added for {user_id}"}
         out = json.dumps(payload)

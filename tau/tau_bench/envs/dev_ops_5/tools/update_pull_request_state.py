@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class UpdatePullRequestState(Tool):
             if pr.get("id") == pull_request_id:
                 pr["state"] = new_state
                 if new_state == "closed" and not pr.get("merged_at"):
-                    pr["closed_at"] = "2025-01-28T00:00:00Z"  # Use a consistent placeholder timestamp
+                    pr["closed_at"] = "2025-01-28T00:00:00Z"  # Utilize a uniform placeholder for timestamps.
                 return json.dumps({
                     "status": "success",
                     "message": f"State for pull request '{pull_request_id}' updated to '{new_state}'."

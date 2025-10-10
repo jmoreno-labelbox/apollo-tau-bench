@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class AddNewRecipeTool(Tool):
     A tool to add a new recipe to the dataset.
     """
 
-    # Defines the set of expected fields for the main recipe data.
+    # Specifies the required fields for the primary recipe data.
     EXPECTED_RECIPE_FIELDS = {
         "recipe_title", "meal_type", "cuisine", "servings_default",
         "prep_minutes", "cook_minutes", "is_peanut_free",
@@ -69,7 +69,7 @@ class AddNewRecipeTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the newly created recipe object.
         """
-        # 1. Standard Validation
+        # 1. Basic Validation
         param_definitions = {
             "recipe_data": {"type": dict, "required": True},
             "ingredients_list": {"type": list, "required": True},
@@ -86,7 +86,7 @@ class AddNewRecipeTool(Tool):
         ingredients_list = kwargs["ingredients_list"]
         user_id = kwargs["user_id"]
 
-        # 2. Deep Validation
+        # 2. Comprehensive Validation
         if not AddNewRecipeTool.EXPECTED_RECIPE_FIELDS.issubset(recipe_data.keys()):
             return _build_error_response("INVALID_PARAMETER_TYPE", {"param": "recipe_data", "expected_type": "object with all required recipe fields"})
         if not ingredients_list:
@@ -99,7 +99,7 @@ class AddNewRecipeTool(Tool):
             if item["ingredient_id"] not in all_ingredient_ids:
                 return _build_error_response("NOT_FOUND", {"entity": "Ingredient", "entity_id": item["ingredient_id"]})
 
-        # 3. Create Recipe Record
+        # 3. Generate Recipe Entry
         recipes_table = data.setdefault("recipes", [])
         max_recipe_id = max((r.get("recipe_id", 0) for r in recipes_table), default=400)
         new_recipe_id = max_recipe_id + 1
@@ -108,7 +108,7 @@ class AddNewRecipeTool(Tool):
         new_recipe_record.update({key: recipe_data.get(key) for key in AddNewRecipeTool.EXPECTED_RECIPE_FIELDS})
         recipes_table.append(new_recipe_record)
 
-        # 4. Create Recipe-Ingredient Links
+        # 4. Establish Links Between Recipes and Ingredients
         ri_table = data.setdefault("recipe_ingredients", [])
         max_ri_id = max((ri.get("ri_id", 0) for ri in ri_table), default=5000)
 
@@ -123,7 +123,7 @@ class AddNewRecipeTool(Tool):
             }
             ri_table.append(new_ri_record)
 
-        # 5. Auditing
+        # 5. Review and verification
         user_household = next((h for h in data.get("households", []) if h.get("primary_user_id") == user_id), None)
         household_id = user_household.get("household_id") if user_household else None
 
@@ -137,5 +137,5 @@ class AddNewRecipeTool(Tool):
             payload_json={"recipe_data": recipe_data, "ingredients_list": ingredients_list}
         )
 
-        # 6. Response
+        # 6. Reply
         return _build_success_response(new_recipe_record)

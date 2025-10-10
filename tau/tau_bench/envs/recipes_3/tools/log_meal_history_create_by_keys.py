@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright (c) Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,7 +26,7 @@ class LogMealHistoryCreateByKeys(Tool):
             None,
         )
         if not hist:
-            # If not found, choose latest history_id for household/date as fallback (deterministic)
+            # If not located, select the most recent history_id for the household/date as a fallback option (deterministic).
             cands = [
                 h
                 for h in data.get("meal_history", [])

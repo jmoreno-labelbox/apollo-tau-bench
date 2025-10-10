@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -35,14 +35,14 @@ class PerformInventoryAdjustment(Tool):
                 original_on_hand = item.get("quantity_on_hand", 0)
                 discrepancy = new_physical_count - original_on_hand
 
-                # Update core quantities
+                # Revise fundamental values.
                 item["quantity_on_hand"] = new_physical_count
                 item["quantity_available"] = max(
                     0, new_physical_count - item.get("quantity_allocated", 0)
                 )
                 item["last_counted_date"] = current_date
 
-                # Append a detailed note for audit trail
+                # Add a comprehensive record for audit purposes.
                 if reason_note:
                     adjustment_log = f"Adjustment on {current_date}: Count changed from {original_on_hand} to {new_physical_count} (Discrepancy: {discrepancy}). Reason: {reason_note}."
                     if item.get("notes"):

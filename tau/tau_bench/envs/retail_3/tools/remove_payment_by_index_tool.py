@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class RemovePaymentByIndexTool(Tool):
 
     Input (kwargs):
         order_id (str, required)
-        index (int, required)   # 0-based
+        index (int, required)   # Zero-indexed
 
     Output:
         JSON string with {"order_id","removed":true,"payment_history_len"} or {"error": ...}.

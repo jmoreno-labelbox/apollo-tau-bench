@@ -1,11 +1,11 @@
-# Copyright Sierra
+# © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class DeleteFromDB(Tool): # WRITE
+class DeleteFromDB(Tool): # COMPOSE
     @staticmethod
     def invoke(data: Dict[str, Any], database_name:str, filter_params: Dict[str, Any], delete_params: Dict[str, Any]) -> str:
         db = data.get(database_name, [])

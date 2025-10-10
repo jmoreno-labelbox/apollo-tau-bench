@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,13 +12,13 @@ class CalculateCustomsDuty(Tool):
         total_value = kwargs.get("total_value")
         country_of_origin = kwargs.get("country_of_origin")
 
-        # Simplified duty calculation - in real system would use tariff schedules
+        # Streamlined duty assessment - actual implementation would involve tariff schedules.
         duty_rates = {
-            "China": 0.05,  # 5% duty rate
-            "Japan": 0.02,  # 2% duty rate
-            "Germany": 0.025, # 2.5% duty rate
-            "Mexico": 0.0,  # USMCA preferential rate
-            "default": 0.035 # 3.5% standard rate
+            "China": 0.05,  # 5% tax rate
+            "Japan": 0.02,  # 2% tariff rate
+            "Germany": 0.025, # 2.5% tariff rate
+            "Mexico": 0.0,  # USMCA favored tariff rate
+            "default": 0.035 # 3.5% base rate
         }
 
         duty_rate = duty_rates.get(country_of_origin, duty_rates["default"])

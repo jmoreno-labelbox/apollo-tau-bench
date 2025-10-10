@@ -10,9 +10,9 @@ TASKS = [
         actions=[
             Action(name="GetViewershipForDateAndCategory", kwargs={"date": "2025-08-07", "category": "Electronics"}),
             Action(name="GetViewershipForDateAndCategory", kwargs={"date": "2025-08-10", "category": "Electronics"}),
-            Action(name="CalculatePercentageChange", kwargs={"current_value": 13500, "previous_value": 12000}), # Returns 12.5% growth
+            Action(name="CalculatePercentageChange", kwargs={"current_value": 13500, "previous_value": 12000}), # Produces a 12.5% increase.
             Action(name="CompareValue", kwargs={"value": 12.5, "threshold": 10, "operator": "greater"}),
-            Action(name="GetStatusForAdset", kwargs={"adset_id": "112"}), # Returns 'active'
+            Action(name="GetStatusForAdset", kwargs={"adset_id": "112"}), # Outputs 'active'
             Action(name="UpdateAdsetStatus", kwargs={"adset_id": "112", "new_status": "paused"}),
             Action(name="GetCurrentTimestamp", kwargs={}),
             Action(name="AddAutomationRun", 
@@ -40,9 +40,9 @@ TASKS = [
         actions=[
             Action(name="GetViewershipForDateAndCategory", kwargs={"date": "2025-08-12", "category": "Apparel"}),
             Action(name="GetViewershipForDateAndCategory", kwargs={"date": "2025-08-13", "category": "Apparel"}),
-            Action(name="CalculatePercentageChange", kwargs={"current_value": 12000, "previous_value": 11800}), # Returns 1.69% growth
+            Action(name="CalculatePercentageChange", kwargs={"current_value": 12000, "previous_value": 11800}), # Yields a growth of 1.69%.
             Action(name="CompareValue", kwargs={"value": 1.694915254237288, "threshold": 2, "operator": "less"}),
-            Action(name="GetStatusForAdset", kwargs={"adset_id": "102"}), # Returns 'active'
+            Action(name="GetStatusForAdset", kwargs={"adset_id": "102"}), # Returns 'currently active'
             Action(name="UpdateAdsetStatus", kwargs={"adset_id": "102", "new_status": "paused"}),
             Action(name="GetCurrentTimestamp", kwargs={}),
             Action(name="AddAutomationRun", 
@@ -70,9 +70,9 @@ TASKS = [
             Action(name="SearchAdsetsByName", kwargs={"name_query": 'Back to School - Laptops'}),
             Action(name="GetViewershipForDateAndCategory", kwargs={"date": "2025-08-10", "category": "Electronics"}),
             Action(name="GetViewershipForDateAndCategory", kwargs={"date": "2025-08-13", "category": "Electronics"}),
-            Action(name="CalculatePercentageChange", kwargs={"current_value": 15000, "previous_value": 13500}), # Returns 11.11% growth
+            Action(name="CalculatePercentageChange", kwargs={"current_value": 15000, "previous_value": 13500}), # Yields an 11.11% increase.
             Action(name="CompareValue", kwargs={"value": 11.11111111111111, "threshold": 12, "operator": "less"}),
-            Action(name="GetStatusForAdset", kwargs={"adset_id": "108"}), # Returns 'active'
+            Action(name="GetStatusForAdset", kwargs={"adset_id": "108"}), # Outputs 'active'
             Action(name="UpdateAdsetStatus", kwargs={"adset_id": "108", "new_status": "paused"}),
             Action(name="GetCurrentTimestamp", kwargs={}),
             Action(name="AddAutomationRun", 
@@ -101,8 +101,8 @@ TASKS = [
             Action(name="SearchAdsetsByName", kwargs={"name_query": 'Electronics - US'}),
             Action(name="GetViewershipForDateAndCategory", kwargs={"date": "2025-08-07", "category": "Electronics"}),
             Action(name="GetViewershipForDateAndCategory", kwargs={"date": "2025-08-13", "category": "Electronics"}),
-            Action(name="CalculatePercentageChange", kwargs={"current_value": 15000, "previous_value": 12000}), # Returns 25% growth
-            Action(name="CompareValue", kwargs={"value": 25, "threshold": 30, "operator": "greater"}), # Returns false, no pause.
+            Action(name="CalculatePercentageChange", kwargs={"current_value": 15000, "previous_value": 12000}), # Produces a 25% increase.
+            Action(name="CompareValue", kwargs={"value": 25, "threshold": 30, "operator": "greater"}), # Returns false, indicating no pause.
             Action(name="GetCurrentTimestamp", kwargs={}),
             Action(name="AddAutomationRun", 
                 kwargs={"run_id": "AR-APPLY-202508-01", "run_type": "trend_analysis",
@@ -859,15 +859,15 @@ TASKS = [
             "You are a Performance Auditor. Our policy mandates a minimum 7-day ROAS, specified by 'min_roas_threshold_7d', for all ad sets employing the 'lowest_cost' bid strategy. The evaluated period is 2025-08-07 to 2025-08-13. If the ROAS falls below the policy criteria, pause the ad set. For logging purposes, record a 'roas_policy_enforcement' automation run with input_ref 'policy_min_roas_threshold_7d'."
         ),
         actions=[
-            Action(name="GetPolicyParam", kwargs={"param_name": "min_roas_threshold_7d"}), # returns 1.5
+            Action(name="GetPolicyParam", kwargs={"param_name": "min_roas_threshold_7d"}), # outputs 1.5
             Action(name="SearchAdsetsByStatus", kwargs={"status": "active"}),
             Action(name="SearchAdsetsByBidStrategy", kwargs={"bid_strategy": "lowest_cost"}),
 
             Action(name="CalculateAdsetRoasForPeriod", kwargs={"adset_id": "102", "start_date": "2025-08-07", "end_date": "2025-08-13"}), # > 1.5
-            Action(name="CalculateAdsetRoasForPeriod", kwargs={"adset_id": "103", "start_date": "2025-08-07", "end_date": "2025-08-13"}), # < 1.5
+            Action(name="CalculateAdsetRoasForPeriod", kwargs={"adset_id": "103", "start_date": "2025-08-07", "end_date": "2025-08-13"}), # less than 1.5
             Action(name="CalculateAdsetRoasForPeriod", kwargs={"adset_id": "105", "start_date": "2025-08-07", "end_date": "2025-08-13"}), # > 1.5
             Action(name="CalculateAdsetRoasForPeriod", kwargs={"adset_id": "107", "start_date": "2025-08-07", "end_date": "2025-08-13"}), # > 1.5
-            Action(name="CalculateAdsetRoasForPeriod", kwargs={"adset_id": "110", "start_date": "2025-08-07", "end_date": "2025-08-13"}), # < 1.5
+            Action(name="CalculateAdsetRoasForPeriod", kwargs={"adset_id": "110", "start_date": "2025-08-07", "end_date": "2025-08-13"}), # less than 1.5
             Action(name="CalculateAdsetRoasForPeriod", kwargs={"adset_id": "112", "start_date": "2025-08-07", "end_date": "2025-08-13"}), # > 1.5
             Action(name="UpdateAdsetStatus", kwargs={"adset_id": "103", "new_status": "paused"}),
             Action(name="UpdateAdsetStatus", kwargs={"adset_id": "110", "new_status": "paused"}),
@@ -921,7 +921,7 @@ TASKS = [
             Action(name="CompareValue", kwargs={"value": 1000, "threshold": 100, "operator": "greater"}),
             Action(name="GetAllocationsForPlan", kwargs={"plan_id": "plan_2025-08-13"}),
 
-            Action(name="SearchAdsetsByCategory", kwargs={"category": "Office"}), # Finds ad set 109
+            Action(name="SearchAdsetsByCategory", kwargs={"category": "Office"}), # Retrieves ad set 109.
             Action(name="GetStatusForAdset", kwargs={"adset_id": "109"}),
 
             Action(name="UpdateAdsetStatus", kwargs={"adset_id": "109", "new_status": "active"}),
@@ -966,10 +966,10 @@ TASKS = [
         actions=[
             Action(name="GetViewershipForDateAndCategory", kwargs={"date": "2025-08-08", "category": "Electronics"}),
             Action(name="GetViewershipForDateAndCategory", kwargs={"date": "2025-08-11", "category": "Electronics"}),
-            Action(name="CalculatePercentageChange", kwargs={"current_value": 14000, "previous_value": 12500}), # Returns 12% growth
+            Action(name="CalculatePercentageChange", kwargs={"current_value": 14000, "previous_value": 12500}), # Yields 12% increase
             Action(name="CompareValue", kwargs={"value": 12, "threshold": 15, "operator": "less"}),
             Action(name="SearchAdsetsByName", kwargs={"name_query": 'Electronics - EU'}),
-            Action(name="GetStatusForAdset", kwargs={"adset_id": "112"}), # Returns 'active'
+            Action(name="GetStatusForAdset", kwargs={"adset_id": "112"}), # Outputs 'active'
             Action(name="UpdateAdsetStatus", kwargs={"adset_id": "112", "new_status": "paused"}),
             Action(name="GetCurrentTimestamp", kwargs={}),
             Action(name="AddAutomationRun", 
@@ -1349,9 +1349,9 @@ TASKS = [
         actions=[
             Action(name="GetViewershipForDateAndCategory", kwargs={"date": "2025-08-09", "category": "Electronics"}),
             Action(name="GetViewershipForDateAndCategory", kwargs={"date": "2025-08-10", "category": "Electronics"}),
-            Action(name="CalculatePercentageChange", kwargs={"current_value": 13500, "previous_value": 13000}), # Returns 3.84% growth
+            Action(name="CalculatePercentageChange", kwargs={"current_value": 13500, "previous_value": 13000}), # Produces a growth of 3.84%
             Action(name="CompareValue", kwargs={"value": 3.8461538461538463, "threshold": 5, "operator": "less"}),
-            Action(name="GetStatusForAdset", kwargs={"adset_id": "101"}), # Returns 'active'
+            Action(name="GetStatusForAdset", kwargs={"adset_id": "101"}), # Outputs 'active'
             Action(name="UpdateAdsetStatus", kwargs={"adset_id": "101", "new_status": "paused"}),
             Action(name="GetCurrentTimestamp", kwargs={}),
             Action(name="AddAutomationRun", 
@@ -2084,7 +2084,7 @@ TASKS = [
             "You are tasked with managing budgets. Adjust the budget for all ad sets under the 'Fall Collection Launch' campaign to the 'min_budget_allocation' stipulated in policy parameters, and increase the 'Global Summer Sale' campaign budget by 10% for each ad set. Moreover, ensure all adjusted budgets are rounded to the nearest unit as specified by the 'budget_rounding_unit' policy parameter. Record all budget changes citing 'Inventory-Based Budget Shift' as the reason."
         ),
         actions=[
-            Action(name="GetPolicyParam", kwargs={"param_name": "budget_rounding_unit"}), # returns 10
+            Action(name="GetPolicyParam", kwargs={"param_name": "budget_rounding_unit"}), # returns the value 10
             Action(name="GetPolicyParam", kwargs={"param_name": "min_budget_allocation"}),
             Action(name="SearchCampaignsByName", kwargs={"name_query": "Fall Collection Launch"}),
             Action(name="SearchAdsetsByCampaignId", kwargs={"campaign_id": "3"}),
@@ -2442,8 +2442,8 @@ TASKS = [
             Action(name="LogBudgetChange", kwargs={"adset_id": "108", "old_budget": 780.0, "new_budget": 897.0, "changed_at": "2025-08-13T01:01:01Z", "reason": "Capped Bid Rotation"}),
             Action(name="GetBidAmountForAdset", kwargs={"adset_id": "108"}),
             Action(name="GetBidStrategyForAdset", kwargs={"adset_id": "108"}),
-            Action(name="IncreaseValueWithPercent", kwargs={"value": 42.0, "percent": 15}), # result 48.3
-            Action(name="GetPolicyParam", kwargs={"param_name": "max_bid_amount"}), # result 50
+            Action(name="IncreaseValueWithPercent", kwargs={"value": 42.0, "percent": 15}), # outcome 48.3
+            Action(name="GetPolicyParam", kwargs={"param_name": "max_bid_amount"}), # output 50
             Action(name="CompareValue", kwargs={"value": 48.3, "threshold": 50.0, "operator": "greater"}),
 
             Action(name="UpdateBidStrategyForAdset", kwargs={"adset_id": "108", "new_strategy": "cost_cap", "new_bid": 48.3}),
@@ -2512,7 +2512,7 @@ TASKS = [
         ),
         actions=[
             Action(name="SearchAdsetsByName", kwargs={"name_query": "Apparel - CA"}),
-            Action(name="SearchAdsetsByStatus", kwargs={"status": "active"}), # Verifies 102 is active
+            Action(name="SearchAdsetsByStatus", kwargs={"status": "active"}), # Confirms that 102 is currently active.
             Action(name="GetAllocationsForPlan", kwargs={"plan_id": "plan_2025-08-13"}),
             Action(name="GetDailyBudgetForAdset", kwargs={"adset_id": "102"}),
             Action(name="UpdateDailyBudgetForAdset", kwargs={"adset_id": "102", "new_budget": 600.0}),
@@ -2570,9 +2570,9 @@ TASKS = [
         actions=[
             Action(name="SearchAdsetsByName", kwargs={"name_query": "Fall Fashion - Men"}),
             Action(name="GetAllocationsForPlan", kwargs={"plan_id": "plan_2025-08-13"}),
-            Action(name="GetDailyBudgetForAdset", kwargs={"adset_id": "105"}), # Returns 750.0
-            Action(name="GetBidStrategyForAdset", kwargs={"adset_id": "105"}), # Returns 'lowest_cost'
-            # Plan for 105 is budget 750.0 and strategy 'lowest_cost'. They match.
+            Action(name="GetDailyBudgetForAdset", kwargs={"adset_id": "105"}), # Outputs 750.0
+            Action(name="GetBidStrategyForAdset", kwargs={"adset_id": "105"}), # Outputs 'lowest_cost'
+            # Plan 105 has a budget of 750.0 and employs the 'lowest_cost' strategy, which aligns.
             Action(name="CompareValue", kwargs={"value": 750.0, "threshold": 750.0, "operator": "equal"}),
             Action(name="GetCurrentTimestamp", kwargs={}),
             Action(name="AddAutomationRun", 
@@ -2591,9 +2591,9 @@ TASKS = [
         ),
         actions=[
             Action(name="SearchAdsetsByName", kwargs={"name_query": "Holiday - Home Goods"}),
-            Action(name="GetAllocationsForPlan", kwargs={"plan_id": "plan_2025-08-13"}), # Planned budget is 500.0
-            Action(name="GetDailyBudgetForAdset", kwargs={"adset_id": "106"}), # Current budget is 500.0
-            Action(name="CalculateSpendVariance", kwargs={"planned_spend": 500.0, "actual_spend": 500.0}), # Variance is 0%
+            Action(name="GetAllocationsForPlan", kwargs={"plan_id": "plan_2025-08-13"}), # The budget allocated is 500.0.
+            Action(name="GetDailyBudgetForAdset", kwargs={"adset_id": "106"}), # The existing budget stands at 500.0.
+            Action(name="CalculateSpendVariance", kwargs={"planned_spend": 500.0, "actual_spend": 500.0}), # Variance equals zero percent.
             Action(name="CompareValue", kwargs={"value": 0, "threshold": 20, "operator": "less"}),
             Action(name="UpdateDailyBudgetForAdset", kwargs={"adset_id": "106", "new_budget": 500.0}),
             Action(name="GetCurrentTimestamp", kwargs={}),
@@ -2641,11 +2641,11 @@ TASKS = [
             Action(name="UpdatePolicyParam", kwargs={"param_name": "max_bid_amount", "param_value": "40", "updated_at": "2025-08-13T01:01:01Z"}),
             Action(name="SearchAdsetsByStatus", kwargs={"status": "active"}),
             Action(name="SearchAdsetsByBidStrategy", kwargs={"bid_strategy": "cost_cap"}),
-            Action(name="GetBidAmountForAdset", kwargs={"adset_id": "101"}), # 32.0 < 40 (OK)
-            Action(name="GetBidAmountForAdset", kwargs={"adset_id": "104"}), # 20.0 < 40 (OK)
+            Action(name="GetBidAmountForAdset", kwargs={"adset_id": "101"}), # 32.0 is less than 40 (Valid)
+            Action(name="GetBidAmountForAdset", kwargs={"adset_id": "104"}), # 20.0 is less than 40 (Valid)
             Action(name="GetBidAmountForAdset", kwargs={"adset_id": "106"}),
-            Action(name="GetBidAmountForAdset", kwargs={"adset_id": "108"}), # 42.0 > 40 (Violation)
-            Action(name="GetBidAmountForAdset", kwargs={"adset_id": "111"}), # 2.5 < 40 (OK)
+            Action(name="GetBidAmountForAdset", kwargs={"adset_id": "108"}), # 42.0 exceeds 40 (Breach)
+            Action(name="GetBidAmountForAdset", kwargs={"adset_id": "111"}), # 2.5 is less than 40 (Valid)
             Action(name="UpdateBidStrategyForAdset", kwargs={"adset_id": "108", "new_strategy": "cost_cap", "new_bid": 40.0}),
             Action(name="LogStrategyChange", kwargs={"adset_id": "108", "old_strategy": "cost_cap", "new_strategy": "cost_cap", "old_bid": 42.0, "new_bid": 40.0, "changed_at": "2025-08-13T01:01:01Z", "reason": "Policy Enforcement"}),
         ],
@@ -2661,11 +2661,11 @@ TASKS = [
         actions=[
             Action(name="SearchAdsetsByStatus", kwargs={"status": "active"}),
             Action(name="SearchAdsetsByBidStrategy", kwargs={"bid_strategy": "cost_cap"}),
-            Action(name="CalculateAdsetRoasForDay", kwargs={"adset_id": "101", "date": "2025-08-13"}), # ROAS is 10.0. No action.
-            Action(name="CalculateAdsetRoasForDay", kwargs={"adset_id": "104", "date": "2025-08-13"}), # ROAS is 11.21 > 11.0. Increase bid.
+            Action(name="CalculateAdsetRoasForDay", kwargs={"adset_id": "101", "date": "2025-08-13"}), # ROAS is 10.0. No further action required.
+            Action(name="CalculateAdsetRoasForDay", kwargs={"adset_id": "104", "date": "2025-08-13"}), # ROAS of 11.21 exceeds 11.0. Raise the bid.
             Action(name="CalculateAdsetRoasForDay", kwargs={"adset_id": "106", "date": "2025-08-13"}),
-            Action(name="CalculateAdsetRoasForDay", kwargs={"adset_id": "108", "date": "2025-08-13"}), # ROAS is 11.28 > 11.0. Increase bid.
-            Action(name="CalculateAdsetRoasForDay", kwargs={"adset_id": "111", "date": "2025-08-13"}), # ROAS is 0.55 < 9.0. Decrease bid.
+            Action(name="CalculateAdsetRoasForDay", kwargs={"adset_id": "108", "date": "2025-08-13"}), # ROAS of 11.28 exceeds 11.0. Raise bid.
+            Action(name="CalculateAdsetRoasForDay", kwargs={"adset_id": "111", "date": "2025-08-13"}), # ROAS is 0.55, which is less than 9.0. Lower the bid.
             Action(name="GetCurrentTimestamp", kwargs={}),
             Action(name="GetBidAmountForAdset", kwargs={"adset_id": "104"}),
             Action(name="IncreaseValueWithPercent", kwargs={"value": 20.0, "percent": 5}),
@@ -2694,7 +2694,7 @@ TASKS = [
         ),
         actions=[
             Action(name="SearchCampaignsByName", kwargs={"name_query": "Global Summer Sale"}),
-            Action(name="SearchAdsetsByCampaignId", kwargs={"campaign_id": "1"}), # Returns 101, 102, 112
+            Action(name="SearchAdsetsByCampaignId", kwargs={"campaign_id": "1"}), # Outputs 101, 102, 112
             Action(name="GetCurrentTimestamp", kwargs={}),
             Action(name="GetAllocationsForPlan", kwargs={"plan_id": "plan_2025-08-13"}),
 
@@ -2717,16 +2717,16 @@ TASKS = [
             "Operating as an Ad Operations Specialist, identify all active ad sets employing a 'cost_cap' bid strategy that are not part of a 'Sales' objective campaign. For each such ad set, modify its bid strategy to 'default_bid_strategy' as specified in policy parameters. Record every strategy modification with 'cost_cap misuse' as the rationale."
         ),
         actions=[
-            Action(name="GetPolicyParam", kwargs={"param_name": "default_bid_strategy"}), # Returns 'lowest_cost'
+            Action(name="GetPolicyParam", kwargs={"param_name": "default_bid_strategy"}), # Outputs 'lowest_cost'
             Action(name="SearchAdsetsByStatus", kwargs={"status": "active"}),
             Action(name="SearchCampaignsByObjective", kwargs={"objective": "Sales"}),
             Action(name="SearchAdsetsByBidStrategy", kwargs={"bid_strategy": "cost_cap"}),
            
-            Action(name="GetCampaignIdForAdset", kwargs={"adset_id": "101"}), # Camp 1 -> Sales (OK)
-            Action(name="GetCampaignIdForAdset", kwargs={"adset_id": "104"}), # Camp 3 -> Traffic (Violation)
-            Action(name="GetCampaignIdForAdset", kwargs={"adset_id": "106"}), # Camp 5
-            Action(name="GetCampaignIdForAdset", kwargs={"adset_id": "108"}), # Camp 6 -> Sales (OK)
-            Action(name="GetCampaignIdForAdset", kwargs={"adset_id": "111"}), # Camp 7 -> App Installs (Violation)
+            Action(name="GetCampaignIdForAdset", kwargs={"adset_id": "101"}), # Camp 1 -> Revenue (Confirmed)
+            Action(name="GetCampaignIdForAdset", kwargs={"adset_id": "104"}), # Camp 3 -> Offense (Traffic)
+            Action(name="GetCampaignIdForAdset", kwargs={"adset_id": "106"}), # Base 5
+            Action(name="GetCampaignIdForAdset", kwargs={"adset_id": "108"}), # Camp 6 -> Sales (Confirmed)
+            Action(name="GetCampaignIdForAdset", kwargs={"adset_id": "111"}), # Camp 7 -> Application Installations (Breach)
             
 
             Action(name="GetCurrentTimestamp", kwargs={}),
@@ -2747,10 +2747,10 @@ TASKS = [
         ),
         actions=[
             Action(name="SearchAdsetsByName", kwargs={"name_query": 'Electronics - US'}),
-            Action(name="GetAllocationsForPlan", kwargs={"plan_id": "plan_2025-08-13"}), # Plan budget for 101 is 950.0
-            Action(name="GetDailyBudgetForAdset", kwargs={"adset_id": "101"}), # Current budget is 920.0
-            Action(name="CalculateSpendVariance", kwargs={"planned_spend": 920.0, "actual_spend": 950.0}), # Calculates the % increase -> 3.26%
-            Action(name="CompareValue", kwargs={"value": 3.260869565217391, "threshold": 5, "operator": "less_equal"}), # 3.26% <= 5% is true.
+            Action(name="GetAllocationsForPlan", kwargs={"plan_id": "plan_2025-08-13"}), # The budget allocation for 101 is set at 950.0.
+            Action(name="GetDailyBudgetForAdset", kwargs={"adset_id": "101"}), # The present budget amounts to 920.0.
+            Action(name="CalculateSpendVariance", kwargs={"planned_spend": 920.0, "actual_spend": 950.0}), # Computes the percentage increase -> 3.26%
+            Action(name="CompareValue", kwargs={"value": 3.260869565217391, "threshold": 5, "operator": "less_equal"}), # 3.26% is less than or equal to 5%, which is correct.
             Action(name="GetCurrentTimestamp", kwargs={}),
             Action(name="UpdateDailyBudgetForAdset", kwargs={"adset_id": "101", "new_budget": 950.0}),
             Action(name="LogBudgetChange",

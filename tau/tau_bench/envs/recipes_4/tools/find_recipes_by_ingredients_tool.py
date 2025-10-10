@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -60,7 +60,7 @@ class FindRecipesByIngredientsTool(Tool):
             the 'data' key contains a list of matching recipes, sorted by
             the number of missing ingredients.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Data
         param_definitions = {
             "available_ingredient_ids": {"type": list, "required": True},
             "max_missing_ingredients": {"type": int, "required": False}
@@ -75,12 +75,12 @@ class FindRecipesByIngredientsTool(Tool):
         available_ids = set(kwargs["available_ingredient_ids"])
         max_missing = kwargs.get("max_missing_ingredients", 1)
 
-        # 2. Pre-process recipe requirements for efficient lookup
+        # 2. Prepare recipe specifications for optimized retrieval.
         recipe_requirements = collections.defaultdict(set)
         for ri in data.get("recipe_ingredients", []):
             recipe_requirements[ri["recipe_id"]].add(ri["ingredient_id"])
 
-        # 3. Find matching recipes
+        # 3. Locate corresponding recipes
         matching_recipes = []
         for recipe in list(data.get("recipes", {}).values()):
             recipe_id = recipe["recipe_id"]
@@ -96,8 +96,8 @@ class FindRecipesByIngredientsTool(Tool):
                 }
                 matching_recipes.append(match_details)
 
-        # 4. Sort results to show the best matches first
+        # 4. Order results to display the top matches at the beginning.
         matching_recipes.sort(key=lambda x: x["missing_ingredient_count"])
 
-        # 5. Return the standardized success response
+        # 5. Provide the uniform success response.
         return _build_success_response(matching_recipes)

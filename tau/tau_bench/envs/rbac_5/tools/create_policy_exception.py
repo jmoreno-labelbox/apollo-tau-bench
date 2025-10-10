@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,19 +27,19 @@ class CreatePolicyException(Tool):
         if not user_id or not permission_id or not reviewed_by or not reason:
             return json.dumps({"error": "user_id, permission_id, reviewed_by, and reason are required"})
 
-        # Validate user exists
+        # Check if the user is present.
         if not _find_by_id(list(data.get("users", {}).values()), "user_id", user_id):
             return json.dumps({"error": f"user_id {user_id} not found"})
 
-        # Validate permission exists
+        # Check if permission is granted.
         if not _find_by_id(list(data.get("permissions", {}).values()), "permission_id", permission_id):
             return json.dumps({"error": f"permission_id {permission_id} not found"})
 
-        # Validate reviewer exists
+        # Check if the reviewer is present.
         if not _find_by_id(list(data.get("users", {}).values()), "user_id", reviewed_by):
             return json.dumps({"error": f"reviewed_by {reviewed_by} not found"})
 
-        # Create new policy exception
+        # Establish a new policy exemption.
         new_exception = {
             "exception_id": _next_id(data, "policy_exceptions", "PE"),
             "user_id": user_id,

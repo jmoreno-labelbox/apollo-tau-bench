@@ -10,8 +10,8 @@ class CreateSupportTicketForTransaction(Tool):
         if not customer_id or not transaction_id or not reason:
             return json.dumps({'error': 'customer_id, transaction_id, and reason are required'})
 
-        # This function would ideally append to the support_tickets.json file,
-        # but here we just simulate the creation for demonstration.
+        # This function is intended to add entries to the support_tickets.json file.
+        # however, we are only simulating the creation for illustrative purposes.
         new_ticket = {
             "ticket_id": f"tkt_{generate_unique_id()}",
             "customer_id": customer_id,

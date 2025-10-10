@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 from .search_employees import SearchEmployees
 from .get_employee_allocations import GetEmployeeAllocations

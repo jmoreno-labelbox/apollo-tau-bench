@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class SetDeviceState(Tool):
                 break
 
         if not device_found:
-            # try sensors if not found in devices
+            # check sensors if devices are unavailable
             sensors = data.get('sensors', [])
             sensor_found = False
             for sensor in sensors:

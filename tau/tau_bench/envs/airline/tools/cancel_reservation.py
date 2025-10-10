@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict
@@ -16,7 +16,7 @@ class CancelReservation(Tool):
             return "Error: reservation not found"
         reservation = reservations[reservation_id]
 
-        # reverse the payment
+        # undo the transaction
         refunds = []
         for payment in reservation["payment_history"]:
             refunds.append(

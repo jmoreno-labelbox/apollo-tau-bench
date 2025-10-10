@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -36,7 +36,7 @@ class CreateAndReviewAccessRequestTool(Tool):
                 {"error": f"Missing required: {', '.join(missing)}"}, indent=2
             )
 
-        # Create if absent
+        # Generate if not present
         json.loads(
             CreateAccessRequestTool.invoke(
                 data,
@@ -49,7 +49,7 @@ class CreateAndReviewAccessRequestTool(Tool):
             )
         )
 
-        # Process end-to-end using existing composite
+        # Execute the entire process utilizing the current composite.
         return ProcessAccessRequestE2ETool.invoke(
             data, request_id=request_id, reviewer_id=reviewer_id
         )

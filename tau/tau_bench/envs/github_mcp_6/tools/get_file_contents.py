@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class GetFileContents(Tool):
         repositories = list(data.get("repositories", {}).values())
         commits_data = list(data.get("commits", {}).values())
 
-        # Find the repository
+        # Locate the repository.
         target_repo = None
         for repository in repositories:
             if repository["owner"] == owner and repository["repo_name"] == repo:
@@ -35,7 +35,7 @@ class GetFileContents(Tool):
                 ]
             }, indent=2)
 
-        # Find branch index
+        # Locate the branch index.
         try:
             branch_idx = target_repo["branches"].index(branch)
         except ValueError:
@@ -56,7 +56,7 @@ class GetFileContents(Tool):
                 ]
             }, indent=2)
 
-        # Check if file exists in branch
+        # Verify the presence of the file in the branch.
         if path not in target_repo["branch_files"][branch_idx]:
             return json.dumps({
                 "success": False,
@@ -66,7 +66,7 @@ class GetFileContents(Tool):
                     "repository": f"{owner}/{repo}",
                     "branch": branch,
                     "requested_path": path,
-                    "available_files": target_repo["branch_files"][branch_idx][:10],  # First 10 files
+                    "available_files": target_repo["branch_files"][branch_idx][:10],  # Initial 10 files
                     "search_timestamp": "2023-12-05T12:00:00Z"
                 },
                 "suggestions": [
@@ -76,18 +76,18 @@ class GetFileContents(Tool):
                 ]
             }, indent=2)
 
-        # Get file content and metadata
+        # Retrieve the file's content and its associated metadata.
         file_idx = target_repo["branch_files"][branch_idx].index(path)
         content = target_repo["branch_contents"][branch_idx][file_idx]
 
-        # Calculate file statistics
+        # Compute file metrics
         lines = content.split('\n')
         lines_count = len(lines)
         lines_of_code = len([line for line in lines if line.strip() and not line.strip().startswith('#')])
         comments = len([line for line in lines if line.strip().startswith('#')])
         blank_lines = len([line for line in lines if not line.strip()])
 
-        # Determine file type and language
+        # Identify the file format and programming language.
         file_extension = path.split('.')[-1] if '.' in path else ''
         language_map = {
             'py': 'python', 'js': 'javascript', 'ts': 'typescript', 'java': 'java',
@@ -97,7 +97,7 @@ class GetFileContents(Tool):
         }
         language = language_map.get(file_extension.lower(), 'text')
 
-        # Find related files (same directory, similar extensions)
+        # Locate associated files (identical directory, comparable extensions)
         directory = '/'.join(path.split('/')[:-1]) if '/' in path else ''
         related_files = [
             file_path for file_path in target_repo["branch_files"][branch_idx]
@@ -105,9 +105,9 @@ class GetFileContents(Tool):
                 file_path.startswith(directory) or
                 file_path.endswith(f'.{file_extension}')
             )
-        ][:5]  # Limit to 5 related files
+        ][:5]  # Restrict to 5 associated files.
 
-        # Find imports and dependencies (basic parsing)
+        # Identify imports and dependencies (simple parsing)
         imports = []
         imported_by = []
         if language == 'python':
@@ -115,12 +115,12 @@ class GetFileContents(Tool):
         elif language in ['javascript', 'typescript']:
             imports = [line.strip() for line in lines if 'import ' in line or 'require(' in line]
 
-        # Mock commit information (find latest commit for this file)
+        # Simulated commit details (retrieve the most recent commit for this file)
         last_commit_sha = f"commit_latest_{path.replace('/', '_')}"
         last_commit_message = f"Update {path.split('/')[-1]}"
         last_author = owner
 
-        # Find commits that modified this file
+        # Identify commits that altered this file.
         for commit_entry in commits_data:
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 for branch_messages in commit_entry.get("commit_messages", []):
@@ -156,8 +156,8 @@ class GetFileContents(Tool):
                 "branch": branch,
                 "directory": directory,
                 "related_files": related_files,
-                "imports": imports[:10],  # Limit to 10 imports
-                "imported_by": imported_by[:5]  # Limit to 5 files that import this
+                "imports": imports[:10],  # Restrict to a maximum of 10 imports.
+                "imported_by": imported_by[:5]  # Restrict to 5 files that include this.
             },
             "counts": {
                 "lines": lines_count,

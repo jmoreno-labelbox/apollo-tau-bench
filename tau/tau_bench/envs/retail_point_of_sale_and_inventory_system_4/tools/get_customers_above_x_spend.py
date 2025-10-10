@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class GetCustomersAboveXSpend(Tool): # READ
+class GetCustomersAboveXSpend(Tool): # READ DATA
     @staticmethod
     def invoke(data: Dict[str, Any], amount: float) -> str:
         transactions = list(data.get("transactions", {}).values())

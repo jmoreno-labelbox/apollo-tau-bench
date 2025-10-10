@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class CaV2CreateInvoiceLine(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Required parameters
+        # Mandatory parameters
         invoice_line_id = kwargs.get("invoice_line_id")
         invoice_id = kwargs.get("invoice_id")
         project_id = kwargs.get("project_id")
@@ -33,7 +33,7 @@ class CaV2CreateInvoiceLine(Tool):
             "line_amount": line_amount
         }
 
-        # Add to data
+        # Incorporate additional data.
         data.setdefault("invoice_lines", []).append(new_line)
 
         return _ok(

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class UpdateGameDetails(Tool):
         score = kwargs.get("score")
         attendance = kwargs.get("attendance")
 
-        # 1) Validate presence
+        # 1) Check for existence
         if gamepk is None:
             return json.dumps({"error": "Missing required field: gamepk"}, indent=2)
 
@@ -37,10 +37,10 @@ class UpdateGameDetails(Tool):
                 indent=2
             )
 
-        # 2) Get DB
+        # Retrieve database.
         games: List[Dict[str, Any]] = list(data.get("games", {}).values())
 
-        # 3) Find the game
+        # Locate the game.
         target = None
         for game in games:
             if game.get("game_pk") == gamepk:
@@ -50,11 +50,11 @@ class UpdateGameDetails(Tool):
         if target is None:
             return json.dumps({"error": f"No game found with game_pk {gamepk}"}, indent=2)
 
-        # 4) Enforce business rule about 'Final' status for score/attendance
-        # Determine the resulting status after this update
+        # 4) Implement business rule regarding 'Final' status for scores/attendance.
+        # Assess the outcome status following this update.
         resulting_status = status if status is not None else target.get("game_status")
 
-        # If trying to change score/attendance, resulting status must be 'Final'
+        # Modifying score/attendance should set the status to 'Final'.
         wants_score_or_attendance_change = (score is not None) or (attendance is not None)
         if wants_score_or_attendance_change and resulting_status != "Final":
             return json.dumps(
@@ -63,7 +63,7 @@ class UpdateGameDetails(Tool):
                 indent=2
             )
 
-        # 5) Apply updates deterministically (only provided fields)
+        # 5) Execute updates in a deterministic manner (using only specified fields)
         if status is not None:
             target["game_status"] = status
         if score is not None:

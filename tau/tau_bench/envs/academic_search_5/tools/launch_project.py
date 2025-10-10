@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class LaunchProject(Tool):
         project_name = kwargs.get('project_name')
         lead_researcher_id = kwargs.get('lead_researcher_id')
         funding_source_id = kwargs.get('funding_source_id')
-        project_id_override = kwargs.get('project_id_override') # New parameter
+        project_id_override = kwargs.get('project_id_override') # Additional parameter
 
         project_id = project_id_override if project_id_override else f"proj_{uuid.uuid4().hex[:4]}"
 

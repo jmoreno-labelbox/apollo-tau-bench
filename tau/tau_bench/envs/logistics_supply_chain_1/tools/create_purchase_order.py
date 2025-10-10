@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,13 +24,13 @@ class CreatePurchaseOrder(Tool):
 
         current_year_str = str(get_current_year())
 
-        # Filter POs for the current year only
+        # Restrict POs to the current year only
         pos_this_year = [
             s for s in inbound_shipments
             if s.get('purchase_order_number', '').startswith(f"PO-{current_year_str}")
         ]
 
-        # Find the max sequence number within the current year
+        # Identify the highest sequence number for the current year.
         max_seq_num_this_year = 0
         if pos_this_year:
             max_seq_num_this_year = max(
@@ -40,7 +40,7 @@ class CreatePurchaseOrder(Tool):
 
         new_seq_num = max_seq_num_this_year + 1
         new_po_number = f"PO-{current_year_str}-{new_seq_num:04d}"
-        # --- CORRECTED LOGIC END ---
+        # --- END OF FIXED LOGIC ---
 
         max_ship_id = max((int(s.get('shipment_id', 'SHIP-0').split('-')[1]) for s in inbound_shipments), default=0)
         new_shipment_id = f"SHIP-{max_ship_id + 1:04d}"
@@ -64,7 +64,7 @@ class CreatePurchaseOrder(Tool):
 
         inbound_shipments.append(new_shipment)
 
-        # The tool now correctly returns the PO number as determined by the policy
+        # The tool now accurately outputs the PO number as specified by the policy.
         return json.dumps({"status": "success", "purchase_order_number": new_po_number}, indent=2)
 
     @staticmethod

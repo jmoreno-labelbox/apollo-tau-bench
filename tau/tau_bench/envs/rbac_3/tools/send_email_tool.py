@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,7 +23,7 @@ class SendEmailTool(Tool):
                 indent=2,
             )
 
-        # If receiver not provided, try to resolve from user_id
+        # If a receiver is not specified, attempt to determine it using user_id.
         if not receiver and user_id:
             users: List[Dict[str, Any]] = list(data.get("users", {}).values())
             user = next((u for u in users if u.get("user_id") == user_id), None)

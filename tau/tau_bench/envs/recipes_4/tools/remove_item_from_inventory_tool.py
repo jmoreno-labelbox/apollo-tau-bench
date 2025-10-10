@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -60,7 +60,7 @@ class RemoveItemFromInventoryTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the item that was removed.
         """
-        # 1. Validate Input Types
+        # 1. Check Input Data Types
         param_definitions = {
             "inv_item_id": {"type": int, "required": False},
             "household_id": {"type": int, "required": False},
@@ -76,11 +76,11 @@ class RemoveItemFromInventoryTool(Tool):
         ingredient_id = kwargs.get("ingredient_id")
         user_id = kwargs.get("user_id")
 
-        # 2. Specific Validation: Ensure at least one identification method is provided
+        # 2. Specific Validation: Confirm that at least one form of identification is supplied.
         if not inv_item_id and not (household_id and ingredient_id):
             return _build_error_response("REQUIRED_PARAMETER", {"param": "'inv_item_id' or both 'household_id' and 'ingredient_id'"})
 
-        # 3. Find the item to remove
+        # 3. Locate the item for deletion
         inventory_table = data.get("inventory_items", [])
         item_to_remove = None
         if inv_item_id:
@@ -91,7 +91,7 @@ class RemoveItemFromInventoryTool(Tool):
         if not item_to_remove:
             return _build_error_response("NOT_FOUND", {"entity": "Inventory Item", "entity_id": inv_item_id or f"for ingredient {ingredient_id}"})
 
-        # 4. Auditing (before the data is removed)
+        # 4. Data verification (prior to deletion)
         item_id_to_remove = item_to_remove["inv_item_id"]
         _log_audit_event(
             data=data,
@@ -100,13 +100,13 @@ class RemoveItemFromInventoryTool(Tool):
             entity_type="inventory_items",
             entity_id=item_id_to_remove,
             action_enum="delete",
-            payload_json=item_to_remove # Log the full record being deleted
+            payload_json=item_to_remove # Record the complete entry that is being removed.
         )
 
-        # 5. Perform the removal
+        # 5. Execute the deletion.
         data["inventory_items"] = [item for item in inventory_table if item.get("inv_item_id") != item_id_to_remove]
 
-        # 6. Response
+        # 6. Reply
         return _build_success_response({
             "status": "success",
             "removed_item": item_to_remove

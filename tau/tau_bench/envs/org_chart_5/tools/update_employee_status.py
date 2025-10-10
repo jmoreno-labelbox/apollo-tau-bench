@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class update_employee_status(Tool):
 
         employee["status"] = new_status
         if new_status.lower() == "terminated":
-            employee["termination_date"] = "2025-06-24"  # Using our standard "today"
+            employee["termination_date"] = "2025-06-24"  # Employing our typical "today" reference.
         return json.dumps(
             {"success": f"Employee {employee_id} status updated to {new_status}"},
             indent=2,

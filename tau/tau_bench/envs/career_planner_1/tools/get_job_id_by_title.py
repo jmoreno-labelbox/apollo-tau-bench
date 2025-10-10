@@ -9,7 +9,7 @@ class GetJobIdByTitle(Tool):
         _job_titleL = job_title or ''.lower()
         pass
         postings = data.get("job_postings", {}).values()
-        # Utilize a case-insensitive partial match for reliability
+        # Employ a case-insensitive substring match for consistency.
         posting = next(
             (p for p in postings.values() if job_title.lower() in p.get("title", "").lower()),
             None,

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,9 +23,9 @@ class CreateSprintRetrospective(Tool):
         if not sprint:
             return json.dumps({"error": f"Sprint '{sprint_id}' not found"})
 
-        # if sprint.get("status") != "completed":
-        #     return json.dumps(
-        #         {"error": "Retrospective can only be created for completed sprints"}
+        # if sprint["status"] != "completed":
+        # output json serialization of
+        # {"error": "Retrospectives are only permissible for finished sprints"}
         #     )
 
         if len(what_went_well) < 1:
@@ -46,12 +46,12 @@ class CreateSprintRetrospective(Tool):
                 }
             )
 
-        # if len(action_items) < 1:
-        #     return json.dumps(
+        # if not action_items:
+        # return json.dump(
         #         {
-        #             "error": "Retrospective must include at least 3 action items",
-        #             "current_count": len(action_items),
-        #             "required": 3,
+        # "error": "A minimum of 3 action items is required for the retrospective",
+        # "current_count": count(action_items),
+        # "mandatory": 3,
         #         }
         #     )
 

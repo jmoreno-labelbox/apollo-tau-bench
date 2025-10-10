@@ -1,0 +1,537 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "task_001",
+        "actions": [
+          {
+            "name": "GetContactByName",
+            "kwargs": {
+              "first_name": "John",
+              "last_name": "Doe"
+            }
+          },
+          {
+            "name": "GetAccountById",
+            "kwargs": {
+              "account_id": "101"
+            }
+          },
+          {
+            "name": "GetProductsByNames",
+            "kwargs": {
+              "names": [
+                "QuantumBook Pro",
+                "USB-C Hub"
+              ]
+            }
+          },
+          {
+            "name": "VerifyOrderFromStock",
+            "kwargs": {
+              "items": [
+                {
+                  "product_id": "1005",
+                  "required_quantity": 1
+                },
+                {
+                  "product_id": "1002",
+                  "required_quantity": 2
+                }
+              ]
+            }
+          },
+          {
+            "name": "GetPriceOfProduct",
+            "kwargs": {
+              "items": [
+                {
+                  "product_id": "1005",
+                  "pricebook_id": "2"
+                },
+                {
+                  "product_id": "1002",
+                  "pricebook_id": "2"
+                }
+              ]
+            }
+          },
+          {
+            "name": "CalculateSubTotalPrice",
+            "kwargs": {
+              "items": [
+                {
+                  "product_id": "1005",
+                  "quantity": 1,
+                  "price": 1900.0
+                },
+                {
+                  "product_id": "1002",
+                  "quantity": 2,
+                  "price": 60.0
+                }
+              ]
+            }
+          },
+          {
+            "name": "ApplyOfferToSubtotal",
+            "kwargs": {
+              "subtotal": 2020.0,
+              "offer_code": "B2BVOLUME15"
+            }
+          },
+          {
+            "name": "CreateNewCase",
+            "kwargs": {
+              "contact_id": "201",
+              "account_id": "101",
+              "subject": "B2B Quote Prepared",
+              "priority": "Low"
+            }
+          }
+        ],
+        "instruction": "Handle a B2B quote for Maria Garcia for one QuantumBook Pro and two USB-C Hubs, apply B2BVOLUME15, check stock, and initiate a low-priority case titled 'B2B Quote Prepared'. Return the subtotal, discount, and total after discount.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0024950000000000003,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "eaa7ff557ebd9efd197bf69abcd68297a5da4a539406a001c5c1dcc6dfd61854"
+        },
+        "actions": [
+          {
+            "name": "GetContactByName",
+            "kwargs": {
+              "first_name": "John",
+              "last_name": "Doe"
+            }
+          },
+          {
+            "name": "GetAccountById",
+            "kwargs": {
+              "account_id": "101"
+            }
+          },
+          {
+            "name": "GetProductsByNames",
+            "kwargs": {
+              "names": [
+                "QuantumBook Pro",
+                "USB-C Hub"
+              ]
+            }
+          },
+          {
+            "name": "VerifyOrderFromStock",
+            "kwargs": {
+              "items": [
+                {
+                  "product_id": "1005",
+                  "required_quantity": 1
+                },
+                {
+                  "product_id": "1002",
+                  "required_quantity": 2
+                }
+              ]
+            }
+          },
+          {
+            "name": "GetPriceOfProduct",
+            "kwargs": {
+              "items": [
+                {
+                  "product_id": "1005",
+                  "pricebook_id": "2"
+                },
+                {
+                  "product_id": "1002",
+                  "pricebook_id": "2"
+                }
+              ]
+            }
+          },
+          {
+            "name": "CalculateSubTotalPrice",
+            "kwargs": {
+              "items": [
+                {
+                  "product_id": "1005",
+                  "quantity": 1,
+                  "price": 1900.0
+                },
+                {
+                  "product_id": "1002",
+                  "quantity": 2,
+                  "price": 60.0
+                }
+              ]
+            }
+          },
+          {
+            "name": "ApplyOfferToSubtotal",
+            "kwargs": {
+              "subtotal": 2020.0,
+              "offer_code": "B2BVOLUME15"
+            }
+          },
+          {
+            "name": "CreateNewCase",
+            "kwargs": {
+              "contact_id": "201",
+              "account_id": "101",
+              "subject": "B2B Quote Prepared",
+              "priority": "Low"
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"As a Digital Commerce assistant, you handle customer records, accounts, products, pricing, offers, carts, orders, cases, and all associated operations solely through the designated APIs.\",\n    \"For any timestamps requiring the value of 'now', use 2025-08-10T12:00:00Z as the current time.\",\n    \"Every write operation must be deterministic: identical inputs on repeated calls must yield the same database updates and generated IDs.\",\n    \"New IDs must be generated deterministically based on the current length of the respective table.\",\n    \"Use exact, case-sensitive comparisons for all lookups involving IDs, names, or codes.\",\n    \"Normalize all ID inputs: whenever an ID (such as account id, contact id, cart id, order id, case id, offer id, product id, or pricebook id) is supplied as a number, convert it to its string form prior to any matching or storage. All IDs must be stored as strings.\",\n    \"Check that all required fields are present; if any mandatory input is absent, respond with a structured error.\",\n    \"If directed to use the same address, apply the previously referenced address; if not, utilize the address that is explicitly supplied.\",\n    \"Upon creation of a new contact, ensure that account_id is set to null (None) by default; link the account to the contact through a distinct, explicit action.\",\n    \"The customer type must be either 'B2B Customer' or 'B2C Customer'.\",\n    \"For the default pricebook, assign 2 if the account type is 'B2B Customer'; otherwise, assign 1.\",\n    \"Prices are looked up using pairs of product ID and pricebook ID; if an exact pair is not found, a structured error must be returned.\",\n    \"By default, newly created offers have active set to true.\",\n    \"Prior to applying any coupon or offer, ensure it is both active and valid. Do not apply any offer if it is not active.\",\n    \"Discounts can be either 'FIXED_AMOUNT' or 'PERCENTAGE'; calculate them precisely according to the provided inputs.\",\n    \"Quantities for items must be integers; any invalid numeric input should be rejected or corrected, returning structured error messages.\",\n    \"Removing or clearing items impacts solely the items within the corresponding cart.\",\n    \"When a new order is created, its status is set to Processing and its order date is initialized to 2025-08-10T12:00:00Z.\",\n    \"Prior to adding items to the cart, check that the requested quantities do not exceed available stock; limit the fulfillable quantity to the current stock level.\",\n    \"Before order placement, calculate each line total by multiplying quantity by price, then aggregate these to determine the subtotal.\",\n    \"Once an order is placed, deduct the ordered quantities of products from their corresponding stock levels.\",\n    \"Determine the discount amount (either 'FIXED_AMOUNT' or 'PERCENTAGE'), and set the total to the greater of zero or (subtotal minus discount).\",\n    \"Unless instructed to reuse a previous shipping address, utilize the explicitly given shipping address.\",\n    \"Email IDs must use lowercase letters. The format for the email can be defined in the task instruction; if not defined, use the default format 'firstname.lastname@domain.com'.\",\n    \"The initial case status is set to New, and the initial case priority is set to Medium by default.\",\n    \"Resolving a case requires updating the case status to 'Resolved' (it must never be set to 'Closed'). If instructed to 'open and resolve', first generate a new case, then change its status to 'Resolved'.\",\n    \"All calculations involving pricing must utilize the Decimal type with two decimal places, applying ROUND_HALF_UP rounding at every stage (from unit price to line total, then to subtotal, discount_amount, and finally total).\",\n    \"Redis descriptions: Insert the en dash U+2013 in 'Redis \u2013 \u2026'; do not substitute with '-' or '--'.\",\n    \"Env tags: Provide env_tag without brackets (such as 'UAT', 'DEV'); during standardization, add the bracketed tag ('[UAT\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi, I'd like to get a quote for Maria Garcia."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"first_name\":\"Maria\",\"last_name\":\"Garcia\"}",
+              "name": "get_contact_by_name"
+            },
+            "id": "call_ynedTdskUTIaShHGJqYp4G3I",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_ynedTdskUTIaShHGJqYp4G3I",
+        "name": "get_contact_by_name",
+        "content": "{\n  \"contact_id\": \"201\",\n  \"account_id\": \"101\",\n  \"first_name\": \"Maria\",\n  \"last_name\": \"Garcia\",\n  \"email\": \"maria.garcia@globaltech.com\",\n  \"phone\": \"111-222-3333\"\n}"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"contact_id\":\"201\"}",
+              "name": "get_orders_by_contact_id"
+            },
+            "id": "call_auEaT27aUHXKl5jJ0Y0ExQBu",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_auEaT27aUHXKl5jJ0Y0ExQBu",
+        "name": "get_orders_by_contact_id",
+        "content": "Error: name '_idstr' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"contact_id\":\"201\"}",
+              "name": "get_cart_by_contact_id"
+            },
+            "id": "call_848wrD4unoc3AZeks5XgWaZT",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_848wrD4unoc3AZeks5XgWaZT",
+        "name": "get_cart_by_contact_id",
+        "content": "Error: name '_idstr' is not defined"
+      },
+      {
+        "content": "It seems there was an issue retrieving the quote for Maria Garcia. Let me try to fetch her cart details again.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"contact_id\":\"201\"}",
+              "name": "get_cart_by_contact_id"
+            },
+            "id": "call_vbtghHTdPHwHjdX8qqf3kj2O",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_vbtghHTdPHwHjdX8qqf3kj2O",
+        "name": "get_cart_by_contact_id",
+        "content": "Error: name '_idstr' is not defined"
+      },
+      {
+        "content": "I am currently unable to retrieve the cart details for Maria Garcia due to a technical issue. Unfortunately, this means I cannot provide a quote at this moment. \n\nIf you have any specific products or details you'd like to inquire about, please let me know, and I can assist you further!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I'm looking to get a quote for one QuantumBook Pro and two USB-C Hubs. Can you help with that?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"names\": [\"QuantumBook Pro\", \"USB-C Hub\"]}",
+              "name": "get_products_by_names"
+            },
+            "id": "call_cpcZfzYAqY2lzrA1NHUeDuIl",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_cpcZfzYAqY2lzrA1NHUeDuIl",
+        "name": "get_products_by_names",
+        "content": "[\n  {\n    \"product_id\": \"1005\",\n    \"name\": \"QuantumBook Pro\",\n    \"category_id\": \"CAT202\",\n    \"sku\": \"LT-QNTM-PRO\",\n    \"stock_quantity\": 25\n  },\n  {\n    \"product_id\": \"1002\",\n    \"name\": \"USB-C Hub\",\n    \"category_id\": \"CAT103\",\n    \"sku\": \"AC-USBC-HUB\",\n    \"stock_quantity\": 200\n  }\n]"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"items\": [{\"product_id\": \"1005\", \"pricebook_id\": \"1\"}, {\"product_id\": \"1002\", \"pricebook_id\": \"1\"}]}",
+              "name": "get_price_of_product"
+            },
+            "id": "call_zE1i406nVgZv1E9IuVbbModj",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_zE1i406nVgZv1E9IuVbbModj",
+        "name": "get_price_of_product",
+        "content": "Error: name '_money' is not defined"
+      },
+      {
+        "content": "It seems there was an issue retrieving the prices for the products. Let me try to fetch the prices again.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"items\":[{\"product_id\":\"1005\",\"pricebook_id\":\"1\"},{\"product_id\":\"1002\",\"pricebook_id\":\"1\"}]}",
+              "name": "get_price_of_product"
+            },
+            "id": "call_gia9VnyMO3C0TyRk2yypoi3y",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_gia9VnyMO3C0TyRk2yypoi3y",
+        "name": "get_price_of_product",
+        "content": "Error: name '_money' is not defined"
+      },
+      {
+        "content": "I am currently unable to retrieve the prices for the QuantumBook Pro and USB-C Hub due to a technical issue. Unfortunately, this means I cannot provide a quote at this moment.\n\nIf you have any other questions or need assistance with something else, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I can also provide a discount code. Would that help in preparing the quote?"
+      },
+      {
+        "content": "Yes, providing a discount code could help in preparing the quote, but I would need to verify that the discount code is active and valid before applying it. Please share the discount code you have in mind, and I'll check its status.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "The discount code is B2BVOLUME15. Can you verify if it's active and valid?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"offer_id\":\"B2BVOLUME15\"}",
+              "name": "get_offer_details"
+            },
+            "id": "call_49HkYjLuyDuVktMp76LFkZ6K",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_49HkYjLuyDuVktMp76LFkZ6K",
+        "name": "get_offer_details",
+        "content": "Error: name '_idstr' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"offer_id\":\"B2BVOLUME15\"}",
+              "name": "get_offer_details"
+            },
+            "id": "call_hKsCZxtt5QhzHX5dHod9EEAv",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_hKsCZxtt5QhzHX5dHod9EEAv",
+        "name": "get_offer_details",
+        "content": "Error: name '_idstr' is not defined"
+      },
+      {
+        "content": "I am currently unable to verify the status of the discount code \"B2BVOLUME15\" due to a technical issue. Unfortunately, this means I cannot confirm if the discount is active and valid at this moment.\n\nIf you have any other questions or need assistance with something else, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No problem. Can we check the stock for the items I mentioned earlier?"
+      },
+      {
+        "content": "The stock quantities for the items you mentioned are as follows:\n\n- **QuantumBook Pro**: 25 units available\n- **USB-C Hub**: 200 units available\n\nIf you would like to proceed with a quote or have any other requests, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great! Since stock is available, could you assist me with creating a low-priority support case titled \"B2B Quote Prepared\"?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"contact_id\":\"201\",\"account_id\":\"101\",\"subject\":\"B2B Quote Prepared\",\"priority\":\"Low\"}",
+              "name": "create_new_case"
+            },
+            "id": "call_LDfyFJkntrz747y5IR5xoLAD",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_LDfyFJkntrz747y5IR5xoLAD",
+        "name": "create_new_case",
+        "content": "Error: name '_idstr' is not defined"
+      },
+      {
+        "content": "I am currently unable to create the support case titled \"B2B Quote Prepared\" due to a technical issue. Unfortunately, this means I cannot proceed with creating the case at this moment.\n\nIf you have any other questions or need assistance with something else, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Got it. Could you help me calculate the subtotal and apply the discount to see the total after discount for the items?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"items\": [{\"product_id\": \"1005\", \"quantity\": 1, \"price\": 0}, {\"product_id\": \"1002\", \"quantity\": 2, \"price\": 0}]}",
+              "name": "calculate_sub_total_price"
+            },
+            "id": "call_X26KaWIZXTxBWat5yAPgLmpp",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_X26KaWIZXTxBWat5yAPgLmpp",
+        "name": "calculate_sub_total_price",
+        "content": "Error: name 'Decimal' is not defined"
+      },
+      {
+        "content": "I am currently unable to calculate the subtotal and apply the discount due to a technical issue. Unfortunately, this means I cannot provide the total after discount at this moment.\n\nIf you have any other questions or need assistance with something else, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "In that case, if there's anything else you'd like to look into, feel free to let me know!"
+      },
+      {
+        "content": "Thank you for your understanding! While I currently face some technical issues with specific operations, I can assist you with general inquiries or provide information about our products, services, or processes. If there's anything specific you'd like to know or explore, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "That's alright. Thanks for your help anyway! If there's anything else I need, I'll reach out.###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

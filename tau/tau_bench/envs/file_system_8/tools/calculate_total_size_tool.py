@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -33,7 +33,7 @@ class CalculateTotalSizeTool(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Accept either explicit file_paths or a reference to a file list stored in data
+        # Allow for either direct file_paths or a reference to a list of files contained in data.
         file_entries = []
         if "file_paths" in kwargs and kwargs.get("file_paths") is not None:
             file_entries = kwargs.get("file_paths") or []
@@ -51,7 +51,7 @@ class CalculateTotalSizeTool(Tool):
                     }
                 )
         else:
-            # try to detect a default 'file_list' or 'file_check_log.json'
+            # attempt to identify a default 'file_list' or 'file_check_log.json'
             if "file_list" in data and isinstance(data["file_list"], list):
                 file_entries = data["file_list"]
             elif "file_check_log.json" in data and isinstance(
@@ -63,26 +63,26 @@ class CalculateTotalSizeTool(Tool):
                     {"status": "error", "message": "no_file_entries_provided"}
                 )
 
-        # helper to get size from various entry shapes
+        # utility for obtaining dimensions from different entry forms
         def entry_size(entry):
             if isinstance(entry, dict):
                 if "size" in entry and isinstance(entry["size"], (int, float)):
                     return int(entry["size"])
-                # maybe the entry is nested
+                # the entry might be hierarchical
                 if (
                     "metadata" in entry
                     and isinstance(entry["metadata"], dict)
                     and "size" in entry["metadata"]
                 ):
                     return int(entry["metadata"]["size"])
-                # could include path that we can look up
+                # might incorporate a path for reference
                 path = entry.get("path") or entry.get("file_path")
             else:
                 path = entry
 
-            # lookup size by path
+            # retrieve size using path
             if path:
-                # check file_index
+                # verify file_index
                 idx = data.get("file_index", {})
                 if (
                     isinstance(idx, dict)
@@ -103,7 +103,7 @@ class CalculateTotalSizeTool(Tool):
                             f.get("size"), (int, float)
                         ):
                             return int(f.get("size"))
-            # unknown size
+            # size not specified
             return None
 
         total = 0
@@ -111,7 +111,7 @@ class CalculateTotalSizeTool(Tool):
         for e in file_entries:
             s = entry_size(e)
             if s is None:
-                # try to show something helpful
+                # attempt to demonstrate something beneficial
                 if isinstance(e, dict):
                     unknown.append(e.get("path") or str(e))
                 else:
@@ -124,6 +124,6 @@ class CalculateTotalSizeTool(Tool):
                 {"status": "error", "message": "unknown_sizes", "unknown": unknown}
             )
 
-        # store a deterministic field for downstream tools
+        # save a consistent field for subsequent tools
         data["last_total_size"] = total
         return json.dumps({"status": "success", "total_size": total})

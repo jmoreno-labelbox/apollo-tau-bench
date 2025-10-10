@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class RecomputeDailyMetrics(Tool):
         opened = len([t for t in data["tickets"] if t["opened_at"].startswith(date)])
         closed = len([t for t in data["tickets"] if t.get("closed_at") and t["closed_at"].startswith(date)])
         closed_24 = 0
-        # Approximate: treat any closed on same date as within 24h
+        # Approximate: consider any closures on the same date as occurring within 24 hours.
         for t in data["tickets"]:
             if t.get("closed_at") and t["closed_at"].startswith(date) and t["opened_at"][:10] == date:
                 closed_24 += 1

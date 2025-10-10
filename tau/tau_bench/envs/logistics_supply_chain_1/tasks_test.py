@@ -1793,9 +1793,9 @@ TASKS = [
             Action(
                 name="LogAuditTrail",
                 kwargs={
-                    "audit_event": "RETURN_AUDIT_SPLIT_DISPOSITION", # Audit event agora é explicitado na instrução
+                    "audit_event": "RETURN_AUDIT_SPLIT_DISPOSITION", # O evento de auditoria agora está detalhado na instrução.
                     "subject_id": "ORD-0003",
-                    "outcome_code": "DISPOSITION_COMPLETE", # Outcome code agora é explicitado na instrução
+                    "outcome_code": "DISPOSITION_COMPLETE", # O código de resultado agora está detalhado na instrução.
                     "outcome_details": {"restocked_qty": 85, "scrapped_qty": 15, "inventory_loss": 52.50}
                 }
             )

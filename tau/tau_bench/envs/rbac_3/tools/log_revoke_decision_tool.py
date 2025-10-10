@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,7 +25,7 @@ class LogRevokeDecisionTool(Tool):
             return json.dumps({"error": "user_id and role_id are required"}, indent=2)
 
         log_id = f"LOG-{user_id}-{role_id}-decision"
-        # Derive default details if not explicitly provided
+        # Obtain default information if not specified.
         if details is None:
             if revoked is True:
                 details = "REMOVED"

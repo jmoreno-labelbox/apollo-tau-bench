@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,14 +25,14 @@ class ManageCrewMember(Tool):
         from datetime import datetime
         from typing import Optional
 
-        # Validate required parameters
+        # Check mandatory parameters for correctness.
         if not all([action, crew_id]):
             return json.dumps({
                 "status": "Missing required parameters",
                 "required": ["action", "crew_id"]
             })
 
-        # Validate action
+        # Verify operation
         valid_actions = ["assign_to_flight", "remove_from_flight", "add_certification", "update_status", "update_home_base", "get_assignments", "get_schedule"]
         if action not in valid_actions:
             return json.dumps({
@@ -41,7 +41,7 @@ class ManageCrewMember(Tool):
                 "received": action
             })
 
-        # Find crew member
+        # Locate team member
         crew_members = data.get("crew_members", [])
         target_crew = None
         crew_index = None
@@ -72,7 +72,7 @@ class ManageCrewMember(Tool):
                     "required": ["flight_number", "assigned_role"]
                 })
 
-            # Validate role
+            # Verify the role.
             valid_roles = ["Captain", "First Officer", "Flight Attendant", "Flight Engineer"]
             if assigned_role not in valid_roles:
                 return json.dumps({
@@ -81,7 +81,7 @@ class ManageCrewMember(Tool):
                     "received": assigned_role
                 })
 
-            # Check if crew member is already assigned to this flight
+            # Verify if the crew member is assigned to this flight.
             flight_crew_assignments = data.get("flight_crew_assignments", [])
             existing_assignment = None
             for assignment in flight_crew_assignments:
@@ -98,7 +98,7 @@ class ManageCrewMember(Tool):
                     "existing_role": existing_assignment.get("assigned_role")
                 })
 
-            # Create new assignment
+            # Generate a new task.
             new_assignment = {
                 "assignment_id": f"AS{len(flight_crew_assignments) + 1:03d}",
                 "flight": {
@@ -126,7 +126,7 @@ class ManageCrewMember(Tool):
                     "required": ["flight_number"]
                 })
 
-            # Find and remove assignment
+            # Locate and eliminate assignment.
             flight_crew_assignments = data.get("flight_crew_assignments", [])
             assignment_removed = False
 
@@ -154,7 +154,7 @@ class ManageCrewMember(Tool):
                     "required": ["certification_type", "certification_expiry"]
                 })
 
-            # Validate expiry date format
+            # Check the format of the expiry date.
             try:
                 datetime.strptime(certification_expiry, "%Y-%m-%d")
             except ValueError:
@@ -163,7 +163,7 @@ class ManageCrewMember(Tool):
                     "received": certification_expiry
                 })
 
-            # Create new certification
+            # Generate a new certification.
             crew_certifications = data.get("crew_certifications", [])
             new_certification = {
                 "crew_certification_id": f"CC{len(crew_certifications) + 1:03d}",
@@ -218,7 +218,7 @@ class ManageCrewMember(Tool):
                     "required": ["new_home_base"]
                 })
 
-            # Validate airport code format (basic validation)
+            # Check the format of the airport code (basic validation).
             if len(new_home_base) != 3 or not new_home_base.isalpha():
                 return json.dumps({
                     "status": "Invalid airport code format. Expected 3-letter IATA code",
@@ -238,7 +238,7 @@ class ManageCrewMember(Tool):
             response["message"] = f"Home base updated for crew member {response['crew_name']} from {old_home_base} to {new_home_base}"
 
         elif action == "get_assignments":
-            # Get all current assignments for the crew member
+            # Retrieve all active assignments for the crew member.
             flight_crew_assignments = data.get("flight_crew_assignments", [])
             crew_assignments = []
 
@@ -255,7 +255,7 @@ class ManageCrewMember(Tool):
             response["message"] = f"Retrieved {len(crew_assignments)} assignments for crew member {response['crew_name']}"
 
         elif action == "get_schedule":
-            # Get flight schedule for the crew member
+            # Retrieve the crew member's flight schedule.
             flight_crew_assignments = data.get("flight_crew_assignments", [])
             crew_schedule = []
 
@@ -263,7 +263,7 @@ class ManageCrewMember(Tool):
                 if assignment.get("crew_member", {}).get("crew_member_id") == crew_id:
                     flight_number = assignment.get("flight", {}).get("flight_number")
                     
-                    # Get flight details
+                    # Retrieve flight information.
                     flights = list(data.get("flights", {}).values())
                     flight_details = None
                     for flight in flights:
@@ -282,7 +282,7 @@ class ManageCrewMember(Tool):
                         }
                         crew_schedule.append(schedule_entry)
 
-            # Sort by departure time
+            # Order by departure time.
             crew_schedule.sort(key=lambda x: x.get("scheduled_departure", ""))
 
             response["schedule"] = crew_schedule

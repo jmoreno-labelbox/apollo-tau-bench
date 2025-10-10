@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -29,7 +29,7 @@ class CreateIngestionLog(Tool):
         records_ingested = kwargs.get("records_ingested")
         request_ts = kwargs.get("request_timestamp_utc", "2025-08-10 12:00:00")
 
-        # 1) Validate required fields
+        # 1) Check mandatory fields for validity
         missing = []
         if source_name is None:
             missing.append("source_name")
@@ -40,13 +40,13 @@ class CreateIngestionLog(Tool):
         if missing:
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        # 2) Access DB
+        # 2) Connect to the database
         logs: List[Dict[str, Any]] = list(data.get("ingestion_logs", {}).values())
 
-        # 3) Generate new ingestion_id deterministically
+        # 3) Create a new ingestion_id in a deterministic manner.
         new_id = get_next_ingestion_id(data)
 
-        # 4) Create record
+        # 4) Generate entry
         new_row = {
             "ingestion_id": new_id,
             "source_name": source_name,
@@ -55,7 +55,7 @@ class CreateIngestionLog(Tool):
             "records_ingested": records_ingested
         }
 
-        # 5) Insert
+        # 5) Add
         logs.append(new_row)
 
         return json.dumps(new_row, indent=2)

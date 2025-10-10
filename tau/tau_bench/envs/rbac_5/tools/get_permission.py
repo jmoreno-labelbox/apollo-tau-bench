@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,14 +23,14 @@ class GetPermission(Tool):
 
         permissions = list(data.get("permissions", {}).values())
 
-        # If permission_id is provided, return single permission
+        # Return a single permission if permission_id is given.
         if permission_id:
             permission = _find_by_id(permissions, "permission_id", permission_id)
             if not permission:
                 return json.dumps({"error": f"permission_id {permission_id} not found"})
             return json.dumps({"ok": True, "permission": permission})
 
-        # Filter permissions based on provided criteria
+        # Restrict permissions according to specified parameters.
         filtered_permissions = []
         for permission in permissions:
             if action and permission.get("action") != action:

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class GetCurrentTime(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Format the datetime as "YYYY-MM-DD HH:MM:SS+00:00"
+        # Format the datetime to "YYYY-MM-DD HH:MM:SS+00:00".
         formatted_time = NOW.isoformat(timespec='seconds').replace("T", " ")
         return json.dumps({"current_time": formatted_time})
 

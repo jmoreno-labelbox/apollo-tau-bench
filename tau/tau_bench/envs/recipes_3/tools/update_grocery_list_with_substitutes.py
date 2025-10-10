@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,7 +24,7 @@ class UpdateGroceryListWithSubstitutes(Tool):
                 ing = _ingredient_by_id(data, new_iid)
                 it["grocery_section"] = (ing or {}).get("grocery_section", "Misc")
                 updated += 1
-        # Deterministic header write to ensure write semantics
+        # Explicit header writing to guarantee write semantics.
         gl = _require(data, "grocery_lists", "list_id", int(list_id))
         if gl is not None:
             gl["last_substitutions_applied_at"] = "2025-01-01T12:25:00"

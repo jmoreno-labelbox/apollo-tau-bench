@@ -24,7 +24,7 @@ class SummarizeArticle(Tool):
                 if not full_text:
                     return json.dumps({"error": f"Article with ID '{article_id}' has no full text to summarize."})
 
-                # Simple summarization logic: take the first three sentences.
+                # Basic summarization method: extract the first three sentences.
                 sentences = full_text.split('.')
                 summary = ". ".join(sentences[:3]).strip()
                 if summary:

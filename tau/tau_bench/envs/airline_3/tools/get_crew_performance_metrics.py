@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -34,7 +34,7 @@ class GetCrewPerformanceMetrics(Tool):
                 "crew_id": crew_id
             })
 
-        # Generate performance metrics based on crew data
+        # Create performance indicators from crew information.
         flight_hours = target_crew.get("flight_hours", 0)
         flights_completed = target_crew.get("flights_completed", 0)
         on_time_performance = target_crew.get("on_time_performance", 95.0)

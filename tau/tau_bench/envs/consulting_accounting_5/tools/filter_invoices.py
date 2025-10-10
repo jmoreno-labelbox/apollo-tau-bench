@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from datetime import datetime
 import json
@@ -16,18 +16,18 @@ class FilterInvoices(Tool):
         invoices = data["invoices"]
         results = invoices
 
-        # Filter by invoice_number
+        # Filter based on invoice_number.
         if "publisher_id" in kwargs:
             results = [inv for inv in results if inv["publisher_id"] == kwargs["publisher_id"]]
 
-        # Filter by invoice_number
+        # Filter based on invoice_number.
         if "invoice_number" in kwargs:
             results = [inv for inv in results if inv["invoice_number"] == kwargs["invoice_number"]]
 
         if "invoice_date" in kwargs:
             results = [inv for inv in results if inv["invoice_date"] == kwargs["invoice_date"]]
 
-        # Filter by date range
+        # Restrict by date interval
         if "start_date" in kwargs and "end_date" in kwargs:
             start = datetime.strptime(kwargs["start_date"], "%Y-%m-%d")
             end = datetime.strptime(kwargs["end_date"], "%Y-%m-%d")
@@ -36,11 +36,11 @@ class FilterInvoices(Tool):
                 if start <= datetime.strptime(inv["invoice_date"], "%Y-%m-%d") <= end
             ]
 
-        # Filter unpaid invoices only
+        # Select only invoices that are unpaid.
         if kwargs.get("unpaid_only"):
             results = [inv for inv in results if inv.get("paid_at") is None]
 
-        # Filter by minimum/maximum amount
+        # Filter based on the specified minimum and maximum values.
         if "min_amount" in kwargs:
             results = [inv for inv in results if float(inv["total_due"]) >= kwargs["min_amount"]]
         if "max_amount" in kwargs:

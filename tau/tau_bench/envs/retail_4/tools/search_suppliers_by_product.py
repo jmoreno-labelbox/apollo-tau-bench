@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,14 +16,14 @@ class SearchSuppliersByProduct(Tool):
         if exclude_statuses is None:
             exclude_statuses = ["discontinued", "out_of_stock"]
 
-        # Validate stock_level_preference parameter
+        # Check the stock_level_preference parameter for validity.
         if stock_level_preference and stock_level_preference not in ["highest", "lowest"]:
             return json.dumps({
                 "error": "Invalid stock_level_preference. Valid options: 'highest', 'lowest'",
                 "status": "failed"
             })
 
-        # Get product information for type filtering and availability checking
+        # Retrieve product details for type filtering and availability verification.
         products = list(data.get("products", {}).values())
         product_name_map = {}
         item_availability_map = {}
@@ -36,16 +36,16 @@ class SearchSuppliersByProduct(Tool):
             if product_id_key:
                 product_name_map[product_id_key] = product_name
 
-                # Map item availability from product variants
+                # Associate product variants with their availability status.
                 for variant_id, variant_info in variants.items():
                     item_availability_map[variant_id] = variant_info.get("available", False)
 
-        # Convert product_type to lowercase for case-insensitive matching
+        # Transform product_type to lowercase for uniform matching regardless of case.
         product_type_lower = []
         if product_type:
             product_type_lower = [ptype.lower() for ptype in product_type]
 
-        # Apply product type filter to the provided product_id if specified
+        # Filter the product_id based on the specified product type if applicable.
         if product_id and product_type_lower:
             product_name = product_name_map.get(product_id, "")
             if product_name:
@@ -81,15 +81,15 @@ class SearchSuppliersByProduct(Tool):
             supplier_products = supplier.get("products", [])
             item_stock = supplier.get("item_stock", {})
 
-            # Filter by supplier_id if provided
+            # Apply filter based on supplier_id if available.
             if supplier_id and current_supplier_id != supplier_id:
                 continue
 
-            # Check if supplier has the product
+            # Verify if the supplier stocks the product.
             if product_id and product_id not in supplier_products:
                 continue
 
-            # Check item stock if item_id provided
+            # Verify item inventory when item_id is supplied.
             supplier_match = {
                 "supplier_id": current_supplier_id,
                 "supplier_name": supplier_name,
@@ -98,27 +98,27 @@ class SearchSuppliersByProduct(Tool):
             }
 
             if item_id:
-                # Specific item search
+                # Targeted item retrieval
                 if item_id in item_stock:
                     stock_level = item_stock[item_id]
 
-                    # Skip if status is excluded
+                    # Ignore if the status is excluded.
                     if stock_level in exclude_statuses:
                         continue
 
-                    # Check availability filter ONLY if available_only is True
+                    # Evaluate the availability filter solely when available_only is set to True.
                     if available_only:
                         item_is_available = item_availability_map.get(item_id, False)
                         if not item_is_available:
                             continue
 
-                    # Check minimum stock level
+                    # Verify the lowest stock threshold.
                     if isinstance(stock_level, (int, str)) and str(stock_level).isdigit():
                         if int(stock_level) >= min_stock_level:
-                            # Apply product type filtering for item_id search
+                            # Implement filtering by product type for item_id queries.
                             item_matches_type = True
                             if product_type_lower:
-                                # Find the product this item belongs to
+                                # Retrieve the associated product for this item.
                                 item_product_id = None
                                 for prod in products:
                                     if item_id in prod.get("variants", {}):
@@ -144,27 +144,27 @@ class SearchSuppliersByProduct(Tool):
                     if supplier_match["matching_items"]:
                         matching_suppliers.append(supplier_match)
             else:
-                # Product-level search - find all items for this product
+                # Product-specific search - retrieve all items associated with this product.
                 candidate_items = []
 
                 for stock_item_id, stock_level in item_stock.items():
-                    # Skip if status is excluded
+                    # Bypass if the status is not included.
                     if stock_level in exclude_statuses:
                         continue
 
-                    # Check availability filter ONLY if available_only is True
+                    # Evaluate the availability filter exclusively when available_only is set to True.
                     if available_only:
                         item_is_available = item_availability_map.get(stock_item_id, False)
                         if not item_is_available:
                             continue
 
-                    # Check minimum stock level
+                    # Verify minimum inventory level.
                     if isinstance(stock_level, (int, str)) and str(stock_level).isdigit():
                         if int(stock_level) >= min_stock_level:
-                            # Apply product type filtering for each item
+                            # Implement filtering by product type for each item.
                             item_matches_type = True
                             if product_type_lower:
-                                # Find the product this item belongs to
+                                # Identify the product associated with this item.
                                 item_product_id = None
                                 for prod in products:
                                     if stock_item_id in prod.get("variants", {}):
@@ -187,14 +187,14 @@ class SearchSuppliersByProduct(Tool):
                                     "product_available": item_availability_map.get(stock_item_id, False)
                                 })
 
-                # Apply stock level preference filtering
+                # Implement filtering based on stock level preferences.
                 if candidate_items and stock_level_preference:
                     if stock_level_preference == "highest":
-                        # Find the maximum stock level
+                        # Determine the highest inventory level.
                         max_stock = max(item["numeric_stock_level"] for item in candidate_items)
                         candidate_items = [item for item in candidate_items if item["numeric_stock_level"] == max_stock]
                     elif stock_level_preference == "lowest":
-                        # Find the minimum stock level
+                        # Determine the lowest stock threshold.
                         min_stock = min(item["numeric_stock_level"] for item in candidate_items)
                         candidate_items = [item for item in candidate_items if item["numeric_stock_level"] == min_stock]
 
@@ -203,7 +203,7 @@ class SearchSuppliersByProduct(Tool):
                 if supplier_match["matching_items"]:
                     matching_suppliers.append(supplier_match)
 
-        # Sort by total available stock (descending)
+        # Order by total available stock in descending order.
         for supplier in matching_suppliers:
             total_stock = sum(
                 item["numeric_stock_level"] for item in supplier["matching_items"]
@@ -224,7 +224,7 @@ class SearchSuppliersByProduct(Tool):
                 "filter_applied": product_type is not None or stock_level_preference is not None or available_only
             },
             "total_suppliers_found": len(matching_suppliers),
-            "suppliers": matching_suppliers[:3] if not supplier_id else matching_suppliers  # Show all results if filtering by specific supplier
+            "suppliers": matching_suppliers[:3] if not supplier_id else matching_suppliers  # Display all outcomes when filtering based on a particular supplier.
         }
 
         return json.dumps(result)

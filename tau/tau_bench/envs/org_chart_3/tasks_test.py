@@ -128,12 +128,12 @@ TASKS = [
                 name="IncreaseEmployeeCompensation",
                 kwargs={
                     "employee_id": "E10003",
-                    "compensation_id": "COMP2003",  # reuse existing deterministic ID
-                    "effective_date": "2024-07-01",  # same as current record
+                    "compensation_id": "COMP2003",  # utilize the current deterministic identifier
+                    "effective_date": "2024-07-01",  # identical to the existing record
                     "salary_increase_pct": 10,
                 },
             ),
-            # Verify promotion and compensation update deterministically
+            # Confirm promotion and salary adjustment in a deterministic manner.
             Action(name="GetEmployee", kwargs={"employee_id": "E10003"}),
         ],
         outputs=[]

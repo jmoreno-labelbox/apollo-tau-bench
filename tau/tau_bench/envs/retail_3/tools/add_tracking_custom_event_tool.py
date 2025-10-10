@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class AddTrackingCustomEventTool(Tool):
 
     Input (kwargs):
         tracking_id (str, required)
-        event_status (str, required)   # e.g., "in_transit", "delayed", "checkpoint"
+        event_status (str, required)   # for example, "in_progress", "postponed", "waypoint"
         note (str, optional)
 
     Output:

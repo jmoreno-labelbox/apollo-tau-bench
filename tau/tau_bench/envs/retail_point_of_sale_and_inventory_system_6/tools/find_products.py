@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class find_products(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         products = list(data.get("products", {}).values())
 
-        # These columns will be matched exactly to the value sent
+        # These columns will correspond precisely to the provided value.
         exact_match_cols = [
             "sku",
             "category",
@@ -23,13 +23,13 @@ class find_products(Tool):
         ]
         exact_match_values = {k: kwargs.get(k) for k in exact_match_cols}
 
-        # These columns will be matched as long as the database field contains the sent value
+        # The columns will align as long as the database field includes the provided value.
         approximate_match_cols = ["name", "description", "created_at", "updated_at"]
         approximate_match_values = {k: kwargs.get(k) for k in approximate_match_cols}
 
         matches = []
         for product in products:
-            # If all sent criteria match, then add it to the return list
+            # If all specified criteria are satisfied, include it in the return list.
             if all(
                 [
                     exact_match_values[k] == product[k]

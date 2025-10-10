@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -31,10 +31,10 @@ class UpdateProject(Tool):
 
             valid_collaborator_ids = []
             for collab_item in provided_collaborators:
-                # Check if the item is already a valid user_id
+                # Verify if the item is a valid user_id.
                 if any(u['user_id'] == collab_item for u in users):
                     valid_collaborator_ids.append(collab_item)
-                # Otherwise, try to find by name
+                # Alternatively, attempt to search using the name.
                 else:
                     found_user = next((u for u in users if u['name'] == collab_item), None)
                     if found_user:

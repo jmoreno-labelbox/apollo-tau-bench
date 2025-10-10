@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -34,7 +34,7 @@ class UpdateReservationBaggage(Tool):
                 "reservation_id": reservation_id
             })
 
-        # Update baggage information
+        # Revise luggage details
         old_total = target_reservation.get("total_baggages", 0)
         old_nonfree = target_reservation.get("nonfree_baggages", 0)
         
@@ -44,7 +44,7 @@ class UpdateReservationBaggage(Tool):
         if nonfree_baggages is not None:
             target_reservation["nonfree_baggages"] = nonfree_baggages
         
-        # Ensure nonfree_baggages doesn't exceed total_baggages
+        # Verify that nonfree_baggages is not greater than total_baggages.
         if target_reservation.get("nonfree_baggages", 0) > target_reservation.get("total_baggages", 0):
             target_reservation["nonfree_baggages"] = target_reservation["total_baggages"]
 

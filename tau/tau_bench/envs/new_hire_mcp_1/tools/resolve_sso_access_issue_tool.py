@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class ResolveSSOAccessIssueTool(Tool):
         access_checks = data.get("access_checks", [])
         updated_checks = []
 
-        # Find and fix the failed SSO check
+        # Locate and resolve the unsuccessful SSO verification.
         sso_check = next((ac for ac in access_checks if ac.get("candidate_id") == candidate_id and ac.get("system_name") == "SSO" and ac.get("status") == "Failed"), None)
 
         if not sso_check:
@@ -28,7 +28,7 @@ class ResolveSSOAccessIssueTool(Tool):
         sso_check["checked_ts"] = HARD_TS
         updated_checks.append(sso_check)
 
-        # Update dependent systems
+        # Refresh related systems
         dependent_systems = ["Slack", "GitHub"]
         for system in dependent_systems:
             dependent_check = next((ac for ac in access_checks if ac.get("candidate_id") == candidate_id and ac.get("system_name") == system), None)

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,22 +26,22 @@ class make_transaction(Tool):
             if ((sku is not None) and (product["sku"] == sku)) or (
                 (barcode is not None) and (product["barcode"] == barcode)
             ):
-                # Get the sku if barcode was used
+                # Retrieve the SKU if a barcode was utilized.
                 sku = product["sku"]
 
-                # Get the promotion information
+                # Retrieve the details of the promotion.
                 for promotion in promotions:
                     if sku in promotion["applicable_skus"]:
                         use_promotion = promotion
                         break
 
-                # Use the discount rate if the product is marked as discountable, otherwise set as 0
-                # if use_promotion["type"] == "percentage"
+                # Apply the discount rate if the product is eligible for discounts; otherwise, assign a value of 0.
+                # if use_promotion["type"] == "percent"
                 discount_rate = (
                     product["discount_rate"] if product["is_discountable"] else 0.0
                 )
 
-                # Calculate the discount amount
+                # Compute the discount value.
                 # discount = round(product["price"] * discount_rate, 2)
 
                 tax_rate = product["tax_rate"]
@@ -86,10 +86,10 @@ class make_transaction(Tool):
 
         transactions = list(data.get("transactions", {}).values())
 
-        # Line items suitable for a transaction record
+        # Items appropriate for a transaction log
         line_items = []
 
-        # Running trackers for the overall order
+        # Executing monitors for the total order.
         total_amount = 0
         tax_amount = 0
         tax_rate = 0
@@ -99,27 +99,27 @@ class make_transaction(Tool):
             barcode = item.get("barcode")
             quantity = item.get("quantity")
 
-            # Get the price info for the item
+            # Retrieve the pricing details for the item.
             line_item_info = make_transaction.get_detailed_line_item_price(
                 data, sku=sku, barcode=barcode
             )
             line_item_info = json.loads(line_item_info)
 
-            # Unpack values
+            # Extract values
             sku = line_item_info["sku"]
             unit_price = line_item_info["unit_price"]
             unit_tax_rate = line_item_info["tax_rate"]
             discount_rate = line_item_info["discount_rate"]
 
-            # Calculate line item totals
-            # TODO: discount needs more work to account for different discount types
+            # Compute totals for each line item.
+            # TODO: enhance discount logic to handle various discount types.
             unit_discount = unit_price * discount_rate
             item_sub_total = quantity * (unit_price - unit_discount)
             item_discount = round(quantity * unit_discount, 2)
             item_tax_amount = round(item_sub_total * unit_tax_rate, 2)
             item_final_amount = round(item_sub_total + item_tax_amount, 2)
 
-            # Create the line item transaction log
+            # Generate the transaction log for line items.
             line_item = {
                 "sku": sku,
                 "quantity": quantity,
@@ -128,13 +128,13 @@ class make_transaction(Tool):
             }
             line_items.append(line_item)
 
-            # Update the running totals
+            # Refresh the cumulative totals.
             total_amount += item_final_amount
             tax_amount += item_tax_amount
             discount_total += item_discount
             tax_rate = max(tax_rate, unit_tax_rate)
 
-        # Check for sufficent payment and calculate change
+        # Verify adequate payment and compute the change.
         if (status == "completed") and (amount_paid < round(total_amount, 2)):
             if commit_transaction:
                 return json.dumps(
@@ -149,9 +149,9 @@ class make_transaction(Tool):
         else:
             change_given = round(amount_paid - total_amount, 2)
 
-        # Build the final transaction log
+        # Construct the conclusive transaction log.
 
-        # Get the latest transaction id and increment by one
+        # Retrieve the most recent transaction ID and add one to it.
         transaction_id = (
             max([int(x["transaction_id"].split("-")[1]) for x in transactions]) + 1
         )
@@ -176,9 +176,9 @@ class make_transaction(Tool):
             "customer_id": customer_id,
             "line_items": line_items,
         }
-        # transaction_row = json.dumps(transaction_row, indent = 2)
+        # transaction_row = json.dumps(transaction_row, indent=2)
 
-        # Add to the database and return the item
+        # Insert into the database and retrieve the item.
         if commit_transaction:
             transactions.append(transaction_row)
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -45,7 +45,7 @@ class AddOrderItemsFromList(Tool):
             subtotal += int(product.get("price_cents", 0))
         order["subtotal_cents"] = subtotal
         order["total_cents"] = subtotal
-        # Deterministic field to ensure write semantics even if no items were added
+        # Deterministic field to guarantee write behavior even when no items have been included.
         order["items_populated_at"] = "2025-01-02T11:00:00"
         return json.dumps({"subtotal_cents": subtotal, "total_cents": subtotal})
 

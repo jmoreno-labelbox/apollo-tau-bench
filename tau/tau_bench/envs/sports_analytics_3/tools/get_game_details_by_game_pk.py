@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class GetGameDetailsByGamePk(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         game_pk = kwargs.get("game_pk")
 
-        # 1) Validate
+        # 1) Confirm validity
         if game_pk is None:
             return json.dumps({"error": "Missing required field: game_pk"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         games: List[Dict[str, Any]] = list(data.get("games", {}).values())
 
-        # 3) Exact match lookup
+        # 3) Precise match retrieval
         for game in games:
             if game.get("game_pk") == game_pk:
                 return json.dumps(game, indent=2)

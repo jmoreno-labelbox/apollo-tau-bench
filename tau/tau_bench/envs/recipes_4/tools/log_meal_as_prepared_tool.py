@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -64,7 +64,7 @@ class LogMealAsPreparedTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the newly created meal history object.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Values
         param_definitions = {
             "household_id": {"type": int, "required": True},
             "recipe_id": {"type": int, "required": True},
@@ -84,32 +84,32 @@ class LogMealAsPreparedTool(Tool):
         recipe_id = kwargs["recipe_id"]
         user_id = kwargs.get("user_id")
 
-        # 2. Pre-condition Checks: Ensure related entities exist
+        # 2. Validation Checks: Confirm the existence of associated entities
         if not any(h.get("household_id") == household_id for h in data.get("households", [])):
             return _build_error_response("NOT_FOUND", {"entity": "Household", "entity_id": household_id})
         if not any(r.get("recipe_id") == recipe_id for r in list(data.get("recipes", {}).values())):
             return _build_error_response("NOT_FOUND", {"entity": "Recipe", "entity_id": recipe_id})
 
-        # 3. Data Creation Logic
+        # 3. Logic for Data Generation
         history_table = data.setdefault("meal_history", [])
 
-        # Generate a new unique ID
+        # Create a new distinct identifier.
         max_id = max((h.get("history_id", 0) for h in history_table), default=6000)
         new_history_id = max_id + 1
 
-        # Build the new record
+        # Create the new entry.
         new_history_record = {
             "history_id": new_history_id,
             "household_id": household_id,
             "recipe_id": recipe_id,
             "plan_date": kwargs["plan_date"],
             "was_prepared": kwargs.get("was_prepared", True),
-            "rating_int": kwargs.get("rating_int") # Defaults to None if not present
+            "rating_int": kwargs.get("rating_int") # If absent, defaults to None.
         }
 
         history_table.append(new_history_record)
 
-        # 4. Auditing
+        # 4. Review and verification
         _log_audit_event(
             data=data,
             household_id=household_id,
@@ -120,5 +120,5 @@ class LogMealAsPreparedTool(Tool):
             payload_json={"recipe_id": recipe_id, "plan_date": kwargs["plan_date"]}
         )
 
-        # 5. Response
+        # 5. Reply
         return _build_success_response(new_history_record)

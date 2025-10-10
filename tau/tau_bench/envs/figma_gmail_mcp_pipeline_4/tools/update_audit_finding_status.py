@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,12 +19,12 @@ class UpdateAuditFindingStatus(Tool):
         if not all([finding_id, new_status]):
             return json.dumps({"error": "finding_id and new_status are required."})
 
-        # Valid statuses for audit findings
+        # Accepted states for audit results
         valid_statuses = ['OPEN', 'IN_PROGRESS', 'RESOLVED', 'DEFERRED', 'VERIFIED']
         if new_status not in valid_statuses:
             return json.dumps({"error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"})
 
-        # Check both design system and accessibility findings
+        # Review the findings related to the design system and accessibility.
         finding_found = False
         old_status = None
         finding_type = None
@@ -37,7 +37,7 @@ class UpdateAuditFindingStatus(Tool):
                     old_status = finding.get('status', 'OPEN')
                     finding_type = dataset_name
 
-                    # Update the finding
+                    # Revise the discovery.
                     finding['status'] = new_status
                     finding['last_updated'] = datetime.now().isoformat()
 
@@ -46,7 +46,7 @@ class UpdateAuditFindingStatus(Tool):
                     if notes:
                         finding['resolution_notes'] = notes
 
-                    # Add status history
+                    # Incorporate status log.
                     if 'status_history' not in finding:
                         finding['status_history'] = []
                     finding['status_history'].append({

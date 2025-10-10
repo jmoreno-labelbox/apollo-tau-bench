@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class CaV2CreateInvoice(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Required parameters
+        # Necessary parameters
         invoice_id = kwargs.get("invoice_id")
         invoice_number = kwargs.get("invoice_number")
         publisher_id = kwargs.get("publisher_id")
@@ -23,11 +23,11 @@ class CaV2CreateInvoice(Tool):
                    period_start, period_end, subtotal]):
             return _error("Required fields: invoice_number, publisher_id, invoice_date, period_start, period_end, subtotal")
 
-        # Calculate HST and total
+        # Compute HST and overall sum.
         hst_amount = _calculate_hst(subtotal)
         total_due = round(subtotal + hst_amount, 2)
 
-        # Create invoice record
+        # Generate invoice entry
         new_invoice = {
             "invoice_id": invoice_id or f"INV{len(data.get('invoices', [])) + 1:03d}",
             "invoice_number": invoice_number,
@@ -44,7 +44,7 @@ class CaV2CreateInvoice(Tool):
             "created_at": kwargs.get("created_at", invoice_date + "T00:00:00Z")
         }
 
-        # Add to data
+        # Append to data
         data.setdefault("invoices", []).append(new_invoice)
 
         return _ok(

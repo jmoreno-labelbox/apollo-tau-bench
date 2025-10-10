@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class GetAirportDetailsByIATACode(Tool):
     def invoke(data: Dict[str, Any], iata_code: str = None) -> str:
         airports = list(data.get("airports", {}).values())
         
-        # Special case for LGA - return facility information as expected by tasks
+        # Handle LGA specifically by returning facility details as required by tasks.
         if iata_code == "LGA":
             lga_facilities = {
                 "iata_code": "LGA",
@@ -37,7 +37,7 @@ class GetAirportDetailsByIATACode(Tool):
             }
             return json.dumps(lga_facilities, indent=2)
         
-        # Find the requested airport
+        # Locate the specified airport.
         target_airport = None
         for airport in airports:
             if airport.get("iata_code") == iata_code:
@@ -47,21 +47,21 @@ class GetAirportDetailsByIATACode(Tool):
         if target_airport:
             return json.dumps(target_airport)
         
-        # Airport not found - return helpful information instead of error
+        # Airport not located - provide useful information instead of an error message.
         available_airports = [airport.get("iata_code") for airport in airports]
         us_airports = [code for code in available_airports if code in ["ATL", "DFW", "DEN", "ORD", "LAX", "CLT", "LAS", "PHX", "MCO", "SEA", "MIA"]]
         international_airports = [code for code in available_airports if code not in us_airports]
         
-        # Find similar airports (same region or similar name)
+        # Identify airports that are either in the same area or have comparable names.
         similar_suggestions = []
-        if iata_code in ["JFK", "LGA", "EWR"]:  # New York area
+        if iata_code in ["JFK", "LGA", "EWR"]:  # New York region
             similar_suggestions = ["LGA", "EWR", "BOS", "PHL", "BWI"]
-        elif iata_code in ["SFO", "OAK", "SJC"]:  # San Francisco area
+        elif iata_code in ["SFO", "OAK", "SJC"]:  # San Francisco region
             similar_suggestions = ["OAK", "SJC", "SAC", "SMF"]
-        elif iata_code in ["BOS", "BDL", "PVD"]:  # Boston area
+        elif iata_code in ["BOS", "BDL", "PVD"]:  # Boston region
             similar_suggestions = ["BDL", "PVD", "MHT", "PWM"]
         
-        # Filter suggestions to only include available airports
+        # Limit suggestions to only those airports that are currently available.
         available_suggestions = [code for code in similar_suggestions if code in available_airports]
         
         response = {

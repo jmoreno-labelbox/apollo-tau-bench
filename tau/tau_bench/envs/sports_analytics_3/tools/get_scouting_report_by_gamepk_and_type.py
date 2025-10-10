@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,14 +24,14 @@ class GetScoutingReportByGamepkAndType(Tool):
         game_pk = kwargs.get("game_pk")
         report_type = kwargs.get("report_type")
 
-        # 1) Validate
+        # Verify
         if game_pk is None:
             return json.dumps({"error": "Missing required field: game_pk"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database
         reports: List[Dict[str, Any]] = list(data.get("scouting_reports", {}).values())
 
-        # 3) Filter
+        # 3) Apply filter
         matches = [r for r in reports if r.get("game_pk") == game_pk]
         if report_type is not None:
             matches = [r for r in matches if r.get("report_type") == report_type]
@@ -41,7 +41,7 @@ class GetScoutingReportByGamepkAndType(Tool):
                 return json.dumps({"error": f"No scouting reports found for game_pk {game_pk}"}, indent=2)
             return json.dumps({"error": f"No scouting reports found for game_pk {game_pk} with type '{report_type}'"}, indent=2)
 
-        # 4) Sort deterministically
+        # 4) Perform a deterministic sort.
         matches.sort(key=lambda r: (r.get("created_at", ""), int(r.get("report_id", 0))))
         return json.dumps(matches, indent=2)
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class GetLastReportRun(Tool):
         if not report_runs:
             return json.dumps({"error": "No previous report runs found."}, indent=2)
         last_run = report_runs[-1]
-        # Mocking the KPIs that would have been stored with the run
+        # Simulating the KPIs that would have been recorded during the execution.
         last_run["kpis"] = {"total_open": 45, "avg_age_open_hours": 22.0, "avg_ttr_mins": 1300, "pct_closed_1d": 65.0, "p1_open_count": 4}
         return json.dumps(last_run, indent=2)
 

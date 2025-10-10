@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,17 +11,17 @@ class CreateRepository(Tool):
         """Create a repository with metadata."""
         repositories = list(data.get("repositories", {}).values())
 
-        # Check if repository name exists
+        # Verify the existence of the repository name.
         existing_names = [repo["repo_name"] for repo in repositories]
         repo_name = name
         if name in existing_names:
             repo_name = f"{name}_v2"
 
-        # Get authenticated user
+        # Retrieve the authenticated user.
         auth_users = data.get("authentication", [])
         username = auth_users[0]["username"] if auth_users else "default_user"
 
-        # Create new repository entry
+        # Add a new entry to the repository.
         new_repo = {
             "owner": username,
             "repo_name": repo_name,

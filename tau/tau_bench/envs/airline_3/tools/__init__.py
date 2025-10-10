@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Technologies
 
 from .get_user_profile import GetUserProfile
 from .update_reservation import UpdateReservation

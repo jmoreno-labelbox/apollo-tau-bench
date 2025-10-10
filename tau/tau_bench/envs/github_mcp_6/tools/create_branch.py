@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class CreateBranch(Tool):
         commits_data = list(data.get("commits", {}).values())
         pull_requests_data = list(data.get("pull_requests", {}).values())
 
-        # Validate repository exists
+        # Check if the repository is present.
         target_repo = None
         for repository in repositories:
             if repository["owner"] == owner and repository["repo_name"] == repo:
@@ -35,7 +35,7 @@ class CreateBranch(Tool):
                 ]
             }, indent=2)
 
-        # Validate base branch exists
+        # Check if the base branch is present.
         if base_branch not in target_repo.get("branches", []):
             return json.dumps({
                 "success": False,
@@ -52,7 +52,7 @@ class CreateBranch(Tool):
                 ]
             }, indent=2)
 
-        # Check if branch already exists
+        # Verify if the branch is already present.
         if branch in target_repo.get("branches", []):
             return json.dumps({
                 "success": False,
@@ -70,10 +70,10 @@ class CreateBranch(Tool):
                 ]
             }, indent=2)
 
-        # Find base branch index
+        # Locate the index of the base branch.
         base_branch_idx = target_repo["branches"].index(base_branch)
 
-        # If no SHA provided, use fallback logic to find latest commit from base branch
+        # In the absence of a provided SHA, implement fallback logic to retrieve the most recent commit from the base branch.
         if sha is None:
             fallback_sha = None
             for commit_entry in commits_data:
@@ -81,7 +81,7 @@ class CreateBranch(Tool):
                     if base_branch in commit_entry.get("branch_names", []):
                         branch_idx = commit_entry["branch_names"].index(base_branch)
                         if commit_entry.get("commit_shas", [[]])[branch_idx]:
-                            fallback_sha = commit_entry["commit_shas"][branch_idx][0]  # Use latest commit
+                            fallback_sha = commit_entry["commit_shas"][branch_idx][0]  # Utilize the most recent commit.
                             break
 
             if fallback_sha:
@@ -102,7 +102,7 @@ class CreateBranch(Tool):
                     ]
                 }, indent=2)
 
-        # Validate SHA exists in commit history
+        # Check if the SHA is present in the commit log.
         sha_valid = False
         base_commit = None
         for commit_entry in commits_data:
@@ -110,7 +110,7 @@ class CreateBranch(Tool):
                 for branch_commits in commit_entry.get("commit_shas", []):
                     if sha in branch_commits:
                         sha_valid = True
-                        # Find commit details
+                        # Retrieve information about the commit.
                         sha_idx = branch_commits.index(sha)
                         branch_idx = commit_entry["commit_shas"].index(branch_commits)
                         base_commit = {
@@ -124,21 +124,21 @@ class CreateBranch(Tool):
                     break
 
         if not sha_valid:
-            # Try to find a valid SHA from the base branch as fallback
+            # Attempt to retrieve a valid SHA from the base branch as a backup.
             fallback_sha = None
             for commit_entry in commits_data:
                 if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                     if base_branch in commit_entry.get("branch_names", []):
                         branch_idx = commit_entry["branch_names"].index(base_branch)
                         if commit_entry.get("commit_shas", [[]])[branch_idx]:
-                            fallback_sha = commit_entry["commit_shas"][branch_idx][0]  # Use latest commit
+                            fallback_sha = commit_entry["commit_shas"][branch_idx][0]  # Utilize the most recent commit.
                             break
 
             if fallback_sha:
-                # Use fallback SHA instead of failing
+                # Implement fallback SHA to avoid failure.
                 sha = fallback_sha
                 sha_valid = True
-                # Find commit details for fallback SHA
+                # Retrieve commit information for the fallback SHA.
                 for commit_entry in commits_data:
                     if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                         for branch_commits in commit_entry.get("commit_shas", []):
@@ -171,26 +171,26 @@ class CreateBranch(Tool):
                     ]
                 }, indent=2)
 
-        # Create new branch - copy from base branch
+        # Generate a new branch by duplicating the base branch.
         target_repo["branches"].append(branch)
         target_repo["branch_files"].append(target_repo["branch_files"][base_branch_idx].copy())
         target_repo["branch_contents"].append(target_repo["branch_contents"][base_branch_idx].copy())
         target_repo["branch_shas"].append(sha)
 
-        # Calculate branch statistics
+        # Compute branch metrics.
         base_files = target_repo["branch_files"][base_branch_idx]
-        files_changed = 0  # Initially same as base
-        commits_ahead = 0  # New branch, no commits ahead yet
-        commits_behind = 0  # New branch, not behind
-        contributors = 1   # Creator
+        files_changed = 0  # Initially identical to the baseline.
+        commits_ahead = 0  # New branch created, no commits made so far.
+        commits_behind = 0  # Fresh branch, up to date
+        contributors = 1   # Originator
 
-        # Find derived branches (other branches created from the same base)
+        # Identify descendant branches (branches originating from the same base).
         derived_branches = []
         for existing_branch in target_repo.get("branches", []):
             if existing_branch != branch and existing_branch != base_branch:
                 derived_branches.append(existing_branch)
 
-        # Find pull requests that use this branch (should be empty for new branch)
+        # Identify pull requests associated with this branch (should be empty for a new branch).
         pull_requests_using_branch = []
         for pr_entry in pull_requests_data:
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
@@ -198,10 +198,10 @@ class CreateBranch(Tool):
                     if head_branch == branch:
                         pull_requests_using_branch.append(pr_entry["pr_numbers"][i])
 
-        # Find commits unique to this branch (should be empty for new branch)
+        # Identify commits that are exclusive to this branch (should be none for a new branch).
         commits_unique_to_branch = []
 
-        # Check if branch is protected (mock based on naming patterns)
+        # Verify if the branch is safeguarded (simulated using naming conventions).
         protected = branch in ["main", "master", "develop", "production"] or "release" in branch.lower()
 
         result = {
@@ -224,7 +224,7 @@ class CreateBranch(Tool):
             "relationships": {
                 "repository": f"{owner}/{repo}",
                 "parent_branch": base_branch,
-                "derived_branches": derived_branches[:5],  # Limit to 5
+                "derived_branches": derived_branches[:5],  # Restrict to a maximum of 5.
                 "pull_requests": pull_requests_using_branch,
                 "commits_unique_to_branch": commits_unique_to_branch
             },

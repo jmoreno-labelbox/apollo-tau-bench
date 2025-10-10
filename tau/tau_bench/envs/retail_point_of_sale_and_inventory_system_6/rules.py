@@ -1,4 +1,4 @@
-# rules.py for variation_6
+# variation_6 rules definition file
 RULES = [
     "Confirm that an individual asserting employee status is actively employed by the store prior to handling their requests.",
     "Permit updates to customer information solely when the request originates from the customer themselves or from a store manager.",

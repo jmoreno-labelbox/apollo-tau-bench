@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,8 +16,8 @@ class SummarizeArticleText(Tool):
         articles = list(data.get('articles', {}).values())
         for article in articles:
             if article.get('article_id') == article_id:
-                # This is a mock summary tool. In a real system, this would involve NLP.
-                # Here, we just return the abstract, or a truncated part of the full text.
+                # This is a simulated summary tool. A genuine system would utilize NLP.
+                # In this case, we return either the abstract or a shortened segment of the complete text.
                 summary = article.get('abstract', 'No abstract available.')
                 if 'full_text' in article and len(summary) < 20:
                     summary = article['full_text'][:200] + "..."

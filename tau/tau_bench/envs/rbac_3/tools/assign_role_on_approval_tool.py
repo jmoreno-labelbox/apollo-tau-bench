@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class AssignRoleOnApprovalTool(Tool):
 
     @staticmethod
     def _derive_user_role_id(request_id: str, user_id: str, role_id: str) -> str:
-        # Stable, deterministic; keeps it short if you prefer only digits
+        # Reliable and predictable; provides a concise output if you want just numbers.
         import re
 
         digits = "".join(re.findall(r"\d+", request_id)) or "000"
@@ -32,7 +32,7 @@ class AssignRoleOnApprovalTool(Tool):
                 {"error": "request_id and assigned_by are required"}, indent=2
             )
 
-        # Locate the access request
+        # Find the access request.
         requests = data.get("access_requests", [])
         req = next((r for r in requests if r.get("request_id") == request_id), None)
         if not req:
@@ -51,7 +51,7 @@ class AssignRoleOnApprovalTool(Tool):
 
         assignments: List[Dict[str, Any]] = data.setdefault("user_roles", [])
 
-        # Try to find an active existing assignment
+        # Attempt to locate a currently active assignment.
         existing = next(
             (
                 a
@@ -64,7 +64,7 @@ class AssignRoleOnApprovalTool(Tool):
         )
 
         if existing:
-            # Heal missing user_role_id if necessary
+            # Restore user_role_id if it's absent.
             if "user_role_id" not in existing or not existing["user_role_id"]:
                 existing["user_role_id"] = (
                     provided_urid
@@ -72,7 +72,7 @@ class AssignRoleOnApprovalTool(Tool):
                         request_id, user_id, role_id
                     )
                 )
-            # Ensure required fields are present
+            # Verify the existence of mandatory fields.
             existing.setdefault("assigned_by", assigned_by)
             existing.setdefault("assigned_on", _HARD_TS)
             existing.setdefault("expires_on", None)
@@ -87,7 +87,7 @@ class AssignRoleOnApprovalTool(Tool):
             }
             return _json.dumps(out, indent=2)
 
-        # Create a brand-new assignment
+        # Generate a new task.
         user_role_id = provided_urid or AssignRoleOnApprovalTool._derive_user_role_id(
             request_id, user_id, role_id
         )

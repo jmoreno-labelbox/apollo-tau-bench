@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class AddPaymentMethod(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], user_id: str, payment_method_source: str, last_four: str = None, brand: str = None, balance: int = None) -> str:
         users = data["users"]
-        # Check if the user exists
+        # Verify the existence of the user.
         user = [row for row in users if row["user_id"] == user_id]
         if len(user) > 1:
             return json.dumps({"error": "Multiple users found"})
@@ -37,7 +37,7 @@ class AddPaymentMethod(Tool):
         else:
             return json.dumps({"error": "unsupported payment method source"})
 
-        # Add the new payment method
+        # Incorporate the new payment option.
         user["payment_methods"][payment_method["id"]] = payment_method
         return json.dumps(user)
 

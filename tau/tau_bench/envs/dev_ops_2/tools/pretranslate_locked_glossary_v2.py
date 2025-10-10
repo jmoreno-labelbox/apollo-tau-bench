@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class PretranslateLockedGlossaryV2(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], locales: List[str], keys: List[str], glossary_lock: bool = True, context_uris: Optional[Dict[str, str]] = None) -> str:
-        # Deterministic stub: record pretranslation intent with stable output URIs per locale
+        # Deterministic stub: log pretranslation intent with consistent output URIs for each locale.
         localization_workflow = _get_table(data, "localization_workflow")
         outputs: Dict[str, Any] = {"locales": locales, "keys": keys, "glossary_lock": glossary_lock, "context_uris": context_uris or {}, "pretranslate_uris": {}}
         for loc in locales:

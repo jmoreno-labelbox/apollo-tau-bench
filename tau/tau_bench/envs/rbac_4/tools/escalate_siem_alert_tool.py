@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,7 +22,7 @@ class EscalateSiemAlertTool(Tool):
 
         severity_order = ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
 
-        # Robustly check severity value before using .index()
+        # Thoroughly validate the severity value prior to invoking .index().
         if not new_severity or new_severity not in severity_order:
             return json.dumps({"error": "Invalid severity level"}, indent=2)
         if alert["severity"] not in severity_order:

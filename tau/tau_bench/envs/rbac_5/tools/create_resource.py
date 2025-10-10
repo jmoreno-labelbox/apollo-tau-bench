@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,22 +25,22 @@ class CreateResource(Tool):
         if not name or not owner_id or not criticality:
             return json.dumps({"error": "name, owner_id, and criticality are required"})
 
-        # Validate criticality
+        # Assess importance
         valid_criticalities = ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
         if criticality not in valid_criticalities:
             return json.dumps({"error": f"criticality must be one of: {', '.join(valid_criticalities)}"})
 
-        # Validate compliance_scope if provided
+        # Check the compliance_scope if it has been specified.
         if compliance_scope is not None:
             valid_compliance_scopes = ["ISO-27001", "GDPR", "SOX", "PCI-DSS", "ALL", "All"]
             if compliance_scope not in valid_compliance_scopes:
                 return json.dumps({"error": f"compliance_scope must be one of: {', '.join(valid_compliance_scopes)} or null"})
 
-        # Validate owner exists
+        # Check if the owner is present.
         if not _find_by_id(list(data.get("users", {}).values()), "user_id", owner_id):
             return json.dumps({"error": f"owner_id {owner_id} not found"})
 
-        # Enforce uniqueness by name (case-insensitive)
+        # Ensure name uniqueness (case-insensitive).
         existing_resources = data.get("resources", [])
         for r in existing_resources:
             if str(r.get("name", "")).strip().lower() == name.lower():

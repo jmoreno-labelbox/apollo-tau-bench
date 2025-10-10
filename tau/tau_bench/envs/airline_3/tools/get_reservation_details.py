@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class GetReservationDetails(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], reservation_id: str = None) -> str:
-        # Validate required parameter
+        # Check the mandatory parameter.
         if not reservation_id:
             return json.dumps({
                 "status": "missing_parameter",
@@ -69,7 +69,7 @@ class GetReservationDetails(Tool):
         payment_history = target_reservation.get("payment_history", [])
         total_paid = sum(payment.get("amount", 0) for payment in payment_history)
 
-        # Prepare enhanced response
+        # Prepare an improved reply.
         response = {
             "reservation_id": target_reservation.get("reservation_id"),
             "status": "confirmed",  

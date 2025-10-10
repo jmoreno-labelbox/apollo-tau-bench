@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -49,7 +49,7 @@ class ListSlackMessagesTool(Tool):
                     "properties": {
                         "channel": {
                             "type": "string",
-                            "description": "e.g., #access-requests",
+                            "description": "e.g., # "access-requests",
                         },
                         "date_from": {
                             "type": "string",

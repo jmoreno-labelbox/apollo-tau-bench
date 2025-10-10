@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class CreatePullRequestReview(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         repo_name = kwargs.get("repo_name")
         pr_number = kwargs.get("pr_number")
-        review_decision = kwargs.get("review_decision")  # approve | request_changes | comment
+        review_decision = kwargs.get("review_decision")  # approve | request_modifications | feedback
         comment = kwargs.get("comment", "")
 
         if not all([repo_name, pr_number, review_decision]):

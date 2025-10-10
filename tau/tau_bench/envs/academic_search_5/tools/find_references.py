@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Inc.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,10 +17,10 @@ class FindReferences(Tool):
         citations = list(data.get('citations', {}).values())
         results = []
         if direction.lower() == 'to':
-            # Find articles that CITED the given article_id
+            # Retrieve articles that reference the specified article_id.
             results = [c for c in citations if c.get('cited_article_id') == article_id]
         elif direction.lower() == 'from':
-            # Find articles that ARE CITED BY the given article_id
+            # Retrieve articles that reference the specified article_id.
             results = [c for c in citations if c.get('source_article_id') == article_id]
         else:
             return json.dumps({"error": "Invalid direction. Must be 'to' or 'from'."})

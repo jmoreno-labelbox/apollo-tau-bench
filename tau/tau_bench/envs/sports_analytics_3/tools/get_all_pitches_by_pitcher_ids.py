@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,33 +12,33 @@ class GetAllPitchesByPitcherIds(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         pitcher_ids = kwargs.get("pitcher_ids")
 
-        # 1) Validate
+        # 1) Confirm validity
         if not isinstance(pitcher_ids, list) or len(pitcher_ids) == 0:
             return json.dumps(
                 {"error": "Missing required field: pitcher_ids (non-empty list of integers)"},
                 indent=2
             )
 
-        # 2) Get DB
+        # Retrieve database
         pitches: List[Dict[str, Any]] = list(data.get("pitches", {}).values())
 
-        # 3) Filter
+        # 3) Selection
         id_set = set(pitcher_ids)
         matches = [p for p in pitches if p.get("pitcher_id") in id_set]
         if not matches:
             return json.dumps({"error": f"No pitches found for pitcher_ids {pitcher_ids}"}, indent=2)
 
-        # 4) Deterministic order: game_pk, at_bat_index, pitch_number, pitch_id (ASC)
-        # matches.sort(
+        # 4) Fixed order: game_pk, at_bat_index, pitch_number, pitch_id (ascending)
+        # matches.order(
         #     key=lambda p: (
-        #         int(p.get("game_pk", 0)),
-        #         int(p.get("at_bat_index", 0)),
-        #         int(p.get("pitch_number", 0)),
-        #         int(p.get("pitch_id", 0)),
+        # int(p.get("game_pk", default=0)),
+        # int(p.get("at_bat_index", default=0)),
+        # int(p.get("pitch_number", default=0)),
+        # int(p.get("pitch_id", default=0)),
         #     )
         # )
         pitch_ids = [int(p.get("pitch_id", 0)) for p in matches]
-        # Deduplicate while preserving order, just in case
+        # Remove duplicates while maintaining the original sequence, as a precaution.
         pitch_ids = list(dict.fromkeys(pitch_ids))
 
         payload = {
@@ -46,7 +46,7 @@ class GetAllPitchesByPitcherIds(Tool):
             "pitches": matches,
         }
 
-        # 5) Return list of pitch records only
+        # 5) Retrieve a list containing only pitch records.
         return json.dumps(payload, indent=2)
 
     @staticmethod

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class WriteUmpireGameModel(Tool):
         zone_shift_z = kwargs.get("zone_shift_z")
         calibration_error_pct = kwargs.get("calibration_error_pct")
         models = data.setdefault("umpire_game_models", {})
-        # Generate next ID
+        # Create the subsequent ID.
         next_id = str(len(models) + 1)
         models[next_id] = {
             "umpire_game_id": f"ump_{next_id}",

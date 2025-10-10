@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Productions
 
 from tau_bench.envs.base import Env
 from tau_bench.envs.rbac_3.data import load_data

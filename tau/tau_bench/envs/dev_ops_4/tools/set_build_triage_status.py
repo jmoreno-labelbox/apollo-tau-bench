@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class SetBuildTriageStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         run_id = kwargs.get("run_id")
-        triage_status = kwargs.get("triage_status")  # in_progress, manual_review
+        triage_status = kwargs.get("triage_status")  # under_review, pending_manual_assessment
         owner_id = kwargs.get("owner_id")
 
         runs = data.get("build_runs", [])

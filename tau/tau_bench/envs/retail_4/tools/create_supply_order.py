@@ -1,4 +1,4 @@
-# Copyright Sierra
+# © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class CreateSupplyOrder(Tool):
         if quantity <= 0:
             return json.dumps({"error": "Quantity must be greater than 0", "status": "failed"})
 
-        # Validate unit_cost (can be float or list of floats)
+        # Check that unit_cost is either a float or a list of floats.
         unit_costs_list = []
         if isinstance(unit_cost, (int, float)):
             if unit_cost < 0:
@@ -33,21 +33,21 @@ class CreateSupplyOrder(Tool):
         else:
             return json.dumps({"error": "Unit cost must be a number or list of numbers", "status": "failed"})
 
-        # Validate that at least one item identifier is provided
+        # Ensure that at least one item ID is supplied.
         if not item_id and not item_ids:
             return json.dumps({
                 "error": "Either item_id or item_ids must be provided",
                 "status": "failed"
             })
 
-        # Build the list of items to process
+        # Create the collection of items for processing.
         items_to_process = []
         if item_id:
             items_to_process.append(item_id)
         if item_ids:
             items_to_process.extend(item_ids)
 
-        # Remove duplicates while preserving order
+        # Eliminate duplicates while maintaining sequence.
         items_to_process = list(dict.fromkeys(items_to_process))
 
         if not items_to_process:
@@ -56,10 +56,10 @@ class CreateSupplyOrder(Tool):
                 "status": "failed"
             })
 
-        # Validate unit_cost list matches item count for multiple items
+        # Verify that the unit_cost array corresponds to the count of items for several products.
         if len(items_to_process) > 1:
             if len(unit_costs_list) == 1:
-                # Single unit cost for multiple items - use same cost for all
+                # Uniform cost per item for all units.
                 unit_costs_list = unit_costs_list * len(items_to_process)
             elif len(unit_costs_list) != len(items_to_process):
                 return json.dumps({
@@ -67,10 +67,10 @@ class CreateSupplyOrder(Tool):
                     "status": "failed"
                 })
 
-        # Get product information
+        # Retrieve product details
         products = list(data.get("products", {}).values())
 
-        # When item_ids are provided, find product_id for each item
+        # If item_ids are supplied, retrieve the product_id corresponding to each item.
         if item_ids or not product_id:
             item_to_product_map = {}
             products_involved = set()
@@ -92,26 +92,26 @@ class CreateSupplyOrder(Tool):
 
                 item_to_product_map[item] = product_found
 
-            # If single product_id was provided but items belong to different products, show warning
+            # Display a warning if a single product_id is given but the items are from multiple products.
             if product_id and len(products_involved) > 1:
                 return json.dumps({
                     "error": f"Items belong to multiple products: {list(products_involved)}. Cannot use single product_id parameter.",
                     "status": "failed"
                 })
 
-            # If no product_id provided and items span multiple products, handle multi-product order
+            # In the absence of a product_id and when items involve multiple products, manage the multi-product order.
             if len(products_involved) > 1:
                 return CreateSupplyOrder._create_multi_product_order(
                     data, supplier_id, quantity, unit_costs_list, items_to_process, item_to_product_map, products
                 )
 
-            # Single product case - use the found product_id
+            # Single product scenario - utilize the identified product_id.
             target_product_id = list(products_involved)[0]
         else:
-            # product_id was provided, validate it exists
+            # Verify the existence of the provided product_id.
             target_product_id = product_id
 
-        # Single product order logic
+        # Logic for ordering a single product
         return CreateSupplyOrder._create_single_product_order(
             data, supplier_id, target_product_id, quantity, unit_costs_list, items_to_process, products
         )
@@ -119,7 +119,7 @@ class CreateSupplyOrder(Tool):
     @staticmethod
     def _create_single_product_order(data, supplier_id, product_id, quantity, unit_costs_list, items_to_process, products):
         """Create supply order for a single product"""
-        # Rule: Supply orders must reference valid supplier_id and existing product_id
+        # Condition: Supply orders must include a valid supplier_id and a corresponding product_id.
         product_found = None
         for product in products:
             if product.get("product_id") == product_id:
@@ -129,7 +129,7 @@ class CreateSupplyOrder(Tool):
         if not product_found:
             return json.dumps({"error": f"Product {product_id} not found", "status": "failed"})
 
-        # Rule: Confirm item_id exists in product variants before including in orders
+        # Condition: Verify that item_id is present in product variants prior to adding to orders.
         variants = product_found.get("variants", {})
         valid_items = []
         invalid_items = []
@@ -158,53 +158,53 @@ class CreateSupplyOrder(Tool):
                 "status": "failed"
             })
 
-        # Generate new supply order ID
+        # Create a new identifier for the supply order.
         existing_supply_orders = data.get("supply_orders", [])
         order_number = len(existing_supply_orders) + 1
         new_supply_order_id = f"#SO{str(order_number).zfill(4)}"
 
-        # Calculate total cost - each item gets the full quantity, not distributed
+        # Compute the total cost by applying the complete quantity to each item, without distribution.
         total_cost = 0
         item_details = []
 
         for i, item_info in enumerate(valid_items):
             item_unit_cost = item_info["unit_cost"]
-            item_cost = item_unit_cost * quantity  # Each item gets the full quantity
+            item_cost = item_unit_cost * quantity  # Every item receives the complete amount.
             total_cost += item_cost
 
             item_details.append({
                 "item_id": item_info["item_id"],
-                "quantity": quantity,  # Full quantity for each item
+                "quantity": quantity,  # Complete amount for each item
                 "unit_cost": item_unit_cost,
                 "item_total_cost": round(item_cost, 2),
                 "variant_options": item_info["variant_options"]
             })
 
-        # Calculate average unit cost for legacy compatibility
-        total_units = quantity * len(valid_items)  # Total units across all items
+        # Determine the average cost per unit for legacy support.
+        total_units = quantity * len(valid_items)  # Aggregate units for all items
         average_unit_cost = total_cost / total_units if total_units > 0 else 0
 
-        # Create new supply order
+        # Generate a new supply order.
         new_supply_order = {
             "supply_order_id": new_supply_order_id,
             "supplier_id": supplier_id,
             "product_id": product_id,
             "items": item_details,
-            "total_quantity": quantity * len(valid_items),  # Total quantity across all items
-            "quantity_per_item": quantity,  # Quantity for each individual item
+            "total_quantity": quantity * len(valid_items),  # Aggregate amount for all items
+            "quantity_per_item": quantity,  # Count of each separate item
             "status": "pending",
             "order_date": datetime.now().isoformat(),
-            "unit_cost": round(average_unit_cost, 2),  # Average unit cost for legacy compatibility
-            "unit_costs": unit_costs_list,  # Individual unit costs
+            "unit_cost": round(average_unit_cost, 2),  # Mean unit expense for backward compatibility
+            "unit_costs": unit_costs_list,  # Cost per unit
             "total_cost": round(total_cost, 2)
         }
 
-        # Add legacy item_id field for backward compatibility if only one item
+        # Include legacy item_id field for compatibility with previous versions when there is a single item.
         if len(valid_items) == 1:
             new_supply_order["item_id"] = valid_items[0]["item_id"]
-            new_supply_order["quantity"] = quantity  # Use original quantity for single item
+            new_supply_order["quantity"] = quantity  # Utilize the initial amount for individual items.
 
-        # WRITE OPERATION: Add new supply order to supply_orders.json
+        # INSERT OPERATION: Append new supply order to supply_orders.json
         if "supply_orders" not in data:
             data["supply_orders"] = []
         data["supply_orders"].append(new_supply_order)
@@ -234,7 +234,7 @@ class CreateSupplyOrder(Tool):
     @staticmethod
     def _create_multi_product_order(data, supplier_id, quantity, unit_costs_list, items_to_process, item_to_product_map, products):
         """Create multiple supply orders when items belong to different products"""
-        # Group items by product, maintaining order and corresponding unit costs
+        # Categorize items by product while preserving sequence and associated unit prices.
         product_groups = {}
         item_costs_map = {}
 
@@ -248,15 +248,15 @@ class CreateSupplyOrder(Tool):
             product_groups[product_id].append(item)
             item_costs_map[item] = item_unit_cost
 
-        # Create separate supply orders for each product
+        # Generate individual supply orders for every product.
         created_orders = []
 
         for product_id, product_items in product_groups.items():
-            # Get unit costs for this product's items
+            # Retrieve the unit prices for the items of this product.
             product_unit_costs = [item_costs_map[item] for item in product_items]
 
-            # Create individual supply order for this product with full quantity
-            # Each product gets the full quantity, not distributed
+            # Generate a separate supply order for this product with the complete quantity.
+            # Every product receives the complete amount, without division.
             order_result = CreateSupplyOrder._create_single_product_order(
                 data, supplier_id, product_id, quantity, product_unit_costs, product_items, products
             )
@@ -268,14 +268,14 @@ class CreateSupplyOrder(Tool):
                     "product_id": product_id,
                     "items": product_items,
                     "unit_costs": product_unit_costs,
-                    "quantity_per_item": quantity,  # Full quantity for each item in this product
+                    "quantity_per_item": quantity,  # Total amount for each item in this product.
                     "total_quantity": order_data["order_details"]["total_quantity"],
                     "total_cost": order_data["order_details"]["total_cost"]
                 })
             else:
-                return order_result  # Return error if any order creation fails
+                return order_result  # Return an error if the creation of any order is unsuccessful.
 
-        # Calculate totals
+        # Compute sums
         total_orders_cost = sum(order["total_cost"] for order in created_orders)
         total_quantity_ordered = sum(order["total_quantity"] for order in created_orders)
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class MergePullRequest(Tool):
                     pr_entry["pr_states"][pr_idx] = "merged"
                     pr_entry["merged_flags"][pr_idx] = True
 
-                    # Use commit_message if provided, otherwise generate default
+                    # Utilize commit_message if available; otherwise, create a default.
                     if commit_message:
                         merge_sha = f"merge_{pullNumber}_{merge_method}_{hash(commit_message) % 10000}"
                     else:
@@ -32,7 +32,7 @@ class MergePullRequest(Tool):
                 except ValueError:
                     pass
 
-        return json.dumps({"error": f"Pull request #{pullNumber} not found"}, indent=2)
+        return json.dumps({"error": f"Pull request # {pullNumber} not located"}, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

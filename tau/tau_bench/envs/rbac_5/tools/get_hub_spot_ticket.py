@@ -1,4 +1,4 @@
-# Copyright Sierra
+# All rights reserved by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -31,14 +31,14 @@ class GetHubSpotTicket(Tool):
 
         tickets = data.get("hubspot_tickets", [])
 
-        # If ticket_id is provided, return single ticket
+        # Return a single ticket if ticket_id is supplied.
         if ticket_id:
             t = _find_by_id(tickets, "ticket_id", ticket_id)
             if not t:
                 return json.dumps({"error": f"ticket_id {ticket_id} not found"})
             return json.dumps({"ok": True, "ticket": t})
 
-        # Otherwise, filter
+        # Alternatively, apply a filter.
         out: List[Dict[str, Any]] = []
         for t in tickets:
             if status and t.get("status") != status:

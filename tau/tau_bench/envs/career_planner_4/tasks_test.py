@@ -1,7 +1,7 @@
 from tau_bench.types import Action, Task
 
 TASKS = [
-    # Task 1: Enroll Ava Nguyen in Machine Learning Specialization and update his Data Science goal to 30% progress
+    # Task 1: Register Ava Nguyen for the Machine Learning Specialization and adjust her Data Science objective to 30% completion.
     Task(
         user_id="res_01",
         instruction=(
@@ -35,7 +35,7 @@ TASKS = [
             "Goal G301-1 updated for user U301",
         ],
     ),
-    # Task 2: Update Harper Bennett's clinical analytics goal to 25% progress based on her Advanced Python course enrollment
+    # Task 2: Adjust Harper Bennett's clinical analytics objective to reflect 25% progress due to her enrollment in the Advanced Python course.
     Task(
         user_id="res_02",
         instruction="Update Harper Bennett's clinical analytics goal to 25% progress reflecting her Advanced Python course enrollment using today's date.",
@@ -64,7 +64,7 @@ TASKS = [
             "Goal G302-1 updated for user U302",
         ],
     ),
-    # Task 3: Update Michael Rodriguez's DesignOps goal to 35% progress based on his UX Design Fundamentals completion
+    # Task 3: Adjust Michael Rodriguez's DesignOps objective to reflect 35% progress due to his completion of the UX Design Fundamentals.
     Task(
         user_id="res_03",
         instruction=(
@@ -99,7 +99,7 @@ TASKS = [
             "Goal G304-1 updated for user U304",
         ],
     ),
-    # Task 4: Add Web Accessibility Specialist certification for Alexander Adams with deterministic exam date
+    # Task 4: Include Web Accessibility Specialist certification for Alexander Adams with a specified exam date.
     Task(
         user_id="res_04",
         instruction="For Alexander Adams, add the 'Web Accessibility Specialist' certification from IAAP to her profile, with the exam scheduled 9 months from today. Then, create a new high-priority goal for her to 'Obtain the Web Accessibility Specialist certification'. Finally, send her a confirmation email with 'Your New Certification Goal' as a subject and 'This email confirms that the 'Web Accessibility Specialist' certification has been added to your profile. A new goal has been created to track your progress.' to the body.",
@@ -141,7 +141,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 5: Update David Adams's AWS Security goal to 20% progress with job market insights
+    # Task 5: Revise the AWS Security objective for David Adams to reflect 20% completion, incorporating job market insights.
     Task(
         user_id="res_05",
         instruction="First, check the job market demand for a 'Product Manager' to see if the demand score is high (above 8.0), then proceed with the following for David Adams: enroll him in the 'Project Management Professional (PMP)' course to support his pivot to cloud-compliance. Then, update his 'cloud-compliance' goal to 25% progress and append to the description: 'Enrolled in PMP to build project leadership skills.' Finally, send him an email with the subject 'Your Cloud Compliance Career Path' and body 'Demand for roles like Product Manager is high. To support your goal, you have been enrolled in the PMP course. Your goal description has been updated to reflect this new step.'",
@@ -181,7 +181,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 6: Position David Adams for compliance advancement with AWS certification and ML course enrollment
+    # Task 6: Prepare David Adams for compliance progression by enrolling him in AWS certification and a machine learning course.
     Task(
         user_id="res_06",
         instruction=(
@@ -224,7 +224,7 @@ TASKS = [
             "Goal G303-1 updated for user U303",
         ],
     ),
-    # Task 7: Enroll Harper Bennett in Agile Product Management and update her clinical analytics goal to 35% progress
+    # Task 7: Register Harper Bennett in Agile Product Management and modify her clinical analytics objective to 35% completion.
     Task(
         user_id="res_07",
         instruction=(
@@ -255,7 +255,7 @@ TASKS = [
             "Goal G302-1 updated for user U302",
         ],
     ),
-    # Task 8: Enroll Robert Thompson in UX Design Fundamentals and update his Staff SRE goal to 40% progress
+    # Task 8: Register Robert Thompson for the UX Design Fundamentals course and adjust his Staff SRE goal to reflect 40% progress.
     Task(
         user_id="res_08",
         instruction=(
@@ -286,7 +286,7 @@ TASKS = [
             "Goal G306-1 updated for user U306",
         ],
     ),
-    # Task 9: Establish David Adams's comprehensive credentials with MBA, AWS certification, and Climate Science course
+    # Task 9: Verify David Adams's complete qualifications, including an MBA, AWS certification, and a course in Climate Science.
     Task(
         user_id="res_09",
         instruction=(
@@ -345,7 +345,7 @@ TASKS = [
             "Goal G303-1 updated for user U303",
         ],
     ),
-    # Task 10: Support Ava Nguyen's Product Marketing transition with mentorship and goal update
+    # Task 10: Assist Ava Nguyen in her Product Marketing transition through guidance and goal reassessment.
     Task(
         user_id="res_10",
         instruction="Establish a new mentorship for Ava Nguyen with Mentor M100, focusing on Product Marketing. Then, update her Product Marketing Specialist goal to 30% progress as of today.",
@@ -378,7 +378,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 11: Advance Ava Nguyen's ML expertise to 80% and log leadership skill gap analysis
+    # Task 11: Elevate Ava Nguyen's machine learning proficiency to 80% and document the analysis of leadership skill deficiencies.
     Task(
         user_id="res_11",
         instruction=(
@@ -425,7 +425,7 @@ TASKS = [
             "Goal G301-1 updated for user U301",
         ],
     ),
-    # Task 12: Progress external candidate EXT001's Product Marketing application to interview stage
+    # Advance external candidate EXT001's Product Marketing application to the interview phase.
     Task(
         user_id="res_12",
         instruction=(
@@ -469,7 +469,7 @@ TASKS = [
             "Application updated to Interview Scheduled",
         ],
     ),
-    # Task 13: Complete Logan Garcia's Climate Science course and log mentoring session with goal update
+    # Task 13: Finish Logan Garcia's Climate Science course and document the mentoring session with an updated goal.
     Task(
         user_id="res_13",
         instruction="Mark Logan Garcia's Climate Science & Policy course as completed today, log mentoring session with mentor M101 for today on policy expertise, and update his AR training goal to 65% progress.",
@@ -511,7 +511,7 @@ TASKS = [
             "Goal G309-1 updated for user U309",
         ],
     ),
-    # Task 14: Enroll Owen Walker in UX Design Fundamentals and update his Learning Analytics goal to 45% progress
+    # Task 14: Register Owen Walker for UX Design Fundamentals and adjust his Learning Analytics target to 45% progress.
     Task(
         user_id="res_14",
         instruction="Enroll Owen Walker in UX Design Fundamentals course and update his Learning Analytics goal to 45% progress using today's date.",
@@ -541,7 +541,7 @@ TASKS = [
             "Goal G311-1 updated for user U311",
         ],
     ),
-    # Task 15: Enroll Emily Johnson in Data Visualization course and update his UX Writer goal to 15% progress
+    # Task 15: Register Emily Johnson for the Data Visualization course and adjust his UX Writer goal to reflect 15% progress.
     Task(
         user_id="res_15",
         instruction=(
@@ -576,7 +576,7 @@ TASKS = [
             "Goal G308-1 updated for user U308",
         ],
     ),
-    # Task 16: Update Harper Bennett's clinical analytics goal to 40% progress
+    # Task 16: Modify Harper Bennett's clinical analytics target to reflect 40% completion.
     Task(
         user_id="res_16",
         instruction="Begin by verifying whether Harper Bennett's 'clinical-analytics' goal progress falls below 50%. Should this be the case, increase her progress by 15%. Subsequently, register her for the 'Advanced Python' course as support for this objective. Conclude by sending an email to her manager, Ava Nguyen, with the subject line 'Progress Update for Harper Bennett' and message content 'This communication confirms that Harper Bennett\\'s clinical analytics goal progress has been updated. Additionally, she has been registered in the Advanced Python course (C1001) to facilitate her development.'",
@@ -621,7 +621,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 17: Enroll David Adams in Data Visualization course and update his AWS Security goal to 50% progress
+    # Task 17: Register David Adams for the Data Visualization course and adjust his AWS Security objective to 50% completion.
     Task(
         user_id="res_17",
         instruction=(
@@ -662,7 +662,7 @@ TASKS = [
             "Goal G303-1 updated for user U303",
         ],
     ),
-    # Task 18: Verify Ava Nguyen's Advanced Python completion status and list his credentials
+    # Task 18: Confirm Ava Nguyen's completion status for Advanced Python and enumerate their qualifications.
     Task(
         user_id="res_18",
         instruction="For Ava Nguyen, first check if his 'Advanced Python' course, and mark it as complete as of today. Then, find his goal related to becoming 'Director of Data Science' and increase its progress by 25%. Also, add the 'Advanced Python Certificate' from 'Coursera' to his profile. Finally, send him an email with the subject 'Course and Goal Progress Update' and body 'Congratulations on completing the Advanced Python course (C1001)! Your goal to become Director of Data Science has been updated, and the new certificate has been added to your profile.'",
@@ -715,7 +715,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 19: Enroll Harper Bennett in ML and Agile courses, add ML certification with exam scheduled 14 months from today
+    # Task 19: Register Harper Bennett for ML and Agile courses and schedule the ML certification exam for 14 months from now.
     Task(
         user_id="res_19",
         instruction=(
@@ -765,7 +765,7 @@ TASKS = [
             "Goal G302-1 updated for user U302",
         ],
     ),
-    # Task 20: Add Alexander Adams's MA degree and Leadership Coach certification both dated today
+    # Task 20: Include Alexander Adams's MA degree and Leadership Coach certification, both dated today.
     Task(
         user_id="res_20",
         instruction="Alexander Adams just graduated today with an MA in Organizational Leadership from Northwestern University and also received her Leadership Coach certification from ICF. First, add these two credentials to her profile. Based on these new qualifications, create a new high-priority 'Role Transition' goal for her with the description 'Transition to a Design Lead role within 18 months'. Then, assign Mentor M102 to her for 'Leadership' and 'Career Strategy' coaching. Finally, send an email to her manager, Michael Rodriguez, with the subject 'Career Path Update for Alexander Adams' and body 'Alexander Adams has completed a new degree and certification in leadership. A new goal has been created to support her transition to a Design Lead role, and a Mentor has been assigned.'",
@@ -829,7 +829,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 21: Add Ava Nguyen's MS degree, enroll in ML course, add cloud certification, and update goal to 60%
+    # Task 21: Include Ava Nguyen's MS degree, register for the ML course, add cloud certification, and revise goal to 60%.
     Task(
         user_id="res_21",
         instruction="Add MS in Data Engineering from Stanford University for Ava Nguyen with today's graduation date, enroll him in Machine Learning Specialization course, add Google Cloud Professional Data Engineer certification from Google with exam scheduled 13 months from today, and update his Data Science goal to 60% progress.",
@@ -882,7 +882,7 @@ TASKS = [
             "Goal G301-1 updated for user U301",
         ],
     ),
-    # Task 22: Assign mentor M101 to Michael Rodriguez and enroll him in Agile Product Management
+    # Task 22: Allocate mentor M101 to Michael Rodriguez and register him in Agile Product Management.
     Task(
         user_id="res_22",
         instruction="Assign mentor M101 to Michael Rodriguez with focus on Interaction Design starting today, enroll him in Agile Product Management course, and update his DesignOps goal to 45% progress.",
@@ -918,7 +918,7 @@ TASKS = [
             "Goal G304-1 updated for user U304",
         ],
     ),
-    # Task 23: Complete Alexander Adams's change management training and add Scrum Master certification
+    # Task 23: Finish Alexander Adams's change management training and obtain Scrum Master certification.
     Task(
         user_id="res_23",
         instruction="Today is 2025-07-04 Mark Alexander Adams as completed in change management training session TS004 today, enroll her in the Agile Product Management course, add a Professional Scrum Master certification from Scrum.org with an exam scheduled on 2026-08-04, and update her Accessibility goal to 55% progress.",
@@ -965,7 +965,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 24: Complete Emily Johnson's technical writing training, enroll in UX Design, add certification, and apply to UX Writer job
+    # Task 24: Finish Emily Johnson's technical writing course, sign up for UX Design, obtain certification, and submit application for UX Writer position.
     Task(
         user_id="res_24",
         instruction="Mark Emily Johnson as completed in training session TS010 today, enroll him in the UX Design Fundamentals course, add a Technical Writing Professional certification from STC, and update his UX Writer goal to 35% progress.",
@@ -1010,7 +1010,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 25: Enroll Ava Nguyen in Data Science Foundations course and update his goal to 50% progress
+    # Task 25: Register Ava Nguyen for the Data Science Foundations course and adjust her goal to 50% completion.
     Task(
         user_id="res_25",
         instruction="First, check the severity of Ava Nguyen's 'Machine Learning' skill gap. If the severity is 'High', enroll him in the 'Machine Learning Specialization' course. Then, find his goal related to becoming 'Director of Data Science' and update its progress to 50% and its metric to 'Complete course and publish 2 models'. Finally, notify his mentor, with the message: 'Action plan initiated for Ava Nguyen: Enrolled in Machine Learning Specialization to address a high-severity skill gap. Goal has been updated accordingly.'",
@@ -1056,7 +1056,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 26: Schedule Strategic Product Leadership training for Team T002 on specified date
+    # Task 26: Arrange Strategic Product Leadership training for Team T002 on the designated date.
     Task(
         user_id="res_26",
         instruction="First, check if the Product Design Team's training hours are below the 150-hour threshold. If they are, schedule the 'Project Management Professional (PMP)' training for them on August 1, 2025, and bulk-enroll the entire team as of today. Then, to align with this new training, update the priority of all 'Role Transition' goals for this team to 'High'. Finally, notify HR with the message: 'Product Design Team (T002) scheduled for PMP training (C1004) and enrolled. Related Role Transition goals have been prioritized.'",
@@ -1090,7 +1090,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 27: Assess Emily Johnson's skills and enroll him in Data Visualization course with goal update
+    # Task 27: Evaluate Emily Johnson's abilities and register her for the Data Visualization course, including a goal update.
     Task(
         user_id="res_27",
         instruction=(
@@ -1125,7 +1125,7 @@ TASKS = [
             "Goal G308-1 updated for user U308",
         ],
     ),
-    # Task 28: Add Clinical Data Management certification for Harper Bennett and create new certification goal
+    # Task 28: Include Clinical Data Management certification for Harper Bennett and establish a new certification objective.
     Task(
         user_id="res_28",
         instruction="First, check if Harper Bennett has any existing certification goals related to 'Clinical Data'. If not, add the 'Clinical Data Management Professional' certification from SCDM to her profile, with an exam scheduled 9 months from today. Then, create a new high-priority certification goal for her with the description 'Achieve Clinical Data Management Professional certification to deepen domain expertise', a timeframe of 12 months. Also, assign Mentor M100 to her for 'Python' and 'Career Strategy' coaching. Finally, notify her manager, Ava Nguyen, with the message: 'A new certification goal for Clinical Data Management has been created for Harper Bennett. A Mentor has been assigned to support her.'",
@@ -1184,7 +1184,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 29: Check Logan Garcia's course completion and goal status
+    # Task 29: Verify the completion status of Logan Garcia's course and his progress towards goals.
     Task(
         user_id="res_29",
         instruction="Begin by examining Logan Garcia's 'AR-based onboarding' goal to determine if it falls below 20% progress. Subsequently, adjust its progress to 20%. Next, register him for the 'Project Management Professional (PMP)' course to assist with this project management. Conclude by informing his manager, who is also Logan Garcia, using the subject 'Goal Update and New Enrollment for Logan Garcia' and message 'Logan Garcia\\'s AR onboarding goal has been adjusted to 20% progress. He has also been registered in the PMP course to support this initiative.'",
@@ -1228,7 +1228,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 30: Check mentor M101's capacity and workload
+    # Task 30: Assess the capacity and workload of mentor M101.
     Task(
         user_id="res_30",
         instruction="First, check if Mentor M102's current mentee load is below their capacity of 4. If it is, assign Alexander Adams to them for 'People Analytics' and 'Leadership' coaching. Then, create a new 'Role Transition' goal for Harper with the description 'Transition to People Analytics Lead' and enroll her in the 'Data Visualization with Tableau' course. Finally, send an email to Harper with the subject 'Your New Development Plan' and body 'You have been assigned to Mentor M102. A new goal has been created for your transition to People Analytics Lead, and you have been enrolled in the Data Visualization with Tableau course.'",
@@ -1275,7 +1275,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 31: Schedule Data Science Foundations training for Team T001 and notify HR
+    # Task 31: Arrange Data Science Foundations training for Team T001 and inform HR.
     Task(
         user_id="res_31",
         instruction="First, check if the Data Analytics Team's average course progress is below 70%. If it is, schedule the 'Machine Learning Specialization' training for them on September 20, 2025. Then, bulk-enroll all team members in this new course. Also, update all of the team's 'Role Transition' goals to a 'High' priority. Finally, notify HR with the message: 'The Data Analytics Team (T001) has been scheduled for and enrolled in the Machine Learning Specialization (C1005) course. All related Role Transition goals have been prioritized.'",
@@ -1309,7 +1309,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 32: Enroll Alexander Adams in Data Visualization course and update her Accessibility goal to 80% progress
+    # Task 32: Register Alexander Adams for the Data Visualization course and adjust her Accessibility goal to 80% completion.
     Task(
         user_id="res_32",
         instruction=(
@@ -1344,7 +1344,7 @@ TASKS = [
             "Goal G307-1 updated for user U307",
         ],
     ),
-    # Task 33: Assess Ava Nguyen's readiness for Data Science Director role and update goal to 65% progress
+    # Evaluate Ava Nguyen's preparedness for the Data Science Director position and adjust the goal to reflect 65% completion.
     Task(
         user_id="res_33",
         instruction="First, assess Ava Nguyen's readiness score for his 'Director of Data Science' goal. If his score is above 60, enroll him in the 'Project Management Professional (PMP)' course to build leadership skills and update his goal's metric to include 'Complete PMP certification'. Finally, notify his mentor, M102, with the message: 'Ava Nguyen has met the readiness threshold for his Director goal. He has been enrolled in the PMP course and his goal has been updated.'",
@@ -1390,7 +1390,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 34: Renew Robert Thompson's AWS certification and enroll him in PMP course with goal update
+    # Task 34: Renew Robert Thompson's AWS certification and register him for the PMP course while updating goals.
     Task(
         user_id="res_34",
         instruction=(
@@ -1439,7 +1439,7 @@ TASKS = [
             "Goal G306-1 updated for user U306",
         ],
     ),
-    # Task 35: Check mentor M103's capacity and workload
+    # Task 35: Assess the availability and current tasks of mentor M103.
     Task(
         user_id="res_35",
         instruction="First, check if Mentor M103 has a current active mentee load below their capacity of 2. Then, assign Harper Bennett to them for 'Career Growth' and 'Skill Mastery' coaching as of today. After the assignment, create a new active 'Skill Mastery' goal for Ava with the description 'Master Python for clinical analytics with mentor guidance' and Python as a target skill to acquire. Finally, send an email to Ava with the subject 'New Mentor and Goal Assigned' and body 'You have been assigned to Mentor M103 for career growth. A new goal has been created to track your progress in mastering Python.'",
@@ -1479,7 +1479,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 36: Comprehensive Team T004 optimization with training, mentorship, and skill development
+    # Task 36: Complete optimization of Team T004 through training, guidance, and skill enhancement.
     Task(
         user_id="res_36",
         instruction="For Ava Nguyen of the Marketing Team, schedule Project Management Professional (PMP) training for August 15, 2025. Then, assign Mentor M102 for coaching on Product Marketing and Leadership. Finally, create a skill development plan for Harper focusing on Data Analytics and Brand Positioning, and notify HR that the optimization plan is complete.",
@@ -1517,7 +1517,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 37: Bulk enroll Team T005 in PMP training and update David Adams's goal
+    # Task 37: Enroll Team T005 in PMP training in bulk and revise David Adams's objective.
     Task(
         user_id="res_37",
         instruction="First, check if the Compliance Team's average course progress is below 50%. Then, bulk-enroll the team in the 'Project Management Professional (PMP)' course as of today. Then, to align with this new training, perform a bulk update on all 'Certification' goals for this team, setting their priority to 'High'. Finally, notify the team lead, David Adams, with the subject 'Compliance Team Development Initiative' and body 'The Compliance team (T005) has been enrolled in PMP training (C1004) due to progress metrics. All related certification goals have been prioritized.'",
@@ -1553,7 +1553,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 38: Add HashiCorp Terraform certification for Robert Thompson and enroll in Data Visualization
+    # Task 38: Register Robert Thompson for HashiCorp Terraform certification and enroll him in Data Visualization.
     Task(
         user_id="res_38",
         instruction="Check Robert Thompson's Terraform skill gap severity, add a HashiCorp Terraform Associate certification with an issue date 2 months ago, enroll him in the Data Visualization with Tableau course, update his Staff SRE goal to 50% progress, and send a confirmation email with subject: 'Confirmation of your development plan updates' and body: 'This is to confirm the following updates to your career plan: A new certification (HashiCorp Terraform Associate) has been added. You have been enrolled in course C1003. Your goal G306-1 has been updated.'.",
@@ -1602,7 +1602,7 @@ TASKS = [
         ],
         outputs=[],
     ),
-    # Task 39: Assess Emily Johnson's readiness and enroll in UX Design Fundamentals with goal update
+    # Task 39: Evaluate Emily Johnson's preparedness and register her for UX Design Fundamentals along with a goal revision.
     Task(
         user_id="res_39",
         instruction=(
@@ -1638,7 +1638,7 @@ TASKS = [
             "Goal G308-1 updated for user U308",
         ],
     ),
-    # Task 40: Enroll Logan Garcia in Data Visualization course for AR training module development
+    # Task 40: Register Logan Garcia for the Data Visualization course to assist with AR training module creation.
     Task(
         user_id="res_40",
         instruction="For Logan Garcia, first check if he is already enrolled in the 'Data Visualization with Tableau' course. Then, enroll him as of today. Then, create a new 'Skill Mastery' goal for him with the description 'Master Tableau for L&D reporting' and a timeframe of 6 months. Finally, send an email to his manager, who is also Logan Garcia, with the subject 'New Development Action for Logan Garcia' and body 'Logan Garcia has been enrolled in the Data Visualization with Tableau course and a new supporting goal has been created.'",

@@ -68,7 +68,7 @@ TASKS = [
                 actions=[
                         Action(name="GetUserByName", kwargs={"first_name": "Oliver", "last_name": "Lewis"}),
                         Action(name="GetUserByUsername", kwargs={"username": "cwalker"}),
-                        # Action(name="GetUserSessions", kwargs={"user_id": "U-020"}),
+                        # Action(name="RetrieveUserSessions", kwargs={"user_id": "U-020"}),
                         Action(name="UpdateUserStatus", kwargs={"user_id": "U-020", "status": "ACTIVE"}),
                         Action(name="GetUserByUsername", kwargs={"username": "cwalker"}),
                         Action(name="GetCurrentTime", kwargs={}),
@@ -120,7 +120,7 @@ TASKS = [
                         Action(name="GetCurrentTime", kwargs={}),
                         Action(name="GetResourceByName", kwargs={"name": "production-web-server-1"}),
                         Action(name="CreateCertification", kwargs={"reviewer_id": "U-005", "resource_id": "RES-025", "due_date": "2025-09-08T09:56:15Z"}),
-                        #Action(name="GetCertificationDetails", kwargs={"certification_id": "C-024"}),
+                        # Action(name="RetrieveCertificationInfo", kwargs={"certification_id": "C-024"}),
                         Action(name="SendSlackMessage", kwargs={"username": "CERTIFICATION_BOT", "channel": "#certifications",
                                                                   "message": "A new certification C-024 for resources RES-025 has been requested. Due date 2025-09-08T09:56:15Z"}),
                         Action(name="WriteAuditLog",
@@ -1297,7 +1297,7 @@ TASKS = [
                                                           "subject": "Temporary Access Revoked",
                                                           "text_content": "Your temporary access role 'engineering-prod-access' has expired and has been revoked."}),
                         Action(name="GetUserRoles", kwargs={"user_id": "U-025"}),
-                        # Action(name="GetUsersByRole", kwargs={"role_name": "engineering-lead"}),
+                        # Action(name="FetchUsersByRole", kwargs={"role": "engineering-lead"}),
                 ],
                 outputs=['"user_id": "U-025", "roles": ["engineering-base"]']
         ),
@@ -1348,7 +1348,7 @@ TASKS = [
                         Action(name="CreateHubspotTicket", kwargs={"subject": "Security Incident",
                                                                      "description": "User Sophia Rodriguez (edavis) account suspended due to unauthorised access attempt on production-web-server-1.",
                                                                      "requester_id": "U-031", "category": "Security incident", "assignee_id": "U-005"}),
-                        # Action(name="SendSlackMessage", kwargs={"username": "RBAC_BOT", "channel": "#security-alerts", "message": "HIGH-SEVERITY ALERT: User U-002 (edavis) suspended and marketing-lead role revoked due to alert ALRT-005."}),
+                        # Action(name="SendSlackMessage", kwargs={"username": "RBAC_BOT", "channel": "# Action(name="SendSlackMessage", kwargs={"username": "RBAC_BOT", "channel": "#security-alerts", "message": "HIGH-SEVERITY ALERT: User U-002 (edavis) has been suspended and the marketing-lead role has been revoked due to alert ALRT-005."}),
                         Action(name="GetUserRoles", kwargs={"user_id": "U-002"})
                 ],
                 outputs=['"user_id": "U-002", "status": "SUSPENDED"', '"user_id": "U-002", "roles": []', '"ticket_id": "TI-054"']
@@ -2096,9 +2096,9 @@ TASKS = [
                         Action(name="CreateHubspotTicket", kwargs={"subject": "SoD Violation",
                                                                      "description": "Revoked conflicting role 'finance-invoice-processor' from user 'vlee' as per audit finding.",
                                                                      "requester_id": "U-031", "category": "Compliance", "assignee_id": "U-005"}),
-                        # Action(name="SendEmail", kwargs={"receiver": "victoria.lee@sigmatech.com", "sender": "rbac@sigmatech.com", "timestamp": "2025-08-08T09:56:15Z",
-                        #                                   "subject": "Role Change Notification",
-                        #                                   "text_content": "Your 'finance-invoice-processor' role has been revoked as part of an automated compliance remediation."})
+                        # Action(name="SendEmail", kwargs={"to": "victoria.lee@sigmatech.com", "from": "rbac@sigmatech.com", "time": "2025-08-08T09:56:15Z",
+                        # "topic": "Notification of Role Change",
+                        # "Your 'finance-invoice-processor' access has been removed due to an automated compliance correction."
                 ],
                 outputs=['"user_id": "U-012", "roles": ["finance-base", "finance-budget-admin"]', '"ticket_id": "TI-054", "status": "OPEN"']
         ),
@@ -2161,8 +2161,8 @@ TASKS = [
                         Action(name="SendEmail", kwargs={"receiver": "madison.Johnson@sigmatech.com", "sender": "rbac@sigmatech.com", "timestamp": "2025-08-08T09:56:15Z",
                                                           "subject": "MFA Enabled on Your Account",
                                                           "text_content": "Multi-factor authentication (MFA) has been enabled on your account."}),
-                        #Action(name="GetUserByUsername", kwargs={"username": "edavis"}),
-                        #Action(name="GetUserByUsername", kwargs={"username": "mjackson"})
+                        # Action(name="FetchUserByUsername", kwargs={"username": "edavis"}),
+                        # Action(name="FetchUserByUsername", kwargs={"username": "mjackson"})
                 ],
                 outputs=['"user_id": "U-002", "mfa_enabled": true', '"user_id": "U-014", "mfa_enabled": true']
         ),
@@ -2258,8 +2258,8 @@ TASKS = [
                                                           "subject": "Temporary Access Revoked",
                                                           "text_content": "Your temporary access role 'finance-audit-access' has expired and has been revoked."}),
                         Action(name="GetUserRoles", kwargs={"user_id": "U-018"}),
-                        # Action(name="GetUsersByRole", kwargs={"role_name": "finance-lead"}),
-                        # Action(name="CreateHubspotTicket", kwargs={"subject": "Temporary Role Expired", "description": "Temporary role 'finance-audit-access' for user Mia Robinson (mrobinson) has expired and been revoked.", "requester_id": "U-031", "category": "Access Management", "assignee_id": "U-006"})
+                        # Action(name="FetchUsersByRole", kwargs={"role": "finance-lead"}),
+                        # Action(name="CreateHubspotTicket", kwargs={"subject": "Temporary Role Expiration", "description": "The temporary role 'finance-audit-access' for user Mia Robinson (mrobinson) has expired and been revoked.", "requester_id": "U-031", "category": "Access Management", "assignee_id": "U-006"})
                 ],
                 outputs=['"user_id": "U-018", "roles": ["finance-base"]']
         ),
@@ -2605,10 +2605,10 @@ TASKS = [
                         Action(name="WriteAuditLog", kwargs={"actor_id": "U-031", "action_type": "ROLE_REVOKED", "target_id": "U-012", "timestamp": "2025-08-08T09:56:15Z",
                                                                "details": "Role ROL-031 removed from user U-012."}),
                         Action(name="GetUserRoles", kwargs={"user_id": "U-012"}),
-                        # Action(name="GetUsersByRole", kwargs={"role_name": "operations-lead"}),
+                        # Action(name="GetUsersByRole", kwargs={"role": "operations-lead"}),
                         # Action(name="CreateHubspotTicket", kwargs={"subject": "SoD Violation",
-                        #                                              "description": "Conflicting roles for user 'U-012': 'finance-invoice-processor', 'finance-budget-admin'.",
-                        #                                              "requester_id": "U-031", "category": "Compliance", "assignee_id": "U-005"}),
+                        # "User 'U-012' has conflicting roles: 'finance-invoice-processor' and 'finance-budget-admin'."
+                        # "requester_id": "U-031", "category": "Regulatory", "assignee_id": "U-005"}),
                 ],
                 outputs=['"user_id": "U-012", "roles": ["finance-base", "finance-budget-admin"]']
         ),

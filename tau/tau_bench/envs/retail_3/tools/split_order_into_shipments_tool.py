@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class SplitOrderIntoShipmentsTool(Tool):
     Input (kwargs):
         order_id (str, required)
         shipments (List[dict], required): each with
-            - indices: List[int]  # positions within order['items']
+            - indices: List[int]  # indexes in order['items']
             - courier_name: str
 
     Output:
@@ -55,7 +55,7 @@ class SplitOrderIntoShipmentsTool(Tool):
                     indent=2,
                 )
 
-            # validate indices exist within range
+            # check if indices are within the valid range
             valid = [
                 i
                 for i in set(int(i) for i in idxs if isinstance(i, (int, float)))
@@ -67,12 +67,12 @@ class SplitOrderIntoShipmentsTool(Tool):
                     indent=2,
                 )
 
-            # find courier
+            # locate courier
             courier = next((c for c in couriers if c.get("name") == courier_name), None)
             if not courier:
                 return json.dumps({"error": f"courier '{courier_name}' not found"}, indent=2)
 
-            # pick first unused tracking id
+            # select the initial available tracking ID
             tid = next(
                 (tid for tid in courier.get("tracking_ids", []) if tid not in used_tracking_ids),
                 None,
@@ -85,7 +85,7 @@ class SplitOrderIntoShipmentsTool(Tool):
 
             used_tracking_ids.add(tid)
 
-            # create tracking entry
+            # generate tracking record
             tracking_db.append(
                 {
                     "tracking_id": [tid],
@@ -95,7 +95,7 @@ class SplitOrderIntoShipmentsTool(Tool):
                 }
             )
 
-            # append fulfillment to order
+            # add fulfillment to the order
             (order.setdefault("fulfillments", [])).append(
                 {
                     "status": "label_created",

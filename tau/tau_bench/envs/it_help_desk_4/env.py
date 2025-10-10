@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from tau_bench.envs.base import Env
 from tau_bench.envs.it_help_desk_4.data import load_data

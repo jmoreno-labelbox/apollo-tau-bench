@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class GetAircraftByModel(Tool):
         aircraft_list = list(data.get("aircraft", {}).values())
         aircraft_models = data.get("aircraft_models", [])
         
-        # Find the model information
+        # Retrieve the details of the model.
         model_info = None
         for model in aircraft_models:
             if model.get("model_id") == model_id:
@@ -29,7 +29,7 @@ class GetAircraftByModel(Tool):
                 "available_models": available_models
             })
         
-        # Get all aircraft of this model
+        # Retrieve all aircraft of this type.
         model_aircraft = []
         for aircraft in aircraft_list:
             if aircraft.get("model", {}).get("model_id") == model_id:
@@ -41,7 +41,7 @@ class GetAircraftByModel(Tool):
                     "location": aircraft.get("location", {}).get("iata_code")
                 })
         
-        # Calculate statistics
+        # Compute metrics
         total_count = len(model_aircraft)
         active_count = len([ac for ac in model_aircraft if ac.get("status") == "Active"])
         

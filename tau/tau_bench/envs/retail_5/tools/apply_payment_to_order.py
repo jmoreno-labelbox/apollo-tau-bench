@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,14 +24,14 @@ class ApplyPaymentToOrder(Tool):
 
         total_amount = sum(item['price'] for item in order['items'])
 
-        # Handle gift card payments separately
+        # Process gift card transactions independently.
         if payment_method_id.startswith('gift_card'):
-            # Get gift card payment method details
+            # Retrieve details for the gift card payment method.
             gift_card = user['payment_methods'][payment_method_id]
             gift_card_balance = gift_card.get('balance', 0)
 
             if gift_card_balance >= total_amount:
-                # Sufficient balance - deduct the amount and process normally
+                # Adequate funds - subtract the amount and proceed as usual.
                 gift_card['balance'] = gift_card_balance - total_amount
                 order['payment_history'].append({
                     'transaction_type': 'payment',
@@ -43,7 +43,7 @@ class ApplyPaymentToOrder(Tool):
                 order['status'] = 'processing'
                 return json.dumps({'success': True, 'order_id': order_id, 'new_status': 'processing'}, indent=2)
             else:
-                # Insufficient balance - use all available balance and keep order pending
+                # Not enough funds - utilize the full available balance and maintain the order in a pending state.
                 if gift_card_balance > 0:
                     order['payment_history'].append({
                         'transaction_type': 'partial_payment',
@@ -63,7 +63,7 @@ class ApplyPaymentToOrder(Tool):
                     'remaining_amount': total_amount - gift_card_balance
                 }, indent=2)
         else:
-            # Regular payment method processing
+            # Standard payment method handling
             order['payment_history'].append({'transaction_type': 'payment', 'amount': total_amount, 'payment_method_id': payment_method_id, 'timestamp': get_current_timestamp()})
             order['address'] = shipping_address
             order['status'] = 'processing'

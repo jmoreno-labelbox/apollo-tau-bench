@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class ApplyLabelToEmail(Tool):
         label_id = kwargs.get("label_id")
         email_labels = list(data.get("email_labels", {}).values())
 
-        # Find the email in the list and apply the label
+        # Locate the email within the list and assign the label.
         for e in email_labels:
             if e.get("email_id") == email_id:
                 applied_labels = e.setdefault("labels", [])
@@ -20,7 +20,7 @@ class ApplyLabelToEmail(Tool):
                     applied_labels.append(label_id)
                 break
         else:
-            # If email not found, optionally create a new entry
+            # If the email is absent, optionally generate a new record.
             email_labels.append({"email_id": email_id, "labels": [label_id]})
             data["email_labels"] = email_labels
 

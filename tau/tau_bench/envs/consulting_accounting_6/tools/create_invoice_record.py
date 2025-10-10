@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class CreateInvoiceRecord(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         invoices = data.get("invoices", [])
-        # Generate sequential invoice_id like INV001, INV002 ...
+        # Create invoice IDs in a sequential format such as INV001, INV002, and so on.
         prefix, max_num = "INV", 0
         for inv in invoices:
             s = str(inv.get("invoice_id", ""))

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class GetProductIds(Tool):
 
         Data Sources: orders.json (order items), users.json (user validation), products.json (product names)
         """
-        # Rule: Validate user identity exists before processing any user requests
+        # Requirement: Confirm user identity is present prior to handling any user requests.
         users = list(data.get("users", {}).values())
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
@@ -23,13 +23,13 @@ class GetProductIds(Tool):
         if not order_ids:
             return json.dumps({"error": "Order IDs list cannot be empty", "status": "failed"})
 
-        # Find all specified orders for the user
+        # Retrieve all designated orders for the user.
         orders = list(data.get("orders", {}).values())
         found_orders = []
         not_found_orders = []
 
         for order_id in order_ids:
-            # Add # prefix if not provided (for convenience)
+            # Add # Prefix with # if absent (for easier use)
             formatted_order_id = order_id if order_id.startswith("#") else f"#{order_id}"
 
             order_found = False
@@ -49,7 +49,7 @@ class GetProductIds(Tool):
                 "status": "failed"
             })
 
-        # Get product information for filtering
+        # Retrieve product details for filtering purposes.
         products = list(data.get("products", {}).values())
         product_name_map = {}
         for product in products:
@@ -58,13 +58,13 @@ class GetProductIds(Tool):
             if product_id:
                 product_name_map[product_id] = product_name
 
-        # Convert product_type to lowercase for case-insensitive matching
+        # Transform product_type to lowercase for uniform comparison regardless of case.
         product_type_lower = []
         if product_type:
             product_type_lower = [ptype.lower() for ptype in product_type]
 
-        # Extract product IDs from all found orders with optional filtering
-        product_id_set = set()  # Use set to avoid duplicates
+        # Retrieve product IDs from all detected orders with optional criteria.
+        product_id_set = set()  # Utilize a set to eliminate duplicates.
         order_details = []
         filtered_items = 0
         total_items = 0
@@ -81,7 +81,7 @@ class GetProductIds(Tool):
                 if product_id:
                     order_product_ids.append(product_id)
 
-                    # Check if product matches the type filter (if provided)
+                    # Verify if the product conforms to the specified type filter (if applicable).
                     if product_type_lower:
                         product_name = product_name_map.get(product_id, "")
                         type_matches = any(
@@ -94,7 +94,7 @@ class GetProductIds(Tool):
                             order_filtered_product_ids.append(product_id)
                             filtered_items += 1
                     else:
-                        # No filter, include all products
+                        # Include all products without any filters.
                         product_id_set.add(product_id)
                         order_filtered_product_ids.append(product_id)
 
@@ -108,7 +108,7 @@ class GetProductIds(Tool):
                 "order_date": order.get("timestamp")
             })
 
-        # Convert set back to list and sort for consistent output
+        # Transform the set into a list and sort it for uniform results.
         unique_product_ids = sorted(list(product_id_set))
 
         result = {

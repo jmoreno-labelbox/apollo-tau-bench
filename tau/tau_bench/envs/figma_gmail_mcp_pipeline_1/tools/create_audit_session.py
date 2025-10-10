@@ -1,18 +1,18 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class CreateAuditSession(Tool):  # WRITE
+class CreateAuditSession(Tool):  # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
         artifact_id: str,
         audit_type: str
     ) -> str:
-        # Validate input
+        # Check the input for correctness.
         if not isinstance(artifact_id, str) or not artifact_id:
             raise ValueError("artifact_id must be a non-empty string")
 
@@ -22,12 +22,12 @@ class CreateAuditSession(Tool):  # WRITE
 
         audits = data.get("audits", [])
 
-        # Generate new audit_id by incrementing from existing audits
+        # Create a new audit_id by incrementing from the current audits.
         next_num = len(audits) + 1
         audit_id = f"audit_{next_num:03d}"
 
-        # Set created_ts to a time after the most recent audit (2024-08-23T14:00:00Z)
-        # Use a random time after that, let's say 2024-08-24T09:15:00Z
+        # Assign created_ts a value that is later than the latest audit timestamp (2024-08-23T14:00:00Z).
+        # Select a random timestamp following that, for example, 2024-08-24T09:15:00Z.
         created_ts = "2024-08-24T09:15:00Z"
 
         new_audit = {

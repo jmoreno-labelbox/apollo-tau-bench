@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,6 +24,6 @@ class ScanIncompleteTasksTool(Tool):
         db = data.get("file_check_db", [])
         for task in db:
             if not task.get("completed", True):
-                # return the task id and details so caller can decide to proceed or abort
+                # return the task identifier and information for the caller to determine whether to continue or cancel
                 return json.dumps({"task_id": task.get("task_id"), "task": task})
         return json.dumps({"task_id": None, "message": "No incomplete tasks found."})

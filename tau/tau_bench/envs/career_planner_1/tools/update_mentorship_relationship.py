@@ -21,16 +21,16 @@ class UpdateMentorshipRelationship(Tool):
             out = json.dumps(payload)
             return out
 
-        #--- SIMPLIFIED LOGIC ---
-        #The tool now solely executes a direct update.
+        # --- EASED PROCESSING ---
+        # The tool now performs only a direct update.
         rel.update(updates)
         payload = {"success": f"relationship {relationship_id} updated"}
         out = json.dumps(payload)
         return out
 
 
-        #--- SIMPLIFIED LOGIC ---
-        #The tool now solely executes a direct update.
+        # --- REDUCED COMPLEXITY ---
+        # The tool now performs only a direct update.
         rel.update(updates)
         payload = {"success": f"relationship {relationship_id} updated"}
         out = json.dumps(payload)

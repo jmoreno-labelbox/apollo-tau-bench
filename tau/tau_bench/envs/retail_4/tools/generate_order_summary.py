@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,21 +13,21 @@ class GenerateOrderSummary(Tool):
 
         Data Sources: users.json (user_id, payment_methods), products.json (variants, pricing)
         """
-        # Rule: Validate user identity exists before processing any user requests
+        # Requirement: Confirm the existence of user identity before handling any user requests.
         users = list(data.get("users", {}).values())
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
             return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
-        # Validate payment methods and prepare payment breakdown
+        # Verify payment options and generate payment summary.
         payment_methods = user.get("payment_methods", {})
         selected_payments = []
 
         for payment_method_id in payment_methods_source:
             selected_payment = None
 
-            # Find payment method by ID
+            # Retrieve payment method using its identifier.
             for method_id in payment_methods:
                 if payment_method_id in method_id or method_id in payment_method_id:
                     selected_payment = payment_methods[method_id]
@@ -47,17 +47,17 @@ class GenerateOrderSummary(Tool):
             }
             selected_payments.append(payment_info)
 
-        # Validate and price all items
+        # Verify and assess the cost of all items.
         products = list(data.get("products", {}).values())
         order_items = []
         subtotal = 0.0
 
-        # Rule: Multi-item orders need all items available before confirmation
+        # Requirement: All items in multi-item orders must be in stock prior to confirmation.
         for item in item_list:
             item_id = item.get("item_id")
             quantity = item.get("quantity", 1)
 
-            # Rule: Confirm item_id exists in product variants before including in orders
+            # Validation: Ensure item_id is present in product variants prior to adding to orders.
             variant_found = None
             product_found = None
 
@@ -71,7 +71,7 @@ class GenerateOrderSummary(Tool):
             if not variant_found:
                 return json.dumps({"error": f"Item {item_id} not found", "status": "failed"})
 
-            # Rule: Use exact variant pricing from product catalog - no unauthorized price modifications
+            # Directive: Adhere to the precise variant pricing from the product catalog - avoid any unauthorized price alterations.
             unit_price = variant_found.get("price", 0)
             line_total = unit_price * quantity
             subtotal += line_total
@@ -85,8 +85,8 @@ class GenerateOrderSummary(Tool):
                 "options": variant_found.get("options", {})
             })
 
-        # Calculate taxes and fees (simplified)
-        tax_rate = 0.08  # 8% sales tax
+        # Compute simplified taxes and charges.
+        tax_rate = 0.08  # 8% tax on sales
         tax_amount = subtotal * tax_rate
         total_amount = subtotal + tax_amount
 
@@ -94,10 +94,10 @@ class GenerateOrderSummary(Tool):
             shipping_cost = kwargs['shipping_cost']
             total_amount += shipping_cost
 
-        # Rule: High-value orders (>$1000 total) require payment verification before fulfillment
+        # Policy: Orders exceeding $1000 must undergo payment verification prior to processing.
         requires_verification = total_amount > 1000.0
 
-        # Calculate payment allocation across multiple payment methods with smart allocation
+        # Determine payment distribution among various payment methods using intelligent allocation.
         remaining_amount = total_amount
         payment_breakdown = []
         payment_validation = {"overall_valid": True, "messages": []}
@@ -106,28 +106,28 @@ class GenerateOrderSummary(Tool):
             payment_source = payment_info["payment_source"]
             payment_details = payment_info["payment_details"]
 
-            # Determine how much to allocate to this payment method
+            # Calculate the allocation for this payment method.
             if payment_source == "gift_card":
-                # For gift cards, allocate up to available balance
+                # Distribute up to the available balance for gift cards.
                 available_balance = payment_details.get("balance", 0)
                 allocated_amount = min(available_balance, remaining_amount)
 
-                # Validate gift card has some balance
+                # Check that the gift card has a remaining balance.
                 if available_balance == 0:
                     payment_validation["overall_valid"] = False
                     payment_validation["messages"].append(f"{payment_info['payment_method_id']}: Gift card has no available balance")
             else:
-                # For other payment methods, allocate remaining amount or even distribution
-                if i == len(selected_payments) - 1:  # Last payment method gets remaining amount
+                # Distribute the remaining balance evenly across other payment methods.
+                if i == len(selected_payments) - 1:  # The final payment method receives the outstanding balance.
                     allocated_amount = remaining_amount
                 else:
-                    # Calculate even distribution among remaining non-gift-card methods
+                    # Determine equal allocation among the other payment methods excluding gift cards.
                     remaining_methods = len(selected_payments) - i
                     allocated_amount = round(remaining_amount / remaining_methods, 2)
                     if allocated_amount > remaining_amount:
                         allocated_amount = remaining_amount
 
-            # Validate payment method
+            # Verify payment method
             method_validation = {"valid": True, "message": "Payment method validated"}
             if payment_source == "gift_card":
                 available_balance = payment_details.get("balance", 0)
@@ -138,7 +138,7 @@ class GenerateOrderSummary(Tool):
                     }
                     allocated_amount = 0
                 elif allocated_amount < remaining_amount and allocated_amount == available_balance:
-                    # Gift card doesn't cover full remaining amount, but this is handled by allocation logic
+                    # The gift card does not fully cover the outstanding balance, but this is managed by the allocation logic.
                     method_validation["message"] = f"Gift card covers ${allocated_amount:.2f} of remaining ${remaining_amount:.2f}"
 
             payment_breakdown.append({
@@ -158,16 +158,16 @@ class GenerateOrderSummary(Tool):
             if not method_validation["valid"]:
                 payment_validation["overall_valid"] = False
 
-            # Break if we've allocated the full amount
-            if remaining_amount <= 0.01:  # Account for floating point precision
+            # Exit if the total allocation has been reached.
+            if remaining_amount <= 0.01:  # Consider floating point accuracy.
                 break
 
-        # Check if we still have remaining amount after all allocations
+        # Verify if there is any remaining balance following all distributions.
         if remaining_amount > 0.01:
             payment_validation["overall_valid"] = False
             payment_validation["messages"].append(f"Insufficient payment methods to cover ${remaining_amount:.2f}")
 
-        # Rule: Maintain data integrity: order totals must match sum of item prices
+        # Guideline: Ensure data consistency: the total order amount should equal the sum of individual item prices.
         calculated_subtotal = sum(item["line_total"] for item in order_items)
         calculated_payment_total = sum(payment["allocated_amount"] for payment in payment_breakdown)
         integrity_check = abs(calculated_subtotal - subtotal) < 0.01

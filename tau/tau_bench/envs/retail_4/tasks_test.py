@@ -60,7 +60,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_2",
         instruction=(
-            "You are assisting customer Chen Moore (user_id: chen_moore_6080) in updating their account profile and adding a fresh payment method. The customer currently resides at 275 Cedar Avenue, Suite 148, San Diego, NV 91087, USA, but plans to relocate to a new address in San Diego at 456 Sunset Boulevard, Apt 12B, San Diego, NV 90028, USA. They wish to incorporate a gift card with a balance of $500, update their delivery address to this new Sunset Boulevard location, and ensure that their current order #W9205196 is deliverable to the updated address at 456 Sunset Boulevard, Apt 12B, San Diego, NV 90028, USA."
+            "You are assisting customer Chen Moore (user_id: chen_moore_6080) in updating their account profile and adding a fresh payment method. The customer currently resides at 275 Cedar Avenue, Suite 148, San Diego, NV 91087, USA, but plans to relocate to a new address in San Diego at 456 Sunset Boulevard, Apt 12B, San Diego, NV 90028, USA. They wish to incorporate a gift card with a balance of $500, update their delivery address to this new Sunset Boulevard location, and ensure that their current order # W9205196 can be sent to the revised address: 456 Sunset Boulevard, Apt 12B, San Diego, NV 90028, USA.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Chen", "last_name": "Moore", "user_id": "chen_moore_6080"}),
@@ -106,7 +106,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_3",
         instruction=(
-            "As a customer service representative, you are tasked with managing a return request from Sofia Li (user_id: sofia_li_3261) regarding items from her completed order #W6874763. The customer received a damaged e-reader and an action camera in the incorrect color. Confirm her identity, examine her order history, ensure the order is valid, handle the return request, and update the order status to for return. Furthermore, authenticate the shipping address and compute the return shipping cost utilizing the same courier that originally delivered the items."
+            "As a customer service representative, you are tasked with managing a return request from Sofia Li (user_id: sofia_li_3261) regarding items from her completed order # W6874763. The client received a defective e-reader and an action camera in the wrong color. Verify her identity, review her order history, confirm the order's validity, process the return request, and change the order status to for return. Additionally, validate the shipping address and calculate the return shipping fee using the original courier.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Sofia", "last_name": "Li", "user_id": "sofia_li_3261"}),
@@ -145,8 +145,8 @@ TASKS = [
             Action(name="SearchProductsByFilter", kwargs={"category": "coffee maker", "price_flag": "cheapest"}),
             Action(name="ValidateOrderItems", kwargs={
                 "item_list": [
-                    {"item_id": "5758737025", "quantity": 1},  # Water bottle $45.09
-                    {"item_id": "1349017811", "quantity": 1}   # Coffee maker $226.05
+                    {"item_id": "5758737025", "quantity": 1},  # Water bottle costs $45.09.
+                    {"item_id": "1349017811", "quantity": 1}   # Coffee machine priced at $226.05
                 ],
             }),
             Action(name="ValidateShippingAddress", kwargs={"user_id": "mia_martinez_3271"}),
@@ -188,7 +188,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_5",
         instruction=(
-            "Assume the identity of Lucas Rodriguez (user_id: lucas_rodriguez_6635) located at 477 Park Avenue, Suite 558, Houston, NM 75277, USA. As a regular customer with 4 past orders, review the status of all your orders (#W6893533, #W8770097, #W5183325, #W3913498). Especially focus on order #W8770097 and request to change the delivery address to a temporary location at 500 Commerce Street, Suite 100, Houston, NM 75202, USA for this particular order."
+            "Assume the identity of Lucas Rodriguez (user_id: lucas_rodriguez_6635) located at 477 Park Avenue, Suite 558, Houston, NM 75277, USA. As a regular customer with 4 past orders, review the status of all your orders (#W6893533, #W8770097, #W5183325, #W3913498). Especially focus on order # W6893533, #W8770097, #W5183325, #W3913498). Pay particular attention to order #W8770097 and change the delivery address to a temporary site at 500 Commerce Street, Suite 100, Houston, NM 75202, USA for this order.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Ivan", "last_name": "Santos", "user_id": "lucas_rodriguez_6635"}),
@@ -278,9 +278,9 @@ TASKS = [
             Action(name="SearchProductsByFilter", kwargs={"category": "backpack", "min_price": 200, "max_price": 220, "price_flag": "expensive", "limit": 3}),
             Action(name="ValidateOrderItems", kwargs={
                 "item_list": [
-                    {"item_id": "8084436579", "quantity": 1},  # $219.43 - Navy, Large, Polyester, Laptop compartment
-                    {"item_id": "6309044598", "quantity": 1},  # $218.59 - Blue, Medium, Leather, Laptop compartment
-                    {"item_id": "5917587651", "quantity": 1}   # $212.79 - Grey, Medium, Polyester, Laptop compartment
+                    {"item_id": "8084436579", "quantity": 1},  # $219.43 - Navy color, Large size, Made of Polyester, Features a laptop compartment
+                    {"item_id": "6309044598", "quantity": 1},  # $218.59 - Blue, Medium size, Leather material, with Laptop pocket
+                    {"item_id": "5917587651", "quantity": 1}   # $212.79 - Gray, Medium size, Polyester material, Includes laptop pocket
                 ]
             }),
             Action(name="ValidateShippingAddress", kwargs={"user_id": "isabella_johnson_5265"}),
@@ -302,7 +302,7 @@ TASKS = [
                     {"item_id": "5917587651", "quantity": 1}
                 ],
                 "payment_method_sources": ["credit_card_7971769"],
-                "tax_amount": 52.06,     # 8% tax on $650.81
+                "tax_amount": 52.06,     # 8% sales tax applied to $650.81.
                 "shipping_cost": 16.49
             }),
             Action(name="ProcessPayment", kwargs={
@@ -318,7 +318,7 @@ TASKS = [
     annotator="0",
         user_id="V5TSK_USR_8",
         instruction=(
-            "You are Ethan Khan (user_id: noah_khan_3904) residing at 264 Elm Street, Suite 579, San Diego, NV 92117, USA. Order #W4347784 was made by you, but you now need to cancel it due to altered circumstances. You wish to verify the order status, proceed with the cancellation, request a refund to your Visa credit card, and subsequently place a smaller replacement order for only one economical water bottle."
+            "You are Ethan Khan (user_id: noah_khan_3904) residing at 264 Elm Street, Suite 579, San Diego, NV 92117, USA. Order # You created order W4347784, but it needs to be canceled due to changed conditions. Please check the order status, initiate the cancellation, process a refund to your Visa card, and then place a new order for a single budget-friendly water bottle.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Ethan", "last_name": "Khan", "user_id": "noah_khan_3904"}),
@@ -405,8 +405,8 @@ TASKS = [
             Action(name="SearchProductsByFilter", kwargs={"category": "yoga mat", "options": {"color": ["blue"]}}),
             Action(name="ValidateOrderItems", kwargs={
                 "item_list": [
-                    {"item_id": "6164262152", "quantity": 1},  # Electric toothbrush rechargeable $192.15
-                    {"item_id": "5586947715", "quantity": 1}   # Yoga mat 4mm PVC $92.53
+                    {"item_id": "6164262152", "quantity": 1},  # Rechargeable electric toothbrush priced at $192.15.
+                    {"item_id": "5586947715", "quantity": 1}   # 4mm PVC yoga mat priced at $92.53
                 ]
             }),
             Action(name="GenerateOrderSummary", kwargs={
@@ -505,7 +505,7 @@ TASKS = [
             Action(name="GetUserOrderHistory", kwargs={"user_id": "daiki_costa_2903"}),
             Action(name="SearchProductsByFilter", kwargs={"category": "electric toothbrush", "min_price": 150, "max_price": 200, "options": {"color": ["black"]}}),
             Action(name="ValidateOrderItems", kwargs={
-                "item_list": [{"item_id": "8098621301", "quantity": 1}]  # Electric toothbrush $183.11
+                "item_list": [{"item_id": "8098621301", "quantity": 1}]  # Electric toothbrush priced at $183.11.
             }),
             Action(name="AddPaymentMethod", kwargs={
                 "user_id": "daiki_costa_2903",
@@ -528,7 +528,7 @@ TASKS = [
                 "user_id": "daiki_costa_2903",
                 "item_list": [{"item_id": "8098621301", "quantity": 1}],
                 "payment_methods_source": ["gift_card", "credit_card"],
-                "shipping_cost": 11.49,  # shipping cost for 1 item
+                "shipping_cost": 11.49,  # cost of shipping for a single item
             }),
             Action(name="ProcessPayment", kwargs={
                 "user_id": "daiki_costa_2903",
@@ -545,7 +545,7 @@ TASKS = [
                 "items": [{"item_id": "8098621301", "quantity": 1}],
                 "payment_method_sources": ["gift_card", "credit_card"],
                 "tax_amount": 15.37,
-                "shipping_cost": 11.49  # shipping cost
+                "shipping_cost": 11.49  # delivery expenses
             }),
         ],
         outputs=[]
@@ -555,7 +555,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_13",
         instruction=(
-            "As a customer service representative, you're addressing an escalated case for VIP customer Mei Anderson (user_id: mei_anderson_1792) located at 319 Laurel Lane, Suite 319, Raleigh, NC 28260, USA. The customer has a complaint regarding their order #W4498118, which remains pending and needs expedient processing for an essential business presentation. Confirm their identity and the items ordered, examine their order history and status. Should any items be unavailable, amend the order status to indicate a return."
+            "As a customer service representative, you're addressing an escalated case for VIP customer Mei Anderson (user_id: mei_anderson_1792) located at 319 Laurel Lane, Suite 319, Raleigh, NC 28260, USA. The customer has a complaint regarding their order # W4498118 is still pending and requires urgent processing for a crucial business presentation. Verify their identity and the ordered items, review their order history and current status. If any items are out of stock, update the order status to reflect a return.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Mei", "last_name": "Wilson", "user_id": "mei_anderson_1792"}),
@@ -588,8 +588,8 @@ TASKS = [
             Action(name="SearchProductsByFilter", kwargs={"category": "yoga mat", "price_flag": "cheapest", "limit": 1}),
             Action(name="ValidateOrderItems", kwargs={
                 "item_list": [
-                    {"item_id": "2645006275", "quantity": 1},  # Electric toothbrush $183.11
-                    {"item_id": "5586947715", "quantity": 1}   # Yoga mat $92.53
+                    {"item_id": "2645006275", "quantity": 1},  # Electric toothbrush priced at $183.11
+                    {"item_id": "5586947715", "quantity": 1}   # Cost of yoga mat: $92.53
                 ]
             }),
             Action(name="ValidateShippingAddress", kwargs={"user_id": "william_simpson_2792"}),
@@ -611,7 +611,7 @@ TASKS = [
                 "items": [{"item_id": "2645006275", "quantity": 1}, {"item_id": "5586947715", "quantity": 1}],
                 "payment_method_sources": ["credit_card_2645445"],
                 "tax_amount": 22.05,
-                "shipping_cost": 0.00  # shipping cost
+                "shipping_cost": 0.00  # delivery expense
             }),
         ],
         outputs=[]
@@ -647,7 +647,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_17",
         instruction=(
-            "You are Olivia Johnson (user_id: olivia_johnson_8564), responsible for managing supplies. Adjust the stock levels of 2235648106 to 200 units. Update the supplier #SUP0003 contact phone and email to +1-800-555-NEW1 phonesupplier@example.com."
+            "You are Olivia Johnson (user_id: olivia_johnson_8564), responsible for managing supplies. Adjust the stock levels of 2235648106 to 200 units. Update the supplier # SUP0003 contact number and email: +1-800-555-NEW1 phonesupplier@example.com.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Emma", "last_name": "Smith", "user_id": "olivia_johnson_8564"}),
@@ -846,8 +846,8 @@ TASKS = [
             Action(name="SearchProductsByFilter", kwargs={"category": "office chair", "min_price": 100, "max_price":500, "price_flag": "cheapest", "limit": 1}),
             Action(name="ValidateOrderItems", kwargs={
                 "item_list": [
-                    {"item_id": "5320792178", "quantity": 1},  # desk lamp
-                    {"item_id": "4168944673", "quantity": 1}   # chair
+                    {"item_id": "5320792178", "quantity": 1},  # table lamp
+                    {"item_id": "4168944673", "quantity": 1}   # seat
                 ]
             }),
             Action(name="ValidateShippingAddress", kwargs={"user_id": "juan_white_5671"}),
@@ -862,7 +862,7 @@ TASKS = [
                 "user_id": "juan_white_5671",
                 "item_list": [{"item_id": "5320792178", "quantity": 1}, {"item_id": "4168944673", "quantity": 1}],
                 "payment_methods_source": ["gift_card_25671"],
-                "shipping_cost": 13.99  # shipping cost for 2 items
+                "shipping_cost": 13.99  # shipping fee for two products
             }),
             Action(name="ProcessPayment", kwargs={
                 "user_id": "juan_white_5671",
@@ -931,7 +931,7 @@ TASKS = [
             Action(name="SearchProductsByFilter", kwargs={"category": "t-shirt", "options": {"color": ["blue"], "material": ["cotton"], "size": ["M"]}}),
             Action(name="ValidateOrderItems", kwargs={
                 "item_list": [
-                    {"item_id": "9612497925", "quantity": 1},  # T-shirt
+                    {"item_id": "9612497925", "quantity": 1},  # Tee shirt
                 ]
             }),
             Action(name="GenerateOrderSummary", kwargs={
@@ -1114,7 +1114,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_30",
         instruction=(
-            "Identify yourself as Mei Anderson (user_id: mei_anderson_1792), who is a store manager for the retail company. Supplier #SUP0007, your usual source, is encountering challenges with grill orders. Review supplier #SUP0007 for their items with the highest stock to determine if they can deliver an order comprising a minimum of 20 units. Following your review, initiate a new supply order and adjust the stock inventory in the system by subtracting 20 units."
+            "Identify yourself as Mei Anderson (user_id: mei_anderson_1792), who is a store manager for the retail company. Supplier #SUP0007, your usual source, is encountering challenges with grill orders. Review supplier # Supplier #SUP0007 is having issues with grill orders. Check their inventory for items with the highest stock to see if they can fulfill an order of at least 20 units. After your assessment, place a new supply order and update the inventory by reducing it by 20 units.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Mei", "last_name": "Wilson", "user_id": "mei_anderson_1792"}),
@@ -1149,7 +1149,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_31",
         instruction=(
-            "You are Omar Rodriguez (user_id: omar_rodriguez_4830), serving as a supply chain manager for the retail company. Handle the task of updating the pricing terms for an existing supply order #SO6035 due to changes in costs. Review the supply order details, modify the terms to COD with the revised pricing of $30.0, and make necessary inventory adjustments to increase by 45 units."
+            "You are Omar Rodriguez (user_id: omar_rodriguez_4830), serving as a supply chain manager for the retail company. Handle the task of updating the pricing terms for an existing supply order # SO6035 requires updates due to cost changes. Examine the supply order specifics, adjust the terms to COD with the new price of $30.0, and increase inventory by 45 units as needed.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Omar", "last_name": "Santos", "user_id": "omar_rodriguez_4830"}),
@@ -1249,7 +1249,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_34",
         instruction=(
-            "Being William Lee (user_id: william_lee_5010), a supply chain expert managing supplier #SUP0011, verify the accuracy of the supplier's information and ensure that performance ratings are up-to-date based on recent evaluations. Additionally, make sure that the stock levels of electric toothbrushes are kept optimally at 200 units."
+            "Being William Lee (user_id: william_lee_5010), a supply chain expert managing supplier # SUP0011, confirm the correctness of the supplier's data and update performance ratings according to the latest assessments. Also, ensure that the stock of electric toothbrushes is maintained at an optimal level of 200 units.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "James", "last_name": "Lee", "user_id": "william_lee_5010"}),
@@ -1380,7 +1380,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_37",
         instruction=(
-            "Your role is Ahmad Harris (ahmad_harris_7149), a procurement specialist in charge of managing supplier relationships. Supplier #SUP0003 has updated their contact information, necessitating an update in the system. Review their existing details, amend the contact info (email newsupport@premiumparts.com, phone +1-800-555-0134), and adjust the performance rating to 4.2. Additionally, include notes for the supplier (reliable supplier). You are also responsible for verifying their capacity, searching for the products they provide, checking stock levels, and assessing their supply orders."
+            "Your role is Ahmad Harris (ahmad_harris_7149), a procurement specialist in charge of managing supplier relationships. Supplier # SUP0003 has revised their contact details, requiring a system update. Examine their current information, update the contact info (email newsupport@premiumparts.com, phone +1-800-555-0134), and change the performance rating to 4.2. Also, add notes indicating the supplier is reliable. You must also verify their capacity, investigate the products they offer, check inventory levels, and evaluate their supply orders.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Yusuf", "last_name": "Taylor", "user_id": "ahmad_harris_7149"}),
@@ -1688,7 +1688,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_43",
         instruction=(
-            "You are Mia Russo (mia_russo_7776), the procurement manager tasked with conducting a detailed supplier performance evaluation for electronics suppliers. Evaluate suppliers #SUP0001, #SUP0004, and #SUP0007, verify their capacity, and update the performance ratings and feedback."
+            "You are Mia Russo (mia_russo_7776), the procurement manager tasked with conducting a detailed supplier performance evaluation for electronics suppliers. Evaluate suppliers #SUP0001, #SUP0004, and # Check the capacity of SUP0001, SUP0004, and SUP0007, and revise their performance ratings and comments.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Anya", "last_name": "Rossi", "user_id": "mia_russo_7776"}),
@@ -1925,7 +1925,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_47",
         instruction=(
-            "You are Omar Jackson (omar_jackson_3107), a procurement assistant handling routine maintenance tasks for supplier #SUP0005. Review their details, refresh their performance rating, and provide updated feedback."
+            "You are Omar Jackson (omar_jackson_3107), a procurement assistant handling routine maintenance tasks for supplier # SUP0005. Examine their information, update their performance rating, and supply revised feedback.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Omar", "last_name": "Lopez", "user_id": "omar_jackson_3107"}),
@@ -2019,7 +2019,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_50",
         instruction=(
-            "You are Lei Khan (user_id: lei_khan_6353), responsible for managing inventory setup for a new product line in collaboration with supplier #SUP0008. Verify their supplier information, modify their rating following recent evaluations, and change their contact email to newproducts@supplier8.com. Furthermore, generate a new supply order for 50 units to substitute a cancelled order with product ID 6679515468, and revise inventory stocks to include the new items."
+            "You are Lei Khan (user_id: lei_khan_6353), responsible for managing inventory setup for a new product line in collaboration with supplier # SUP0008. Confirm supplier details, update their rating based on recent assessments, and update their contact email to newproducts@supplier8.com. Additionally, create a new supply order for 50 units to replace the cancelled order for product ID 6679515468, and adjust inventory to reflect the new items.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Lei", "last_name": "Khan", "user_id": "lei_khan_6353"}),
@@ -2150,7 +2150,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_53",
         instruction=(
-            "As William Li (james_li_6934), a warehouse manager, you need to adjust inventory levels for supplier #SUP0010 due to changes in seasonal demand. Verify their supplier details, assess their capacity, update stock levels for recent orders by adding 50 more units, and generate new supply orders of the same quantity to accommodate the anticipated demand."
+            "As William Li (james_li_6934), a warehouse manager, you need to adjust inventory levels for supplier # SUP0010 is prompted by fluctuations in seasonal demand. Check supplier information, evaluate their capacity, adjust stock levels for recent orders by increasing them by 50 units, and create new supply orders for the same amount to meet expected demand.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Mason", "last_name": "Li", "user_id": "james_li_6934"}),
@@ -2297,7 +2297,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_56",
         instruction=(
-            "You are Mason Williams (mason_williams_5676), responsible for vendor relations and updating contact details for supplier #SUP0006. They have relocated their offices and revised their phone number and email to +1-800-555-0167 and newoffice@supplier6.com respectively. Adjust their information, verify their current capacity, and arrange supply orders for the available running shoes (5 units each) being offered."
+            "You are Mason Williams (mason_williams_5676), responsible for vendor relations and updating contact details for supplier # SUP0006. Their office has moved, and their contact details have been updated to +1-800-555-0167 and newoffice@supplier6.com. Update their information, confirm their current capacity, and place supply orders for the available running shoes (5 units each).
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Liam", "last_name": "Johnson", "user_id": "mason_williams_5676"}),
@@ -2423,7 +2423,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_59",
         instruction=(
-            "Assume the role of Evelyn Anderson (user_id: amelia_wilson_4999), a seasonal planning manager tasked with organizing inventory for sneaker sales with supplier #SUP0003. Examine the supplier's details, refresh their performance metrics according to recent feedback, assess their sneaker capacity, and generate one supply order of 10 units for each sneaker variant they have available."
+            "Assume the role of Evelyn Anderson (user_id: amelia_wilson_4999), a seasonal planning manager tasked with organizing inventory for sneaker sales with supplier # SUP0003. Review the supplier's information, update their performance data based on the latest feedback, evaluate their sneaker production capability, and create a supply order for 10 units of each available sneaker variant.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Isabella", "last_name": "Brown", "user_id": "amelia_wilson_4999"}),
@@ -2505,7 +2505,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_61",
         instruction=(
-            "As a customer service representative assisting Daiki Williams (user_id: daiki_williams_9523), you need to address the customer's request concerning order #W1436802, where they wish to add a 24MP digital camera with 3x zoom prior to shipping. Examine the current order, assist in including the new item, and adjust the order as necessary."
+            "As a customer service representative assisting Daiki Williams (user_id: daiki_williams_9523), you need to address the customer's request concerning order # W1436802 requires the addition of a 24MP digital camera with 3x zoom before shipment. Review the existing order, help incorporate the new product, and modify the order as needed.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Daiki", "last_name": "Johnson", "user_id": "daiki_williams_9523"}),
@@ -2543,7 +2543,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_62",
         instruction=(
-            "In your role as Ella Lee, a category manager, you are tasked with expanding the electronics product line in collaboration with supplier #SUP0009. Assess their current products, evaluate their capacity, change the supplier email to thenewemail@example.com, and arrange supply orders of 5 units each for all the available products they can deliver."
+            "In your role as Ella Lee, a category manager, you are tasked with expanding the electronics product line in collaboration with supplier # SUP0009. Review existing products, analyze their capacity, update the supplier email to thenewemail@example.com, and schedule supply orders of 5 units for all deliverable products.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Evelyn", "last_name": "Lee"}),
@@ -2675,7 +2675,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_64",
         instruction=(
-            "Identify yourself as Olivia Ito (user_id: olivia_ito_4529). You placed an order yesterday but neglected to include a small red fleece jacket. You intend to append it to your existing order #W8664580 before shipping commences. Confirm your identity, review your order history, incorporate the fleece jacket into your current order, and finalize the addition using your Visa."
+            "Identify yourself as Olivia Ito (user_id: olivia_ito_4529). You placed an order yesterday but neglected to include a small red fleece jacket. You intend to append it to your existing order # W8664580 prior to shipping. Verify your identity, check your order history, add the fleece jacket to your existing order, and complete the addition with your Visa.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Emma", "last_name": "Ito", "user_id": "olivia_ito_4529"}),
@@ -2735,7 +2735,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_66",
         instruction=(
-            "You are Fatima Martinez, a procurement manager tasked with expanding supplier #SUP0011's portfolio. The supplier is interested in beginning to supply kitchen appliances, particularly available espresso machines. You need to arrange supply orders (10 units each) for every variant of the espresso machine."
+            "You are Fatima Martinez, a procurement manager tasked with expanding supplier # Portfolio of SUP0011. The supplier aims to start providing kitchen appliances, specifically available espresso machines. You must organize supply orders for 10 units of each espresso machine variant.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Fatima", "last_name": "Garcia"}),
@@ -2826,7 +2826,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_69",
         instruction=(
-            "You are Olivia Kovacs (olivia_kovacs_9839), a category manager examining supplier #SUP0010's assortment while pondering over the inclusion of new t-shirt items. Assess their existing offerings, verify their production capabilities, seek out suppliers with comparable products boasting at least 20 units in inventory, and generate an order for 20 units of each variant available."
+            "You are Olivia Kovacs (olivia_kovacs_9839), a category manager examining supplier # Evaluate SUP0010's current selection as you consider adding new t-shirt styles. Check their current inventory, confirm production capacity, identify suppliers with similar products that have a minimum of 20 units in stock, and place an order for 20 units of every available variant.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Emma", "last_name": "Kovacs", "user_id": "olivia_kovacs_9839"}),
@@ -2856,7 +2856,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_70",
         instruction=(
-            "You are Liam Williams (user_id: liam_williams_2067). You need to review your recent order #W7016806 and think about ordering another water bottle. Examine your purchase history, confirm your payment options, locate another water bottle matching the same color but constructed from stainless steel, verify it, and finalize a new purchase with your credit card."
+            "You are Liam Williams (user_id: liam_williams_2067). You need to review your recent order # Review order W7016806 and consider buying an additional water bottle. Check your purchase history, validate payment methods, find a stainless steel bottle in the same color, confirm it, and complete the transaction using your credit card.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Lucas", "last_name": "Johnson", "user_id": "liam_williams_2067"}),
@@ -2940,7 +2940,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_72",
         instruction=(
-            "As Luna Dean (luna_dean_2998), manage the vendor's activities to improve supplier #SUP0010's sports equipment range. They intend to broaden their cycling products beyond just helmets. Assess their capability, update their information reflecting their recent performance, and organize new supply orders of 35 units each for the available bicycle variants."
+            "As Luna Dean (luna_dean_2998), manage the vendor's activities to improve supplier # SUP0010's sports gear lineup aims to expand its cycling offerings beyond helmets. Evaluate their capacity, revise their data to include recent performance metrics, and arrange new purchase orders of 35 units for each available bicycle model.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Harper", "last_name": "Kim", "user_id": "luna_dean_2998"}),
@@ -3138,7 +3138,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_76",
         instruction=(
-            "Operating as Isabella Johnson (user_id: isabella_johnson_5265), a supply chain manager for the retail company, coordinate inventory updates for supplier #SUP0008 concerning led lighting products. Review their current details, change the contact email to 'support@smartlighting.com', confirm their led lighting inventory levels, and make sure to augment 50 units stock for each available variant."
+            "Operating as Isabella Johnson (user_id: isabella_johnson_5265), a supply chain manager for the retail company, coordinate inventory updates for supplier # SUP0008 related to LED lighting products. Verify the existing information, update the contact email to 'support@smartlighting.com', check the inventory levels for LED lighting, and increase the stock by 50 units for each available variant.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Olivia", "last_name": "Smith", "user_id": "isabella_johnson_5265"}),
@@ -3233,7 +3233,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_79",
         instruction=(
-            "As Juan Johnson (user_id: juan_johnson_5229), a procurement specialist at the retail firm, handle supplier #SUP0001 relationships. Evaluate their performance, update their contact number to '+1-555-0123' and set their performance rating to 5.0. Coordinate new supply orders for t-shirts, ensuring exactly 40 units per item variant are procured."
+            "As Juan Johnson (user_id: juan_johnson_5229), a procurement specialist at the retail firm, handle supplier # Assess SUP0001 relationships, modify their contact number to '+1-555-0123', and adjust their performance rating to 5.0. Organize new t-shirt supply orders, ensuring 40 units are obtained for each item variant.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Juan", "last_name": "Smith", "user_id": "juan_johnson_5229"}),
@@ -3321,7 +3321,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_81",
         instruction=(
-            "Assist Ava Martinez (user_id: ava_martinez_5795) with overseeing the shipping logistics for her recent orders #W4958652 and #W6447372. She has relocated and intends to combine shipping using FleetFast Delivery for both orders. Your task is to ensure that both orders are appropriately set up for delivery to her new address and are ready for shipment processing with her chosen courier service."
+            "Assist Ava Martinez (user_id: ava_martinez_5795) with overseeing the shipping logistics for her recent orders #W4958652 and # W4958652 and #W6447372. She has moved and plans to consolidate shipping via FleetFast Delivery for these orders. Your responsibility is to configure both orders for delivery to her new address and prepare them for shipment with her selected courier.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={
@@ -3368,7 +3368,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_82",
         instruction=(
-            "Act as Ahmad Harris (user_id: ahmad_harris_7149), a cost analyst at the retail company. Supply order #SO6035 requires cost revisions. Review the current terms, adjust the unit cost to $28.50, and modify the payment terms to 'COD'."
+            "Act as Ahmad Harris (user_id: ahmad_harris_7149), a cost analyst at the retail company. Supply order # SO6035 needs cost updates. Examine the existing terms, change the unit price to $28.50, and update the payment terms to 'COD'.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Yusuf", "last_name": "Taylor", "user_id": "ahmad_harris_7149"}),
@@ -3418,7 +3418,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_84",
         instruction=(
-            "As a customer service representative assisting Lei Ahmed (user_id: lei_ahmed_1705), verify the status of order #W9015076. If it's pending, include the most affordable garden hose available to the order. Upon inclusion, change the order status to processed."
+            "As a customer service representative assisting Lei Ahmed (user_id: lei_ahmed_1705), verify the status of order # W9015076. If the order is pending, add the cheapest garden hose to it. After adding, update the order status to processed.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Lei", "last_name": "Ahmed", "user_id": "lei_ahmed_1705"}),
@@ -3458,7 +3458,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_85",
         instruction=(
-            "Assume the role of Juan Johnson (user_id: juan_johnson_9901), a warehouse manager for the retail company. Inspect supplier #SUP0011's inventory for electric toothbrush products, identify items with fewer than 50 stock units and adjust their stock levels to 50. Additionally, switch their status for any unavailable items to available. Update the contact phone number to '+1-800-555-0089'."
+            "Assume the role of Juan Johnson (user_id: juan_johnson_9901), a warehouse manager for the retail company. Inspect supplier # For SUP0011's electric toothbrush inventory, locate items with less than 50 units in stock and increase their levels to 50. Furthermore, change the status of any out-of-stock items to available. Update the contact number to '+1-800-555-0089'.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Juan", "last_name": "Smith", "user_id": "juan_johnson_9901"}),
@@ -3494,7 +3494,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_86",
         instruction=(
-            "Take on the role of Omar Moore (user_id: omar_moore_9540), a warehouse employee for the retail company. Adjust the supplier #SUP0011's contact phone number to '+1-800-555-0089' and email to 'supplierameile@example.com', then confirm the changes."
+            "Take on the role of Omar Moore (user_id: omar_moore_9540), a warehouse employee for the retail company. Adjust the supplier # Update SUP0011's phone number to '+1-800-555-0089' and email to 'supplierameile@example.com', then verify the updates.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Omar", "last_name": "Moore", "user_id": "omar_moore_9540"}),
@@ -3626,7 +3626,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_91",
         instruction=(
-            "You are Luna Moore user_id: luna_moore_7767, functioning as a cost analyst for the retail company. Orders supplied by #SUP0011 require changes. Revise and confirm all pricing terms for both pending and cancelled supply orders to 'NET30'."
+            "You are Luna Moore user_id: luna_moore_7767, functioning as a cost analyst for the retail company. Orders supplied by # SUP0011 needs modifications. Update and verify all pricing conditions for both pending and cancelled supply orders to 'NET30'.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Harper", "last_name": "Moore", "user_id": "luna_moore_7767"}),
@@ -3686,7 +3686,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_93",
         instruction=(
-            "You are Daiki Dean user_id: daiki_dean_3197, responsible for inventory management. Update the supplier #SUP0004's contact details to '+1-800-555-0156' and 'heythere@email.com', then ensure stock levels of 100 units are added for all available wireless earbuds."
+            "You are Daiki Dean user_id: daiki_dean_3197, responsible for inventory management. Update the supplier # Update SUP0004's contact information to '+1-800-555-0156' and 'heythere@email.com', and verify that 100 units are added for all in-stock wireless earbuds.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Daiki", "last_name": "Kim", "user_id": "daiki_dean_3197"}),
@@ -3767,7 +3767,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_96",
         instruction=(
-            "You are William Clark (user_id: william_clark_1500) seeking details for item #3254583681. Make the purchase of that item using your visa credit card. Be sure to validate and review it first prior to buying."
+            "You are William Clark (user_id: william_clark_1500) seeking details for item # Use your Visa credit card to purchase item 3254583681. Ensure you validate and review it before completing the transaction.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "James", "last_name": "Martin", "user_id": "william_clark_1500"}),
@@ -3843,7 +3843,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_99",
         instruction=(
-            "You are Daiki Dean (user_id: daiki_dean_3197). Change supplier #SUP0004 contact number to +1-800-555-NEW1 and update email to daiki.kim@example.com, adjust item stock of 9580569596 to 100 units."
+            "You are Daiki Dean (user_id: daiki_dean_3197). Change supplier # Update the contact number to +1-800-555-NEW1, change the email to daiki.kim@example.com, and modify the stock for item 9580569596 to 100 units.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Daiki", "last_name": "Kim", "user_id": "daiki_dean_3197"}),
@@ -3865,7 +3865,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_100",
         instruction=(
-            "You are William Clark (user_id: william_clark_1500). Purchase item #6704763132 using your mastercard."
+            "You are William Clark (user_id: william_clark_1500). Purchase item # 6704763132 via your Mastercard.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "James", "last_name": "Martin", "user_id": "william_clark_1500"}),
@@ -4135,7 +4135,7 @@ TASKS = [
         annotator="0",
         user_id="V5TSK_USR_106",
         instruction=(
-            "You are a customer service representative assisting Aarav Simpson (user_id: aarav_simpson_7344). He intends to return items from his delivered order #W7728728 due to damage and incorrect color. Manage the return and amend the order status appropriately."
+            "You are a customer service representative assisting Aarav Simpson (user_id: aarav_simpson_7344). He intends to return items from his delivered order # W7728728 is marked for return due to damage and wrong color. Process the return and update the order status accordingly.
         ),
         actions=[
             Action(name="ValidateUserIdentity", kwargs={"first_name": "Aarav", "last_name": "Nguyen", "user_id": "aarav_simpson_7344"}),

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,13 +17,13 @@ class SelectOptimalCarrier(Tool):
 
         carriers = data.get("carriers", [])
 
-        # Filter active carriers
+        # Select active carriers.
         active_carriers = [c for c in carriers if c.get("active_status", False)]
 
-        # Apply business rules for carrier selection
+        # Implement criteria for choosing carriers.
         suitable_carriers = []
         for carrier in active_carriers:
-            # Rule: Carriers with <95% on-time delivery cannot handle Critical priority
+            # Condition: Carriers with less than 95% on-time delivery are ineligible for Critical priority.
             if priority_level == "Critical" and carrier.get("performance_metrics", {}).get("on_time_delivery_percentage", 0) < 95:
                 continue
 
@@ -31,37 +31,37 @@ class SelectOptimalCarrier(Tool):
                 if carrier.get('scac') not in carriers_list:
                     continue
 
-            # Rule: Check regional coverage and city service capability
+            # Verify geographical reach and urban service capacity.
             coverage = carrier.get("regional_coverage", "")
             carrier_address = carrier.get("contact_information", {}).get("address", {})
             carrier_country = carrier_address.get("country", "")
             carrier_city = carrier_address.get("city", "")
 
-            # Since service_cities doesn't exist in DB, use logical service area determination
-            # based on carrier operational presence and coverage
+            # As service_cities is absent in the database, apply logical criteria for service area identification.
+            # dependent on the carrier's operational footprint and coverage area
             coverage_match = False
 
-            # Global carriers serve all destinations
+            # International carriers operate in all locations.
             if coverage == "Global":
                 coverage_match = True
-            # Regional coverage matching
+            # Alignment of regional coverage
             elif coverage == "North America" and destination_country in ["USA", "Canada", "Mexico"]:
                 coverage_match = True
-            # Country-level matching
+            # Matching at the country level
             elif destination_country == carrier_country:
                 coverage_match = True
-            # Special case: carriers in major hub cities can serve broader regions
+            # Unique situation: carriers in key hub cities can cover larger areas.
             elif carrier_city in ["Los Angeles", "New York", "Chicago", "Miami", "Seattle", "Houston"] and destination_country == "USA":
                 coverage_match = True
-            # Carriers can serve their home city and surrounding region
+            # Carriers can operate within their local city and nearby areas.
             elif destination_city == carrier_city:
                 coverage_match = True
             elif preferred_carrier and carrier.get("scac") == preferred_carrier:
-                # If a preferred carrier is specified, ensure it matches the criteria
+                # Verify that the specified preferred carrier meets the required criteria.
                 if carrier.get("scac") == preferred_carrier:
                     coverage_match = True
             elif carriers_list:
-                # If a list of carriers is provided, check if this carrier is in the list
+                # Verify if the specified carrier exists within the given list of carriers.
                 if carrier.get("scac") in carriers_list:
                     coverage_match = True
 
@@ -71,19 +71,19 @@ class SelectOptimalCarrier(Tool):
         if not suitable_carriers:
             return json.dumps({"error": "No suitable carriers found for the specified criteria"})
 
-        # Select best carrier based on performance rating and priority rules
+        # Choose the optimal carrier according to performance ratings and priority criteria.
         if preferred_carrier:
             best_carrier = next((c for c in suitable_carriers if c.get("scac") == preferred_carrier), None)
         else:
             if priority_level == "Critical":
-                # For critical shipments, prioritize performance
+                # Prioritize performance for essential shipments.
                 best_carrier = max(suitable_carriers,
                                 key=lambda c: (
                                     c.get("performance_metrics", {}).get("on_time_delivery_percentage", 0),
                                     c.get("performance_metrics", {}).get("average_rating", 0)
                                 ))
             else:
-                # For standard shipments, balance performance and cost
+                # Optimize performance and cost for standard shipments.
                 best_carrier = max(suitable_carriers,
                                 key=lambda c: c.get("performance_metrics", {}).get("average_rating", 0))
 

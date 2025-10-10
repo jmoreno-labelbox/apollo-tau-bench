@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,11 +15,11 @@ class FindCarrierByMethodOfTransport(Tool):
         if not method_of_transport:
             return json.dumps({"error": "Method of transport is required"})
         best_carrier = None
-        max_rating = -1.0  # Initialize with a value lower than any possible rating
+        max_rating = -1.0  # Set to a value that is less than the minimum possible rating.
 
         for carrier in carriers:
             is_active = carrier.get("active_status", False)
-            # Ensure supported_modes is a list and handle case-insensitivity
+            # Verify that supported_modes is a list and account for case insensitivity.
             supported_modes = [
                 mode.lower() for mode in carrier.get("supported_modes", [])
             ]

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 from tau_bench.envs.base import Env
 from tau_bench.envs.file_system_7.data import load_data

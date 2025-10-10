@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,14 +22,14 @@ class UpdateGmailThreadLabels(Tool):
 
         gmail_threads = list(data.get('gmail_threads', {}).values())
 
-        # Find the thread
+        # Locate the thread.
         thread_found = False
         for thread in gmail_threads:
             if thread.get('thread_id') == thread_id:
                 thread_found = True
                 old_labels = thread.get('current_labels', []).copy()
 
-                # Update labels
+                # Revise labels
                 if new_labels:
                     for label in new_labels:
                         if label not in old_labels:
@@ -43,11 +43,11 @@ class UpdateGmailThreadLabels(Tool):
                 thread['current_labels'] = old_labels
                 thread['updated_ts'] = datetime.now().isoformat()
 
-                # Update recipients if provided
+                # Modify recipients if available
                 if update_recipients:
                     thread['recipients'] = update_recipients
 
-                # Add status notes
+                # Include status updates.
                 if status_notes:
                     if 'status_history' not in thread:
                         thread['status_history'] = []

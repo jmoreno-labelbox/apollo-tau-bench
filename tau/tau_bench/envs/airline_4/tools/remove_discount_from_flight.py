@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -43,7 +43,7 @@ class RemoveDiscountFromFlight(Tool):
         resolved_cabin = fare_class_req
         override_used = False
 
-        # --- Strategy 1: audit-based revert ---
+        # --- Approach 1: revert using audit data ---
         audits = [a for a in data.get("price_changes", []) if isinstance(a, dict) and a.get("type") == "discount"]
 
         def id_seq(aid: str) -> int:
@@ -118,7 +118,7 @@ class RemoveDiscountFromFlight(Tool):
                     "restored_price": round(old_f, 2)
                 })
 
-        # --- Strategy 2: explicit original_price ---
+        # --- Method 2: defined original_price ---
         if original_price is not None:
             try:
                 orig_f = round(float(original_price), 2)
@@ -154,7 +154,7 @@ class RemoveDiscountFromFlight(Tool):
                 "restored_price": orig_f
             })
 
-        # --- Strategy 3: invert by percent ---
+        # --- Approach 3: reverse by percentage ---
         if percent is not None:
             try:
                 pct = float(percent)
@@ -199,7 +199,7 @@ class RemoveDiscountFromFlight(Tool):
                 "restored_price": restored
             })
 
-        # No usable audit and no fallback inputs
+        # Lacks usable audit and fallback inputs.
         return _json({"error": "missing_params",
                       "reason": "Provide discount_id (preferred) or original_price/percent."})
 

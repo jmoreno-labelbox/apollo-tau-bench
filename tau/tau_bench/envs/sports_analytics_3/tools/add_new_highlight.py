@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class AddNewHighlight(Tool):
     Add to an existing highlight playlist'sclip_count, or create a new one if it doesn't exist.
 
     Inputs (exact names):
-      - name (string)       [required]  # The suffix; code will prepend 'Game Highlights - '
+      - name (string)       [required]  # The suffix; code will add 'Game Highlights - ' at the beginning.
       -clip_count (integer) [required]
 
     Behavior:
@@ -29,7 +29,7 @@ class AddNewHighlight(Tool):
         clip_count = kwargs.get("clip_count")
         report_id = kwargs.get("report_id", None)
 
-        # 1) Validate
+        # 1) Verify
         if not isinstance(name, str) or name == "":
             return json.dumps({"error": "Missing required field: name"}, indent=2)
         if clip_count is None:
@@ -37,24 +37,24 @@ class AddNewHighlight(Tool):
 
         full_name = f"Game Highlights - {name}"
 
-        # 2) Get DB
+        # Retrieve database.
         playlists: List[Dict[str, Any]] = list(data.get("video_playlists", {}).values())
 
-        # 3) Try to find existing
+        # 3) Attempt to locate existing
         target = None
         for p in playlists:
             if p.get("playlist_name") == full_name:
                 target = p
                 break
 
-        # 4) Update or create
+        # 4) Modify or generate
         if target is not None:
-            # Incrementclip_count
+            # Increase clip_count
             current = int(target.get("clip_count", 0))
             target["clip_count"] = current + int(clip_count)
             return json.dumps(target, indent=2)
 
-        # Create new
+        # Generate new
         new_id = get_next_highlight_id(data)
         new_row = {
             "playlist_id": new_id,

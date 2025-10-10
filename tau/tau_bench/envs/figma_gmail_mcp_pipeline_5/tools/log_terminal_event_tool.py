@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class LogTerminalEventTool(Tool):
 
         logs = _safe_table(data, "terminal_logs")
         log_id = _det_id("log", [log_ts, message[:64]])
-        # store as simple row; deterministic id not used by dataset but included as field
+        # save as a basic row; deterministic identifier not utilized by the dataset but added as a field
         logs.append({"log_ts": log_ts, "message": message, "log_id": log_id})
         return json.dumps({"success": True, "log_id": log_id}, indent=2)
 

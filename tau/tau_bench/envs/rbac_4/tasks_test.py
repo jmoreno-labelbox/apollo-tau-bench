@@ -3,7 +3,7 @@ from tau_bench.types import Action, Task
 TASKS = [
 
 
-# - TASK 1 -
+# - ASSIGNMENT 1 -
 
 Task(
     user_id="001",
@@ -36,7 +36,7 @@ Task(
 ),
 
 
-# - TASK 2 -
+# - ASSIGNMENT 2 -
 
 Task(
     user_id="002",
@@ -76,7 +76,7 @@ Task(
 ),
 
 
-# - TASK 3 -
+# - ASSIGNMENT 3 -
 Task(
     user_id="003",
     instruction=(
@@ -114,7 +114,7 @@ Task(
 ),
 
 
-# - TASK 4 -
+# - ASSIGNMENT 4 -
 Task(
     user_id="004",
     instruction=(
@@ -152,7 +152,7 @@ Task(
 ),
 
 
-# - TASK 5 -
+# - ASSIGNMENT 5 -
 Task(
     user_id="005",
     instruction=(
@@ -184,7 +184,7 @@ Task(
 ),
 
 
-# - TASK 6 -
+# - ACTIVITY 6 -
 Task(
     user_id="006",
     instruction=(
@@ -214,27 +214,27 @@ Task(
 ),
 
 
-# - TASK 7 -
+# - ASSIGNMENT 7 -
 Task(
     user_id="007",
     instruction=(
         "You are Noah Thompson (U-005) from Operations. Remove the sales-base role (ROL-011) from Logan Scott (U-021) as it pertains to the resource 'customer-contract-storage' (RES-018). Execute all policy requirements for revocations impacting resource-linked roles, ensuring every dependency and compliance check is fulfilled. Return Logan's updated roles."
     ),
     actions=[
-        Action(name="GetUserDetails", kwargs={"user_id": "U-005"}),                  # actor context
-        Action(name="GetUserDetails", kwargs={"user_id": "U-021"}),                  # subject
-        Action(name="GetUserRoles", kwargs={"user_id": "U-021"}),                    # current roles
-        Action(name="ListPermissionsForRole", kwargs={"role_id": "ROL-011"}),       # verify role scope
-        Action(name="GetResourceDetails", kwargs={"resource_id": "RES-018"}),        # target resource
-        Action(name="ListPolicyExceptions", kwargs={"user_id": "U-021", "status": "ACTIVE"}),  # ensure no ACTIVE exception blocks revoke
-        Action(name="CreateAuditLog", kwargs={                                       # SoD/justification attestation
+        Action(name="GetUserDetails", kwargs={"user_id": "U-005"}),                  # actor environment
+        Action(name="GetUserDetails", kwargs={"user_id": "U-021"}),                  # topic
+        Action(name="GetUserRoles", kwargs={"user_id": "U-021"}),                    # active positions
+        Action(name="ListPermissionsForRole", kwargs={"role_id": "ROL-011"}),       # validate role scope
+        Action(name="GetResourceDetails", kwargs={"resource_id": "RES-018"}),        # designated resource
+        Action(name="ListPolicyExceptions", kwargs={"user_id": "U-021", "status": "ACTIVE"}),  # confirm there are no ACTIVE exception blocks that can be revoked
+        Action(name="CreateAuditLog", kwargs={                                       # Separation of Duties/justification verification
             "actor_id": "U-005",
             "action_type": "SOD_CHECK",
             "target_ref": {"kind": "USER", "id": "U-021"},
             "details": "subject=U-021|role=ROL-011|resource=RES-018|conflicts=None"
         }),
-        Action(name="RevokeRole", kwargs={"user_id": "U-021", "role_id": "ROL-011"}), # revoke
-        Action(name="GetUserRoles", kwargs={"user_id": "U-021"}),                    # post-state
+        Action(name="RevokeRole", kwargs={"user_id": "U-021", "role_id": "ROL-011"}), # cancel
+        Action(name="GetUserRoles", kwargs={"user_id": "U-021"}),                    # after-state
     ],
     outputs=[
         '{"user_id": "U-021", "roles": [{"role_id": "ROL-013", "role_name": "sales-lead-manager", "description": "Manages sales leads and opportunities", "is_temporary": false}, {"role_id": "ROL-014", "role_name": "sales-reporting", "description": "Generates sales performance reports", "is_temporary": false}]}'
@@ -242,7 +242,7 @@ Task(
 ),
 
 
-# - TASK 8 -
+# - ASSIGNMENT 8 -
 Task(
     user_id="008",
     instruction=(
@@ -288,7 +288,7 @@ Task(
 
 
 
-# - TASK 9 -
+# - ASSIGNMENT 9 -
 Task(
     user_id="009",
     instruction=(
@@ -316,7 +316,7 @@ Task(
 ),
 
 
-# - TASK 10 -
+# - ACTIVITY 10 -
 Task(
     user_id="010",
     instruction=(
@@ -370,7 +370,7 @@ Task(
 ),
 
 
-# - TASK 11 -
+# - ASSIGNMENT 11 -
 Task(
     user_id="011",
     instruction=(
@@ -407,7 +407,7 @@ Task(
 ),
 
 
-# - TASK 12 -
+# - ACTIVITY 12 -
 Task(
     user_id="012",
     instruction=(
@@ -449,7 +449,7 @@ Task(
 ),
 
 
-# - TASK 13 -
+# - ASSIGNMENT 13 -
 Task(
     user_id="013",
     instruction=(
@@ -487,7 +487,7 @@ Task(
 ),
 
 
-# - TASK 14 -
+# - ACTIVITY 14 -
 Task(
     user_id="014",
     instruction=(
@@ -513,7 +513,7 @@ Task(
 ),
 
 
-# - TASK 15 -
+# - ASSIGNMENT 15 -
 Task(
     user_id="015",
     instruction=(
@@ -550,28 +550,28 @@ Task(
 
 
 
-# - TASK 16 -
+# - ASSIGNMENT 16 -
 Task(
     user_id="016",
     instruction=(
         "Assume the identity of Olivia Lee (U-006) in the Finance department. Review access request AR-008 for Aria Hill (U-030) seeking finance-budget-admin (ROL-032) on RES-032 under strict high-criticality guidelines. Such approvals require that: Aria is ACTIVE with MFA activated, the role permissions match the target resource, and change-control with oversight by dual approvers is initiated via the Finance approvals channel. Deny the request with a decision anchored to the submission time if any required control is not met. Provide the evaluated request along with Aria's current roles."
     ),
     actions=[
-        # Reviewer & request context
+        # Context of reviewer and request
         Action(name="GetUserDetails", kwargs={"user_id":"U-006"}),
         Action(name="GetAccessRequest", kwargs={"request_id":"AR-008"}),
         Action(name="GetUserDetails", kwargs={"user_id":"U-030"}),
         Action(name="GetResourceDetails", kwargs={"resource_id":"RES-032"}),
         Action(name="ListPermissionsForRole", kwargs={"role_id":"ROL-032"}),
 
-        # Governance signal (dual‑approver visibility) regardless of outcome
+        # Governance signal (visibility for dual approvers) irrespective of the result.
         Action(name="PostSlackMessage", kwargs={
             "channel": "#finance-approvals",
             "message": "AR-008 review started for U-030 requesting ROL-032 on RES-032 (high criticality). "
                        "Verifying MFA, scope alignment, and change-control. Reviewer: U-006."
         }),
 
-        # Deterministic denial because MFA control is mandatory for high‑criticality and not satisfied in this scenario
+        # Denial is deterministic due to the requirement for mandatory MFA controls for high-criticality, which are not met in this case.
         Action(name="RejectAccessRequest", kwargs={
             "request_id":"AR-008",
             "reviewer_id":"U-006",
@@ -590,7 +590,7 @@ Task(
                        "Logged ACCESS_REJECTED in audit."
         }),
 
-        # Return current roles after decision
+        # Provide the active roles following the decision.
         Action(name="GetUserRoles", kwargs={"user_id":"U-030"}),
     ],
     outputs=[
@@ -602,7 +602,7 @@ Task(
 
 
 
-# Task 017
+# Assignment 017
 Task(
     user_id="017",
     instruction=(
@@ -673,7 +673,7 @@ Task(
 ),
 
 
-# - TASK 18 -
+# - ASSIGNMENT 18 -
 Task(
     user_id="018",
     instruction=(
@@ -708,7 +708,7 @@ Task(
 
 
 
-# - TASK 19 -
+# - ASSIGNMENT 19 -
 Task(
     user_id="019",
     instruction=(
@@ -736,7 +736,7 @@ Task(
 ),
 
 
-# - TASK 20 -
+# - ASSIGNMENT 20 -
 Task(
     user_id="020",
     instruction=(
@@ -774,7 +774,7 @@ Task(
 ),
 
 
-# - TASK 21 -
+# - ASSIGNMENT 21 -
 Task(
     user_id="021",
     instruction=(
@@ -815,7 +815,7 @@ Task(
 ),
 
 
-# - TASK 22 -
+# - ACTIVITY 22 -
 Task(
     user_id="022",
     instruction=(
@@ -856,7 +856,7 @@ Task(
 ),
 
 
-# - TASK 23 -
+# - ACTIVITY 23 -
 Task(
     user_id="023",
     instruction=(
@@ -894,7 +894,7 @@ Task(
 ),
 
 
-# - TASK 24 -
+# - ASSIGNMENT 24 -
 Task(
     user_id="024",
     instruction=(
@@ -940,7 +940,7 @@ Task(
 
 
 
-# - TASK 25 -
+# - ASSIGNMENT 25 -
 Task(
     user_id="025",
     instruction=(
@@ -980,7 +980,7 @@ Task(
     ]
 ),
 
-# - TASK 26 -
+# - ASSIGNMENT 26 -
 Task(
     user_id="026",
     instruction=(
@@ -1041,7 +1041,7 @@ Task(
 
 
 
-# - TASK 27 -
+# - ASSIGNMENT 27 -
 Task(
     user_id="027",
     instruction=(
@@ -1068,8 +1068,8 @@ Task(
             "expires_on": "2024-06-16T17:00:00Z"
         }),
 
-        Action(name="ListPermissionsForRole", kwargs={"role_id": "ROL-029"}),  # finance-base
-        Action(name="ListPermissionsForRole", kwargs={"role_id": "ROL-031"}),  # finance-invoice-processor
+        Action(name="ListPermissionsForRole", kwargs={"role_id": "ROL-029"}),  # financial-foundation
+        Action(name="ListPermissionsForRole", kwargs={"role_id": "ROL-031"}),  # financial-invoice-handler
         Action(name="ListPermissionsForRole", kwargs={"role_id": "ROL-032"}),
         Action(name="ListPermissionsForRole", kwargs={"role_id": "ROL-033"}),
         Action(name="ListPermissionsForRole", kwargs={"role_id": "ROL-039"}),
@@ -1091,7 +1091,7 @@ Task(
 ),
 
 
-# - TASK 28 -
+# - ACTIVITY 28 -
 Task(
     user_id="028",
     instruction=(
@@ -1129,7 +1129,7 @@ Task(
 ),
 
 
-# - TASK 29 -
+# - ASSIGNMENT 29 -
 Task(
     user_id="029",
     instruction=(
@@ -1165,7 +1165,7 @@ Task(
 
 
 
-# - TASK 30 -
+# - ASSIGNMENT 30 -
 Task(
     user_id="030",
     instruction=(
@@ -1235,7 +1235,7 @@ Task(
 ),
 
 
-# - TASK 31 -
+# - ASSIGNMENT 31 -
 Task(
     user_id="031",
     instruction=(
@@ -1277,7 +1277,7 @@ Task(
 ),
 
 
-# - TASK 32 -
+# - ASSIGNMENT 32 -
 Task(
     user_id="032",
     instruction=(
@@ -1286,7 +1286,7 @@ Task(
     actions=[
         Action(name="GetUserDetails", kwargs={"user_id": "U-006"}),
         Action(name="GetResourceDetails", kwargs={"resource_id": "RES-034"}),
-        Action(name="GetAccessRequest", kwargs={"request_id": "AR-034"}),  # consistent request/resource
+        Action(name="GetAccessRequest", kwargs={"request_id": "AR-034"}),  # uniform request/resource
         Action(name="GetUserDetails", kwargs={"user_id": "U-018"}),
         Action(name="GetRoleDetails", kwargs={"role_id": "ROL-030"}),
         Action(name="RejectAccessRequest", kwargs={
@@ -1308,7 +1308,7 @@ Task(
     ]
 ),
 
-# - TASK 33 -
+# - ASSIGNMENT 33 -
 Task(
     user_id="033",
     instruction=(
@@ -1339,7 +1339,7 @@ Task(
 ),
 
 
-# - TASK 34 -
+# - ASSIGNMENT 34 -
 Task(
     user_id="034",
     instruction=(
@@ -1370,7 +1370,7 @@ Task(
 ),
 
 
-# - TASK 35 -
+# - ASSIGNMENT 35 -
 Task(
     user_id="035",
     instruction=(
@@ -1412,7 +1412,7 @@ Task(
 
 
 
-# - TASK 36 -
+# - ASSIGNMENT 36 -
 Task(
     user_id="036",
     instruction=(
@@ -1447,7 +1447,7 @@ Task(
 ),
 
 
-# - TASK 37 -
+# - ASSIGNMENT 37 -
 Task(
     user_id="037",
     instruction=(
@@ -1489,7 +1489,7 @@ Task(
 ),
 
 
-# - TASK 38 -
+# - ACTIVITY 38 -
 Task(
     user_id="038",
     instruction=(
@@ -1559,7 +1559,7 @@ Task(
 ),
 
 
-# - TASK 40 -
+# - ASSIGNMENT 40 -
 Task(
     user_id="040",
     instruction=(
@@ -1592,7 +1592,7 @@ Task(
 
 
 
-# - TASK 41 -
+# - ASSIGNMENT 41 -
 Task(
     user_id="041",
     instruction=(
@@ -1625,7 +1625,7 @@ Task(
     ]
 ),
 
-# - TASK 42 -
+# - ASSIGNMENT 42 -
 Task(
     user_id="042",
     instruction=(
@@ -1671,7 +1671,7 @@ Task(
 ),
 
 
-# - TASK 43 -
+# - ASSIGNMENT 43 -
 Task(
     user_id="043",
     instruction=(
@@ -1723,11 +1723,11 @@ Task(
 ),
 
 
-# - TASK 44 -
+# - ASSIGNMENT 44 -
 Task(
     user_id="044",
     instruction=(
-        "Step into the role of Emma Martinez (U-010), Human Resources. Follow the HR two-stage review policy for access request AR-037 related to resource RES-041 with the desired role ROL-019. The canonical result is APPROVED, with all actions based at 2024-05-30 19:00:00+00:00. Under this policy, document the first-stage reviewer as U-005 with decision_at=2024-05-30 19:00:00+00:00, and finalize the status as APPROVED updated_by=U-010 at the same anchor time. Utilize the standard tokenized notification format for stakeholders and apply the HR comms pin for SL-037 in #access-requests. Return the precise updated access_request record."
+        "Step into the role of Emma Martinez (U-010), Human Resources. Follow the HR two-stage review policy for access request AR-037 related to resource RES-041 with the desired role ROL-019. The canonical result is APPROVED, with all actions based at 2024-05-30 19:00:00+00:00. Under this policy, document the first-stage reviewer as U-005 with decision_at=2024-05-30 19:00:00+00:00, and finalize the status as APPROVED updated_by=U-010 at the same anchor time. Utilize the standard tokenized notification format for stakeholders and apply the HR comms pin for SL-037 in # retrieve the exact modified access_request record.
     ),
     actions=[
         Action(name="GetUserDetails", kwargs={"user_id": "U-010"}),
@@ -1778,7 +1778,7 @@ Task(
 
 
 
-# - TASK 45 -
+# - ASSIGNMENT 45 -
 Task(
     user_id="045",
     instruction=(
@@ -1786,8 +1786,8 @@ Task(
     ),
     actions=[
         Action(name="GetAccessRequest", kwargs={"request_id": "AR-007"}),
-        Action(name="GetUserDetails", kwargs={"user_id": "U-029"}),   # requester (must have MFA=true)
-        Action(name="GetUserRoles", kwargs={"user_id": "U-029"}),     # confirm requester doesn’t already hold ROL-026
+        Action(name="GetUserDetails", kwargs={"user_id": "U-029"}),   # requester (requires MFA=true)
+        Action(name="GetUserRoles", kwargs={"user_id": "U-029"}),     # verify that the requester does not currently possess ROL-026
         Action(name="GetResourceDetails", kwargs={"resource_id": "RES-025"}),
         Action(name="GetRoleDetails", kwargs={"role_id": "ROL-026"}),
 
@@ -1825,7 +1825,7 @@ Task(
     ]
 ),
 
-# - TASK 46 -
+# - ASSIGNMENT 46 -
 Task(
     user_id="046",
     instruction=(
@@ -1864,7 +1864,7 @@ Task(
 ),
 
 
-# - TASK 47 -
+# - ASSIGNMENT 47 -
 Task(
     user_id="047",
     instruction=(
@@ -1913,7 +1913,7 @@ Task(
 ),
 
 
-# - TASK 48 -
+# - ASSIGNMENT 48 -
 Task(
     user_id="048",
     instruction=(
@@ -1948,7 +1948,7 @@ Task(
 ),
 
 
-# - TASK 49 -
+# - ASSIGNMENT 49 -
 Task(
     user_id="049",
     instruction=(
@@ -1987,7 +1987,7 @@ Task(
 ),
 
 
-# - TASK 50 -
+# - ASSIGNMENT 50 -
 Task(
     user_id="050",
     instruction=(
@@ -2026,7 +2026,7 @@ Task(
     ]
 ),
 
-# - TASK 51 -
+# - ASSIGNMENT 51 -
 Task(
     user_id="051",
     instruction=(
@@ -2068,7 +2068,7 @@ Task(
 ),
 
 
-# - TASK 52 -
+# - JOB 52 -
 Task(
     user_id="052",
     instruction=(
@@ -2132,7 +2132,7 @@ Task(
 ),
 
 
-# - TASK 53 -
+# - ASSIGNMENT 53 -
 Task(
     user_id="053",
     instruction=(
@@ -2185,7 +2185,7 @@ Task(
 ),
 
 
-# - TASK 54 -
+# - ACTIVITY 54 -
 Task(
     user_id="054",
     instruction=(
@@ -2198,9 +2198,9 @@ Task(
         Action(name="GetUserDetails", kwargs={"user_id": "U-014"}),
         Action(name="GetResourceDetails", kwargs={"resource_id": "RES-012"}),
         Action(name="GetAccessRequest", kwargs={"request_id": "AR-021"}),
-        # Requester identity verification
+        # Verification of the requester's identity
         Action(name="GetUserDetails", kwargs={"user_id": "U-026"}),
-        # Role catalog verification (new)
+        # Verification of the new role catalog
         Action(name="GetRoleDetails", kwargs={"role_id": "ROL-010"}),
         Action(name="ListPermissionsForRole", kwargs={"role_id": "ROL-010"}),
         Action(name="RejectAccessRequest", kwargs={
@@ -2223,7 +2223,7 @@ Task(
 ),
 
 
-# - TASK 55 -
+# - ASSIGNMENT 55 -
 Task(
     user_id="055",
     instruction=(
@@ -2273,7 +2273,7 @@ Task(
 ),
 
 
-# - TASK 56 -
+# - ASSIGNMENT 56 -
 Task(
     user_id="056",
     instruction=(
@@ -2316,7 +2316,7 @@ Task(
 ),
 
 
-# - TASK 57 -
+# - ASSIGNMENT 57 -
 Task(
     user_id="057",
     instruction=(
@@ -2369,7 +2369,7 @@ Task(
     ]
 ),
 
-# - TASK 58 -
+# - ASSIGNMENT 58 -
 Task(
     user_id="058",
     instruction=(
@@ -2380,11 +2380,11 @@ Task(
         "one for the exception review result and one for the ticket creation. Return the count and the ticket subject (if created)."
     ),
     actions=[
-        # Actor + scope
+        # Entity + context
         Action(name="GetUserDetails", kwargs={"user_id": "U-023"}),
         Action(name="GetResourceDetails", kwargs={"resource_id": "RES-025"}),
 
-        # List ACTIVE exceptions and resolve their permissions (dataset-derived permission_ids)
+        # Enumerate ACTIVE exceptions and address their permissions (permission_ids derived from the dataset).
         Action(name="ListPolicyExceptions", kwargs={"status": "ACTIVE"}),
         Action(name="GetPermissionDetails", kwargs={"permission_id": "P-021"}),
         Action(name="GetPermissionDetails", kwargs={"permission_id": "P-022"}),
@@ -2393,7 +2393,7 @@ Task(
         Action(name="GetPermissionDetails", kwargs={"permission_id": "P-096"}),
         Action(name="GetPermissionDetails", kwargs={"permission_id": "P-108"}),
 
-        # Review result (count is 0 for RES-025) at T0
+        # Evaluate the outcome (count is 0 for RES-025) at T0.
         Action(name="CreateAuditLog", kwargs={
             "actor_id": "U-023",
             "action_type": "POLICY_EXCEPTION_REVIEWED",
@@ -2402,7 +2402,7 @@ Task(
             "details": "resource=RES-025|active_exception_matches=0|rule=permission.resource_id==RES-025"
         }),
 
-        # Negative-finding ticket + evidence audit at T0
+        # Negative result ticket and evidence review at T0
         Action(name="CreateHubspotTicket", kwargs={
             "subject": "NEGATIVE-FINDING|RES-025|EXCEPTIONS|T0=2024-05-21",
             "requester_id": "U-023",
@@ -2423,7 +2423,7 @@ Task(
 ),
 
 
-# - TASK 59 -
+# - ASSIGNMENT 59 -
 Task(
     user_id="059",
     instruction=(
@@ -2434,26 +2434,26 @@ Task(
         "resource_details (RES-016), role_membership_before, role_membership_after, active_exceptions_for_requester, audit_entry."
     ),
     actions=[
-        Action(name="GetUserDetails", kwargs={"user_id": "U-021"}),                               # 1 owner
-        Action(name="GetAccessRequest", kwargs={"request_id": "AR-022"}),                         # 2 request
-        Action(name="GetUserDetails", kwargs={"user_id": "U-009"}),                               # 3 requester
-        Action(name="GetUserRoles", kwargs={"user_id": "U-009"}),                                 # 4 requester roles
-        Action(name="GetRoleDetails", kwargs={"role_id": "ROL-013"}),                             # 5 role meta
-        Action(name="ListPermissionsForRole", kwargs={"role_id": "ROL-013"}),                    # 6 scope (used in evidence)
-        Action(name="GetRoleMembers", kwargs={"role_id": "ROL-013"}),                             # 7 membership before
-        Action(name="GetResourceDetails", kwargs={"resource_id": "RES-016"}),                     # 8 resource
-        Action(name="ListPolicyExceptions", kwargs={"user_id":"U-009","status":"ACTIVE"}),        # 9 exceptions
-        Action(name="RejectAccessRequest", kwargs={                                               # 10 reject
+        Action(name="GetUserDetails", kwargs={"user_id": "U-021"}),                               # Single owner
+        Action(name="GetAccessRequest", kwargs={"request_id": "AR-022"}),                         # Two requests
+        Action(name="GetUserDetails", kwargs={"user_id": "U-009"}),                               # three requesters
+        Action(name="GetUserRoles", kwargs={"user_id": "U-009"}),                                 # Four roles for requesters
+        Action(name="GetRoleDetails", kwargs={"role_id": "ROL-013"}),                             # 5 role metadata
+        Action(name="ListPermissionsForRole", kwargs={"role_id": "ROL-013"}),                    # 6 range (applied in proof)
+        Action(name="GetRoleMembers", kwargs={"role_id": "ROL-013"}),                             # 7 memberships previously
+        Action(name="GetResourceDetails", kwargs={"resource_id": "RES-016"}),                     # 8 assets
+        Action(name="ListPolicyExceptions", kwargs={"user_id":"U-009","status":"ACTIVE"}),        # Nine exceptions
+        Action(name="RejectAccessRequest", kwargs={                                               # 10 denied
             "request_id":"AR-022","reviewer_id":"U-021","decision_at":"2024-05-26 16:00:00+00:00"
         }),
-        Action(name="CreateAuditLog", kwargs={                                                    # 11 evidence
+        Action(name="CreateAuditLog", kwargs={                                                    # 11 proofs
             "actor_id":"U-021","action_type":"ACCESS_REJECTED","target_id":"AR-022",
             "timestamp":"2024-05-26 16:00:00+00:00",
             "details":"requester_has_role=true|role_scope=RES-015|target=RES-016"
         }),
-        Action(name="GetAccessRequest", kwargs={"request_id": "AR-022"}),                         # 12 post
-        Action(name="GetRoleMembers", kwargs={"role_id": "ROL-013"}),                             # 13 membership after
-        Action(name="GetAuditLogsForTarget", kwargs={"target_id": "AR-022"}),                   # 14 decision slice
+        Action(name="GetAccessRequest", kwargs={"request_id": "AR-022"}),                         # 12 publications
+        Action(name="GetRoleMembers", kwargs={"role_id": "ROL-013"}),                             # 13 membership following
+        Action(name="GetAuditLogsForTarget", kwargs={"target_id": "AR-022"}),                   # 14 decision segment
     ],
     outputs=[
         '{"processed_request":{"request_id":"AR-022","user_id":"U-009","resource_id":"RES-016","requested_role_id":"ROL-013","justification":"Need lead manager access for new marketing campaign leads.","status":"REJECTED","submitted_at":"2024-05-26 16:00:00+00:00","reviewed_by":"U-021","decision_at":"2024-05-26 16:00:00+00:00"},"owner_status":{"user_id":"U-021","status":"ACTIVE"},"requester_roles":[{"role_id":"ROL-011"},{"role_id":"ROL-012"},{"role_id":"ROL-013"}],"role_meta":{"role_id":"ROL-013","role_name":"sales-lead-manager","description":"Manages sales leads and opportunities","is_temporary":false},"resource_details":{"resource_id":"RES-016","owner_id":"U-021","criticality":"HIGH","compliance_scope":"GDPR"},"role_membership_before":["U-009","U-021"],"role_membership_after":["U-009","U-021"],"active_exceptions_for_requester":[],"audit_entry":{"actor_id":"U-021","action_type":"ACCESS_REJECTED","target_id":"AR-022","timestamp":"2024-05-26 16:00:00+00:00","details":"requester_has_role=true|role_scope=RES-015|target=RES-016"}}'
@@ -2461,7 +2461,7 @@ Task(
 ),
 
 
-# - TASK 60 -
+# - JOB 60 -
 Task(
     user_id="060",
     instruction=(
@@ -2500,7 +2500,7 @@ Task(
     ]
 ),
 
-# - TASK 61 -
+# - ASSIGNMENT 61 -
 Task(
     user_id="061",
     instruction=(
@@ -2544,7 +2544,7 @@ Task(
 ),
 
 
-# - TASK 62 -
+# - ASSIGNMENT 62 -
 Task(
     user_id="062",
     instruction=(
@@ -2582,7 +2582,7 @@ Task(
 ),
 
 
-# - TASK 63 -
+# - ASSIGNMENT 63 -
 Task(
     user_id="063",
     instruction=(
@@ -2619,7 +2619,7 @@ Task(
 ),
 
 
-# - TASK 64 -
+# - JOB 64 -
 Task(
     user_id="064",
     instruction=(
@@ -2662,7 +2662,7 @@ Task(
 ),
 
 
-# - TASK 65 -
+# - ASSIGNMENT 65 -
 Task(
     user_id="098",
     instruction=(
@@ -2674,7 +2674,7 @@ Task(
     actions=[
         Action(name="GetSiemAlertDetails", kwargs={"alert_id": "ALRT-003"}),
         Action(name="GetResourceDetails", kwargs={"resource_id": "RES-020"}),
-        # Investigation evidence (already added previously)
+        # Previously included investigation evidence.
         Action(name="InvestigateSiemIncident", kwargs={
             "alert_id": "ALRT-003",
             "analyst_id": "U-005",
@@ -2686,7 +2686,7 @@ Task(
             "severity": "CRITICAL",
             "reason": "CRITICAL_RESOURCE_POLICY"
         }),
-        # Post-escalation detailed validation (new)
+        # In-depth verification after escalation (new)
         Action(name="GetSiemAlertDetails", kwargs={"alert_id": "ALRT-003"}),
         Action(name="CreateAuditLog", kwargs={
             "actor_id": "U-005",
@@ -2695,7 +2695,7 @@ Task(
             "timestamp": "2024-06-10 15:45:00+00:00",
             "details": "resource=RES-020|final_severity=CRITICAL|handled_at=2024-06-10 15:45:00+00:00"
         }),
-        # Summary alert record read prior to return
+        # Retrieve summary alert record before returning.
         Action(name="GetSiemAlert", kwargs={"alert_id": "ALRT-003"})
     ],
     outputs=[
@@ -2704,7 +2704,7 @@ Task(
 ),
 
 
-# - TASK 66 -
+# - ASSIGNMENT 66 -
 Task(
     user_id="066",
     instruction=(
@@ -2741,7 +2741,7 @@ Task(
 ),
 
 
-# - TASK 67 -
+# - ASSIGNMENT 67 -
 Task(
     user_id="067",
     instruction=(
@@ -2789,7 +2789,7 @@ Task(
 ),
 
 
-# - TASK 68 -
+# - ASSIGNMENT 68 -
 Task(
     user_id="068",
     instruction=(
@@ -2835,7 +2835,7 @@ Task(
     ]
 ),
 
-# - TASK 69 -
+# - ACTIVITY 69 -
 Task(
     user_id="069",
     instruction=(
@@ -2868,7 +2868,7 @@ Task(
 ),
 
 
-# - TASK 70 -
+# - ACTIVITY 70 -
 Task(
     user_id="070",
     instruction=(
@@ -2915,7 +2915,7 @@ Task(
 ),
 
 
-# - TASK 71 -
+# - ASSIGNMENT 71 -
 Task(
     user_id="071",
     instruction=(
@@ -2971,7 +2971,7 @@ Task(
 ),
 
 
-# - TASK 72 -
+# - ASSIGNMENT 72 -
 Task(
     user_id="072",
     instruction=(
@@ -3023,7 +3023,7 @@ Task(
 ),
 
 
-# - TASK 73 -
+# - ASSIGNMENT 73 -
 Task(
     user_id="073",
     instruction=(
@@ -3087,7 +3087,7 @@ Task(
 ),
 
 
-# - TASK 74 -
+# - ASSIGNMENT 74 -
 Task(
     user_id="074",
     instruction=(
@@ -3123,7 +3123,7 @@ Task(
     ]
 ),
 
-# - TASK 75 -
+# - ASSIGNMENT 75 -
 Task(
     user_id="075",
     instruction=(
@@ -3166,7 +3166,7 @@ Task(
 
 
 
-# - TASK 76 -
+# - ASSIGNMENT 76 -
 Task(
     user_id="076",
     instruction=(
@@ -3223,7 +3223,7 @@ Task(
     ]
 ),
 
-# - TASK 77 -
+# - ASSIGNMENT 77 -
 Task(
     user_id="077",
     instruction=(
@@ -3257,7 +3257,7 @@ Task(
     ]
 ),
 
-# - TASK 78 -
+# - JOB 78 -
 Task(
     user_id="062",
     instruction=(
@@ -3296,7 +3296,7 @@ Task(
 
 
 
-# - TASK 79 -
+# - ASSIGNMENT 79 -
 Task(
     user_id="079",
     instruction=(
@@ -3327,7 +3327,7 @@ Task(
 ),
 
 
-# - TASK 80 -
+# - ACTIVITY 80 -
 Task(
     user_id="080",
     instruction=(
@@ -3339,8 +3339,8 @@ Task(
         Action(name="GetUserDetails", kwargs={"user_id": "U-006"}),
         Action(name="GetResourceDetails", kwargs={"resource_id": "RES-034"}),
         Action(name="GetAccessRequest", kwargs={"request_id": "AR-034"}),
-        Action(name="GetUserDetails", kwargs={"user_id": "U-018"}),  # requester eligibility context
-        Action(name="GetRoleDetails", kwargs={"role_id": "ROL-030"}),  # role-catalog conformance
+        Action(name="GetUserDetails", kwargs={"user_id": "U-018"}),  # context for requester qualifications
+        Action(name="GetRoleDetails", kwargs={"role_id": "ROL-030"}),  # role-catalog compliance
         Action(name="ListPermissionsForRole", kwargs={"role_id": "ROL-030"}),
         Action(name="ApproveAccessRequest", kwargs={
             "request_id": "AR-034",
@@ -3362,7 +3362,7 @@ Task(
 ),
 
 
-# - TASK 81 -
+# - JOB 81 -
 Task(
     user_id="081",
     instruction=(
@@ -3414,7 +3414,7 @@ Task(
 ),
 
 
-# - TASK 82 -
+# - ASSIGNMENT 82 -
 Task(
     user_id="082",
     instruction=(
@@ -3458,7 +3458,7 @@ Task(
 ),
 
 
-# - TASK 83 -
+# - ACTIVITY 83 -
 Task(
     user_id="083",
     instruction=(
@@ -3500,7 +3500,7 @@ Task(
 ),
 
 
-# - TASK 84 -
+# - ASSIGNMENT 84 -
 Task(
     user_id="084",
     instruction=(
@@ -3554,7 +3554,7 @@ Task(
 ),
 
 
-# - TASK 85 -
+# - ASSIGNMENT 85 -
 Task(
     user_id="085",
     instruction=(
@@ -3599,7 +3599,7 @@ Task(
 ),
 
 
-# - TASK 86 -
+# - ASSIGNMENT 86 -
 Task(
     user_id="086",
     instruction=(
@@ -3646,7 +3646,7 @@ Task(
 ),
 
 
-# - TASK 87 -
+# - ASSIGNMENT 87 -
 Task(
     user_id="087",
     instruction=(
@@ -3657,25 +3657,25 @@ Task(
         "immutable record. Open the ticket to yourself. Use T0=2025-08-18T16:10:00Z."
     ),
     actions=[
-        # Identity & SoD-oriented review evidence
+        # Evidence focused on identity and segregation of duties (SoD) review.
         Action(name="GetUserDetails", kwargs={"user_id":"U-005"}),
         Action(name="GetUserDetails", kwargs={"user_id":"U-002"}),
         Action(name="GetUserRoles", kwargs={"user_id":"U-002"}),
 
-        # Confirm no conflicting exceptions for U-002 before enforcement
+        # Verify that there are no conflicting exceptions for U-002 prior to enforcement.
         Action(name="ListPolicyExceptions", kwargs={"status":"APPROVED","user_id":"U-002"}),
 
-        # Session hygiene and enforcement
+        # Session management and compliance
         Action(name="ListUserSessions", kwargs={"user_id":"U-002","active_only":True}),
         Action(name="EnableUserMfa", kwargs={"user_id":"U-002"}),
 
-        # Evidence window capture (IAM)
+        # IAM evidence window screenshot
         Action(name="AuditIamAccess", kwargs={
             "start_time":"2025-06-01T00:00:00Z",
             "end_time":"2025-08-18T16:10:00Z"
         }),
 
-        # Ticket and immutable audit, pipe-formatted & deterministic
+        # Immutable audit and ticket in a deterministic, pipe-formatted structure.
         Action(name="CreateHubspotTicket", kwargs={
             "subject":"ACCOUNT_SECURITY|U-002|MFA_ENABLED",
             "description":"T0=2025-08-18T16:10:00Z|TARGET=U-002|MFA=ENFORCED|ACTIVE_SESSIONS:0|SOD_REVIEW:APPLIED|EXCEPTIONS_CHECK:U-002|IAM_WINDOW:2025-06-01T00:00:00Z..2025-08-18T16:10:00Z",
@@ -3699,7 +3699,7 @@ Task(
 ),
 
 
-# - TASK 88 -
+# - ASSIGNMENT 88 -
 Task(
     user_id="088",
     instruction=(
@@ -3729,7 +3729,7 @@ Task(
 ),
 
 
-# - TASK 89 -
+# - ASSIGNMENT 89 -
 Task(
     user_id="089",
     instruction=(
@@ -3761,7 +3761,7 @@ Task(
 ),
 
 
-# - TASK 90 -
+# - ASSIGNMENT 90 -
 Task(
     user_id="090",
     instruction=(
@@ -3800,7 +3800,7 @@ Task(
 ),
 
 
-# - TASK 91 -
+# - ASSIGNMENT 91 -
 Task(
     user_id="091",
     instruction=(
@@ -3860,7 +3860,7 @@ Task(
 ),
 
 
-# - TASK 92 -
+# - ASSIGNMENT 92 -
 Task(
     user_id="092",
     instruction=(
@@ -3930,7 +3930,7 @@ Task(
 ),
 
 
-# - TASK 93 -
+# - ACTIVITY 93 -
 Task(
     user_id="093",
     instruction=(
@@ -3954,13 +3954,13 @@ Task(
         Action(name="GetUserRoles", kwargs={"user_id": "U-017"})
     ],
     outputs=[
-        # Mirror the final GetUserRole result (no extra fields, no wrapping string).
+        # Return the final GetUserRole result directly (without additional fields or enclosing string).
         '[{"role_id":"ROL-021"},{"role_id":"ROL-022"},{"role_id":"ROL-024"},{"role_id":"ROL-028"}]'
     ]
 ),
 
 
-# - TASK 94 -
+# - ASSIGNMENT 94 -
 Task(
     user_id="094",
     instruction=(
@@ -3996,7 +3996,7 @@ Task(
 ),
 
 
-# - TASK 95 -
+# - ASSIGNMENT 95 -
 Task(
     user_id="095",
     instruction=(
@@ -4036,7 +4036,7 @@ Task(
 ),
 
 
-# - TASK 96 -
+# - ASSIGNMENT 96 -
 Task(
     user_id="096",
     instruction=(
@@ -4082,7 +4082,7 @@ Task(
     ]
 ),
 
-# - TASK 97 -
+# - ASSIGNMENT 97 -
 Task(
     user_id="097",
     instruction=(
@@ -4112,13 +4112,13 @@ Task(
         Action(name="ListAccessRequests", kwargs={"status": "PENDING", "resource_id": "RES-034"})
     ],
     outputs=[
-        # Match the canonical dataset’s timestamp style (no 'T' separator).
+        # Align the timestamp format of the canonical dataset (omit the 'T' delimiter).
         '[{"request_id":"AR-034","user_id":"U-018","resource_id":"RES-034","requested_role_id":"ROL-030","status":"PENDING","submitted_at":"2024-05-30 15:00:00+00:00"}]'
     ]
 ),
 
 
-# - TASK 98 -
+# - ASSIGNMENT 98 -
 Task(
     user_id="098",
     instruction=(
@@ -4160,7 +4160,7 @@ Task(
 ),
 
 
-# - TASK 99 -
+# - ASSIGNMENT 99 -
 Task(
     user_id="099",
     instruction=(
@@ -4193,7 +4193,7 @@ Task(
 ),
 
 
-# - TASK 100 -
+# - ASSIGNMENT 100 -
 Task(
     user_id="100",
     instruction=(

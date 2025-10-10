@@ -1,7 +1,7 @@
 from tau_bench.types import Action, Task
 
 TASKS = [
-    # 01. Create a new savings account for John Doe and transfer USD 500 from his checking into it
+    # Establish a new savings account for John Doe and move USD 500 from his checking account to it.
     Task(
         annotator="0",
         user_id="task_01",
@@ -9,22 +9,22 @@ TASKS = [
             "Handle the opening of a new Savings account as Kenji Tanaka, followed by transferring USD 500 from your current Checking account into it."
         ),
         actions=[
-            # 1. Look up Kenji Tanaka
+            # 1. Search for Kenji Tanaka
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "John", "last_name": "Doe"},
             ),
-            # 2. List all of his accounts
+            # 2. Retrieve a list of all his accounts.
             Action(
                 name="GetAllAccountsOfCustomerByCustomerId",
                 kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"},
             ),
-            # 3. Determine the code for Savings
+            # 3. Identify the code for Savings.
             Action(
                 name="GetAccountTypeAndAccountTypeCode",
                 kwargs={"account_type": "Savings"},
             ),
-            # 4. Create the new Savings account
+            # 4. Initialize the new Savings account.
             Action(
                 name="CreateNewAccountForCustomer",
                 kwargs={
@@ -34,7 +34,7 @@ TASKS = [
                     "currency": "USD",
                 },
             ),
-            # 5. Fetch details for all Savings accounts
+            # 5. Retrieve information for all Savings accounts.
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -50,7 +50,7 @@ TASKS = [
                     "requested_amount": 500.0,
                 },
             ),
-            # 6. Transfer USD 500 from Checking to the new Savings account
+            # 6. Move USD 500 from Checking to the new Savings account.
             Action(
                 name="TransferMoneySameCurrency",
                 kwargs={
@@ -65,7 +65,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # 02. Add an existing beneficiary for Jane Smith and send her USD 200 from Checking → Savings
+    # 02. Include a current beneficiary for Jane Smith and transfer USD 200 from Checking to Savings.
     Task(
         annotator="0",
         user_id="task_02",
@@ -73,17 +73,17 @@ TASKS = [
             "Coordinate a transfer of CAD 250 from your Checking account to your personal beneficiary, Kenji Tanaka, as Elena Popescu."
         ),
         actions=[
-            # 1. Look up Elena Popescu
+            # 1. Retrieve information on Elena Popescu.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "Jane", "last_name": "Smith"},
             ),
-            # 2. List her accounts
+            # 2. Retrieve her account details.
             Action(
                 name="GetAllAccountsOfCustomerByCustomerId",
                 kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"},
             ),
-            # 3. Fetch her Checking account details (to check balance)
+            # 3. Retrieve her Checking account information (to verify balance)
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -98,7 +98,7 @@ TASKS = [
                     "requested_amount": 250.0,
                 },
             ),
-            # 4. Get details for beneficiary “Kenji Tanaka”
+            # 4. Retrieve information for beneficiary "Kenji Tanaka"
             Action(
                 name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
                 kwargs={
@@ -106,7 +106,7 @@ TASKS = [
                     "beneficiary_name": "Kenji Tanaka",
                 },
             ),
-            # 5. (Optional) Compute how much CAD is needed for USD 200
+            # 5. (Optional) Calculate the CAD required for USD 200.
             Action(
                 name="GetCurrencyConversionAmount",
                 kwargs={
@@ -115,7 +115,7 @@ TASKS = [
                     "target_currency": "USD",
                 },
             ),
-            # 6. Pay to John Doe with conversion
+            # 6. Make a payment to John Doe using conversion.
             Action(
                 name="PayToBeneficiaryWithConversion",
                 kwargs={
@@ -132,7 +132,7 @@ TASKS = [
     ),
 
 
-    # # 03. Oliver Williams set up a recurring monthly payment to Utility Co.
+    # # # 03. Oliver Williams established a monthly automated payment to Utility Co.
     Task(
         annotator="0",
         user_id="task_03",
@@ -140,17 +140,17 @@ TASKS = [
             "As Sofia Andersson, schedule a monthly GBP 100 payment beginning next month on the date 2025-08-24 from your Checking account to your business beneficiary, Manchester Electricity Co."
         ),
         actions=[
-            # 1. Look up Sofia Andersson
+            # 1. Search for Sofia Andersson
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "Oliver", "last_name": "Williams"},
             ),
-            # 2. List all of her accounts
+            # 2. Enumerate all of her accounts.
             Action(
                 name="GetAllAccountsOfCustomerByCustomerId",
                 kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5"},
             ),
-            # 3. Fetch her Checking account details
+            # 3. Retrieve her Checking account information.
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -158,7 +158,7 @@ TASKS = [
                     "account_type": "Checking",
                 },
             ),
-            # 4. Get details for business beneficiary Manchester Electricity Co.
+            # 4. Retrieve information for the business beneficiary Manchester Electricity Co.
             Action(
                 name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
                 kwargs={
@@ -166,7 +166,7 @@ TASKS = [
                     "beneficiary_name": "London Electricity Co.",
                 },
             ),
-            # 5. Check balance of the source account for GBP 100
+            # 5. Verify the source account balance for £100.
             Action(
                 name="CheckAccountBalance",
                 kwargs={
@@ -175,7 +175,7 @@ TASKS = [
                     "requested_amount": 100.0,
                 },
             ),
-            # 6. Schedule the monthly payment starting 2025-08-24
+            # 6. Initiate the monthly payment process beginning on 2025-08-24.
             Action(
                 name="CreateNewSchedulePayment",
                 kwargs={
@@ -192,7 +192,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # # 04. David Brown → (use David Chen) apply for a personal loan of USD 5,000 and notify him
+    # # # 04. David Brown → (switch to David Chen) request a personal loan of USD 5,000 and inform him
     Task(
         annotator="0",
         user_id="task_04",
@@ -200,12 +200,12 @@ TASKS = [
             "David Chen, proceed with applying for a home improvement personal loan of USD 5,000 over 24 months, using your property located at address '123 Maple Street, Springfield' as collateral."
         ),
         actions=[
-            # 1. Look up Zoltan Nagy
+            # 1. Search for Zoltan Nagy.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "David", "last_name": "Chen"},
             ),
-            # 2. Submit the loan application for 24 months with collateral info
+            # 2. Submit the 24-month loan application along with collateral details.
             Action(
                 name="CreateNewLoanApplication",
                 kwargs={
@@ -216,7 +216,7 @@ TASKS = [
                     "purpose": "Home improvement",
                 },
             ),
-            # 3. Process the application
+            # 3. Handle the application
             Action(
                 name="ProcessLoanApplicationId",
                 kwargs={
@@ -224,7 +224,7 @@ TASKS = [
                     "application_id": "app_1"
                     },
             ),
-            # 4. Check application status
+            # 4. Verify the status of the application
             Action(
                 name="GetLoanApplicationStatusByCustomerIdAndType",
                 kwargs={
@@ -232,7 +232,7 @@ TASKS = [
                     "loan_type": "Personal",
                 },
             ),
-            # 5. Create the actual loan record against the property collateral
+            # 5. Generate the official loan entry linked to the property collateral.
             Action(
                 name="AddNewLoanForCustomer",
                 kwargs={
@@ -256,17 +256,17 @@ TASKS = [
             "Arrange to pay USD 500 from your Savings account to your Credit Card account as Kenji Tanaka, and subsequently verify the balances in your Checking, Savings, and Credit Card accounts."
         ),
         actions=[
-            # 1. Look up Kenji Tanaka
+            # 1. Search for Kenji Tanaka.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "John", "last_name": "Doe"},
             ),
-            # 2. List all of his account IDs
+            # 2. Enumerate all of his account identifiers.
             Action(
                 name="GetAllAccountsOfCustomerByCustomerId",
                 kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"},
             ),
-            # 3. Pay USD 500 from Savings to Credit Card
+            # 3. Transfer $500 from Savings to Credit Card.
             Action(
                 name="TransferMoneySameCurrency",
                 kwargs={
@@ -277,7 +277,7 @@ TASKS = [
                     "amount": 500.0,
                 },
             ),
-            # 4. Fetch updated Checking account details
+            # 4. Retrieve the latest Checking account information.
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -285,7 +285,7 @@ TASKS = [
                     "account_type": "Checking",
                 },
             ),
-            # 5. Fetch updated Savings account details
+            # 5. Retrieve the latest Savings account information.
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -314,12 +314,12 @@ TASKS = [
             "Amend your profile and then retrieve your updated record."
         ),
         actions=[
-            # 1. Look up Sofia Andersson
+            # 1. Search for Sofia Andersson.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "Maria", "last_name": "Garcia"},
             ),
-            # 2. Open a support ticket for the profile update
+            # 2. Submit a support request for the profile modification.
             Action(
                 name="AddSupportTicketForCustomerId",
                 kwargs={
@@ -336,7 +336,7 @@ TASKS = [
                     }
                 },
             ),
-            # 3. Update the mailing address
+            # 3. Modify the postal address
             Action(
                 name="UpdateAddressForCustomerId",
                 kwargs={
@@ -351,7 +351,7 @@ TASKS = [
                     "set_as_primary": True
                 },
             ),
-            # 4. Update the phone number
+            # 4. Modify the phone number.
             Action(
                 name="UpdateContactNumberOfCustomerId",
                 kwargs={
@@ -360,13 +360,13 @@ TASKS = [
                     "set_as_primary": True
                 },
             ),
-            # 5. Close the support ticket
+            # 5. Resolve the support ticket
             Action(
                 name="ChangeSupportTicketStatus",
                 kwargs={"customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9",
                         "ticket_id": "tkt_1", "new_status": "Resolved"},
             ),
-            # 6. Fetch the updated customer record by ID
+            # 6. Retrieve the modified customer record using the ID.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "Maria", "last_name": "Garcia"},
@@ -375,7 +375,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # # # 07
+    # # # # Step 07
     Task(
         annotator="0",
         user_id="task_07",
@@ -386,17 +386,17 @@ TASKS = [
             "Proceed to transfer 20% which totals USD 600 from Checking to your Savings account, and subsequently verify the balances in both accounts."
         ),
         actions=[
-            # 1. Look up Kenji Tanaka
+            # 1. Search for Kenji Tanaka.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "John", "last_name": "Doe"},
             ),
-            # 2. List all of his accounts
+            # 2. Enumerate all of his accounts.
             Action(
                 name="GetAllAccountsOfCustomerByCustomerId",
                 kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"},
             ),
-            # 3. Fetch current Checking account details
+            # 3. Retrieve current Checking account information
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -405,7 +405,7 @@ TASKS = [
                 },
             ),
 
-            # 4. Receive salary payment of USD 3,000 into Checking
+            # 4. Deposit salary of USD 3,000 into Checking account.
             Action(
                 name="ReceivePayment",
                 kwargs={
@@ -435,7 +435,7 @@ TASKS = [
                 },
             ),
 
-            # 7. Confirm Checking balance
+            # 7. Verify account balance.
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -443,7 +443,7 @@ TASKS = [
                     "account_type": "Checking",
                 },
             ),
-            # 8. Confirm Savings balance
+            # 8. Verify Savings balance
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -516,7 +516,7 @@ TASKS = [
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "John", "last_name": "Doe"},
             ),
-            # 1. Add the new beneficiary for Kenji Tanaka
+            # 1. Include the new beneficiary for Kenji Tanaka.
             Action(
                 name="AddNewBeneficiaryForCustomer",
                 kwargs={
@@ -530,7 +530,7 @@ TASKS = [
                     "date_added": "2025-07-24T15:30:00Z"
                 },
             ),
-            # 2. Fetch the newly added beneficiary’s details
+            # 2. Retrieve the information of the recently added beneficiary.
             Action(
                 name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
                 kwargs={
@@ -542,7 +542,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # # 10
+    # # # Ten
     Task(
         annotator="0",
         user_id="task_10",
@@ -550,12 +550,12 @@ TASKS = [
             "You are Zoltan Nagy. Remove your beneficiary Metropolis Power & Light from your list."
         ),
         actions=[
-            # 1. Look up Kenji Tanaka
+            # 1. Search for Kenji Tanaka.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "David", "last_name": "Chen"},
             ),
-            # 2. Get details for beneficiary “Metropolis Power & Light” to obtain beneficiary_id
+            # 2. Retrieve information for the beneficiary "Metropolis Power & Light" to acquire beneficiary_id.
             Action(
                 name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
                 kwargs={
@@ -563,7 +563,7 @@ TASKS = [
                     "beneficiary_name": "Metropolis Power & Light",
                 },
             ),
-            # 3. Remove the beneficiary by ID
+            # 3. Delete the beneficiary using their ID.
             Action(
                 name="RemoveBeneficiaryByBeneficiaryId",
                 kwargs={
@@ -571,7 +571,7 @@ TASKS = [
                 "customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",
                 },
             ),
-            # 4. Confirm removal by listing all remaining beneficiaries
+            # 4. Verify removal by displaying all remaining beneficiaries.
             Action(
                 name="GetAllBeneficiariesForCustomerId",
                 kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"},
@@ -580,7 +580,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # # 11
+    # # # Eleven
     Task(
         annotator="0",
         user_id="task_11",
@@ -592,12 +592,12 @@ TASKS = [
                     name="GetCustomerDetailsByName",
                     kwargs={"first_name": "Liam", "last_name": "O'Connor"},
                 ),
-                # 2. List all of his accounts
+                # 2. Retrieve all of his account details.
             Action(
                 name="GetAllAccountsOfCustomerByCustomerId",
                 kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-11"},
             ),
-            # 3. Determine the code for Savings
+            # 3. Identify the code for Savings.
             Action(
                 name="GetAccountTypeAndAccountTypeCode",
                 kwargs={"account_type": "Checking"},
@@ -609,7 +609,7 @@ TASKS = [
                         "account_type": "Checking",
                     },
                 ),
-            # 2. Create a high‐priority support ticket for blocking the account
+            # 2. Generate a critical support ticket to restrict the account.
             Action(
                 name="AddSupportTicketForCustomerId",
                 kwargs={
@@ -623,7 +623,7 @@ TASKS = [
                     "parameters":     {}
                 },
             ),
-            # 3. Block the account
+            # 3. Disable the account
             Action(
                 name="BlockAccountForCustomerId",
                 kwargs={
@@ -631,7 +631,7 @@ TASKS = [
                     "account_id":  "acc_chk_12001"
                 },
             ),
-            # 4. Confirm the updated account details by customer_id and account_type
+            # 4. Verify the modified account information using customer_id and account_type.
             Action(
                 name="GetAccountDetailsByCustomerIdAndAccountId",
                 kwargs={
@@ -643,7 +643,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # # 12
+    # # # Twelve
     Task(
         annotator="0",
         user_id="task_12",
@@ -653,12 +653,12 @@ TASKS = [
             "You intend to create a support ticket for further information."
         ),
         actions=[
-            # 1. Look up the customer by name
+            # Retrieve the customer using their name.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "Liam", "last_name": "O'Connor"},
             ),
-            # 2. Check the current status of their Personal loan application
+            # 2. Verify the present status of their Personal loan request.
             Action(
                 name="GetLoanApplicationStatusByCustomerIdAndType",
                 kwargs={
@@ -666,7 +666,7 @@ TASKS = [
                     "loan_type":   "Business"
                 },
             ),
-            # 3. If the status is still Pending, create a medium‑priority support ticket
+            # 3. If the status remains Pending, generate a medium-priority support ticket.
             Action(
                 name="AddSupportTicketForCustomerId",
                 kwargs={
@@ -685,7 +685,7 @@ TASKS = [
     ),
 
 
-    # # 13
+    # # # Thirteen
     Task(
     annotator="0",
     user_id="task_13",
@@ -695,12 +695,12 @@ TASKS = [
             "Kindly document this change by generating a support ticket and subsequently updating your residential address."
         ),
     actions=[
-        # 1. Look up the customer by name
+        # Retrieve the customer using their name.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "John", "last_name": "Doe"},
         ),
-        # 2. Open a support ticket for the address change
+        # 2. Submit a support request for the address modification.
         Action(
             name="AddSupportTicketForCustomerId",
             kwargs={
@@ -722,7 +722,7 @@ TASKS = [
                 }
             },
         ),
-        # 3. Apply the address update
+        # 3. Implement the address modification.
         Action(
             name="UpdateAddressForCustomerId",
             kwargs={
@@ -736,12 +736,12 @@ TASKS = [
                 }
             },
         ),
-        # 4. Close the support ticket
+        # 4. Resolve the support ticket.
         Action(
             name="ChangeSupportTicketStatus",
             kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e","ticket_id": "tkt_1", "new_status": "Resolved"},
         ),
-        # 5. Verify the updated customer record
+        # 5. Confirm the modified customer record.
         Action(
             name="GetCustomerDetailsByCustomerId",
             kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"},
@@ -760,16 +760,16 @@ TASKS = [
             "Then, move USD 300 from your Checking account (acc_chk_1001) to this beneficiary, and afterward, eliminate the beneficiary from your list."
         ),
         actions=[
-            # 1. Look up Kenji Tanaka
+            # 1. Search for Kenji Tanaka
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "John", "last_name": "Doe"},
             ),
-            # 2. Add the new beneficiary
+            # 2. Include the new beneficiary.
             Action(
                 name="AddNewBeneficiaryForCustomer",
                 kwargs={
-                    "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",  # Kenji Tanaka’s ID :contentReference[oaicite:1]{index=1}
+                    "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",  # Kenji Tanaka's identifier: contentReference[oaicite:1]{index=1}
                     "beneficiary_name": "Alice Johnson",
                     "beneficiary_type": "Personal",
                     "relationship": "Friend",
@@ -779,7 +779,7 @@ TASKS = [
                     "date_added": "2025-07-24T15:30:00Z"
                 },
             ),
-            # 3. Fetch the newly added beneficiary’s details to get its ID
+            # 3. Retrieve the details of the newly added beneficiary to obtain its ID.
             Action(
                 name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
                 kwargs={
@@ -787,7 +787,7 @@ TASKS = [
                     "beneficiary_name": "Alice Johnson"
                 },
             ),
-            # 4. Check that John’s Checking account has at least USD 300
+            # 4. Verify that John's Checking account contains a minimum of USD 300.
             Action(
                 name="CheckAccountBalance",
                 kwargs={
@@ -796,7 +796,7 @@ TASKS = [
                     "requested_amount": 300.0
                 },
             ),
-            # 5. Pay the beneficiary in the same currency
+            # 5. Compensate the beneficiary using the identical currency.
             Action(
                 name="PayToBeneficiarySameCurrency",
                 kwargs={
@@ -807,7 +807,7 @@ TASKS = [
                     "currency": "USD"
                 },
             ),
-            # 6. Remove the beneficiary
+            # 6. Eliminate the beneficiary
             Action(
                 name="RemoveBeneficiaryByBeneficiaryId",
                 kwargs={
@@ -815,7 +815,7 @@ TASKS = [
                     "beneficiary_id": "bene_1"
                 },
             ),
-            # 7. Verify removal by listing all beneficiaries
+            # 7. Confirm deletion by displaying all beneficiaries.
             Action(
                 name="GetAllBeneficiariesForCustomerId",
                 kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"},
@@ -834,25 +834,25 @@ TASKS = [
             "Using your Mobile app, please initiate a support ticket to block that credit card, and then mark the ticket as resolved."
         ),
         actions=[
-            # 1. Look up Kenji Tanaka’s customer record
+            # Retrieve the customer record for Kenji Tanaka.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "Chloe", "last_name": "Dubois"},
             ),
-            # 2. Open a support ticket to block the lost card
+            # 2. Submit a support ticket to disable the lost card.
             Action(
                 name="AddSupportTicketForCustomerId",
                 kwargs={
-                    "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2",  # Kenji Tanaka’s ID :contentReference[oaicite:2]{index=2}
+                    "customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2",  # Kenji Tanaka's identifier: contentReference[oaicite:2]{index=2}
                     "priority": "High",
                     "channel": "Mobile App",
                     "category": "Card Loss",
                     "target_entity": "Account",
-                    "target_id": "acc_crd_9002",  # Chloe’s credit card :contentReference[oaicite:3]{index=3}
+                    "target_id": "acc_crd_9002",  # Chloe's credit card: contentReference[oaicite:3]{index=3}
                     "operation": "BlockAccount",
                 },
             ),
-            # 3. Block the credit card account
+            # 3. Disable the credit card account.
             Action(
                 name="BlockAccountForCustomerId",
                 kwargs={
@@ -860,12 +860,12 @@ TASKS = [
                     "account_id": "acc_crd_9002"
                 },
             ),
-            # 4. Close the support ticket
+            # 4. Resolve the support ticket.
             Action(
                 name="ChangeSupportTicketStatus",
                 kwargs={"ticket_id": "tkt_1","customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2", "new_status": "Resolved"},
             ),
-            # 5. Verify that the credit card status is now blocked
+            # 5. Confirm that the credit card status is currently set to blocked.
             Action(
                 name="GetAccountDetailsByCustomerIdAndAccountId",
                 kwargs={
@@ -887,23 +887,23 @@ TASKS = [
             "Kindly initiate a new loan application with the loan type 'Mortgage' for 'Home Purchase' and proceed to check its status thereafter."
         ),
         actions=[
-            # 1. Look up Kenji Tanaka’s customer record
+            # Retrieve the customer record for Kenji Tanaka.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "John", "last_name": "Doe"},
             ),
-            # 2. Create a new loan application for a home loan
+            # 2. Initiate a new application for a mortgage loan.
             Action(
                 name="CreateNewLoanApplication",
                 kwargs={
-                    "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",  # John Doe’s ID :contentReference[oaicite:1]{index=1}
+                    "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",  # Identifier for John Doe: contentReference[oaicite:1]{index=1}
                     "loan_type": "Mortgage",
                     "requested_amount": 250000.0,
                     "requested_term_months": 360,
                     "purpose": "Home Purchase"
                 },
             ),
-            # 3. Check the status of the newly created home loan application
+            # 3. Verify the status of the recently submitted home loan application.
             Action(
                 name="GetLoanApplicationStatusByCustomerIdAndType",
                 kwargs={
@@ -925,12 +925,12 @@ TASKS = [
             "Follow up by transferring USD 100 from your Savings account to him, and verify the updated balance."
         ),
         actions=[
-            # 1. Look up Kenji Tanaka’s customer record
+            # Retrieve the customer record for Kenji Tanaka.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "John", "last_name": "Doe"},
             ),
-            # 2. Add Michael Doe as a new beneficiary
+            # 2. Include Michael Doe as an additional beneficiary.
             Action(
                 name="AddNewBeneficiaryForCustomer",
                 kwargs={
@@ -944,7 +944,7 @@ TASKS = [
                     "date_added": "2025-07-24T15:30:00Z"
                 },
             ),
-            # 3. Fetch that beneficiary’s ID
+            # 3. Retrieve the ID of the beneficiary.
             Action(
                 name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
                 kwargs={
@@ -952,7 +952,7 @@ TASKS = [
                     "beneficiary_name": "Michael Doe"
                 },
             ),
-            # 4. Fetch John’s Savings account details
+            # 4. Retrieve details for John's Savings account.
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -960,16 +960,16 @@ TASKS = [
                     "account_type": "Savings"
                 },
             ),
-            # 5. Ensure the Savings account has at least $100 USD
+            # 5. Verify that the Savings account maintains a minimum balance of $100 USD.
             Action(
                 name="CheckAccountBalance",
                 kwargs={
                     "customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e",
-                    "account_id": "acc_sav_1002",  # John’s Savings :contentReference[oaicite:1]{index=1}
+                    "account_id": "acc_sav_1002",  # John's Savings :contentReference[oaicite:1]{index=1}
                     "requested_amount": 100.0
                 },
             ),
-            # 6. Transfer $100 USD to Michael Doe
+            # 6. Send $100 USD to Michael Doe.
             Action(
                 name="PayToBeneficiarySameCurrency",
                 kwargs={
@@ -980,7 +980,7 @@ TASKS = [
                     "currency": "USD"
                 },
             ),
-            # 7. Fetch Savings account details again to verify new balance
+            # 7. Retrieve Savings account information once more to confirm updated balance.
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -1002,12 +1002,12 @@ TASKS = [
             "Then orchestrate a monthly payment of USD 200 from your Savings account, starting from 2025-08-24."
         ),
         actions=[
-            # 1. Look up John Doe’s customer record
+            # Retrieve the customer record for John Doe.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "John", "last_name": "Doe"},
             ),
-            # 2. Add Emily Doe as a new beneficiary
+            # 2. Include Emily Doe as an additional beneficiary.
             Action(
                 name="AddNewBeneficiaryForCustomer",
                 kwargs={
@@ -1021,7 +1021,7 @@ TASKS = [
                     "date_added": "2025-07-24T15:30:00Z"
                 },
             ),
-            # 3. Fetch that beneficiary’s ID
+            # 3. Retrieve the ID of that beneficiary.
             Action(
                 name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
                 kwargs={
@@ -1037,7 +1037,7 @@ TASKS = [
                     "requested_amount": 200.0,
                 },
             ),
-            # 4. Create a monthly scheduled payment starting next month (2025-08-24)
+            # 4. Set up a recurring monthly payment beginning next month (2025-08-24).
             Action(
                 name="CreateNewSchedulePayment",
                 kwargs={
@@ -1050,7 +1050,7 @@ TASKS = [
                     "start_date": "2025-08-24"
                 },
             ),
-            # 5. Retrieve the scheduled payment ID to confirm
+            # 5. Fetch the ID of the scheduled payment for verification.
             Action(
                 name="GetPaymentIdByCustomerIdAndBeneficiaryId",
                 kwargs={
@@ -1071,22 +1071,22 @@ TASKS = [
             "Cancel your current monthly INR 4,000 payment arrangement to your business beneficiary Global ISP and subsequently delete that beneficiary."
         ),
         actions=[
-            # 1. Look up Zoltan Nagy
+            # 1. Search for Zoltan Nagy
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "Lakshmi", "last_name": "Narayanan"},
             ),
-            # 2. List his accounts
+            # 2. Enumerate his accounts
             Action(
                 name="GetAllAccountsOfCustomerByCustomerId",
                 kwargs={"customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4"},
             ),
-            # 3. List his beneficiaries
+            # 3. Enumerate his beneficiaries.
             Action(
                 name="GetAllBeneficiariesForCustomerId",
                 kwargs={"customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4"},
             ),
-            # 4. Fetch the scheduled payment ID for Global ISP
+            # 4. Retrieve the scheduled payment identifier for Global ISP.
             Action(
                 name="GetPaymentIdByCustomerIdAndBeneficiaryId",
                 kwargs={
@@ -1094,13 +1094,13 @@ TASKS = [
                     "beneficiary_id": "bene_5e4f3a2b-1c9d-8e7f-6a5b-4c3d2e1f0a9b",
                 },
             ),
-            # 5. Cancel that scheduled payment
+            # 5. Abort the planned payment.
             Action(
                 name="CancelPaymentByScheduledPaymentId",
                 kwargs={"customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4",
                         "scheduled_payment_id": "sp_b3a2c1d9-c3d2-e1f0-a9b8-c7d6e5f4a3b2"},
             ),
-            # 6. Remove the beneficiary
+            # 6. Eliminate the beneficiary.
             Action(
                 name="RemoveBeneficiaryByBeneficiaryId",
                 kwargs={"customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4",
@@ -1110,7 +1110,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # # 20
+    # # # Two Zero
     Task(
         annotator=0,
         user_id="task_20",
@@ -1119,12 +1119,12 @@ TASKS = [
             "With a new mobile number 480‑555‑1234, initiate a support ticket to revise your contact number, complete the updating process, and subsequently close the ticket."
         ),
         actions=[
-            # 1. Look up Chloe by name
+            # 1. Retrieve Chloe using her name.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "Chloe", "last_name": "Dubois"},
             ),
-            # 2. Open support ticket for contact update
+            # 2. Initiate a support ticket for updating contact information.
             Action(
                 name="AddSupportTicketForCustomerId",
                 kwargs={
@@ -1138,7 +1138,7 @@ TASKS = [
                     "parameters": {"new_phone_number": "480-555-1234"}
                 },
             ),
-            # 3. Apply the new contact number
+            # 3. Update the contact number.
             Action(
                 name="UpdateContactNumberOfCustomerId",
                 kwargs={
@@ -1146,14 +1146,14 @@ TASKS = [
                     "new_phone_number": "480-555-1234"
                 },
             ),
-            # 4. Close the support ticket
+            # 4. Resolve and close the support ticket.
             Action(
                 name="ChangeSupportTicketStatus",
                 kwargs={"customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2",
                         "ticket_id": "tkt_1",
                         "new_status": "Resolved"},
             ),
-            # 5. Verify via fetching contact details
+            # 5. Confirm by retrieving contact information
             Action(
             name="GetCustomerDetailsByCustomerId",
             kwargs={"customer_id": "e5f6a1b2-c3d4-e5f6-a1b2-c3d4e5f6a1b2"},
@@ -1171,12 +1171,12 @@ TASKS = [
             "Next, move INR 50,000 from your Checking account to your Savings account (acc_sav_5001) and finally confirm your account balances."
         ),
         actions=[
-            # 1. Look up Lakshmi Narayanan
+            # 1. Search for Lakshmi Narayanan
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "Lakshmi", "last_name": "Narayanan"},
             ),
-            # 2. Fetch his Checking account details
+            # 2. Retrieve the details of his Checking account.
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -1184,7 +1184,7 @@ TASKS = [
                     "account_type": "Checking"
                 },
             ),
-            # 3. Record salary deposit of INR 200,000
+            # 3. Log salary deposit of INR 200,000.
             Action(
                 name="ReceivePayment",
                 kwargs={
@@ -1195,7 +1195,7 @@ TASKS = [
                     "source": "Employer Direct Deposit"
                 },
             ),
-            # 4. Fetch her Savings account details
+            # 4. Retrieve her Savings account information.
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -1203,7 +1203,7 @@ TASKS = [
                     "account_type": "Savings"
                 },
             ),
-            # 5. Transfer INR 50,000 from Checking to Savings
+            # 5. Move INR 50,000 from Checking account to Savings account.
             Action(
                 name="TransferMoneySameCurrency",
                 kwargs={
@@ -1214,7 +1214,7 @@ TASKS = [
                     "currency": "INR"
                 },
             ),
-            # 6. Verify Checking account balance after transfer
+            # 6. Confirm balance of checking account post-transfer.
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -1222,7 +1222,7 @@ TASKS = [
                     "account_type": "Checking"
                 },
             ),
-            # 7. Verify Savings account balance after transfer
+            # 7. Check the balance of the Savings account post-transfer.
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -1241,12 +1241,12 @@ TASKS = [
             "As Sofia Andersson, terminate your active monthly payment to the business beneficiary 'London Electricity Co.' and subsequently delete that beneficiary."
         ),
     actions=[
-        # 1. Look up Sofia Andersson
+        # Retrieve information on Sofia Andersson.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Oliver", "last_name": "Williams"},
         ),
-        # 2. List her accounts
+        # 2. Enumerate her accounts
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5"},
@@ -1259,7 +1259,7 @@ TASKS = [
             },
         ),
 
-        # 4. Fetch the scheduled payment ID for Manchester Electricity Co.
+        # 4. Retrieve the scheduled payment identifier for Manchester Electricity Co.
         Action(
             name="GetPaymentIdByCustomerIdAndBeneficiaryId",
             kwargs={
@@ -1267,7 +1267,7 @@ TASKS = [
                 "beneficiary_id": "bene_3a2b1c9d-8e7f-6a5b-4c3d-2e1f0a9b8c7d",
             },
         ),
-        # 5. Cancel that scheduled payment
+        # 5. Void the planned payment.
         Action(
             name="CancelPaymentByScheduledPaymentId",
             kwargs={
@@ -1275,7 +1275,7 @@ TASKS = [
                 "scheduled_payment_id": "sp_c1d9b3a2-e1f0-a9b8-c7d6-e5f4a3b2c1d0",
             },
         ),
-        # 6. Remove the beneficiary
+        # 6. Eliminate the beneficiary.
         Action(
             name="RemoveBeneficiaryByBeneficiaryId",
             kwargs={
@@ -1283,7 +1283,7 @@ TASKS = [
                 "beneficiary_id": "bene_3a2b1c9d-8e7f-6a5b-4c3d-2e1f0a9b8c7d",
             },
         ),
-        # 3. List his beneficiaries
+        # 3. Enumerate his beneficiaries
         Action(
             name="GetAllBeneficiariesForCustomerId",
             kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5"},
@@ -1300,28 +1300,28 @@ Task(
             "I want to keep my Vehicle (1GKS1EKD4E1234567) as collateral."
         ),
     actions=[
-        # 1. Look up Zoltan Nagy’s customer record
+        # Retrieve the customer record for Zoltan Nagy.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "David", "last_name": "Chen"},
         ),
-        # 2. Submit a new Auto loan application
+        # 2. Initiate a new auto loan application.
         Action(
             name="CreateNewLoanApplication",
             kwargs={
-                "customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",  # Zoltan Nagy’s ID :contentReference[oaicite:1]{index=1}
+                "customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a",  # Zoltan Nagy’s identifier: contentReference[oaicite:1]{index=1}
                 "loan_type": "Auto",
                 "requested_amount": 20000.0,
                 "requested_term_months": 60,
                 "purpose": "Vehicle Purchase"
             },
         ),
-        # 3. Process that loan application
+        # 3. Handle the loan application.
         Action(
             name="ProcessLoanApplicationId",
             kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a","application_id": "app_1"},
         ),
-        # 4. Add the approved loan to David’s account
+        # 4. Credit David's account with the authorized loan amount.
         Action(
             name="AddNewLoanForCustomer",
             kwargs={
@@ -1332,7 +1332,7 @@ Task(
                 "currency": "USD"
             },
         ),
-        # 5. Retrieve the new loan’s details
+        # 5. Fetch the details of the new loan.
         Action(
             name="GetLoanInformationByLoanId",
             kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a","loan_id": "loan_1"},
@@ -1349,12 +1349,12 @@ Task(
             "Initiate a new loan application and subsequently review its status."
         ),
     actions=[
-        # 1. Look up Elena Popescu’s customer record
+        # Retrieve the customer record for Elena Popescu.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Jane", "last_name": "Smith"},
         ),
-        # 2. Create a new home loan application
+        # 2. Initiate a new mortgage application.
         Action(
             name="CreateNewLoanApplication",
             kwargs={
@@ -1365,7 +1365,7 @@ Task(
                 "purpose": "Home Purchase"
             },
         ),
-        # 3. Retrieve the status of the new home loan application
+        # 3. Obtain the status of the newly submitted home loan application.
         Action(
             name="GetLoanApplicationStatusByCustomerIdAndType",
             kwargs={
@@ -1384,12 +1384,12 @@ Task(
             "Initiate a new loan application and subsequently review its status."
         ),
     actions=[
-        # 1. Look up Elena Popescu’s customer record
+        # Retrieve the customer record for Elena Popescu.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Jane", "last_name": "Smith"},
         ),
-        # 2. Create a new home loan application
+        # 2. Initiate a new mortgage application.
         Action(
             name="CreateNewLoanApplication",
             kwargs={
@@ -1400,7 +1400,7 @@ Task(
                 "purpose": "Home Purchase"
             },
         ),
-        # 3. Retrieve the status of the new home loan application
+        # 3. Fetch the status of the new mortgage application.
         Action(
             name="GetLoanApplicationStatusByCustomerIdAndType",
             kwargs={
@@ -1420,12 +1420,12 @@ Task(
             "Proceed to transfer USD 100 from your Checking account (acc_chk_1001) to your beneficiary Jane Smith (bene_9a8b7c6d-5e4f-3a2b-1c9d-8e7f6a5b4c3d), and then determine your total balance across all of your accounts."
         ),
     actions=[
-        # 1. Look up John Doe’s customer record
+        # Retrieve the customer record for John Doe.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "John", "last_name": "Doe"},
         ),
-        # 2. Fetch Elena Popescu’s beneficiary ID
+        # 2. Retrieve the beneficiary ID for Elena Popescu.
         Action(
             name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
             kwargs={
@@ -1433,7 +1433,7 @@ Task(
                 "beneficiary_name": "Elena Popescu"
             },
         ),
-        # 3. Ensure Checking account has at least USD 100
+        # 3. Verify that the checking account maintains a minimum balance of USD 100.
         Action(
             name="CheckAccountBalance",
             kwargs={
@@ -1442,7 +1442,7 @@ Task(
                 "requested_amount": 100.0
             },
         ),
-        # 4. Transfer USD 100 to Elena Popescu
+        # 4. Send $100 to Elena Popescu.
         Action(
             name="PayToBeneficiarySameCurrency",
             kwargs={
@@ -1453,7 +1453,7 @@ Task(
                 "currency": "USD"
             },
         ),
-        # 5. Calculate the total balance across all accounts
+        # 5. Compute the overall balance for all accounts.
         Action(
             name="CalculateTotalBalance",
             kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e", "account_ids": ["acc_chk_1001","acc_sav_1002","acc_crd_1003"]},
@@ -1470,12 +1470,12 @@ Task(
             "Kindly initiate a ticket to block your Checking account, access your account details by type, block it, resolve the ticket, and check the account status."
         ),
     actions=[
-        # 1. Look up David Chen’s customer record
+        # Retrieve the customer record for David Chen.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "David", "last_name": "Chen"},
         ),
-        # 2. Fetch Checking account details by type
+        # 2. Retrieve checking account information based on type.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -1483,7 +1483,7 @@ Task(
                 "account_type": "Checking"
             },
         ),
-        # 3. Open support ticket to block the account
+        # 3. Initiate a support ticket to restrict the account.
         Action(
             name="AddSupportTicketForCustomerId",
             kwargs={
@@ -1497,7 +1497,7 @@ Task(
                 "parameters": {}
             },
         ),
-        # 4. Block the Checking account
+        # 4. Disable the Checking account.
         Action(
             name="BlockAccountForCustomerId",
             kwargs={
@@ -1505,7 +1505,7 @@ Task(
                 "account_id": "acc_chk_3001"
             },
         ),
-        # 5. Resolve the support ticket
+        # 5. Address the support ticket
         Action(
             name="ChangeSupportTicketStatus",
             kwargs={
@@ -1514,7 +1514,7 @@ Task(
                 "new_status": "Resolved"
             },
         ),
-        # 6. Verify account status by fetching details again
+        # 6. Recheck account status by retrieving details once more.
         Action(
                 name="GetAccountDetailsByCustomerIdAndAccountId",
                 kwargs={
@@ -1536,12 +1536,12 @@ Task(
             "Open a support ticket, complete the update, close the ticket, and afterward confirm your new email."
         ),
     actions=[
-        # 1. Look up Oliver Williams’s customer record
+        # Retrieve the customer record for Oliver Williams.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Adetokunbo", "last_name": "Adebayor"},
         ),
-        # 2. Open a support ticket for email update
+        # Create a support ticket to request an email update.
         Action(
             name="AddSupportTicketForCustomerId",
             kwargs={
@@ -1555,7 +1555,7 @@ Task(
                 "parameters": {"new_email": "adetokunbo.adebayor@newmail.ng"}
             },
         ),
-        # 3. Apply the new email
+        # 3. Implement the updated email
         Action(
             name="UpdateEmailForOfCustomerId",
             kwargs={
@@ -1563,7 +1563,7 @@ Task(
                 "new_email": "adetokunbo.adebayor@newmail.ng"
             },
         ),
-        # 4. Resolve the support ticket
+        # 4. Address the support ticket
         Action(
             name="ChangeSupportTicketStatus",
             kwargs={
@@ -1572,7 +1572,7 @@ Task(
                 "new_status": "Resolved"
             },
         ),
-        # 5. Verify the updated email
+        # 5. Confirm the revised email.
         Action(
             name="GetCustomerDetailsByCustomerId",
             kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23"},
@@ -1589,7 +1589,7 @@ Task(
             "Initiate the opening of a new AUD Checking account, then proceed to transfer AUD 500 from your current Savings account into it, and subsequently confirm the new Checking balance."
         ),
     actions=[
-        # 1. Look up Kenji Tanaka’s customer record
+        # Retrieve the customer record for Kenji Tanaka.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Olivia", "last_name": "Jones"},
@@ -1598,7 +1598,7 @@ Task(
             name="GetAccountTypeAndAccountTypeCode",
             kwargs={"account_type": "Checking"},
         ),
-        # 2. Create a new Checking account
+        # 2. Establish a new Checking account.
         Action(
             name="CreateNewAccountForCustomer",
             kwargs={
@@ -1608,7 +1608,7 @@ Task(
                 "currency" : "AUD"
             },
         ),
-        # 3. Transfer AUD 500 from Savings to the new Checking
+        # 3. Move AUD 500 from Savings to the new Checking account.
         Action(
             name="TransferMoneySameCurrency",
             kwargs={
@@ -1619,7 +1619,7 @@ Task(
                 "currency": "AUD"
             },
         ),
-        # 4. Verify the new Checking account balance
+        # 4. Confirm the updated balance of the Checking account.
         Action(
             name="GetAccountDetailsByCustomerIdAndAccountId",
             kwargs={
@@ -1638,12 +1638,12 @@ Task(
             "Set up a new CAD Credit Card account, and then promptly transfer CAD 500 from your existing Checking account into it."
         ),
     actions=[
-        # 1. Look up Jane Smith’s customer record
+        # Retrieve the customer record for Jane Smith.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Jane", "last_name": "Smith"},
         ),
-        # 2. List all of her accounts to confirm IDs
+        # 2. Enumerate all her accounts for ID verification.
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"},
@@ -1652,7 +1652,7 @@ Task(
             name="GetAccountTypeAndAccountTypeCode",
             kwargs={"account_type": "Credit Card"},
         ),
-        # 3. Create a new Savings account
+        # 3. Establish a new Savings account
         Action(
             name="CreateNewAccountForCustomer",
             kwargs={
@@ -1662,18 +1662,18 @@ Task(
                 "currency" : "CAD"
             },
         ),
-        # 4. Transfer CAD 500 from Checking to the new Savings
+        # 4. Move CAD 500 from Checking account to the new Savings account.
         Action(
             name="TransferMoneySameCurrency",
             kwargs={
                 "customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
-                "source_account_id": "acc_chk_2001",  # Jane’s CAD Checking :contentReference[oaicite:1]{index=1}
+                "source_account_id": "acc_chk_2001",  # Jane's CAD Verification:contentReference[oaicite:1]{index=1}
                 "target_account_id": "acc_1",
                 "amount": 500.0,
                 "currency": "CAD"
             },
         ),
-        # 5. Verify both account balances
+        # 5. Check the balances of both accounts.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -1699,22 +1699,22 @@ Task(
             "As Elena Popescu, initiate the creation of a new Savings account and promptly transfer CAD 800 from your current Checking account into it."
         ),
     actions=[
-        # 1. Look up Elena Popescu
+        # 1. Search for Elena Popescu
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Jane", "last_name": "Smith"},
         ),
-        # 2. List all of her accounts
+        # 2. Enumerate all of her accounts.
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"},
         ),
-        # 3. Determine the code for Savings
+        # 3. Identify the code for Savings.
         Action(
             name="GetAccountTypeAndAccountTypeCode",
             kwargs={"account_type": "Savings"},
         ),
-        # 4. Create the new Savings account
+        # 4. Establish the new Savings account.
         Action(
             name="CreateNewAccountForCustomer",
             kwargs={
@@ -1724,7 +1724,7 @@ Task(
                 "currency": "CAD",
             },
         ),
-        # 5. Fetch details for all Savings accounts
+        # 5. Retrieve information for all Savings accounts.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -1740,7 +1740,7 @@ Task(
                 "requested_amount": 800.0,
             },
         ),
-        # 6. Transfer CAD 800 from Checking to the new Savings account
+        # 6. Move CAD 800 from the Checking account to the new Savings account.
         Action(
             name="TransferMoneySameCurrency",
             kwargs={
@@ -1762,22 +1762,22 @@ Task(
             "As Zoltan Nagy, establish a new Savings account and quickly transfer USD 1000 from your existing Checking account to it."
         ),
     actions=[
-        # 1. Look up Zoltan Nagy
+        # 1. Search for Zoltan Nagy
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "David", "last_name": "Chen"},
         ),
-        # 2. List all of his accounts
+        # 2. Enumerate all of his accounts.
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"},
         ),
-        # 3. Determine the code for Savings
+        # 3. Identify the code for Savings
         Action(
             name="GetAccountTypeAndAccountTypeCode",
             kwargs={"account_type": "Savings"},
         ),
-        # 4. Create the new Savings account
+        # 4. Establish the new Savings account.
         Action(
             name="CreateNewAccountForCustomer",
             kwargs={
@@ -1787,7 +1787,7 @@ Task(
                 "currency": "USD",
             },
         ),
-        # 5. Fetch details for all Savings accounts
+        # 5. Retrieve information for all Savings accounts.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -1803,7 +1803,7 @@ Task(
                 "requested_amount": 1000.0,
             },
         ),
-        # 6. Transfer USD 1000 from Checking to the new Savings account
+        # 6. Move $1000 from Checking to the new Savings account.
         Action(
             name="TransferMoneySameCurrency",
             kwargs={
@@ -1824,22 +1824,22 @@ Task(
             "As Sofia Andersson, set up a new Savings account and immediately move USD 200 from your existing Checking account into it."
         ),
     actions=[
-        # 1. Look up Sofia Andersson
+        # Retrieve information on Sofia Andersson.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Maria", "last_name": "Garcia"},
         ),
-        # 2. List all of her accounts
+        # 2. Enumerate all of her accounts.
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "f4g5h6i7-j8k9-l0m1-n2o3-p4q5r6s7t8u9"},
         ),
-        # 3. Determine the code for Savings
+        # 3. Identify the code for Savings
         Action(
             name="GetAccountTypeAndAccountTypeCode",
             kwargs={"account_type": "Savings"},
         ),
-        # 4. Create the new Savings account
+        # 4. Establish the new Savings account.
         Action(
             name="CreateNewAccountForCustomer",
             kwargs={
@@ -1849,7 +1849,7 @@ Task(
                 "currency": "USD",
             },
         ),
-        # 5. Fetch details for all Savings accounts
+        # 5. Retrieve information for all Savings accounts.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -1865,7 +1865,7 @@ Task(
                 "requested_amount": 200.0,
             },
         ),
-        # 6. Transfer USD 200 from Checking to the new Savings account
+        # 6. Move $200 from Checking to the new Savings account.
         Action(
             name="TransferMoneySameCurrency",
             kwargs={
@@ -1887,17 +1887,17 @@ Task(
             "As Zoltan Nagy, proceed to transfer USD 300 to your beneficiary Metropolis Power & Light from your Checking account."
         ),
     actions=[
-        # 1. Look up Zoltan Nagy
+        # 1. Search for Zoltan Nagy
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "David", "last_name": "Chen"},
         ),
-        # 2. List his accounts
+        # 2. Retrieve his account details.
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"},
         ),
-        # 3. Fetch his Checking account details (to check balance)
+        # 3. Retrieve his Checking account information (for balance verification)
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -1913,7 +1913,7 @@ Task(
                 "requested_amount": 300.0,
             },
         ),
-        # 4. Get details for beneficiary “Elena Popescu”
+        # 4. Retrieve information for beneficiary "Elena Popescu"
         Action(
             name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
             kwargs={
@@ -1942,17 +1942,17 @@ Task(
             "As Chloe Dubois, organize a transfer of EUR 100 from your Checking account to your personal beneficiary Klaus Schmidt."
         ),
     actions=[
-        # 1. Look up Sofia Andersson
+        # Retrieve information on Sofia Andersson.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Hans", "last_name": "Müller"},
         ),
-        # 2. List her accounts
+        # 2. Enumerate her accounts
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1"},
         ),
-        # 3. Fetch her Checking account details (to check balance)
+        # 3. Retrieve her Checking account information (to verify balance)
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -1968,7 +1968,7 @@ Task(
                 "requested_amount": 100.0,
             },
         ),
-        # 4. Get details for beneficiary “Kenji Tanaka”
+        # 4. Retrieve information for beneficiary "Kenji Tanaka."
         Action(
             name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
             kwargs={
@@ -1996,17 +1996,17 @@ Task(
             "You are Chloe Dubois and you intend to transfer EUR 1000 to your personal beneficiary Klaus Schmidt from your Checking account."
         ),
     actions=[
-        # 1. Look up Sofia Andersson
+        # 1. Retrieve information on Sofia Andersson.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Hans", "last_name": "Müller"},
         ),
-        # 2. List her accounts
+        # 2. Enumerate her accounts
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "d4e5f6a1-b2c3-d4e5-f6a1-b2c3d4e5f6a1"},
         ),
-        # 3. Fetch her Checking account details (to check balance)
+        # 3. Retrieve her Checking account information (to verify balance)
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2022,7 +2022,7 @@ Task(
                 "requested_amount": 1000.0,
             },
         ),
-        # 4. Get details for beneficiary “Kenji Tanaka”
+        # 4. Retrieve information for beneficiary "Kenji Tanaka."
         Action(
             name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
             kwargs={
@@ -2043,7 +2043,7 @@ Task(
     ],
     outputs=[]
 ),
-# # 03. Oliver Williams set up a recurring monthly payment to Utility Co.
+# # # 03. Oliver Williams established a monthly automated payment to Utility Co.
     Task(
         annotator="0",
         user_id="task_37",
@@ -2052,17 +2052,17 @@ Task(
             "Initiate a monthly GBP£100 payment starting next month, on date 2025-08-24, from your Checking account to your business beneficiary Manchester Electricity Co."
         ),
         actions=[
-            # 1. Look up Sofia Andersson
+            # 1. Search for Sofia Andersson
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "Oliver", "last_name": "Williams"},
             ),
-            # 2. List all of her accounts
+            # 2. Enumerate all of her accounts.
             Action(
                 name="GetAllAccountsOfCustomerByCustomerId",
                 kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5"},
             ),
-            # 3. Fetch her Checking account details
+            # 3. Retrieve her Checking account information.
             Action(
                 name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
                 kwargs={
@@ -2070,7 +2070,7 @@ Task(
                     "account_type": "Checking",
                 },
             ),
-            # 4. Get details for business beneficiary Manchester Electricity Co.
+            # 4. Retrieve information for the business beneficiary Manchester Electricity Co.
             Action(
                 name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
                 kwargs={
@@ -2078,7 +2078,7 @@ Task(
                     "beneficiary_name": "London Electricity Co.",
                 },
             ),
-            # 5. Check balance of the source account for GBP 100
+            # 5. Verify that the source account has a balance of GBP 100.
             Action(
                 name="CheckAccountBalance",
                 kwargs={
@@ -2087,7 +2087,7 @@ Task(
                     "requested_amount": 100.0,
                 },
             ),
-            # 6. Schedule the monthly payment starting 2025-08-24
+            # 6. Initiate the monthly payment plan beginning on 2025-08-24.
             Action(
                 name="CreateNewSchedulePayment",
                 kwargs={
@@ -2103,7 +2103,7 @@ Task(
         ],
         outputs=[]
     ),
-    # # 01. Zoltan Nagy set up a recurring monthly payment to Global ISP.
+    # # # 01. Zoltan Nagy established a monthly automatic payment to Global ISP.
 Task(
     annotator="0",
     user_id="task_38",
@@ -2112,17 +2112,17 @@ Task(
             "Arrange for a monthly INR 1500 payment beginning next month, on date 2025-08-24, from your Checking account to your business beneficiary Global ISP."
         ),
     actions=[
-        # 1. Look up Zoltan Nagy
+        # 1. Search for Zoltan Nagy.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Lakshmi", "last_name": "Narayanan"},
         ),
-        # 2. List all of his accounts
+        # 2. Enumerate all of his accounts
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4"},
         ),
-        # 3. Fetch his Checking account details
+        # 3. Retrieve the details of his Checking account.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2130,7 +2130,7 @@ Task(
                 "account_type": "Checking",
             },
         ),
-        # 4. Get details for business beneficiary Global ISP
+        # 4. Retrieve information for the business beneficiary Global ISP.
         Action(
             name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
             kwargs={
@@ -2138,7 +2138,7 @@ Task(
                 "beneficiary_name": "Global ISP",
             },
         ),
-        # 5. Check balance of the source account for INR 1500
+        # 5. Verify the source account balance for INR 1500.
         Action(
             name="CheckAccountBalance",
             kwargs={
@@ -2147,7 +2147,7 @@ Task(
                 "requested_amount": 1500.0,
             },
         ),
-        # 6. Schedule the monthly payment starting 2025-08-24
+        # 6. Initiate the monthly payment schedule beginning on 2025-08-24
         Action(
             name="CreateNewSchedulePayment",
             kwargs={
@@ -2171,17 +2171,17 @@ Task(
             "Organize a monthly USD 350 payment starting next month, on date 2025-08-24, from your Checking account to your business beneficiary Metropolis Power & Light."
         ),
     actions=[
-        # 1. Look up Zoltan Nagy
+        # Search for Zoltan Nagy.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "David", "last_name": "Chen"},
         ),
-        # 2. List all of his accounts
+        # 2. Enumerate all of his accounts.
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"},
         ),
-        # 3. Fetch his Checking account details
+        # 3. Retrieve the details of his Checking account.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2189,7 +2189,7 @@ Task(
                 "account_type": "Checking",
             },
         ),
-        # 4. Get details for business beneficiary Metropolis Power & Light
+        # 4. Retrieve information for the business beneficiary Metropolis Power & Light.
         Action(
             name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
             kwargs={
@@ -2197,7 +2197,7 @@ Task(
                 "beneficiary_name": "Metropolis Power & Light",
             },
         ),
-        # 5. Check balance of the source account for USD 350
+        # 5. Verify the source account balance for $350 USD.
         Action(
             name="CheckAccountBalance",
             kwargs={
@@ -2206,7 +2206,7 @@ Task(
                 "requested_amount": 350.0,
             },
         ),
-        # 6. Schedule the monthly payment starting 2025-08-24
+        # 6. Initiate the monthly payment plan beginning on 2025-08-24.
         Action(
             name="CreateNewSchedulePayment",
             kwargs={
@@ -2230,12 +2230,12 @@ Task(
             "Apply for an auto loan of CAD 25,000 for purchasing a new car over 36 months, using your vehicle VIN '1HGCM82633A123456' as collateral."
         ),
     actions=[
-        # 1. Look up Elena Popescu
+        # 1. Search for Elena Popescu
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Jane", "last_name": "Smith"},
         ),
-        # 2. Submit the loan application for 36 months with collateral info
+        # 2. Send the loan request for a 36-month term including collateral details.
         Action(
             name="CreateNewLoanApplication",
             kwargs={
@@ -2246,7 +2246,7 @@ Task(
                 "purpose": "New car purchase",
             },
         ),
-        # 3. Process the application
+        # 3. Handle the application.
         Action(
             name="ProcessLoanApplicationId",
             kwargs={
@@ -2254,7 +2254,7 @@ Task(
                 "application_id": "app_1",
             },
         ),
-        # 4. Check application status
+        # 4. Verify the status of the application
         Action(
             name="GetLoanApplicationStatusByCustomerIdAndType",
             kwargs={
@@ -2262,7 +2262,7 @@ Task(
                 "loan_type": "Auto",
             },
         ),
-        # 5. Create the actual loan record against the vehicle collateral
+        # 5. Establish the loan entry for the vehicle collateral.
         Action(
             name="AddNewLoanForCustomer",
             kwargs={
@@ -2283,12 +2283,12 @@ Task(
         "You are Sofia Andersson. Seek a student loan totaling USD 15,000 for tuition fees to be paid over 48 months, offering 'Maria Bekery Shop' (Property) as collateral."
     ),
     actions=[
-        # 1. Look up Sofia Andersson
+        # 1. Search for Sofia Andersson
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Maria", "last_name": "Garcia"},
         ),
-        # 2. Submit the loan application for 48 months
+        # 2. Submit the loan application for a duration of 48 months.
         Action(
             name="CreateNewLoanApplication",
             kwargs={
@@ -2299,7 +2299,7 @@ Task(
                 "purpose": "Tuition fees",
             },
         ),
-        # 3. Process the application
+        # 3. Execute the application processing.
         Action(
             name="ProcessLoanApplicationId",
             kwargs={
@@ -2307,7 +2307,7 @@ Task(
                 "application_id": "app_1",
             },
         ),
-        # 4. Check application status
+        # 4. Verify the status of the application.
         Action(
             name="GetLoanApplicationStatusByCustomerIdAndType",
             kwargs={
@@ -2315,7 +2315,7 @@ Task(
                 "loan_type": "Student",
             },
         ),
-        # 5. Create the actual loan record
+        # 5. Generate the real loan entry.
         Action(
             name="AddNewLoanForCustomer",
             kwargs={
@@ -2337,12 +2337,12 @@ Task(
             "Submit an application for a business loan of INR 500,000 aimed at office expansion over 60 months, utilizing your IT Equipment and Servers (Business Assets) as collateral."
         ),
     actions=[
-        # 1. Look up Zoltan Nagy
+        # 1. Search for Zoltan Nagy
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Lakshmi", "last_name": "Narayanan"},
         ),
-        # 2. Submit the loan application for 60 months with collateral info
+        # 2. Submit the loan request for a term of 60 months along with collateral details.
         Action(
             name="CreateNewLoanApplication",
             kwargs={
@@ -2353,7 +2353,7 @@ Task(
                 "purpose": "Office expansion",
             },
         ),
-        # 3. Process the application
+        # 3. Execute the application processing
         Action(
             name="ProcessLoanApplicationId",
             kwargs={
@@ -2361,7 +2361,7 @@ Task(
                 "application_id": "app_1",
             },
         ),
-        # 4. Check application status
+        # 4. Verify application status
         Action(
             name="GetLoanApplicationStatusByCustomerIdAndType",
             kwargs={
@@ -2369,7 +2369,7 @@ Task(
                 "loan_type": "Business",
             },
         ),
-        # 5. Create the actual loan record against the IT equipment collateral
+        # 5. Establish the loan entry using the IT equipment as collateral.
         Action(
             name="AddNewLoanForCustomer",
             kwargs={
@@ -2391,12 +2391,12 @@ Task(
             "Request a personal loan of GBP 3,000 intended for home renovations over 18 months, with your savings provided as collateral."
         ),
     actions=[
-        # 1. Look up Sofia Andersson
+        # 1. Search for Sofia Andersson
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Oliver", "last_name": "Williams"},
         ),
-        # 2. Submit the loan application for 18 months with collateral info
+        # Submit the 18-month loan application along with collateral details.
         Action(
             name="CreateNewLoanApplication",
             kwargs={
@@ -2407,7 +2407,7 @@ Task(
                 "purpose": "Home renovations",
             },
         ),
-        # 3. Process the application
+        # 3. Handle the application
         Action(
             name="ProcessLoanApplicationId",
             kwargs={
@@ -2415,7 +2415,7 @@ Task(
                 "application_id": "app_1",
             },
         ),
-        # 4. Check application status
+        # 4. Verify the status of the application
         Action(
             name="GetLoanApplicationStatusByCustomerIdAndType",
             kwargs={
@@ -2423,7 +2423,7 @@ Task(
                 "loan_type": "Personal",
             },
         ),
-        # 5. Create the actual loan record against the savings collateral
+        # 5. Establish the loan record secured by the savings collateral.
         Action(
             name="AddNewLoanForCustomer",
             kwargs={
@@ -2447,17 +2447,17 @@ Task(
             "Receive your monthly salary of CAD 4,000 from Creative Minds LLC into your Checking account, subsequently transfer 25%, equivalent to CAD 1,000, from Checking to your Savings account, then verify the balances in both accounts."
         ),
     actions=[
-        # 1. Look up Elena Popescu
+        # 1. Search for Elena Popescu.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Jane", "last_name": "Smith"},
         ),
-        # 2. List all of her accounts
+        # 2. Enumerate all of her accounts.
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"},
         ),
-        # 3. Fetch current Checking account details
+        # 3. Retrieve current Checking account information.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2465,7 +2465,7 @@ Task(
                 "account_type": "Checking",
             },
         ),
-        # 4. Receive salary payment of CAD 4,000 into Checking
+        # 4. Deposit CAD 4,000 salary into Checking account.
         Action(
             name="ReceivePayment",
             kwargs={
@@ -2475,7 +2475,7 @@ Task(
                 "currency": "CAD",
             },
         ),
-        # 5. Fetch Savings account details
+        # 5. Retrieve Savings account information
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2483,7 +2483,7 @@ Task(
                 "account_type": "Savings",
             },
         ),
-        # 6. Transfer CAD 1,000 from Checking to Savings
+        # 6. Move CAD 1,000 from Checking account to Savings account.
         Action(
             name="TransferMoneySameCurrency",
             kwargs={
@@ -2494,7 +2494,7 @@ Task(
                 "amount": 1000.0,
             },
         ),
-        # 7. Confirm Checking balance
+        # 7. Verify account balance.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2502,7 +2502,7 @@ Task(
                 "account_type": "Checking",
             },
         ),
-        # 8. Confirm Savings balance
+        # 8. Verify Savings balance
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2521,17 +2521,17 @@ Task(
             "Obtain your monthly salary of USD 12,000 from City General Hospital into your Checking account, thereafter transfer 10%, which is USD 1,200, from Checking to your Investment account, then check the balances in both accounts."
         ),
     actions=[
-        # 1. Look up Zoltan Nagy
+        # 1. Search for Zoltan Nagy.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "David", "last_name": "Chen"},
         ),
-        # 2. List all of his accounts
+        # 2. Enumerate all of his accounts.
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"},
         ),
-        # 3. Fetch current Checking account details
+        # 3. Retrieve current Checking account information
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2539,7 +2539,7 @@ Task(
                 "account_type": "Checking",
             },
         ),
-        # 4. Receive salary payment of USD 12,000 into Checking
+        # 4. Deposit salary of USD 12,000 into Checking account.
         Action(
             name="ReceivePayment",
             kwargs={
@@ -2549,7 +2549,7 @@ Task(
                 "currency": "USD",
             },
         ),
-        # 5. Fetch Investment account details
+        # 5. Retrieve investment account information.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2557,7 +2557,7 @@ Task(
                 "account_type": "Investment",
             },
         ),
-        # 6. Transfer USD 1,200 from Checking to Investment
+        # 6. Move $1,200 from Checking account to Investment account.
         Action(
             name="TransferMoneySameCurrency",
             kwargs={
@@ -2568,7 +2568,7 @@ Task(
                 "amount": 1200.0,
             },
         ),
-        # 7. Confirm Checking balance
+        # 7. Verify account balance
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2576,7 +2576,7 @@ Task(
                 "account_type": "Checking",
             },
         ),
-        # 8. Confirm Investment balance
+        # 8. Verify investment balance
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2596,17 +2596,17 @@ Task(
             "Next, proceed to transfer 50%, which amounts to INR 600, from Checking to your Savings account, and ultimately verify the balances in both accounts."
         ),
     actions=[
-        # 1. Look up Sofia Andersson
+        # 1. Retrieve information on Sofia Andersson.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Lakshmi", "last_name": "Narayanan"},
         ),
-        # 2. List all of her accounts
+        # 2. Enumerate all of her accounts.
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4"},
         ),
-        # 3. Fetch current Checking account details
+        # 3. Retrieve the details of the current Checking account.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2614,7 +2614,7 @@ Task(
                 "account_type": "Checking",
             },
         ),
-        # 4. Receive scholarship payment of USD 1,200 into Checking
+        # 4. Deposit scholarship funds of USD 1,200 into Checking account.
         Action(
             name="ReceivePayment",
             kwargs={
@@ -2624,7 +2624,7 @@ Task(
                 "currency": "INR",
             },
         ),
-        # 5. Create and fetch Savings account details
+        # 5. Generate and retrieve Savings account information.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2632,7 +2632,7 @@ Task(
                 "account_type": "Savings",
             },
         ),
-        # 6. Transfer USD 600 from Checking to Savings
+        # 6. Move $600 from Checking account to Savings account.
         Action(
             name="TransferMoneySameCurrency",
             kwargs={
@@ -2643,7 +2643,7 @@ Task(
                 "amount": 600.0,
             },
         ),
-        # 7. Confirm Checking balance
+        # 7. Verify account balance
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2651,7 +2651,7 @@ Task(
                 "account_type": "Checking",
             },
         ),
-        # 8. Confirm Savings balance
+        # 8. Validate Savings account balance
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2671,17 +2671,17 @@ Task(
             "Subsequently, coordinate the transfer of 20%, which equates to INR 50,000, from Checking to your Savings account, and in conclusion, confirm the balances in both accounts."
         ),
     actions=[
-        # 1. Look up Zoltan Nagy
+        # 1. Search for Zoltan Nagy.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Lakshmi", "last_name": "Narayanan"},
         ),
-        # 2. List all of his accounts
+        # 2. Retrieve a list of all his accounts.
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "a1b2c3d4-e5f6-a1b2-c3d4-e5f6a1b2c3d4"},
         ),
-        # 3. Fetch current Checking account details
+        # 3. Retrieve current Checking account information.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2689,7 +2689,7 @@ Task(
                 "account_type": "Checking",
             },
         ),
-        # 4. Receive salary payment of INR 250,000 into Checking
+        # 4. Deposit salary of INR 250,000 into Checking account.
         Action(
             name="ReceivePayment",
             kwargs={
@@ -2699,7 +2699,7 @@ Task(
                 "currency": "INR",
             },
         ),
-        # 5. Fetch Savings account details
+        # 5. Retrieve Savings account information
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2707,7 +2707,7 @@ Task(
                 "account_type": "Savings",
             },
         ),
-        # 6. Transfer INR 50,000 from Checking to Savings
+        # 6. Move INR 50,000 from Checking account to Savings account.
         Action(
             name="TransferMoneySameCurrency",
             kwargs={
@@ -2718,7 +2718,7 @@ Task(
                 "amount": 50000.0,
             },
         ),
-        # 7. Confirm Checking balance
+        # 7. Verify account balance
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2726,7 +2726,7 @@ Task(
                 "account_type": "Checking",
             },
         ),
-        # 8. Confirm Savings balance
+        # 8. Verify Savings balance
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2747,17 +2747,17 @@ Task(
             "Afterwards, arrange the transfer of 15%, equivalent to AED 270, from Checking to your Savings account, and finally, validate the balances in both accounts."
         ),
     actions=[
-        # 1. Look up Sofia Andersson
+        # 1. Search for Sofia Andersson.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Fatima", "last_name": "Al-Fassi"},
         ),
-        # 2. List all of her accounts
+        # 2. Retrieve all of her account details.
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6"},
         ),
-        # 3. Fetch current Checking account details
+        # 3. Retrieve current Checking account information.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2765,7 +2765,7 @@ Task(
                 "account_type": "Checking",
             },
         ),
-        # 4. Receive salary payment of GBP 1,800 into Checking
+        # 4. Deposit GBP 1,800 salary payment into Checking.
         Action(
             name="ReceivePayment",
             kwargs={
@@ -2775,7 +2775,7 @@ Task(
                 "currency": "AED",
             },
         ),
-        # 5. Fetch Savings account details
+        # 5. Retrieve details for the Savings account.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2783,7 +2783,7 @@ Task(
                 "account_type": "Savings",
             },
         ),
-        # 6. Transfer GBP 270 from Checking to Savings
+        # 6. Move £270 from Checking account to Savings account.
         Action(
             name="TransferMoneySameCurrency",
             kwargs={
@@ -2794,7 +2794,7 @@ Task(
                 "amount": 270.0,
             },
         ),
-        # 7. Confirm Checking balance
+        # 7. Verify account balance.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2802,7 +2802,7 @@ Task(
                 "account_type": "Checking",
             },
         ),
-        # 8. Confirm Savings balance
+        # 8. Verify Savings balance
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -2822,25 +2822,25 @@ Task(
             "Utilize the Web Portal to submit a support ticket to block the Savings account, and then ensure the ticket is marked as resolved."
         ),
         actions=[
-            # 1. Look up Kenji Tanaka’s customer record
+            # Retrieve the customer record for Kenji Tanaka.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "Kenji", "last_name": "Tanaka"},
             ),
-            # 2. Open a support ticket to block the lost card
+            # 2. Submit a support request to deactivate the lost card.
             Action(
                 name="AddSupportTicketForCustomerId",
                 kwargs={
-                    "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3",  # Kenji Tanaka’s ID :contentReference[oaicite:2]{index=2}
+                    "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3",  # ID for Kenji Tanaka: contentReference[oaicite:2]{index=2}
                     "priority": "High",
                     "channel": "Web Portal",
                     "category": "Security",
                     "target_entity": "Account",
-                    "target_id": "acc_sav_10002",  # Chloe’s credit card :contentReference[oaicite:3]{index=3}
+                    "target_id": "acc_sav_10002",  # Chloe's credit card: contentReference[oaicite:3]{index=3}
                     "operation": "BlockAccount",
                 },
             ),
-            # 3. Block the credit card account
+            # 3. Disable the credit card account.
             Action(
                 name="BlockAccountForCustomerId",
                 kwargs={
@@ -2848,12 +2848,12 @@ Task(
                     "account_id": "acc_sav_10002"
                 },
             ),
-            # 4. Close the support ticket
+            # 4. Resolve the support ticket.
             Action(
                 name="ChangeSupportTicketStatus",
                 kwargs={"ticket_id": "tkt_1","customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3", "new_status": "Resolved"},
             ),
-            # 5. Verify that the credit card status is now blocked
+            # 5. Confirm that the credit card is currently marked as blocked.
             Action(
                 name="GetAccountDetailsByCustomerIdAndAccountId",
                 kwargs={
@@ -2921,22 +2921,22 @@ Task(
             "Terminate the active monthly payment to your business beneficiary Metropolis Power & Light and subsequently delete that beneficiary."
         ),
     actions=[
-        # 1. Look up Zoltan Nagy
+        # 1. Search for Zoltan Nagy.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "David", "last_name": "Chen"},
         ),
-        # 2. List his accounts
+        # 2. Enumerate his accounts
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"},
         ),
-        # 3. List his beneficiaries
+        # 3. Enumerate his beneficiaries.
         Action(
             name="GetAllBeneficiariesForCustomerId",
             kwargs={"customer_id": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a"},
         ),
-        # 4. Fetch the scheduled payment ID for Metropolis Power & Light
+        # 4. Retrieve the scheduled payment identifier for Metropolis Power & Light.
         Action(
             name="GetPaymentIdByCustomerIdAndBeneficiaryId",
             kwargs={
@@ -2944,7 +2944,7 @@ Task(
                 "beneficiary_id": "bene_6d5e4f3a-2b1c-9d8e-7f6a-5b4c3d2e1f0a",
             },
         ),
-        # 5. Cancel that scheduled payment
+        # 5. Abort the planned payment.
         Action(
             name="CancelPaymentByScheduledPaymentId",
             kwargs={
@@ -2952,7 +2952,7 @@ Task(
                 "scheduled_payment_id": "sp_b3a2c1d9-e7f6-a5b4-c3d2-e1f0a9b8c7d6",
             },
         ),
-        # 6. Remove the beneficiary
+        # 6. Eliminate the beneficiary.
         Action(
             name="RemoveBeneficiaryByBeneficiaryId",
             kwargs={
@@ -2975,12 +2975,12 @@ Task(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "John", "last_name": "Doe"},
         ),
-        # 2. List all of his accounts
+        # 2. Enumerate all of his accounts.
         Action(
             name="GetAllAccountsOfCustomerByCustomerId",
             kwargs={"customer_id": "c3e8f1d2-9a8b-4f7c-8a6e-2b9f3d1a4c7e"},
         ),
-        # 3. Determine the code for Checking
+        # 3. Identify the code for verification.
         Action(
             name="GetAccountTypeAndAccountTypeCode",
             kwargs={"account_type": "Checking"},
@@ -2992,7 +2992,7 @@ Task(
                 "account_type": "Checking",
             },
         ),
-        # 4. Create a high-priority support ticket for blocking the account
+        # 4. Generate a critical support ticket to suspend the account.
         Action(
             name="AddSupportTicketForCustomerId",
             kwargs={
@@ -3006,7 +3006,7 @@ Task(
                 "parameters": {}
             },
         ),
-        # 5. Block the account
+        # 5. Disable the account
         Action(
             name="BlockAccountForCustomerId",
             kwargs={
@@ -3014,7 +3014,7 @@ Task(
                 "account_id": "acc_chk_1001"
             },
         ),
-        # 6. Confirm updated account details
+        # Verify revised account information.
         Action(
                 name="GetAccountDetailsByCustomerIdAndAccountId",
                 kwargs={
@@ -3206,12 +3206,12 @@ Task(
             "Please create a support ticket and update your residential address to reflect this."
         ),
     actions=[
-        # 1. Look up Elena Popescu
+        # 1. Search for Elena Popescu
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Jane", "last_name": "Smith"},
         ),
-        # 2. Open a support ticket
+        # 2. Submit a support request.
         Action(
             name="AddSupportTicketForCustomerId",
             kwargs={
@@ -3233,7 +3233,7 @@ Task(
                 }
             },
         ),
-        # 3. Apply the update
+        # 3. Implement the update.
         Action(
             name="UpdateAddressForCustomerId",
             kwargs={
@@ -3247,12 +3247,12 @@ Task(
                 }
             },
         ),
-        # 4. Close the ticket
+        # 4. Resolve the ticket.
         Action(
             name="ChangeSupportTicketStatus",
             kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef","ticket_id": "tkt_1", "new_status": "Resolved"},
         ),
-        # 5. Verify updated record
+        # 5. Confirm the modified entry.
         Action(
             name="GetCustomerDetailsByCustomerId",
             kwargs={"customer_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"},
@@ -3557,12 +3557,12 @@ Task(
             "Next, arrange a monthly payment of CAD 300 from your Checking account, starting next month on 2025-08-24."
         ),
     actions=[
-        # 1. Look up Jane Smith’s customer record
+        # Retrieve the customer profile for Jane Smith.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Jane", "last_name": "Smith"},
         ),
-        # 2. Add Ryan Smith as a new beneficiary
+        # 2. Include Ryan Smith as an additional beneficiary.
         Action(
             name="AddNewBeneficiaryForCustomer",
             kwargs={
@@ -3576,7 +3576,7 @@ Task(
                     "date_added": "2025-07-24T15:30:00Z"
             },
         ),
-        # 3. Fetch that beneficiary’s ID
+        # 3. Retrieve the ID of the beneficiary.
         Action(
             name="GetBeneficiaryDetailsForCustomerIdAndBeneficiaryName",
             kwargs={
@@ -3592,7 +3592,7 @@ Task(
                 "requested_amount": 300.0,
             },
         ),
-        # 4. Create a monthly scheduled payment starting next month (2025-08-24)
+        # 4. Set up a recurring monthly payment to begin next month (2025-08-24).
         Action(
             name="CreateNewSchedulePayment",
             kwargs={
@@ -3605,7 +3605,7 @@ Task(
                 "start_date": "2025-08-24"
             },
         ),
-        # 5. Retrieve the scheduled payment ID to confirm
+        # 5. Obtain the ID of the scheduled payment for verification.
         Action(
             name="GetPaymentIdByCustomerIdAndBeneficiaryId",
             kwargs={
@@ -3942,12 +3942,12 @@ Task(
             "Kindly submit a new loan application, and then check its status."
         ),
     actions=[
-        # 1. Look up Elena Popescu’s customer record
+        # Retrieve the customer record for Elena Popescu.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Jane", "last_name": "Smith"},
         ),
-        # 2. Create a new loan application for a car loan
+        # 2. Initiate a new loan request for an auto loan.
         Action(
             name="CreateNewLoanApplication",
             kwargs={
@@ -3958,7 +3958,7 @@ Task(
                 "purpose": "Vehicle Purchase"
             },
         ),
-        # 3. Check the status of the newly created car loan application
+        # 3. Verify the status of the newly submitted car loan application.
         Action(
             name="GetLoanApplicationStatusByCustomerIdAndType",
             kwargs={
@@ -3978,12 +3978,12 @@ Task(
             "Please submit a new loan application and then verify its status."
         ),
     actions=[
-        # 1. Look up Zoltan Nagy’s customer record
+        # Retrieve the customer record for Zoltan Nagy.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "David", "last_name": "Chen"},
         ),
-        # 2. Create a new loan application for a personal loan
+        # 2. Initiate a fresh loan application for a personal loan.
         Action(
             name="CreateNewLoanApplication",
             kwargs={
@@ -3994,7 +3994,7 @@ Task(
                 "purpose": "Home Renovation"
             },
         ),
-        # 3. Check the status of the newly created personal loan application
+        # 3. Verify the status of the recently established personal loan application.
         Action(
             name="GetLoanApplicationStatusByCustomerIdAndType",
             kwargs={
@@ -4014,7 +4014,7 @@ Task(
             "Afterward, transfer RON 1000 from your existing Savings account into it, then confirm the balance of the new Checking account."
         ),
     actions=[
-        # 1. Look up Kenji Tanaka’s customer record
+        # Retrieve the customer record for Kenji Tanaka.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Elena", "last_name": "Popescu"},
@@ -4023,7 +4023,7 @@ Task(
             name="GetAccountTypeAndAccountTypeCode",
             kwargs={"account_type": "Checking"},
         ),
-        # 2. Create a new Checking account
+        # 2. Establish a new Checking account.
         Action(
             name="CreateNewAccountForCustomer",
             kwargs={
@@ -4040,7 +4040,7 @@ Task(
                 "account_type": "Savings"
             },
         ),
-        # 3. Transfer AUD 500 from Savings to the new Checking
+        # 3. Move AUD 500 from Savings to the newly opened Checking account.
         Action(
             name="TransferMoneySameCurrency",
             kwargs={
@@ -4051,7 +4051,7 @@ Task(
                 "currency": "RON"
             },
         ),
-        # 4. Verify the new Checking account balance
+        # 4. Confirm the balance of the new Checking account.
         Action(
             name="GetCustomerAccountDetailsByCustomerIdAndAccountType",
             kwargs={
@@ -4072,12 +4072,12 @@ Task(
             "Initiate a new loan application and afterwards check the status of the application."
         ),
     actions=[
-        # 1. Look up Sofia Andersson’s customer record
+        # Retrieve the customer record for Sofia Andersson.
         Action(
             name="GetCustomerDetailsByName",
             kwargs={"first_name": "Oliver", "last_name": "Williams"},
         ),
-        # 2. Create a new loan application for a business loan
+        # 2. Initiate a new application for a business loan.
         Action(
             name="CreateNewLoanApplication",
             kwargs={
@@ -4088,7 +4088,7 @@ Task(
                 "purpose": "Business Expansion"
             },
         ),
-        # 3. Check the status of the newly created business loan application
+        # 3. Verify the status of the recently submitted business loan application.
         Action(
             name="GetLoanApplicationStatusByCustomerIdAndType",
             kwargs={
@@ -4780,25 +4780,25 @@ Task(
             "Please open a support ticket to block that Checking account, then mark the ticket resolved."
         ),
         actions=[
-            # 1. Look up Kenji Tanaka’s customer record
+            # Retrieve the customer record for Kenji Tanaka.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "Noah", "last_name": "Kim"},
             ),
-            # 2. Open a support ticket to block the lost card
+            # 2. Submit a support request to disable the lost card.
             Action(
                 name="AddSupportTicketForCustomerId",
                 kwargs={
-                    "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-15",  # Kenji Tanaka’s ID :contentReference[oaicite:2]{index=2}
+                    "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-15",  # ID for Kenji Tanaka: contentReference[oaicite:2]{index=2}
                     "priority": "High",
                     "channel": "Mobile App",
                     "category": "Security",
                     "target_entity": "Account",
-                    "target_id": "acc_chk_16001",  # Chloe’s credit card :contentReference[oaicite:3]{index=3}
+                    "target_id": "acc_chk_16001",  # Chloe's credit card: contentReference[oaicite:3]{index=3}
                     "operation": "BlockAccount",
                 },
             ),
-            # 3. Block the credit card account
+            # 3. Disable the credit card account.
             Action(
                 name="BlockAccountForCustomerId",
                 kwargs={
@@ -4806,12 +4806,12 @@ Task(
                     "account_id": "acc_chk_16001"
                 },
             ),
-            # 4. Close the support ticket
+            # 4. Resolve the support ticket.
             Action(
                 name="ChangeSupportTicketStatus",
                 kwargs={"ticket_id": "tkt_1","customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3-15", "new_status": "Resolved"},
             ),
-            # 5. Verify that the credit card status is now blocked
+            # 5. Confirm that the credit card is currently marked as blocked.
             Action(
                 name="GetAccountDetailsByCustomerIdAndAccountId",
                 kwargs={
@@ -4832,25 +4832,25 @@ Task(
             "Please open a support ticket to block that Checking account, then mark the ticket resolved."
         ),
         actions=[
-            # 1. Look up Kenji Tanaka’s customer record
+            # Retrieve the customer record for Kenji Tanaka.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "Anja", "last_name": "Novak"},
             ),
-            # 2. Open a support ticket to block the lost card
+            # 2. Submit a support ticket to disable the lost card.
             Action(
                 name="AddSupportTicketForCustomerId",
                 kwargs={
-                    "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18",  # Kenji Tanaka’s ID :contentReference[oaicite:2]{index=2}
+                    "customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18",  # ID for Kenji Tanaka: contentReference[oaicite:2]{index=2}
                     "priority": "High",
                     "channel": "Web portal",
                     "category": "Security",
                     "target_entity": "Account",
-                    "target_id": "acc_chk_19001",  # Chloe’s credit card :contentReference[oaicite:3]{index=3}
+                    "target_id": "acc_chk_19001",  # Chloe's credit card :contentReference[oaicite:3]{index=3}
                     "operation": "BlockAccount",
                 },
             ),
-            # 3. Block the credit card account
+            # 3. Disable the credit card account.
             Action(
                 name="BlockAccountForCustomerId",
                 kwargs={
@@ -4858,12 +4858,12 @@ Task(
                     "account_id": "acc_chk_19001"
                 },
             ),
-            # 4. Close the support ticket
+            # 4. Resolve the support ticket.
             Action(
                 name="ChangeSupportTicketStatus",
                 kwargs={"ticket_id": "tkt_1","customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18", "new_status": "Resolved"},
             ),
-            # 5. Verify that the credit card status is now blocked
+            # 5. Confirm that the credit card status has been updated to blocked.
             Action(
                 name="GetAccountDetailsByCustomerIdAndAccountId",
                 kwargs={
@@ -5208,25 +5208,25 @@ Task(
             "Please submit a support ticket to block that Checking account, then mark the ticket resolved."
         ),
         actions=[
-            # 1. Look up Kenji Tanaka’s customer record
+            # Retrieve the customer record for Kenji Tanaka.
             Action(
                 name="GetCustomerDetailsByName",
                 kwargs={"first_name": "Kenji", "last_name": "Tanaka"},
             ),
-            # 2. Open a support ticket to block the lost card
+            # 2. Initiate a support ticket to deactivate the lost card.
             Action(
                 name="AddSupportTicketForCustomerId",
                 kwargs={
-                    "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3",  # Kenji Tanaka’s ID :contentReference[oaicite:2]{index=2}
+                    "customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3",  # ID for Kenji Tanaka: contentReference[oaicite:2]{index=2}
                     "priority": "High",
                     "channel": "Web Portal",
                     "category": "Security",
                     "target_entity": "Account",
-                    "target_id": "acc_chk_10001",  # Chloe’s credit card :contentReference[oaicite:3]{index=3}
+                    "target_id": "acc_chk_10001",  # Chloe's credit card: contentReference[oaicite:3]{index=3}
                     "operation": "BlockAccount",
                 },
             ),
-            # 3. Block the credit card account
+            # 3. Disable the credit card account.
             Action(
                 name="BlockAccountForCustomerId",
                 kwargs={
@@ -5234,12 +5234,12 @@ Task(
                     "account_id": "acc_chk_10001"
                 },
             ),
-            # 4. Close the support ticket
+            # 4. Resolve the support ticket.
             Action(
                 name="ChangeSupportTicketStatus",
                 kwargs={"ticket_id": "tkt_1","customer_id": "f6a1b2c3-d4e5-f6a1-b2c3-d4e5f6a1b2c3", "new_status": "Resolved"},
             ),
-            # 5. Verify that the credit card status is now blocked
+            # 5. Confirm that the credit card status is currently set to blocked.
             Action(
                 name="GetAccountDetailsByCustomerIdAndAccountId",
                 kwargs={

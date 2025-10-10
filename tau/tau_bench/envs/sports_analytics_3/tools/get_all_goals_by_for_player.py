@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class GetAllGoalsByForPlayer(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         player_id = kwargs.get("player_id")
 
-        # 1) Validate
+        # 1) Verify
         if player_id is None:
             return json.dumps({"error": "Missing required field: player_id"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         goals: List[Dict[str, Any]] = list(data.get("player_dev_goals", {}).values())
 
-        # 3) Filter goals for player
+        # 3) Apply filters to player goals
         matching = [g for g in goals if g.get("player_id") == player_id]
 
         if not matching:

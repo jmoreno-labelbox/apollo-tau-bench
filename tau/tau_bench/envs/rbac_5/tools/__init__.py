@@ -1,20 +1,4 @@
-from datetime import datetime
-# Copyright Sierra
-
-
-def get_current_timestamp():
-    """Return current timestamp in ISO format."""
-    return datetime.now().isoformat()
-
-
-
-def _find_by_id(items, id_key, id_value):
-    """Find item by ID."""
-    for item in items:
-        if item.get(id_key) == id_value:
-            return item
-    return None
-
+# Copyright owned by Sierra.
 
 from .create_user import CreateUser
 from .update_user import UpdateUser

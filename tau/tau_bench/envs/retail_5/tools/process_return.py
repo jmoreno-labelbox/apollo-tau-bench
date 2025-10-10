@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright reserved.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -35,19 +35,19 @@ class ProcessReturn(Tool):
                 return_items.append(item_in_order)
                 refund_amount += item_in_order['price']
 
-                # Restock inventory
+                # Replenish stock.
                 product_for_item = next((p for p in products if p['product_id'] == item_in_order['product_id']), None)
                 if product_for_item:
                     supplier_for_product = next((s for s in suppliers if s['supplier_id'] == product_for_item['supplier_id']), None)
                     if supplier_for_product and item_to_return_id in supplier_for_product['item_stock']:
                         current_stock = supplier_for_product['item_stock'][item_to_return_id]
                         if isinstance(current_stock, int):
-                            supplier_for_product['item_stock'][item_to_return_id] = current_stock + 1 # Assuming quantity is 1
+                            supplier_for_product['item_stock'][item_to_return_id] = current_stock + 1 # Assuming a quantity of one
 
         if not return_items:
             return json.dumps({'error': 'No matching items found in order for return'})
 
-        # Log refund transaction
+        # Record the refund transaction.
         refund_transaction = {
             "transaction_type": "refund",
             "amount": -refund_amount,
@@ -58,7 +58,7 @@ class ProcessReturn(Tool):
             order['payment_history'] = []
         order['payment_history'].append(refund_transaction)
 
-        # Update order status to reflect return
+        # Modify the order status to indicate a return.
         order['status'] = 'partially_returned' if len(order['items']) > len(return_items) else 'returned'
 
         return json.dumps({

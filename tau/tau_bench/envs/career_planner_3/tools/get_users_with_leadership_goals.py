@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class GetUsersWithLeadershipGoals(Tool):
                     goal_type = goal.get("goal_type", "").lower()
                     target_role = goal.get("target_role", "").lower()
 
-                    # Check for leadership indicators
+                    # Verify leadership metrics.
                     leadership_indicators = [
                         "leadership",
                         "lead",

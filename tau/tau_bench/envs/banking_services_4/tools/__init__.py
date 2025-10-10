@@ -1,6 +1,4 @@
 import json
-# Copyright Sierra
-
 
 def load_json(file_path):
     """Load JSON from file."""

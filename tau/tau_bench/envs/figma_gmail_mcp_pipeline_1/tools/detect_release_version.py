@@ -1,28 +1,28 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class DetectReleaseVersion(Tool):  # READ
+class DetectReleaseVersion(Tool):  # READ.
     @staticmethod
     def invoke(
         data: Dict[str, Any],
         release_id: str
     ) -> str:
-        # Validate input
+        # Verify input correctness.
         if not isinstance(release_id, str) or not release_id:
             return json.dumps({"error": "release_id must be a non-empty string"})
 
         releases = data.get("releases", [])
 
-        # Find the release
+        # Locate the deployment
         release = next((r for r in releases if r.get("release_id") == release_id), None)
         if not release:
             return json.dumps({"error": f"Release with release_id '{release_id}' not found"})
 
-        # Check if version_tag starts with "release/"
+        # Verify if version_tag begins with "release/"
         version_tag = release.get("version_tag", "")
         is_release_version = version_tag.startswith("release/")
 

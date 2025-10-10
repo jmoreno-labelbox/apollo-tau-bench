@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -32,13 +32,13 @@ class GetAccessRequest(Tool):
 
         access_requests = data.get("access_requests", [])
 
-        # If request_id is provided, return single access request
+        # Return the single access request if request_id is specified.
         if request_id:
             ar = _find_by_id(access_requests, "request_id", request_id)
             if not ar:
                 return json.dumps({"error": f"request_id {request_id} not found"})
 
-            # Build response with optional expansions
+            # Construct a response that allows for optional enhancements.
             out = {"access_request": ar}
             if include_user:
                 uid = ar.get("user_id") or ""
@@ -58,7 +58,7 @@ class GetAccessRequest(Tool):
 
             return json.dumps(out)
 
-        # Filter access requests based on provided criteria
+        # Screen access requests according to specified parameters.
         filtered_requests = []
         for request in access_requests:
             if user_id and request.get("user_id") != user_id:

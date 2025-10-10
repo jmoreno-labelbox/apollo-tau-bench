@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class conditional_level_update(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], employee_id: str, required_rating: str, new_level: str) -> str:
-        # Get performance reviews
+        # Obtain performance evaluations
         reviews = data.get("performance_reviews", [])
         employee_reviews = [r for r in reviews if r["employee_id"] == employee_id]
         employee_reviews.sort(key=lambda r: r["period_end"], reverse=True)
@@ -20,7 +20,7 @@ class conditional_level_update(Tool):
         current_rating = latest_review.get("rating", "")
 
         if current_rating == required_rating:
-            # Update the level
+            # Modify the level.
             employees = list(data.get("employees", {}).values())
             for e in employees:
                 if e["employee_id"] == employee_id:

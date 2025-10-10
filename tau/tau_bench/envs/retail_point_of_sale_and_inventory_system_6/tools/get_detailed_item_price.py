@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class get_detailed_item_price(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         sku = data.get("sku")
         barcode = data.get("barcode")
-        # quantity = data.get("quantity", 1)
+        # quantity = data.get("quantity", default=1)
 
         if (sku is None) and (barcode is None):
             return json.dumps({"error": "sku or barcode must be sent"}, indent=2)
@@ -21,15 +21,15 @@ class get_detailed_item_price(Tool):
             if ((sku is not None) and (product["sku"] == sku)) or (
                 (barcode is not None) and (product["barcode"] == barcode)
             ):
-                # Get the sku if barcode was used
+                # Retrieve the SKU if a barcode was provided.
                 sku = product["sku"]
 
-                # Use the discount rate if the product is marked as discountable, otherwise set as 0
+                # Apply the discount rate when the product is designated as discountable; otherwise, set it to 0.
                 discount_rate = (
                     product["discount_rate"] if product["is_discountable"] else 0.0
                 )
 
-                # Calculate the discount amount
+                # Determine the amount of the discount.
                 # discount = round(product["price"] * discount_rate, 2)
 
                 tax_rate = product["tax_rate"]
@@ -61,7 +61,7 @@ class get_detailed_item_price(Tool):
                             "type": "string",
                             "description": "The barcode of the item",
                         },
-                        # "quantity": {"type": "integer", "description": "The amount of the item being purchased"}
+                        # "quantity": {"type": "integer", "description": "The number of items being bought"}
                     },
                 },
             },

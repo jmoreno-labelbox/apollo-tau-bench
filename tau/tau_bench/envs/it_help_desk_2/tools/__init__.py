@@ -1,8 +1,8 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 
 
-# Helper function
+# Utility function
 def _find_all(items, **filters):
     """Find all items matching filters."""
     if not filters:

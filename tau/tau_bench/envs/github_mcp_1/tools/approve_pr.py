@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -29,22 +29,22 @@ class ApprovePR(Tool):
         except Exception:
             return json.dumps({"error": "pr_number must be an integer."}, indent=2)
 
-        # Load PR DB (expects list at data['pull_requests'])
+        # Load the PR database (expects a list in data['pull_requests']).
         pr_db = list(data.get("pull_requests", {}).values())
         if not isinstance(pr_db, list):
             return json.dumps({"error": "Invalid pull requests DB: expected a list."}, indent=2)
 
-        # Find repo bucket
+        # Locate repository bucket
         rec = next((r for r in pr_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             return json.dumps({"error": f"No pull requests found for '{owner}/{repo_name}'."}, indent=2)
 
         pr_numbers: List[int] = rec.get("pr_numbers", [])
         if pr_number not in pr_numbers:
-            return json.dumps({"error": f"PR #{pr_number} not found for '{owner}/{repo_name}'."}, indent=2)
+            return json.dumps({"error": f"PR # "{pr_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
         idx = pr_numbers.index(pr_number)
 
-        # Ensure structures exist
+        # Verify that structures are present.
         rec.setdefault("reviewers", [])
         rec.setdefault("review_states", [])
         rec.setdefault("review_events", [])
@@ -57,7 +57,7 @@ class ApprovePR(Tool):
         while len(rec["mergeable_flags"]) <= idx: rec["mergeable_flags"].append(False)
         while len(rec["updated_ts"]) <= idx: rec["updated_ts"].append(None)
 
-        # Ensure first group exists
+        # Verify the existence of the initial group.
         if not isinstance(rec["reviewers"][idx], list): rec["reviewers"][idx] = []
         if not isinstance(rec["review_states"][idx], list): rec["review_states"][idx] = []
         if not isinstance(rec["review_events"][idx], list): rec["review_events"][idx] = []
@@ -70,7 +70,7 @@ class ApprovePR(Tool):
         states_container = rec["review_states"][idx][0]
         events_container = rec["review_events"][idx][0]
 
-        # Normalize states/events to per-reviewer histories (lists of lists)
+        # Standardize states/events to individual reviewer histories (arrays of arrays).
         if isinstance(states_container, list) and all(isinstance(x, list) for x in states_container):
             states_hist = states_container
         elif isinstance(states_container, list):
@@ -85,35 +85,35 @@ class ApprovePR(Tool):
         else:
             events_hist = []
 
-        # Align with reviewers
+        # Coordinate with reviewers.
         while len(states_hist) < len(reviewers_list): states_hist.append([])
         while len(events_hist) < len(reviewers_list): events_hist.append([])
         if len(states_hist) > len(reviewers_list): states_hist = states_hist[:len(reviewers_list)]
         if len(events_hist) > len(reviewers_list): events_hist = events_hist[:len(reviewers_list)]
 
-        # Append "APPROVE" for all assigned reviewers (if any)
+        # Add "APPROVE" for each assigned reviewer, if applicable.
         appended_for: List[str] = []
         for i, reviewer in enumerate(reviewers_list):
             states_hist[i].append("APPROVE")
             events_hist[i].append("APPROVE")
             appended_for.append(reviewer)
 
-        # Persist back
+        # Save changes back.
         rec["review_states"][idx][0] = states_hist
         rec["review_events"][idx][0] = events_hist
 
-        # Set mergeable flag to True
+        # Assign the mergeable flag a value of True.
         rec["mergeable_flags"][idx] = True
 
-        # Bump updated_ts deterministically (env-provided helper)
+        # Increment updated_ts in a deterministic manner using the environment-supplied utility.
         new_updated_ts = get_current_updated_timestamp()
         rec["updated_ts"][idx] = new_updated_ts
 
-        add_terminal_message(data, f"PR #{pr_number} marked APPROVE for {owner}/{repo_name}.", get_current_updated_timestamp())
+        add_terminal_message(data, f"PR # "{pr_number} has been marked as APPROVED for {owner}/{repo_name}.", get_current_updated_timestamp())
 
         return json.dumps(
             {
-                "success": f"PR #{pr_number} marked APPROVE for {owner}/{repo_name}.",
+                "success": f"PR # {pr_number} has been marked as APPROVE for {owner}/{repo_name}.
                 "repo": f"{owner}/{repo_name}",
                 "pr_number": pr_number,
                 "mergeable": True,

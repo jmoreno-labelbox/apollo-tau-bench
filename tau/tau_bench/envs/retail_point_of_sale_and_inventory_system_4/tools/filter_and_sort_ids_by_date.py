@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,13 +15,13 @@ class FilterAndSortIdsByDate(Tool):
         top_n: int = None,
         sort_order: str = "newest"
     ) -> str:
-        # Convert dict to list of tuples (id, date)
+        # Transform dictionary into a list of tuples containing (id, date).
         items = list(ids_dates.items())
 
         def timestamp_to_value(ts: str) -> str:
             return int(ts.replace("-", "").replace(":", "").replace("T", "").replace("Z", ""))
 
-        # Filter by date range if provided
+        # Apply filtering based on the specified date range if available.
         if filter_start_date or filter_end_date:
             filtered = []
             for id_, date in items:
@@ -33,8 +33,8 @@ class FilterAndSortIdsByDate(Tool):
                 filtered.append((id_, date))
             result = dict(filtered)
         else:
-            # Sort by date
-            reverse = sort_order == "newest" # Newest means highest numbers first which is reverse order
+            # Arrange in chronological order.
+            reverse = sort_order == "newest" # Newest indicates sorting in descending order, prioritizing the highest values.
             sorted_items = sorted(items, key=lambda x: timestamp_to_value(x[1]), reverse=reverse)
             if top_n is not None:
                 sorted_items = sorted_items[:top_n]

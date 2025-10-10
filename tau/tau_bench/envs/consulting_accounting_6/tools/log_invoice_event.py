@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class LogInvoiceEvent(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         audits = data.get("invoice_audit", [])
-        # New audit_id like AUD001, AUD002 ...
+        # Generate new audit IDs in the format AUD001, AUD002, etc.
         prefix, max_num = "AUD", 0
         for a in audits:
             s = str(a.get("audit_id", ""))

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -44,7 +44,7 @@ class GetGroceryListDetailsTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the fully detailed grocery list object.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Data
         param_definitions = {
             "list_id": {"type": int, "required": True}
         }
@@ -54,7 +54,7 @@ class GetGroceryListDetailsTool(Tool):
 
         list_id = kwargs["list_id"]
 
-        # 2. Data Retrieval: Find the base grocery list object
+        # 2. Data Acquisition: Locate the primary grocery list object.
         list_record = next(
             (g for g in data.get("grocery_lists", []) if g.get("list_id") == list_id),
             None
@@ -63,7 +63,7 @@ class GetGroceryListDetailsTool(Tool):
         if not list_record:
             return _build_error_response("NOT_FOUND", {"entity": "GroceryList", "entity_id": list_id})
 
-        # 3. Data Enrichment (Hydration): Fetch and enrich list items
+        # 3. Data Enrichment (Hydration): Retrieve and augment list elements.
         list_items = [
             item for item in data.get("grocery_list_items", []) if item.get("list_id") == list_id
         ]
@@ -79,12 +79,12 @@ class GetGroceryListDetailsTool(Tool):
             enriched_item["ingredient_name"] = ingredient_meta.get("ingredient_name") if ingredient_meta else "Unknown Ingredient"
             enriched_items.append(enriched_item)
 
-        # Sort items by grocery section for a more organized list
+        # Arrange items according to grocery categories for better organization.
         enriched_items.sort(key=lambda x: (x.get("grocery_section", ""), x.get("ingredient_name", "")))
 
-        # 4. Build the final response object
+        # 4. Construct the ultimate response object.
         detailed_list = list_record.copy()
         detailed_list["items"] = enriched_items
 
-        # 5. Return the standardized success response
+        # 5. Provide the standardized success reply
         return _build_success_response(detailed_list)

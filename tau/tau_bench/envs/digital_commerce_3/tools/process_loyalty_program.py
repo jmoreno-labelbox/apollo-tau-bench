@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -29,7 +29,7 @@ class ProcessLoyaltyProgram(Tool):
         loyalty_members = data.setdefault("loyalty_program", [])
         member = _find_one(loyalty_members, "contact_id", contact_id)
 
-        # enrollment path
+        # registration pathway
         if action == "enroll" and not member:
             member = {
                 "contact_id": contact_id,
@@ -41,7 +41,7 @@ class ProcessLoyaltyProgram(Tool):
             }
             loyalty_members.append(member)
 
-        # normalize common synonyms for action
+        # standardize frequent alternatives for action
         _LOY_MAP = {"add_points": "add", "adjust_points": "adjust"}
         action = _LOY_MAP.get(action, action)
 

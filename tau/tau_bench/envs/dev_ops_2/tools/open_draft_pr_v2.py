@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class OpenDraftPrV2(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], head: str, base: str, run_id: str) -> str:
         prs = _get_table(data, "pull_requests")
-        # Determine max numeric PR across schemas
+        # Identify the highest numeric PR among all schemas.
         current_max = 0
         for p in prs:
             for key in ("pr_number", "number"):

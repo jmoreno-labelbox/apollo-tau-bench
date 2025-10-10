@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class UpdateStockLevel(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         inventory_id = kwargs.get('inventory_id')
         quantity_to_add = kwargs.get('quantity_to_add')
-        inventory = list(data.get("inventory", {}).values())  # Corrigido para lista
+        inventory = list(data.get("inventory", {}).values())  # Ajustado para lista
 
         found_item = None
         for item in inventory:

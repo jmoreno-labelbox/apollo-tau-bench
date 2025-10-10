@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,8 +11,8 @@ class FindCustomersByCriteria(Tool):
         membership_levels = kwargs.get('membership_levels', [])
         purchase_history_skus = kwargs.get('purchase_history_skus', [])
 
-        customers = list(data.get("customers", {}).values())  # Corrigido para lista
-        transactions = list(data.get("transactions", {}).values())  # Corrigido para lista
+        customers = list(data.get("customers", {}).values())  # Ajustado para lista
+        transactions = list(data.get("transactions", {}).values())  # Ajustado para lista
 
         qualified_customers = []
 

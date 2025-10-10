@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class RequestPullRequestReviewers(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         repo_name = kwargs.get("repo_name")
         pr_number = kwargs.get("pr_number")
-        reviewers = kwargs.get("reviewers", [])  # list[str]
+        reviewers = kwargs.get("reviewers", [])  # List of strings
 
         if not all([repo_name, pr_number]) or not isinstance(reviewers, list) or len(reviewers) == 0:
             return json.dumps({"error": "repo_name, pr_number and non-empty reviewers[] are required."}, indent=2)
 
         me = _auth(data)["username"]
 
-        # find PR owned by current user (consistent with your other tools)
+        # retrieve PRs controlled by the active user (aligned with your other utilities)
         pr = next(
             (p for p in _prs(data)
              if p["owner"] == me and p["repo_name"] == repo_name and int(pr_number) in p["pr_numbers"]),
@@ -28,7 +28,7 @@ class RequestPullRequestReviewers(Tool):
         if not pr:
             return json.dumps({"error": "Pull request not found."}, indent=2)
 
-        # Add reviewers
+        # Include reviewers
         existing = set(pr.get("requested_reviewers", []))
         for r in reviewers:
             if r != me:

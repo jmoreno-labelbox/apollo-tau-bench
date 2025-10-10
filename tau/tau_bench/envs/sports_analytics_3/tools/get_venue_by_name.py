@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class GetVenueByName(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         name = kwargs.get("name")
 
-        # 1) Validate
+        # 1) Verify
         if not isinstance(name, str) or name == "":
             return json.dumps({"error": "Missing required field: name"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         venues: List[Dict[str, Any]] = list(data.get("venues", {}).values())
 
-        # 3) Exact match (no normalization)
+        # 3) Precise match (without normalization)
         for venue in venues:
             if venue.get("venue_name") == name:
                 return json.dumps(venue, indent=2)

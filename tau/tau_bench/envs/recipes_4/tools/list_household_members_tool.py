@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -54,7 +54,7 @@ class ListHouseholdMembersTool(Tool):
             the 'data' key contains a list of member objects. On failure,
             it contains a structured error object.
         """
-        # 1. Validate Inputs
+        # 1. Verify Inputs
         param_definitions = {
             "household_id": {"type": int, "required": False}
         }
@@ -67,7 +67,7 @@ class ListHouseholdMembersTool(Tool):
 
         household_id = kwargs.get("household_id")
 
-        # 2. Business Logic: Determine target household if not provided
+        # 2. Business Logic: Identify target household if it hasn't been specified.
         if not household_id:
             users = list(data.get("users", {}).values())
             if not users:
@@ -83,15 +83,15 @@ class ListHouseholdMembersTool(Tool):
                 return _build_error_response("NOT_FOUND", {"entity": "Household", "entity_id": f"for user {first_user_id}"})
             household_id = household.get("household_id")
 
-        # 3. Defensive Check: Ensure the target household exists
+        # 3. Validation Step: Confirm the existence of the target household.
         target_household = next((h for h in data.get("households", []) if h.get("household_id") == household_id), None)
         if not target_household:
             return _build_error_response("NOT_FOUND", {"entity": "Household", "entity_id": household_id})
 
-        # 4. Data Retrieval: Filter members by the determined household_id
+        # 4. Data Fetching: Select members based on the specified household_id.
         household_members = [
             m for m in data.get("members", []) if m.get("household_id") == household_id
         ]
 
-        # 5. Return a standardized success response
+        # 5. Provide a uniform success response.
         return _build_success_response(household_members)

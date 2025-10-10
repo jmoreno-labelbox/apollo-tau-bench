@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class ProcessDutyPayment(Tool):
         if not shipment:
             return json.dumps({"error": f"Shipment {shipment_id} not found"})
 
-        # Process payment
+        # Execute payment transaction
         payment_id = f"PAY-{shipment_id}-{duty_amount:.1f}"
 
         duty_payment = {
@@ -26,7 +26,7 @@ class ProcessDutyPayment(Tool):
             "payment_method": "Electronic"
         }
 
-        # Update shipment
+        # Revise shipment details
         shipment["duty_paid"] = True
         shipment["duty_amount"] = duty_amount
 

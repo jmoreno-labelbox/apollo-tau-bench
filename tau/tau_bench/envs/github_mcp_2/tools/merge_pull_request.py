@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -30,11 +30,11 @@ class MergePullRequest(Tool):
         except ValueError:
             return json.dumps({"error": "PR number not found in PR block."}, indent=2)
 
-        # ✅ Validate PR is open before doing anything
+        # ✅ Check if the PR is open before proceeding.
         if pr["pr_states"][idx] != "open":
             return json.dumps({"error": "PR is not open."}, indent=2)
 
-        # ✅ Forbid merging when head == base (no-op merges)
+        # ✅ Prevent merging when head equals base (no-op merges)
         head_branch = pr["head_branches"][idx]
         base_branch = pr["base_branches"][idx]
         if head_branch == base_branch:
@@ -49,7 +49,7 @@ class MergePullRequest(Tool):
         head_idx = _branch_index(repo, head_branch)
         base_idx = _branch_index(repo, base_branch)
 
-        # Merge = replace base branch content with head branch content
+        # Merge = substitute base branch content with head branch content.
         repo["branch_files"][base_idx] = list(repo["branch_files"][head_idx])
         repo["branch_contents"][base_idx] = list(repo["branch_contents"][head_idx])
         repo["branch_shas"][base_idx] = get_next_commit_sha()

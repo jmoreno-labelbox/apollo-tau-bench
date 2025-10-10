@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,14 +15,14 @@ class GetUmpiresByExperience(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         exp_threshold = kwargs.get("min_experience")
 
-        # 1) Validate
+        # 1) Confirm validity
         if exp_threshold is None:
             return json.dumps({"error": "Missing required field: experience"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database
         umpires: List[Dict[str, Any]] = list(data.get("umpires", {}).values())
 
-        # 3) Filter for those with experience > threshold
+        # 3) Select entries with experience exceeding the threshold.
         filtered = [
             ump for ump in umpires
             if int(ump.get("years_experience", 0)) > exp_threshold
@@ -31,7 +31,7 @@ class GetUmpiresByExperience(Tool):
         if not filtered:
             return json.dumps({"error": f"No umpires found with experience greater than {exp_threshold}"}, indent=2)
 
-        # 4) Sort deterministically
+        # 4) Ensure sorting is deterministic.
         sorted_list = sorted(
             filtered,
             key=lambda u: (-int(u.get("years_experience", 0)), int(u.get("umpire_id", 0)))

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -38,12 +38,12 @@ class RemoteCleanupTool(Tool):
         files_to_delete = set(kwargs.get("files_to_delete", []))
         deleted: List[str] = []
 
-        # Remove top-level keys matching files_to_delete
+        # Eliminate top-level keys that correspond to files_to_delete.
         for key in list(files_to_delete):
             if data.pop(key, None) is not None:
                 deleted.append(key)
 
-        # Remove entries from remote_storage by matching path or basename
+        # Eliminate entries in remote_storage by comparing path or basename.
         if "remote_storage" in data:
             remaining = []
             for item in data["remote_storage"]:
@@ -55,17 +55,17 @@ class RemoteCleanupTool(Tool):
                     remaining.append(item)
             data["remote_storage"] = remaining
 
-        # Remove files present on server directories
+        # Delete files located in server directories.
         for server in data.get("file_system", []):
             for directory in server.get("directories", []):
                 remaining_files = []
                 for f in directory.get("files", []):
-                    # Handle both string and dict file entries
+                    # Manage file entries as both strings and dictionaries.
                     if isinstance(f, str):
                         full_path = f"{directory.get('path', '')}/{f}".replace("//", "/")
                         name = f
-                    else: # is a dict
-                        name = f.get("name") # Safely get name
+                    else: # represents a dictionary
+                        name = f.get("name") # Securely retrieve the name.
                         full_path = f"{directory.get('path', '')}/{name}".replace("//", "/")
 
                     if full_path in files_to_delete or name in files_to_delete:
@@ -74,14 +74,14 @@ class RemoteCleanupTool(Tool):
                         remaining_files.append(f)
                 directory["files"] = remaining_files
 
-        # Kill tmux session if requested
+        # Terminate the tmux session if requested.
         session = kwargs.get("session_to_kill")
         session_killed = False
         if session and "tmux_sessions" in data and session in data["tmux_sessions"]:
             data["tmux_sessions"].remove(session)
             session_killed = True
 
-        # Deduplicate deleted list
+        # Remove duplicates from the deleted list.
         deleted = list(dict.fromkeys(deleted))
 
         return json.dumps({"status": "success", "deleted_remote_files": deleted, "session_killed": session_killed})

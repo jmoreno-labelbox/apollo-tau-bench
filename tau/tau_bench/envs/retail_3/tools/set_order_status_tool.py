@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class SetOrderStatusTool(Tool):
 
     Input (kwargs):
         order_id (str, required)
-        status (str, required)  # e.g., "pending", "fulfilled", "completed", "cancelled"
+        status (str, required)  # for example, "awaiting", "satisfied", "finished", "aborted"
 
     Output:
         JSON string with {"order_id","status"} or {"error": ...}.

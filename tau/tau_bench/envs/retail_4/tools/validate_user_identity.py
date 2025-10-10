@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class ValidateUserIdentity(Tool):
 
         Data Sources: users.json (user_id, name, address)
         """
-        # Validate input parameters
+        # Check the validity of input parameters.
         if not user_id and (not first_name or not last_name):
             return json.dumps({
                 "error": "Either user_id must be provided, or both first_name and last_name must be provided",
@@ -27,7 +27,7 @@ class ValidateUserIdentity(Tool):
         search_method = "user_id" if user_id else "name_search"
 
         if user_id:
-            # Rule: Validate user identity exists before processing any user requests
+            # Requirement: Confirm the existence of user identity prior to handling any user requests.
             target_user = next((u for u in users if u.get("user_id") == user_id), None)
 
             if not target_user:
@@ -38,7 +38,7 @@ class ValidateUserIdentity(Tool):
                     "search_method": search_method
                 })
         else:
-            # Search by first_name and last_name
+            # Query based on first_name and last_name.
             matching_users = []
 
             for user in users:
@@ -65,7 +65,7 @@ class ValidateUserIdentity(Tool):
                 })
 
             if len(matching_users) > 1:
-                # Multiple users found with same name
+                # Duplicate users detected with identical names.
                 user_ids = [user.get("user_id") for user in matching_users]
                 return json.dumps({
                     "error": f"Multiple users found with name '{first_name} {last_name}'. Please specify user_id.",
@@ -79,18 +79,18 @@ class ValidateUserIdentity(Tool):
                     }
                 })
 
-            # Single user found
+            # One user detected
             target_user = matching_users[0]
-            user_id = target_user.get("user_id")  # Set user_id for response
+            user_id = target_user.get("user_id")  # Assign user_id to the response.
 
-        # Additional validation for first_name and last_name if provided when searching by user_id
+        # Extra checks for first_name and last_name when searching using user_id, if they are supplied.
         validation_details = {"user_id_valid": True}
         user_name = target_user.get("name", {})
         stored_first_name = user_name.get("first_name", "")
         stored_last_name = user_name.get("last_name", "")
         stored_email = target_user.get("email", "")
 
-        # Only validate names if user_id was provided and names were also provided (for additional verification)
+        # Validate names only if both user_id and names are supplied for further confirmation.
         if search_method == "user_id":
             if first_name is not None:
                 if stored_first_name.lower() != first_name.lower():
@@ -114,11 +114,11 @@ class ValidateUserIdentity(Tool):
                     })
                 validation_details["last_name_valid"] = True
         else:
-            # For name search, names are automatically valid since we found the user by name
+            # Names are considered valid for search since the user was located using their name.
             validation_details["first_name_valid"] = True
             validation_details["last_name_valid"] = True
 
-        # Always include comprehensive user location details in the response
+        # Ensure to provide complete user location information in the response.
         user_address = target_user.get("address", {})
 
         user_location_details = {
@@ -130,19 +130,19 @@ class ValidateUserIdentity(Tool):
             "country": user_address.get("country", "")
         }
 
-        # Check if address is complete
+        # Verify if the address is fully specified.
         required_address_fields = ["address1", "city", "state", "zip", "country"]
         address_complete = all(user_address.get(field) for field in required_address_fields)
         missing_fields = [field for field in required_address_fields if not user_address.get(field)]
 
-        # Determine address quality/completeness status
+        # Assess the status of address quality and completeness.
         address_status = "complete" if address_complete else "incomplete"
         if len(missing_fields) >= 4:
             address_status = "minimal"
         elif len(missing_fields) >= 2:
             address_status = "partial"
 
-        # Check if location supports delivery (based on available couriers)
+        # Verify if the location is eligible for delivery based on the couriers available.
         couriers = data.get("couriers", [])
         supported_countries = set()
         for courier in couriers:

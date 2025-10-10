@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class GetUserTargetRole(Tool):
         if not user_goals:
             return json.dumps({"error": f"No goals found for user {user_id}."})
 
-        # Find the first goal with the type "Role Transition"
+        # Locate the initial goal categorized as "Role Transition."
         for goal in user_goals[0].get("goals", []):
             if goal.get("goal_type") == "Role Transition" and "target_role" in goal:
                 return json.dumps({"target_role": goal.get("target_role")})

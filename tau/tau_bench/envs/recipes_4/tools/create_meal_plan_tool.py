@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -52,7 +52,7 @@ class CreateMealPlanTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the newly created meal plan object.
         """
-        # 1. Validate Inputs
+        # 1. Check Input Validity
         param_definitions = {
             "household_id": {"type": int, "required": True},
             "week_start_date": {"type": str, "required": True},
@@ -69,13 +69,13 @@ class CreateMealPlanTool(Tool):
         week_start_date = kwargs["week_start_date"]
         user_id = kwargs["user_id"]
 
-        # 2. Pre-condition Checks
+        # 2. Validation of Preconditions
         if not any(h.get("household_id") == household_id for h in data.get("households", [])):
             return _build_error_response("NOT_FOUND", {"entity": "Household", "entity_id": household_id})
         if not any(u.get("user_id") == user_id for u in list(data.get("users", {}).values())):
             return _build_error_response("NOT_FOUND", {"entity": "User", "entity_id": user_id})
 
-        # Business Rule: Prevent duplicate plans for the same week
+        # Business Rule: Disallow duplicate plans within the same week.
         existing_plan = any(
             p for p in data.get("meal_plans", [])
             if p.get("household_id") == household_id and p.get("week_start_date") == week_start_date
@@ -83,10 +83,10 @@ class CreateMealPlanTool(Tool):
         if existing_plan:
             return _build_error_response("ALREADY_EXISTS", {"entity": "MealPlan", "entity_id": f"for household {household_id} on {week_start_date}"})
 
-        # 3. Data Creation Logic
+        # 3. Logic for Data Generation
         meal_plans_table = data.setdefault("meal_plans", [])
 
-        # Generate a new unique ID
+        # Create a new distinct identifier.
         max_id = max((p.get("meal_plan_id", 0) for p in meal_plans_table), default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["meal_plans"])
         new_plan_id = max_id + 1
 
@@ -102,7 +102,7 @@ class CreateMealPlanTool(Tool):
 
         meal_plans_table.append(new_plan_record)
 
-        # 4. Auditing
+        # 4. Review and verification
         _log_audit_event(
             data=data,
             household_id=household_id,
@@ -113,5 +113,5 @@ class CreateMealPlanTool(Tool):
             payload_json={"week_start_date": week_start_date}
         )
 
-        # 5. Response
+        # 5. Reply
         return _build_success_response(new_plan_record)

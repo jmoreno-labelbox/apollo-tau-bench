@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .create_order_tool import CreateOrderTool
 from .append_payment_tool import AppendPaymentTool

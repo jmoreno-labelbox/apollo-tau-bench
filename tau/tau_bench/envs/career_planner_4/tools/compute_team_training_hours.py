@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class compute_team_training_hours(Tool):
     def invoke(data: Dict[str, Any], team_id: str, year: int = 2025) -> str:
         training_logs = data.get("team_training_log", [])
         team_logs = [log for log in training_logs if log.get("team_id") == team_id]
-        total_hours = len(team_logs) * 8  # Mock calculation
+        total_hours = len(team_logs) * 8  # Simulated computation
         return json.dumps({"total_hours": total_hours, "team_id": team_id}, indent=2)
 
     @staticmethod

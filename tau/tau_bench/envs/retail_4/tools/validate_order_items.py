@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,12 +16,12 @@ class ValidateOrderItems(Tool):
         total_order_value = 0.0
         allocate_orders = kwargs.get("allocate_orders", False)
 
-        # Rule: Multi-item orders need all items available before confirmation
+        # Requirement: All items in multi-item orders must be in stock prior to confirmation.
         for item in item_list:
             item_id = item.get("item_id")
             quantity = item.get("quantity", 1)
 
-            # Rule: Confirm item_id exists in product variants before including in orders
+            # Verification: Ensure item_id is present in product variants prior to adding to orders.
             variant_found = None
             product_found = None
 
@@ -38,7 +38,7 @@ class ValidateOrderItems(Tool):
                     "status": "failed"
                 })
 
-            # Rule: Check product availability status before allocation - never allocate unavailable items
+            # Condition: Verify product availability prior to allocation - do not allocate items that are not in stock.
             if allocate_orders:
                 if not variant_found.get("available", False):
                     print(f"Item {item_id} ({product_found.get('name')}) is not available")
@@ -47,7 +47,7 @@ class ValidateOrderItems(Tool):
                         "status": "failed"
                     })
 
-            # Rule: Use exact variant pricing from product catalog - no unauthorized price modifications
+            # Policy: Apply the precise variant pricing from the product catalog - unauthorized price changes are prohibited.
             unit_price = variant_found.get("price", 0)
             item_total = unit_price * quantity
             total_order_value += item_total
@@ -62,7 +62,7 @@ class ValidateOrderItems(Tool):
                 "availability": variant_found.get("available", False)
             })
 
-        # Rule: Maintain data integrity: order totals must match sum of item prices
+        # Requirement: Ensure data consistency: total order amount should equal the sum of item prices.
         result = {
             "status": "success",
             "validated_items": validated_items,

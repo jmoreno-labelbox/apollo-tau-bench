@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 
 def _next_numeric_suffix(prefix, items, id_key):

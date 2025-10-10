@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class GetAircraftByTailNumber(Tool):
         aircraft_list = list(data.get("aircraft", {}).values())
         for aircraft in aircraft_list:
             if aircraft.get("tail_number") == tail_number:
-                # normalize status casing before returning
+                # standardize status casing prior to return
                 out = dict(aircraft)
                 if "status" in out:
                     out["status"] = _norm_status(out.get("status"))

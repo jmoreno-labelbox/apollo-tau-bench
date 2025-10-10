@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class LookupSubtitleIdsV2(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], locales: List[str]) -> str:
-        # Deterministic mapping for evaluation locales
+        # Fixed mapping for assessment locations
         fixed = {
             "en": "subtitle_001",
             "de": "subtitle_002",

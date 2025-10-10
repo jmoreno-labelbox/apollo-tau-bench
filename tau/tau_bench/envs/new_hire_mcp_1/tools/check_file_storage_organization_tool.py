@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class CheckFileStorageOrganizationTool(Tool):
         if candidate_id:
             files = [f for f in files if str(f.get("candidate_id")) == str(candidate_id)]
 
-        # Analyze duplicates based on content_text
+        # Examine duplicates according to content_text.
         content_map = {}
         duplicates = []
         for file in files:
@@ -31,7 +31,7 @@ class CheckFileStorageOrganizationTool(Tool):
                 else:
                     content_map[content] = file.get("file_path")
 
-        # Analyze organization (simple check for path structure)
+        # Examine the structure of the path within the organization.
         improperly_organized = [
             f.get("file_path") for f in files
             if not re.match(r"/[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+/", str(f.get("file_path", "")))

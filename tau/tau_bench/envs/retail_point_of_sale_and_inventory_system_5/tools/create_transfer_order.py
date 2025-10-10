@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class CreateTransferOrder(Tool):
         to_store = kwargs["to_store"]
         sku = kwargs["sku"]
         quantity = kwargs["quantity"]
-        # Only use hash-based transfer_id for all cases
+        # Utilize hash-based transfer_id exclusively for every scenario.
         transfer_id = f"TRF-{hashlib.sha256(f'{from_store}-{to_store}-{sku}'.encode()).hexdigest()[:6].upper()}"
         entry = {
             "from_store": from_store,

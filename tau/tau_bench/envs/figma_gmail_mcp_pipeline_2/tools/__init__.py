@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 
 def get_next_asset_id(data, prefix='asset'):

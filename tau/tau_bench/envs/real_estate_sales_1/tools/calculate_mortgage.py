@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class CalculateMortgage(Tool):
                 "error": "principal and interest_rate are required"
             }, indent=2)
         
-        # Calculate monthly payment using standard formula
+        # Compute the monthly payment using the standard equation.
         monthly_rate = interest_rate / 100 / 12
         num_payments = loan_term_years * 12
         

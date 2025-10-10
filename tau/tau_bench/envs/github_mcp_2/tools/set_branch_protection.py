@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,12 +15,12 @@ class SetBranchProtection(Tool):
         protection = kwargs.get("protected")
         rules = kwargs.get("rules")
 
-        # Initialize if missing
+        # Set up if not present
         if "branch_protections" not in repo:
             repo["branch_protections"] = [False] * len(repo.get("branches", []))
         repo["branch_protections"][idx] = protection
 
-        # Initialize if missing
+        # Set up if not present
         if "branch_protection_rules" not in repo:
             repo["branch_protection_rules"] = {}
 

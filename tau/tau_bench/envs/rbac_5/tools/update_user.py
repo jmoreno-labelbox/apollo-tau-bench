@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -35,7 +35,7 @@ class UpdateUser(Tool):
         if not user_id:
             return json.dumps({"error": "user_id is required"})
 
-        # Find the user
+        # Locate the user.
         users = list(data.get("users", {}).values())
         user_index = None
         for i, user in enumerate(users):
@@ -46,7 +46,7 @@ class UpdateUser(Tool):
         if user_index is None:
             return json.dumps({"error": f"user_id {user_id} not found"})
 
-        # Update the user
+        # Notify the user.
         updated_user = dict(users[user_index])
         if department is not None:
             updated_user["department"] = department
@@ -55,19 +55,19 @@ class UpdateUser(Tool):
         if mfa_enabled is not None:
             updated_user["mfa_enabled"] = mfa_enabled
 
-        # Handle name change -> update username and email deterministically
+        # Manage name modification -> consistently update username and email.
         if (first_name is not None) or (last_name is not None):
-            # Get current user data to use existing name components if not provided
+            # Retrieve the current user information to utilize existing name elements if they are not supplied.
             current_user = users[user_index]
             current_email = current_user.get("email", "")
 
-            # If current email follows the pattern first.last@taucorp.com, extract names
+            # Extract names if the current email format is first.last@taucorp.com.
             if "@taucorp.com" in current_email:
                 local_part = current_email.split("@")[0]
                 if "." in local_part:
                     current_first, current_last = local_part.split(".", 1)
                 else:
-                    # Fallback: try to extract from username (first_initial + last_name)
+                    # Alternative method: attempt to derive from username (first_initial + last_name)
                     current_username = current_user.get("username", "")
                     if len(current_username) >= 2:
                         current_first = current_username[0]
@@ -77,14 +77,14 @@ class UpdateUser(Tool):
             else:
                 current_first = current_last = ""
 
-            # Use provided names or fall back to current names
+            # Utilize the specified names or revert to the existing names.
             effective_first = first_name if first_name is not None else current_first
             effective_last = last_name if last_name is not None else current_last
 
             if not effective_first or not effective_last:
                 return json.dumps({"error": "Cannot determine both first and last name for username/email generation"})
 
-            # Normalize names: lowercase alphanumerics only for id parts
+            # Standardize names: use only lowercase alphanumeric characters for identifier segments.
             def _norm(s: str) -> str:
                 s = (s or "").strip().lower()
                 return "".join(ch for ch in s if ch.isalnum())
@@ -98,7 +98,7 @@ class UpdateUser(Tool):
             new_email_local = f"{fn}.{ln}"
             new_email = f"{new_email_local}@taucorp.com"
 
-            # Ensure username uniqueness (excluding current user)
+            # Verify that the username is unique, disregarding the current user.
             for u in users:
                 if u.get("user_id") == user_id:
                     continue

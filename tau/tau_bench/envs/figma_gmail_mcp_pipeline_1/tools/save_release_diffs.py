@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class SaveReleaseDiffs(Tool):  # WRITE
+class SaveReleaseDiffs(Tool):  # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -17,11 +17,11 @@ class SaveReleaseDiffs(Tool):  # WRITE
         component_version_bumps: List[str],
         changelog_highlights: List[str]
     ) -> str:
-        # Validate input
+        # Verify user input
         if not isinstance(release_id, str) or not release_id:
             return json.dumps({"error": "release_id must be a non-empty string"})
 
-        # Validate list parameters
+        # Verify list arguments.
         if not isinstance(frames_added, list) or not all(isinstance(item, str) for item in frames_added):
             return json.dumps({"error": "frames_added must be a list of strings"})
 
@@ -42,10 +42,10 @@ class SaveReleaseDiffs(Tool):  # WRITE
 
         release_diffs = data["release_diffs"]
 
-        # Check if a diff already exists for this release_id
+        # Verify if a difference is already present for this release_id.
         existing_diff = next((diff for diff in release_diffs if diff.get("release_id") == release_id), None)
         if existing_diff:
-            # Update existing diff instead of returning error (for testing scenarios)
+            # Modify the current diff instead of generating an error (for testing purposes).
             existing_diff.update({
                 "prior_release_id_nullable": prior_release_id_nullable,
                 "frames_added": frames_added,
@@ -56,7 +56,7 @@ class SaveReleaseDiffs(Tool):  # WRITE
             })
             return json.dumps({"updated_release_diff": existing_diff})
 
-        # Generate new diff_id
+        # Create a new diff_id
         next_num = len(release_diffs) + 1
         diff_id = f"diff_{next_num:03d}"
 

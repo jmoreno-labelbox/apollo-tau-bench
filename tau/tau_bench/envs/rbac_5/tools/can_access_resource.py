@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -28,11 +28,11 @@ class CanAccessResource(Tool):
         if not user_id or not resource_id:
             return json.dumps({"error": "user_id and resource_id are required"})
 
-        # Validate user exists
+        # Check if the user is present.
         if not _find_by_id(list(data.get("users", {}).values()), "user_id", user_id):
             return json.dumps({"error": f"user_id {user_id} not found"})
 
-        # Validate resource exists
+        # Check if the resource is present.
         if not _find_by_id(data.get("resources", []), "resource_id", resource_id):
             return json.dumps({"error": f"resource_id {resource_id} not found"})
 
@@ -42,7 +42,7 @@ class CanAccessResource(Tool):
             exp = _parse_iso(ur.get("expires_on"))
             return (exp is None) or (exp > on_dt)
 
-        # Step 1: Get all permissions for the resource
+        # Step 1: Retrieve all permissions associated with the resource.
         resource_permissions = [
             p for p in list(data.get("permissions", {}).values())
             if p.get("resource_id") == resource_id
@@ -60,7 +60,7 @@ class CanAccessResource(Tool):
 
         resource_permission_ids = {p.get("permission_id") for p in resource_permissions}
 
-        # Step 2: Get all roles that have those permissions
+        # Step 2: Retrieve all roles associated with those permissions.
         roles_with_permissions = [
             rp for rp in data.get("role_permissions", [])
             if rp.get("permission_id") in resource_permission_ids
@@ -78,7 +78,7 @@ class CanAccessResource(Tool):
 
         role_ids_with_access = {rp.get("role_id") for rp in roles_with_permissions}
 
-        # Step 3: Check if user has any of those roles (and they're active)
+        # Step 3: Verify if the user possesses any of the specified roles and that they are currently active.
         user_assignments = [
             ur for ur in data.get("user_roles", [])
             if ur.get("user_id") == user_id and is_active(ur)
@@ -86,7 +86,7 @@ class CanAccessResource(Tool):
 
         active_user_role_ids = {ur.get("role_id") for ur in user_assignments}
 
-        # Find intersection - roles that grant access AND user has
+        # Identify roles that provide access and that the user possesses.
         granting_role_ids = role_ids_with_access.intersection(active_user_role_ids)
 
         can_access = len(granting_role_ids) > 0
@@ -100,16 +100,16 @@ class CanAccessResource(Tool):
         }
 
         if include_details:
-            # Build detailed breakdown
+            # Create a comprehensive analysis.
             role_map = {r.get("role_id"): r for r in list(data.get("roles", {}).values())}
             permission_map = {p.get("permission_id"): p for p in list(data.get("permissions", {}).values())}
 
-            # Map which permissions are granted by which roles the user has
+            # Associate the permissions with the roles assigned to the user.
             granting_details = []
             for role_id in granting_role_ids:
                 role = role_map.get(role_id, {})
 
-                # Find which permissions this role provides for this resource
+                # Determine the permissions granted by this role for the specified resource.
                 role_permissions_for_resource = [
                     rp.get("permission_id") for rp in roles_with_permissions
                     if rp.get("role_id") == role_id

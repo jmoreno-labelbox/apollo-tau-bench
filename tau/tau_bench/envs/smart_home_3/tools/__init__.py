@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .device_manager import DeviceManager
 from .room_manager import RoomManager

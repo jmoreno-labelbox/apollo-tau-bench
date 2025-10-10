@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright notice.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,7 +22,7 @@ class CreateOrder(Tool):
         if not lines:
             return _err("Cart has no items.")
 
-        # auto-assign order_id if omitted
+        # automatically generate order_id if not provided
         orders = list(data.get("orders", {}).values())
         if not order_id:
             numeric_ids = [
@@ -31,7 +31,7 @@ class CreateOrder(Tool):
             order_id = str(max(numeric_ids or [0]) + 1)
         order_id = _as_id(order_id)
 
-        # pricing context
+        # pricing information
         contacts = data.get("contacts", [])
         contact = next(
             (c for c in contacts if _as_id(c.get("contact_id")) == _as_id(cart.get("contact_id"))),

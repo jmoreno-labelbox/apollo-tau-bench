@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,14 +24,14 @@ class GetCertification(Tool):
 
         certifications = data.get("certifications", [])
 
-        # If certification_id is provided, return single certification
+        # Return a single certification if certification_id is given.
         if certification_id:
             cert = _find_by_id(certifications, "certification_id", certification_id)
             if not cert:
                 return json.dumps({"error": f"certification_id {certification_id} not found"})
             return json.dumps({"ok": True, "certification": cert})
 
-        # Filter certifications based on provided criteria
+        # Narrow down certifications according to specified parameters.
         filtered_certifications = []
         for cert in certifications:
             if reviewer_id and cert.get("reviewer_id") != reviewer_id:

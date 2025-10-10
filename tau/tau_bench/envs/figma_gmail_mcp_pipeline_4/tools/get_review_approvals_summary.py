@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,11 +21,11 @@ class GetReviewApprovalsSummary(Tool):
         review_approvals = data.get('review_approvals', [])
         review_cycles = data.get('review_cycles', [])
 
-        # If approval_id is provided, return specific approval
+        # Return the specific approval if an approval_id is given.
         if approval_id:
             for approval in review_approvals:
                 if approval.get('approval_id') == approval_id:
-                    # Enrich with cycle information
+                    # Add cycle-related data.
                     approval_copy = approval.copy()
                     cycle_id_ref = approval.get('cycle_id')
                     if cycle_id_ref:
@@ -36,10 +36,10 @@ class GetReviewApprovalsSummary(Tool):
                     return json.dumps(approval_copy, indent=2)
             return json.dumps({"error": f"Approval with ID '{approval_id}' not found."})
 
-        # Filter approvals by criteria
+        # Apply criteria to filter approvals.
         results = []
         for approval in review_approvals:
-            # Apply filters
+            # Implement filters
             if cycle_id:
                 if approval.get('cycle_id') != cycle_id:
                     continue
@@ -52,7 +52,7 @@ class GetReviewApprovalsSummary(Tool):
                 if approval.get('status') != approval_status:
                     continue
 
-            # Apply date filters
+            # Implement date constraints.
             if approved_after:
                 approval_date = approval.get('approval_date', '')
                 if approval_date < approved_after:
@@ -63,7 +63,7 @@ class GetReviewApprovalsSummary(Tool):
                 if approval_date > approved_before:
                     continue
 
-            # Enrich with cycle information
+            # Augment with cycle details
             approval_copy = approval.copy()
             cycle_id_ref = approval.get('cycle_id')
             if cycle_id_ref:
@@ -74,7 +74,7 @@ class GetReviewApprovalsSummary(Tool):
 
             results.append(approval_copy)
 
-        # Create summary
+        # Generate a summary.
         summary = {
             "total_approvals": len(results),
             "by_status": {},
@@ -82,7 +82,7 @@ class GetReviewApprovalsSummary(Tool):
             "approvals": results
         }
 
-        # Group by status and approver
+        # Aggregate by status and approver.
         for approval in results:
             status = approval.get('status', 'UNKNOWN')
             if status not in summary["by_status"]:

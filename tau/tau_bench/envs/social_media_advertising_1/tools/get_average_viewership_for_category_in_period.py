@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class GetAverageViewershipForCategoryInPeriod(Tool):
         end_date = kwargs.get("end_date")
         viewership_data = list(data.get("f_viewership", {}).values())
         
-        # Calculate the number of days in the period
+        # Determine the total days within the specified timeframe.
         start = datetime.strptime(start_date, "%Y-%m-%d")
         end = datetime.strptime(end_date, "%Y-%m-%d")
         days_in_period = (end - start).days + 1
@@ -31,7 +31,7 @@ class GetAverageViewershipForCategoryInPeriod(Tool):
                 total_active_users += entry.get("active_users", 0)
                 days_with_data += 1
         
-        # Calculate averages
+        # Compute averages
         avg_sessions = total_sessions / days_in_period if days_in_period > 0 else 0
         avg_active_users = total_active_users / days_in_period if days_in_period > 0 else 0
         

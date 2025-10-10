@@ -1560,7 +1560,7 @@ TASKS = [
                     "sender_email": "chris.engineer@company.com",
                     "recipients_emails": ["admin-team@company.com", "data-team@company.com", "backend-team@company.com"],
                     "workflow_type": "release",
-                    "current_labels": ["admin", "data-table"] # , "launch"]
+                    "current_labels": ["admin", "data-table"] # , "initiate"]
                 }
             ),
             Action(
@@ -2183,7 +2183,7 @@ TASKS = [
                     "layer_name": "Homepage Hero Section",
                     "finding_type": "SUBSTITUTE_RECOMMENDED",
                     "recommended_component_id_nullable": "Homepage-v1.2",
-                    # "code_connect_link_nullable": None,
+                    # "code_connect_link_optional": None,
                     "severity": "HIGH"
                 }
             ),
@@ -2225,7 +2225,7 @@ TASKS = [
                     "layer_name": "Navigation Bar",
                     "finding_type": "UNMAPPED",
                     "recommended_component_id_nullable": "Navigation-v2.3",
-                    # "code_connect_link_nullable": None,
+                    # "code_connect_link_optional": None,
                     "severity": "HIGH"
                 }
             ),
@@ -2267,7 +2267,7 @@ TASKS = [
                     "layer_name": "Design System",
                     "finding_type": "AMBIGUOUS",
                     "recommended_component_id_nullable": "Design-v1.4",
-                    # "code_connect_link_nullable": None,
+                    # "code_connect_link_may_be_null": None,
                     "severity": "HIGH"
                 }
             ),
@@ -2309,7 +2309,7 @@ TASKS = [
                     "layer_name": "Mobile App Dashboard",
                     "finding_type": "SUBSTITUTE_RECOMMENDED",
                     "recommended_component_id_nullable": "Mobile-v2.5",
-                    # "code_connect_link_nullable": None,
+                    # "code_connect_link_optional": None,
                     "severity": "HIGH"
                 }
             ),
@@ -2351,7 +2351,7 @@ TASKS = [
                     "layer_name": "User Profile Screen",
                     "finding_type": "UNMAPPED",
                     "recommended_component_id_nullable": "User-v1.6",
-                    # "code_connect_link_nullable": None,
+                    # "code_connect_link_may_be_null": None,
                     "severity": "HIGH"
                 }
             ),
@@ -2393,7 +2393,7 @@ TASKS = [
                     "layer_name": "Marketing Website",
                     "finding_type": "AMBIGUOUS",
                     "recommended_component_id_nullable": "Marketing-v2.7",
-                    # "code_connect_link_nullable": None,
+                    # "code_connect_link_optional": None,
                     "severity": "HIGH"
                 }
             ),
@@ -2435,7 +2435,7 @@ TASKS = [
                     "layer_name": "Pricing Page",
                     "finding_type": "SUBSTITUTE_RECOMMENDED",
                     "recommended_component_id_nullable": "Pricing-v1.8",
-                    # "code_connect_link_nullable": None,
+                    # "code_connect_link_optional": None,
                     "severity": "LOW"
                 }
             ),
@@ -2477,7 +2477,7 @@ TASKS = [
                     "layer_name": "Admin Panel Header",
                     "finding_type": "UNMAPPED",
                     "recommended_component_id_nullable": "Admin-v2.9",
-                    # "code_connect_link_nullable": None,
+                    # "code_connect_link_optional": None,
                     "severity": "LOW"
                 }
             ),
@@ -2519,7 +2519,7 @@ TASKS = [
                     "layer_name": "Data Table Component",
                     "finding_type": "AMBIGUOUS",
                     "recommended_component_id_nullable": "Data-v1.0",
-                    # "code_connect_link_nullable": None,
+                    # "code_connect_link_may_be_null": None,
                     "severity": "LOW"
                 }
             ),
@@ -2561,7 +2561,7 @@ TASKS = [
                     "layer_name": "Brand Guidelines",
                     "finding_type": "SUBSTITUTE_RECOMMENDED",
                     "recommended_component_id_nullable": "Brand-v1.2",
-                    # "code_connect_link_nullable": None,
+                    # "code_connect_link_optional": None,
                     "severity": "LOW"
                 }
             ),
@@ -2603,7 +2603,7 @@ TASKS = [
                     "layer_name": "Contact Form Component",
                     "finding_type": "UNMAPPED",
                     "recommended_component_id_nullable": "Contact-v2.3",
-                    # "code_connect_link_nullable": None,
+                    # "code_connect_link_may_be_null": None,
                     "severity": "LOW"
                 }
             ),
@@ -2645,7 +2645,7 @@ TASKS = [
                     "layer_name": "Settings Screen",
                     "finding_type": "AMBIGUOUS",
                     "recommended_component_id_nullable": "Settings-v1.4",
-                    # "code_connect_link_nullable": None,
+                    # "code_connect_link_optional": None,
                     "severity": "LOW"
                 }
             ),
@@ -3461,7 +3461,7 @@ TASKS = [
                     "layer_name": "User Profile Screen",
                     "finding_type": "UNMAPPED",
                     "recommended_component_id_nullable": "User-v1.6",
-                    # "code_connect_link_nullable": "",
+                    # "code_connect_link_optional": "",
                     "severity": "HIGH"
                 }
             ),
@@ -3527,7 +3527,7 @@ TASKS = [
                     "layer_name": "Marketing Website",
                     "finding_type": "AMBIGUOUS",
                     "recommended_component_id_nullable": "Marketing-v2.7",
-                    # "code_connect_link_nullable": "null",
+                    # "code_connect_link_optional": "null",
                     "severity": "HIGH"
                 }
             ),
@@ -4364,8 +4364,8 @@ TASKS = [
                 name="CreateFixItem",
                 kwargs={"plan_id": "plan_013", "finding_id": "finding_ds_009"}
             ),
-            # Action(
-            #     name="CreateFixItem",
+            # Execute action
+            # name="GenerateFixItem",
             #     kwargs={"plan_id": "plan_013", "finding_id": "finding_ds_005"}
             # ),
             Action(
@@ -4406,8 +4406,8 @@ TASKS = [
                 name="CreateFixItem",
                 kwargs={"plan_id": "plan_013", "finding_id": "finding_a11y_008"}
             ),
-            # Action(
-            #     name="CreateFixItem",
+            # Perform action
+            # identifier="CreateFixItem",
             #     kwargs={"plan_id": "plan_013", "finding_id": "finding_a11y_004"}
             # ),
             Action(
@@ -4448,8 +4448,8 @@ TASKS = [
                 name="CreateFixItem",
                 kwargs={"plan_id": "plan_013", "finding_id": "finding_a11y_007"}
             ),
-            # Action(
-            #     name="CreateFixItem",
+            # Operation(
+            # identifier="CreateFixItem",
             #     kwargs={"plan_id": "plan_013", "finding_id": "finding_a11y_003"}
             # ),
             Action(
@@ -4490,8 +4490,8 @@ TASKS = [
                 name="CreateFixItem",
                 kwargs={"plan_id": "plan_013", "finding_id": "finding_ds_009"}
             ),
-            # Action(
-            #     name="CreateFixItem",
+            # Perform(
+            # identifier="CreateFixItem",
             #     kwargs={"plan_id": "plan_013", "finding_id": "finding_ds_005"}
             # ),
             Action(

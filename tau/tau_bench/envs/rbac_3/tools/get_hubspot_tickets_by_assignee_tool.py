@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class GetHubspotTicketsByAssigneeTool(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # reuse list tool with post-filter
+        # utilize list tool with subsequent filtering
         tickets = json.loads(ListHubspotTicketsTool.invoke(data))
         assignee_id = kwargs.get("assignee_id")
         return json.dumps(

@@ -397,7 +397,7 @@ Task(
             "input_ref": {"campaign_id": "5", "adset_id": "106", "plan_id": "plan_2025-08-13", "date": "2025-08-13"}
         }),
 
-        # Required writes to satisfy the criterion:
+        # Necessary writes to meet the requirement:
         Action(name="UpdateAdsetBudget", kwargs={
             "adset_id": "106", "new_budget": 500.0, "reason": "plan_2025-08-13"
         }),
@@ -405,7 +405,7 @@ Task(
             "adset_id": "106", "bid_strategy": "cost_cap", "bid_amount": 18.0, "reason": "plan_2025-08-13"
         }),
 
-        # Verify alignment on budget/strategy:
+        # Confirm consistency between budget and strategy:
         Action(name="FetchAdset", kwargs={"adset_id": "106"}),
         Action(name="VerifyApplied", kwargs={
             "expected_rows": [{"adset_id": "106", "budget": 500.0, "bid_strategy": "cost_cap", "bid_amount": 18.0}],
@@ -413,11 +413,11 @@ Task(
             "key_fields": ["adset_id", "budget", "bid_strategy", "bid_amount"]
         }),
 
-        # Deterministic checksum + freeze (evidence):
+        # Fixed checksum + immutability (proof):
         Action(name="ComputePlanChecksum", kwargs={"date": "2025-08-13"}),
         Action(name="FreezePlan", kwargs={"date": "2025-08-13"}),
 
-        # Receipts:
+        # Invoices:
         Action(name="ExportReportCsv", kwargs={
             "rows": [{"plan_id": "plan_2025-08-13", "campaign_id": "5", "adset_id": "106", "checksum": "a1b2c3d4e5f6"}]
         }),
@@ -1033,11 +1033,11 @@ Task(
             actions=[
                 Action(name="FetchPlanForDate", kwargs={"date": "2025-08-13"}),
         
-                # Budgets first (ascending adset_id)
+                # Sort budgets by ascending adset_id.
                 Action(name="UpdateAdsetBudget", kwargs={"adset_id": "107", "new_budget": 400.0, "reason": "plan_2025-08-13"}),
                 Action(name="UpdateAdsetBudget", kwargs={"adset_id": "108", "new_budget": 800.0, "reason": "plan_2025-08-13"}),
         
-                # Then strategies (ascending adset_id)
+                # Subsequently, strategies organized by ascending adset_id.
                 Action(name="SetAdsetStrategy", kwargs={"adset_id": "107", "bid_strategy": "lowest_cost", "reason": "plan_2025-08-13"}),
                 Action(name="SetAdsetStrategy", kwargs={"adset_id": "108", "bid_strategy": "cost_cap", "bid_amount": 45.0, "reason": "plan_2025-08-13"}),
         
@@ -1469,25 +1469,25 @@ Task(
         Action(name="LookupCampaign", kwargs={"name": "Holiday Season Early Bird"}),
         Action(name="FetchPlanForDate", kwargs={"date": "2025-08-13"}),
 
-        # Score delivery for the date (domain proposal: KPI-driven/scored)
+        # Assess delivery for the specified date (domain proposal: KPI-focused/scored)
         Action(name="DailyAdsetInsights", kwargs={"adset_id": "107", "date": "2025-08-13"}),
         Action(name="CalcRoas", kwargs={"adset_id": "107", "date": "2025-08-13"}),
 
-        # Evidence of plan state
+        # Indication of planned state
         Action(name="FreezePlan", kwargs={"date": "2025-08-13"}),
 
-        # Auditable run boundary
+        # Verifiable execution limit
         Action(name="StartAutomationRun", kwargs={
             "run_type": "plan_apply_scored",
             "input_ref": {"campaign_id": "5", "adset_id": "107", "plan_id": "plan_2025-08-13", "date": "2025-08-13"}
         }),
 
-        # Deterministic writes from the plan
+        # Predictable writes based on the plan.
         Action(name="GetAdsetFromPlan", kwargs={"plan_id": "plan_2025-08-13", "adset_id": "107"}),
         Action(name="UpdateAdsetBudget", kwargs={"adset_id": "107", "new_budget": 400.0, "reason": "plan_2025-08-13"}),
         Action(name="SetAdsetStrategy", kwargs={"adset_id": "107", "bid_strategy": "lowest_cost", "reason": "plan_2025-08-13"}),
 
-        # Verify final state
+        # Check the end state.
         Action(name="FetchAdset", kwargs={"adset_id": "107"}),
         Action(name="VerifyApplied", kwargs={
             "expected_rows": [{"adset_id": "107", "budget": 400.0, "bid_strategy": "lowest_cost", "bid_amount": None}],
@@ -1495,7 +1495,7 @@ Task(
             "key_fields": ["adset_id", "budget", "bid_strategy", "bid_amount"]
         }),
 
-        # Receipt
+        # Acknowledgment
         Action(name="ExportReportCsv", kwargs={
             "rows": [{
                 "campaign_id": "5",
@@ -2567,7 +2567,7 @@ Task(
                 Action(name="DailyAdsetInsights", kwargs={"adset_id": "108", "date": "2025-08-13"}),
                 Action(name="DailyAdsetInsights", kwargs={"adset_id": "109", "date": "2025-08-13"}),
         
-                # CSV: exactly one row per ad set (no extra campaign-level row)
+                # CSV: one row per ad set only (no additional campaign-level row)
                 Action(name="ExportReportCsv", kwargs={
                     "rows": [
                         {"campaign_id": "6", "adset_id": "108", "date": "2025-08-13"},

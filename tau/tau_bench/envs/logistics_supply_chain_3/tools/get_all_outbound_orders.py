@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,12 +24,12 @@ class GetAllOutboundOrders(Tool):
             match = True
             for key, value in filters.items():
                 order_value = order.get(key)
-                # Handle case-insensitivity for string comparisons
+                # Manage case-insensitive string comparisons.
                 if isinstance(order_value, str) and isinstance(value, str):
                     if order_value.lower() != value.lower():
                         match = False
                         break
-                # Handle boolean comparison where value might be a string 'true'/'false'
+                # Manage boolean comparisons for string values 'true'/'false'.
                 elif isinstance(order_value, bool) and isinstance(value, str):
                     if str(order_value).lower() != value.lower():
                         match = False

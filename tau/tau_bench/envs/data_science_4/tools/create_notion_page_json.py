@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class CreateNotionPageJson(Tool):
         if not title:
             return json.dumps({"error": "title is required"})
 
-        page_id = "NOTION_PAGE_001"  # deterministic for evals
+        page_id = "NOTION_PAGE_001"  # predictable for evaluations
         slug = "_".join(title.lower().split())
         json_path = f"/notion/pages/{page_id}.json"
 
@@ -31,10 +31,10 @@ class CreateNotionPageJson(Tool):
             "status_nullable": kwargs.get("status_nullable"),
             "properties": kwargs.get(
                 "properties", {}
-            ),  # e.g., {"Model":"SF_V1","AUC":0.87}
+            ),  # for example, {"Model":"SF_V1","AUC":0.87}
             "blocks": kwargs.get(
                 "blocks", []
-            ),  # e.g., [{"type":"heading_2","text":"Overview"}, ...]
+            ),  # for example, [{"type":"heading_2","text":"Summary"}, ...]
             "attachments_paths": kwargs.get("attachments_paths", []),
             "json_path": json_path,
             "slug": slug,

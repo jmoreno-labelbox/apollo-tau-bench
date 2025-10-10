@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Corporation
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,7 +23,7 @@ class GetOrdersByStatus(Tool):
             if order['status'] != status:
                 continue
 
-            # Date filtering is complex without proper datetime objects, skipping for now as in original
+            # Date filtering is intricate without appropriate datetime objects, deferring for the moment as in the original.
 
             order_summary = {
                 'order_id': order['order_id'],

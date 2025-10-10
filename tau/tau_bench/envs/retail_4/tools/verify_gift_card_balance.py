@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class VerifyGiftCardBalance(Tool):
                 "status": "failed"
             })
 
-        # Rule: Validate user identity exists before processing any user requests
+        # Requirement: Confirm the existence of user identity prior to handling any user requests.
         users = list(data.get("users", {}).values())
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
@@ -29,7 +29,7 @@ class VerifyGiftCardBalance(Tool):
                 "status": "failed"
             })
 
-        # Verify name matches user record
+        # Check if the name corresponds to the user record.
         user_name = user.get("name", {})
         stored_first_name = user_name.get("first_name", "").lower().strip()
         stored_last_name = user_name.get("last_name", "").lower().strip()
@@ -43,7 +43,7 @@ class VerifyGiftCardBalance(Tool):
                 "status": "authentication_failed"
             })
 
-        # Rule: Payment methods must be valid type: credit_card, paypal, or gift_card
+        # Condition: Accepted payment methods include credit card, PayPal, or gift card.
         payment_methods = user.get("payment_methods", {})
         gift_cards = []
 
@@ -65,7 +65,7 @@ class VerifyGiftCardBalance(Tool):
                 "message": "No gift cards found for this account"
             })
 
-        # Calculate total gift card balance
+        # Determine the overall balance of gift cards.
         total_balance = sum(card["balance"] for card in gift_cards)
 
         result = {

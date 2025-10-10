@@ -7245,7 +7245,7 @@ TASKS = [
     ),
     Task(
         annotator="liam",
-        user_id="liam_080",  # Too simple??
+        user_id="liam_080",  # Overly simplistic?
         instruction=(
             "You are Noah Thompson, Operations Lead. "
             "A new third-party vendor integration requires creating a service account 'VENDOR_INTEGRATION_BOT' in the Operations department with the email 'vendor-integration@sigmatech.com'. "
@@ -7995,7 +7995,7 @@ TASKS = [
     ),
     Task(
         annotator="liam",
-        user_id="liam_088",  # Too simple?
+        user_id="liam_088",  # Overly simplistic?
         instruction=(
             "You are Sophia Thompson, Marketing Lead. "
             "A cross-department campaign launch requires temporary collaboration between Marketing and Sales. "

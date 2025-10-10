@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class CaV2CalculateHoursWorkedInPeriod(Tool):
 
         time_entries = data.get("time_entries", [])
 
-        # Filter by date and optionally by project_ids
+        # Filter based on date, with an optional filter for project_ids.
         filtered_entries = []
         for entry in time_entries:
             entry_date = entry.get("entry_date", "")
@@ -27,10 +27,10 @@ class CaV2CalculateHoursWorkedInPeriod(Tool):
                 if not project_ids or entry.get("project_id") in project_ids:
                     filtered_entries.append(entry)
 
-        # Calculate totals
+        # Compute sums
         total_hours = sum(entry.get("hours_worked", 0) for entry in filtered_entries)
 
-        # Group by project
+        # Organize by project
         hours_by_project = {}
         for entry in filtered_entries:
             project_id = entry.get("project_id")

@@ -1,19 +1,19 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class GetCustomersWithBirthdayToday(Tool): # READ
+class GetCustomersWithBirthdayToday(Tool): # READ DATA
     @staticmethod
     def invoke(data: Dict[str, Any], current_day: str) -> str:
         db = list(data.get("customers", {}).values())
-        # current_day should be in "MM-DD" format
+        # current_day must be formatted as "MM-DD".
         result = []
         for row in db:
             birthdate = row.get("birthdate", "")
-            # Accept birthdate in "YYYY-MM-DD" or "MM-DD"
+            # Accept birthdate in either "YYYY-MM-DD" format or "MM-DD" format.
             if len(birthdate) >= 5:
                 birthdate = birthdate[-5:]
             if birthdate == current_day:

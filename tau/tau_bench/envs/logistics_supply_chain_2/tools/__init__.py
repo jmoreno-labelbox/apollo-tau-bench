@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .get_carrier_by_scac import GetCarrierBySCAC
 from .get_active_carriers import GetActiveCarriers

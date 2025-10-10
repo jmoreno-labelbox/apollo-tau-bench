@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class GetPendingAssetRequestsTool(Tool):
 
         asset_requests = data.get("asset_requests", [])
 
-        # Apply status filter
+        # Implement status filter
         if status_filter:
             valid_statuses = {"Pending", "Sent", "Reserved", "Completed"}
             if status_filter not in valid_statuses:
@@ -32,7 +32,7 @@ class GetPendingAssetRequestsTool(Tool):
             if not candidate:
                 continue
 
-            # Apply role filter
+            # Implement role-based filtering.
             if role_filter and candidate.get("role_title") != role_filter:
                 continue
 

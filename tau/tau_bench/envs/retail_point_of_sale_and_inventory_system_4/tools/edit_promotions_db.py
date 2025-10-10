@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class EditPromotionsDb(Tool): # WRITE
+class EditPromotionsDb(Tool): # GENERATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -27,11 +27,11 @@ class EditPromotionsDb(Tool): # WRITE
             idx, row = _find_by_id(db, "promotion_id", promotion_id)
             if row:
                 if delete:
-                    # --- DELETE ---
+                    # --- REMOVE ---
                     del db[idx]
                     return json.dumps({"result": "deleted"})
                 else:
-                    # --- UPDATE ---
+                    # --- MODIFICATION ---
                     if name is not None: row["name"] = name
                     if type is not None: row["type"] = type
                     if discount_value is not None: row["discount_value"] = discount_value
@@ -46,7 +46,7 @@ class EditPromotionsDb(Tool): # WRITE
             else:
                 return json.dumps({"error": f"Promotion {promotion_id} not found"})
         else:
-            # --- CREATE ---
+            # --- GENERATE ---
             if not promotion_id:
                 promotion_id = f"PROMO-{1000 + len(db) + 1}"
             if name is None or type is None or discount_value is None or applicable_skus is None or start_date is None:

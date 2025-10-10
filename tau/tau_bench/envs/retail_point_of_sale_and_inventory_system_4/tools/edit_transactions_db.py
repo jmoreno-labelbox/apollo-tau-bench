@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class EditTransactionsDb(Tool): # WRITE
+class EditTransactionsDb(Tool): # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -29,11 +29,11 @@ class EditTransactionsDb(Tool): # WRITE
             idx, row = _find_by_id(db, "transaction_id", transaction_id)
             if row:
                 if delete:
-                    # --- DELETE ---
+                    # --- REMOVE ---
                     del db[idx]
                     return json.dumps({"result": "deleted"})
                 else:
-                    # --- UPDATE ---
+                    # --- REFRESH ---
                     if store_id is not None: row["store_id"] = store_id
                     if employee_id is not None: row["employee_id"] = employee_id
                     if current_time is not None: row["timestamp"] = current_time
@@ -50,7 +50,7 @@ class EditTransactionsDb(Tool): # WRITE
             else:
                 return json.dumps({"error": f"Transaction {transaction_id} not found"})
         else:
-            # --- CREATE ---
+            # --- INITIATE ---
             if not transaction_id:
                 transaction_id = f"TXN-{1000 + len(db) + 1}"
             if store_id is None or employee_id is None or current_time is None or customer_id is None or line_items is None:

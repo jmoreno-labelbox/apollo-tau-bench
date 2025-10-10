@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class AddRecipeToMealPlan(Tool):
         notes = kwargs.get("notes", "")
 
         entries = data.get("meal_plan_entries", [])
-        # Automatically generate the next entry_id
+        # Automatically create the subsequent entry_id.
         new_id = max([entry.get("entry_id", 0) for entry in entries]) + 1 if entries else 6101
 
         new_entry = {

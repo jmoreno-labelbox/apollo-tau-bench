@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,14 +26,14 @@ class ResolvePullRequestBlockers(Tool):
                     if pr_state == "closed":
                         return json.dumps({"resolved": False, "reason": "Pull request is closed", "state": pr_state}, indent=2)
 
-                    # Check if there are blocking review states
+                    # Verify for any obstructing review statuses.
                     blocking_states = []
                     for review_state in review_states:
                         if review_state in ["PENDING", "REQUEST_CHANGES", "COMMENT"]:
                             blocking_states.append(review_state)
 
                     if blocking_states:
-                        # Resolve blocking states by changing them to APPROVE
+                        # Change blocking states to APPROVE to resolve them.
                         resolved_states = []
                         for state in review_states:
                             if state in blocking_states:
@@ -41,7 +41,7 @@ class ResolvePullRequestBlockers(Tool):
                             else:
                                 resolved_states.append(state)
 
-                        # Update the review states in the data
+                        # Revise the review statuses in the dataset.
                         pr_entry["review_states"][pr_idx] = resolved_states
                         pr_entry["review_events"][pr_idx] = resolved_states
 
@@ -54,7 +54,7 @@ class ResolvePullRequestBlockers(Tool):
                         }, indent=2)
 
                     if not mergeable:
-                        # If not mergeable due to conflicts, we can't resolve programmatically
+                        # If there are conflicts preventing a merge, we cannot handle resolution through code.
                         return json.dumps({"resolved": False, "reason": "Pull request has conflicts that require manual resolution", "mergeable": False}, indent=2)
 
                     return json.dumps({"resolved": True, "reason": "Pull request is already mergeable", "mergeable": True}, indent=2)
@@ -62,7 +62,7 @@ class ResolvePullRequestBlockers(Tool):
                 except (ValueError, IndexError):
                     pass
 
-        return json.dumps({"error": f"Pull request #{pullNumber} not found"}, indent=2)
+        return json.dumps({"error": f"Pull request # {pullNumber} does not exist"}, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

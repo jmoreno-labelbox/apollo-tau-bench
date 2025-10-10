@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,10 +16,10 @@ class CaV2CalculateInvoiceAging(Tool):
         unpaid_invoices = [inv for inv in invoices if not inv.get("paid_at")]
 
         aging_buckets = {
-            "current": [],      # 0-30 days
-            "31_60": [],        # 31-60 days
-            "61_90": [],        # 61-90 days
-            "over_90": []       # 90+ days
+            "current": [],      # 0 to 30 days
+            "31_60": [],        # 31 to 60 days
+            "61_90": [],        # 61 to 90 days
+            "over_90": []       # Over 90 days
         }
 
         for invoice in unpaid_invoices:

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,7 +24,7 @@ class AddCommentToIssue(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         owner = (kwargs.get("owner") or "").strip()
         repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
-        # accept several aliases for the issue number
+        # allow multiple aliases for the issue identifier
         issue_number_raw = (
             kwargs.get("issue_number",
                 kwargs.get("issue number",
@@ -43,29 +43,29 @@ class AddCommentToIssue(Tool):
                 indent=2
             )
 
-        # Normalize issue_number
+        # Standardize issue_number
         try:
             issue_number = int(issue_number_raw)
         except Exception:
             return json.dumps({"error": "issue_number must be an integer."}, indent=2)
 
-        # Load issues DB
+        # Load the issues database.
         issues_db = list(data.get("issues", {}).values())
         if not isinstance(issues_db, list):
             return json.dumps({"error": "Invalid issues DB: expected a list at data['issues']."}, indent=2)
 
-        # Find repo bucket
+        # Locate repository bucket
         rec = next((r for r in issues_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             return json.dumps({"error": f"No issues found for repository '{owner}/{repo_name}'."}, indent=2)
 
         issue_numbers: List[int] = rec.get("issue_numbers", [])
         if issue_number not in issue_numbers:
-            return json.dumps({"error": f"Issue #{issue_number} not found for '{owner}/{repo_name}'."}, indent=2)
+            return json.dumps({"error": f"Issue # {issue_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
 
         idx = issue_numbers.index(issue_number)
 
-        # Ensure arrays exist and are padded
+        # Verify the presence of arrays and apply padding.
         rec.setdefault("issue_comments", [])
         rec.setdefault("issue_comment_users", [])
         rec.setdefault("updated_ts", [])
@@ -73,26 +73,26 @@ class AddCommentToIssue(Tool):
         while len(rec["issue_comment_users"]) <= idx: rec["issue_comment_users"].append([])
         while len(rec["updated_ts"]) <= idx: rec["updated_ts"].append(None)
 
-        # Ensure per-issue comment containers are lists
+        # Verify that comment containers for each issue are implemented as lists.
         if not isinstance(rec["issue_comments"][idx], list):
             rec["issue_comments"][idx] = []
         if not isinstance(rec["issue_comment_users"][idx], list):
             rec["issue_comment_users"][idx] = []
 
-        # Append comment and user (keep indices aligned)
+        # Add comment and user while maintaining index alignment.
         rec["issue_comments"][idx].append(issue_comment)
         rec["issue_comment_users"][idx].append(issue_comment_user)
         comment_index = len(rec["issue_comments"][idx]) - 1
 
-        # Bump updated_ts using environment helper
+        # Update updated_ts utilizing the environment utility.
         new_updated_ts = get_current_updated_timestamp()
         rec["updated_ts"][idx] = new_updated_ts
 
-        add_terminal_message(data, f"Comment added to issue #{issue_number} for {owner}/{repo_name}.", get_current_updated_timestamp())
+        add_terminal_message(data, f"Comment added to issue # Retrieve the current updated timestamp for {owner}/{repo_name} related to issue number {issue_number}.
 
         return json.dumps(
             {
-                "success": f"Comment added to issue #{issue_number} for {owner}/{repo_name}.",
+                "success": f"Comment added to issue # "{owner}/{repo_name} issue number {issue_number}."
                 "repo": f"{owner}/{repo_name}",
                 "issue_number": issue_number,
                 "comment_index": comment_index,

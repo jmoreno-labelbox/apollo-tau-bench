@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class UpdateOrderStatus(Tool):
         if not row:
             return json.dumps({"error": f"order_id {order_id} not found"})
         row["status_enum"] = str(new_status)
-        # Deterministic field to ensure write semantics even if status unchanged
+        # Deterministic field to guarantee write behavior even when status remains the same.
         row["last_status_update_at"] = "2025-01-02T11:05:00"
         return json.dumps({"order": row})
 

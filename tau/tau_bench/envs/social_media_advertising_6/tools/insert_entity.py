@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,12 +20,12 @@ class InsertEntity(Tool):
 
         tbl = _assert_table(data, table)
 
-        # Do NOT coerce row fields. Just append exactly what caller passed.
-        # Optional: if the domain wants updated_at defaults, only set if missing.
+        # Avoid modifying row fields. Simply add what the caller provided.
+        # Optional: set updated_at defaults only if they are not already provided.
         if table == "adsets" and "updated_at" not in row:
             row = {**row, "updated_at": ts}
 
-        # Append verbatim and echo back
+        # Concatenate and return the input as is.
         tbl.append(copy.deepcopy(row))
         return json.dumps(row)
 

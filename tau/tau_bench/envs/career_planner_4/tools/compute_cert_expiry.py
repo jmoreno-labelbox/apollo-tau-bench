@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class compute_cert_expiry(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], user_id: str, cert_id: str) -> str:
-        # Mock implementation - in real system would check actual expiry dates
+        # Stub implementation - in a real system, it would verify actual expiration dates.
         return json.dumps(
             {"expiry_date": "2026-03-12", "days_until_expiry": 251}, indent=2
         )

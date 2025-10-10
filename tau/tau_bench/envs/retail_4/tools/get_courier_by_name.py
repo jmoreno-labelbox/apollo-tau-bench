@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,17 +21,17 @@ class GetCourierByName(Tool):
 
         courier_name = courier_name.strip()
 
-        # Find courier by name (case-insensitive search)
+        # Locate courier by name (search disregarding case sensitivity)
         couriers = data.get("couriers", [])
         matching_couriers = []
 
         for courier in couriers:
             stored_name = courier.get("name", "")
 
-            # Exact match (case-insensitive)
+            # Case-insensitive exact match
             if stored_name.lower() == courier_name.lower():
-                matching_couriers.insert(0, courier)  # Put exact matches first
-            # Partial match (case-insensitive)
+                matching_couriers.insert(0, courier)  # Prioritize exact matches.
+            # Case-insensitive partial match
             elif courier_name.lower() in stored_name.lower():
                 matching_couriers.append(courier)
 
@@ -42,17 +42,17 @@ class GetCourierByName(Tool):
                 "search_term": courier_name
             })
 
-        # Return the first (best) match with detailed information
+        # Provide the initial (optimal) match along with comprehensive details.
         best_match = matching_couriers[0]
 
-        # Calculate courier metrics
+        # Compute delivery performance indicators.
         tracking_ids = best_match.get("tracking_ids", [])
         coverage_area = best_match.get("coverage_area", [])
 
-        # Check if courier has any active tracking IDs
+        # Verify if the courier possesses any current tracking IDs.
         has_available_tracking = len(tracking_ids) > 0
 
-        # Determine service capabilities based on coverage
+        # Assess service features according to availability.
         service_capabilities = {
             "domestic_delivery": "USA" in coverage_area,
             "international_delivery": len([country for country in coverage_area if country != "USA"]) > 0,

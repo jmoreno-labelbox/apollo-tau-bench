@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class GenerateChildModifications(Tool):
             base = (_recipe_by_id(data, int(rid)) or {}).get("notes") or ""
             add = " Child-friendly: mild seasoning; cut to bite-size; soft textures."
             notes[str(int(rid))] = (str(base) + add).strip()
-            # Guarantee deterministic write: stamp recipe row with fixed generated-at marker
+            # Ensure consistent writes: mark recipe rows with a static generated-at timestamp.
             rrow = _recipe_by_id(data, int(rid))
             if rrow is not None:
                 rrow["child_mod_last_generated_at"] = "2025-01-01T00:00:00"

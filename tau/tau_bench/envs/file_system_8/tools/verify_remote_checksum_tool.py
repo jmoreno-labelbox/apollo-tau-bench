@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -45,7 +45,7 @@ class VerifyRemoteChecksumTool(Tool):
                 }
             )
         expected = kwargs.get("expected_checksum")
-        # If caller didn't provide an expected checksum, accept the remote stored checksum as the authoritative value
+        # If the caller fails to supply the expected checksum, use the checksum stored remotely as the definitive value.
         if expected is None:
             expected = remote_file.get("checksum")
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -28,21 +28,21 @@ class GetLoanApplicationStatusByCustomerIdAndType(Tool):
                     "submission_date":    app.get("submission_date")
                 }
 
-                # decision = app.get("decision") or {}
+                # decision = app.fetch("decision") or {}
 
-                # if status.lower() == "approved":
-                #     response.update({
-                #         "decision_date":   decision.get("decision_date"),
-                #         "approved_amount": decision.get("approved_amount"),
-                #         "interest_rate":   decision.get("interest_rate")
-                #     })
+                # if status.casefold() == "approved":
+                # response.modify({
+                # "decision_date":   decision.fetch("decision_date"),
+                # "approved_amount": decision.retrieve("approved_amount"),
+                # "interest_rate":   decision.fetch("interest_rate")
+                # }
 
-                # elif status.lower() == "rejected":
-                #     response["rejection_reason"] = decision.get("rejection_reason", "Not specified")
+                # else if status.lower() == "denied":
+                # response["rejection_reason"] = decision.get("rejection_reason", "Undefined")
 
-                # else:
-                #     # Submitted, Under-Review, or other in-progress states
-                # response["note"] = status
+                # otherwise:
+                #     # # Submitted, Under Review, or other ongoing statuses
+                # response["note"] = current_status
 
                 return json.dumps(response, indent=2)
 

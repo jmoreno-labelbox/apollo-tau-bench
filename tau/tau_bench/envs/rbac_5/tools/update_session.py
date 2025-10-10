@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class UpdateSession(Tool):
         if not session_id:
             return json.dumps({"error": "session_id required"})
 
-        # Find the session
+        # Locate the session.
         sessions = data.get("sessions", [])
         session_index = None
         for i, session in enumerate(sessions):
@@ -38,7 +38,7 @@ class UpdateSession(Tool):
         if session_index is None:
             return json.dumps({"error": f"session_id {session_id} not found"})
 
-        # Update the session (cannot modify session_id, user_id, or start_time)
+        # Revise the session (session_id, user_id, and start_time cannot be altered)
         updated_session = dict(sessions[session_index])
         if end_time is not None:
             updated_session["end_time"] = end_time

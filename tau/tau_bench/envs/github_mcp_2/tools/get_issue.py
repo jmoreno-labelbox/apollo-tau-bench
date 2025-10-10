@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,13 +16,13 @@ class GetIssue(Tool):
             return json.dumps({"error": "repo_name and issue_number are required."}, indent=2)
 
         for issue in _issues(data):
-            # print("ISUEEE: ", issue)
+            # print("ISSUE: ", issue)
 
-            # ✅ Case 1: flat dict with single issue
+            # ✅ Scenario 1: simple dictionary with one problem
             if issue.get("repo_name") == repo_name and issue.get("number") == int(number):
                 return json.dumps(issue, indent=2)
 
-            # ✅ Case 2: batched issue structure
+            # ✅ Scenario 2: grouped issue framework
             if issue.get("repo_name") == repo_name and int(number) in (issue.get("issue_numbers") or []):
                 idx = issue["issue_numbers"].index(int(number))
                 return json.dumps({

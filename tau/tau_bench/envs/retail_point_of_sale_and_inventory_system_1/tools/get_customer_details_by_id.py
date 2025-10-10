@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class GetCustomerDetailsById(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         customer_id = kwargs.get('customer_id')
-        customers = list(data.get("customers", {}).values())  # Lista []
+        customers = list(data.get("customers", {}).values())  # Array []
         for customer in customers:
             if customer.get("customer_id") == customer_id:
                 return json.dumps(customer)

@@ -827,7 +827,7 @@ TASKS = [
                 "warehouse_id": "WH-06",
                 "sku": "PHRM-DRUG-S19"
             }),
-            Action(name="GetInventoryInWarehouse", kwargs={  # will return error with no inventory in WH-16
+            Action(name="GetInventoryInWarehouse", kwargs={  # will produce an error if inventory is absent in WH-16
                 "warehouse_id": "WH-16",
                 "sku": "PHRM-DRUG-S19"
             }),
@@ -1543,9 +1543,9 @@ TASKS = [
         instruction="Coordinate a major order for a significant customer, 'Luxury Retail Group', requiring 50 'Leather Handbag' (APRL-BAG-E5) and 100 'Automatic Watch Movement' (LUX-WATCH-L12). Both items are high-value. Locate a warehouse with a 'High-Value Cage' capability. Verify stock levels for both products. Should inventory suffice, generate an order for 'Luxury Retail Group', shipping to '1 Rodeo Drive, Beverly Hills, OR', using the leading 'Air' carrier (highest on-time-delivery percentage, then alphabetical name for ties). Apply tracking number EK-CARGO-456 and record the final order ID.'Luxury Retail Group', wants to place a large order for 50 'Leather Handbag' (APRL-BAG-E5) and 100 'Automatic Watch Movement' (LUX-WATCH-L12). Both are high-value. Find a warehouse with 'High-Value Cage' capability. Check if it has enough stock for both items. If stock is sufficient, create the order for 'Luxury Retail Group' shipping to '1 Rodeo Drive, Beverly Hills, OR', ship it with the best 'Air' carrier (highest on-time-delivery percentage, then alphabetical name for ties). Use tracking number EK-CARGO-456 and report the final order ID.",
         actions=[
             Action(name="FindWarehouses", kwargs={"special_capability": "High-Value Cage"}),
-            # no inventory in WH-01
+            # inventory absent in WH-01
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-01", "sku": "APRL-BAG-E5"}),
-            # no inventory in WH-01
+            # inventory absent in WH-01
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-01", "sku": "LUX-WATCH-L12"}),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-07", "sku": "APRL-BAG-E5"}),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-07", "sku": "LUX-WATCH-L12"}),
@@ -1579,7 +1579,7 @@ TASKS = [
             Action(name="GetInventoryBySku", kwargs={"sku": "ELEC-CHIP-A1"}),
             Action(name="FindSuppliers", kwargs={"product_categories": ["Electronics"]}),
             Action(name="GetSupplierInfo", kwargs={"supplier_id": "SUP-1001"}),
-            # Conditional action: if total stock < 20000 for the SKU
+            # Action based on condition: if SKU total stock is less than 20000.
             Action(name="CreateInboundShipment", kwargs={
                 "supplier_id": "SUP-1001",
                 "destination_warehouse_id": "WH-03",
@@ -1603,9 +1603,9 @@ TASKS = [
                 "quantity_change": -450,
                 "reason": "Audit Adjustment"
             }),
-            Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-06", "sku": "PHRM-DRUG-S19"}), # Check new quantity and reorder point
-            # Conditional: if new quantity (50) < reorder point (100) - this
-            # example will trigger the shipment
+            Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-06", "sku": "PHRM-DRUG-S19"}), # Verify the updated quantity and reorder threshold.
+            # Condition: if the new quantity (50) is less than the reorder threshold (100) - this
+            # This example will initiate the shipment.
             Action(name="GetSupplierInfo", kwargs={"supplier_id": "SUP-1006"}),
             Action(name="CreateInboundShipment", kwargs={
                 "supplier_id": "SUP-1006",
@@ -1624,7 +1624,7 @@ TASKS = [
         instruction="An urgent order from 'BuildFast Corp' requires 35 'Diamond Core Drill Bit' (HEVY-DRIL-I9) and 180 'Automotive Windshield' (AUTO-GLAS-U21). Identify a supplier specializing in 'Heavy Equipment' parts. Review their ratings. Locate warehouses capable of accommodating these products (WH-11 for heavy equipment, WH-03 for glass). Validate stock levels for both items in their respective warehouses. If adequate, create two distinct orders. Ship the drill bits from WH-11 using the premier 'Rail' carrier (highest performance rating, then alphabetical name for ties) and the windshields from WH-03 using the leading 'Truck' carrier (highest performance rating, then alphabetical name for ties). Utilize tracking numbers 'CN-RAIL-789' and 'Global Parcel Service-TRUCK-101'. Report both order IDs.'BuildFast Corp' requires 35 'Diamond Core Drill Bit' (HEVY-DRIL-I9) and 180 'Automotive Windshield' (AUTO-GLAS-U21). Find supplier for 'Heavy Equipment' parts. Check their ratings. Find warehouses that can handle these items (WH-11 for heavy equipment, WH-03 for glass). Check stock for both items in their respective warehouses. If stock is sufficient, create two separate orders. Ship the drill bits from WH-11 using the best 'Rail' carrier (highest performance rating, then alphabetical name for ties) and the windshields from WH-03 using the best 'Truck' carrier (highest performance rating, then alphabetical name for ties). Use tracking numbers 'CN-RAIL-789' and 'Global Parcel Service-TRUCK-101'. Report both order IDs.",
         actions=[
             Action(name="FindSuppliers", kwargs={"product_categories": ["Heavy Equipment"]}),
-            # Assuming SUP-1011 for Heavy Equipment, SUP-1010 for Automotive
+            # Assuming SUP-1011 applies to Heavy Equipment and SUP-1010 pertains to Automotive.
             Action(name="GetSupplierInfo", kwargs={"supplier_id": "SUP-1011"}),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-11", "sku": "HEVY-DRIL-I9"}),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-03", "sku": "AUTO-GLAS-U21"}),
@@ -1642,15 +1642,15 @@ TASKS = [
             }),
             Action(name="FindCarriers", kwargs={"transport_mode": "Rail"}),
             Action(name="FindCarriers", kwargs={"transport_mode": "Truck"}),
-            # Assuming CARR-012 (KNLU) is best Rail, CARR-014 (UPS) is best Truck
+            # Assuming CARR-012 (KNLU) is the optimal Rail option, and CARR-014 (UPS) is the optimal Truck option.
             Action(name="UpdateOutboundOrderStatus", kwargs={
-                "order_id": "ORD-0017", # Derived from first create_outbound_order
+                "order_id": "ORD-0017", # Inferred from the initial create_outbound_order.
                 "new_status": "Shipped",
                 "carrier_id": "CARR-012",
                 "tracking_number": "CN-RAIL-789"
             }),
             Action(name="UpdateOutboundOrderStatus", kwargs={
-                "order_id": "ORD-0018", # Derived from second create_outbound_order
+                "order_id": "ORD-0018", # Based on the second create_outbound_order.
                 "new_status": "Shipped",
                 "carrier_id": "CARR-014",
                 "tracking_number": "Global Parcel Service-TRUCK-101"
@@ -1675,7 +1675,7 @@ TASKS = [
             Action(name="AdjustInventory", kwargs={
                 "warehouse_id": "WH-03",
                 "sku": "ELEC-CHIP-A1",
-                "quantity_change": -8000, # Adjust to zero
+                "quantity_change": -8000, # Set to zero.
                 "reason": "Product Recall"
             }),
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id": "WH-01", "sku": "ELEC-CHIP-A1"}),
@@ -1698,7 +1698,7 @@ TASKS = [
             }),
             Action(name="FindCarriers", kwargs={"transport_mode": "Air"}),
             Action(name="UpdateOutboundOrderStatus", kwargs={
-                "order_id": "ORD-0017", # Derived from create_outbound_order
+                "order_id": "ORD-0017", # Based on create_outbound_order
                 "new_status": "Shipped",
                 "carrier_id": "CARR-006",
                 "tracking_number": "EK-VIP-789"
@@ -1750,9 +1750,9 @@ TASKS = [
             }),
             Action(name="GetSupplierInfo", kwargs={"supplier_id": "SUP-1002"}),
             Action(name="FindCarriers", kwargs={"transport_mode": "Air"}),
-            Action(name="CreateInboundShipment", kwargs={ # Inbound shipment to supplier for disposal
-                "supplier_id": "WH-04", # Our warehouse acts as supplier
-                "destination_warehouse_id": "SUP-1002-returns", # Example: supplier's returns address
+            Action(name="CreateInboundShipment", kwargs={ # Incoming delivery to vendor for disposal.
+                "supplier_id": "WH-04", # Our warehouse serves as a supplier.
+                "destination_warehouse_id": "SUP-1002-returns", # Return address for supplier
                 "carrier_id": "CARR-007",
                 "items": [{"sku": "APRL-TSHT-O15", "quantity": 1}],
                 "estimated_arrival_date": "2025-08-10"
@@ -1830,7 +1830,7 @@ TASKS = [
             }),
             Action(name="FindCarriers", kwargs={"transport_mode": "Air"}),
             Action(name="UpdateOutboundOrderStatus", kwargs={
-                "order_id": "ORD-0017", # New order ID
+                "order_id": "ORD-0017", # Generated order identifier
                 "new_status": "Shipped",
                 "carrier_id": "CARR-006",
                 "tracking_number": "GLOBAL-APRL-001"
@@ -2112,7 +2112,7 @@ TASKS = [
             Action(name="GetInventoryInWarehouse", kwargs={"warehouse_id":
                                                               "WH-09", "sku":
                                                               "TECH-SOLR-G7"}),
-            # just received 1200 units so on-hand-quantity must be 2400
+            # Having just acquired 1200 units, the total on-hand quantity should now be 2400.
             Action(name="AdjustInventory", kwargs={
                 "warehouse_id": "WH-09",
                 "sku": "TECH-SOLR-G7",
@@ -2640,7 +2640,7 @@ TASKS = [
             Action(name="GetSupplierInfo", kwargs={"supplier_id": "SUP-1020"}),
             Action(name="CreateInboundShipment", kwargs={
                 "supplier_id": "SUP-1020",
-                "destination_warehouse_id": "SUP-1013", # Use supplier's warehouse
+                "destination_warehouse_id": "SUP-1013", # Utilize the vendor's storage facility.
                 "carrier_id": "CARR-001",
                 "items": [{"sku": "MATR-COTT-R18", "quantity": 10000}],
                 "estimated_arrival_date": "2025-09-20",
@@ -2692,7 +2692,7 @@ TASKS = [
             Action(name="GetSupplierInfo", kwargs={"supplier_id": "SUP-1030"}),
             Action(name="CreateOutboundOrder", kwargs={
                 "customer_name": "OnlineMart",
-                "warehouse_id": "SUP-1030", # Using supplier as source
+                "warehouse_id": "SUP-1030", # Utilizing supplier as the input source.
                 "items": [{"sku": "ELEC-SMART-W23", "quantity": 10}],
                 "shipping_address": "123 Main St, Anytown, United States"
             }),
@@ -2923,7 +2923,7 @@ TASKS = [
             Action(name="CreateInboundShipment", kwargs={
                 "supplier_id": "Internal",
                 "destination_warehouse_id": "WH-01",
-                "carrier_id": "CARR-014", # UPS Truck
+                "carrier_id": "CARR-014", # Delivery vehicle
                 "items": [{"sku": "ELEC-CHIP-A1", "quantity": 1200}],
                 "estimated_arrival_date": "2025-07-05",
             }),

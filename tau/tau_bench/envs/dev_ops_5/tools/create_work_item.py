@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class CreateWorkItem(Tool):
             "title": kwargs.get("title"),
             "state": kwargs.get("state", "open"),
             "assignee_id": kwargs.get("assignee_id"),
-            "created_at": "2025-01-28T00:00:00Z", # Placeholder timestamp
+            "created_at": "2025-01-28T00:00:00Z", # Temporary timestamp
             "closed_at": None,
             "priority": kwargs.get("priority", 'high'),
             "points": kwargs.get("points", 0),

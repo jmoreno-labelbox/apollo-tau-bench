@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class FindTemplateFilesByTypeTool(Tool):
 
         files = data.get("onboarding_files", [])
 
-        # Templates are identified by their path.
+        # Templates are recognized by their file path.
         templates = [
             f for f in files
             if f"/templates/{template_category}/" in f.get("file_path", "")

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,17 +21,17 @@ class GetGmailMessagesByThread(Tool):
 
         gmail_messages = list(data.get('gmail_messages', {}).values())
 
-        # If message_id is provided, return specific message
+        # Return the specified message if message_id is given.
         if message_id:
             for message in gmail_messages:
                 if message.get('message_id') == message_id:
                     return json.dumps(message, indent=2)
             return json.dumps({"error": f"Message with ID '{message_id}' not found."})
 
-        # Filter messages by criteria
+        # Refine messages based on specified conditions.
         results = []
         for message in gmail_messages:
-            # Apply filters
+            # Implement filters
             if thread_id:
                 if message.get('thread_id') != thread_id:
                     continue
@@ -52,7 +52,7 @@ class GetGmailMessagesByThread(Tool):
                 if not has_attachments and attachments:
                     continue
 
-            # Apply date filters
+            # Implement date filtering.
             if sent_after:
                 sent_ts = message.get('sent_ts', '')
                 if sent_ts < sent_after:

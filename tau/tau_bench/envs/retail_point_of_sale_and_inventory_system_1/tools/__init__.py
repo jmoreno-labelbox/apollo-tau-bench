@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .get_product_sku_by_name import GetProductSkuByName
 from .get_inventory_item_by_sku_and_store import GetInventoryItemBySkuAndStore

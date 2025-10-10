@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 
 def _find_by_id(items, id_value, id_key='id'):

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,11 +26,11 @@ class CopyAndVerifyFilesTool(Tool):
             data["moved_files"] = []
 
         for file in data.get("file_list", []):
-            # Simulate compute checksum if missing
+            # Generate checksum if not present.
             if "checksum" not in file:
                 file["checksum"] = hashlib.sha256(file["path"].encode()).hexdigest()
 
-            # Simulate copy by adding an entry to moved_files (preserve checksum)
+            # Mimic copying by inserting an entry into moved_files (retain checksum).
             moved = {
                 "original": file["path"],
                 "destination": file.get("destination_path"),
@@ -39,6 +39,6 @@ class CopyAndVerifyFilesTool(Tool):
             data["moved_files"].append(moved)
             copied_files.append(moved)
 
-        # Post-move verification: ensure destination checksums match source checksum (simulated deterministic)
+        # Verification after moving: confirm that destination checksums align with the source checksum (simulated deterministic).
         verified_count = len(copied_files)
         return json.dumps({"status": "success", "verified_and_copied": verified_count})

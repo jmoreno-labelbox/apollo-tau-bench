@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,14 +21,14 @@ class SendEmailTool(Tool):
         if client_id is None or broker_id is None or not template_code:
             return _err("client_id, broker_id, and template_code are required")
 
-        # Handle property_id as string or list of strings
+        # Process property_id as either a string or an array of strings.
         if property_id:
             if isinstance(property_id, list):
                 pid = ", ".join(property_id)
             else:
                 pid = str(property_id)
         else:
-            # Auto-generate property_id if missing
+            # Automatically create property_id when absent.
             comp_reports = [
                 r
                 for r in data.get("comp_reports", [])
@@ -44,7 +44,7 @@ class SendEmailTool(Tool):
             else:
                 pid = "HTX000"
 
-        # Auto-generate subject and body_uri if missing
+        # Automatically create subject and body_uri if they are absent.
         if not subject or not body_uri:
             comp_reports = [
                 r
@@ -87,7 +87,7 @@ class SendEmailTool(Tool):
                 elif template_code == "follow_up":
                     subject = f"Following Up on Your Real Estate Needs"
                 else:
-                    # Fallback logic based on report status
+                    # Alternative logic depending on report status
                     if report_status == "sent_to_client":
                         subject = f"Your comparable analysis for {pid} is complete"
                     elif report_status == "ready_for_review":
@@ -123,10 +123,10 @@ class SendEmailTool(Tool):
                 elif template_code == "follow_up":
                     body_uri = f"https://storage.example.com/emails/email_followup_{int(client_id):03d}.html"
                 else:
-                    # Default to comp report style
+                    # Set to use the default competition report format.
                     body_uri = f"https://storage.example.com/emails/email_comp_{int(client_id):03d}.html"
 
-        # Create Email Entry
+        # Generate Email Record
         email_rows = data.setdefault("emails", [])
         email_id = _next_int_id(email_rows, "email_id")
         email_rec = {

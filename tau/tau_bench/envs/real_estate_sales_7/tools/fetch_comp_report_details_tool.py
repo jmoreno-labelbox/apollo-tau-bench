@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -37,7 +37,7 @@ class FetchCompReportDetailsTool(Tool):
             and str(d.get("entity_id")) == str(report_id)
         ]
 
-        # related emails sent to the report's client (summary only)
+        # summary of emails sent to the client's report
         client_id = _as_int(report.get("client_id"))
         emails = [
             e
@@ -48,7 +48,7 @@ class FetchCompReportDetailsTool(Tool):
             emails, key=lambda e: e.get("sent_at") or "", reverse=True
         )
 
-        # audit trail entries for this report
+        # log entries for this report
         audits = [
             a
             for a in data.get("audit_events", [])

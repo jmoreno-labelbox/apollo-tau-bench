@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -30,7 +30,7 @@ class SearchCode(Tool):
                 ]
             }, indent=2)
 
-        # File extension to language mapping
+        # Mapping of file extensions to their corresponding programming languages.
         language_map = {
             'py': 'python', 'js': 'javascript', 'ts': 'typescript', 'java': 'java',
             'cpp': 'cpp', 'c': 'c', 'go': 'go', 'rs': 'rust', 'rb': 'ruby',
@@ -47,7 +47,7 @@ class SearchCode(Tool):
             repo_name = f"{repo['owner']}/{repo['repo_name']}"
             repositories_searched.append(repo_name)
 
-            # Apply repository filter if specified
+            # Implement repository filter when provided.
             if repo_filter and repo_filter.lower() not in repo_name.lower():
                 continue
 
@@ -59,24 +59,24 @@ class SearchCode(Tool):
                 for file_idx, file_path in enumerate(files):
                     content = repo["branch_contents"][branch_idx][file_idx]
 
-                    # Determine file language
+                    # Identify the language of the file.
                     file_extension = file_path.split('.')[-1].lower() if '.' in file_path else 'txt'
                     file_language = language_map.get(file_extension, 'text')
                     file_types_found.add(file_language)
 
-                    # Apply language filter if specified
+                    # Implement language filter if provided
                     if language and language.lower() != file_language.lower():
                         continue
 
-                    # Search for matches (case-insensitive)
+                    # Perform a case-insensitive search for matches.
                     lines = content.split('\n')
                     for line_num, line in enumerate(lines, 1):
                         if query.lower() in line.lower():
-                            # Find the exact match position and context
+                            # Identify the precise location and associated context.
                             match_start = line.lower().find(query.lower())
                             matched_text = line[match_start:match_start + len(query)]
 
-                            # Get context before and after
+                            # Retrieve the preceding and succeeding context.
                             context_before = ""
                             context_after = ""
                             if line_num > 1:
@@ -84,14 +84,14 @@ class SearchCode(Tool):
                             if line_num < len(lines):
                                 context_after = lines[line_num].strip() if line_num < len(lines) else ""
 
-                            # Calculate relevance score based on multiple factors
+                            # Compute relevance score using various parameters.
                             score = 1.0
                             if query.lower() in file_path.lower():
-                                score += 0.5  # Filename match bonus
+                                score += 0.5  # Filename matching incentive
                             if line.strip().startswith(query):
-                                score += 0.3  # Start of line bonus
+                                score += 0.3  # Beginning of line reward
                             if file_language in ['python', 'javascript', 'java']:
-                                score += 0.2  # Popular language bonus
+                                score += 0.2  # Widely-used language incentive
 
                             match = {
                                 "repository": repo_name,
@@ -109,28 +109,28 @@ class SearchCode(Tool):
                             all_matches.append(match)
                             repo_matches += 1
 
-            # Update repository statistics
+            # Refresh repository metrics
             if repo_matches > 0:
                 by_repository[repo_name] = repo_matches
 
-        # Update language statistics
+        # Revise language metrics.
         for match in all_matches:
             lang = match["language"]
             by_language[lang] = by_language.get(lang, 0) + 1
 
-        # Sort matches by score (descending)
+        # Order matches based on score in descending order.
         all_matches.sort(key=lambda x: x["score"], reverse=True)
 
-        # Apply pagination
+        # Implement pagination.
         total_matches = len(all_matches)
         start_idx = (page - 1) * per_page
         end_idx = start_idx + per_page
         paginated_matches = all_matches[start_idx:end_idx]
 
-        # Calculate search time
+        # Determine the duration of the search process.
         search_time_ms = int((time.time() - start_time) * 1000)
 
-        # Generate related query suggestions
+        # Create suggestions for related queries.
         related_queries = []
         if query.lower() in ['function', 'def', 'class']:
             related_queries = [f"{query} name", f"{query} definition", f"public {query}"]
@@ -141,7 +141,7 @@ class SearchCode(Tool):
             if len(words) > 1:
                 related_queries = [words[0], words[-1], " ".join(words[:-1])]
 
-        # Filter applied information
+        # Filtered data details
         filters_applied = {
             "language": language,
             "repository": repo_filter,
@@ -167,7 +167,7 @@ class SearchCode(Tool):
             "relationships": {
                 "repositories_searched": repositories_searched,
                 "file_types_found": list(file_types_found),
-                "related_queries": related_queries[:3]  # Limit to 3 suggestions
+                "related_queries": related_queries[:3]  # Restrict to three recommendations.
             },
             "counts": {
                 "total_matches": total_matches,

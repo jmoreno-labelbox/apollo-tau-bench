@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Technologies
 
 from .validate_drive_time_hops import ValidateDriveTimeHops
 from .fetch_client_prefs import FetchClientPrefs

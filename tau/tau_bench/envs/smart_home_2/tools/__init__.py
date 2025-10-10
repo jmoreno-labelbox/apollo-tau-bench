@@ -1,13 +1,13 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from datetime import datetime
 
 
-# Helper functions
+# Utility functions
 def _find(items, item_id):
     """Find first item by id. Returns (index, item) or (None, None)."""
     for idx, item in enumerate(items):
-        # Check various common ID fields
+        # Verify multiple standard ID fields.
         if (item.get("id") == item_id or 
             item.get("device_id") == item_id or 
             item.get("sensor_id") == item_id or

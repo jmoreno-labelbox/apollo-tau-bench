@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class FindFullPathForFileName(Tool):
         file_name = kwargs.get("file_name")
         ownership_map = data.get("ownership_map", [])
         
-        # Search for a file path that ends with the given file name.
+        # Locate a file path that concludes with the specified file name.
         for ownership in ownership_map:
             if ownership.get("file_path", "").endswith(file_name):
                 return json.dumps({"file_path": ownership.get("file_path")})

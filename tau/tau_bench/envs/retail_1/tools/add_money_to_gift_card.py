@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,22 +9,22 @@ class AddMoneyToGiftCard(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], user_id: str, gift_card_id: str, payment_method_id: str, amount: float) -> str:
         users = data["users"]
-        # Check if the user exists
+        # Verify the existence of the user.
         user = [row for row in users if row["user_id"] == user_id]
         if len(user) > 1:
             return json.dumps({"error": "Multiple users found"})
         if len(user) == 0:
             return json.dumps({"error": "User not found"})
         user = user[0]
-        # Check if the gift card exists
+        # Verify the existence of the gift card.
         if gift_card_id not in user["payment_methods"]:
             return json.dumps({"error": "gift card not found"})
 
-        # Check if the payment method exists
+        # Verify the existence of the payment method.
         if payment_method_id not in user["payment_methods"]:
             return json.dumps({"error": "payment method not found"})
 
-        # Add money to the gift card
+        # Load funds onto the gift card.
         user["payment_methods"][gift_card_id]["balance"] += amount
         user["payment_methods"][gift_card_id]["balance"] = round(user["payment_methods"][gift_card_id]["balance"], 2)
 

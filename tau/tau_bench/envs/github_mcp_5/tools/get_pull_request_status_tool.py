@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -34,11 +34,11 @@ class GetPullRequestStatusTool(Tool):
         if not pull_request:
             return json.dumps({
                 "status": "error",
-                "message": f"Pull request #{pr_number} not found in repository '{repo}'.",
+                "message": f"Pull request # Pull request number {pr_number} does not exist in the repository '{repo}'.
             }, indent=2)
 
-        # Simulate getting status, e.g., checks and mergeability
-        # In a real API, this would be more detailed.
+        # Emulate retrieving status, such as checks and mergeability.
+        # A real API would provide more comprehensive information.
         status = {
             "checks": [
                 {"name": "CI Check", "status": "success"},

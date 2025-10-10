@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class SynthesizeTempVoV2(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], locale: str, keys: List[str]) -> str:
-        # Deterministic temp VO artifact per locale and number of keys
+        # Predictable temporary VO artifact based on locale and key count.
         uri = f"artifact://temp_vo/{locale}-{len(keys)}"
         localization_workflow = _get_table(data, "localization_workflow")
         localization_workflow.append({"step": "synthesize_temp_vo", "locale": locale, "keys": keys, "uri": uri})

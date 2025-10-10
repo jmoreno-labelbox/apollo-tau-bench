@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,24 +21,24 @@ class UpdateSystemConfig(Tool):
 
         system_config = data.get('system_config', [])
 
-        # Find existing config or create new one
+        # Locate the current configuration or generate a new one.
         config_found = False
         for config in system_config:
             if config.get('config_key') == config_key:
                 config_found = True
                 old_value = config.get('config_value_json')
 
-                # Update config
+                # Revise configuration
                 config['config_value_json'] = config_value_json
                 config['last_updated'] = datetime.now().isoformat()
 
-                # Add optional fields
+                # Include optional parameters
                 if description:
                     config['description'] = description
                 if config_category:
                     config['category'] = config_category
 
-                # Log the change
+                # Record the modification.
                 if 'change_history' not in config:
                     config['change_history'] = []
                 config['change_history'].append({
@@ -50,7 +50,7 @@ class UpdateSystemConfig(Tool):
 
                 break
 
-        # Create new config if not found
+        # Generate a new configuration if it does not exist.
         if not config_found:
             new_config = {
                 "config_key": config_key,

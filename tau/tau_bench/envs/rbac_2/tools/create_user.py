@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,7 +23,7 @@ class CreateUser(Tool):
             "username": kwargs.get("username"),
             "email": kwargs.get("email"),
             "department": kwargs.get("department"),
-            "status": kwargs.get("status", "ACTIVE"),  # Default to ACTIVE if not specified
+            "status": kwargs.get("status", "ACTIVE"),  # Set to ACTIVE by default if not provided.
             "mfa_enabled": False
         }
         users.append(new_user)

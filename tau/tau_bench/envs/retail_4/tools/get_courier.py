@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class GetCourier(Tool):
 
         tracking_id = tracking_id.strip()
 
-        # Find which courier has this tracking ID
+        # Determine the courier associated with this tracking ID.
         couriers = data.get("couriers", [])
 
         for courier in couriers:
@@ -34,7 +34,7 @@ class GetCourier(Tool):
                 }
                 return json.dumps(result)
 
-        # Tracking ID not found
+        # Tracking ID is missing.
         return json.dumps({
             "error": f"Tracking ID {tracking_id} not found",
             "status": "not_found"

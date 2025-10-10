@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,25 +19,25 @@ class UpdateAuditReportStatus(Tool):
         if not all([audit_id, new_status]):
             return json.dumps({"error": "audit_id and new_status are required."})
 
-        # Validate status values
+        # Verify status values.
         valid_statuses = ['RUNNING', 'COMPLETED', 'FAILED', 'CANCELLED']
         if new_status not in valid_statuses:
             return json.dumps({"error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"})
 
         audits = data.get('audits', [])
 
-        # Find the audit
+        # Locate the audit.
         audit_found = False
         for audit in audits:
             if audit.get('audit_id') == audit_id:
                 audit_found = True
                 old_status = audit.get('status')
 
-                # Update audit status
+                # Revise audit status
                 audit['status'] = new_status
                 audit['last_updated'] = datetime.now().isoformat()
 
-                # Handle status-specific logic
+                # Manage logic based on status conditions.
                 if new_status == 'COMPLETED':
                     audit['completed_at'] = datetime.now().isoformat()
                     if report_asset_id:
@@ -48,7 +48,7 @@ class UpdateAuditReportStatus(Tool):
                     if completion_notes:
                         audit['failure_reason'] = completion_notes
 
-                # Log the status change
+                # Record the status update.
                 if 'status_history' not in audit:
                     audit['status_history'] = []
                 audit['status_history'].append({

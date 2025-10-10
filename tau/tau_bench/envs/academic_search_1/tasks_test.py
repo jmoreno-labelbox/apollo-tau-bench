@@ -341,12 +341,12 @@ TASKS = [
         actions=[
             Action(name="SearchUsers", kwargs={"name": "Dr. Helena Souza"}),
             Action(name="SearchArticles", kwargs={"title": "New Biomarkers for Early Detection of Neurodegenerative Diseases"}), # art_04
-            Action(name="GetSubmissionByArticle", kwargs={"article_id": "art_04"}), # sub_02
-            Action(name="SearchUsers", kwargs={"name": "Dr. Thomas Anderson"}), # res_02 (author of art_04)
-            Action(name="SearchArticles", kwargs={"author_name": "Dr. Thomas Anderson"}), # Returns art_03, art_09, art_14
-            Action(name="SearchCitations", kwargs={"article_id": "art_03", "direction": "to"}), # Returns cit_02, cit_04, cit_08
-            Action(name="SearchArticles", kwargs={"article_id": "art_01"}), # Returns details of 'Advances in Language Models for Code Generation' by Dr. Ricardo Mendes, Dr. Helena Souza, topic: AI
-            Action(name="SearchUsers", kwargs={"name": "Dr. Ricardo Mendes"}), # Confirms res_01 is from AI field
+            Action(name="GetSubmissionByArticle", kwargs={"article_id": "art_04"}), # function_02
+            Action(name="SearchUsers", kwargs={"name": "Dr. Thomas Anderson"}), # res_02 (creator of art_04)
+            Action(name="SearchArticles", kwargs={"author_name": "Dr. Thomas Anderson"}), # Outputs art_03, art_09, art_14
+            Action(name="SearchCitations", kwargs={"article_id": "art_03", "direction": "to"}), # Returns cit_02, cit_04, and cit_08.
+            Action(name="SearchArticles", kwargs={"article_id": "art_01"}), # Provides information on 'Advances in Language Models for Code Generation' authored by Dr. Ricardo Mendes and Dr. Helena Souza, focusing on AI.
+            Action(name="SearchUsers", kwargs={"name": "Dr. Ricardo Mendes"}), # Verifies that res_01 originates from the AI domain.
             Action(name="AssignReviewerToSubmission", kwargs={"submission_id": "sub_02", "reviewer_user_id": "res_01"}),
             Action(name="UpdateSubmissionStatus", kwargs={"submission_id": "sub_02", "new_status": "under_review"}),
             Action(name="CreateLogEntry", kwargs={
@@ -670,13 +670,13 @@ TASKS = [
         instruction="""Manage reviewer recruitment and assignment duties as Dr. Thomas Anderson, a submissions manager, to recruit and assign a new interdisciplinary reviewer for the submission for 'New Biomarkers for Early Detection of Neurodegenerative Diseases'. The reviewer must be from the 'Artificial Intelligence' field, have cited a paper by Prof. James Wilson (the article's author), and have a current logged articles count of 0 (indicating light workload). In case of a tie in logged articles, select the one whose name comes first alphabetically. After identifying the reviewer, assign them to the submission, and update the submission status to 'under_review'. Then, send a personalized welcome notification to the new reviewer with the exact message content 'REVIEWER_WELCOME: Welcome! You've been assigned to review the submission for 'New Biomarkers for Early Detection of Neurodegenerative Diseases' (art_04). We value your interdisciplinary perspective.'. Finally, create a log entry for your own records with override ID 'log_recruitment_01' stating: 'RECRUITMENT_LOG: Reviewer [Reviewer ID] assigned to [Submission ID].'. As final confirmation, return the submission's updated list of assigned reviewers.""",
         actions=[
             Action(name="SearchUsers", kwargs={"name": "Dr. Thomas Anderson"}),
-            Action(name="SearchArticles", kwargs={"title": "New Biomarkers for Early Detection of Neurodegenerative Diseases"}), # Identifica art_04
-            Action(name="GetSubmissionByArticle", kwargs={"article_id": "art_04"}), # Identifica sub_02
-            Action(name="SearchUsers", kwargs={"name": "Prof. James Wilson"}), # Identifica res_04
-            Action(name="SearchCitations", kwargs={"article_id": "art_04", "direction": "to"}), # Isso deve retornar cit_06 (source: art_14)
-            Action(name="SearchArticles", kwargs={"article_id": "art_14"}), # Identifica art_14 (autores: Dr. Thomas Anderson, Prof. James Wilson, Dr. Helena Souza)
-            Action(name="SearchUsers", kwargs={"name": "Dr. Helena Souza"}), # Identifica res_16
-            Action(name="AssignReviewerToSubmission", kwargs={"submission_id": "sub_02", "reviewer_user_id": "res_16"}), # Atribui Dr. Helena Souza
+            Action(name="SearchArticles", kwargs={"title": "New Biomarkers for Early Detection of Neurodegenerative Diseases"}), # Detecta art_04
+            Action(name="GetSubmissionByArticle", kwargs={"article_id": "art_04"}), # Identificar sub_02
+            Action(name="SearchUsers", kwargs={"name": "Prof. James Wilson"}), # Detecta res_04
+            Action(name="SearchCitations", kwargs={"article_id": "art_04", "direction": "to"}), # Isso deve devolver cit_06 (origem: art_14)
+            Action(name="SearchArticles", kwargs={"article_id": "art_14"}), # Localiza art_14 (autores: Dr. Thomas Anderson, Prof. James Wilson, Dr. Helena Souza)
+            Action(name="SearchUsers", kwargs={"name": "Dr. Helena Souza"}), # Detecta res_16
+            Action(name="AssignReviewerToSubmission", kwargs={"submission_id": "sub_02", "reviewer_user_id": "res_16"}), # Designates Dr. Helena Souza
             Action(name="UpdateSubmissionStatus", kwargs={"submission_id": "sub_02", "new_status": "under_review"}),
             Action(name="SendNotification", kwargs={
                 "recipient_user_id": "res_16",
@@ -703,8 +703,8 @@ TASKS = [
             Action(name="SearchArticles", kwargs={"article_id": "art_02"}),
             Action(name="SearchCitations", kwargs={"article_id": "art_02", "direction": "to"}),
             Action(name="SearchArticles", kwargs={"article_id": "art_01"}),
-            Action(name="SearchUsers", kwargs={"name": "Dr. Ricardo Mendes"}), # Identifica res_01 (disponível)
-            Action(name="SearchUsers", kwargs={"name": "Dr. Helena Souza"}), # Identifica res_16 (disponível)
+            Action(name="SearchUsers", kwargs={"name": "Dr. Ricardo Mendes"}), # Localiza res_01 (acessível)
+            Action(name="SearchUsers", kwargs={"name": "Dr. Helena Souza"}), # Identifies res_16 (available)
             Action(name="UpdateProjectStatus", kwargs={"project_id": "proj_01", "new_status": "cross_impact_verified"}),
             Action(name="CreateLogEntry", kwargs={
                 "user_id": "res_03",
@@ -747,19 +747,19 @@ TASKS = [
         actions=[
             Action(name="SearchUsers", kwargs={"name": "Prof. James Wilson"}),
             Action(name="SearchArticles", kwargs={"title": "Gene Editing Techniques with CRISPR-Cas9"}), # art_03
-            Action(name="SearchUsers", kwargs={"research_field": "Astrophysics"}), # res_03, res_05, res_11
-            Action(name="SearchUsers", kwargs={"name": "Dr. Ricardo Mendes"}), # res_05 (0 logged articles)
-            Action(name="SearchArticles", kwargs={"author_name": "Dr. Ricardo Mendes"}), # art_08 (2025)  -> o mais recente dele
-            Action(name="SearchUsers", kwargs={"name": "Dr. Anna Petrov"}), # res_03 (0 logged articles)
+            Action(name="SearchUsers", kwargs={"research_field": "Astrophysics"}), # results_03, results_05, results_11
+            Action(name="SearchUsers", kwargs={"name": "Dr. Ricardo Mendes"}), # res_05 (0 articles recorded)
+            Action(name="SearchArticles", kwargs={"author_name": "Dr. Ricardo Mendes"}), # art_08 (2025) -> a versão mais atual dele
+            Action(name="SearchUsers", kwargs={"name": "Dr. Anna Petrov"}), # res_03 (0 articles logged)
             Action(name="SearchArticles", kwargs={"author_name": "Dr. Anna Petrov"}), # art_05 (2023)
-            Action(name="SearchUsers", kwargs={"name": "Dr. Helena Souza"}), # res_11 (0 logged articles)
-            Action(name="SearchArticles", kwargs={"author_name": "Dr. Helena Souza"}), # Sem artigos dele
-            Action(name="SearchFundingSources", kwargs={"focus_area": "Astrophysics", "status": "available"}), # fs_04 (1.2M)
+            Action(name="SearchUsers", kwargs={"name": "Dr. Helena Souza"}), # res_11 (0 recorded articles)
+            Action(name="SearchArticles", kwargs={"author_name": "Dr. Helena Souza"}), # Sem publicações dele.
+            Action(name="SearchFundingSources", kwargs={"focus_area": "Astrophysics", "status": "available"}), # fs_04 (1.2MB)
             Action(name="CreateProject", kwargs={
                 "project_id_override": "proj_interdisciplinary_01",
                 "project_name": "Biomedicine-Astrophysics Synergy",
                 "lead_researcher_id": "res_04",
-                "linked_articles": ["art_03", "art_08"], # Linkando art_08 do Dr. Ricardo Mendes
+                "linked_articles": ["art_03", "art_08"], # Conectando art_08 de Dr. Ricardo Mendes
                 "funding_source_id": "fs_04"
             }),
             Action(name="SendNotification", kwargs={
@@ -861,7 +861,7 @@ TASKS = [
             Action(name="SearchArticles", kwargs={"article_id": "art_02"}),
             Action(name="SearchCitations", kwargs={"article_id": "art_02", "direction": "to"}),
             Action(name="SearchArticles", kwargs={"article_id": "art_01"}),
-            # Ação adicionada para determinar 'art_07'
+            # Ação implementada para identificar 'art_07'
             Action(name="SearchArticles", kwargs={"title": "Revised: Limits of Quantum Computing"}),
             Action(name="UpdateProjectStatus", kwargs={"project_id": "proj_01", "new_status": "validated"}),
             Action(name="SearchUsers", kwargs={"name": "Dr. Anna Petrov"}),
@@ -883,10 +883,10 @@ TASKS = [
             Action(name="GetSubmissionDetails", kwargs={"submission_id": "sub_04"}),
             Action(name="GetReviewBySubmission", kwargs={"submission_id": "sub_04"}),
             Action(name="UpdateSubmissionStatus", kwargs={"submission_id": "sub_04", "new_status": "Accepted"}),
-            Action(name="SearchArticles", kwargs={"title": "Quantum Cryptography Protocols for Secure Communications"}), # Identifica art_10
-            Action(name="SearchUsers", kwargs={"name": "Dr. Wei Zhang"}), # Identifica res_03
+            Action(name="SearchArticles", kwargs={"title": "Quantum Cryptography Protocols for Secure Communications"}), # Detecta art_10
+            Action(name="SearchUsers", kwargs={"name": "Dr. Wei Zhang"}), # Localiza res_03
             Action(name="SendNotification", kwargs={
-                "recipient_user_id": "res_03", # Notificar Dr. Wei Zhang
+                "recipient_user_id": "res_03", # Inform Dr. Wei Zhang.
                 "sender_user_id": "res_02",
                 "message_content": "SUBMISSION_ACCEPTED: Congratulations! Your submission for 'Quantum Cryptography Protocols for Secure Communications' has been accepted!"
             }),

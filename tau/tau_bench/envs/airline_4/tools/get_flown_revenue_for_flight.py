@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -29,7 +29,7 @@ class GetFlownRevenueForFlight(Tool):
 
     @staticmethod
     def _reservation_total(res, price_component: str) -> float | None:
-        # Prefer dict with base_fare; fallback to scalar price
+        # Use a dictionary with base_fare as the primary option; revert to a scalar price if unavailable.
         if isinstance(res.get("price"), dict):
             return GetFlownRevenueForFlight._leg_amount(res["price"], price_component)
         if isinstance(res.get("total_price"), dict):
@@ -44,7 +44,7 @@ class GetFlownRevenueForFlight(Tool):
         flight_number: str,
         start_date: str,
         end_date: str,
-        price_component: str = "base_fare",  # kept for API shape; 'total' == 'base_fare' in current data
+        price_component: str = "base_fare",  # retained for API structure; 'total' is equivalent to 'base_fare' in the existing dataset
         require_available: bool = True,
         include_details: bool = False
     ) -> str:
@@ -77,7 +77,7 @@ class GetFlownRevenueForFlight(Tool):
                 if not legs:
                     continue
 
-                # Try per-leg prices first
+                # Start with prices on a per-leg basis.
                 leg_amts: List[Optional[float]] = []
                 has_leg_prices = False
                 for leg in legs:
@@ -86,14 +86,14 @@ class GetFlownRevenueForFlight(Tool):
                         has_leg_prices = True
                     leg_amts.append(amt)
 
-                # If no leg prices, split reservation base_fare equally
+                # In the absence of leg prices, divide the reservation base fare evenly.
                 if not has_leg_prices:
                     res_total = GetFlownRevenueForFlight._reservation_total(res, price_component)
                     if res_total is not None and len(legs) > 0:
                         equal_share = res_total / len(legs)
                         leg_amts = [equal_share for _ in legs]
 
-                # Recognize per matching leg/date
+                # Identify based on corresponding leg/date.
                 for i, leg in enumerate(legs):
                     if leg.get("flight_number") != flight_number:
                         continue
@@ -121,7 +121,7 @@ class GetFlownRevenueForFlight(Tool):
             "flight_number": flight_number,
             "start_date": start_date,
             "end_date": end_date,
-            "price_component": price_component,  # kept for compatibility
+            "price_component": price_component,  # retained for compatibility
             "require_available": require_available,
             "reservations_scanned": reservations_scanned,
             "legs_recognized": legs_recognized,

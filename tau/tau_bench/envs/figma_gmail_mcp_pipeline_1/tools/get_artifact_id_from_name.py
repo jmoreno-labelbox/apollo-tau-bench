@@ -1,23 +1,23 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class GetArtifactIdFromName(Tool):  # READ
+class GetArtifactIdFromName(Tool):  # READ DATA
     @staticmethod
     def invoke(
         data: Dict[str, Any],
         artifact_name: str
     ) -> str:
-        # Validate input
+        # Check the input for correctness.
         if not isinstance(artifact_name, str) or not artifact_name:
             return json.dumps({"error": "artifact_name must be a non-empty string"})
 
         artifacts = data.get("figma_artifacts", [])
 
-        # Find exact match first
+        # Locate the precise match initially.
         exact_match = None
         for artifact in artifacts:
             if artifact.get("artifact_name") == artifact_name:
@@ -32,7 +32,7 @@ class GetArtifactIdFromName(Tool):  # READ
                 "owner_email": exact_match.get("owner_email")
             })
 
-        # If no exact match, find partial matches (case-insensitive)
+        # If an exact match is not found, look for case-insensitive partial matches.
         partial_matches = []
         artifact_name_lower = artifact_name.lower()
         for artifact in artifacts:

@@ -1,7 +1,7 @@
 from tau_bench.types import Action, Task
 
 TASKS = [
-    # 1 - EXPERT COMPLEXITY (16 edges) DETERMINISTIC SKILL DEVELOPMENT
+    # 1 - DETERMINISTIC SKILL ADVANCEMENT AT EXPERT LEVEL (16 edges)
     Task(
         annotator="synth",
         user_id="U001",
@@ -55,7 +55,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 2 - HIGH COMPLEXITY
+    # 2 - ELEVATED COMPLEXITY
     Task(
         annotator="synth",
         user_id="U308",
@@ -94,7 +94,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 3 - EXPERT COMPLEXITY (15 edges)- COMPREHENSIVE LEADERSHIP DEVELOPMENT
+    # 3 - ADVANCED COMPLEXITY (15 edges) - THOROUGH LEADERSHIP GROWTH
     Task(
         annotator="synth",
         user_id="U003",
@@ -155,7 +155,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 4 - EXPERT COMPLEXITY (16 edges) CLOUD SECURITY SPECIALIZATION
+    # 4 - ADVANCED COMPLEXITY (16 connections) CLOUD SECURITY EXPERTISE
     Task(
         annotator="synth",
         user_id="U004",
@@ -213,7 +213,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 5 - HIGH COMPLEXITY (13 edges) - SENIOR DATA SCIENTIST PREPARATION
+    # 5 - HIGH COMPLEXITY (13 edges) - SENIOR DATA SCIENTIST READINESS
     Task(
         annotator="synth",
         user_id="U005",
@@ -259,7 +259,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 6 - HIGH COMPLEXITY (8 edges) - DEVOPS LEADERSHIP DEVELOPMENT
+    # 6 - HIGH COMPLEXITY (8 edges) - DEVOPS MANAGEMENT TRAINING
     Task(
         annotator="synth",
         user_id="U006",
@@ -314,7 +314,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 7 - EXPERT COMPLEXITY (14 edges) - UX DESIGN LEADERSHIP TRANSITION
+    # 7 - ADVANCED COMPLEXITY (14 edges) - UX DESIGN LEADERSHIP SHIFT
     Task(
         annotator="synth",
         user_id="U007",
@@ -375,7 +375,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 8 - REPLACED
+    # 8 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U008",
@@ -442,7 +442,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 9 - HIGH COMPLEXITY (13 edges) - BACKEND LEADERSHIP DEVELOPMENT
+    # 9 - ELEVATED COMPLEXITY (13 edges) - BACKEND LEADERSHIP GROWTH
     Task(
         annotator="synth",
         user_id="U009",
@@ -507,7 +507,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 10 - REPLACED
+    # 10 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U010",
@@ -551,7 +551,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 11 - HIGH COMPLEXITY (14 edges) - CLINICAL ANALYTICS PROGRESSION
+    # 11 - HIGH COMPLEXITY (14 edges) - CLINICAL ANALYTICS ADVANCEMENT
     Task(
         annotator="synth",
         user_id="U011",
@@ -611,7 +611,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 12 - REPLACED
+    # 12 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U012",
@@ -681,7 +681,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 13 - HIGH COMPLEXITY (13 edges) - CLINICAL ANALYTICS UPSKILLING
+    # 13 - HIGH COMPLEXITY (13 edges) - CLINICAL ANALYTICS SKILL ENHANCEMENT
     Task(
         annotator="synth",
         user_id="U302",
@@ -727,7 +727,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 14 - EXPERT COMPLEXITY (16 edges) - ANALYTICS VISUALIZATION DEVELOPMENT
+    # 14 - HIGH COMPLEXITY (16 edges) - DEVELOPMENT OF ANALYTICS VISUALIZATION
     Task(
         annotator="synth",
         user_id="U014",
@@ -792,7 +792,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 15 - REPLACED
+    # 15 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U015",
@@ -843,7 +843,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 16 - EXPERT COMPLEXITY (14 edges) - DEVOPS SECURITY DEVELOPMENT
+    # 16 - ADVANCED COMPLEXITY (14 connections) - DEVOPS SECURITY ENGINEERING
     Task(
         annotator="synth",
         user_id="U016",
@@ -900,7 +900,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 17 - REPLACED
+    # 17 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U017",
@@ -970,7 +970,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 18 - EXPERT COMPLEXITY (15 edges) - PRODUCT MARKETING UPSKILLING
+    # 18 - ADVANCED COMPLEXITY (15 edges) - PRODUCT MARKETING SKILL DEVELOPMENT
     Task(
         annotator="synth",
         user_id="U018",
@@ -1031,7 +1031,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 19 - REPLACED
+    # 19 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U019",
@@ -1087,7 +1087,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 20 - EXPERT COMPLEXITY (15 edges) - ANALYTICS SKILLS DEVELOPMENT
+    # 20 - ADVANCED COMPLEXITY (15 edges) - ANALYTICS SKILL ENHANCEMENT
     Task(
         annotator="synth",
         user_id="U020",
@@ -1149,7 +1149,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 21 - REPLACED
+    # 21 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U021",
@@ -1191,7 +1191,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 22 - REPLACED
+    # 22 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U022",
@@ -1254,7 +1254,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 23 - REPLACED
+    # 23 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U023",
@@ -1316,7 +1316,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 24 - EXPERT COMPLEXITY (13 edges) - UX DESIGN SKILLS DEVELOPMENT
+    # 24 - ADVANCED COMPLEXITY (13 edges) - UX DESIGN COMPETENCE ENHANCEMENT
     Task(
         annotator="synth",
         user_id="U024",
@@ -1373,7 +1373,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 25 - REPLACED
+    # 25 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U025",
@@ -1421,7 +1421,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 26 - HIGH COMPLEXITY (11 edges) - COMPLIANCE TECHNOLOGY ADVANCEMENT
+    # 26 - HIGH COMPLEXITY (11 edges) - PROGRESS IN COMPLIANCE TECHNOLOGY
     Task(
         annotator="synth",
         user_id="U026",
@@ -1497,7 +1497,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 27 - REPLACED
+    # 27 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U027",
@@ -1564,7 +1564,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 28 - EXPERT COMPLEXITY (14 edges) - CONTENT WRITING CAREER GROWTH
+    # 28 - ADVANCED COMPLEXITY (14 edges) - CONTENT WRITING PROFESSIONAL DEVELOPMENT
     Task(
         annotator="synth",
         user_id="U028",
@@ -1625,7 +1625,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 29 - REPLACED
+    # 29 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U029",
@@ -1673,7 +1673,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 30 - EXPERT COMPLEXITY (15 edges) - MARKETING STRATEGY DEVELOPMENT
+    # 30 - EXPERT LEVEL COMPLEXITY (15 connections) - DEVELOPMENT OF MARKETING STRATEGY
     Task(
         annotator="synth",
         user_id="U030",
@@ -1734,7 +1734,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 31 - REPLACED
+    # 31 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U031",
@@ -1798,7 +1798,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 32 - EXPERT COMPLEXITY (14 edges) - INFRASTRUCTURE AUTOMATION DEVELOPMENT
+    # 32 - ADVANCED COMPLEXITY (14 edges) - AUTOMATION OF INFRASTRUCTURE DEVELOPMENT
     Task(
         annotator="synth",
         user_id="U306",
@@ -1870,7 +1870,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 33 - REPLACED
+    # 33 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U033",
@@ -1922,7 +1922,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 34 - HIGH COMPLEXITY (7 edges) - ACCESSIBILITY EXPERTISE DEVELOPMENT
+    # 34 - HIGH COMPLEXITY (7 edges) - DEVELOPMENT OF ACCESSIBILITY EXPERTISE
     Task(
         annotator="synth",
         user_id="U307",
@@ -1987,7 +1987,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 35 - EXPERT COMPLEXITY (10 edges) - DESIGNOPS LEAD DEVELOPMENT
+    # 35 - ADVANCED COMPLEXITY (10 edges) - DESIGNOPS LEAD ENGINEERING
     Task(
         annotator="synth",
         user_id="U035",
@@ -2059,7 +2059,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 36 - REPLACED
+    # 36 - SUBSTITUTED
     Task(
         annotator="synth",
         user_id="U036",
@@ -2115,7 +2115,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 37 - EXPERT COMPLEXITY 13 edges - COMPREHENSIVE UX WRITING DEVELOPMENT
+    # 37 - HIGHLY COMPLEX EXPERT LEVEL 13 edges - THOROUGH UX WRITING CREATION
     Task(
         annotator="synth",
         user_id="U037",
@@ -2168,7 +2168,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 38 - HIGH COMPLEXITY (12 edges) - INFRASTRUCTURE RELIABILITY ENHANCEMENT
+    # 38 - HIGH COMPLEXITY (12 edges) - IMPROVEMENT OF INFRASTRUCTURE RELIABILITY
     Task(
         annotator="synth",
         user_id="U038",
@@ -2225,7 +2225,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 39 - EXPERT COMPLEXITY (15 edges) - WRITING TECHNOLOGY ADVANCEMENT
+    # 39 - HIGHLY COMPLEX (15 edges) - DOCUMENTING TECHNOLOGICAL PROGRESS
     Task(
         annotator="synth",
         user_id="U039",
@@ -2298,7 +2298,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 40 - EXPERT COMPLEXITY (15 edges) - COMPREHENSIVE DEVELOPMENT INITIATIVE
+    # 40 - HIGH LEVEL OF COMPLEXITY (15 edges) - THOROUGH DEVELOPMENT PROGRAM
     Task(
         annotator="synth",
         user_id="U040",

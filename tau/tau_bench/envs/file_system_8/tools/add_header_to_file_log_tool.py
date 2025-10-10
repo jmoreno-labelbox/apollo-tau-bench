@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -30,7 +30,7 @@ class AddHeaderToFileLogTool(Tool):
         task_id = kwargs["task_id"]
         if log_name not in data:
             return json.dumps({"error": f"Log '{log_name}' not found."})
-        # Wrap existing data under a 'data' key and add 'task_id' at the top level
+        # Enclose the current data within a 'data' key and include 'task_id' at the root level.
         log_data = data[log_name]["data"]
         data[log_name] = {"task_id": task_id, "data": log_data}
         return json.dumps(

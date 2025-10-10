@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class ListRecentMealHistory(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         household_id = kwargs.get("household_id")
         days_back = kwargs.get("days_back")
-        anchor_date = kwargs.get("anchor_date")  # ISO date or None
+        anchor_date = kwargs.get("anchor_date")  # ISO format date or null
         if household_id is None or days_back is None:
             return _json_dump({"error": "household_id and days_back are required"})
         from datetime import date, timedelta

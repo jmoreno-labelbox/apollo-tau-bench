@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class AssignCertificationTool(Tool):
 
         certification_id = kwargs.get("certification_id")
         user_id = kwargs.get("user_id")
-        assigned_on = kwargs.get("assigned_on")  # ISO8601 or similar deterministic string
+        assigned_on = kwargs.get("assigned_on")  # ISO8601 or an equivalent predictable string
         status = kwargs.get("status") or "ASSIGNED"
 
         if not isinstance(certification_id, str) or not certification_id.strip():
@@ -32,23 +32,23 @@ class AssignCertificationTool(Tool):
         if not isinstance(status, str) or not status.strip():
             return json.dumps({"error": "status must be a non-empty string"}, indent=2)
 
-        # Validate user exists
+        # Check if the user is present.
         user = next((u for u in users if u.get("user_id") == user_id), None)
         if not user:
             return json.dumps({"error": f"user_id {user_id} not found in users"}, indent=2)
 
-        # Ensure certification_id is unique
+        # Verify that certification_id is distinct.
         if any(c.get("certification_id") == certification_id for c in certifications):
             return json.dumps({"error": f"certification_id {certification_id} already exists"}, indent=2)
 
-        # Append minimal, schema-safe record using only known field names from datasets
+        # Add a minimal record that adheres to the schema, utilizing only recognized field names from the datasets.
         new_record = {
             "certification_id": certification_id,
             "user_id": user_id,
             "status": status,
         }
         if assigned_on:
-            new_record["assigned_on"] = assigned_on  # field name exists in project datasets (e.g., user_roles)
+            new_record["assigned_on"] = assigned_on  # field name is present in project datasets (e.g., user_roles)
 
         certifications.append(new_record)
         return json.dumps(

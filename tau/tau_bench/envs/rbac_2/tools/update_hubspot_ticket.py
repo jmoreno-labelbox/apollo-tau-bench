@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,7 +22,7 @@ class UpdateHubspotTicket(Tool):
                 for key, value in kwargs.items():
                     if key in ticket:
                         ticket[key] = value
-                ticket["updated_at"] = kwargs.get("timestamp") # Always update the timestamp
+                ticket["updated_at"] = kwargs.get("timestamp") # Continuously refresh the timestamp.
                 ticket_to_update = ticket
                 break
 

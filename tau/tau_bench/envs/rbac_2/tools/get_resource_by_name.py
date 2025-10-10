@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class GetResourceByName(Tool):
             if resource.get("name") == resource_name:
                 return json.dumps(resource)
 
-        # 5. If no match is found after checking all resources, return an error message.
+        # 5. If all resources are checked and no match is found, return an error message.
         return json.dumps({"error": f"Resource with name '{resource_name}' not found."})
 
     @staticmethod

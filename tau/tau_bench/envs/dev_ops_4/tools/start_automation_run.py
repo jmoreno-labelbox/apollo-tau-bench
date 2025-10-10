@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class StartAutomationRun(Tool):
     """Start an automation run (build triage, asset_qa, testing)."""
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        automation_type = kwargs.get("automation_type")  # build_triage, asset_qa, testing
+        automation_type = kwargs.get("automation_type")  # triage_development, quality_assessment, validation
         input_ref = kwargs.get("input_ref")
         automation_run_id = kwargs.get("automation_run_id")
         run = {

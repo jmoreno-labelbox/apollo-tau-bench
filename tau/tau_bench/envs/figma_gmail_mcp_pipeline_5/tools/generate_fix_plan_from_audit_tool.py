@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -34,7 +34,7 @@ class GenerateFixPlanFromAuditTool(Tool):
         else:
             plans.append(plan_row)
 
-        # Select top findings per frame until budget
+        # Choose leading results for each frame until the budget is reached.
         ds = [r for r in data.get("audit_findings_ds", []) if r.get("audit_id") == audit_id]
         a11y = [r for r in data.get("audit_findings_a11y", []) if r.get("audit_id") == audit_id]
         grouped: Dict[str, List[Dict[str, Any]]] = {}
@@ -46,7 +46,7 @@ class GenerateFixPlanFromAuditTool(Tool):
         i_idx = _index_by(items, "item_id")
         created_item_ids: List[str] = []
 
-        # Deterministic ordering by frame_id then finding_id
+        # Ordering is determined by frame_id followed by finding_id.
         for frame_id in sorted(grouped.keys()):
             picks = sorted(grouped[frame_id], key=lambda r: str(r.get("finding_id")))[:budget]
             for f in picks:

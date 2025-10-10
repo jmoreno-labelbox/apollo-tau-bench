@@ -1,14 +1,14 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class UpdateDB(Tool): # WRITE
+class UpdateDB(Tool): # CREATE
     @staticmethod
-    # For values in a list, it will just append the new value to the list.
-    # To change or remove a value in a list, you must use pass the entire list as you want it to be, and it will replace the old list.
+    # It will simply add the new value to the existing list.
+    # To modify or delete a value in a list, the complete list must be provided in its desired state, which will overwrite the existing list.
     def invoke(data: Dict[str, Any], database_name:str, filter_params: Dict[str, Any], update_params: Dict[str, Any]) -> str:
         db = data.get(database_name, [])
         filtered_db = [row for row in db if _match(row, filter_params)]

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -32,7 +32,7 @@ class ExportAuditLogsTool(Tool):
                 continue
             results.append(log)
 
-        # Deterministic export format (JSON string list of logs)
+        # Consistent export format (JSON array of logs)
         return json.dumps(results, indent=2)
 
     @staticmethod

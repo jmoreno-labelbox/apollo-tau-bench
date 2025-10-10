@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class ListOpenPullRequests(Tool):
 
         prs = _prs(data)
         for block in prs:
-            # print("block:::", block)
+            # output("block:::", block)
             if block["owner"] == me and block["repo_name"] == repo_name:
                 results = [
                     {

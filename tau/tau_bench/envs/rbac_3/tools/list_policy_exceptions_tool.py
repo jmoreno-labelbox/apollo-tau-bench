@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,8 +26,8 @@ class ListPolicyExceptionsTool(Tool):
         status = kwargs.get("status")
         active_only = bool(kwargs.get("active_only", False))
 
-        # Support both specific and generic names for date filters (parity with
-        # other tools)
+        # Enable functionality for both exact and general date filter names (consistent with
+        # alternative tools)
         date_from = kwargs.get("requested_on_from") or kwargs.get("date_from")
         date_to = kwargs.get("requested_on_to") or kwargs.get("date_to")
 
@@ -47,7 +47,7 @@ class ListPolicyExceptionsTool(Tool):
             if active_only and (rec.get("status") in ("DENIED", "EXPIRED")):
                 continue
 
-            # Date filter on requested_on
+            # Date filter applied to requested_on.
             if dt_from or dt_to:
                 ts = _parse_iso(rec.get("requested_on"))
                 if dt_from and (not ts or ts < dt_from):

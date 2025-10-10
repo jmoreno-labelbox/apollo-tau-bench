@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,11 +21,11 @@ class CreateNewIssue(Tool):
         owner = kwargs.get("owner", "").strip()
         repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
 
-        # Optional fields
+        # Fields that are not mandatory
         title = (kwargs.get("title") or kwargs.get("issue_title") or "").strip()
         body = (kwargs.get("body") or kwargs.get("issue_body") or "").strip()
 
-        # Accept label(s) via 'label', 'lable' (typo), or 'labels'
+        # Accept labels through 'label', 'lable' (misspelling), or 'labels'.
         labels_input = kwargs.get("labels", kwargs.get("label", kwargs.get("lable", None)))
         if isinstance(labels_input, str):
             labels_list: List[str] = [labels_input.strip()] if labels_input.strip() else []
@@ -34,7 +34,7 @@ class CreateNewIssue(Tool):
         else:
             labels_list = []
 
-        # Accept assignee(s) via 'assignees' or 'assignee'
+        # Receive assignee(s) through 'assignees' or 'assignee'.
         assignees_input = kwargs.get("assignees", kwargs.get("assignee", None))
         if isinstance(assignees_input, str):
             assignees_list: List[str] = [assignees_input.strip()] if assignees_input.strip() else []
@@ -49,12 +49,12 @@ class CreateNewIssue(Tool):
                 indent=2
             )
 
-        # Load issues DB
+        # Load the issues database.
         issues_db = list(data.get("issues", {}).values())
         if not isinstance(issues_db, list):
             return json.dumps({"error": "Invalid issues DB: expected a list at data['issues']."}, indent=2)
 
-        # Find or create the repo bucket
+        # Locate or establish the repository bucket.
         rec = next((r for r in issues_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         created_bucket = False
         if rec is None:
@@ -75,11 +75,11 @@ class CreateNewIssue(Tool):
             issues_db.append(rec)
             created_bucket = True
 
-        # Next issue number & timestamp (helpers provided by your env)
+        # Upcoming issue identifier and timestamp (utilities available in your environment)
         next_issue_number = get_next_issue_number(data)
         new_ts = get_current_timestamp()
 
-        # Ensure arrays exist
+        # Verify the presence of arrays.
         for key, default in [
             ("issue_numbers", []),
             ("issue_titles", []),
@@ -94,26 +94,26 @@ class CreateNewIssue(Tool):
         ]:
             rec.setdefault(key, default)
 
-        # Append the new issue
+        # Add the new issue.
         rec["issue_numbers"].append(next_issue_number)
-        rec["issue_titles"].append(title)            # provided or ""
-        rec["issue_bodies"].append(body)             # provided or ""
+        rec["issue_titles"].append(title)            # offered or ""
+        rec["issue_bodies"].append(body)             # supplied or ""
         rec["issue_states"].append("open")
-        rec["labels"].append(labels_list)            # list[str]
-        rec["assignees"].append(assignees_list)      # list[str]
-        rec["issue_comments"].append([])             # none yet
-        rec["issue_comment_users"].append([])        # none yet
+        rec["labels"].append(labels_list)            # List of strings
+        rec["assignees"].append(assignees_list)      # array of strings
+        rec["issue_comments"].append([])             # not available at this time
+        rec["issue_comment_users"].append([])        # not available at this time
         rec["created_ts"].append(new_ts)
         rec["updated_ts"].append(new_ts)
 
-        add_terminal_message(data, f"Created new issues bucket and issue #{next_issue_number}" if created_bucket else f"Added issue #{next_issue_number} to existing bucket", get_current_timestamp())
+        add_terminal_message(data, f"Created new issues bucket and issue #{next_issue_number}" if created_bucket else f"Added issue # f"Added issue #{next_issue_number} to existing bucket" if created_bucket else f"Next issue number: {next_issue_number}", get_current_timestamp()
 
         return json.dumps(
             {
                 "success": (
-                    f"Created new issues bucket and issue #{next_issue_number}"
+                    f"Created new issues bucket and issue # {subsequent_issue_number}
                     if created_bucket else
-                    f"Added issue #{next_issue_number} to existing bucket"
+                    f"Added issue # "Add {next_issue_number} to the current bucket."
                 ),
                 "repo": f"{owner}/{repo_name}",
                 "issue": {

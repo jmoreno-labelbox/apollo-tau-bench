@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,11 +11,11 @@ class ModifyProjectConfig(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         updates = kwargs.get("updates") or {}
         
-        # Ensure project_config exists in data
+        # Verify that project_config is present in the data.
         if "project_config" not in data or data["project_config"] is None or isinstance(data["project_config"], list):
             data["project_config"] = {}
         
-        # Now update the config that's actually in data
+        # Update the configuration present in the data.
         data["project_config"].update(updates)
         data["project_config"]["updated_at"] = _fixed_now_iso()
         

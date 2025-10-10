@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class get_course_id_by_name(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], course_name: str) -> str:
         courses = data.get("course_catalog", [])
-        # Find a course where the name contains the provided string (case-insensitive)
+        # Locate a course that includes the specified substring in its name, ignoring case sensitivity.
         course = next(
             (c for c in courses if course_name.lower() in c.get("name", "").lower()),
             None,

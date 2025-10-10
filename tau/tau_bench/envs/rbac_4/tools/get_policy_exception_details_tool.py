@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,9 +13,9 @@ class GetPolicyExceptionDetailsTool(Tool):
         eid = kwargs.get("exception_id")
         for e in data.get("policy_exceptions", []) or []:
             if e.get("exception_id") == eid:
-                # Return the exact object as pretty JSON so you can grab reviewed_on, etc.
+                # Return the object formatted as pretty JSON to easily access reviewed_on and other fields.
                 return json.dumps(e, indent=2)
-        # Not found → return empty object to avoid '"error":' keys tripping validators
+        # If not found, return an empty object to prevent '"error":' keys from triggering validators.
         return "{}"
 
     @staticmethod

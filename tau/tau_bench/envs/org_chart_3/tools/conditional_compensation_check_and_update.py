@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class conditional_compensation_check_and_update(Tool):
     def invoke(data: Dict[str, Any], employee_id: str, compensation_id: str, effective_date: str,
                salary_threshold: Optional[float] = None, target_salary: Optional[float] = None,
                bonus_threshold: Optional[float] = None, target_bonus: Optional[float] = None) -> str:
-        # Get current compensation
+        # Retrieve current salary information.
         comp = data.get("compensation_records", [])
         current = [c for c in comp if c["employee_id"] == employee_id]
         current.sort(key=lambda c: c["effective_date"], reverse=True)
@@ -21,11 +21,11 @@ class conditional_compensation_check_and_update(Tool):
         latest = current[0]
         changes_made = []
 
-        # Start with current values
+        # Initialize with existing values.
         new_salary = latest["base_salary"]
         new_bonus = latest["bonus_target_pct"]
 
-        # Check salary condition
+        # Verify salary criteria
         if salary_threshold is not None and target_salary is not None:
             if latest["base_salary"] < salary_threshold:
                 new_salary = target_salary
@@ -33,7 +33,7 @@ class conditional_compensation_check_and_update(Tool):
             else:
                 changes_made.append(f"salary {latest['base_salary']} already above threshold {salary_threshold}")
 
-        # Check bonus condition
+        # Verify bonus requirements
         if bonus_threshold is not None and target_bonus is not None:
             if latest["bonus_target_pct"] < bonus_threshold:
                 new_bonus = target_bonus
@@ -41,7 +41,7 @@ class conditional_compensation_check_and_update(Tool):
             else:
                 changes_made.append(f"bonus {latest['bonus_target_pct']}% already above threshold {bonus_threshold}%")
 
-        # Only create new record if changes were made
+        # Generate a new record solely if modifications occurred.
         if new_salary != latest["base_salary"] or new_bonus != latest["bonus_target_pct"]:
             new_comp = {
                 "compensation_id": compensation_id,
@@ -53,7 +53,7 @@ class conditional_compensation_check_and_update(Tool):
                 "effective_date": effective_date
             }
 
-            # Remove old record with same ID if exists and add new one
+            # Delete any existing record with the same ID before adding the new one.
             comp = [c for c in comp if c["compensation_id"] != compensation_id]
             comp.append(new_comp)
             data["compensation_records"] = comp

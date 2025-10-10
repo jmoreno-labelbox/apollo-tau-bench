@@ -1,0 +1,578 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "user_119",
+        "actions": [
+          {
+            "name": "FindSupplyOrders",
+            "kwargs": {
+              "supplier_id": "#SUP0001",
+              "status": "pending"
+            }
+          },
+          {
+            "name": "SetSupplyOrderStatus",
+            "kwargs": {
+              "supply_order_id": "#SO9359",
+              "status": "approved"
+            }
+          },
+          {
+            "name": "AppendSupplyOrderEvent",
+            "kwargs": {
+              "supply_order_id": "#SO9359",
+              "event_type": "info",
+              "message": "Shipment received and verified"
+            }
+          },
+          {
+            "name": "SetSupplyOrderStatus",
+            "kwargs": {
+              "supply_order_id": "#SO9359",
+              "status": "in_transit"
+            }
+          },
+          {
+            "name": "ReceiveSupplyOrderAndClose",
+            "kwargs": {
+              "supply_order_id": "#SO9359"
+            }
+          },
+          {
+            "name": "UpdateProductVariantPrice",
+            "kwargs": {
+              "product_id": "9523456873",
+              "item_id": "9612497925",
+              "new_price": 55.0
+            }
+          },
+          {
+            "name": "UpdateProductVariantPrice",
+            "kwargs": {
+              "product_id": "9523456873",
+              "item_id": "9612497925",
+              "new_price": 49.99
+            }
+          },
+          {
+            "name": "ReplaceItemVariantInOrder",
+            "kwargs": {
+              "order_id": "#W7007896",
+              "index": 0,
+              "product_id": "9523456873",
+              "item_id": "9612497925"
+            }
+          },
+          {
+            "name": "RemovePaymentByIndex",
+            "kwargs": {
+              "order_id": "#W7007896",
+              "index": 0
+            }
+          }
+        ],
+        "instruction": "The task is to oversee a multi-stage supply chain process and incorporate its outcomes into a customer order. Begin by handling the pending supply order '#SO9359' from supplier '#SUP0001'. Transition it to 'approved', then 'in_transit', and ultimately handle its receipt and closing, while recording an 'info' event with the note 'Shipment received and verified' upon approval. Following the confirmation of 'T-Shirt' stock, coordinate two consecutive price alterations for the variant (product '9523456873', item '9612497925'): initially raise the price to $55.00, followed by a promotional reduction to $49.99. Conclude by updating the pending order '#W7007896' for customer 'Ahmad Ahmed' (user_id 'ahmad_ahmed_6232') by substituting the item at index 0 with this newly repriced T-Shirt and nullifying the payment at index 0.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0021475,
+      "reward_info": {
+        "reward": 0.0,
+        "info": {
+          "r_actions": 0.0,
+          "gt_data_hash": "9bee2e0e116e51216d276cdcba38c6dbc51249c64a66dca75c12e2fe97c1b9c5"
+        },
+        "actions": [
+          {
+            "name": "FindSupplyOrders",
+            "kwargs": {
+              "supplier_id": "#SUP0001",
+              "status": "pending"
+            }
+          },
+          {
+            "name": "SetSupplyOrderStatus",
+            "kwargs": {
+              "supply_order_id": "#SO9359",
+              "status": "approved"
+            }
+          },
+          {
+            "name": "AppendSupplyOrderEvent",
+            "kwargs": {
+              "supply_order_id": "#SO9359",
+              "event_type": "info",
+              "message": "Shipment received and verified"
+            }
+          },
+          {
+            "name": "SetSupplyOrderStatus",
+            "kwargs": {
+              "supply_order_id": "#SO9359",
+              "status": "in_transit"
+            }
+          },
+          {
+            "name": "ReceiveSupplyOrderAndClose",
+            "kwargs": {
+              "supply_order_id": "#SO9359"
+            }
+          },
+          {
+            "name": "UpdateProductVariantPrice",
+            "kwargs": {
+              "product_id": "9523456873",
+              "item_id": "9612497925",
+              "new_price": 55.0
+            }
+          },
+          {
+            "name": "UpdateProductVariantPrice",
+            "kwargs": {
+              "product_id": "9523456873",
+              "item_id": "9612497925",
+              "new_price": 49.99
+            }
+          },
+          {
+            "name": "ReplaceItemVariantInOrder",
+            "kwargs": {
+              "order_id": "#W7007896",
+              "index": 0,
+              "product_id": "9523456873",
+              "item_id": "9612497925"
+            }
+          },
+          {
+            "name": "RemovePaymentByIndex",
+            "kwargs": {
+              "order_id": "#W7007896",
+              "index": 0
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You serve as a specialist in retail operations, handling customers, orders, and logistics with accuracy.\",\n    \"Your main objective is to precisely execute the user's instruction by utilizing the appropriate tools in the specified order.\",\n    \"Consistently operate the tools according to their intended functionality; do not presume any unintended side-effects (for instance, changing an order's status will not, by itself, modify tracking).\",\n    \"The instruction serves as the sole authoritative reference for determining the task's purpose.\",\n    \"Each action executed must be strictly necessary and logically justified to accomplish the goal specified in the instruction.\",\n    \"Avoid carrying out unnecessary or unrelated actions on entities that are not referenced or implied within the scope of the instruction.\",\n    \"The order of actions must be logically comprehensive and ensure the complete attainment of the defined goal.\",\n    \"Each parameter value utilized in an action\u2014including every ID, quantity, price, and any literal text for notes or messages\u2014must be directly specified within the instruction.\",\n    \"When a task involves acting upon entities defined by their properties (for example, 'all active orders'), the actions list must start with 'find' tools to identify the relevant IDs.\",\n    \"The instruction must supply the required high-level identifiers (such as user_id or supplier_id) to facilitate this identification process.\",\n    \"Do not generate, presume, or invent any information that is not directly specified by the instruction or present in the current database state.\",\n    \"Remain cognizant of the environment's constraints: each action within a single task operates solely on the database's initial state and does not reflect changes made by earlier actions in that task.\",\n    \"Avoid constructing tasks that involve sequential modifications to the same entity which depend on state retention (for example, deleting a payment and subsequently adding a new one to the same order within the same task constitutes an invalid approach).\",\n    \"Note that available test data for certain entities (such as tracking IDs or particular supply order statuses) is limited and can be depleted.\",\n    \"The task is considered invalid if any entity specified by the instruction is absent from the initial database state.\",\n    \"Order statuses are required to progress through the following logical lifecycle: 'pending', 'processed', 'shipped', 'delivered', or 'cancelled'.\",\n    \"Supply order statuses are required to progress through a logical sequence, for example: 'pending', 'approved', 'in_transit', 'delivered', 'completed'.\",\n    \"A supply order may only be set to 'completed' if it has previously been received using the 'receive_supply_order_and_close' tool.\",\n    \"Ensure all IDs are validated prior to executing any operations; if any entity is not found, the task is invalid according to the design.\",\n    \"The outputs should contain the necessary data presented in a straightforward, structured manner as a list of dictionaries, rather than in natural language.\",\n    \"When the last action of a task is a modification (a 'write' operation), the output should be an empty list [\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi! Could you assist me with managing a supply order from our supplier? We've got a pending order that needs to be transitioned through a few stages."
+      },
+      {
+        "content": "Please provide me with the supplier_id and any specific details about the supply order, such as the order_id or the stages you want to transition it through.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "The supply order is labeled '#SO9359' and it's from supplier '#SUP0001'. We need to move it from 'pending' to 'approved'."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"supply_order_id\": \"#SO9359\", \"status\": \"approved\"}",
+              "name": "set_supply_order_status"
+            },
+            "id": "call_a20eEF4bozvrusIuRqG06jQb",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_a20eEF4bozvrusIuRqG06jQb",
+        "name": "set_supply_order_status",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"supplier_id\":\"#SUP0001\",\"status\":\"pending\"}",
+              "name": "find_supply_orders"
+            },
+            "id": "call_4bifGF1SwQYB0duPV6LWaMpT",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_4bifGF1SwQYB0duPV6LWaMpT",
+        "name": "find_supply_orders",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems that the supply order '#SO9359' is not found in the current database state. Please verify the supply order ID and ensure it exists. If you have any other details or another order to manage, let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Hmm, the supply order ID '#SO9359' should be in the system. Could you please check again? We're starting with its approval."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"supplier_id\":\"#SUP0001\"}",
+              "name": "find_supply_orders"
+            },
+            "id": "call_oUSBtQGutGgXt59Iu5yIDaSw",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_oUSBtQGutGgXt59Iu5yIDaSw",
+        "name": "find_supply_orders",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It appears that there is an issue with retrieving the supply orders from the system. Unfortunately, I cannot proceed with the approval of the supply order without confirming its existence. \n\nPlease double-check the supply order ID or provide any additional information that might help in locating it.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I understand. Let's move forward assuming it's resolved. Please approve the supply order '#SO9359', and make sure to record an 'info' event noting that the shipment has been received and verified."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"supply_order_id\": \"#SO9359\", \"status\": \"approved\"}",
+              "name": "set_supply_order_status"
+            },
+            "id": "call_rjkmeLEReCSIjoVakrngedqe",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_rjkmeLEReCSIjoVakrngedqe",
+        "name": "set_supply_order_status",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"supply_order_id\":\"#SO9359\",\"reason\":\"Shipment has been received and verified.\"}",
+              "name": "auto_approve_supply_order"
+            },
+            "id": "call_nzbidZCqUsvvlMCZRZZporhF",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_nzbidZCqUsvvlMCZRZZporhF",
+        "name": "auto_approve_supply_order",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems that I am unable to process the approval for the supply order '#SO9359' due to a persistent issue with the system. Unfortunately, without the ability to confirm the order's status or make changes, I cannot proceed with the task.\n\nIf you have any other instructions or a different order to manage, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No worries. Let's assume it's approved. Now, can you help transition the status to 'in_transit'?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"supply_order_id\":\"#SO9359\",\"status\":\"in_transit\"}",
+              "name": "set_supply_order_status"
+            },
+            "id": "call_C5eNCIdcBBPXDqFqWcUOWEiv",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_C5eNCIdcBBPXDqFqWcUOWEiv",
+        "name": "set_supply_order_status",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "I am currently unable to change the status of the supply order '#SO9359' to 'in_transit' due to ongoing issues with the system. \n\nIf you have any other tasks or orders you would like to manage, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Let's proceed under the assumption that the system issues get resolved. After 'in_transit', handle the receipt and closing once it arrives, okay?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"supply_order_id\":\"#SO9359\",\"note\":\"Shipment has been received and verified.\"}",
+              "name": "receive_supply_order_and_close"
+            },
+            "id": "call_FTVWm2o2dlc8Yz0a3d5c825K",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_FTVWm2o2dlc8Yz0a3d5c825K",
+        "name": "receive_supply_order_and_close",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "I am unable to process the receipt and closing of the supply order '#SO9359' due to the ongoing system issues. \n\nIf you have any other tasks or need assistance with a different order, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alright, moving ahead under the assumption everything's resolved. Could you confirm the 'T-Shirt' stock, and let's adjust its price? The product ID is '9523456873', and the item ID is '9612497925'. We want to set the price to $55.00 first."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"product_id\":\"9523456873\",\"item_id\":\"9612497925\",\"new_price\":55}",
+              "name": "update_product_variant_price"
+            },
+            "id": "call_Lw6m86AvKOlqZJ7Zm8f7Lsvx",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_Lw6m86AvKOlqZJ7Zm8f7Lsvx",
+        "name": "update_product_variant_price",
+        "content": "{\n  \"product_id\": \"9523456873\",\n  \"item_id\": \"9612497925\",\n  \"old_price\": 50.88,\n  \"new_price\": 55.0\n}"
+      },
+      {
+        "content": "The price for the 'T-Shirt' has been successfully updated. Here are the details:\n\n- **Product ID**: 9523456873\n- **Item ID**: 9612497925\n- **Old Price**: $50.88\n- **New Price**: $55.00\n\nIf you need any further assistance or additional actions, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great! Now, let's proceed with a promotional price change. Could you update the price of 'T-Shirt' to $49.99?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"product_id\":\"9523456873\",\"item_id\":\"9612497925\",\"new_price\":49.99}",
+              "name": "update_product_variant_price"
+            },
+            "id": "call_lGhsTfLgzi1ju6jlyQy2lMeE",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_lGhsTfLgzi1ju6jlyQy2lMeE",
+        "name": "update_product_variant_price",
+        "content": "{\n  \"product_id\": \"9523456873\",\n  \"item_id\": \"9612497925\",\n  \"old_price\": 55.0,\n  \"new_price\": 49.99\n}"
+      },
+      {
+        "content": "The price for the 'T-Shirt' has been successfully updated to the promotional price. Here are the details:\n\n- **Product ID**: 9523456873\n- **Item ID**: 9612497925\n- **Old Price**: $55.00\n- **New Price**: $49.99\n\nIf you need any further assistance or additional actions, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Perfect! Now, we need to update a pending customer order. Can you replace the item at index 0 in order '#W7007896' for Ahmad Ahmed with this newly priced T-Shirt? Also, nullify the payment at that index."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"order_id\": \"#W7007896\", \"index\": 0, \"product_id\": \"9523456873\", \"item_id\": \"9612497925\"}",
+              "name": "replace_item_variant_in_order"
+            },
+            "id": "call_oPL9Jq03fRZhfaHE80ANWMpF",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_oPL9Jq03fRZhfaHE80ANWMpF",
+        "name": "replace_item_variant_in_order",
+        "content": "Error: name '_adjust_stock' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"user_id\":\"Ahmad Ahmed\",\"status\":\"pending\"}",
+              "name": "find_orders_by_user_and_status"
+            },
+            "id": "call_7HU4E4YHfIBoL71Odwkl5l4N",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_7HU4E4YHfIBoL71Odwkl5l4N",
+        "name": "find_orders_by_user_and_status",
+        "content": "{\n  \"user_id\": \"Ahmad Ahmed\",\n  \"count\": 0,\n  \"orders\": []\n}"
+      },
+      {
+        "content": "It appears that there are no pending orders for the customer 'Ahmad Ahmed' in the system. Therefore, I cannot proceed with replacing the item in the order '#W7007896'.\n\nIf you have any other tasks or need assistance with a different order, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Let's proceed assuming the order is located. Please substitute the item and nullify the payment per the instructions."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"order_id\": \"#W7007896\", \"index\": 0, \"product_id\": \"9523456873\", \"item_id\": \"9612497925\"}",
+              "name": "replace_item_variant_in_order"
+            },
+            "id": "call_TppaN28LdpmXRDMLZZTB6WGs",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_TppaN28LdpmXRDMLZZTB6WGs",
+        "name": "replace_item_variant_in_order",
+        "content": "Error: name '_adjust_stock' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"order_id\":\"#W7007896\",\"index\":0}",
+              "name": "remove_payment_by_index"
+            },
+            "id": "call_sFewg56HdJ5Pg1cPq73ilDES",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_sFewg56HdJ5Pg1cPq73ilDES",
+        "name": "remove_payment_by_index",
+        "content": "{\n  \"order_id\": \"#W7007896\",\n  \"removed\": true,\n  \"payment_history_len\": 0\n}"
+      },
+      {
+        "content": "I encountered an issue while attempting to replace the item in order '#W7007896'. However, I successfully nullified the payment at index 0. Here are the details:\n\n- **Order ID**: #W7007896\n- **Payment at Index 0**: Removed successfully\n\nIf you need any further assistance or would like to try replacing the item again, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you for nullifying the payment. Let\u2019s assume the item is now replaced successfully as well. I think that covers everything for now!"
+      },
+      {
+        "content": "You're welcome! Here\u2019s a summary of the actions taken:\n\n1. Updated the price of the 'T-Shirt' to $55.00.\n2. Further updated the promotional price of the 'T-Shirt' to $49.99.\n3. Nullified the payment at index 0 for order '#W7007896'.\n4. Assumed the item at index 0 in order '#W7007896' was successfully replaced with the newly priced T-Shirt.\n\nIf you need any more assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

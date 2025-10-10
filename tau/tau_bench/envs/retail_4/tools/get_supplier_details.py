@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class GetSupplierDetails(Tool):
                 "status": "not_found"
             })
 
-        # Calculate stock metrics
+        # Compute stock indicators.
         item_stock = supplier_found.get("item_stock", {})
         total_items = len(item_stock)
         available_items = 0
@@ -44,7 +44,7 @@ class GetSupplierDetails(Tool):
                 available_items += 1
                 total_stock_value += int(stock_level)
 
-        # Calculate availability rate
+        # Determine the availability ratio.
         availability_rate = (available_items / total_items * 100) if total_items > 0 else 0
 
         result = {

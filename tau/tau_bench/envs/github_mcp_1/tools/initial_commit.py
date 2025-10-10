@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class InitialCommit(Tool):
                 indent=2
             )
 
-        # Load commits DB (supports either {"commits": [...]} or a top-level list)
+        # Load commits database (accepts either {"commits": [...]} format or a top-level array).
         commits_db = list(data.get("commits", {}).values())
         if isinstance(commits_db, list):
             pass
@@ -39,7 +39,7 @@ class InitialCommit(Tool):
                 indent=2
             )
 
-        # Find or create the repo record
+        # Locate or establish the repository entry.
         rec = next((r for r in commits_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             rec = {
@@ -59,7 +59,7 @@ class InitialCommit(Tool):
         commit_authors: List[List[str]] = rec.get("commit_authors", [])
         commit_timestamps: List[List[str]] = rec.get("commit_timestamps", [])
 
-        # Ensure branch exists and arrays are aligned
+        # Verify the branch's existence and alignment of arrays.
         if branch_name not in branch_names:
             branch_names.append(branch_name)
             commit_shas.append([])
@@ -69,17 +69,17 @@ class InitialCommit(Tool):
 
         idx = branch_names.index(branch_name)
 
-        # Deterministic commit fields
+        # Fields for deterministic commit
         new_sha = get_next_commit_sha(data)
         new_ts = get_current_timestamp()
 
-        # Append new commit
+        # Add a new commit.
         commit_shas[idx].append(new_sha)
         commit_messages[idx].append(commit_message)
         commit_authors[idx].append(commit_author)
         commit_timestamps[idx].append(new_ts)
 
-        # Write back (in case keys were missing initially)
+        # Respond if any keys were originally absent.
         rec["branch_names"] = branch_names
         rec["commit_shas"] = commit_shas
         rec["commit_messages"] = commit_messages

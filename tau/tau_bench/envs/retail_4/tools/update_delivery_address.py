@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,14 +14,14 @@ class UpdateDeliveryAddress(Tool):
         Writes to: orders.json (updates order address)
         Data Sources: couriers.json for delivery validation
         """
-        # Rule: Validate user identity exists before processing any user requests
+        # Requirement: Confirm the existence of user identity prior to handling any requests.
         users = list(data.get("users", {}).values())
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
             return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
-        # Find the order to update
+        # Determine the sequence for updates.
         orders = list(data.get("orders", {}).values())
         order_to_update = None
         order_index = None
@@ -40,14 +40,14 @@ class UpdateDeliveryAddress(Tool):
 
         current_status = order_to_update.get("status")
 
-        # Can only update address for pending orders
+        # Address updates are allowed solely for pending orders.
         if current_status not in ["pending"]:
             return json.dumps({
                 "error": f"Cannot update address for order with status '{current_status}'. Address can only be changed for pending orders.",
                 "status": "failed"
             })
 
-        # Rule: Validate all required address fields: address1, city, country, state, zip
+        # Requirement: Check that all mandatory address fields are filled: address1, city, country, state, zip.
         required_fields = ["address1", "city", "country", "state", "zip"]
         missing_fields = []
 
@@ -61,7 +61,7 @@ class UpdateDeliveryAddress(Tool):
                 "status": "failed"
             })
 
-        # Rule: Assign couriers only if destination country matches their coverage areas
+        # Condition: Assign couriers solely when the destination country aligns with their service regions.
         couriers = data.get("couriers", [])
         supported_countries = set()
         for courier in couriers:
@@ -74,7 +74,7 @@ class UpdateDeliveryAddress(Tool):
                 "status": "failed"
             })
 
-        # WRITE OPERATION: Update order address
+        # UPDATE OPERATION: Modify order shipping address
         old_address = order_to_update.get("address", {})
         order_to_update["address"] = new_address
         order_to_update["address_updated"] = {
@@ -84,7 +84,7 @@ class UpdateDeliveryAddress(Tool):
         }
         order_to_update["last_updated"] = datetime.now().isoformat()
 
-        # Update the order in the data structure
+        # Revise the sequence in the data structure.
         data["orders"][order_index] = order_to_update
 
         result = {

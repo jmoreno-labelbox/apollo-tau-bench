@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class reassign_mentor(Tool):
     def invoke(
         data, user_id: str, old_mentor_id: str, new_mentor_id: str, relationship_id: str
     ) -> str:
-        # For simplicity, add a new record indicating the change.
+        # To streamline, create a new entry to reflect the modification.
         record = {
             "relationship_id": relationship_id,
             "user_id": user_id,

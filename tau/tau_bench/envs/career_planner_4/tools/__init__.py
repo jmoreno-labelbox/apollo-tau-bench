@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .get_today_date import get_today_date
 from .search_users import search_users

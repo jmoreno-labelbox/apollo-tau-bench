@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,13 +10,13 @@ class get_course_by_name(Tool):
     def invoke(data: Dict[str, Any], course_name: str) -> str:
         courses = data.get("course_catalog", [])
 
-        # Try exact match first
+        # Attempt an exact match initially.
         course = next(
             (c for c in courses if c.get("name", "").lower() == course_name.lower()),
             None,
         )
 
-        # If no exact match, try partial match
+        # If an exact match is unavailable, attempt a partial match.
         if not course:
             course = next(
                 (

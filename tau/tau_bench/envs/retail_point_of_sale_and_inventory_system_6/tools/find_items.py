@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,17 +10,17 @@ class find_items(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         inventory = list(data.get("inventory", {}).values())
 
-        # These columns will be matched exactly to the value sent
+        # These columns will correspond precisely to the transmitted value.
         exact_match_cols = ["id", "sku", "store_id", "status", "last_stock_count"]
         exact_match_values = {k: kwargs.get(k) for k in exact_match_cols}
 
-        # These columns will be matched as long as the database field contains the sent value
+        # The columns will be aligned if the database field includes the provided value.
         approximate_match_cols = ["location"]
         approximate_match_values = {k: kwargs.get(k) for k in approximate_match_cols}
 
         matches = []
         for item in inventory:
-            # If all sent criteria match, then add it to the return list
+            # If all specified conditions are met, include it in the return list.
             if all(
                 [
                     exact_match_values[k] == item[k]

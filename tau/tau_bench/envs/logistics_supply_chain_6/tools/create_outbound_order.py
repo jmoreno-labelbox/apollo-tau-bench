@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class CreateOutboundOrder(Tool):
         outbound_orders = data.get("outbound_orders", [])
         inventory = list(data.get("inventory", {}).values())
 
-        # Check stock for all items first
+        # Verify inventory for all products initially.
         for order_item in items:
             sku = order_item["sku"]
             quantity = order_item["quantity"]
@@ -25,10 +25,10 @@ class CreateOutboundOrder(Tool):
                         return json.dumps({"error": f"Insufficient stock for SKU {sku}. Available: {inv_item['quantity_available']}, Requested: {quantity}"}, indent=2)
                     stock_found = True
                     break
-            # if not stock_found:
-            #     return json.dumps({"error": f"SKU {sku} not found in warehouse {warehouse_id}"}, indent=2)
+            # if stock_not_found:
+            # return json.dumps({"error": f"SKU {sku} is missing in warehouse {warehouse_id}"}, indent=2)
 
-        # Allocate stock and create order
+        # Assign inventory and generate order.
         total_cost = 0
         for order_item in items:
             sku = order_item["sku"]
@@ -47,7 +47,7 @@ class CreateOutboundOrder(Tool):
         new_order = {
             "order_id": new_order_id,
             "customer_name": customer_name,
-            # "order_date": "2024-07-19", # Simulating current date
+            # "order_date": "2024-07-19", # "order_date": "2024-07-19", # Mocking today's date
             "status": "Pending",
             "warehouse_id": warehouse_id,
             "items": items,

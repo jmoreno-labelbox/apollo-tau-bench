@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -35,7 +35,7 @@ class UpdateInventory(Tool):
             updated_stock = new_stock
         else:
             if not isinstance(current_stock, int):
-                # Handle cases where stock is not a number, like None or not present
+                # Manage situations where stock is non-numeric, such as None or absent.
                 current_stock = 0
             updated_stock = max(0, current_stock + adjustment)
             supplier['item_stock'][item_id] = updated_stock

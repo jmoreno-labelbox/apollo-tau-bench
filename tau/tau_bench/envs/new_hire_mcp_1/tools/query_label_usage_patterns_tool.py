@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class QueryLabelUsagePatternsTool(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        label_category_filter = kwargs.get("label_category") # This parameter is kept but won't be used as category doesn't exist
+        label_category_filter = kwargs.get("label_category") # This parameter is retained but will not be utilized since the category is absent.
 
         labels_map = {l.get("label_id"): l for l in data.get("email_labels", [])}
         emails = data.get("emails", [])

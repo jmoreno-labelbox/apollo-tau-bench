@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class AddTestResultToRun(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         test_run_id = kwargs.get("test_run_id")
         test_name = kwargs.get("test_name")
-        status = kwargs.get("status")  # passed, failed, skipped
+        status = kwargs.get("status")  # succeeded, failed, bypassed
         failure_type = kwargs.get("failure_type")
         issue_message = kwargs.get("issue_message")
         file_path = kwargs.get("file_path")

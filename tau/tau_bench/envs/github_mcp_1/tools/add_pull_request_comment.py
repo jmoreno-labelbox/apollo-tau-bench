@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -37,22 +37,22 @@ class AddPullRequestComment(Tool):
         except Exception:
             return json.dumps({"error": "pr_number must be an integer."}, indent=2)
 
-        # Load PR DB (expects list at data['pull_requests'])
+        # Load the PR database (anticipates a list in data['pull_requests']).
         pr_db = list(data.get("pull_requests", {}).values())
         if not isinstance(pr_db, list):
             return json.dumps({"error": "Invalid pull requests DB: expected a list."}, indent=2)
 
-        # Find repo bucket
+        # Locate repository bucket
         rec = next((r for r in pr_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             return json.dumps({"error": f"No pull requests found for '{owner}/{repo_name}'."}, indent=2)
 
         pr_numbers = rec.get("pr_numbers", [])
         if pr_number not in pr_numbers:
-            return json.dumps({"error": f"PR #{pr_number} not found for '{owner}/{repo_name}'."}, indent=2)
+            return json.dumps({"error": f"PR # "{pr_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
         idx = pr_numbers.index(pr_number)
 
-        # ---- Ensure comments/users structures exist (thread 0) ----
+        # ---- Verify the existence of comments/users structures (thread 0) ----
         rec.setdefault("pr_comments", [])
         rec.setdefault("pr_comment_users", [])
         while len(rec["pr_comments"]) <= idx: rec["pr_comments"].append([])
@@ -78,7 +78,7 @@ class AddPullRequestComment(Tool):
         users_thread.append(comment_user)
         comment_index = len(comments_thread) - 1
 
-        # ---- Ensure reviewers/state/event structures exist (group 0) ----
+        # ---- Verify the existence of reviewers/state/event structures (group 0) ----
         rec.setdefault("reviewers", [])
         rec.setdefault("review_states", [])
         rec.setdefault("review_events", [])
@@ -98,20 +98,20 @@ class AddPullRequestComment(Tool):
         states_container = rec["review_states"][idx][0]
         events_container = rec["review_events"][idx][0]
 
-        # ---- Normalize to per-reviewer histories (lists of lists) ----
-        # reviewers_list: List[str]
-        # states_hist: List[List[str]], events_hist: List[List[str]]
+        # ---- Standardize to individual reviewer histories (arrays of arrays) ----
+        # list_of_reviewers: List[str]
+        # states_hist: List of List of strings, events_hist: List of List of strings
         if not isinstance(reviewers_list, list):
             reviewers_list = []
-        # States
+        # Statuses
         if isinstance(states_container, list) and all(isinstance(x, list) for x in states_container):
             states_hist = states_container
         elif isinstance(states_container, list):
-            # old shape: per-reviewer single strings
+            # previous format: individual strings per reviewer
             states_hist = [[x] if isinstance(x, str) and x != "" else [] for x in states_container]
         else:
             states_hist = []
-        # Events
+        # Event handling
         if isinstance(events_container, list) and all(isinstance(x, list) for x in events_container):
             events_hist = events_container
         elif isinstance(events_container, list):
@@ -119,13 +119,13 @@ class AddPullRequestComment(Tool):
         else:
             events_hist = []
 
-        # Align lengths with reviewers
+        # Coordinate lengths with reviewers.
         while len(states_hist) < len(reviewers_list): states_hist.append([])
         while len(events_hist) < len(reviewers_list): events_hist.append([])
         if len(states_hist) > len(reviewers_list): states_hist = states_hist[:len(reviewers_list)]
         if len(events_hist) > len(reviewers_list): events_hist = events_hist[:len(reviewers_list)]
 
-        # Ensure reviewer exists; then APPEND review_state/event
+        # Verify the existence of the reviewer; then ADD review_state/event.
         if comment_user in reviewers_list:
             ridx = reviewers_list.index(comment_user)
         else:
@@ -135,24 +135,24 @@ class AddPullRequestComment(Tool):
             ridx = len(reviewers_list) - 1
 
         states_hist[ridx].append(review_state)
-        events_hist[ridx].append(review_state)  # event mirrors state
+        events_hist[ridx].append(review_state)  # event reflects state
 
-        # Persist back
+        # Save changes.
         rec["reviewers"][idx][0] = reviewers_list
         rec["review_states"][idx][0] = states_hist
         rec["review_events"][idx][0] = events_hist
 
-        # ---- Bump updated_ts deterministically via env helper ----
+        # ---- Update updated_ts in a deterministic manner using the environment helper ----
         rec.setdefault("updated_ts", [])
         while len(rec["updated_ts"]) <= idx: rec["updated_ts"].append(None)
         new_updated_ts = get_current_updated_timestamp()
         rec["updated_ts"][idx] = new_updated_ts
 
-        add_terminal_message(data, f"Comment added to PR #{pr_number} for {owner}/{repo_name}; review state/event appended.", get_current_updated_timestamp())
+        add_terminal_message(data, f"Comment added to PR # Appending review state/event for {owner}/{repo_name} with {pr_number}; current timestamp updated.
 
         return json.dumps(
             {
-                "success": f"Comment added to PR #{pr_number} for {owner}/{repo_name}; review state/event appended.",
+                "success": f"Comment added to PR # Added review state/event for {owner}/{repo_name} in {pr_number}.
                 "repo": f"{owner}/{repo_name}",
                 "pr_number": pr_number,
                 "thread_index": thread_idx,

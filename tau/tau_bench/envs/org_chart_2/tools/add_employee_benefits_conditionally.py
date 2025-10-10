@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class add_employee_benefits_conditionally(Tool):
     def invoke(
         data: Dict[str, Any], employee_id: str, benefit_plan_ids: List[str]
     ) -> str:
-        # Get current employee benefits
+        # Retrieve the current benefits for employees.
         employees = list(data.get("employees", {}).values())
         employee = next((e for e in employees if e["employee_id"] == employee_id), None)
 
@@ -20,11 +20,11 @@ class add_employee_benefits_conditionally(Tool):
         current_benefits = set(employee.get("benefit_plan_ids", []))
         new_benefits = set(benefit_plan_ids)
 
-        # Only add benefits that aren't already present
+        # Include only advantages that are not currently available.
         benefits_to_add = new_benefits - current_benefits
         final_benefits = list(current_benefits | new_benefits)
 
-        # Update employee benefits
+        # Revise employee perks.
         employee["benefit_plan_ids"] = final_benefits
 
         return json.dumps(

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,14 +11,14 @@ class ProcessPayment(Tool):
         """
         Process payment for a customer order following retail rules validation
         """
-        # Rule: Validate user identity exists before processing any user requests
+        # Check for the existence of user identity prior to handling any user requests.
         users = list(data.get("users", {}).values())
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
             return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
-        # Rule: Payment methods must be valid type: credit_card, paypal, or gift_card with sufficient balance
+        # Constraint: Payment methods must be of valid types: credit_card, paypal, or gift_card with adequate balance.
         payment_methods = user.get("payment_methods", {})
         pay_keys = list(payment_methods.keys())
         for key in pay_keys:
@@ -32,7 +32,7 @@ class ProcessPayment(Tool):
         if payment_source not in ["credit_card", "paypal", "gift_card"]:
             return json.dumps({"error": f"Invalid payment method type: {payment_source}", "status": "failed"})
 
-        # Rule: Gift card payments cannot exceed available balance - verify balance sufficiency before processing
+        # Condition: Ensure gift card payments do not surpass the available balance - check balance adequacy prior to processing.
         if payment_source == "gift_card":
             available_balance = payment_method.get("balance", 0)
             if amount > available_balance:
@@ -42,17 +42,17 @@ class ProcessPayment(Tool):
                     "status": "failed"
                 })
 
-        # Rule: Credit card payments must validate last_four digits and brand type match user's stored payment methods
+        # Validation of credit card payments requires that the last four digits and brand type correspond with the user's saved payment methods.
         if payment_source == "credit_card":
             brand = payment_method.get("brand")
             last_four = payment_method.get("last_four")
             if not brand or not last_four:
                 return json.dumps({"error": "Invalid credit card information", "status": "failed"})
 
-        # Rule: High-value orders (>$1000 total) require payment verification before fulfillment
+        # Policy: Orders exceeding $1000 must undergo payment verification prior to processing.
         verification_required = amount > 1000.0
 
-        # Process payment successfully
+        # Complete the payment successfully.
         result = {
             "status": "success",
             "user_id": user_id,
@@ -63,7 +63,7 @@ class ProcessPayment(Tool):
             "transaction_id": f"TXN_{user_id}_{payment_method_source}_{int(amount)}"
         }
 
-        # Add specific details based on payment type
+        # Incorporate detailed information according to the payment method.
         if payment_source == "gift_card":
             new_balance = payment_method.get("balance", 0) - amount
             result["remaining_gift_card_balance"] = new_balance

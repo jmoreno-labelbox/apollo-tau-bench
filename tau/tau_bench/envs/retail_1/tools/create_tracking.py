@@ -1,18 +1,18 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class CreateTracking(Tool): # WRITE
+class CreateTracking(Tool): # CREATE
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str, item_ids: List[str], courier_id: str, delivery_option: str) -> str:
         orders = data["orders"]
         order = [row for row in orders if row["order_id"] == order_id]
 
         couriers = data["couriers"]
-        # Check if the delivery carrier exists
+        # Verify the existence of the delivery carrier.
         courier_id_list = [row["courier_id"] for row in couriers]
         if courier_id not in courier_id_list:
             return json.dumps({"error": "Delivery carrier not found. It must be the id of a courier from the couriers database."})
@@ -25,14 +25,14 @@ class CreateTracking(Tool): # WRITE
 
         tracking_id = f"TRK{len(data['tracking']) + 1:07d}"
 
-        # Add to the order db
+        # Insert into the order database.
         fulfillment = {
             "tracking_id": [tracking_id],
             "item_ids": item_ids
         }
         order.setdefault("fulfillments", []).append(fulfillment)
 
-        # Add to the tracking db
+        # Insert into the tracking database.
         tracking_dict = {}
         tracking_dict["tracking_id"] = [tracking_id]
         tracking_dict["item_ids"] = item_ids

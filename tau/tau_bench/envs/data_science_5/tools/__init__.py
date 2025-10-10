@@ -1,8 +1,8 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 
 
-# Helper function
+# Utility function
 from datetime import datetime
 
 def _fixed_now_iso():

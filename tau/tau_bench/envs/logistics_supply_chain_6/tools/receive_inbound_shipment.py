@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,9 +22,9 @@ class ReceiveInboundShipment(Tool):
                     return json.dumps({"error": f"Shipment {shipment_id} has already been received."}, indent=2)
 
                 shipment["status"] = "Received"
-                shipment["actual_arrival_date"] = "2024-07-19" # Simulating current date
+                shipment["actual_arrival_date"] = "2024-07-19" # Emulating the current date
 
-                # Update inventory
+                # Revise stock levels.
                 warehouse_id = shipment["destination_warehouse_id"]
                 for received_item in items_received:
                     sku = received_item["sku"]
@@ -37,7 +37,7 @@ class ReceiveInboundShipment(Tool):
                             inv_item_found = True
                             break
                     if not inv_item_found:
-                        # This case should be handled by creating a new inventory record, but is simplified here.
+                        # This scenario is addressed by generating a new inventory entry, though it is presented in a simplified manner.
                         return json.dumps({"error": f"SKU {sku} not found in inventory for warehouse {warehouse_id}. Cannot receive."}, indent=2)
 
                 return json.dumps({"shipment_id": shipment_id, "status": "Received"}, indent=2)

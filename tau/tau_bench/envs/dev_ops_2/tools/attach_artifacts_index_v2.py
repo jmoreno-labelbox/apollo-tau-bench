@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class AttachArtifactsIndexV2(Tool):
         run = next((r for r in build_runs if r.get("run_id") == run_id), None)
         if not run:
             return _error(f"Run '{run_id}' not found.")
-        # ensure artifact row
+        # verify artifact entry
         art = next((a for a in artifacts if a.get("run_id") == run_id), None)
         if not art:
             art = {"run_id": run_id}

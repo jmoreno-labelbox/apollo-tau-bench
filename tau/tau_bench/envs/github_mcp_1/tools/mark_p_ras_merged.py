@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -33,22 +33,22 @@ class MarkPRasMerged(Tool):
         except Exception:
             return json.dumps({"error": "pr_number must be an integer."}, indent=2)
 
-        # Load PR DB
+        # Initialize PR database.
         pr_db = list(data.get("pull_requests", {}).values())
         if not isinstance(pr_db, list):
             return json.dumps({"error": "Invalid pull requests DB: expected a list."}, indent=2)
 
-        # Find PR bucket for repo
+        # Locate the PR bucket for the repository.
         rec = next((r for r in pr_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             return json.dumps({"error": f"No pull requests found for '{owner}/{repo_name}'."}, indent=2)
 
         pr_numbers: List[int] = rec.get("pr_numbers", [])
         if pr_number not in pr_numbers:
-            return json.dumps({"error": f"PR #{pr_number} not found for '{owner}/{repo_name}'."}, indent=2)
+            return json.dumps({"error": f"PR # "{pr_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
         idx = pr_numbers.index(pr_number)
 
-        # Ensure arrays exist/padded
+        # Verify the existence of arrays and apply padding if necessary.
         rec.setdefault("pr_states", [])
         rec.setdefault("merged_flags", [])
         rec.setdefault("mergeable_flags", [])
@@ -61,22 +61,22 @@ class MarkPRasMerged(Tool):
         while len(rec["updated_ts"])      <= idx: rec["updated_ts"].append(None)
         while len(rec["pr_status"])       <= idx: rec["pr_status"].append("open")
 
-        # Must be mergeable
+        # Should be capable of merging.
         if not bool(rec["mergeable_flags"][idx]):
             return json.dumps(
                 {
-                    "error": f"PR #{pr_number} is not mergeable for '{owner}/{repo_name}'.",
+                    "error": f"PR # "{pr_number} cannot be merged into '{owner}/{repo_name}'."
                     "mergeable": False,
                     "current_state": rec["pr_states"][idx]
                 },
                 indent=2
             )
 
-        # Idempotent path: already merged
+        # Idempotent route: already combined.
         if bool(rec["merged_flags"][idx]) and rec["pr_states"][idx] == "merged":
             return json.dumps(
                 {
-                    "success": f"PR #{pr_number} is already merged for {owner}/{repo_name}.",
+                    "success": f"PR # The pull request {pr_number} has already been merged into {owner}/{repo_name}.
                     "repo": f"{owner}/{repo_name}",
                     "pr_number": pr_number,
                     "state": "merged",
@@ -87,7 +87,7 @@ class MarkPRasMerged(Tool):
                 indent=2
             )
 
-        # Mark as merged and update timestamp (no file operations)
+        # Set as merged and refresh timestamp (without file modifications)
         rec["pr_states"][idx] = "merged"
         rec["pr_status"][idx] = "merged"
         rec["merged_flags"][idx] = True
@@ -95,16 +95,16 @@ class MarkPRasMerged(Tool):
         new_updated_ts = get_current_updated_timestamp()
         rec["updated_ts"][idx] = new_updated_ts
 
-        # Terminal log
+        # Command line output
         add_terminal_message(
             data,
-            f"PR #{pr_number} merged for {owner}/{repo_name}.",
+            f"PR # "{pr_number} has been merged into {owner}/{repo_name}."
             new_updated_ts
         )
 
         return json.dumps(
             {
-                "success": f"PR #{pr_number} merged for {owner}/{repo_name}.",
+                "success": f"PR # "{pr_number} has been merged into {owner}/{repo_name}."
                 "repo": f"{owner}/{repo_name}",
                 "pr_number": pr_number,
                 "state": "merged",

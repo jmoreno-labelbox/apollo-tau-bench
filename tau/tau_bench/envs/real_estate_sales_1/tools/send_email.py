@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,9 +22,9 @@ class SendEmail(Tool):
                 "error": "client_id, broker_id, subject, and template_code are required"
             }, indent=2)
         
-        # Create email record with unique ID
+        # Generate an email entry with a distinct identifier.
         import time
-        timestamp = str(int(time.time() * 1000))  # millisecond timestamp
+        timestamp = str(int(time.time() * 1000))  # timestamp in milliseconds
         email_id = f"EMAIL-{client_id}-{timestamp}"
         email = {
             "email_id": email_id,

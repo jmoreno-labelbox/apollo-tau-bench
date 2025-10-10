@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class CaV2GenerateInvoiceNumber(Tool):
         invoices = data.get("invoices", [])
         year_invoices = [inv for inv in invoices if inv.get("invoice_date", "").startswith(year)]
 
-        # Find highest number for the year
+        # Determine the maximum value for the year.
         max_number = 0
         for invoice in year_invoices:
             invoice_number = invoice.get("invoice_number", "")

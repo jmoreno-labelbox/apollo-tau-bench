@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,8 +10,8 @@ class PrepareStakeholderOutputs(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         output_id = "STAKEHOLDER_OUTPUT_001"
 
-        # In a real scenario, this would copy files to a final 'deliverables' location.
-        # Here we just create the record.
+        # In a practical situation, this would transfer files to a designated 'deliverables' folder.
+        # This is where we generate the record.
         output_entry = {
             "stakeholder_output_id": output_id,
             "final_predictions_id": kwargs.get("predictions_id"),

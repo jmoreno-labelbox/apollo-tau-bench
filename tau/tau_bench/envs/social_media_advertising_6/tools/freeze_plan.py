@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class FreezePlan(Tool):
         import json
         from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 
-        # --- helpers ---------------------------------------------------------
+        # --- utility functions ---------------------------------------------------------
         def _to_dec(x) -> Decimal:
             return Decimal(str(x))
 
@@ -24,16 +24,16 @@ class FreezePlan(Tool):
             missing = [k for k in keys if k not in obj]
             return f"missing_required_keys:{ctx}:{','.join(missing)}" if missing else None
 
-        # --- required top-level args -----------------------------------------
+        # --- necessary top-level parameters ---------------------------------
         err = _require(kwargs, ["plan_id", "date", "created_at", "allocations"])
         if err:
             return _fail(err)
 
         plan_id: str = str(kwargs["plan_id"])
-        created_at: str = str(kwargs["created_at"])  # do not parse; treat as opaque string
+        created_at: str = str(kwargs["created_at"])  # avoid parsing; handle as a non-interpreted string
         date: str = str(kwargs["date"])
 
-        # Rules / defaults
+        # Guidelines / presets
         rules = data.get("_rules", {}) if isinstance(data, dict) else {}
         default_author = rules.get("default_author", "automation_agent")
         default_checksum = rules.get("default_checksum", "CHK001")
@@ -41,7 +41,7 @@ class FreezePlan(Tool):
         author = str(kwargs.get("author", default_author))
         checksum = str(kwargs.get("checksum", default_checksum))
 
-        # Policy snapshot (from payload or default from rules)
+        # Policy overview (derived from payload or standard from regulations)
         policy_snapshot = kwargs.get("policy_snapshot") or {}
         if not isinstance(policy_snapshot, dict):
             return _fail("invalid_policy_snapshot:not_object")
@@ -63,22 +63,22 @@ class FreezePlan(Tool):
             rules.get("timezone", "UTC")
         ))
 
-        # adset_mapping: required for any adset that appears in allocations
+        # adset_mapping: necessary for all adsets included in allocations
         adset_mapping = kwargs.get("adset_mapping", [])
         if not isinstance(adset_mapping, list):
             return _fail("invalid_adset_mapping:not_array")
 
-        # strategies: required for any adset that appears in allocations
+        # strategies: necessary for any ad set included in allocations
         strategies = kwargs.get("strategies", [])
         if not isinstance(strategies, list):
             return _fail("invalid_strategies:not_array")
 
-        # creatives: required for any adset that appears in allocations
+        # creatives: necessary for any ad set present in allocations
         creatives = kwargs.get("creatives", [])
         if not isinstance(creatives, list):
             return _fail("invalid_creatives:not_array")
 
-        # index helpers
+        # index utilities
         mapping_idx = {}
         for i, m in enumerate(adset_mapping):
             if not isinstance(m, dict):
@@ -130,12 +130,12 @@ class FreezePlan(Tool):
             if aid in creat_idx:
                 return _fail(f"invalid_creative_row:{i}:duplicate_adset_id:{aid}")
             ctype = str(c["creative_type"])
-            # Allow any string; typical values: image, video, carousel
+            # Accept any string; common examples include image, video, carousel.
             if not ctype:
                 return _fail(f"invalid_creative_row:{i}:empty_creative_type:{aid}")
             creat_idx[aid] = c
 
-        # Validate allocations
+        # Verify resource allocations.
         allocs = kwargs.get("allocations", [])
         if not isinstance(allocs, list) or len(allocs) == 0:
             return _fail("invalid_allocations:empty")
@@ -173,19 +173,19 @@ class FreezePlan(Tool):
             if float(bud) < min_alloc:
                 return _fail(f"invalid_allocation_row:{i}:below_min:{float(bud)}<{min_alloc}")
 
-            # rounding rules
+            # rules for rounding
             if unit == 1:
                 if bud != bud.to_integral_value(rounding=ROUND_HALF_UP):
                     return _fail(f"invalid_allocation_row:{i}:must_be_integer_when_unit_1:{str(bud)}")
             else:
-                # check multiple of unit using Decimal
+                # verify unit multiplicity with Decimal
                 if (bud % _to_dec(unit)) != 0:
                     return _fail(f"invalid_allocation_row:{i}:violates_rounding_unit:{unit}:{str(bud)}")
 
             total += bud
             normalized_allocs.append({"adset_id": aid, "budget": float(bud)})
 
-        # If total_budget is present, require it matches the subset sum
+        # If total_budget exists, it must equal the subset sum.
         if "total_budget" in kwargs and kwargs["total_budget"] is not None:
             try:
                 tb = _to_dec(kwargs["total_budget"])
@@ -195,10 +195,10 @@ class FreezePlan(Tool):
                 return _fail(f"invalid_total_budget_mismatch:{float(tb)}!={float(total)}")
             total_budget_out = float(tb)
         else:
-            # derive from subset
+            # obtain from a subset
             total_budget_out = float(total)
 
-        # Compose final plan row
+        # Create the final plan entry.
         plan_row = {
             "plan_id": plan_id,
             "date": date,
@@ -219,7 +219,7 @@ class FreezePlan(Tool):
             "status": "frozen",
         }
 
-        # Upsert into plans table
+        # Insert or update records in the plans table.
         plans_tbl = _assert_table(data, "plans")
         if not isinstance(plans_tbl, list):
             return _fail("invalid_storage:plans_not_list")

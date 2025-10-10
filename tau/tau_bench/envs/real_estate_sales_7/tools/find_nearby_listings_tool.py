@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,19 +23,19 @@ class FindNearbyListingsTool(Tool):
         allowed_status = set(
             kwargs.get("status_filter")
             or ["active", "pending", "for_sale", "sold", "off_market", "rented"]
-        )  # broad by default
+        )  # wide by default
 
         def _extract_latlon(url: Optional[str]) -> Optional[Tuple[float, float]]:
             if not url or not isinstance(url, str):
                 return None
-            # Try viewpoint=lat,lon
+            # Use viewpoint=latitude,longitude.
             m = re.search(r"viewpoint=([\-\d\.]+),([\-\d\.]+)", url)
             if m:
                 try:
                     return float(m.group(1)), float(m.group(2))
                 except Exception:
                     pass
-            # Try q=lat,lon
+            # Use q=latitude,longitude
             m = re.search(r"[?&]q=([\-\d\.]+),([\-\d\.]+)", url)
             if m:
                 try:
@@ -45,7 +45,7 @@ class FindNearbyListingsTool(Tool):
             return None
 
         def _haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-            # Earth radius in kilometers
+            # Radius of the Earth in kilometers
             R = 6371.0
             dlat = math.radians(lat2 - lat1)
             dlon = math.radians(lon2 - lon1)

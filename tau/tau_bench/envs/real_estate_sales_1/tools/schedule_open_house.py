@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class ScheduleOpenHouse(Tool):
                 "error": "property_id, date, start_time, and end_time are required"
             }, indent=2)
         
-        # Check if property exists in listings
+        # Verify the existence of a property in the listings.
         listings = list(data.get('listings', {}).values())
         property_exists = any(l.get('property_id') == property_id for l in listings)
         
@@ -29,7 +29,7 @@ class ScheduleOpenHouse(Tool):
                 "error": f"Property {property_id} not found in listings"
             }, indent=2)
         
-        # Create open house record (in real system would add to database)
+        # Generate an open house entry (in an actual system, this would be stored in a database).
         open_house = {
             "property_id": property_id,
             "date": date,

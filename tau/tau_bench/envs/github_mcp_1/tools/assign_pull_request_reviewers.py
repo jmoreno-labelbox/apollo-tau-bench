@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,13 +26,13 @@ class AssignPullRequestReviewers(Tool):
                 indent=2
             )
 
-        # Normalize pr_number
+        # Standardize pr_number
         try:
             pr_number = int(pr_number_raw)
         except Exception:
             return json.dumps({"error": "pr_number must be an integer."}, indent=2)
 
-        # Validate reviewers list
+        # Check the list of reviewers for accuracy.
         if (not isinstance(reviewers_input, list)
             or any((not isinstance(u, str) or not u.strip()) for u in reviewers_input)):
             return json.dumps({"error": "reviewers must be a non-empty list of non-empty strings."}, indent=2)
@@ -41,23 +41,23 @@ class AssignPullRequestReviewers(Tool):
         if not reviewers_input:
             return json.dumps({"error": "reviewers cannot be empty."}, indent=2)
 
-        # Load PR DB (supports dict with 'pull_requests' or top-level list)
+        # Load the PR database (accepts a dictionary with 'pull_requests' or a top-level list).
         pr_db = list(data.get("pull_requests", {}).values())
 
         if not isinstance(pr_db, list):
             return json.dumps({"error": "Invalid pull requests DB: expected a list."}, indent=2)
 
-        # Find repo bucket
+        # Locate the repository bucket.
         rec = next((r for r in pr_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             return json.dumps({"error": f"No pull requests found for '{owner}/{repo_name}'."}, indent=2)
 
         pr_numbers: List[int] = rec.get("pr_numbers", [])
         if pr_number not in pr_numbers:
-            return json.dumps({"error": f"PR #{pr_number} not found for '{owner}/{repo_name}'."}, indent=2)
+            return json.dumps({"error": f"PR # "{pr_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
         idx = pr_numbers.index(pr_number)
 
-        # Ensure nested arrays exist and are properly shaped
+        # Verify the presence and correct structure of nested arrays.
         rec.setdefault("reviewers", [])
         rec.setdefault("review_states", [])
         rec.setdefault("review_events", [])
@@ -69,7 +69,7 @@ class AssignPullRequestReviewers(Tool):
         while len(rec["review_events"]) <= idx: rec["review_events"].append([])
         while len(rec["updated_ts"]) <= idx: rec["updated_ts"].append(None)
 
-        # Each PR keeps reviewers/states/events as a list of groups; ensure first group exists
+        # Every PR maintains a list of groups for reviewers/states/events; verify that the initial group is present.
         if not isinstance(rec["reviewers"][idx], list): rec["reviewers"][idx] = []
         if not isinstance(rec["review_states"][idx], list): rec["review_states"][idx] = []
         if not isinstance(rec["review_events"][idx], list): rec["review_events"][idx] = []
@@ -100,19 +100,19 @@ class AssignPullRequestReviewers(Tool):
                 skipped_existing.append(user)
             else:
                 reviewers_list.append(user)
-                states_list.append("REQUESTED")  # initial state for new reviewer
+                states_list.append("REQUESTED")  # starting condition for new reviewer
                 events_list.append("REQUESTED")
                 added.append(user)
 
-        # Deterministic updated_ts bump
+        # Fixed deterministic increment of updated_ts
         new_updated_ts = get_current_updated_timestamp()
         rec["updated_ts"][idx] = new_updated_ts
 
-        add_terminal_message(data, f"Assigned reviewers to PR #{pr_number} for {owner}/{repo_name}.", get_current_updated_timestamp())
+        add_terminal_message(data, f"Assigned reviewers to PR # Retrieve the current updated timestamp for {owner}/{repo_name} associated with PR number {pr_number}.
 
         return json.dumps(
             {
-                "success": f"Assigned reviewers to PR #{pr_number} for {owner}/{repo_name}.",
+                "success": f"Assigned reviewers to PR # Pull request number {pr_number} for the repository {owner}/{repo_name}.
                 "repo": f"{owner}/{repo_name}",
                 "pr_number": pr_number,
                 "added_reviewers": added,

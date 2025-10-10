@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,19 +16,19 @@ class get_job_by_title(Tool):
                 {"error": "Either job_title or keywords must be provided"}, indent=2
             )
 
-        # Try exact match first
+        # Attempt an exact match initially.
         job = next(
             (j for j in jobs if j.get("title", "").lower() == search_term.lower()), None
         )
 
-        # If no exact match, try partial match
+        # If an exact match is unavailable, attempt a partial match.
         if not job:
             job = next(
                 (j for j in jobs if search_term.lower() in j.get("title", "").lower()),
                 None,
             )
 
-        # If still no match, try matching keywords in job title
+        # If there is still no match, attempt to match keywords from the job title.
         if not job and keywords:
             keyword_list = keywords.lower().split()
             job = next(

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class list_team_training(Tool):
             for ts in data.get("team_training_log", [])
             if ts.get("training_session_id", "").startswith("TS")
         ]
-        # (In a real scenario, you would filter by team_id)
+        # (In a practical situation, you would apply a filter based on team_id)
         return json.dumps({"team_training_log": sessions}, indent=2)
 
     @staticmethod

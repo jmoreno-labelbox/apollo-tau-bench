@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,19 +11,19 @@ class CreateIssue(Tool):
         """Create an issue with labels/assignees."""
         issues_data = list(data.get("issues", {}).values())
 
-        # Validate assignees parameter
+        # Check the assignees parameter for validity.
         if assignees is None:
             assignees = []
         elif not isinstance(assignees, list):
             assignees = [assignees] if assignees else []
 
-        # Validate labels parameter
+        # Check the validity of the labels parameter.
         if labels is None:
             labels = []
         elif not isinstance(labels, list):
             labels = [labels] if labels else []
 
-        # Find existing issue entry for this repo
+        # Locate the current issue record for this repository.
         repo_issues = None
         for issue_entry in issues_data:
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
@@ -31,7 +31,7 @@ class CreateIssue(Tool):
                 break
 
         if not repo_issues:
-            # Create new issue entry
+            # Generate a new issue record.
             issue_number = 1
             repo_issues = {
                 "owner": owner,
@@ -49,7 +49,7 @@ class CreateIssue(Tool):
             }
             issues_data.append(repo_issues)
         else:
-            # Add to existing issue entry - get the highest existing issue number and add 1
+            # Increment the highest current issue number by 1 and append it to the issue entry.
             issue_number = max(repo_issues["issue_numbers"]) + 1
             repo_issues["issue_numbers"].append(issue_number)
             repo_issues["issue_titles"].append(title)

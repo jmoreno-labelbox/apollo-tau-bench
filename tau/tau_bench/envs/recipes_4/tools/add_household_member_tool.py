@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class AddHouseholdMemberTool(Tool):
     A tool to add a new member to a specified household.
     """
 
-    # Defines the set of expected and allowed fields for a new member.
+    # Specifies the expected and permissible fields for a new member.
     EXPECTED_FIELDS = {
         "full_name",
         "birthdate",
@@ -72,7 +72,7 @@ class AddHouseholdMemberTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the newly created member object.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Data
         param_definitions = {
             "household_id": {"type": int, "required": True},
             "new_member_data": {"type": dict, "required": True},
@@ -89,18 +89,18 @@ class AddHouseholdMemberTool(Tool):
         new_member_data = kwargs["new_member_data"]
         user_id = kwargs.get("user_id")
 
-        # 2. Pre-condition Check: Ensure the household exists before adding to it.
+        # 2. Pre-condition Verification: Confirm the household's existence prior to adding to it.
         if not any(h for h in data.get("households", []) if h.get("household_id") == household_id):
             return _build_error_response("NOT_FOUND", {"entity": "Household", "entity_id": household_id})
 
-        # 3. Data Creation Logic
+        # 3. Logic for Data Generation
         members_table = data.setdefault("members", [])
 
-        # Generate a new unique ID
+        # Create a new distinct identifier.
         max_id = max((m.get("member_id", 0) for m in members_table), default=300)
         new_member_id = max_id + 1
 
-        # Construct the new member record safely
+        # Safely create the new member record.
         new_member_record = {
             "member_id": new_member_id,
             "household_id": household_id,
@@ -110,7 +110,7 @@ class AddHouseholdMemberTool(Tool):
 
         members_table.append(new_member_record)
 
-        # 4. Log the audit event for traceability
+        # 4. Record the audit event for tracking purposes.
         _log_audit_event(
             data=data,
             household_id=household_id,
@@ -121,5 +121,5 @@ class AddHouseholdMemberTool(Tool):
             payload_json=new_member_data
         )
 
-        # 5. Return the newly created object
+        # 5. Return the object that was just created.
         return _build_success_response(new_member_record)

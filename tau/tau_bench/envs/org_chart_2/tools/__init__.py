@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .get_employee import get_employee
 from .search_employees import search_employees

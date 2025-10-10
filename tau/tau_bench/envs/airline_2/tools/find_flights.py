@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,14 +16,14 @@ class FindFlights(Tool):
         end_date: Optional[str] = None,
         status: Optional[List[str]] = None
     ) -> str:
-        # Validate required parameters
+        # Check mandatory parameters.
         if not (origin and destination and start_date):
             return _j({
                 "error": "Missing required parameters",
                 "required": ["origin", "destination", "start_date"]
             })
 
-        # Parse dates
+        # Extract date information.
         try:
             start_dt = datetime.strptime(start_date, "%Y-%m-%d").date()
         except ValueError:
@@ -50,7 +50,7 @@ class FindFlights(Tool):
                     "end_date": end_date
                 })
 
-        # Generate inclusive date range
+        # Create an inclusive range of dates.
         date_range: List[str] = []
         d = start_dt
         while d <= end_dt:
@@ -60,7 +60,7 @@ class FindFlights(Tool):
         flights = list(data.get("flights", {}).values())
         matching_flights: List[Dict[str, Any]] = []
 
-        # Route + date-range scan
+        # Route and date range search
         for f in flights:
             if f.get("origin") != origin or f.get("destination") != destination:
                 continue
@@ -128,7 +128,7 @@ class FindFlights(Tool):
                     "lowest_overall": all_prices[0],
                     "by_cabin_class": {}
                 }
-                # Lowest per cabin class
+                # Minimum per cabin category
                 seen = {}
                 for p in all_prices:
                     cc = p["cabin_class"]

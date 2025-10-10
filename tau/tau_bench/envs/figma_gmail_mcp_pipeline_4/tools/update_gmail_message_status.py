@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,13 +23,13 @@ class UpdateGmailMessageStatus(Tool):
 
         gmail_messages = list(data.get('gmail_messages', {}).values())
 
-        # Find the message
+        # Locate the message.
         message_found = False
         for message in gmail_messages:
             if message.get('message_id') == message_id:
                 message_found = True
 
-                # Update message fields
+                # Modify message attributes
                 if sender_email:
                     message['sender_email'] = sender_email
                 if body_html:
@@ -41,12 +41,12 @@ class UpdateGmailMessageStatus(Tool):
 
                 message['last_updated'] = datetime.now().isoformat()
 
-                # Add metadata
+                # Include metadata
                 if message_metadata:
                     for key, value in message_metadata.items():
                         message[key] = value
 
-                # Log the update
+                # Record the modification.
                 if 'update_history' not in message:
                     message['update_history'] = []
                 message['update_history'].append({

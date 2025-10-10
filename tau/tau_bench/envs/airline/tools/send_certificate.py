@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from typing import Any, Dict
 from tau_bench.envs.tool import Tool
@@ -16,7 +16,7 @@ class SendCertificate(Tool):
             return "Error: user not found"
         user = users[user_id]
 
-        # add a certificate, assume at most 3 cases per task
+        # include a certificate, assuming a maximum of 3 instances per task
         for id in [3221322, 3221323, 3221324]:
             payment_id = f"certificate_{id}"
             if payment_id not in user["payment_methods"]:

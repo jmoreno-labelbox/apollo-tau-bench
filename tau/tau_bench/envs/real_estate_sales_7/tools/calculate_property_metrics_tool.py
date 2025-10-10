@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class CalculatePropertyMetricsTool(Tool):
 
     @staticmethod
     def _estimate_rate(credit_score: Optional[int], region: Optional[str]) -> float:
-        # mirror CalculateMortgagePaymentTool for consistency
+        # Replicate CalculateMortgagePaymentTool for uniformity.
         base = 6.8
         if credit_score is not None:
             if credit_score >= 760:
@@ -45,14 +45,14 @@ class CalculatePropertyMetricsTool(Tool):
         if not subject_property_id:
             return _err("subject_property_id is required")
 
-        # ---- Subject basics (simplified - no property details available) ----
+        # ---- Basic subject information (simplified - property details not included) ----
         subj_listing = (
             _collect_listing_by_property(data, str(subject_property_id)) or {}
         )
         subj_price = subj_listing.get("list_price")
-        # Note: sqft, tax_rate, neighborhood_id not available in current data structure
+        # Reminder: sqft, tax_rate, and neighborhood_id are not present in the existing data structure.
 
-        # ---- Collect comparable prices/ppsf ----
+        # ---- Gather similar prices per square foot ----
         def _lp(pid_or_dict):
             if isinstance(pid_or_dict, dict):
                 pid = (
@@ -64,7 +64,7 @@ class CalculatePropertyMetricsTool(Tool):
                 pid = pid_or_dict
             l = _collect_listing_by_property(data, str(pid)) or {}
             price = l.get("list_price")
-            ppsf = l.get("price_per_sqft")  # Use pre-calculated value from listings
+            ppsf = l.get("price_per_sqft")  # Utilize the value from listings that has been pre-calculated.
             return price, ppsf
 
         comp_prices, comp_ppsf = [], []
@@ -77,7 +77,7 @@ class CalculatePropertyMetricsTool(Tool):
         comp_prices.sort()
         comp_ppsf.sort()
 
-        # ---- Build market pool (simplified - use all listings as market) ----
+        # ---- Create market pool (simplified - utilize all listings as the market) ----
         market_prices, market_ppsf = [], []
         for l in list(data.get("listings", {}).values()):
             if l.get("list_price"):
@@ -88,7 +88,7 @@ class CalculatePropertyMetricsTool(Tool):
         market_prices.sort()
         market_ppsf.sort()
 
-        # ---- Market position (use market pool when available, else comps) ----
+        # ---- Determine market position (utilize market pool if accessible, otherwise use comparables) ----
         def _median(arr: List[float]) -> Optional[float]:
             if not arr:
                 return None
@@ -116,7 +116,7 @@ class CalculatePropertyMetricsTool(Tool):
         else:
             price_percentile, market_comparison, value_rating = 50, "at_market", "fair"
 
-        # ---- Affordability (P&I + est. taxes if available) ----
+        # ---- Cost Analysis (Principal & Interest + estimated taxes if applicable) ----
         price_max = client_budget.get("price_max")
         within_budget = bool(
             price_max is None
@@ -132,7 +132,7 @@ class CalculatePropertyMetricsTool(Tool):
 
         monthly_pni = None
         if subj_price is not None:
-            # estimate 30y P&I from mortgage profile if possible
+            # calculate 30-year principal and interest based on mortgage details if feasible
             credit, region = None, None
             if client_id is not None:
                 mp = _get_mortgage_profile(data, client_id)
@@ -147,7 +147,7 @@ class CalculatePropertyMetricsTool(Tool):
             loan_amount = max(0.0, float(subj_price) - float(down))
             monthly_pni = CalculatePropertyMetricsTool._pmt(loan_amount, rate, 30)
 
-        # Note: Property tax data not available - using P&I only
+        # Warning: Property tax information is absent - utilizing only Principal & Interest.
         monthly_taxes = 0.0
         monthly_housing = monthly_pni
 
@@ -162,7 +162,7 @@ class CalculatePropertyMetricsTool(Tool):
         elif ratio is not None and ratio < 0.25:
             recommendation = "comfortable"
 
-        # ---- Comparative analysis & unique advantages ----
+        # ---- Comparative assessment & distinct benefits ----
         vs_comparables = "competitive"
         uniq = []
 
@@ -174,14 +174,14 @@ class CalculatePropertyMetricsTool(Tool):
             elif subj_price > 1.05 * avg_comp:
                 vs_comparables = "overpriced"
 
-        # Price per sqft comparison (using pre-calculated values where available)
+        # Comparison of price per square foot (utilizing pre-calculated values when accessible)
         subj_ppsf = subj_listing.get("price_per_sqft")
         if subj_ppsf and comp_ppsf:
             avg_ppsf = sum(comp_ppsf) / len(comp_ppsf)
             if float(subj_ppsf) < 0.95 * avg_ppsf:
                 uniq.append("price_per_sqft")
 
-        # Note: Amenity analysis not available - no property amenity data in current structure
+        # Warning: Amenity analysis is unavailable due to lack of property amenity data in the current setup.
 
         out = {
             "subject_property": str(subject_property_id),
