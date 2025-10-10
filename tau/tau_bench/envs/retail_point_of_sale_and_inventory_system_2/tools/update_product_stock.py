@@ -13,8 +13,8 @@ class UpdateProductStock(Tool):
         for i, product in enumerate(products):
             if product.get("sku") == sku:
                 products[i]["stock_quantity"] = new_stock_quantity
-                return json.dumps(products[i], indent=2)
-                return json.dumps({"error": f"Product with SKU {sku} not found."})
+        return json.dumps(products[i], indent=2)
+        return json.dumps({"error": f"Product with SKU {sku} not found."})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

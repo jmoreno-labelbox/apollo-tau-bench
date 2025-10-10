@@ -13,8 +13,8 @@ class UpdateCustomerLoyaltyPoints(Tool):
             if customer.get("customer_id") == customer_id:
                 current_points = customer.get("loyalty_points", 0)
                 customers[i]["loyalty_points"] = current_points + points_to_add
-                return json.dumps(customers[i], indent=2)
-                return json.dumps({"error": f"Customer with ID {customer_id} not found."})
+        return json.dumps(customers[i], indent=2)
+        return json.dumps({"error": f"Customer with ID {customer_id} not found."})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

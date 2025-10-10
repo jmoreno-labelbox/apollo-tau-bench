@@ -9,7 +9,7 @@ class ListAllEmployees(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any]) -> str:
         employees = list(data.get("employees", {}).values())
-                return json.dumps({"employees": employees, "count": len(employees)}, indent=2)
+        return json.dumps({"employees": employees, "count": len(employees)}, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

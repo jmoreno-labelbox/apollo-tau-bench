@@ -12,8 +12,8 @@ class UpdateProductPrice(Tool):
         for i, product in enumerate(products):
             if product.get("sku") == sku:
                 products[i]["price"] = new_price
-                return json.dumps(products[i], indent=2)
-                return json.dumps({"error": f"Product with SKU {sku} not found."})
+        return json.dumps(products[i], indent=2)
+        return json.dumps({"error": f"Product with SKU {sku} not found."})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

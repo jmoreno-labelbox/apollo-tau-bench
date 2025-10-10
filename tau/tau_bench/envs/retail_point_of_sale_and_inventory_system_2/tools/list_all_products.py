@@ -11,7 +11,7 @@ class ListAllProducts(Tool):
         products = list(data.get("products", {}).values())
         if limit:
             products = products[:limit]
-                return json.dumps({"products": products, "count": len(products)}, indent=2)
+        return json.dumps({"products": products, "count": len(products)}, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -11,7 +11,7 @@ class RecordSale(Tool):
         customers = list(data.get("customers", {}).values())
         customer = next((c for c in customers if c.get("customer_id") == customer_id), None)
         if not customer:
-                return json.dumps({"error": f"Customer with ID {customer_id} not found."})
+            return json.dumps({"error": f"Customer with ID {customer_id} not found."})
 
         products = list(data.get("products", {}).values())
         inventory = list(data.get("inventory", {}).values())
@@ -73,7 +73,7 @@ class RecordSale(Tool):
 
         transactions.append(transaction)
         data["transactions"][transaction_id] = transaction
-                return json.dumps(transaction, indent=2)
+        return json.dumps(transaction, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

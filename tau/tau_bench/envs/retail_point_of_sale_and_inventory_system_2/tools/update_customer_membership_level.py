@@ -12,13 +12,13 @@ class UpdateCustomerMembershipLevel(Tool):
         valid_levels = ["bronze", "silver", "gold", "platinum", "VIP"]
 
         if new_membership_level.lower() not in valid_levels:
-                return json.dumps({"error": f"Invalid membership level. Valid levels are: {', '.join(valid_levels)}"})
+            return json.dumps({"error": f"Invalid membership level. Valid levels are: {', '.join(valid_levels)}"})
 
         for i, customer in enumerate(customers):
             if customer.get("customer_id") == customer_id:
                 customers[i]["membership_level"] = new_membership_level.lower()
-                return json.dumps(customers[i], indent=2)
-                return json.dumps({"error": f"Customer with ID {customer_id} not found."})
+        return json.dumps(customers[i], indent=2)
+        return json.dumps({"error": f"Customer with ID {customer_id} not found."})
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

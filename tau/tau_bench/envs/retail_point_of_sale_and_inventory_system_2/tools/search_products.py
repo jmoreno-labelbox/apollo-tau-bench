@@ -16,7 +16,7 @@ class SearchProducts(Tool):
                 if category and product.get("category", "").lower() != category.lower():
                     continue
                 results.append(product)
-                return json.dumps({"products": results, "count": len(results)}, indent=2)
+        return json.dumps({"products": results, "count": len(results)}, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -11,7 +11,7 @@ class AddPromotion(Tool):
         promotions = data.get("promotions", [])
 
         if any(p.get("promotion_id") == promotion_id for p in promotions):
-                return json.dumps({"error": f"Promotion with ID {promotion_id} already exists."})
+            return json.dumps({"error": f"Promotion with ID {promotion_id} already exists."})
 
         new_promotion = {
             "promotion_id": promotion_id,
@@ -27,7 +27,7 @@ class AddPromotion(Tool):
 
         promotions.append(new_promotion)
         data["promotions"][promotion_id] = new_promotion
-                return json.dumps(new_promotion, indent=2)
+        return json.dumps(new_promotion, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -33,7 +33,7 @@ class GetInventoryAnalytics(Tool):
             "low_stock_items": low_stock_items,
             "average_quantity": round(total_quantity / total_items, 2) if total_items > 0 else 0
         }
-                return json.dumps(analytics, indent=2)
+        return json.dumps(analytics, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

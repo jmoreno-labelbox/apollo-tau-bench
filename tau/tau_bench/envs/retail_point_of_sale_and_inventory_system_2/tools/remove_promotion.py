@@ -13,8 +13,8 @@ class RemovePromotion(Tool):
         promotions[:] = [p for p in promotions if p.get("promotion_id") != promotion_id]
 
         if len(promotions) == original_len:
-                return json.dumps({"error": f"Promotion with ID {promotion_id} not found."})
-                return json.dumps({"success": f"Promotion {promotion_id} removed successfully."}, indent=2)
+            return json.dumps({"error": f"Promotion with ID {promotion_id} not found."})
+        return json.dumps({"success": f"Promotion {promotion_id} removed successfully."}, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

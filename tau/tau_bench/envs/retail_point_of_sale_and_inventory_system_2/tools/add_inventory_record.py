@@ -14,12 +14,12 @@ class AddInventoryRecord(Tool):
         # Check if product exists
         product = next((p for p in products if p.get("sku") == sku), None)
         if not product:
-                return json.dumps({"error": f"Product with SKU {sku} not found."})
+            return json.dumps({"error": f"Product with SKU {sku} not found."})
 
         # Check if inventory record already exists for this SKU and store
         existing_record = next((inv for inv in inventory if inv.get("sku") == sku and inv.get("store_id") == store_id), None)
         if existing_record:
-                return json.dumps({"error": f"Inventory record for SKU {sku} in store {store_id} already exists."})
+            return json.dumps({"error": f"Inventory record for SKU {sku} in store {store_id} already exists."})
 
         inventory_id = _get_next_inventory_id(inventory)
 
@@ -37,7 +37,7 @@ class AddInventoryRecord(Tool):
         }
 
         inventory.append(new_inventory_record)
-                return json.dumps(new_inventory_record, indent=2)
+        return json.dumps(new_inventory_record, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

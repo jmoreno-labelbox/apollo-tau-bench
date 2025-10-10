@@ -11,7 +11,7 @@ class AddEmployee(Tool):
         employees = list(data.get("employees", {}).values())
 
         if any(e.get("email") == email for e in employees):
-                return json.dumps({"error": f"Employee with email {email} already exists."})
+            return json.dumps({"error": f"Employee with email {email} already exists."})
 
         employee_id = f"EMP-{len(employees) + 1001:04d}"
 
@@ -28,7 +28,8 @@ class AddEmployee(Tool):
 
         employees.append(new_employee)
         data["employees"][employee_id] = new_employee
-                return json.dumps(new_employee, indent=2)
+
+        return json.dumps(new_employee, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:
