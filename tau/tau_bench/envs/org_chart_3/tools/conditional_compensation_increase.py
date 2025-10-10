@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class conditional_compensation_increase(Tool):
     def invoke(data: Dict[str, Any], employee_id: str, compensation_id: str, effective_date: str,
                condition: str, new_bonus_target_pct: Optional[float] = None,
                new_salary: Optional[float] = None, new_equity: Optional[float] = None) -> str:
-        # Get current compensation
+        # Retrieve current compensation details.
         comp = data.get("compensation_records", [])
         current = [c for c in comp if c["employee_id"] == employee_id]
         current.sort(key=lambda c: c["effective_date"], reverse=True)
@@ -20,18 +20,18 @@ class conditional_compensation_increase(Tool):
 
         latest = current[0]
 
-        # Parse and evaluate condition
+        # Analyze and assess the condition.
         should_update = False
         if "bonus_target_pct < 18" in condition:
             should_update = latest["bonus_target_pct"] < 18
         elif "base_salary < 75000" in condition:
             should_update = latest["base_salary"] < 75000
-        # Add more conditions as needed
+        # Include additional conditions as required.
 
         if not should_update:
             return json.dumps({"success": f"Condition '{condition}' not met, no compensation change for {employee_id}"}, indent=2)
 
-        # Create new compensation record with updated values
+        # Generate a new compensation entry with revised values.
         new_comp = {
             "compensation_id": compensation_id,
             "employee_id": employee_id,
@@ -42,7 +42,7 @@ class conditional_compensation_increase(Tool):
             "effective_date": effective_date
         }
 
-        # Remove old record with same ID if exists and add new one
+        # Delete any existing record with the same ID and insert the new one.
         comp = [c for c in comp if c["compensation_id"] != compensation_id]
         comp.append(new_comp)
         data["compensation_records"] = comp

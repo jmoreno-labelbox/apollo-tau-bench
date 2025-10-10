@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,26 +14,26 @@ class SubmitPullRequestForReview(Tool):
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
-                    # Mark PR as ready for review (not draft)
+                    # Set PR status to ready for review (not draft)
                     pr_entry["pr_states"][pr_idx] = "open"
 
-                    # Parse reviewers (comma-separated string)
+                    # Interpret reviewers from a comma-separated string.
                     reviewer_list = [r.strip() for r in reviewers.split(",") if r.strip()]
 
-                    # Initialize review structures if needed
+                    # Set up review structures if necessary.
                     if len(pr_entry["reviewers"][pr_idx]) == 0:
                         pr_entry["reviewers"][pr_idx] = [[]]
                         pr_entry["review_states"][pr_idx] = [[]]
                         pr_entry["review_events"][pr_idx] = [[]]
 
-                    # Add reviewers with pending status
+                    # Include reviewers that have a pending status.
                     for reviewer in reviewer_list:
                         if reviewer not in pr_entry["reviewers"][pr_idx][0]:
                             pr_entry["reviewers"][pr_idx][0].append(reviewer)
                             pr_entry["review_states"][pr_idx][0].append("pending")
                             pr_entry["review_events"][pr_idx][0].append("review_requested")
 
-                    # Add submission comment if provided
+                    # Include the submission comment if it exists.
                     if submission_message:
                         if len(pr_entry["pr_comments"][pr_idx]) == 0:
                             pr_entry["pr_comments"][pr_idx] = [[]]
@@ -54,7 +54,7 @@ class SubmitPullRequestForReview(Tool):
                     return json.dumps(result, indent=2)
                 except ValueError:
                     pass
-        return json.dumps({"error": f"Pull request #{pullNumber} not found"}, indent=2)
+        return json.dumps({"error": f"Pull request # {pullNumber} not located"}, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

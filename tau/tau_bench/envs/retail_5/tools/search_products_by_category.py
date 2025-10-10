@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class SearchProductsByCategory(Tool):
         if not category:
             return json.dumps({'error': 'category is required'})
 
-        # Validate stock range
+        # Check stock range validity.
         if min_stock is not None and max_stock is not None and min_stock > max_stock:
             return json.dumps({'error': 'min_stock cannot be greater than max_stock'})
 
@@ -26,11 +26,11 @@ class SearchProductsByCategory(Tool):
         suppliers = data['suppliers']
         results = []
 
-        # Create a mapping of item_id to stock level for quick lookup
+        # Generate a mapping of item_id to inventory level for efficient retrieval.
         item_stock_map = {}
         for supplier in suppliers:
             for item_id, stock in supplier.get('item_stock', {}).items():
-                # Only consider numeric stock levels
+                # Take into account only numerical inventory quantities.
                 if isinstance(stock, (int, float)) and stock >= 0:
                     item_stock_map[item_id] = stock
 
@@ -44,7 +44,7 @@ class SearchProductsByCategory(Tool):
                     if min_price and variant['price'] < min_price:
                         continue
 
-                    # Check stock levels if stock filters are provided
+                    # Verify inventory quantities if stock filters are available.
                     item_id = variant.get('item_id', variant_id)
                     stock_level = item_stock_map.get(item_id, 0)
 

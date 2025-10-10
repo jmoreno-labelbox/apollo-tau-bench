@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,8 +16,8 @@ class CreatePlanAllocation(Tool):
         bid_amount = kwargs.get("bid_amount")
         creative_type = kwargs.get("creative_type")
         
-        # This tool would typically be used in the context of creating a full plan
-        # For now, we'll just return the allocation details
+        # This tool is generally utilized for developing a comprehensive plan.
+        # Currently, we will only return the allocation information.
         allocation = {
             "adset_id": adset_id,
             "budget": budget,

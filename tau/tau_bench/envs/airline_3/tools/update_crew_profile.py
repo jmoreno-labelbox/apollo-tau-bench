@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,14 +21,14 @@ class UpdateCrewProfile(Tool):
         status: str = None
     ) -> str:
         
-        # Validate required parameter
+        # Check the mandatory parameter.
         if not crew_id:
             return json.dumps({
                 "status": "Missing required parameter",
                 "required": "crew_id"
             })
 
-        # Find crew member
+        # Locate crew member
         crew_members = data.get("crew_members", [])
         target_crew = None
         crew_index = None
@@ -45,7 +45,7 @@ class UpdateCrewProfile(Tool):
                 "crew_id": crew_id
             })
 
-        # Store original values for response
+        # Preserve initial values for the response.
         original_profile = {
             "first_name": target_crew.get("first_name"),
             "last_name": target_crew.get("last_name"),
@@ -56,7 +56,7 @@ class UpdateCrewProfile(Tool):
 
         updates_made = []
 
-        # Update first name if provided
+        # Modify the first name if available.
         if first_name is not None:
             if not isinstance(first_name, str) or len(first_name.strip()) == 0:
                 return json.dumps({
@@ -66,7 +66,7 @@ class UpdateCrewProfile(Tool):
             data["crew_members"][crew_index]["first_name"] = first_name.strip()
             updates_made.append("first_name")
 
-        # Update last name if provided
+        # Modify last name if available.
         if last_name is not None:
             if not isinstance(last_name, str) or len(last_name.strip()) == 0:
                 return json.dumps({
@@ -76,7 +76,7 @@ class UpdateCrewProfile(Tool):
             data["crew_members"][crew_index]["last_name"] = last_name.strip()
             updates_made.append("last_name")
 
-        # Update role if provided
+        # Modify the role if specified.
         if role is not None:
             valid_roles = ["Captain", "First Officer", "Flight Attendant", "Flight Engineer"]
             if role not in valid_roles:
@@ -88,9 +88,9 @@ class UpdateCrewProfile(Tool):
             data["crew_members"][crew_index]["role"] = role
             updates_made.append("role")
 
-        # Update home base if provided
+        # Modify the home base if it is specified.
         if home_base is not None:
-            # Validate airport code format (basic validation)
+            # Check the format of the airport code (preliminary validation).
             if not isinstance(home_base, str) or len(home_base) != 3 or not home_base.isalpha():
                 return json.dumps({
                     "status": "Invalid airport code format. Expected 3-letter IATA code",
@@ -103,7 +103,7 @@ class UpdateCrewProfile(Tool):
             }
             updates_made.append("home_base")
 
-        # Update status if provided
+        # Change the status if it is given.
         if status is not None:
             valid_statuses = ["Active", "Inactive", "On Leave", "Suspended", "Retired"]
             if status not in valid_statuses:
@@ -122,7 +122,7 @@ class UpdateCrewProfile(Tool):
                 "current_profile": original_profile
             })
 
-        # Get updated profile
+        # Retrieve the latest profile information.
         updated_crew = data["crew_members"][crew_index]
         updated_profile = {
             "first_name": updated_crew.get("first_name"),

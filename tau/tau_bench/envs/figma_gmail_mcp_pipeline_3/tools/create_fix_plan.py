@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,14 +15,14 @@ class create_fix_plan(Tool):
         w = _require_write(p)
         if w: return w
 
-        # Derive artifact_id from audit_id "aud-<artifact_id>-<YYYYMMDD>-<seq>"
+        # Extract artifact_id from audit_id formatted as "aud-<artifact_id>-<YYYYMMDD>-<seq>"
         audit_id = p["audit_id"]
         m = re.match(r"^aud-(?P<art>[^-]+)-(?P<date>\d{8})-(?P<seq>\d+)$", audit_id)
         if not m:
             return _err("invalid_audit_id_format")
         artifact_id = m.group("art")
 
-        # Per ID_RULE: date derives from timestamp
+        # According to ID_RULE, the date is extracted from the timestamp.
         yyyymmdd = p["timestamp"][0:10].replace("-", "")
         plan_id = f"fp-{artifact_id}-{yyyymmdd}-001"
         plan = {

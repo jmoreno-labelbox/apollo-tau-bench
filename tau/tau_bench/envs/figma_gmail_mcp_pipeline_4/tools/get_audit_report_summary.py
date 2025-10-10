@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class GetAuditReportSummary(Tool):
         audit_findings_ds = data.get("audit_findings_ds", [])
         audit_findings_a11y = data.get("audit_findings_a11y", [])
 
-        # Find the audit
+        # Locate the audit.
         audit_info = None
         for audit in audits:
             if audit.get("audit_id") == audit_id:
@@ -30,11 +30,11 @@ class GetAuditReportSummary(Tool):
         if not audit_info:
             return json.dumps({"error": f"Audit with ID {audit_id} not found."})
 
-        # Get findings for this audit
+        # Retrieve results for this audit.
         ds_findings = [f for f in audit_findings_ds if f.get("audit_id") == audit_id]
         a11y_findings = [f for f in audit_findings_a11y if f.get("audit_id") == audit_id]
 
-        # Count findings by severity
+        # Tally results based on severity level.
         severity_counts = {"LOW": 0, "MEDIUM": 0, "HIGH": 0, "CRITICAL": 0}
 
         for finding in ds_findings + a11y_findings:

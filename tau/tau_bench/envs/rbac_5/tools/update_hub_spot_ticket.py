@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -41,13 +41,13 @@ class UpdateHubSpotTicket(Tool):
         if idx is None:
             return json.dumps({"error": f"ticket_id {ticket_id} not found"})
 
-        # Validate enumerations
+        # Verify enum values
         if status is not None and status not in ["OPEN", "IN_PROGRESS", "CLOSED"]:
             return json.dumps({"error": "status must be one of: ['OPEN','IN_PROGRESS','CLOSED']"})
         if priority is not None and priority not in ["HIGH", "MEDIUM", "LOW"]:
             return json.dumps({"error": "priority must be one of: ['HIGH','MEDIUM','LOW']"})
 
-        # Validate assignee
+        # Verify the assignee.
         if assignee_id is not None:
             if not _find_by_id(list(data.get("users", {}).values()), "user_id", assignee_id):
                 return json.dumps({"error": f"assignee_id {assignee_id} not found"})
@@ -63,7 +63,7 @@ class UpdateHubSpotTicket(Tool):
             updated["assignee_id"] = assignee_id
         if status is not None:
             updated["status"] = status
-            # Manage closed_at based on status
+            # Handle closed_at according to the status.
             if status == "CLOSED":
                 updated["closed_at"] = updated_at
             else:

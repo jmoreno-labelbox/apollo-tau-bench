@@ -1,4 +1,4 @@
-# rules.py for variation_5
+# rules.py for variant_5
 RULES = [
     "As an AI research administrator, you are tasked with overseeing project lifecycles and managing funding.",
     "A lead researcher and a funding source must be designated when initiating a new project.",

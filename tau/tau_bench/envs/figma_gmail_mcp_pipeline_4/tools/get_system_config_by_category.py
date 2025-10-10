@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class GetSystemConfigByCategory(Tool):
 
         system_config = data.get('system_config', [])
 
-        # If config_key is provided, return specific config
+        # Return the specific configuration if config_key is supplied.
         if config_key:
             for config in system_config:
                 if config.get('config_key') == config_key:
@@ -28,10 +28,10 @@ class GetSystemConfigByCategory(Tool):
                     return json.dumps(config_copy, indent=2)
             return json.dumps({"error": f"Config with key '{config_key}' not found."})
 
-        # Filter configs by criteria
+        # Refine configurations based on specified criteria.
         results = []
         for config in system_config:
-            # Apply filters
+            # Implement filters
             if config_category:
                 if config.get('category') != config_category:
                     continue
@@ -46,7 +46,7 @@ class GetSystemConfigByCategory(Tool):
 
             results.append(config_copy)
 
-        # Group results by category for summary
+        # Categorize results for a summary overview.
         summary = {
             "total_configs": len(results),
             "by_category": {},

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,13 +27,13 @@ class CreateUser(Tool):
         if not username or not email or not department:
             return json.dumps({"error": "username, email, and department are required"})
 
-        # Check if username already exists
+        # Verify if the username is already in use.
         users = list(data.get("users", {}).values())
         for user in users:
             if user.get("username") == username:
                 return json.dumps({"error": f"username {username} already exists"})
 
-        # Create new user
+        # Add a new user.
         new_user = {
             "user_id": _next_id(data, "users", "U"),
             "username": username,

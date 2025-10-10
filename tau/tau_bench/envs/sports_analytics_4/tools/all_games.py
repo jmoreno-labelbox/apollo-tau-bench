@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -7,20 +7,20 @@ from tau_bench.envs.tool import Tool
 
 class AllGames(Tool):
     @staticmethod
-        # main invoke function
+        # primary execution function
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         windows = kwargs.get("windows", [])
         batch_results = {}
 
-        # Get real data from JSON files
+        # Retrieve actual data from JSON files.
         pitches = data.get("pitches", [])
         games = data.get("games", [])
         players = data.get("players", [])
 
         for window in windows:
-            if "PA" in window:  # Plate appearances window
+            if "PA" in window:  # Window for plate appearances
                 count = int(window.replace("PA", ""))
-                # Filter pitches based on count limit
+                # Limit the pitches by count filter.
                 filtered_pitches = pitches[:count] if len(pitches) >= count else pitches
                 batch_results[window] = {
                     "total_records": len(filtered_pitches),
@@ -28,7 +28,7 @@ class AllGames(Tool):
                     "pitch_types": list(set(p.get("pitch_type") for p in filtered_pitches if p.get("pitch_type"))),
                     "data_quality": "good"
                 }
-            elif "games" in window:  # Games window
+            elif "games" in window:  # Game interface
                 count_str = window.replace("_games", "").replace("last_", "")
                 if count_str == "full_season":
                     filtered_games = games
@@ -41,7 +41,7 @@ class AllGames(Tool):
                     "teams_involved": list(set([g.get("home_team_id") for g in filtered_games] + [g.get("away_team_id") for g in filtered_games])),
                     "data_quality": "good"
                 }
-            else:  # Other contexts
+            else:  # Alternative scenarios
                 batch_results[window] = {
                     "data_available": len(pitches) > 0,
                     "records_count": len(pitches),
@@ -49,7 +49,7 @@ class AllGames(Tool):
                     "data_quality": "good"
                 }
 
-        # return result
+        # return outcome
         return json.dumps({
             "batch_id": "batch_" + "_".join(windows),
             "windows_processed": len(windows),
@@ -57,9 +57,9 @@ class AllGames(Tool):
         }, indent=2)
 
     @staticmethod
-        # info metadata
+        # metadata information
     def get_info() -> Dict[str, Any]:
-        # return result
+        # return outcome
         return {
             "type": "function",
             "function": {

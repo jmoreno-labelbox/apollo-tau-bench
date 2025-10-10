@@ -1,26 +1,26 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class ExportFigmaArtifactsToAssets(Tool):  # WRITE
+class ExportFigmaArtifactsToAssets(Tool):  # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
         artifact_ids: List[str],
         export_profile: Dict[str, Any] = None
     ) -> str:
-        # Validate input
+        # Check the input for correctness.
         if not isinstance(artifact_ids, list) or not all(isinstance(aid, str) for aid in artifact_ids):
             return json.dumps({"error": "artifact_ids must be a list of strings"})
         artifacts = data.get("figma_artifacts", [])
         assets = data.get("assets", [])
-        # Default export profile
+        # Export profile by default
         default_profile = {"format": "PNG", "scale": "2x"}
         profile = export_profile if export_profile else default_profile
-        # Validate profile
+        # Verify profile integrity.
         allowed_formats = ["PNG", "JPG", "SVG", "PDF"]
         allowed_scales = ["1x", "2x", "4x"]
         if export_profile is not None and ("format" not in export_profile.keys() or "scale" not in export_profile.keys()):
@@ -34,7 +34,7 @@ class ExportFigmaArtifactsToAssets(Tool):  # WRITE
             artifact = next((a for a in artifacts if a.get("artifact_id") == aid), None)
             if not artifact:
                 continue
-            # Compose export_profile string as in assets.json
+            # Generate export_profile string similar to the format in assets.json.
             if fmt == "SVG" or fmt == "PDF":
                 export_profile_str = fmt
             else:
@@ -43,7 +43,7 @@ class ExportFigmaArtifactsToAssets(Tool):  # WRITE
                 "asset_id": f"asset_{aid}_{fmt.lower()}_{scale}",
                 "artifact_id_nullable": aid,
                 "export_profile": export_profile_str,
-                # Placeholder values for other fields
+                # Sample values for additional fields
                 "file_size_bytes": 205500,
                 "storage_ref": f"gs://company-assets/figma-exports/{artifact.get('artifact_name').replace(' ', '-').lower()}-{scale}.{fmt.lower()}",
                 "created_ts": "2025-08-26T00:00:00Z",
@@ -52,7 +52,7 @@ class ExportFigmaArtifactsToAssets(Tool):  # WRITE
             }
             assets.append(asset)
             exported.append(asset["asset_id"])
-        # Optionally, update data['assets'] if needed
+        # Update data['assets'] if necessary.
         return json.dumps({"exported_asset_ids": exported, "profile": profile})
 
     @staticmethod

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict
@@ -16,7 +16,7 @@ class SearchDirectFlight(Tool):
                     date in flight["dates"]
                     and flight["dates"][date]["status"] == "available"
                 ):
-                    # results add flight except dates, but add flight["datas"][date]
+                    # results include flight details excluding dates, but include flight["datas"][date].
                     results.append({k: v for k, v in flight.items() if k != "dates"})
                     results[-1].update(flight["dates"][date])
         return json.dumps(results)

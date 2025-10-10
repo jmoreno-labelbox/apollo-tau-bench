@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class SetSupplyOrderStatusTool(Tool):
 
     Input (kwargs):
         supply_order_id (str, required)
-        status (str, required)  # e.g., "pending","approved","in_transit","received","cancelled"
+        status (str, required)  # for example, "pending", "approved", "in_transit", "received", "cancelled"
 
     Output:
         JSON string with {"supply_order_id","status"} or {"error":...}.

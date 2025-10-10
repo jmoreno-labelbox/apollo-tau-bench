@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class UpdateSupplierInfo(Tool):
         supplier_to_update = None
         supplier_index = None
 
-        # Find the supplier
+        # Locate the vendor.
         for i, supplier in enumerate(suppliers):
             if supplier.get("supplier_id") == supplier_id:
                 supplier_to_update = supplier
@@ -28,7 +28,7 @@ class UpdateSupplierInfo(Tool):
         if not supplier_to_update:
             return json.dumps({"error": f"Supplier {supplier_id} not found", "status": "failed"})
 
-        # WRITE OPERATION: Update supplier information
+        # UPDATE OPERATION: Modify supplier details
         updates_applied = []
 
         if contact_updates:
@@ -44,7 +44,7 @@ class UpdateSupplierInfo(Tool):
 
             supplier_to_update["contact_info"] = current_contact
 
-        # Add performance tracking
+        # Implement performance monitoring
         if performance_rating is not None:
             if not (0.0 <= performance_rating <= 5.0):
                 return json.dumps({"error": "Performance rating must be between 0.0 and 5.0", "status": "failed"})
@@ -62,7 +62,7 @@ class UpdateSupplierInfo(Tool):
 
         supplier_to_update["last_updated"] = datetime.now().isoformat()
 
-        # Update the supplier in the data structure
+        # Modify the supplier within the data structure.
         data["suppliers"][supplier_index] = supplier_to_update
 
         result = {

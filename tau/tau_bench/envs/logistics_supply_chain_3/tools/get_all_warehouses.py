@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,18 +25,18 @@ class GetAllWarehouses(Tool):
             for key, value in filters.items():
                 warehouse_value = warehouse.get(key)
 
-                # If the warehouse field is a list (e.g., certifications, special_capabilities)
-                # This checks if the required value is present in the list.
+                # If the warehouse field is an array (e.g., certifications, special_capabilities)
+                # This verifies the presence of the necessary value within the list.
                 if isinstance(warehouse_value, list):
                     if value not in warehouse_value:
                         match = False
                         break
-                # Handle case-insensitivity for string comparisons
+                # Manage case insensitivity in string comparisons.
                 elif isinstance(warehouse_value, str) and isinstance(value, str):
                     if warehouse_value.lower() != value.lower():
                         match = False
                         break
-                # Direct comparison for other types
+                # Immediate comparison for alternative types
                 elif warehouse_value != value:
                     match = False
                     break

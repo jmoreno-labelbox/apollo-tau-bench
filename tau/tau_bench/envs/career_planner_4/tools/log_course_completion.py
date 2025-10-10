@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class log_course_completion(Tool):
     def invoke(
         data: Dict[str, Any], user_id: str, course_id: str, completion_date: str
     ) -> str:
-        # Update existing course progress or create new record
+        # Modify current course progress or generate a new entry.
         courses = data.get("user_course_progress", [])
         course = next(
             (

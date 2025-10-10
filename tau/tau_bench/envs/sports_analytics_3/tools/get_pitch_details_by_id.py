@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class GetPitchDetailsById(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         pitch_id = kwargs.get("pitch_id")
 
-        # 1) Validate
+        # 1) Verify
         if pitch_id is None:
             return json.dumps({"error": "Missing required field: pitch_id"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database
         pitches: List[Dict[str, Any]] = list(data.get("pitches", {}).values())
 
-        # 3) Exact match
+        # 3) Precise match
         for p in pitches:
             if p.get("pitch_id") == pitch_id:
                 return json.dumps(p, indent=2)

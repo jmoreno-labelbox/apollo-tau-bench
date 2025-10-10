@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,8 +18,8 @@ class AdvanceTrackingStatusTool(Tool):
 
     Input (kwargs):
         tracking_id (str, required)
-        status (str, required)              # e.g., "shipped", "delivered", etc.
-        order_status (str, optional)        # e.g., "fulfilled", "completed"
+        status (str, required)              # for example, "dispatched", "received", etc.
+        order_status (str, optional)        # for example, "achieved", "finalized"
 
     Output:
         JSON string with {"tracking_id","new_status","history_len"} or {"error":...}.
@@ -42,13 +42,13 @@ class AdvanceTrackingStatusTool(Tool):
                 indent=2,
             )
 
-        # Ensure tracking_history exists before appending
+        # Verify the existence of tracking_history prior to appending.
         if "tracking_history" not in tr:
             tr["tracking_history"] = {}
 
         tr["tracking_history"][status] = _now_iso()
 
-        # Mirror into orders.json if applicable
+        # Duplicate into orders.json if relevant.
         orders = list(data.get("orders", {}).values())
         order = next((o for o in orders if o.get("order_id") == tr.get("order_id")), None)
         if order:

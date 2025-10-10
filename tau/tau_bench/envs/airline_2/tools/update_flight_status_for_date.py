@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class UpdateFlightStatusForDate(Tool):
             updated.append(f.get("flight_number"))
 
         if not updated and errors:
-            return _j(errors[0])  # first error
+            return _j(errors[0])  # initial error
         elif not updated:
             return _j({"error":"flight_not_found","flight_numbers":flight_numbers})
         else:

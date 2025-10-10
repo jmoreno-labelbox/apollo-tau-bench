@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,38 +19,38 @@ class UpdateGmailThreadPriority(Tool):
         if not all([thread_id, new_priority]):
             return json.dumps({"error": "thread_id and new_priority are required."})
 
-        # Validate priority values
+        # Check the validity of priority values.
         valid_priorities = ['LOW', 'NORMAL', 'HIGH', 'URGENT', 'CRITICAL']
         if new_priority not in valid_priorities:
             return json.dumps({"error": f"Invalid priority. Must be one of: {', '.join(valid_priorities)}"})
 
         gmail_threads = list(data.get('gmail_threads', {}).values())
 
-        # Find the thread
+        # Locate the thread.
         thread_found = False
         for thread in gmail_threads:
             if thread.get('thread_id') == thread_id:
                 thread_found = True
                 old_priority = thread.get('priority', 'NORMAL')
 
-                # Update thread priority
+                # Adjust thread priority.
                 thread['priority'] = new_priority
                 thread['updated_ts'] = datetime.now().isoformat()
 
-                # Handle high priority logic
+                # Manage critical priority logic
                 if new_priority in ['HIGH', 'URGENT', 'CRITICAL']:
                     thread['escalated_at'] = datetime.now().isoformat()
                     if urgency_reason:
                         thread['urgency_reason'] = urgency_reason
                     if escalate_to:
-                        # Add escalation recipients to existing recipients
+                        # Append escalation recipients to the current list of recipients.
                         current_recipients = thread.get('recipients', [])
                         for recipient in escalate_to:
                             if recipient not in current_recipients:
                                 current_recipients.append(recipient)
                         thread['recipients'] = current_recipients
 
-                # Log the priority change
+                # Record the modification in priority.
                 if 'priority_history' not in thread:
                     thread['priority_history'] = []
                 thread['priority_history'].append({

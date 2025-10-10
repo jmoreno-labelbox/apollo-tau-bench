@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,11 +22,11 @@ class GetSupplierOrderHistory(Tool):
         if not supplier:
             return json.dumps({'error': f'Supplier {supplier_id} not found'})
 
-        # Get all orders for this supplier
+        # Retrieve all orders associated with this supplier.
         supplier_orders = [o for o in supply_orders if o['supplier_id'] == supplier_id]
         supplier_orders.sort(key=lambda x: x['order_date'], reverse=True)
 
-        # Enrich orders with product names
+        # Augment orders by adding product names.
         enriched_orders = []
         for order in supplier_orders[:limit]:
             product = next((p for p in products if p['product_id'] == order['product_id']), None)
@@ -34,7 +34,7 @@ class GetSupplierOrderHistory(Tool):
             enriched_order['product_name'] = product['name'] if product else 'Unknown Product'
             enriched_orders.append(enriched_order)
 
-        # Calculate summary stats
+        # Compute summary statistics.
         total_orders = len(supplier_orders)
         total_value = sum(o['total_cost'] for o in supplier_orders)
         pending_orders = len([o for o in supplier_orders if o['status'] == 'pending'])

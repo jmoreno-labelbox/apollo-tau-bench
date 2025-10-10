@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class SendNotification(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         notifications = _table(data, 'notifications')
         nid = kwargs.get('id')
-        # --- FIX: Generate ID if not provided ---
+        # --- SOLUTION: Create ID if absent ---
         if not nid:
             nid = f"notification_{len(notifications) + 1:04d}"
 

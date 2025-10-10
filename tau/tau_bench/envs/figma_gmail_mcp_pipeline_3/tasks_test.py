@@ -55,10 +55,10 @@ TASKS = [
             "Manage the release publishing for the Design System team as of 2024-08-22T17:00:00Z. Distribute a release handoff for Figma artifact art_001 citing release_001, and send it from emma.creative@company.com to [chris.engineer@company.com, anna.brand@company.com, jake.design@company.com]. Use the profile 'PNG 2x' to export the asset and make sure to attach it within the email."
         ),
         actions=[
-            # Read the referenced release (deterministic)
+            # Consult the linked release (deterministic).
             Action(name="GetReleaseDiff", kwargs={"release_id": "release_001"}),
 
-            # Export asset (provisioning) — en-*
+            # Export resource (provisioning) — en-*
             Action(name="ExportAssets", kwargs={
                 "artifact_id": "art_001",
                 "export_profile": "PNG 2x",
@@ -66,7 +66,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # Create thread (email) — em-*
+            # Initiate email thread — em-*
             Action(name="CreateGmailThread", kwargs={
                 "subject": "Release Handoff — release_001 — 2024-08-22",
                 "sender_email": "emma.creative@company.com",
@@ -88,7 +88,7 @@ TASKS = [
                 "request_id": "em-002",
             }),
 
-            # Artifact governance tag post-handoff — up-*
+            # Artifact governance label after transfer — up-*
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_001",
                 "add_tags": ["released/20240822"],
@@ -97,7 +97,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Record the run — rl-*
+            # Log the execution — rl-*
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "release_handoff",
                 "status": "completed",
@@ -148,7 +148,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task 4 — DS fix plan via COMMENTS (no synthesized items if no findings)
+    # Task 4 — Develop a DS fix strategy through COMMENTS (omit synthesized items if no issues are identified)
     Task(
         annotator="0",
         user_id="task_04",
@@ -164,7 +164,7 @@ TASKS = [
                 "audit_id": "aud-art_003-20240823-001",
                 "finding_type": "SPACING",
             }),
-            # Create plan (updates) → up-*
+            # Generate plan (modifications) → up-*
             Action(name="CreateFixPlan", kwargs={
                 "audit_id": "aud-art_003-20240823-001",
                 "owner_email": "emma.creative@company.com",
@@ -172,14 +172,14 @@ TASKS = [
                 "timestamp": "2024-08-23T13:10:00Z",
                 "request_id": "en-001",
             }),
-            # Deliver plan (updates) → up-*
+            # Provide plan (revisions) → up-*
             Action(name="DeliverFixPlan", kwargs={
                 "plan_id": "fp-art_003-20240823-001",
                 "method": "COMMENTS",
                 "timestamp": "2024-08-23T13:10:00Z",
                 "request_id": "up-001",
             }),
-            # Record run (updates) → up-*
+            # Log execution (modifications) → up-*
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "ds_audit_fix",
                 "status": "completed",
@@ -206,7 +206,7 @@ TASKS = [
                 "timestamp": "2024-08-23T09:10:00Z",
                 "request_id": "en-001",
             }),
-            # Governance at kickoff: add 'needs-review' on the artifact → up-*
+            # Governance at start: append 'needs-review' to the artifact → up-*
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_001",
                 "add_tags": ["needs-review"],
@@ -214,7 +214,7 @@ TASKS = [
                 "timestamp": "2024-08-23T09:10:00Z",
                 "request_id": "up-001",
             }),
-            # Create thread (email) → em-*
+            # Initiate thread (email) → em-*
             Action(name="CreateGmailThread", kwargs={
                 "subject": "Review Request — art_001 — 2024-08-23",
                 "sender_email": "emma.creative@company.com",
@@ -223,7 +223,7 @@ TASKS = [
                 "timestamp": "2024-08-23T09:10:00Z",
                 "request_id": "em-001",
             }),
-            # Append with asset attachment by asset id → em-*
+            # Add asset attachment using asset ID → em-*
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001",
                 "sender_email": "emma.creative@company.com",
@@ -232,7 +232,7 @@ TASKS = [
                 "timestamp": "2024-08-23T09:10:00Z",
                 "request_id": "em-002",
             }),
-            # Record run (review) → rv-*
+            # Log execution (assessment) → rv-*
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "review_kickoff",
                 "status": "completed",
@@ -252,7 +252,7 @@ TASKS = [
             "Act as the design review coordinator for the Web UX team as of 2024-08-23T09:10:00Z. Start an email-based design review for artifact art_001 using the 'PNG 2x' export profile from emma.creative@company.com. Address it to [jake.design@company.com, chris.engineer@company.com, anna.brand@company.com], mark the artifact for review, ensure the exported asset is part of the templated email, and log the run."
         ),
         actions=[
-            # 1) Governance tag at kickoff
+            # 1) Governance label during initiation
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_001",
                 "add_tags": ["needs-review"],
@@ -260,7 +260,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
 
-            # 2) Export with specified profile (ID_RULE -> exp-art_001-20240823-png-001)
+            # 2) Export using the defined profile (ID_RULE -> exp-art_001-20240823-png-001)
             Action(name="ExportAssets", kwargs={
                 "artifact_id": "art_001",
                 "export_profile": "PNG 2x",
@@ -268,7 +268,7 @@ TASKS = [
                 "request_id": "rv-002",
             }),
 
-            # 3) Start the review email thread — SUBJECT from rules (email.review_request.v2_subject)
+            # 3) Initiate the review email conversation — SUBJECT as per guidelines (email.review_request.v2_subject)
             Action(name="CreateGmailThread", kwargs={
                 "subject": "Review Request — art_001 — 2024-08-23",
                 "sender_email": "emma.creative@company.com",
@@ -281,7 +281,7 @@ TASKS = [
                 "request_id": "rv-003",
             }),
 
-            # 4) Send the message — BODY from rules (email.review_request.v2_body) with tokens filled
+            # 4) Dispatch the message — BODY from rules (email.review_request.v2_body) with tokens populated.
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_rv-003",
                 "sender_email": "emma.creative@company.com",
@@ -291,7 +291,7 @@ TASKS = [
                 "request_id": "rv-004",
             }),
 
-            # 5) Record the run
+            # 5) Log the execution
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "review_kickoff",
                 "status": "completed",
@@ -310,12 +310,12 @@ TASKS = [
             "Act as the release publisher with the current time being 2024-08-22T17:00:00Z. A hotfix window is scheduled for tonight, and stakeholders require a concise summary before entering the ship room. Provide a release handoff for artifact art_001, summarizing the changes since the previous release tag for release_001. Include an exported asset using profile 'PNG 2x' in the email from emma.creative@company.com to ['chris.engineer@company.com', 'anna.brand@company.com', 'jake.design@company.com']; following the send, apply the tag 'released/2024-08-22' to the artifact."
         ),
         actions=[
-            # Determine diff against the previous tag explicitly referenced
+            # Calculate the difference from the specified previous tag.
             Action(name="GetReleaseDiff", kwargs={
                 "release_id": "release_001",
             }),
 
-            # Fresh export for the handoff (provisioning ⇒ en- prefix)
+            # New export for the transfer (provisioning ⇒ en- prefix)
             Action(name="ExportAssets", kwargs={
                 "artifact_id": "art_001",
                 "export_profile": "PNG 2x",
@@ -323,8 +323,8 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # Compose email thread using template-derived subject with NEW release_id
-            # Template subject: "Release Handoff — {release_id} — {date}"
+            # Generate an email chain utilizing a subject based on the template with a NEW release_id.
+            # Template subject: "Handoff for Release — {release_id} — {date}"
             Action(name="CreateGmailThread", kwargs={
                 "subject": "Release Handoff — release_001 — 2024-08-22",
                 "sender_email": "emma.creative@company.com",
@@ -338,7 +338,7 @@ TASKS = [
                 "request_id": "em-001",
             }),
 
-            # Template body: "Hello stakeholders,\nPlease find the release notes for {release_id}, including changes.\nRegards."
+            # Template content: "Greetings stakeholders,\nAttached are the release notes for {release_id}, detailing the modifications.\nBest regards."
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001",
                 "sender_email": "emma.creative@company.com",
@@ -348,7 +348,7 @@ TASKS = [
                 "request_id": "em-002",
             }),
 
-            # Tag the artifact as released for the stated date
+            # Mark the artifact as released for the specified date.
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_001",
                 "add_tags": ["released/2024-08-22"],
@@ -357,7 +357,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Record the run (release workflow ⇒ rl- prefix)
+            # Log the execution (release workflow ⇒ rl- prefix)
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "release_handoff",
                 "status": "completed",
@@ -376,7 +376,7 @@ TASKS = [
             "Assume the role of the design review coordinator at 2024-08-23T17:10:00Z. After a late-afternoon QA sweep revealed several regressions, for review cycle cycle_001, issue a changes-requested update and escalate to ['anna.brand@company.com'] with labels ['Design/Escalation','design-review']; ensure the ongoing discussion remains within the same day’s thread."
         ),
         actions=[
-            # Apply only the requested labels on the existing same-day thread
+            # Attach only the specified labels to the current same-day thread.
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thread_001",
                 "add_labels": ["Design/Escalation", "design-review"],
@@ -385,18 +385,18 @@ TASKS = [
                 "request_id": "em-001",
             }),
             Action(name="ListReviewCycles", kwargs={}),
-            # In-thread escalation using template email.changes_requested.v1 and default sender from rules
+            # In-thread escalation utilizing the template email.changes_requested.v1 and the default sender specified in the rules.
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_001",
-                "sender_email": "emma.creative@company.com",  # from SENDER_FALLBACK_RULE
-                "recipients": ["anna.brand@company.com"],  # explicit escalation target
+                "sender_email": "emma.creative@company.com",  # derived from SENDER_FALLBACK_RULE
+                "recipients": ["anna.brand@company.com"],  # clear escalation objective
                 "body_html": "Changes requested for art_001. Continuing in today’s thread.",
-                # email.changes_requested.v1
+                # email.requests_for_changes.v1
                 "timestamp": "2024-08-23T17:10:00Z",
                 "request_id": "em-002",
             }),
 
-            # Update the review cycle status
+            # Modify the status of the review cycle.
             Action(name="UpdateReviewCycleStatus", kwargs={
                 "cycle_id": "cycle_001",
                 "status": "CHANGES_REQUESTED",
@@ -405,7 +405,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
 
-            # Record the automation run
+            # Log the execution of the automation.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "changes_requested_escalation",
                 "status": "completed",
@@ -426,27 +426,27 @@ TASKS = [
             "Act as the design review coordinator at the time 2024-08-24T16:45:00Z. The team seeks to have the most recent feedback noted before Monday’s stand-up—integrate the newest message from Gmail thread thread_011 into Figma artifact art_011 as a comment and make sure to log the sync."
         ),
         actions=[
-            # Verify the dataset-provided thread exists
+            # Check for the existence of the thread in the provided dataset.
             Action(name="GetGmailThread", kwargs={
                 "thread_id": "thread_011",
             }),
 
-            # List messages so the agent can pick the newest (the dataset has entries for this thread)
+            # Organize messages for the agent to select the most recent one (the dataset contains entries for this conversation).
             Action(name="ListGmailMessages", kwargs={
                 "thread_id": "thread_011",
             }),
 
-            # Create the Figma comment using the approved template:
-            # "Synced from Gmail thread {thread_id} on {date}."
+            # Utilize the authorized template to generate the Figma comment.
+            # "Synchronized from Gmail conversation {thread_id} on {date}."
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_011",
-                "author_email": "design-review@company.com",  # per COMMENT_AUTHOR_RULE
+                "author_email": "design-review@company.com",  # according to COMMENT_AUTHOR_RULE
                 "content": "Synced from Gmail thread thread_011 on 2024-08-24.",
                 "timestamp": "2024-08-24T16:45:00Z",
                 "request_id": "up-001",
             }),
 
-            # Record the automation run
+            # Log the execution of the automation.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "sync_email_to_figma",
                 "status": "completed",
@@ -465,10 +465,10 @@ TASKS = [
             "Serve as the review program manager at 2024-08-23T15:00:00Z. With sign-off impacting the deployment window, for review cycle cycle_001, register approvals for ['jake.design@company.com', 'chris.engineer@company.com'] at times ['2024-08-23T15:05:00Z', '2024-08-23T15:07:00Z'], and confirm quorum achieved if applicable."
         ),
         actions=[
-            # ✅ Derive artifact_id from the review cycle (cycle_001 → art_001)
+            # Obtain artifact_id from the review cycle (cycle_001 → art_001).
             Action(name="GetReviewCycle", kwargs={"cycle_id": "cycle_001"}),
 
-            # Record two explicit approvals (timestamps come from instruction)
+            # Log two clear approvals (timestamps derived from the instruction).
             Action(name="UpdateReviewApproval", kwargs={
                 "cycle_id": "cycle_001",
                 "approver_email": "jake.design@company.com",
@@ -484,7 +484,7 @@ TASKS = [
                 "request_id": "rv-002",
             }),
 
-            # Quorum met (2 approvals same day) ⇒ mark cycle APPROVED (enum uppercase)
+            # Quorum achieved (2 approvals on the same day) ⇒ set cycle to APPROVED (enum in uppercase)
             Action(name="UpdateReviewCycleStatus", kwargs={
                 "cycle_id": "cycle_001",
                 "status": "APPROVED",
@@ -493,7 +493,7 @@ TASKS = [
                 "request_id": "rv-003",
             }),
 
-            # Swap governance tags based on artifact derived from cycle (art_001)
+            # Exchange governance tags according to the artifact produced from the cycle (art_001).
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_001",
                 "add_tags": ["approved/2024-08-23"],
@@ -502,7 +502,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Record the automation run (ID rule: run_<request_id>)
+            # Log the automation execution (ID format: run_<request_id>)
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "approvals_append",
                 "status": "completed",
@@ -522,7 +522,7 @@ TASKS = [
             "Handle a design review for the Web UX team with the current time as 2024-08-23T10:35:00Z. A stakeholder preview is scheduled right after lunch—initiate a design review for Figma artifact art_003. During kickoff, append the tag 'needs-review' to the artifact, and ensure the exported asset 'PNG 2x' is included in the email to ['jake.design@company.com', 'chris.engineer@company.com']."
         ),
         actions=[
-            # Create the same-day review cycle (deterministic ID)
+            # Establish the same-day review process with a fixed identifier.
             Action(name="CreateReviewCycle", kwargs={
                 "cycle_id": "rev-art_003-20240823-001",
                 "artifact_id": "art_003",
@@ -531,7 +531,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
 
-            # Export the asset to attach (profile exactly as instructed)
+            # Export the asset for attachment (follow the profile specifications precisely).
             Action(name="ExportAssets", kwargs={
                 "artifact_id": "art_003",
                 "export_profile": "PNG 2x",
@@ -539,7 +539,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # Add kickoff governance tag
+            # Include kickoff governance label
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_003",
                 "add_tags": ["needs-review"],
@@ -548,9 +548,9 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Start the review email — template-derived subject/body
+            # Initiate the review email using a template-based subject and body.
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Review Request — art_003 — 2024-08-23",  # email.review_request.v2_subject
+                "subject": "Review Request — art_003 — 2024-08-23",  # email.review_request.subject_v2
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["jake.design@company.com", "chris.engineer@company.com"],
                 "timestamp": "2024-08-23T10:35:00Z",
@@ -561,7 +561,7 @@ TASKS = [
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["jake.design@company.com", "chris.engineer@company.com"],
                 "body_html": "Hi team,\nPlease review the attached PNG 2x export for art_003.\nThanks.",
-                # email.review_request.v2_body
+                # email.review_request.version2_body
                 "attachments_asset_ids": ["asset_en-001"],
                 "timestamp": "2024-08-23T10:35:00Z",
                 "request_id": "em-002",
@@ -589,7 +589,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # Compose email with NEW release_id per ID_RULE
+            # Generate email using the NEW release_id corresponding to ID_RULE.
             Action(name="CreateGmailThread", kwargs={
                 "subject": "Release Handoff — rel-art_003-20240822-001 — 2024-08-22",
                 "sender_email": "emma.creative@company.com",
@@ -608,7 +608,7 @@ TASKS = [
                 "request_id": "em-002",
             }),
 
-            # Apply release tag as instructed
+            # Implement the release tag as directed.
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_003",
                 "add_tags": ["released/2024-08-23"],
@@ -635,13 +635,13 @@ TASKS = [
             "As the design review coordinator for the Web UX team and at the time 2024-08-23T11:25:00Z, maintain a tidy inbox during the lunch crunch—initiate an email-based design review for Figma artifact art_002 utilizing export profile 'PNG 2x'. Ensure a single email thread is kept per artifact for the day, and continue using the existing thread if it has already been initiated. Ensure that the review email incorporates the exported asset sent to ['anna.brand@company.com']."
         ),
         actions=[
-            # Try to locate existing same-day thread (safe if none)
+            # Attempt to find an existing same-day thread (safe to proceed if none is found)
             Action(name="FindGmailThreads", kwargs={
                 "subject_contains": "Review Request — art_002 — 2024-08-23",
                 "participant_email": "anna.brand@company.com",
             }),
 
-            # Create the review cycle
+            # Establish the evaluation process.
             Action(name="CreateReviewCycle", kwargs={
                 "cycle_id": "rev-art_002-20240823-001",
                 "artifact_id": "art_002",
@@ -650,7 +650,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # Export for attachment
+            # Export for file attachment
             Action(name="ExportAssets", kwargs={
                 "artifact_id": "art_002",
                 "export_profile": "PNG 2x",
@@ -658,7 +658,7 @@ TASKS = [
                 "request_id": "en-002",
             }),
 
-            # Kickoff tag
+            # Start tag
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_002",
                 "add_tags": ["needs-review"],
@@ -667,10 +667,10 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Start or continue the thread — we create if none was found above
+            # Initiate or proceed with the thread — we generate one if none exists above.
             Action(name="CreateGmailThread", kwargs={
                 "subject": "Review Request — art_002 — 2024-08-23",
-                "sender_email": "emma.creative@company.com",  # from SENDER_ROLE_MAP
+                "sender_email": "emma.creative@company.com",  # from SENDER_ROLE_ASSOCIATION
                 "recipients": ["anna.brand@company.com"],
                 "initial_labels": [],
                 "timestamp": "2024-08-23T11:25:00Z",
@@ -678,7 +678,7 @@ TASKS = [
             }),
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001",
-                "sender_email": "emma.creative@company.com",  # from SENDER_ROLE_MAP
+                "sender_email": "emma.creative@company.com",  # from SENDER_ROLE_MAPPING
                 "recipients": ["anna.brand@company.com"],
                 "body_html": "Hi team,\nPlease review the attached PNG 2x export for art_002.\nThanks.",
                 "attachments_asset_ids": ["asset_en-002"],
@@ -704,15 +704,15 @@ TASKS = [
             "Serving as the design review coordinator and at the time 2024-08-24T09:15:00Z, after overnight fixes have been implemented for the homepage, solicit a re-review for Figma artifact art_001 addressed to ['jake.design@company.com', 'chris.engineer@company.com'] utilizing the standard re-review notice. Initiate a new email thread for today’s re-review and document the activity."
         ),
         actions=[
-            # Try to locate an existing same-day thread (safe if none found)
+            # Attempt to find an existing thread from the same day (safe to proceed if none is available)
             Action(name="FindGmailThreads", kwargs={
                 "subject_contains": "Review Request — art_001 — 2024-08-24",
                 "participant_email": "jake.design@company.com",
             }),
-            # If none is located deterministically, start a new thread for re-review (policy: continue same-day thread; otherwise start one)
+            # If a deterministic location is not found, initiate a new thread for re-evaluation (policy: continue within the same day; otherwise, create a new thread).
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Re-review Needed — art_001 — 2024-08-24",  # email.rereview_notice.v1_subject
-                "sender_email": "emma.creative@company.com",  # from SENDER_ROLE_MAP
+                "subject": "Re-review Needed — art_001 — 2024-08-24",  # email.rereview_notice.subject_v1
+                "sender_email": "emma.creative@company.com",  # from SENDER_ROLE_MAPPING
                 "recipients": ["jake.design@company.com", "chris.engineer@company.com"],
                 "timestamp": "2024-08-24T09:15:00Z",
                 "request_id": "em-001",
@@ -722,11 +722,11 @@ TASKS = [
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["jake.design@company.com", "chris.engineer@company.com"],
                 "body_html": "Fixes have been applied on {artifact_id}; please re-review the latest assets."
-                   .replace("{artifact_id}", "art_001"),  # email.rereview_notice.v1
+                   .replace("{artifact_id}", "art_001"),  # email.reassess_alert.v1
                 "timestamp": "2024-08-24T09:15:00Z",
                 "request_id": "em-002",
             }),
-            # Record
+            # Log
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "rereview_kickoff",
                 "status": "completed",
@@ -745,12 +745,12 @@ TASKS = [
             "As the design review coordinator for the Web UX team, with the current time being 2024-08-24T09:15:00Z, initiate an email-based design review for Figma artifact art_001 utilizing the export profile 'PNG 2x'. Maintain a single email thread per artifact for the day, and continue in the existing thread if it has already been initiated. Make sure the review email includes the exported asset and is sent to ['jake.design@company.com', 'chris.engineer@company.com']. Recording the run is not necessary."
         ),
         actions=[
-            # Single-thread policy: check for an existing same-day thread
+            # Single-thread policy: verify if a thread for the same day already exists.
             Action(name="FindGmailThreads", kwargs={
                 "subject_contains": "Review Request — art_001 — 2024-08-24",
                 "participant_email": "jake.design@company.com",
             }),
-            # Create same-day review cycle
+            # Establish a review process for the same day.
             Action(name="CreateReviewCycle", kwargs={
                 "cycle_id": "rev-art_001-20240824-001",
                 "artifact_id": "art_001",
@@ -758,14 +758,14 @@ TASKS = [
                 "timestamp": "2024-08-24T09:15:00Z",
                 "request_id": "rv-001",
             }),
-            # Export asset per instruction
+            # Export asset as directed.
             Action(name="ExportAssets", kwargs={
                 "artifact_id": "art_001",
                 "export_profile": "PNG 2x",
                 "timestamp": "2024-08-24T09:15:00Z",
                 "request_id": "en-001",
             }),
-            # Kickoff governance tag at review start
+            # Initiate governance tag at the beginning of the review.
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_001",
                 "add_tags": ["needs-review"],
@@ -773,10 +773,10 @@ TASKS = [
                 "timestamp": "2024-08-24T09:15:00Z",
                 "request_id": "up-001",
             }),
-            # Start/continue the review email
+            # Initiate or proceed with the review email.
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Review Request — art_001 — 2024-08-24",  # email.review_request.v2_subject
-                "sender_email": "emma.creative@company.com",  # from SENDER_ROLE_MAP
+                "subject": "Review Request — art_001 — 2024-08-24",  # email.review_request.subject_v2
+                "sender_email": "emma.creative@company.com",  # from SENDER_ROLE_MAPPING
                 "recipients": ["jake.design@company.com", "chris.engineer@company.com"],
                 "timestamp": "2024-08-24T09:15:00Z",
                 "request_id": "em-001",
@@ -786,7 +786,7 @@ TASKS = [
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["jake.design@company.com", "chris.engineer@company.com"],
                 "body_html": "Hi team,\nPlease review the attached PNG 2x export for art_001.\nThanks.",
-                # email.review_request.v2_body
+                # email.review_request.v2_message_body
                 "attachments_asset_ids": ["asset_en-001"],
                 "timestamp": "2024-08-24T09:15:00Z",
                 "request_id": "em-002",
@@ -823,7 +823,7 @@ TASKS = [
                 "timestamp": "2024-08-24T09:20:00Z",
                 "request_id": "rv-003",
             }),
-            # Swap tags using alias: cycle_008 -> art_001 (see RULES CYCLE_ALIAS)
+            # Replace tags with alias: cycle_008 -> art_001 (refer to RULES CYCLE_ALIAS)
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_001",
                 "add_tags": ["approved/2024-08-24"],
@@ -850,7 +850,7 @@ TASKS = [
             "As the design review coordinator for the Web UX team, and with the current time being 2024-08-23T11:45:00Z, initiate a lunchtime overview of the homepage. Send an email-based design review by attaching the export 'PNG 2x' from 'art_001' in one message to ['jake.design@company.com', 'chris.engineer@company.com', 'anna.brand@company.com']; maintain a single email thread for the review throughout the day."
         ),
         actions=[
-            # Export asset (exact profile from instruction)
+            # Export the asset using the specified profile from the instructions.
             Action(name="ExportAssets", kwargs={
                 "artifact_id": "art_001",
                 "export_profile": "PNG 2x",
@@ -858,7 +858,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # Kickoff governance tag on the artifact
+            # Initiate governance label on the artifact.
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_001",
                 "add_tags": ["needs-review"],
@@ -867,7 +867,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Single thread for the day (template subject/body from email.review_request.v2)
+            # One thread for the day (template subject/body sourced from email.review_request.v2)
             Action(name="CreateGmailThread", kwargs={
                 "subject": "Review Request — art_001 — 2024-08-23",
                 "sender_email": "emma.creative@company.com",
@@ -885,7 +885,7 @@ TASKS = [
                 "request_id": "em-002",
             }),
 
-            # Record the automation run (per workflow)
+            # Log the automation execution for each workflow.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "review_kickoff",
                 "status": "completed",
@@ -905,7 +905,7 @@ TASKS = [
             "Acting as the design review coordinator, and the present time is 2024-08-24T12:30:00Z, when banner slot has copy tweaks, distribute a changes-requested update for review cycle cycle_005. Escalate to ['chris.engineer@company.com'] with labels ['design-review','Design/Escalation']; ensure the conversation remains within the same day's thread."
         ),
         actions=[
-            # Apply provided labels (no inventions)
+            # Utilize the given labels without modifications.
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thread_005",
                 "add_labels": ["design-review", "Design/Escalation"],
@@ -913,17 +913,17 @@ TASKS = [
                 "timestamp": "2024-08-24T12:30:00Z",
                 "request_id": "em-001",
             }),
-            # Send the in-thread changes-requested notice
+            # Dispatch the in-thread request for changes notification.
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_005",
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["chris.engineer@company.com"],
                 "body_html": "Changes requested for {artifact_id}. Continuing in today’s thread."
-                   .replace("{artifact_id}", "art_003"),  # via CYCLE_ALIAS mapping cycle_005->art_003
+                   .replace("{artifact_id}", "art_003"),  # through CYCLE_ALIAS mapping cycle_005 to art_003
                 "timestamp": "2024-08-24T12:30:00Z",
                 "request_id": "em-002",
             }),
-            # Update cycle status
+            # Modify the status of the cycle.
             Action(name="UpdateReviewCycleStatus", kwargs={
                 "cycle_id": "cycle_005",
                 "status": "CHANGES_REQUESTED",
@@ -958,7 +958,7 @@ TASKS = [
             }),
             Action(name="CreateGmailThread", kwargs={
                 "subject": "Release Handoff — rel-art_004-20240821-001 — 2024-08-21",
-                # email.release_handoff.v1_subject
+                # email.release_handoff.v1_topic
                 "sender_email": "jake.design@company.com",
                 "recipients": ["chris.engineer@company.com"],
                 "timestamp": "2024-08-21T09:15:00Z",
@@ -1003,8 +1003,8 @@ TASKS = [
             Action(name="ListGmailMessages", kwargs={"thread_id": "thread_006"}),
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_003",
-                "author_email": "design-review@company.com",  # from SENDER_ROLE_MAP (coord.)
-                "content": "Synced from Gmail thread thread_006 on 2024-08-24.",  # figma.comment.sync.v1
+                "author_email": "design-review@company.com",  # from SENDER_ROLE_MAP (coordinator)
+                "content": "Synced from Gmail thread thread_006 on 2024-08-24.",  # figma.comment.sync.version1
                 "timestamp": "2024-08-24T17:00:00Z",
                 "request_id": "up-001",
             }),
@@ -1031,12 +1031,12 @@ TASKS = [
                 "artifact_id": "art_001", "export_profile": "PNG 2x",
                 "timestamp": "2024-08-23T11:45:00Z", "request_id": "en-001",
             }),
-            # kickoff tag per policy
+            # initiate tag according to policy
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_001", "add_tags": ["needs-review"], "remove_tags": [],
                 "timestamp": "2024-08-23T11:45:00Z", "request_id": "up-001",
             }),
-            # email using template email.review_request.v2
+            # send email via template email.review_request.v2
             Action(name="CreateGmailThread", kwargs={
                 "subject": "Review Request — art_001 — 2024-08-23",
                 "sender_email": "emma.creative@company.com",
@@ -1108,7 +1108,7 @@ TASKS = [
                 "approved_ts_nullable": "2024-09-02T09:45:00Z",
                 "timestamp": "2024-09-02T09:40:00Z", "request_id": "rv-001",
             }),
-            # quorum not met (only 1 approval) → no status swap/tag swap
+            # quorum not achieved (just 1 approval) → no status change/tag change
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "approvals_append", "status": "completed",
                 "started_at": "2024-09-02T09:40:00Z", "ended_at": "2024-09-02T09:40:00Z",
@@ -1127,7 +1127,7 @@ TASKS = [
             Action(name="GetGmailThread", kwargs={"thread_id": "thread_001"}),
             Action(name="ListGmailMessages", kwargs={"thread_id": "thread_001"}),
 
-            # Ensure the asset attached is the latest export
+            # Verify that the attached asset is the most recent export.
             Action(name="ExportAssets", kwargs={
                 "artifact_id": "art_001",
                 "export_profile": "PNG 2x",
@@ -1135,7 +1135,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # Refresh kickoff governance tag for the day
+            # Update the governance tag for today's kickoff.
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_001",
                 "add_tags": ["needs-review"],
@@ -1144,7 +1144,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Continue in the same thread with the new export attached
+            # Proceed with the existing thread using the newly attached export.
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_001",
                 "sender_email": "emma.creative@company.com",
@@ -1154,7 +1154,7 @@ TASKS = [
                 "request_id": "em-001",
             }),
 
-            # Record under the review kickoff workflow, per policy expectations
+            # Log in accordance with policy requirements during the review kickoff process.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "review_kickoff",
                 "status": "completed",
@@ -1174,10 +1174,10 @@ TASKS = [
             "As the release publisher with the time being 2024-08-21T10:00:00Z, Security requires a succinct diff summary. Provide a release handoff for artifact art_002 that highlights modifications since the earlier release tag for release_001. In your email from emma.creative@company.com to ['jake.design@company.com'], attach an exported asset using the 'PNG 2x' profile. Following this, label the artifact with the tag 'released/2024-08-21' after dispatching."
         ),
         actions=[
-            # 1) Get the previous release diff (to quote in the email body)
+            # 1) Retrieve the difference from the previous release (to include in the email content)
             Action(name="GetReleaseDiff", kwargs={"release_id": "release_001"}),
 
-            # 2) Export the asset to attach
+            # 2) Export the asset for attachment.
             Action(name="ExportAssets", kwargs={
                 "artifact_id": "art_002",
                 "export_profile": "PNG 2x",
@@ -1185,7 +1185,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # 3) Start the handoff email (template-derived subject)
+            # 3) Initiate the handoff email using the template-based subject.
             Action(name="CreateGmailThread", kwargs={
                 "subject": "Release Handoff — rel-art_002-20240821-001 — 2024-08-21",
                 "sender_email": "emma.creative@company.com",
@@ -1194,7 +1194,7 @@ TASKS = [
                 "request_id": "em-001",
             }),
 
-            # 4) Append message including the diff summary from step 1 (empty {} is acceptable/deterministic)
+            # 4) Add a message that contains the diff summary from step 1 (an empty {} is permissible and predictable).
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001",
                 "sender_email": "emma.creative@company.com",
@@ -1208,7 +1208,7 @@ TASKS = [
                 "request_id": "em-002",
             }),
 
-            # 5) Tag the artifact with the instruction-date release tag (policy: RELEASE_TAGGING_RULE)
+            # 5) Label the artifact with the release date tag as per the policy: RELEASE_TAGGING_RULE
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_002",
                 "add_tags": ["released/2024-08-21"],
@@ -1217,7 +1217,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # 6) Record the automation run
+            # 6) Log the automation execution.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "release_handoff",
                 "status": "completed",
@@ -1246,16 +1246,16 @@ TASKS = [
                 "timestamp": "2024-09-02T12:00:00Z",
                 "request_id": "rv-001",
             }),
-            # Action(name="FindGmailThreads", kwargs={
-            #     "subject_contains": "Changes Requested — 2024-09-02",
-            #     "participant_email": "jake.design@company.com",
+            # Action(identifier="FindGmailThreads", parameters={
+            # "subject_includes": "Modification Requested — 2024-09-02",
+            # "participant_email": "jake.design@organization.com",
             # }),
-            # Action(name="CreateGmailThread", kwargs={
-            #     "subject": "Changes Requested — 2024-09-02",
-            #     "sender_email": "emma.creative@company.com",
+            # Action(identifier="CreateGmailThread", parameters={
+            # "subject": "Requested Modifications — 2024-09-02",
+            # "email_sender": "emma.creative@company.com",
             #     "recipients": ["jake.design@company.com"],
             #     "timestamp": "2024-09-02T12:00:00Z",
-            #     "request_id": "em-001",
+            # "request_identifier": "em-001",
             # }),
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_011",
@@ -1305,7 +1305,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # Email handoff using template-derived subject/body from rules
+            # Email transfer utilizing subject/body generated from templates based on rules.
             Action(name="CreateGmailThread", kwargs={
                 "subject": "Release Handoff — rel-art_009-20240821-001 — 2024-08-21",
                 "sender_email": "chris.engineer@company.com",
@@ -1322,7 +1322,7 @@ TASKS = [
                 "request_id": "em-002",
             }),
 
-            # Apply required release tag after sending
+            # Add the necessary release tag post-sending.
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_009",
                 "add_tags": ["released/2024-08-23"],
@@ -1331,7 +1331,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Record the run
+            # Log the execution.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "release_handoff",
                 "status": "completed",
@@ -1385,7 +1385,7 @@ TASKS = [
             "As the design review coordinator, with the date being 2024-08-21T16:10:00Z, an SLA breach activated the on-call alert. Because of the breach associated with review cycle cycle_004, send an escalation notice marked with 'changes-requested' to the corresponding thread with labels ['Design/Escalation']; ensure the discussion remains connected to the original thread."
         ),
         actions=[
-            # Set the cycle status
+            # Define the status of the cycle.
             Action(name="GetReviewCycle", kwargs={"cycle_id": "cycle_004"}),
             Action(name="UpdateReviewCycleStatus", kwargs={
                 "cycle_id": "cycle_004",
@@ -1395,30 +1395,30 @@ TASKS = [
                 "request_id": "rv-001",
             }),
 
-            # Maintain same-day thread: try to find it first
-            # Action(name="FindGmailThreads", kwargs={
-            #     "subject_contains": "Changes Requested — 2024-08-21",  # from template subject
-            #     #"participant_email": "engineering-leads@company.com",
+            # Preserve the same-day thread: attempt to locate it initially.
+            # Action(identifier="FindGmailThreads", parameters={
+            #     "subject_contains": "Changes Requested — 2024-08-21",  # "subject_contains": "Requested Modifications — 2024-08-21",  # derived from template subject
+            #     # "participant_email": "engineering-leads@company.com",
             # }),
 
-            # Start/continue the escalation thread using the required template (subject/body from rules)
-            # Action(name="CreateGmailThread", kwargs={
-            #     "subject": "Changes Requested — 2024-08-21",
-            #     "sender_email": "emma.creative@company.com",
+            # Initiate or proceed with the escalation thread utilizing the specified template (subject/body as per guidelines).
+            # Action(identifier="CreateGmailThread", parameters={
+            # "subject": "Requested Modifications — 2024-08-21",
+            # "email_sender": "emma.creative@company.com",
             #     "recipients": ["engineering-leads@company.com"],
             #     "timestamp": "2024-08-21T16:10:00Z",
-            #     "request_id": "em-001",
+            # "request_identifier": "em-001",
             # }),
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_004",
                 "sender_email": "emma.creative@company.com",
-                # email.changes_requested.v1 with {cycle_id} deterministically filled
+                # email.changes_requested.v1 with a deterministically populated {cycle_id}
                 "body_html": "Changes requested for art_008. Continuing in today’s thread.",
                 "timestamp": "2024-08-21T16:10:00Z",
                 "request_id": "em-001",
             }),
 
-            # Apply escalation label
+            # Assign escalation tag
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thread_004",
                 "add_labels": ["Design/Escalation"],
@@ -1426,7 +1426,7 @@ TASKS = [
                 "request_id": "em-002",
             }),
 
-            # Link thread to the cycle to keep conversation tied
+            # Connect the thread to the cycle to maintain conversation continuity.
             Action(name="AttachThreadToReviewCycle", kwargs={
                 "cycle_id": "cycle_004",
                 "thread_id": "thread_004",
@@ -1435,7 +1435,7 @@ TASKS = [
                 "request_id": "rv-002",
             }),
 
-            # Record the run
+            # Log the execution.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "changes_requested_escalation",
                 "status": "completed",
@@ -1548,7 +1548,7 @@ TASKS = [
                 "request_id": "au-002",
             }),
 
-            # Email using email.generic_plain (subject/body from rules)
+            # Send email utilizing email.generic_plain with subject and body derived from rules.
             Action(name="CreateGmailThread", kwargs={
                 "subject": "Update — 2024-09-02",
                 "sender_email": "emma.creative@company.com",
@@ -1565,8 +1565,8 @@ TASKS = [
                 "request_id": "em-002",
             }),
 
-            # Figma comment using the new deterministic template:
-            # "Audit report sent — {artifact_id} — {audit_id} — {date} — asset {asset_id}"
+            # Figma note utilizing the updated deterministic template:
+            # "Audit report dispatched — {artifact_id} — {audit_id} — {date} — asset {asset_id}"
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_011",
                 "author_email": "emma.creative@company.com",
@@ -1623,10 +1623,10 @@ TASKS = [
             "As the design review coordinator at 2024-08-24T18:00:00Z, integrate Gmail thread thread_004 into Figma artifact art_008 before the EOD handoff by making a thread-level comment that includes the thread id. Afterward, respond in the same Gmail thread from emma.creative@company.com using the sync confirmation template, apply the 'synced-to-figma' email label, and log the sync."
         ),
         actions=[
-            # Use dataset-provided thread id; no message listing needed
+            # Utilize the thread ID from the dataset; message enumeration is unnecessary.
             Action(name="GetGmailThread", kwargs={"thread_id": "thread_004"}),
 
-            # Figma comment using figma.comment.sync.v1 ("Synced Gmail thread {thread_id} on {date}.")
+            # Figma comment via figma.comment.sync.v1 ("Synchronized Gmail thread {thread_id} on {date}.")
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_008",
                 "author_email": "design-review@company.com",
@@ -1635,7 +1635,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Reply in the same Gmail thread using email.sync_confirmation (subject not needed for a reply; body is deterministic)
+            # Respond within the existing Gmail thread using email.sync_confirmation (the subject is irrelevant for replies; the content is fixed).
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_004",
                 "sender_email": "emma.creative@company.com",
@@ -1644,7 +1644,7 @@ TASKS = [
                 "request_id": "em-001",
             }),
 
-            # Apply the requested label
+            # Assign the specified label.
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thread_004",
                 "add_labels": ["synced-to-figma"],
@@ -1652,7 +1652,7 @@ TASKS = [
                 "request_id": "em-002",
             }),
 
-            # Record the automation run
+            # Log the execution of the automation.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "sync_email_to_figma",
                 "status": "completed",
@@ -1688,7 +1688,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # No synthesized items if findings unavailable (empty is allowed per DATA_RULE)
+            # Do not create synthesized items when findings are absent (empty is permissible according to DATA_RULE).
             Action(name="UpsertFixItems", kwargs={
                 "plan_id": "fp-art_003-20240902-001",
                 "items": [],
@@ -1711,13 +1711,13 @@ TASKS = [
                 "request_id": "up-003",
             }),
 
-            # Action(name="RecordAutomationRun", kwargs={
-            #     "task_name": "fixplan_create_and_deliver",
-            #     "status": "completed",
-            #     "started_at": "2024-09-02T15:30:00Z",
-            #     "ended_at": "2024-09-02T15:30:00Z",
+            # Action(identifier="RecordAutomationRun", parameters={
+            # "task_name": "create_and_deliver_fixplan",
+            # "status": "finished",
+            # "begin_time": "2024-09-02T15:30:00Z",
+            # "finished_at": "2024-09-02T15:30:00Z",
             #     "timestamp": "2024-09-02T15:30:00Z",
-            #     "request_id": "up-004",
+            # "request_identifier": "up-004",
             # }),
         ],
         outputs=[]
@@ -1778,7 +1778,7 @@ TASKS = [
             "As the lead for design systems triage at 2024-08-24T16:00:00Z, prioritize inbox-first delivery by organizing a minimal fix plan for audit aud-art_003-20240824-001 on artifact art_003, managed by emma.creative@company.com. Examine DS findings regarding ['COMPONENT_MISMATCH','SPACING'] to formulate the plan; upsert only the available items. Dispatch the plan as an EMAIL asset to ['stakeholders@company.com'] and leave a confirmation note in Figma on art_003."
         ),
         actions=[
-            # Sample DS findings (allowed categories per rules)
+            # Example data set results (permissible categories according to regulations)
             Action(name="ListAuditFindingsDs", kwargs={
                 "audit_id": "aud-art_003-20240824-001", "finding_type": "COMPONENT_MISMATCH"
             }),
@@ -1786,7 +1786,7 @@ TASKS = [
                 "audit_id": "aud-art_003-20240824-001", "finding_type": "SPACING"
             }),
 
-            # Create the fix plan (ID derives date from instruction timestamp)
+            # Generate the repair plan (ID generated from the timestamp of the instruction)
             Action(name="CreateFixPlan", kwargs={
                 "audit_id": "aud-art_003-20240824-001",
                 "owner_email": "emma.creative@company.com",
@@ -1795,7 +1795,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # No synthesized items if none found (empty is acceptable per DATA_RULE)
+            # No generated items if none are available (an empty result is permissible according to DATA_RULE).
             Action(name="UpsertFixItems", kwargs={
                 "plan_id": "fp-art_003-20240824-001",
                 "items": [],
@@ -1803,7 +1803,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Deliver via EMAIL; recipients are specified in the instruction
+            # Send through EMAIL; recipients are outlined in the instructions.
             Action(name="DeliverFixPlan", kwargs={
                 "plan_id": "fp-art_003-20240824-001",
                 "method": "EMAIL",
@@ -1812,7 +1812,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
 
-            # Leave a confirmation note in Figma
+            # Add a confirmation message in Figma.
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_003",
                 "author_email": "design-review@company.com",
@@ -1821,7 +1821,7 @@ TASKS = [
                 "request_id": "up-003",
             }),
 
-            # Record the run
+            # Log the execution.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "fixplan_create_and_deliver",
                 "status": "completed",
@@ -1842,7 +1842,7 @@ TASKS = [
             "In your role as the design systems triage lead at 2024-09-02T16:40:00Z, maintain close coordination with marketing by crafting a minimal fix plan for audit aud-art_012-20240902-001 on artifact art_012, under the ownership of jake.design@company.com. Derive the plan exclusively from DS findings in ['COMPONENT_MISMATCH','SPACING','TOKENS'] (submit an empty plan if none exist); send the plan via EMAIL to ['anna.brand@company.com'] employing the standard fix-plan template, and document the activity."
         ),
         actions=[
-            # Deterministically enumerate allowed DS categories (per RULES)
+            # Systematically list permitted DS categories (according to RULES)
             Action(name="ListAuditFindingsDs", kwargs={
                 "audit_id": "aud-art_012-20240902-001", "finding_type": "COMPONENT_MISMATCH"
             }),
@@ -1853,7 +1853,7 @@ TASKS = [
                 "audit_id": "aud-art_012-20240902-001", "finding_type": "TOKENS"
             }),
 
-            # Create the plan (date derives from instruction timestamp)
+            # Generate the plan (date is based on the instruction timestamp)
             Action(name="CreateFixPlan", kwargs={
                 "audit_id": "aud-art_012-20240902-001",
                 "owner_email": "jake.design@company.com",
@@ -1862,7 +1862,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # Deliver via EMAIL (use em- prefix per ID_RULE); tool emits thread_id deterministically
+            # Send through EMAIL (apply em- prefix according to ID_RULE); the tool generates thread_id in a deterministic manner.
             Action(name="DeliverFixPlan", kwargs={
                 "plan_id": "fp-art_012-20240902-001",
                 "method": "EMAIL",
@@ -1871,12 +1871,12 @@ TASKS = [
                 "request_id": "em-001",
             }),
 
-            # # Verify the resulting thread exists
-            # Action(name="GetGmailThread", kwargs={
-            #     "thread_id": "thr_em-001",
+            # # # Confirm the existence of the resulting thread
+            # Action(identifier="GetGmailThread", parameters={
+            # "thread_identifier": "thr_em-001",
             # }),
 
-            # Record the automation run
+            # Log the execution of the automation.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "fixplan_create_and_deliver",
                 "status": "completed",
@@ -1897,13 +1897,13 @@ TASKS = [
             "Act as the design review coordinator; the current time is 2024-08-23T18:15:00Z. Document end-of-day decisions by incorporating the Gmail thread reference from thread_008 into Figma artifact art_010 as a comment (only include the thread reference, message-level metadata is unnecessary). Subsequently, respond within the thread with the confirmation 'Synced to Figma for art_010 on 2024-08-23.', apply the email label 'synced-to-figma', and log the sync."
         ),
         actions=[
-            # Read the thread (dataset-provided id; deterministic)
+            # Access the thread using the provided dataset ID; it is deterministic.
             Action(name="GetGmailThread", kwargs={"thread_id": "thread_008"}),
 
-            # (Optional) List messages—safe even if empty in this dataset
+            # (Optional) Enumerate messages—this dataset can safely be empty.
             # Action(name="ListGmailMessages", kwargs={"thread_id": "thread_008"}),
 
-            # Create the Figma comment with the thread reference; coordinator alias as author
+            # Generate the Figma comment linked to the thread, using the coordinator alias as the author.
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_010",
                 "author_email": "design-review@company.com",
@@ -1912,7 +1912,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Reply in-thread explicitly acknowledging the sync (instruction provides exact body text)
+            # Respond in the thread by clearly confirming the synchronization as per the specified message.
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_008",
                 "sender_email": "emma.creative@company.com",
@@ -1921,7 +1921,7 @@ TASKS = [
                 "request_id": "em-001",
             }),
 
-            # Apply the required label
+            # Assign the necessary label.
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thread_008",
                 "add_labels": ["synced-to-figma"],
@@ -1929,7 +1929,7 @@ TASKS = [
                 "request_id": "em-002",
             }),
 
-            # Record the run
+            # Log the execution.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "sync_email_to_figma",
                 "status": "completed",
@@ -1952,7 +1952,7 @@ TASKS = [
         actions=[
             Action(name="FindGmailThreads", kwargs={
                 "subject_contains": "Re-review Needed — art_003 — 2024-09-02",
-                # "participant_email": "chris.engineer@company.com",
+                # "participant_email": "chris.engineer@organization.com",
             }),
 
             Action(name="ExportAssets", kwargs={
@@ -2035,21 +2035,21 @@ TASKS = [
             "You are the design review coordinator and the current time is 2024-08-23T16:40:00Z. Ensure continuity for the team—For review cycle cycle_003 on artifact art_007, convey that changes are necessary by responding in the already existing same-day email thread thread_003 to the initial recipients ['jake.design@company.com','chris.engineer@company.com'] using the standard changes-requested template; avoid creating a new subject; attach this thread to the review cycle and log the update."
         ),
         actions=[
-            # Confirm the cycle and set status
+            # Validate the cycle and update the status.
             Action(name="GetReviewCycle", kwargs={"cycle_id": "cycle_003"}),
             Action(name="UpdateReviewCycleStatus", kwargs={
                 "cycle_id": "cycle_003", "status": "CHANGES_REQUESTED", "updated_at": "2024-08-23T16:40:00Z",
                 "timestamp": "2024-08-23T16:40:00Z", "request_id": "rv-001",
             }),
 
-            # Continue the existing same-day thread (no new subject)
+            # Maintain the current same-day discussion thread (avoid starting a new topic).
             Action(name="GetGmailThread", kwargs={"thread_id": "thread_003"}),
             Action(name="ListGmailMessages", kwargs={"thread_id": "thread_003"}),
 
-            # Send the in-thread notice using the changes-requested template
-            # Subject is not created (reply in-thread); body derives from template:
-            #   subject: "Changes Requested — {date}"  (not used since we reply)
-            #   body: "Changes requested for {artifact_id}. Continuing in today’s thread."
+            # Utilize the changes-requested template to dispatch the in-thread notification.
+            # The subject is not generated (reply within the thread); the body is based on a template:
+            # subject: "Requested Modifications — {date}" (not utilized as we respond)
+            # "Requested modifications for {artifact_id}. Proceeding in today's discussion."
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_003",
                 "sender_email": "emma.creative@company.com",
@@ -2057,13 +2057,13 @@ TASKS = [
                 "timestamp": "2024-08-23T16:40:00Z", "request_id": "em-001",
             }),
 
-            # Tie the thread to the cycle for traceability
+            # Link the thread to the cycle for tracking purposes.
             Action(name="AttachThreadToReviewCycle", kwargs={
                 "cycle_id": "cycle_003", "thread_id": "thread_003", "updated_at": "2024-08-23T16:40:00Z",
                 "timestamp": "2024-08-23T16:40:00Z", "request_id": "rv-002",
             }),
 
-            # Record the run
+            # Log the execution.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "changes_requested_escalation", "status": "completed",
                 "started_at": "2024-08-23T16:40:00Z", "ended_at": "2024-08-23T16:40:00Z",
@@ -2095,11 +2095,11 @@ TASKS = [
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001", "sender_email": "anna.brand@company.com",
                 "body_html": "Hello stakeholders,\nPlease find the release notes for rel-art_007-20240821-001, including changes.\nRegards.",
-                # template body
+                # template structure
                 "attachments_asset_ids": ["asset_en-001"],
                 "timestamp": "2024-08-21T12:40:00Z", "request_id": "em-002",
             }),
-            # Release handoff policy: tag after successful handoff with date from instruction timestamp
+            # Handoff policy for release: tag upon successful handoff using the date from the instruction timestamp.
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_007", "add_tags": ["released/20240821"], "remove_tags": [],
                 "timestamp": "2024-08-21T12:40:00Z", "request_id": "up-001",
@@ -2133,7 +2133,7 @@ TASKS = [
                 "timestamp": "2024-09-02T11:25:00Z", "request_id": "up-001",
             }),
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Review Request — art_009 — 2024-09-02",  # email.review_request.v2_subject
+                "subject": "Review Request — art_009 — 2024-09-02",  # email.review_request.subject_v2
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["jake.design@company.com"],
                 "timestamp": "2024-09-02T11:25:00Z", "request_id": "em-001",
@@ -2141,7 +2141,7 @@ TASKS = [
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001", "sender_email": "emma.creative@company.com",
                 "body_html": "Hi team,\nPlease review the attached PNG 2x export for art_009.\nThanks.",
-                # template body
+                # template content
                 "attachments_asset_ids": ["asset_en-002"],
                 "timestamp": "2024-09-02T11:25:00Z", "request_id": "em-002",
             }),
@@ -2178,7 +2178,7 @@ TASKS = [
                 "timestamp": "2024-08-24T11:10:00Z", "request_id": "up-002",
             }),
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Review Request — Consolidated — 2024-08-24",  # email.review_request_consolidated.v1_subject
+                "subject": "Review Request — Consolidated — 2024-08-24",  # email.review_request_consolidated.subject_v1
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["design-review@company.com"],
                 "timestamp": "2024-08-24T11:10:00Z", "request_id": "em-001",
@@ -2186,7 +2186,7 @@ TASKS = [
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001", "sender_email": "emma.creative@company.com",
                 "body_html": "Hi team,\nPlease review the attached PNG 2x exports.\nThanks.",
-                # consolidated template body
+                # merged template content
                 "attachments_asset_ids": ["asset_en-001", "asset_en-002"],
                 "timestamp": "2024-08-24T11:10:00Z", "request_id": "em-002",
             }),
@@ -2202,44 +2202,44 @@ TASKS = [
             "As the design review coordinator, at 2024-08-21T16:30:00Z, respond to a follow-up SLA alert triggered due to a breach in review cycle cycle_004 for artifact art_008 by sending a changes-requested escalation notice to ['design-automation@company.com','product-managers@company.com'] using the standard changes-requested template. Ensure same-day continuity by continuing the current thread for product-managers@company.com if it exists; if not, initiate one. Apply the label ['Design/Escalation'], attach the thread to the review cycle. Recording the automation run is not required."
         ),
         actions=[
-            # 1) Fetch cycle
+            # 1) Retrieval phase
             Action(name="GetReviewCycle", kwargs={"cycle_id": "cycle_004"}),
 
-            # 2) Maintain same-day continuity: try to find an existing thread first
+            # 2) Ensure continuity within the same day: prioritize locating an existing thread.
             Action(name="FindGmailThreads", kwargs={
                 "subject_contains": "Changes Requested — 2024-08-21",
                 "participant_email": "product-managers@company.com",
             }),
 
-            # 3) Mark status = CHANGES_REQUESTED
+            # Set status to CHANGES_REQUESTED.
             Action(name="UpdateReviewCycleStatus", kwargs={
                 "cycle_id": "cycle_004", "status": "CHANGES_REQUESTED", "updated_at": "2024-08-21T16:30:00Z",
                 "timestamp": "2024-08-21T16:30:00Z", "request_id": "rv-001",
             }),
 
-            # 4) Start/continue the escalation email (subject from template family; new thread ok if none found)
+            # 4) Initiate or proceed with the escalation email (use the subject from the template family; a new thread is acceptable if none exist).
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Changes Requested — 2024-08-21",  # email.changes_requested.v1_subject
+                "subject": "Changes Requested — 2024-08-21",  # email.requested_changes.subject_v1
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["design-automation@company.com", "product-managers@company.com"],
                 "timestamp": "2024-08-21T16:30:00Z", "request_id": "em-001",
             }),
 
-            # 5) Body EXACTLY from template with {artifact_id} filled
+            # 5) Body precisely from the template with {artifact_id} populated.
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001", "sender_email": "emma.creative@company.com",
                 "body_html": "Changes requested for art_008. Continuing in today’s thread.",
-                # email.changes_requested.v1
+                # email.modifications_requested.v1
                 "timestamp": "2024-08-21T16:30:00Z", "request_id": "em-002",
             }),
 
-            # 6) Apply escalation label exactly as instructed
+            # 6) Implement the escalation label precisely as directed.
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thr_em-001", "add_labels": ["Design/Escalation"],
                 "timestamp": "2024-08-21T16:30:00Z", "request_id": "em-003",
             }),
 
-            # 7) Link the email thread to the review cycle for traceability
+            # Associate the email conversation with the review cycle for tracking purposes.
             Action(name="AttachThreadToReviewCycle", kwargs={
                 "cycle_id": "cycle_004", "thread_id": "thr_em-001", "updated_at": "2024-08-21T16:30:00Z",
                 "timestamp": "2024-08-21T16:30:00Z", "request_id": "rv-002",
@@ -2257,30 +2257,30 @@ TASKS = [
             "As the design review coordinator and the time is 2024-09-02T16:20:00Z, with the final polish now completed, initiate a re-review request for Figma artifact art_012 directed to ['jake.design@company.com'] using the standard re-review notice; ensure same-day consistency (continue an existing thread if present, or start a new one otherwise), and document the activity."
         ),
         actions=[
-            # Maintain same-day continuity: try to find the existing re-review thread first
+            # Ensure continuity within the same day: prioritize locating the current re-review thread.
             Action(name="FindGmailThreads", kwargs={
-                "subject_contains": "Re-review Needed — art_012 — 2024-09-02",  # email.rereview_notice.v1_subject
+                "subject_contains": "Re-review Needed — art_012 — 2024-09-02",  # email.review_reminder.v1_subject
                 "participant_email": "jake.design@company.com",
             }),
 
-            # Start a thread only if none is found (THREAD_POLICY)
+            # Initiate a thread only if no existing threads are present (THREAD_POLICY)
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Re-review Needed — art_012 — 2024-09-02",  # from rules: email.rereview_notice.v1_subject
+                "subject": "Re-review Needed — art_012 — 2024-09-02",  # from rules: email.review_reminder.v1_subject
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["jake.design@company.com"],
                 "timestamp": "2024-09-02T16:20:00Z", "request_id": "em-001",
             }),
 
-            # Send the re-review notice using the template body from rules
+            # Dispatch the re-evaluation notification utilizing the template content from the guidelines.
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001",
                 "sender_email": "emma.creative@company.com",
                 "body_html": "Fixes have been applied on art_012; please re-review the latest assets.",
-                # email.rereview_notice.v1
+                # email.reexamine_alert.v1
                 "timestamp": "2024-09-02T16:20:00Z", "request_id": "em-002",
             }),
 
-            # Record the run
+            # Log the execution.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "rereview_kickoff", "status": "completed",
                 "started_at": "2024-09-02T16:20:00Z", "ended_at": "2024-09-02T16:20:00Z",
@@ -2363,7 +2363,7 @@ TASKS = [
             "Acting as the design review coordinator for the Web UX team, and noting the time as 2024-08-23T11:45:00Z, the review alias is prepared—commence an email-based design review of Figma artifact art_001 using the 'PNG 2x' export profile, to be sent from emma.creative@company.com to ['design-review@company.com']. Ensure that the review email incorporates the exported asset and apply the 'design-review' label. Logging the run is unnecessary."
         ),
         actions=[
-            # Create the same-day review cycle (rv- prefix per ID_RULE)
+            # Establish the same-day review process (rv- prefix for ID_RULE).
             Action(name="CreateReviewCycle", kwargs={
                 "cycle_id": "rev-art_001-20240823-001",
                 "artifact_id": "art_001",
@@ -2372,7 +2372,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
 
-            # Export the asset to attach (en- prefix)
+            # Export the asset to link (with en- prefix)
             Action(name="ExportAssets", kwargs={
                 "artifact_id": "art_001",
                 "export_profile": "PNG 2x",
@@ -2380,7 +2380,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # Kickoff governance tag per GOV_AT_KICKOFF
+            # Initiate governance tag according to GOV_AT_KICKOFF.
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_001",
                 "add_tags": ["needs-review"],
@@ -2389,15 +2389,15 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # THREAD_POLICY: continue same-day thread if present
+            # THREAD_POLICY: maintain the existing thread if available on the same day
             Action(name="FindGmailThreads", kwargs={
                 "subject_contains": "Review Request — art_001 — 2024-08-23",
                 "participant_email": "design-review@company.com",
             }),
 
-            # Start (or continue) the review email using the template
+            # Initiate (or proceed with) the review email following the template.
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Review Request — art_001 — 2024-08-23",  # email.review_request.v2_subject
+                "subject": "Review Request — art_001 — 2024-08-23",  # email.review_request.v2_title
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["design-review@company.com"],
                 "timestamp": "2024-08-23T11:45:00Z",
@@ -2407,13 +2407,13 @@ TASKS = [
                 "thread_id": "thr_em-001",
                 "sender_email": "emma.creative@company.com",
                 "body_html": "Hi team,\nPlease review the attached PNG 2x export for art_001.\nThanks.",
-                # email.review_request.v2_body
+                # email.review_request.body_v2
                 "attachments_asset_ids": ["asset_en-001"],
                 "timestamp": "2024-08-23T11:45:00Z",
                 "request_id": "em-002",
             }),
 
-            # Apply the requested email label (from instruction)
+            # Assign the specified email label as per the instructions.
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thr_em-001",
                 "add_labels": ["design-review"],
@@ -2423,7 +2423,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # TASK_51 — Email-based design review kickoff (art_001)
+    # TASK_51 — Initiate design review via email (art_001)
     Task(
         annotator="0",
         user_id="TASK_51",
@@ -2482,7 +2482,7 @@ TASKS = [
         outputs=[]
     )
     ,
-    # TASK_52 — A11Y report (invalid categories → fail cleanly per ERROR_RULE)
+    # TASK_52 — A11Y report (invalid categories → gracefully fail according to ERROR_RULE)
     Task(
         annotator="0",
         user_id="TASK_52",
@@ -2490,7 +2490,7 @@ TASKS = [
             "Act as the lead for the accessibility audit and note that the time is 2024-08-24T11:00:00Z. Given the QA's observations of sizing quirks on dashboards, for audit audit_002 regarding artifact art_008, evaluate findings in relation to ['COLOR_CONTRAST','FOCUS_ORDER']. Create a PDF accessibility report precisely based on those findings. Mark the audit as completed, send the report via email to ['design-review@company.com'] using the generic template, apply the email label 'a11y-report', and refrain from recording the execution."
         ),
         actions=[
-            # Scope strictly to allowed A11Y categories
+            # Limit to permitted A11Y categories only.
             Action(name="ListAuditFindingsA11y", kwargs={
                 "audit_id": "audit_002", "violation_type": "COLOR_CONTRAST"
             }),
@@ -2498,28 +2498,28 @@ TASKS = [
                 "audit_id": "audit_002", "violation_type": "FOCUS_ORDER"
             }),
 
-            # Generate the PDF report
+            # Create the PDF document.
             Action(name="generateAuditReport", kwargs={
                 "artifact_id": "art_008", "audit_id": "audit_002", "format": "pdf",
                 "timestamp": "2024-08-24T11:00:00Z", "request_id": "au-001",
             }),
 
-            # Mark audit completed
+            # Indicate that the audit has been finalized.
             Action(name="UpdateAuditStatus", kwargs={
                 "audit_id": "audit_002", "status": "COMPLETED", "updated_at": "2024-08-24T11:00:00Z",
                 "timestamp": "2024-08-24T11:00:00Z", "request_id": "au-002",
             }),
 
-            # Email the report using the generic template (subject/body from rules)
+            # Send the report utilizing the standard template (subject/body as per guidelines).
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Update — 2024-08-24",  # email.generic_plain.v1_subject
+                "subject": "Update — 2024-08-24",  # email.default_text.v1_subject
                 "sender_email": "design-review@company.com",
                 "recipients": ["design-review@company.com"],
                 "timestamp": "2024-08-24T11:00:00Z", "request_id": "em-001",
             }),
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001", "sender_email": "design-review@company.com",
-                "body_html": "Hello,\nPlease see details attached.\nThanks.",  # email.generic_plain.v1
+                "body_html": "Hello,\nPlease see details attached.\nThanks.",  # email.standard_text.v1
                 "attachments_asset_ids": ["exp-art_008-20240824-pdf-001"],
                 "timestamp": "2024-08-24T11:00:00Z", "request_id": "em-002",
             }),
@@ -2533,7 +2533,7 @@ TASKS = [
 
     )
     ,
-    # TASK_53 — Email-based review kickoff (art_003) with label
+    # TASK_53 — Initiate email review process (art_003) with tagging
     Task(
         annotator="0",
         user_id="TASK_53",
@@ -2591,7 +2591,7 @@ TASKS = [
         outputs=[]
     )
     ,
-    # TASK_54 — Sync latest message (thread_009 → art_009) — fail cleanly if no messages
+    # TASK_54 — Synchronize the most recent message (thread_009 → art_009) — terminate gracefully if there are no messages.
     Task(
         annotator="0",
         user_id="TASK_54",
@@ -2599,30 +2599,30 @@ TASKS = [
             "Serve as the design review coordinator with the time set at 2024-08-23T18:30:00Z. Document end-of-day decisions—align the latest message from Gmail thread thread_009 with Figma artifact art_009 as a comment. Incorporate the source message reference if available (otherwise, continue without it); subsequently, respond in the same thread utilizing the sync-confirmation template to confirm the synchronization. Apply the email label 'synced-to-figma' and record the synchronization."
         ),
         actions=[
-            # Read thread and list messages to attempt retrieving the latest
+            # Scan the thread and compile messages to try to obtain the most recent ones.
             Action(name="GetGmailThread", kwargs={"thread_id": "thread_009"}),
             Action(name="ListGmailMessages", kwargs={"thread_id": "thread_009"}),
 
-            # Create the Figma comment (source_message_id provided only if available)
+            # Generate the Figma comment, including source_message_id if it exists.
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_009",
                 "author_email": "design-review@company.com",
-                "content": "Synced from Gmail thread thread_009 on 2024-08-23.",  # figma.comment.sync template
+                "content": "Synced from Gmail thread thread_009 on 2024-08-23.",  # figma.comment.synchronize template
                 "source_message_id_nullable": 'msg_010',
                 "timestamp": "2024-08-23T18:30:00Z",
                 "request_id": "up-001",
             }),
 
-            # Reply in-thread with the sync-confirmation template
+            # Respond in the thread using the synchronization confirmation template.
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_009",
                 "sender_email": "emma.creative@company.com",
-                "body_html": "Thread thread_009 synced to art_009 on 2024-08-23.",  # email.sync_confirmation.v1
+                "body_html": "Thread thread_009 synced to art_009 on 2024-08-23.",  # email.syncConfirmation.v1
                 "timestamp": "2024-08-23T18:30:00Z",
                 "request_id": "em-001",
             }),
 
-            # Apply the requested label (update-prefixed request_id)
+            # Assign the specified label (request_id starting with update-)
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thread_009",
                 "add_labels": ["synced-to-figma"],
@@ -2630,7 +2630,7 @@ TASKS = [
                 "request_id": "up-002",
             }),
 
-            # Record the run
+            # Log the execution.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "sync_email_to_figma",
                 "status": "completed",
@@ -2653,7 +2653,7 @@ TASKS = [
         actions=[
             Action(name="GetReviewCycle", kwargs={"cycle_id": "cycle_012"}),
 
-            # Update-type ⇒ use up- prefix
+            # Change update-type to use the up- prefix.
             Action(name="UpdateReviewCycleStatus", kwargs={
                 "cycle_id": "cycle_012",
                 "status": "CHANGES_REQUESTED",
@@ -2662,11 +2662,11 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # THREAD_POLICY: continue same-day thread (no create/search)
+            # THREAD_POLICY: maintain existing thread for the same day (no creation or search)
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_012",
                 "sender_email": "emma.creative@company.com",
-                "recipients": ["chris.engineer@company.com", "jake.design@company.com"],  # <-- address recipients
+                "recipients": ["chris.engineer@company.com", "jake.design@company.com"],  # <!-- specify the recipients -->
                 "body_html": "Changes requested for art_012. Continuing in today’s thread.",
                 "timestamp": "2024-09-02T12:20:00Z",
                 "request_id": "em-001",
@@ -2679,7 +2679,7 @@ TASKS = [
                 "request_id": "em-002",
             }),
 
-            # Minimal attach; update-type ⇒ up- prefix
+            # Minimal attach; change update-type to up- prefix.
             Action(name="AttachThreadToReviewCycle", kwargs={
                 "cycle_id": "cycle_012",
                 "thread_id": "thread_012",
@@ -2692,7 +2692,7 @@ TASKS = [
     )
 
     ,
-    # TASK_56 — Approvals append (single approval; no quorum)
+    # TASK_56 — Add approvals (individual approval; no quorum required)
     Task(
         annotator="0",
         user_id="TASK_56",
@@ -2707,7 +2707,7 @@ TASKS = [
                 "timestamp": "2024-08-23T15:20:00Z",
                 "request_id": "rv-001",
             }),
-            # Quorum not met (needs ≥2 same-day approvals) → no status/tag change
+            # Quorum insufficient (requires ≥2 approvals on the same day) → no change in status/tag.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "approvals_append",
                 "status": "completed",
@@ -2720,7 +2720,7 @@ TASKS = [
         outputs=[]
     )
     ,
-    # TASK_57 — Release handoff (art_008) with tagging
+    # TASK_57 — Handoff release (art_008) with tagging included
     Task(
         annotator="0",
         user_id="TASK_57",
@@ -2750,7 +2750,7 @@ TASKS = [
                 "timestamp": "2024-08-19T17:10:00Z",
                 "request_id": "em-002",
             }),
-            # Per RELEASE_TAGGING_RULE add released/<YYYYMMDD> with instruction date
+            # According to RELEASE_TAGGING_RULE, prepend released/<YYYYMMDD> along with the instruction date.
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_008",
                 "add_tags": ["released/20240819"],
@@ -2770,7 +2770,7 @@ TASKS = [
         outputs=[]
     )
     ,
-    # TASK_58 — Governance update + note in day’s review thread (art_003)
+    # TASK_58 — Update on governance and add a note in the daily review thread (art_003)
     Task(
         annotator="0",
         user_id="TASK_58",
@@ -2786,7 +2786,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Update — 2024-08-24",  # email.generic_plain.v1_subject
+                "subject": "Update — 2024-08-24",  # email.generic_plain.subject_v1
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["design-review@company.com"],
                 "timestamp": "2024-08-24T10:05:00Z",
@@ -2795,7 +2795,7 @@ TASKS = [
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001",
                 "sender_email": "emma.creative@company.com",
-                "body_html": "Hello,\nPlease see details attached.\nThanks.",  # email.generic_plain.v1
+                "body_html": "Hello,\nPlease see details attached.\nThanks.",  # email.generic_plain.version1
                 "timestamp": "2024-08-24T10:05:00Z",
                 "request_id": "em-002",
             }),
@@ -2811,7 +2811,7 @@ TASKS = [
         outputs=[]
     )
     ,
-    # TASK_59 — Email-based design review kickoff (art_010)
+    # TASK_59 — Initiate design review via email (art_010)
     Task(
         annotator="0",
         user_id="TASK_59",
@@ -2870,7 +2870,7 @@ TASKS = [
         outputs=[]
     )
     ,
-    # TASK_60 — Release handoff (art_005) with tagging
+    # TASK_60 — Handoff release (art_005) including tagging
     Task(
         annotator="0",
         user_id="TASK_60",
@@ -2886,7 +2886,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Release Handoff — release_002 — 2024-08-20",  # <-- reference release_002
+                "subject": "Release Handoff — release_002 — 2024-08-20",  # <!-- refer to release_002 -->
                 "sender_email": "jake.design@company.com",
                 "recipients": ["emma.creative@company.com", "chris.engineer@company.com"],
                 "timestamp": "2024-08-20T13:30:00Z",
@@ -2896,7 +2896,7 @@ TASKS = [
                 "thread_id": "thr_em-001",
                 "sender_email": "jake.design@company.com",
                 "body_html": "Hello stakeholders,\nPlease find the release notes for release_002, including changes.\nRegards.",
-                # <-- reference release_002
+                # <!-- refer to release_002 -->
                 "attachments_asset_ids": ["asset_en-001"],
                 "timestamp": "2024-08-20T13:30:00Z",
                 "request_id": "em-002",
@@ -2928,28 +2928,28 @@ TASKS = [
             "As the design review coordinator, with the current time of 2024-08-24T17:15:00Z, ensure to document the late-day update. Integrate Gmail thread thread_010 into Figma artifact art_002 by adding an attributed comment (no need for a per-message id), confirm within the thread using the sync-confirmation template, apply the 'synced-to-figma' label to the thread, and log the sync activity."
         ),
         actions=[
-            # Read the thread context (non-blocking; used for consistency)
+            # Examine the thread context (non-blocking; utilized for consistency)
             Action(name="GetGmailThread", kwargs={"thread_id": "thread_010"}),
 
-            # Figma note (creation → 'en-' request_id)
+            # Figma annotation (generation → 'en-' request_id)
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_002",
                 "author_email": "design-review@company.com",
-                "content": "Synced from Gmail thread thread_010 on 2024-08-24.",  # figma.comment.sync template
+                "content": "Synced from Gmail thread thread_010 on 2024-08-24.",  # figma.comment.synchronize template
                 "timestamp": "2024-08-24T17:15:00Z",
                 "request_id": "en-001",
             }),
 
-            # In-thread confirmation (sync-confirmation template)
+            # Synchronous confirmation within the thread (sync-confirmation template)
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_010",
                 "sender_email": "emma.creative@company.com",
-                "body_html": "Thread thread_010 synced to art_002 on 2024-08-24.",  # email.sync_confirmation.v1
+                "body_html": "Thread thread_010 synced to art_002 on 2024-08-24.",  # email.sync_confirmation.version1
                 "timestamp": "2024-08-24T17:15:00Z",
                 "request_id": "em-001",
             }),
 
-            # Apply the requested label
+            # Assign the specified label.
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thread_010",
                 "add_labels": ["synced-to-figma"],
@@ -2957,7 +2957,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Record the automation run
+            # Log the execution of the automation.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "sync_email_to_figma",
                 "status": "completed",
@@ -2988,7 +2988,7 @@ TASKS = [
                 "request_id": "rv-001",
             }),
 
-            # Quorum not proven here → no status change action
+            # Quorum not established here → no action to change status
 
             Action(name="FindGmailThreads", kwargs={
                 "subject_contains": "Update — 2024-09-02",
@@ -2996,7 +2996,7 @@ TASKS = [
             }),
 
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Update — 2024-09-02",  # email.generic_plain.v1_subject
+                "subject": "Update — 2024-09-02",  # email.generic_plain.subject_v1
                 "sender_email": "design-review@company.com",
                 "recipients": ["design-review@company.com"],
                 "timestamp": "2024-09-02T10:00:00Z",
@@ -3006,7 +3006,7 @@ TASKS = [
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001",
                 "sender_email": "design-review@company.com",
-                "body_html": "Hello,\nPlease see details attached.\nThanks.",  # email.generic_plain.v1
+                "body_html": "Hello,\nPlease see details attached.\nThanks.",  # email.standard_text.v1
                 "timestamp": "2024-09-02T10:00:00Z",
                 "request_id": "em-002",
             }),
@@ -3042,7 +3042,7 @@ TASKS = [
                 "participant_email": "design-review@company.com",
             }),
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Update — 2024-08-23",  # email.generic_plain.v1_subject
+                "subject": "Update — 2024-08-23",  # email.generic_plain.subject_v1
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["design-review@company.com"],
                 "timestamp": "2024-08-23T09:05:00Z",
@@ -3051,7 +3051,7 @@ TASKS = [
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001",
                 "sender_email": "emma.creative@company.com",
-                "body_html": "Hello,\nPlease see details attached.\nThanks.",  # email.generic_plain.v1
+                "body_html": "Hello,\nPlease see details attached.\nThanks.",  # email.default_text.v1
                 "timestamp": "2024-08-23T09:05:00Z",
                 "request_id": "em-002",
             }),
@@ -3166,14 +3166,14 @@ TASKS = [
             "Handle the design review process for the Web UX team with the current time being 2024-09-02T17:10:00Z. Grid updates have just been implemented—initiate an email-based design review for the Figma artifact art_004 using export profile 'PNG 2x'; ensure there is a single email thread per artifact for the day, and continue within the existing thread if already initiated; guarantee the review email includes the exported asset, dispatched from emma.creative@company.com to ['design-review@company.com']; as part of the initiation, apply the tag 'needs-review' to the artifact; apply the Gmail label 'design-review'. Recording the automation run is not necessary."
         ),
         actions=[
-            # 1) Export the asset for the email
+            # 1) Export the resource for the email.
             Action(name="ExportAssets", kwargs={
                 "artifact_id": "art_004",
                 "export_profile": "PNG 2x",
                 "timestamp": "2024-09-02T17:10:00Z",
                 "request_id": "en-001",
             }),
-            # 2) Apply kickoff governance tag
+            # 2) Implement kickoff governance label
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_004",
                 "add_tags": ["needs-review"],
@@ -3181,31 +3181,31 @@ TASKS = [
                 "timestamp": "2024-09-02T17:10:00Z",
                 "request_id": "up-001",
             }),
-            # 3) Maintain same-day continuity (ok if none found)
+            # 3) Ensure continuity for the same day (acceptable if none exist)
             Action(name="FindGmailThreads", kwargs={
                 "subject_contains": "Review Request — art_004 — 2024-09-02",
                 "participant_email": "design-review@company.com",
             }),
-            # 4) Create/continue the review thread using the deterministic template
+            # 4) Initiate/extend the review thread utilizing the predefined template.
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Review Request — art_004 — 2024-09-02",  # email.review_request.v1_subject
+                "subject": "Review Request — art_004 — 2024-09-02",  # email.review_request.version_one_subject
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["design-review@company.com"],
                 "timestamp": "2024-09-02T17:10:00Z",
                 "request_id": "em-001",
             }),
-            # 5) Send the message with the exported asset attached
+            # 5) Dispatch the message including the attached exported asset.
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001",
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["design-review@company.com"],
                 "body_html": "Hi team,\nPlease review the attached PNG 2x export for art_004.\nThanks.",
-                # email.review_request.v1
+                # email.review_request.version1
                 "attachments_asset_ids": ["asset_en-001"],
                 "timestamp": "2024-09-02T17:10:00Z",
                 "request_id": "em-002",
             }),
-            # 6) Label the thread for tracking
+            # 6) Assign a label to the thread for monitoring purposes.
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thr_em-001",
                 "add_labels": ["design-review"],
@@ -3222,23 +3222,23 @@ TASKS = [
             "As the design review coordinator, note that the current time is 2024-09-02T16:40:00Z. Once the targeted patch has been delivered, prompt a re-review for Figma artifact art_005 directed at ['emma.creative@company.com','jake.design@company.com'] with the standard re-review notification. Continue the conversation in the ongoing same-day email thread for the artifact ('User Profile Screen Implementation') without starting a new subject. Apply the 'design-review' label and log the update."
         ),
         actions=[
-            # Locate the established same-day thread (no new subject allowed)
+            # Find the existing same-day thread (new subjects not permitted)
             Action(name="FindGmailThreads", kwargs={
                 "subject_contains": "User Profile Screen Implementation",
             }),
 
-            # Continue in the existing thread with the deterministic re-review template
+            # Proceed within the current thread using the deterministic re-review template.
             Action(name="AppendGmailMessage", kwargs={
-                "thread_id": "thread_007",  # existing same-day thread
+                "thread_id": "thread_007",  # current same-day thread
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["emma.creative@company.com", "jake.design@company.com"],
                 "body_html": "Fixes have been applied on art_005; please re-review the latest assets.",
-                # email.rereview_notice.v1
+                # email.reassessment_alert.v1
                 "timestamp": "2024-09-02T16:40:00Z",
                 "request_id": "em-001",
             }),
 
-            # Apply requested label
+            # Assign the specified label.
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thread_007",
                 "add_labels": ["design-review"],
@@ -3246,7 +3246,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Record the update
+            # Log the modification.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "rereview_kickoff",
                 "status": "completed",
@@ -3275,7 +3275,7 @@ TASKS = [
                 "timestamp": "2024-09-02T09:20:00Z", "request_id": "au-001",
             }),
 
-            # Use up- prefix for updates
+            # Apply the up- prefix for updates.
             Action(name="UpdateAuditStatus", kwargs={
                 "audit_id": "audit_002", "status": "COMPLETED",
                 "updated_at": "2024-09-02T09:20:00Z",
@@ -3293,8 +3293,8 @@ TASKS = [
                 "thread_id": "thr_em-001",
                 "sender_email": "design-review@company.com",
                 "recipients": ["design-review@company.com"],
-                "body_html": "Hello,\nPlease see details attached.\nThanks.",  # email.generic_plain.v1
-                "attachments_asset_ids": ["exp-art_008-20240902-pdf-001"],  # matches GenerateAuditReport output
+                "body_html": "Hello,\nPlease see details attached.\nThanks.",  # email.generic_plain.version1
+                "attachments_asset_ids": ["exp-art_008-20240902-pdf-001"],  # corresponds to GenerateAuditReport output
                 "timestamp": "2024-09-02T09:20:00Z", "request_id": "em-002",
             }),
 
@@ -3302,9 +3302,9 @@ TASKS = [
                 "thread_id": "thr_em-001", "request_id": "em-003",
             }),
 
-            # Action(name="RecordAutomationRun", kwargs={
-            #     "task_name": "a11y_audit_report", "status": "completed",
-            #     "started_at": "2024-09-02T09:20:00Z", "ended_at": "2024-09-02T09:20:00Z",
+            # Action(identifier="RecordAutomationRun", parameters={
+            # "task_name": "a11y_audit_report", "status": "finished",
+            # "start_time": "2024-09-02T09:20:00Z", "finish_time": "2024-09-02T09:20:00Z",
             #     "timestamp": "2024-09-02T09:20:00Z", "request_id": "up-002",
             # }),
         ],
@@ -3328,7 +3328,7 @@ TASKS = [
                 "timestamp": "2024-09-02T11:05:00Z", "request_id": "en-001",
             }),
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Review Request — art_010 — 2024-09-02",  # email.review_request.v1_subject
+                "subject": "Review Request — art_010 — 2024-09-02",  # email.review_request.v1_title
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["design-review@company.com"],
                 "timestamp": "2024-09-02T11:05:00Z", "request_id": "em-001",
@@ -3336,7 +3336,7 @@ TASKS = [
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001", "sender_email": "emma.creative@company.com",
                 "body_html": "Hi team,\nPlease review the attached PNG 2x export for art_010.\nThanks.",
-                # email.review_request.v1
+                # email.review_request.version1
                 "attachments_asset_ids": ["asset_en-001"],
                 "timestamp": "2024-09-02T11:05:00Z", "request_id": "em-002",
             }),
@@ -3362,7 +3362,7 @@ TASKS = [
             "Acting as the design review coordinator for the Web UX team at 2024-09-02T13:05:00Z, commence the email-based design review for the Figma artifact art_012 using the 'PNG 2x' export profile. Dispatch this from emma.creative@company.com to ['chris.engineer@company.com','jake.design@company.com']. Maintain the daily thread consistently, make sure the exported asset is attached, apply the 'design-review' label, and verify the thread. Recording the automation run is unnecessary."
         ),
         actions=[
-            # Add required kickoff tag per review_kickoff workflow
+            # Include the necessary kickoff tag according to the review_kickoff process.
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_012",
                 "add_tags": ["needs-review"],
@@ -3377,7 +3377,7 @@ TASKS = [
             }),
 
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Review Request — art_012 — 2024-09-02",  # email.review_request.v1_subject
+                "subject": "Review Request — art_012 — 2024-09-02",  # email.review_request.subject_v1
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["chris.engineer@company.com", "jake.design@company.com"],
                 "timestamp": "2024-09-02T13:05:00Z", "request_id": "em-001",
@@ -3387,7 +3387,7 @@ TASKS = [
                 "thread_id": "thr_em-001", "sender_email": "emma.creative@company.com",
                 "recipients": ["chris.engineer@company.com", "jake.design@company.com"],
                 "body_html": "Hi team,\nPlease review the attached PNG 2x export for art_012.\nThanks.",
-                # email.review_request.v1
+                # email.review_request.version1
                 "attachments_asset_ids": ["asset_en-001"],
                 "timestamp": "2024-09-02T13:05:00Z", "request_id": "em-002",
             }),
@@ -3397,14 +3397,14 @@ TASKS = [
                 "timestamp": "2024-09-02T13:05:00Z", "request_id": "up-002",
             }),
 
-            # Verify via thread metadata (more reliable than listing messages)
+            # Confirm through thread metadata (more dependable than enumerating messages)
             Action(name="GetGmailThread", kwargs={
                 "thread_id": "thr_em-001", "request_id": "em-003",
             }),
 
-            # Action(name="RecordAutomationRun", kwargs={
-            #     "task_name": "review_kickoff", "status": "completed",
-            #     "started_at": "2024-09-02T13:05:00Z", "ended_at": "2024-09-02T13:05:00Z",
+            # Action(identifier="RecordAutomationRun", parameters={
+            # "task_name": "review_kickoff", "status": "finished",
+            # "begin_time": "2024-09-02T13:05:00Z", "finish_time": "2024-09-02T13:05:00Z",
             #     "timestamp": "2024-09-02T13:05:00Z", "request_id": "rv-001",
             # }),
         ],
@@ -3431,7 +3431,7 @@ TASKS = [
                 "participant_email": "design-review@company.com",
             }),
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Update — 2024-08-23",  # email.generic_plain.v1_subject
+                "subject": "Update — 2024-08-23",  # email.default_plain.text.v1_subject
                 "sender_email": "design-review@company.com",
                 "recipients": ["design-review@company.com"],
                 "timestamp": "2024-08-23T18:50:00Z",
@@ -3441,7 +3441,7 @@ TASKS = [
                 "thread_id": "thr_em-002",
                 "sender_email": "design-review@company.com",
                 "recipients": ["design-review@company.com"],
-                "body_html": "Hello,\nPlease see details attached.\nThanks.",  # email.generic_plain.v1
+                "body_html": "Hello,\nPlease see details attached.\nThanks.",  # email.basic_text.v1
                 "timestamp": "2024-08-23T18:50:00Z",
                 "request_id": "em-003",
             }),
@@ -3472,18 +3472,18 @@ TASKS = [
             "Acting as the design review coordinator and with the current time as 2024-09-02T14:10:00Z, request a re-review for Figma artifact art_001 for ['emma.creative@company.com'] after a quick rollback test succeeds using the standard re-review notice; uphold the same-day review subject (continuing with the existing thread 'Data Table Component Review'), include the label 'design-review', and document the update."
         ),
         actions=[
-            # Prove the thread exists (log the lookup)
+            # Verify the thread's presence (record the search).
             Action(name="FindGmailThreads", kwargs={
                 "subject_contains": "Data Table Component Review",
             }),
 
-            # Append to the actual thread from your data (no fabrication)
+            # Add to the existing thread based on your data (avoid creating false information).
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_009",
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["emma.creative@company.com"],
                 "body_html": "Fixes have been applied on art_001; please re-review the latest assets.",
-                # email.rereview_notice.v1
+                # email.resend_review_alert.v1
                 "timestamp": "2024-09-02T14:10:00Z",
                 "request_id": "em-001",
             }),
@@ -3521,7 +3521,7 @@ TASKS = [
                 "participant_email": "jake.design@company.com",
             }),
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Re-review Needed — art_002 — 2024-09-02",  # email.rereview_notice.v1_subject
+                "subject": "Re-review Needed — art_002 — 2024-09-02",  # email.review_reminder.v1_subject
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["jake.design@company.com", "chris.engineer@company.com"],
                 "timestamp": "2024-09-02T14:50:00Z",
@@ -3532,11 +3532,11 @@ TASKS = [
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["jake.design@company.com", "chris.engineer@company.com"],
                 "body_html": "Fixes have been applied on art_002; please re-review the latest assets.",
-                # email.rereview_notice.v1
+                # email.review_reminder.v1
                 "timestamp": "2024-09-02T14:50:00Z",
                 "request_id": "em-002",
             }),
-            Action(name="GetGmailThread", kwargs={"thread_id": "thr_em-001"}),  # continuity read
+            Action(name="GetGmailThread", kwargs={"thread_id": "thr_em-001"}),  # continuous reading
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thr_em-001",
                 "add_labels": ["design-review"],
@@ -3579,7 +3579,7 @@ TASKS = [
                 "request_id": "rv-002",
             }),
 
-            # Update-type => up- prefix; set at latest approval time
+            # Update-type => up- prefix; assigned to the most recent approval timestamp.
             Action(name="UpdateReviewCycleStatus", kwargs={
                 "cycle_id": "cycle_008",
                 "status": "APPROVED",
@@ -3588,7 +3588,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Use CYCLE_ALIAS (cycle_008 ⇒ art_001) for deterministic governance update
+            # Utilize CYCLE_ALIAS (cycle_008 ⇒ art_001) for a predictable governance update.
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_001",
                 "add_tags": ["approved/20240824"],
@@ -3609,7 +3609,7 @@ TASKS = [
             "As the design review coordinator, operating at 2024-08-24T17:30:00Z, note the handoff discussion from Gmail thread thread_007 by adding the latest update as an attributed comment on Figma artifact art_005. Recognize the sync within the thread, attach the 'synced-to-figma' label, and ensure the delivery by checking the thread metadata."
         ),
         actions=[
-            # Baseline read
+            # Initial read
             Action(name="GetGmailThread", kwargs={
                 "thread_id": "thread_007",
                 "timestamp": "2024-08-24T17:30:00Z",
@@ -3621,25 +3621,25 @@ TASKS = [
                 "request_id": "em-002",
             }),
 
-            # Create the Figma comment (sync note)
+            # Generate the Figma annotation (synchronization note).
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_005",
                 "author_email": "design-review@company.com",
-                "content": "Synced from Gmail thread thread_007 on 2024-08-24.",  # figma.comment.sync.v1
+                "content": "Synced from Gmail thread thread_007 on 2024-08-24.",  # figma.comment.sync.version1
                 "timestamp": "2024-08-24T17:30:00Z",
                 "request_id": "en-001",
             }),
 
-            # In-thread acknowledgement (continue existing thread; no new recipients)
+            # Acknowledgment within the current thread (maintain existing conversation; no additional recipients)
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_007",
                 "sender_email": "emma.creative@company.com",
-                "body_html": "Thread thread_007 synced to art_005 on 2024-08-24.",  # email.sync_confirmation.v1
+                "body_html": "Thread thread_007 synced to art_005 on 2024-08-24.",  # email.synchronize_confirmation.v1
                 "timestamp": "2024-08-24T17:30:00Z",
                 "request_id": "em-003",
             }),
 
-            # Apply the requested label
+            # Assign the specified label.
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thread_007",
                 "add_labels": ["synced-to-figma"],
@@ -3647,14 +3647,14 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Verify delivery by reading thread metadata (labels reflect the sync)
+            # Confirm delivery by checking thread metadata (labels indicate synchronization).
             Action(name="GetGmailThread", kwargs={
                 "thread_id": "thread_007",
                 "timestamp": "2024-08-24T17:30:00Z",
                 "request_id": "em-004",
             }),
 
-            # Record the automation run
+            # Log the execution of the automation.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "sync_email_to_figma",
                 "status": "completed",
@@ -3675,7 +3675,7 @@ TASKS = [
             "Serving as the design review coordinator when it's 2024-08-24T17:45:00Z, conclude the settings epic by confirming the integration of the newest note from Gmail thread thread_011 into Figma artifact art_011 as an attributed comment. Confirm within the same Gmail thread using the sync-confirmation template, attach the 'synced-to-figma' label, check the thread metadata to verify delivery, and document the sync."
         ),
         actions=[
-            # Baseline reads (OK to keep)
+            # Initial readings (acceptable to retain)
             Action(name="GetGmailThread", kwargs={
                 "thread_id": "thread_011",
             }),
@@ -3683,7 +3683,7 @@ TASKS = [
                 "thread_id": "thread_011",
             }),
 
-            # Use standard figma.comment.sync.v1 body; omit source_message_id to avoid nondeterminism
+            # Utilize the standard figma.comment.sync.v1 body; exclude source_message_id to prevent nondeterminism.
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_011",
                 "author_email": "design-review@company.com",
@@ -3692,7 +3692,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # In-thread acknowledgement (continue the same thread)
+            # Acknowledgement within the same thread
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_011",
                 "sender_email": "emma.creative@company.com",
@@ -3701,7 +3701,7 @@ TASKS = [
                 "request_id": "em-001",
             }),
 
-            # Apply the requested label
+            # Assign the specified label.
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thread_011",
                 "add_labels": ["synced-to-figma"],
@@ -3709,14 +3709,14 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Verify via thread metadata (list_gmail_messages cannot surface the new reply with current tools)
+            # Check thread metadata since list_gmail_messages cannot retrieve the recent reply with the existing tools.
             Action(name="GetGmailThread", kwargs={
                 "thread_id": "thread_011",
                 "timestamp": "2024-08-24T17:45:00Z",
                 "request_id": "em-002",
             }),
 
-            # Record the automation run
+            # Log the automation execution.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "sync_email_to_figma",
                 "status": "completed",
@@ -3750,7 +3750,7 @@ TASKS = [
                 "request_id": "au-001",
             }),
 
-            # Update-type => up- prefix
+            # Change update-type to up- prefix.
             Action(name="UpdateAuditStatus", kwargs={
                 "audit_id": "audit_003",
                 "status": "COMPLETED",
@@ -3771,7 +3771,7 @@ TASKS = [
                 "sender_email": "design-review@company.com",
                 "recipients": ["design-review@company.com"],
                 "body_html": "Hello,\nPlease see details attached.\nThanks.",
-                "attachments_asset_ids": ["exp-art_003-20240824-pdf-001"],  # <-- match GenerateAuditReport
+                "attachments_asset_ids": ["exp-art_003-20240824-pdf-001"],  # <!-- align with GenerateAuditReport -->
                 "timestamp": "2024-08-24T11:20:00Z",
                 "request_id": "em-002",
             }),
@@ -3800,7 +3800,7 @@ TASKS = [
                 "artifact_id": "art_010", "audit_id": "audit_010", "format": "pdf",
                 "timestamp": "2024-08-24T11:40:00Z", "request_id": "au-001",
             }),
-            # Update-type ⇒ use up- prefix
+            # Change the update-type to have an up- prefix.
             Action(name="UpdateAuditStatus", kwargs={
                 "audit_id": "audit_010", "status": "COMPLETED",
                 "updated_at": "2024-08-24T11:40:00Z",
@@ -3815,10 +3815,10 @@ TASKS = [
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001", "sender_email": "design-review@company.com",
                 "body_html": "Hello,\nPlease see details attached.\nThanks.",
-                "attachments_asset_ids": ["exp-art_010-20240824-pdf-001"],  # ← match tool output
+                "attachments_asset_ids": ["exp-art_010-20240824-pdf-001"],  # ← output from the matching tool
                 "timestamp": "2024-08-24T11:40:00Z", "request_id": "em-002",
             }),
-            # Verify via thread metadata
+            # Check using thread metadata.
             Action(name="GetGmailThread", kwargs={
                 "thread_id": "thr_em-001", "request_id": "em-003"
             }),
@@ -3858,7 +3858,7 @@ TASKS = [
                 "sender_email": "design-review@company.com",
                 "recipients": ["design-review@company.com"],
                 "body_html": "Hello,\nPlease see details attached.\nThanks.",
-                "attachments_asset_ids": ["exp-art_012-20240902-pdf-001"],  # match GenerateAuditReport result
+                "attachments_asset_ids": ["exp-art_012-20240902-pdf-001"],  # compare the output of GenerateAuditReport
                 "timestamp": "2024-09-02T11:20:00Z", "request_id": "em-002",
             }),
             Action(name="GetGmailThread", kwargs={
@@ -3894,7 +3894,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Template: "Audit report sent — {artifact_id} — {audit_id} — {date} — asset {asset_id}"
+            # "Audit report dispatched — {artifact_id} — {audit_id} — {date} — asset {asset_id}"
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_006",
                 "author_email": "design-review@company.com",
@@ -3940,7 +3940,7 @@ TASKS = [
                 "request_id": "rv-002",
             }),
 
-            # Quorum reached → set APPROVED at the latest approval time
+            # Quorum achieved → mark as APPROVED at the most recent approval timestamp.
             Action(name="UpdateReviewCycleStatus", kwargs={
                 "cycle_id": "cycle_010",
                 "status": "APPROVED",
@@ -4048,7 +4048,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Review Request — art_006 — 2024-08-23",  # email.review_request.v2_subject
+                "subject": "Review Request — art_006 — 2024-08-23",  # email.review_request.subject_v2
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["jake.design@company.com"],
                 "timestamp": "2024-08-23T12:10:00Z",
@@ -4058,7 +4058,7 @@ TASKS = [
                 "thread_id": "thr_em-001",
                 "sender_email": "emma.creative@company.com",
                 "body_html": "Hi team,\nPlease review the attached PNG 2x export for art_006.\nThanks.",
-                # email.review_request.v2_body
+                # email.review_request.body_v2
                 "attachments_asset_ids": ["asset_en-001"],
                 "timestamp": "2024-08-23T12:10:00Z",
                 "request_id": "em-002",
@@ -4089,7 +4089,7 @@ TASKS = [
             "As the design review coordinator for the Web UX team at 2024-08-24T10:20:00Z, handle an email-based design review for the promo banner variant using Figma artifact art_007 with export profile 'PNG 2x'. Email from emma.creative@company.com to ['chris.engineer@company.com', 'anna.brand@company.com'], maintain thread consistency for the day, attach the exported asset, apply the 'needs-review' label, and log the activity."
         ),
         actions=[
-            # 1) Export the asset (deterministic IDs)
+            # 1) Export the asset using fixed identifiers.
             Action(name="ExportAssets", kwargs={
                 "artifact_id": "art_007",
                 "export_profile": "PNG 2x",
@@ -4097,16 +4097,16 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # 2) Start today's review thread (no same-day thread exists in data; creating a new one is correct)
+            # Initiate the review thread for today (there is no existing same-day thread in the data; it's appropriate to create a new one).
             Action(name="CreateGmailThread", kwargs={
-                "subject": "Review Request — art_007 — 2024-08-24",  # email.review_request.v2_subject
+                "subject": "Review Request — art_007 — 2024-08-24",  # email.review_request.subject_v2
                 "sender_email": "emma.creative@company.com",
                 "recipients": ["chris.engineer@company.com", "anna.brand@company.com"],
                 "timestamp": "2024-08-24T10:20:00Z",
                 "request_id": "em-001",
             }),
 
-            # 3) Body must follow email.review_request.v2_body (exact phrase: "Please review the attached …")
+            # 3) The body should adhere to email.review_request.v2_body (specific text: "Please review the attached …")
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thr_em-001",
                 "sender_email": "emma.creative@company.com",
@@ -4116,7 +4116,7 @@ TASKS = [
                 "request_id": "em-002",
             }),
 
-            # 4) Apply kickoff label
+            # 4) Set kickoff label
             Action(name="ApplyGmailLabels", kwargs={
                 "thread_id": "thr_em-001",
                 "add_labels": ["needs-review"],
@@ -4124,7 +4124,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # 5) Record the automation run
+            # 5) Log the automation execution.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "design_review_email",
                 "status": "completed",
@@ -4147,7 +4147,7 @@ TASKS = [
         actions=[
             Action(name="GetAudit", kwargs={"audit_id": "audit_003"}),
 
-            # Use allowed A11Y category name
+            # Utilize the permitted A11Y category designation.
             Action(name="ListAuditFindingsA11y", kwargs={
                 "audit_id": "audit_003",
                 "violation_type": "COLOR_CONTRAST",
@@ -4157,7 +4157,7 @@ TASKS = [
                 "finding_type": "AMBIGUOUS",
             }),
 
-            # Deterministic report asset id: exp-art_003-20240823-pdf-001
+            # Fixed report asset identifier: exp-art_003-20240823-pdf-001
             Action(name="generateAuditReport", kwargs={
                 "artifact_id": "art_003",
                 "audit_id": "audit_003",
@@ -4166,7 +4166,7 @@ TASKS = [
                 "request_id": "au-001",
             }),
 
-            # TEMPLATE_SELECTION_RULE: figma.comment.audit_report_sent.v1
+            # TEMPLATE_SELECTION_RULE: figma.comment.audit_report_dispatched.v1
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_003",
                 "author_email": "design-review@company.com",
@@ -4175,7 +4175,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # Update-type => up- prefix
+            # Change the update-type to use the up- prefix.
             Action(name="UpdateAuditStatus", kwargs={
                 "audit_id": "audit_003",
                 "status": "COMPLETED",
@@ -4205,7 +4205,7 @@ TASKS = [
         actions=[
             Action(name="GetAudit", kwargs={"audit_id": "audit_002"}),
 
-            # A11Y + DS coverage checks
+            # Accessibility and Design System coverage validations.
             Action(name="ListAuditFindingsA11y", kwargs={
                 "audit_id": "audit_002",
                 "violation_type": "COLOR_CONTRAST",
@@ -4215,7 +4215,7 @@ TASKS = [
                 "finding_type": "UNMAPPED",
             }),
 
-            # Deterministic PDF asset id: exp-art_008-20240824-pdf-001
+            # Deterministic PDF asset identifier: exp-art_008-20240824-pdf-001
             Action(name="generateAuditReport", kwargs={
                 "artifact_id": "art_008",
                 "audit_id": "audit_002",
@@ -4224,7 +4224,7 @@ TASKS = [
                 "request_id": "au-001",
             }),
 
-            # Standard comment template: "Audit report sent — {artifact_id} — {audit_id} — {date} — asset {asset_id}"
+            # Audit report dispatched — {artifact_id} — {audit_id} — {date} — asset {asset_id}
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_008",
                 "author_email": "design-review@company.com",
@@ -4233,7 +4233,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # Record activity (audit-prefixed request_id)
+            # Log the activity using the audit-prefixed request_id.
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "combined_audit_report",
                 "status": "completed",
@@ -4254,7 +4254,7 @@ TASKS = [
             "In your role as the design review coordinator on 2024-09-02T09:55:00Z, maintain thread continuity for approvals—continue the current conversation in thread_011 regarding artifact art_011 with a follow-up that includes the most recent 'PNG 2x' export; avoid beginning a new subject; record the activity."
         ),
         actions=[
-            # 1) Export latest PNG 2x for art_011
+            # 1) Export the most recent 2x PNG for art_011.
             Action(name="ExportAssets", kwargs={
                 "artifact_id": "art_011",
                 "export_profile": "PNG 2x",
@@ -4262,23 +4262,23 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # 2) (Optional) Read existing thread context
+            # 2) (Optional) Review the current thread discussion.
             Action(name="GetGmailThread", kwargs={
                 "thread_id": "thread_011",
                 "request_id": "em-001",
             }),
 
-            # 3) Append reply with deterministic generic template; attach exported asset
+            # 3) Add response using a fixed generic template; include the exported asset.
             Action(name="AppendGmailMessage", kwargs={
                 "thread_id": "thread_011",
                 "sender_email": "emma.creative@company.com",
-                "body_html": "Hello,\nPlease see details attached.\nThanks.",  # email.generic_plain.v1
+                "body_html": "Hello,\nPlease see details attached.\nThanks.",  # email.generic_plain.version1
                 "attachments_asset_ids": ["asset_en-001"],
                 "timestamp": "2024-09-02T09:55:00Z",
                 "request_id": "em-002",
             }),
 
-            # 4) Record the run
+            # 4) Log the execution
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "design_review_followup",
                 "status": "completed",
@@ -4310,8 +4310,8 @@ TASKS = [
                 "timestamp": "2024-08-24T09:40:00Z",
                 "request_id": "au-001",
             }),
-            # figma.comment.audit_report_sent.v1
-            # "Audit report sent — {artifact_id} — {audit_id} — {date} — asset {asset_id}"
+            # figma.comment.audit_report_dispatched.v1
+            # "Audit report dispatched — {artifact_id} — {audit_id} — {date} — asset {asset_id}"
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_004",
                 "author_email": "design-review@company.com",
@@ -4362,7 +4362,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # figma.comment.audit_report_sent.v1 => "Audit report sent — {artifact_id} — {audit_id} — {date} — asset {asset_id}"
+            # figma.comment.audit_report_sent.v1 => "Audit report dispatched — {artifact_id} — {audit_id} — {date} — asset {asset_id}"
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_003",
                 "author_email": "design-review@company.com",
@@ -4390,7 +4390,7 @@ TASKS = [
             "As the governance steward at the time 2024-09-02T18:00:00Z, once you have the final sign-off, modify the tags on artifact art_012 by adding ['approved','responsive'] and excluding ['needs-review']; document the precise tag alterations concisely in a tokenized Figma note; log the update."
         ),
         actions=[
-            # Update only the requested tags (no invented labels)
+            # Modify solely the specified tags (omit any created labels).
             Action(name="GovernanceUpdate", kwargs={
                 "artifact_id": "art_012",
                 "add_tags": ["approved", "responsive"],
@@ -4399,8 +4399,8 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Deterministic, tokenized Figma note
-            # "Governance update — {artifact_id} — add {add_list} — remove {remove_list} — {date}"
+            # Predictable, token-based Figma annotation
+            # "Governance revision — {artifact_id} — include {add_list} — exclude {remove_list} — {date}"
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_012",
                 "author_email": "design-review@company.com",
@@ -4409,7 +4409,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # Record the update (use 'up-' prefix for request_id/run_id)
+            # Log the update (prefix request_id/run_id with 'up-')
             Action(name="RecordAutomationRun", kwargs={
                 "task_name": "governance_update",
                 "status": "completed",
@@ -4456,7 +4456,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # TASK_M1 — Review kickoff (new same-day thread; PNG 2x; needs-review label)
+    # TASK_M1 — Initiate review (new thread for the same day; PNG 2x; requires review label)
     Task(
         annotator="0",
         user_id="TASK_92",
@@ -4464,7 +4464,7 @@ TASKS = [
             "As the design review coordinator, the current time is 2024-08-20T10:05:00Z. Initiate an email-based design review for artifact art_001 using export profile 'PNG 2x', from emma.creative@company.com to ['chris.engineer@company.com','anna.brand@company.com']; begin today's thread, attach the export, apply the 'needs-review' label, link to the cycle, and do not record the automation run."
         ),
         actions=[
-            # Derive the cycle deterministically (the dataset has a single cycle for art_001 → cycle_001)
+            # Determine the cycle in a deterministic manner (the dataset contains one cycle for art_001 → cycle_001).
             Action(name="ListReviewCycles", kwargs={}),
 
             Action(name="ExportAssets", kwargs={
@@ -4474,7 +4474,7 @@ TASKS = [
                 "request_id": "en-001",
             }),
 
-            # Thread policy: check same-day thread for both recipients
+            # Thread policy: verify same-day thread for both parties involved.
             Action(name="FindGmailThreads", kwargs={
                 "subject_contains": "Review Request — art_001 — 2024-08-20",
                 "participant_email": "chris.engineer@company.com",
@@ -4496,7 +4496,7 @@ TASKS = [
                 "thread_id": "thr_em-001",
                 "sender_email": "emma.creative@company.com",
                 "body_html": "Hi team,\nPlease review the attached PNG 2x export for art_001.\nThanks.",
-                "attachments_asset_ids": ["asset_en-001"],  # from export_assets ID_RULE
+                "attachments_asset_ids": ["asset_en-001"],  # from export_assets using ID_RULE
                 "timestamp": "2024-08-20T10:05:00Z",
                 "request_id": "em-002",
             }),
@@ -4508,7 +4508,7 @@ TASKS = [
                 "request_id": "up-001",
             }),
 
-            # Link to the (now-derivable) cycle: cycle_001
+            # Reference to the cycle that can now be derived: cycle_001
             Action(name="AttachThreadToReviewCycle", kwargs={
                 "cycle_id": "cycle_001",
                 "thread_id": "thr_em-001",
@@ -4531,7 +4531,7 @@ TASKS = [
         actions=[
             Action(name="GetReviewCycle", kwargs={"cycle_id": "cycle_012"}),
 
-            # Confirm current labels / metadata (no request_id param for this tool)
+            # Verify existing labels/metadata (this tool does not require a request_id parameter).
             Action(name="GetGmailThread", kwargs={"thread_id": "thread_012"}),
 
             Action(name="UpdateReviewCycleStatus", kwargs={
@@ -4596,7 +4596,7 @@ TASKS = [
                 "request_id": "au-001",
             }),
 
-            # Template: "Audit report sent — {artifact_id} — {audit_id} — {date} — asset {asset_id}"
+            # "Audit report dispatched — {artifact_id} — {audit_id} — {date} — asset {asset_id}"
             Action(name="CreateFigmaComment", kwargs={
                 "artifact_id": "art_009",
                 "author_email": "design-review@company.com",

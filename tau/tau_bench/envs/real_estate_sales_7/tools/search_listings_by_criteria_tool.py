@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,10 +18,10 @@ class SearchListingsByCriteriaTool(Tool):
 
         valid_status = {"sold", "for_sale", "off_market", "active", "pending", "rented"}
 
-        # Handle status_filter as either string or list
+        # Process status_filter as a string or an array.
         if status_filter:
             if isinstance(status_filter, list):
-                # Validate all statuses in the list
+                # Check the validity of each status in the list.
                 for status in status_filter:
                     if status not in valid_status:
                         return _err(
@@ -30,7 +30,7 @@ class SearchListingsByCriteriaTool(Tool):
                             valid=list(sorted(valid_status)),
                         )
             else:
-                # Single status validation
+                # Validation of single status
                 if status_filter not in valid_status:
                     return _err(
                         f"invalid status_filter '{status_filter}'",
@@ -38,21 +38,21 @@ class SearchListingsByCriteriaTool(Tool):
                         valid=list(sorted(valid_status)),
                     )
 
-        # Note: Neighborhood filtering removed - no property-to-neighborhood mapping in data
+        # Warning: Neighborhood filtering has been eliminated - data lacks property-to-neighborhood associations.
         matches: List[Dict[str, Any]] = []
         for l in list(data.get("listings", {}).values()):
             pid = str(l.get("property_id"))
 
-            # Skip listings without property_id
+            # Exclude entries lacking a property_id.
             if not pid:
                 continue
 
-            # Note: Neighborhood filtering skipped - no neighborhood mapping available
+            # Warning: Neighborhood filtering bypassed due to lack of neighborhood mapping.
             if neighborhoods:
-                # Log warning that neighborhood filtering is not supported
+                # Issue a log warning indicating that neighborhood filtering is unsupported.
                 pass
 
-            # Apply status filter (OR logic for list)
+            # Implement status filter using OR logic for the list.
             if status_filter:
                 listing_status = l.get("status")
                 if isinstance(status_filter, list):
@@ -72,12 +72,12 @@ class SearchListingsByCriteriaTool(Tool):
                     "list_price": l.get("list_price"),
                     "price_per_sqft": l.get(
                         "price_per_sqft"
-                    ),  # Use pre-calculated value from listings
+                    ),  # Utilize the pre-computed value from listings.
                     "status": l.get("status"),
                 }
             )
 
-            # Apply max_results limit if specified
+            # Implement max_results constraint if provided.
             if max_results is not None and len(matches) >= max_results:
                 break
 
@@ -95,7 +95,7 @@ class SearchListingsByCriteriaTool(Tool):
 
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        # status_filter required by prompt; allow null for flexibility
+        # status_filter needed by prompt; permit null for adaptability
         return {
             "type": "function",
             "function": {

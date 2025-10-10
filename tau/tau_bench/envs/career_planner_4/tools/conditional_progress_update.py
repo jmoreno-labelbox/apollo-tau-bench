@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class conditional_progress_update(Tool):
         threshold: int,
         update_date: str,
     ) -> str:
-        # Get current goal progress
+        # Retrieve the progress of the current goal.
         goals_data = data.get("goals", [])
         user_goals = next((g for g in goals_data if g.get("user_id") == user_id), {})
         goals = user_goals.get("goals", [])

@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class CreateReviewApproval(Tool):  # WRITE
+class CreateReviewApproval(Tool):  # GENERATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -13,7 +13,7 @@ class CreateReviewApproval(Tool):  # WRITE
         approval_comment_id: str = None,
         approver_email: str = None,
     ) -> str:
-        # Validate input
+        # Check input for correctness.
         if not isinstance(cycle_id, str) or not cycle_id:
             return json.dumps({"error": "cycle_id must be a non-empty string"})
         if not approval_comment_id and not approver_email:
@@ -21,8 +21,8 @@ class CreateReviewApproval(Tool):  # WRITE
         review_approvals = data.get("review_approvals", [])
         next_num = len(review_approvals) + 1
         approval_id = f"approval_{next_num:03d}"
-        approved_ts = "2025-08-26T12:00:00Z"  # Use current date/time in production
-        # If comment is provided, try to get approver_email from figma_comments
+        approved_ts = "2025-08-26T12:00:00Z"  # Utilize the present date and time in the production environment.
+        # When a comment is available, attempt to retrieve approver_email from figma_comments.
         if approval_comment_id:
             figma_comments = data.get("figma_comments", [])
             comment = next((c for c in figma_comments if c.get("comment_id") == approval_comment_id), None)

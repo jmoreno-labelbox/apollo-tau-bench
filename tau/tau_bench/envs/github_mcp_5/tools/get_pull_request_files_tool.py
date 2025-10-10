@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -34,23 +34,23 @@ class GetPullRequestFilesTool(Tool):
         if not pull_request:
             return json.dumps({
                 "status": "error",
-                "message": f"Pull request #{pr_number} not found in repository '{repo}'.",
+                "message": f"Pull request # "{pr_number} is absent in the '{repo}' repository."
             }, indent=2)
 
-        # In a real scenario, you would fetch the files associated with the PR's commits.
-        # For simulation, we'll return the file_paths from the repository's current state
-        # that were likely involved in the PR's HEAD branch.
+        # In a practical situation, you would retrieve the files linked to the commits of the PR.
+        # To simulate, we will provide the file_paths from the existing state of the repository.
+        # that were probably associated with the HEAD branch of the PR.
         head_branch = pull_request.get('head_branches', [''])[0]
         if head_branch:
             branch_index = next((i for i, branch in enumerate(repository.get('branches', [])) if branch['name'] == head_branch), -1)
             if branch_index != -1:
                 pr_files = repository.get('branch_files', [[]])[branch_index]
             else:
-                pr_files = [] # Default if branch not found
+                pr_files = [] # Fallback for missing if branch
         else:
-            pr_files = [] # Default if no head branch specified
+            pr_files = [] # Fallback option if a head branch is not provided.
 
-        # Update the PR object with the simulated files
+        # Modify the PR object to include the simulated files.
         pull_request['pr_files'] = [{"filename": f} for f in pr_files]
 
         return json.dumps({

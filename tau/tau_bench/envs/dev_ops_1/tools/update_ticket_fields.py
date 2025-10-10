@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class UpdateTicketFields(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], ticket_key: str, fields: Dict[str, Any]) -> str:
         work_items = _get_table(data, "work_items")
-        # Support both schemas: some datasets store the key under 'id', others under 'ticket_key'
+        # Accommodate both schemas: certain datasets keep the key as 'id', while others use 'ticket_key'.
         item = next((w for w in work_items if w.get("ticket_key") == ticket_key or w.get("id") == ticket_key), None)
         if not item:
             return _error(f"Ticket '{ticket_key}' not found.")

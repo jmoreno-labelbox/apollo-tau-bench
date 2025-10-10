@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Technologies
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class GrantRoleTool(Tool):
             return AssignRoleOnApprovalTool.invoke(
                 data, request_id=request_id, assigned_by=assigned_by
             )
-        # direct
+        # straightforward
         return AssignUserRoleTool.invoke(
             data,
             user_role_id=kwargs.get("user_role_id"),

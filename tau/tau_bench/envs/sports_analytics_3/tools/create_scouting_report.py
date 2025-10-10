@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class CreateScoutingReport(Tool):
         game_pk = kwargs.get("game_pk")
         core_narrative_text = kwargs.get("core_narrative_text")
 
-        # 1) Validate
+        # 1) Verify
         missing = []
         if not isinstance(report_type, str) or report_type == "": missing.append("report_type")
         if game_pk is None: missing.append("game_pk")
@@ -36,13 +36,13 @@ class CreateScoutingReport(Tool):
         if missing:
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database
         reports: List[Dict[str, Any]] = list(data.get("scouting_reports", {}).values())
 
-        # 3) Generate new id
+        # 3) Create a new identifier
         new_id = get_next_scouting_report_id(data)
 
-        # 4) Insert
+        # 4) Add
         new_row = {
             "report_id": new_id,
             "report_type": report_type,

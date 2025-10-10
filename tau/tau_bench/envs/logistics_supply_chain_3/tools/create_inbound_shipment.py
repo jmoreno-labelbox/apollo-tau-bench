@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class CreateInboundShipment(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # --- Extract required arguments from kwargs ---
+        # --- Retrieve necessary parameters from kwargs ---
         supplier_id = kwargs.get("supplier_id")
         # supplier_name = kwargs.get("supplier_name")
         destination_warehouse_id = kwargs.get("destination_warehouse_id")
@@ -20,13 +20,13 @@ class CreateInboundShipment(Tool):
         unit_weight = kwargs.get("unit_weight")
         expected_arrival_date = kwargs.get("expected_arrival_date")
 
-        # --- Handle potential missing required arguments ---
+        # --- Manage possible absence of mandatory parameters ---
         if not all(
             [
                 supplier_id,
-                # supplier_name,
+                # vendor_name,
                 destination_warehouse_id,
-                # destination_warehouse_name,
+                # target_warehouse_name,
                 order_quantity,
                 unit_cost,
                 unit_weight,
@@ -37,7 +37,7 @@ class CreateInboundShipment(Tool):
 
         inbound_shipments = list(data.get("inbound_shipments", {}).values())
 
-        # --- Auto-increment unique IDs ---
+        # --- Automatically generate unique identifiers ---
         max_ship_num = 0
         for shipment in inbound_shipments:
             ship_id = shipment.get("shipment_id", "SHIP-0000")
@@ -55,7 +55,7 @@ class CreateInboundShipment(Tool):
                 max_po_num = max(max_po_num, int(po_num_str))
         new_po_number = f"PO-2024-{max_po_num + 1:04d}"
 
-        # --- Look up related data for defaults ---
+        # --- Retrieve associated data for defaults ---
         warehouses = list(data.get("warehouses", {}).values())
         destination_warehouse_details = next(
             (
@@ -73,7 +73,7 @@ class CreateInboundShipment(Tool):
         supplier_contact_info = supplier_details.get("contact_information", {})
         supplier_address = supplier_contact_info.get("address", {})
 
-        # --- Construct the full shipment record with defaults ---
+        # --- Create the complete shipment record using default values ---
         new_shipment = {
             "shipment_id": new_shipment_id,
             "purchase_order_number": new_po_number,
@@ -155,22 +155,22 @@ class CreateInboundShipment(Tool):
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        # --- Required Parameters ---
+                        # --- Necessary Parameters ---
                         "supplier_id": {
                             "type": "string",
                             "description": "The ID of the supplier.",
                         },
-                        # "supplier_name": {
-                        #     "type": "string",
-                        #     "description": "The name of the supplier.",
+                        # "vendor_identifier": {
+                        # "format": "string",
+                        # "Supplier's name."
                         # },
                         "destination_warehouse_id": {
                             "type": "string",
                             "description": "The ID of the destination warehouse.",
                         },
-                        # "destination_warehouse_name": {
-                        #     "type": "string",
-                        #     "description": "The name of the destination warehouse.",
+                        # "target_warehouse_name": {
+                        # "dataType": "string",
+                        # "name": "The identifier for the target warehouse.",
                         # },
                         "order_quantity": {
                             "type": "integer",
@@ -188,7 +188,7 @@ class CreateInboundShipment(Tool):
                             "type": "string",
                             "description": "The calculated expected arrival date (YYYY-MM-DD).",
                         },
-                        # --- Optional Parameters ---
+                        # --- Parameters that are not mandatory ---
                         "origin_address": {
                             "type": "string",
                             "description": "Optional. The supplier's origin street address. Defaults to supplier's master data if not provided.",
@@ -308,9 +308,9 @@ class CreateInboundShipment(Tool):
                     },
                     "required": [
                         "supplier_id",
-                        # "supplier_name",
+                        # "vendor_name",
                         "destination_warehouse_id",
-                        # "destination_warehouse_name",
+                        # "target_warehouse_name",
                         "order_quantity",
                         "unit_price",
                         "unit_weight",

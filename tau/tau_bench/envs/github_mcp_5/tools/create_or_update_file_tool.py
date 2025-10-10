@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,7 +25,7 @@ class CreateOrUpdateFileTool(Tool):
 
         repositories = list(data.get('repositories', {}).values())
         repository = next((r for r in repositories if r['repo_name'] == repo and r['owner'] == owner), None)
-        # repository = get_repo_with_owner(repositories, repo, owner)
+        # repository = fetch_repository_by_owner(repositories, repo, owner)
 
         if not repository:
             return json.dumps({
@@ -34,7 +34,7 @@ class CreateOrUpdateFileTool(Tool):
             }, indent=2)
 
 
-        # Check if file already exists
+        # Verify if the file is present.
         file_index = None
         try:
             file_index = repository.get('file_paths', []).index(path)
@@ -48,9 +48,9 @@ class CreateOrUpdateFileTool(Tool):
         else:
             repository['file_contents'][file_index] = content
 
-        # Simulate adding a commit
+        # Emulate the process of adding a commit.
         repository.setdefault('commits', []).append({
-            "commit_shas": [str(uuid.uuid4())[:6]],  # Short SHA
+            "commit_shas": [str(uuid.uuid4())[:6]],  # Abbreviated SHA
             "commit_messages": [message],
             "commit_authors": [[owner]],
             "commit_timestamps": [[datetime.now(timezone.utc).isoformat()]],

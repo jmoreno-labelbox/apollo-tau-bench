@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class CreatePullRequestTool(Tool):
         title = kwargs.get('title')
         body = kwargs.get('body')
         head_branch = kwargs.get('head')
-        base_branch = kwargs.get('base', 'main') # Default base branch to 'main'
+        base_branch = kwargs.get('base', 'main') # Set the default primary branch to 'main'.
 
         if not all([owner, repo, title, body, head_branch, base_branch]):
             return json.dumps({
@@ -31,7 +31,7 @@ class CreatePullRequestTool(Tool):
                 "message": f"Repository '{repo}' not found for owner '{owner}'.",
             }, indent=2)
 
-        # Simulate creating a pull request
+        # Emulate the process of generating a pull request.
         pr_number = len(repository.get('pull_requests', [])) + 1
         repository.setdefault('pull_requests', []).append({
             "pr_number": pr_number,
@@ -42,10 +42,10 @@ class CreatePullRequestTool(Tool):
             "pr_states": ["open"],
             "head_branches": [head_branch],
             "base_branches": [base_branch],
-            "head_shas": [""], # Placeholder for SHA
+            "head_shas": [""], # Temporary variable for SHA.
             "mergeable_flags": [True],
             "merged_flags": [False],
-            "pr_files": [], # This will be populated by get_pull_request_files later
+            "pr_files": [], # This will be filled in by get_pull_request_files subsequently.
             "pr_comments": [],
             "pr_comment_users": [],
             "reviewers": [],
@@ -57,7 +57,7 @@ class CreatePullRequestTool(Tool):
 
         return json.dumps({
             "status": "success",
-            "message": f"Pull request #{pr_number} created successfully.",
+            "message": f"Pull request # "{pr_number} has been successfully created."
             "pr_number": pr_number
         }, indent=2)
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,12 +14,12 @@ class GetCampaignDetails(Tool):
         if not campaign_id:
             return json.dumps({"error": "campaign_id is required"}, indent=2)
         
-        # Get campaign details
+        # Retrieve campaign information.
         campaigns = list(data.get('campaigns', {}).values())
         campaign = next((c for c in campaigns if c.get('campaign_id') == campaign_id), None)
         
         if not campaign:
-            # If campaign not found, return a mock campaign for testing
+            # Return a mock campaign for testing if the campaign is not located.
             mock_campaign = {
                 "campaign_id": campaign_id,
                 "name": f"Campaign {campaign_id}",

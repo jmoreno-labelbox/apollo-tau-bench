@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class RevokeCertificationTool(Tool):
             return json.dumps({"error": "certifications must be a list"}, indent=2)
 
         certification_id = kwargs.get("certification_id")
-        # Optional timestamp field name chosen from existing datasets; avoids inventing new keys
+        # Optional field name for timestamp selected from available datasets; prevents the creation of new keys.
         expires_on = kwargs.get("expires_on")
 
         if not isinstance(certification_id, str) or not certification_id.strip():
@@ -28,10 +28,10 @@ class RevokeCertificationTool(Tool):
             return json.dumps({"error": f"Certification {certification_id} not found"}, indent=2)
 
         cert["status"] = "REVOKED"
-        # Clear completion if present
+        # Remove completion if it exists.
         if "completed_on" in cert:
             cert["completed_on"] = None
-        # Optionally stamp an end marker using an existing field name used in other datasets
+        # Optionally add an end marker utilizing a field name that is present in other datasets.
         if expires_on:
             cert["expires_on"] = expires_on
 

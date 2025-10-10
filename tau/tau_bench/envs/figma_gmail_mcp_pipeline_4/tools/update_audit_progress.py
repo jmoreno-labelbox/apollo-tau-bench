@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -30,7 +30,7 @@ class UpdateAuditProgress(Tool):
                 audit_found = True
                 old_progress = audit.get('progress_percentage', 0)
 
-                # Update audit progress
+                # Revise audit status
                 audit['progress_percentage'] = progress_percentage
                 audit['last_updated'] = datetime.now().isoformat()
 
@@ -39,14 +39,14 @@ class UpdateAuditProgress(Tool):
                 if notes:
                     audit['progress_notes'] = notes
 
-                # Auto-update status based on progress
+                # Automatically refresh status according to progress.
                 if progress_percentage == 100 and audit.get('status') == 'RUNNING':
                     audit['status'] = 'COMPLETED'
                     audit['completed_at'] = datetime.now().isoformat()
                 elif progress_percentage > 0 and audit.get('status') not in ['RUNNING', 'COMPLETED']:
                     audit['status'] = 'RUNNING'
 
-                # Add progress history
+                # Include progress tracking history.
                 if 'progress_history' not in audit:
                     audit['progress_history'] = []
                 audit['progress_history'].append({

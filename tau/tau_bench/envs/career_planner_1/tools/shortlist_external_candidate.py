@@ -6,7 +6,7 @@ from typing import Any
 class ShortlistExternalCandidate(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], candidate_id: str = None, job_id: str = None, recruiter_id: str = None) -> str:
-        # Assign a recruiter in a deterministic manner if not specified
+        # Assign a recruiter in a predictable way if none is provided.
         if not recruiter_id:
             if job_id in ["J001", "J002"]:
                 recruiter_id = "U301"
@@ -15,7 +15,7 @@ class ShortlistExternalCandidate(Tool):
             else:
                 recruiter_id = "U312"
 
-        # Generate a shortlist entry containing only necessary data
+        # Create a shortlist entry with only essential information.
         entry = {
             "candidate_id": candidate_id,
             "recruiter_id": recruiter_id,

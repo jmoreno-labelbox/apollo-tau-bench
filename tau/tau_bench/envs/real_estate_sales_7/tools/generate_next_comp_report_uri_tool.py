@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,9 +13,9 @@ class GenerateNextCompReportUriTool(Tool):
         base_url = kwargs.get("base_url") or "https://storage.example.com/reports/"
         prefix = kwargs.get("prefix") or "comp_"
         ext = kwargs.get("ext") or ".pdf"
-        pad_width = _as_int(kwargs.get("pad_width")) or 3  # 21 -> 021
+        pad_width = _as_int(kwargs.get("pad_width")) or 3  # 21 is formatted as 021.
 
-        # Find current max report_id
+        # Retrieve the latest report_id.
         max_id = 0
         for r in data.get("comp_reports", []):
             rid = _as_int(r.get("report_id") or r.get("id") or r.get("entity_id"))
@@ -29,8 +29,8 @@ class GenerateNextCompReportUriTool(Tool):
         out = {
             "next_report_id": next_id,
             "padded_id": padded,
-            "file_uri": uri,  # convenience
-            "doc_uri": uri,  # compat with update_comp_report_doc_uri
+            "file_uri": uri,  # ease of use
+            "doc_uri": uri,  # compatible with update_comp_report_document_uri
             "generated_at": HARD_TS,
         }
         return json.dumps(out, indent=2)
@@ -42,7 +42,7 @@ class GenerateNextCompReportUriTool(Tool):
             "function": {
                 "name": "generate_next_comp_report_uri",
                 "description": (
-                    "Builds https://storage.example.com/reports/comp_###.pdf using max report_id + 1 from comp_reports."
+                    "Builds https://storage.example.com/reports/comp_### ##.pdf utilizing the maximum report_id incremented by one from comp_reports.
                 ),
                 "parameters": {
                     "type": "object",

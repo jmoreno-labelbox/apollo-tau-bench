@@ -891,7 +891,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # 750
+    # Seven hundred fifty
     Task(
         annotator="variation_7",
         user_id="task_750",

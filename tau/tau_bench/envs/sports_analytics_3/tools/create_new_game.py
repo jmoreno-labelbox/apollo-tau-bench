@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,7 +26,7 @@ class CreateNewGame(Tool):
         home_team_id = kwargs.get("home_team_id")
         away_team_id = kwargs.get("away_team_id")
 
-        # 1) Validate required inputs
+        # 1) Check mandatory inputs for validity
         missing = []
         if not isinstance(date, str) or date == "":
             missing.append("date")
@@ -40,13 +40,13 @@ class CreateNewGame(Tool):
         if missing:
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        # 2) Get DB from passed-in data
+        # Retrieve the database from the provided data.
         games: List[Dict[str, Any]] = list(data.get("games", {}).values())
 
-        # 3) Generate a new unique game_pk deterministically from DB state
+        # 3) Create a new unique game_pk in a deterministic manner based on the database state.
         
 
-        # 4) Create the new game row with defaults
+        # 4) Initialize the new game entry with default values.
         new_row = {
             "game_pk": get_next_game_id(data),
             "game_date": date,
@@ -58,7 +58,7 @@ class CreateNewGame(Tool):
             "attendance": None
         }
 
-        # 5) Insert
+        # 5) Add
         games.append(new_row)
 
         return json.dumps(new_row, indent=2)

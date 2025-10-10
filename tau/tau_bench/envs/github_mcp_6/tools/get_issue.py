@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class GetIssue(Tool):
                 try:
                     issue_idx = issue_entry["issue_numbers"].index(issue_number)
 
-                    # Get basic issue data
+                    # Retrieve fundamental issue information.
                     title = issue_entry["issue_titles"][issue_idx]
                     body = issue_entry["issue_bodies"][issue_idx] if issue_idx < len(issue_entry.get("issue_bodies", [])) else ""
                     state = issue_entry["issue_states"][issue_idx]
@@ -28,7 +28,7 @@ class GetIssue(Tool):
                     created_at = issue_entry.get("created_ts", ["2023-12-05T12:00:00Z"])[issue_idx] if issue_idx < len(issue_entry.get("created_ts", [])) else "2023-12-05T12:00:00Z"
                     updated_at = issue_entry.get("updated_ts", ["2023-12-05T12:00:00Z"])[issue_idx] if issue_idx < len(issue_entry.get("updated_ts", [])) else "2023-12-05T12:00:00Z"
 
-                    # Generate mock reactions
+                    # Create simulated responses.
                     reactions = {
                         "+1": len(assignees),
                         "-1": 0,
@@ -40,7 +40,7 @@ class GetIssue(Tool):
                         "eyes": len(comments) + 1
                     }
 
-                    # Find linked pull requests (mock based on similar titles/labels)
+                    # Retrieve associated pull requests based on comparable titles/labels.
                     linked_prs = []
                     for pr_entry in pull_requests_data:
                         if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
@@ -48,7 +48,7 @@ class GetIssue(Tool):
                                 if any(word in pr_title.lower() for word in title.lower().split() if len(word) > 3):
                                     linked_prs.append(pr_entry["pr_numbers"][i])
 
-                    # Find referenced commits (mock based on title keywords)
+                    # Locate commits based on keywords in titles.
                     referenced_commits = []
                     for commit_entry in commits_data:
                         if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
@@ -83,8 +83,8 @@ class GetIssue(Tool):
                         "relationships": {
                             "repository": f"{owner}/{repo}",
                             "comments_count": len(comments),
-                            "linked_pull_requests": linked_prs[:3],  # Limit to first 3
-                            "referenced_in_commits": referenced_commits[:5],  # Limit to first 5
+                            "linked_pull_requests": linked_prs[:3],  # Restrict to a maximum of 3.
+                            "referenced_in_commits": referenced_commits[:5],  # Restrict to the initial 5.
                             "parent_issue": None,
                             "child_issues": []
                         },
@@ -100,7 +100,7 @@ class GetIssue(Tool):
 
         return json.dumps({
             "success": False,
-            "error": f"Issue #{issue_number} not found in repository {owner}/{repo}",
+            "error": f"Issue # "{issue_number} is not present in the repository {owner}/{repo}"
             "error_code": "ISSUE_NOT_FOUND",
             "metadata": {
                 "repository": f"{owner}/{repo}",
@@ -108,7 +108,7 @@ class GetIssue(Tool):
                 "search_timestamp": "2023-12-05T12:00:00Z"
             },
             "suggestions": [
-                f"Check if issue #{issue_number} exists in repository {owner}/{repo}",
+                f"Check if issue # Issue {issue_number} is present in the {owner}/{repo} repository.
                 "Verify repository name and owner are correct",
                 "Use search_issues tool to find available issues"
             ]

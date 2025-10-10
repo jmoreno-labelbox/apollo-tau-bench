@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright held by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,11 +17,11 @@ class ListAllFaresByRoute(Tool):
         offset: int = 0
         ) -> str:
 
-        # normalize inputs
+        # standardize inputs
         origin = (origin or "").upper()
         destination = (destination or "").upper()
 
-        # pagination
+        # page navigation
         try:
             limit = int(limit)
         except Exception:
@@ -52,7 +52,7 @@ class ListAllFaresByRoute(Tool):
                             "available_seats": info.get("available_seats"),
                         })
 
-        # sort by date then flight_number
+        # order by date followed by flight_number
         rows.sort(key=lambda x: (x["date"], x["flight_number"]))
 
         total = len(rows)

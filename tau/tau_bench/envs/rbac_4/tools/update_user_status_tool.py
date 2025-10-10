@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,12 +18,12 @@ class UpdateUserStatusTool(Tool):
         department = kwargs.get("department")
         mfa_enabled = kwargs.get("mfa_enabled")
 
-        # Locate user
+        # Find user
         user = next((u for u in users if u["user_id"] == user_id), None)
         if not user:
             return json.dumps({"error": f"User {user_id} not found"}, indent=2)
 
-        # Update details
+        # Revise information
         if new_status:
             user["status"] = new_status
             if new_status in ["SUSPENDED", "DISABLED"]:
@@ -35,7 +35,7 @@ class UpdateUserStatusTool(Tool):
         if mfa_enabled is not None:
             user["mfa_enabled"] = mfa_enabled
 
-        # Audit
+        # Review
         log_id = f"L-{len(audit_logs) + 1:03d}"
         audit_logs.append({
             "log_id": log_id,

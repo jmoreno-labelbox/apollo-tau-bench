@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class FindFlights(Tool):
     ) -> str:
         from datetime import datetime
 
-        # Validate required parameters
+        # Check mandatory parameters.
         if not all([origin, destination, date]):
             return json.dumps({
                 "status": "missing_parameters",
@@ -29,7 +29,7 @@ class FindFlights(Tool):
                 "required": ["origin", "destination", "date"]
             })
 
-        # Validate date format
+        # Check the format of the date.
         try:
             datetime.strptime(date, "%Y-%m-%d")
         except ValueError:
@@ -39,7 +39,7 @@ class FindFlights(Tool):
                 "received": date
             })
 
-        # Validate cabin class if provided
+        # Check if the cabin class is specified and validate it.
         valid_cabins = ["basic_economy", "economy", "business", "first"]
         if cabin_class and cabin_class not in valid_cabins:
             return json.dumps({
@@ -48,21 +48,21 @@ class FindFlights(Tool):
                 "received": cabin_class
             })
 
-        # Search flights
+        # Look for available flights.
         flights = list(data.get("flights", {}).values())
         matching_flights = []
 
         for flight in flights:
-            # Check route match
+            # Verify route correspondence
             if (flight.get("origin") == origin and
                 flight.get("destination") == destination):
 
-                # Check if flight operates on the specified date
+                # Verify if the flight is scheduled for the given date.
                 flight_dates = flight.get("dates", {})
                 if date in flight_dates:
                     date_info = flight_dates[date]
                     
-                    # Check if flight is available
+                    # Verify flight availability.
                     if date_info.get("status") == "available":
                         flight_result = {
                             "flight_number": flight.get("flight_number"),
@@ -76,16 +76,16 @@ class FindFlights(Tool):
                             "aircraft_id": flight.get("aircraft_id")
                         }
 
-                        # Apply cabin class filter
+                        # Implement cabin class filtering.
                         if cabin_class:
                             if cabin_class in flight_result["prices"]:
                                 flight_result["selected_cabin_price"] = flight_result["prices"][cabin_class]
                                 matching_flights.append(flight_result)
                         else:
-                            # Include all available cabin classes
+                            # Incorporate every accessible cabin class.
                             matching_flights.append(flight_result)
 
-        # Apply price filter
+        # Implement price filter
         if max_price is not None:
             filtered_flights = []
             for flight in matching_flights:
@@ -95,9 +95,9 @@ class FindFlights(Tool):
                     filtered_flights.append(flight)
             matching_flights = filtered_flights
 
-        # Sort flights by price (lowest first)
+        # Arrange flights in ascending order of price.
         if matching_flights:
-            # Get the lowest price for each flight for sorting
+            # Retrieve the minimum fare for each flight to facilitate sorting.
             for flight in matching_flights:
                 prices = flight.get("prices", {})
                 if prices:
@@ -108,7 +108,7 @@ class FindFlights(Tool):
 
             matching_flights.sort(key=lambda x: x["lowest_price"])
 
-        # Prepare response
+        # Compose reply.
         response = {
             "search_criteria": {
                 "origin": origin,
@@ -121,7 +121,7 @@ class FindFlights(Tool):
             "flights": matching_flights
         }
 
-        # Add pricing summary if flights found
+        # Include a pricing summary when flights are available.
         if matching_flights:
             all_prices = []
             for flight in matching_flights:

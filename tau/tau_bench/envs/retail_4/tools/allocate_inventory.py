@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class AllocateInventory(Tool):
         Allocate inventory for order fulfillment with availability validation
         Supports both single item and batch processing with multiple items
         """
-        # Validate input parameters
+        # Check the validity of input parameters.
         if not item_id and not item_ids:
             return json.dumps({
                 "error": "Either item_id or item_ids must be provided",
@@ -25,14 +25,14 @@ class AllocateInventory(Tool):
                 "status": "failed"
             })
 
-        # Build list of items to process
+        # Create a collection of items for processing.
         items_to_process = []
         if item_id:
             items_to_process.append(item_id)
         if item_ids:
             items_to_process.extend(item_ids)
 
-        # Remove duplicates while preserving order
+        # Eliminate duplicates while maintaining the sequence.
         items_to_process = list(dict.fromkeys(items_to_process))
 
         if not items_to_process:
@@ -47,7 +47,7 @@ class AllocateInventory(Tool):
                 "status": "failed"
             })
 
-        # Rule: Confirm item_id exists in product variants before including in orders
+        # Validation: Ensure item_id is present in product variants prior to adding to orders.
         products = list(data.get("products", {}).values())
         allocation_results = []
         successful_allocations = []
@@ -73,7 +73,7 @@ class AllocateInventory(Tool):
                 })
                 continue
 
-            # Rule: Check product availability status before allocation - never allocate unavailable items
+            # Policy: Verify product availability prior to allocation - do not allocate items that are not in stock.
             is_available = variant_found.get("available", False)
             if not is_available:
                 failed_allocations.append({
@@ -83,7 +83,7 @@ class AllocateInventory(Tool):
                 })
                 continue
 
-            # Rule: Use exact variant pricing from product catalog - no unauthorized price modifications
+            # Guideline: Implement precise variant pricing from the product catalog - avoid any unauthorized alterations to prices.
             unit_price = variant_found.get("price", 0)
             total_price = unit_price * quantity
 
@@ -102,7 +102,7 @@ class AllocateInventory(Tool):
             successful_allocations.append(allocation_result)
             total_allocation_value += total_price
 
-        # Determine overall status
+        # Assess overall condition
         overall_status = "success" if successful_allocations else "failed"
         if successful_allocations and failed_allocations:
             overall_status = "partial_success"

@@ -1,7 +1,7 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 
-# Helper function
+# Utility function
 import uuid
 
 def generate_unique_id():

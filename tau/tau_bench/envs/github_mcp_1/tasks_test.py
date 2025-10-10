@@ -158,7 +158,7 @@ Task(
     annotator="0",
     user_id="task_32",
     instruction=(
-        "Operate as 'server-main' with 'backend@coreservices.io' and auth key 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h'. For 'payments-service', append a diagnostic comment 'Added extra 3DS telemetry to reproduce; monitoring for failures.' to issue #13, close issue #15, and subsequently, enumerate all issues for the repository."
+        "Operate as 'server-main' with 'backend@coreservices.io' and auth key 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h'. For 'payments-service', append a diagnostic comment 'Added extra 3DS telemetry to reproduce; monitoring for failures.' to issue #13, close issue # 13, resolve issue #15, and then list all issues for the repository.
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={
@@ -343,7 +343,7 @@ Task(
     annotator="0",
     user_id="task_34",
     instruction=(
-        "Handle the authorization and merge pull request #12 for the 'ui-kit' repository as 'design-team' with the email 'team@uidesign.co' and authentication key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'."
+        "Handle the authorization and merge pull request # 12 for the 'ui-kit' repo as 'design-team' using the email 'team@uidesign.co' and auth key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'.
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={
@@ -411,8 +411,8 @@ Task(
             "repo_name": "ui-kit",
             "issue_number": 101
         }),
-        # Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
-        # Action(name="ListAllTerminalMessage", kwargs={}),
+        # Action(name="FetchAllIssuesForRepository", kwargs={"owner": "design-team", "repository": "ui-kit"}),
+        # Action(name="RetrieveAllTerminalMessages", kwargs={}),
     ],
     outputs=[]
 ),
@@ -458,7 +458,7 @@ Task(
     annotator="0",
     user_id="task_01",
     instruction=(
-        "Operate as 'maya-w' using 'alice.w@acme.dev' and the authorization key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your task involves adding a new security policy to the repository 'acme-webapp' (description: 'A sample demonstration repository') by creating a feature branch 'feature-security-policy'. This branch should introduce a file named 'SECURITY.md' at the root of the repository containing '## Security Policy. Please report vulnerabilities to security@acme.dev within 24 hours.'. Then, initiate a pull request into 'main' with the title 'Add security policy' and the body 'Introduce SECURITY.md with coordinated disclosure instructions.' for these updates."
+        "Operate as 'maya-w' using 'alice.w@acme.dev' and the authorization key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your task involves adding a new security policy to the repository 'acme-webapp' (description: 'A sample demonstration repository') by creating a feature branch 'feature-security-policy'. This branch should introduce a file named 'SECURITY.md' at the root of the repository containing '## Security Policy. Report any vulnerabilities to security@acme.dev within 24 hours. Then, create a pull request to 'main' titled 'Add security policy' with the description 'Add SECURITY.md containing coordinated disclosure guidelines.' for these changes.
     ),
     actions=[
         Action(
@@ -471,7 +471,7 @@ Task(
         ),
         Action(
             name="AddNewFileInRepo",
-            kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "feature-security-policy", "file_name": "SECURITY.md", "file_content": "## Security Policy. Please report vulnerabilities to security@acme.dev within 24 hours."}
+            kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "feature-security-policy", "file_name": "SECURITY.md", "file_content": "## Security Policy: Report any vulnerabilities to security@acme.dev within 24 hours.
         ),
         Action(
             name="InitialCommit",
@@ -492,7 +492,7 @@ Task(
     annotator="0",
     user_id="task_02",
     instruction=(
-        "Take on the role of 'maya-w' with the email 'alice.w@acme.dev' and the authorization key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r', then proceed to designate nathan for pull request#5 in the repository 'acme-webapp'. He has added a comment 'Nice Job' and has given approval for the PR."
+        "Take on the role of 'maya-w' with the email 'alice.w@acme.dev' and the authorization key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r', then proceed to designate nathan for pull request# 5 in the 'acme-webapp' repository. He commented 'Nice Job' and approved the PR.
     ),
     actions=[
         Action(
@@ -526,7 +526,7 @@ Task(
     annotator="0",
     user_id="task_03",
     instruction=(
-        "Act as 'design-team' with the contact 'team@uidesign.co' and the auth key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s', then manage the process to finalize the pull request #11, previously approved and ready for merging, for the 'ui-kit' repository. This ensures the main branch reflects the sanctioned changes and tidies up the feature branch."
+        "Act as 'design-team' with the contact 'team@uidesign.co' and the auth key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s', then manage the process to finalize the pull request # 11, already approved and prepared for merging, for the 'ui-kit' repository. This guarantees that the main branch incorporates the approved modifications and cleans up the feature branch.
     ),
     actions=[
         Action(
@@ -624,34 +624,34 @@ Task(
                 name="MergeBranch",
                 kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "source_branch_name":"feature-add-cli", "target_branch_name":"main"},
             ),
-        # Action(
-        #     name="markPrAsMerged",
-        #     kwargs={"owner": "design-team", "repo_name": "ui-kit", "pr_number": 11}
+        # Operation(
+        # identifier="markPrAsMerged",
+        # kwargs={"owner": "design-team", "repository": "ui-kit", "pull_request": 11}
         # ),
         Action(
             name="DeleteBranch",
             kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "feature-add-cli"}
         ),
-        # Action(
-        #     name="createPullRequest",
-        #     kwargs={
+        # Operation(
+        # identifier="createPullRequest",
+        # additional_arguments={
         #         "owner": "maya-w",
-        #         "repo_name": "acme-webapp",
-        #         "pr_title": "Add CLI tool",
-        #         "pr_body": "Introduce simple CLI entrypoint.",
-        #         "head_branch_name": "feature-add-cli",
-        #         "base_branch_name": "main",
+        # "repository_name": "acme-webapp",
+        # "pr_title": "Implement command-line interface utility",
+        # "pr_body": "Add a basic CLI entry point."
+        # "branch_name": "feature-add-cli",
+        # "base_branch_identifier": "main",
         #         "head_sha": "commit_sha_101",
-        #         "pr_files": ["cli/main.py"]
+        # "pr_files": ["cli/main_script.py"]
         #     }
         # ),
-        # Action(
-        #     name="approvePr",
-        #     kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "pr_number": 101}
+        # Execute(
+        # identifier="approvePr",
+        # kwargs={"owner": "maya-w", "repository": "acme-webapp", "pull_request": 101}
         # ),
-        # Action(
-        #     name="mergePullRequest",
-        #     kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "pr_number": 101}
+        # Operation(
+        # identifier="mergePullRequest",
+        # kwargs={"owner": "maya-w", "repository": "acme-webapp", "pull_request": 101}
         # ),
         Action(
             name="GetRepoInfoForOwner",
@@ -814,12 +814,12 @@ Task(
     annotator="0",
     user_id="task_11",
     instruction=(
-        "You are 'maya-w' with 'alice.w@acme.dev' and auth key as 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to make sure the repository 'acme-webapp' results in a new document at 'docs/RELEASE_NOTES_1.1.0.md' whose contents are precisely '## 1.1.0 - Minor fixes - Docs update'. This alteration must commence from the line named 'release-notes-1.1.0', be written by 'maya-w', and be presented through a pull request entitled 'Docs: Release notes 1.1.0' with the explanation 'Add release notes for version 1.1.0.' The pull request should be reviewed by 'nathan'."
+        "You are 'maya-w' with 'alice.w@acme.dev' and auth key as 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to make sure the repository 'acme-webapp' results in a new document at 'docs/RELEASE_NOTES_1.1.0.md' whose contents are precisely '## 1.1.0 - Small corrections - Documentation update. This change should start at the line labeled 'release-notes-1.1.0', authored by 'maya-w', and submitted via a pull request titled 'Docs: Release notes 1.1.0' with the description 'Include release notes for version 1.1.0.' The pull request needs to be evaluated by 'nathan'.
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
         Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
-        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Minor fixes - Docs update"}),
+        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Small corrections - Documentation update
         Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
         Action(name="CreatePullRequest", kwargs={
             "owner": "maya-w",
@@ -907,7 +907,7 @@ Task(
             "repo_name": "acme-webapp",
             "issue_number": 101
         }),
-        # Action(name="GetAllIssuesForRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp"}),
+        # Action(name="FetchAllRepoIssues", kwargs={"owner": "maya-w", "repository": "acme-webapp"}),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
     outputs=[]
@@ -947,8 +947,8 @@ Task(
             "repo_name": "ui-kit",
             "issue_number": 101
         }),
-        # Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
-        # Action(name="ListAllTerminalMessage", kwargs={}),
+        # Action(name="FetchAllRepoIssues", kwargs={"owner": "design-team", "repository": "ui-kit"}),
+        # Action(name="ListAllTerminalMessage", parameters={}),
     ],
     outputs=[]
 ),
@@ -1005,8 +1005,8 @@ Task(
             "alert_number": 101,
             "dismiss_reason": "false_positive"
         }),
-        # Action(name="ListOpenAlertsForRepo", kwargs={
-        #     "owner": "design-team", "repo_name": "ui-kit"
+        # Action(identifier="ListOpenAlertsForRepo", parameters={
+        # "owner": "design-group", "repository_name": "ui-library"
         # }),
         Action(name="GetAlertDetails", kwargs={
             "owner": "design-team", "repo_name": "ui-kit",
@@ -1067,10 +1067,10 @@ Task(
             "owner": "maya-w",
             "repo_name": "acme-webapp"
         }),
-        # Action(name="GetAlertDetails", kwargs={
+        # Action(identifier="RetrieveAlertInfo", parameters={
         #     "owner": "maya-w",
-        #     "repo_name": "acme-webapp",
-        #     "alert_number": 9
+        # "repository_name": "acme-webapp",
+        # "notification_count": 9
         # }),
         Action(name="DismissAlert", kwargs={
             "owner": "maya-w",
@@ -1526,10 +1526,10 @@ Task(
             "description": "Unvalidated redirect detected in checkout flow",
             "ref": "refs/heads/main"
         }),
-        # Action(name="GetAlertDetails", kwargs={
-        #     "owner": "ml-engineer",
-        #     "repo_name": "ml-pipeline",
-        #     "alert_number": 101
+        # Action(identifier="GetAlertDetails", parameters={
+        # "owner": "machine-learning-engineer",
+        # "repository_name": "ml-pipeline",
+        # "notification_id": 101
         # }),
         Action(name="DismissAlert", kwargs={
             "owner": "ml-engineer",
@@ -1583,7 +1583,7 @@ Task(
     annotator="0",
     user_id="task_37",
     instruction=(
-        "Act as 'design-team' with 'team@uidesign.co' using the auth key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'. Proceed to merge the current pull request #11 in the 'ui-kit' repository."
+        "Act as 'design-team' with 'team@uidesign.co' using the auth key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'. Proceed to merge the current pull request # 11 within the 'ui-kit' repository.
     ),
     actions=[
         Action(
@@ -1659,8 +1659,8 @@ Task(
             "repo_name": "ui-kit",
             "issue_number": 101
         }),
-        # Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
-        # Action(name="ListAllTerminalMessage", kwargs={}),
+        # Action(name="RetrieveAllIssuesForRepository", kwargs={"owner": "design-team", "repository_name": "ui-kit"}),
+        # Action(name="ListAllTerminalMessage", parameters={}),
     ],
     outputs=[]
 ),
@@ -1707,7 +1707,7 @@ Task(
     annotator="0",
     user_id="task_41",
     instruction=(
-        "Act as 'design-team' with the email 'team@uidesign.co' and authentication key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'. Your assignment is to incorporate a new security policy into the present repository 'ui-kit' (description: 'A sample demonstration repository'). Introduce this by creating a feature branch 'feature-security-policy' which adds a file titled 'SECURITY.md' at the root of the repository containing '## Security Policy. Please report vulnerabilities to security@acme.dev within 24 hours.'. Submit a pull request into 'main' with the title 'Add security policy' and description 'Introduce SECURITY.md with coordinated disclosure instructions.' to apply this update."
+        "Act as 'design-team' with the email 'team@uidesign.co' and authentication key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s'. Your assignment is to incorporate a new security policy into the present repository 'ui-kit' (description: 'A sample demonstration repository'). Introduce this by creating a feature branch 'feature-security-policy' which adds a file titled 'SECURITY.md' at the root of the repository containing '## Security Policy. Report any vulnerabilities to security@acme.dev within 24 hours. To implement this update, submit a pull request to 'main' titled 'Add security policy' and include a description of 'Introduce SECURITY.md with coordinated disclosure guidelines.'
     ),
     actions=[
         Action(
@@ -1720,7 +1720,7 @@ Task(
         ),
         Action(
             name="AddNewFileInRepo",
-            kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-security-policy", "file_name": "SECURITY.md", "file_content": "## Security Policy. Please report vulnerabilities to security@acme.dev within 24 hours."}
+            kwargs={"owner": "design-team", "repo_name": "ui-kit", "branch_name": "feature-security-policy", "file_name": "SECURITY.md", "file_content": "## Security policy: Report any vulnerabilities to security@acme.dev within 24 hours.
         ),
         Action(
             name="InitialCommit",
@@ -1741,7 +1741,7 @@ Task(
     annotator="0",
     user_id="task_42",
     instruction=(
-        "Assume the identity of 'maya-w' using 'alice.w@acme.dev' and the authorization key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your task is to delegate the assignment of nathan to pull request#5 within the 'acme-webapp' repository, where he left the comment 'Nice Job' and gave his approval for the PR."
+        "Assume the identity of 'maya-w' using 'alice.w@acme.dev' and the authorization key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your task is to delegate the assignment of nathan to pull request# 5 in the 'acme-webapp' repository, where he remarked 'Great Work' and approved the PR.
     ),
     actions=[
         Action(
@@ -1803,9 +1803,9 @@ Task(
                 name="MergeBranch",
                 kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "source_branch_name":"feature-add-cli", "target_branch_name":"main"},
             ),
-        # Action(
-        #     name="markPrAsMerged",
-        #     kwargs={"owner": "design-team", "repo_name": "ui-kit", "pr_number": 11}
+        # Operation(
+        # name="markProcessedAsMerged",
+        # kwargs={"owner": "design-team", "repository": "ui-kit", "pull_request": 11}
         # ),
         Action(
             name="DeleteBranch",
@@ -1859,12 +1859,12 @@ Task(
     annotator="0",
     user_id="task_47",
     instruction=(
-        "Operating as 'maya-w' with 'alice.w@acme.dev' and the authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r', your responsibility is to ensure that the repository 'acme-webapp' receives a new document at 'docs/RELEASE_NOTES_1.1.0.md', containing exactly '## 1.1.0 - Minor fixes - Docs update'. This modification must start from the branch named 'release-notes-1.1.0', authored by 'maya-w', and be incorporated via a pull request called 'Docs: Release notes 1.1.0' with the body 'Add release notes for version 1.1.0.' The pull request needs a review from 'nathan'."
+        "Operating as 'maya-w' with 'alice.w@acme.dev' and the authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r', your responsibility is to ensure that the repository 'acme-webapp' receives a new document at 'docs/RELEASE_NOTES_1.1.0.md', containing exactly '## Version 1.1.0 - Small updates - Documentation revision. This change should originate from the 'release-notes-1.1.0' branch, created by 'maya-w', and merged through a pull request titled 'Docs: Release notes 1.1.0', containing the description 'Include release notes for version 1.1.0.' The pull request requires review by 'nathan'.
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
         Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
-        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Minor fixes - Docs update"}),
+        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Small corrections - Documentation revised"}),
         Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
         Action(name="CreatePullRequest", kwargs={
             "owner": "maya-w",
@@ -1952,7 +1952,7 @@ Task(
             "repo_name": "acme-webapp",
             "issue_number": 101
         }),
-        # Action(name="GetAllIssuesForRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp"}),
+        # Action(name="RetrieveAllIssuesForRepository", kwargs={"owner": "maya-w", "repository": "acme-webapp"}),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
     outputs=[]
@@ -1992,8 +1992,8 @@ Task(
             "repo_name": "ui-kit",
             "issue_number": 101
         }),
-        # Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
-        # Action(name="ListAllTerminalMessage", kwargs={}),
+        # Action(name="FetchAllIssuesForRepository", kwargs={"owner": "design-team", "repository_name": "ui-kit"}),
+        # Action(identifier="ListAllTerminalMessage", parameters={}),
     ],
     outputs=[]
 ),
@@ -2119,10 +2119,10 @@ Task(
             "description": "Unvalidated redirect detected in checkout flow",
             "ref": "refs/heads/main"
         }),
-        # Action(name="GetAlertDetails", kwargs={
-        #     "owner": "ml-engineer",
-        #     "repo_name": "ml-pipeline",
-        #     "alert_number": 101
+        # Action(identifier="GetAlertDetails", parameters={
+        # "creator": "ml-engineer",
+        # "repository_name": "ml-pipeline",
+        # "alert_id": 101
         # }),
         Action(name="DismissAlert", kwargs={
             "owner": "ml-engineer",
@@ -2176,7 +2176,7 @@ Task(
     annotator="0",
     user_id="task_55",
     instruction=(
-        "Operating as 'design-team' with 'team@uidesign.co' and using the authorization key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s', coordinate the merge of the existing pull request #11 in the 'ui-kit' repository."
+        "Operating as 'design-team' with 'team@uidesign.co' and using the authorization key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s', coordinate the merge of the existing pull request # 11 within the 'ui-kit' repository.
     ),
     actions=[
         Action(
@@ -2243,8 +2243,8 @@ Task(
             "alert_number": 101,
             "dismiss_reason": "false_positive"
         }),
-        # Action(name="ListOpenAlertsForRepo", kwargs={
-        #     "owner": "design-team", "repo_name": "ui-kit"
+        # Action(identifier="ListOpenAlertsForRepo", parameters={
+        # "owner": "design-team", "repository_name": "ui-kit"
         # }),
         Action(name="GetAlertDetails", kwargs={
             "owner": "design-team", "repo_name": "ui-kit",
@@ -2309,10 +2309,10 @@ Task(
             "owner": "maya-w",
             "repo_name": "acme-webapp"
         }),
-        # Action(name="GetAlertDetails", kwargs={
+        # Action(identifier="GetAlertDetails", parameters={
         #     "owner": "maya-w",
-        #     "repo_name": "acme-webapp",
-        #     "alert_number": 9
+        # "repository_name": "acme-webapp",
+        # "notification_count": 9
         # }),
         Action(name="DismissAlert", kwargs={
             "owner": "maya-w",
@@ -2384,10 +2384,10 @@ Task(
             "description": "Unvalidated redirect detected in checkout flow",
             "ref": "refs/heads/main"
         }),
-        # Action(name="GetAlertDetails", kwargs={
-        #     "owner": "ml-engineer",
-        #     "repo_name": "ml-pipeline",
-        #     "alert_number": 101
+        # Action(identifier="GetAlertDetails", parameters={
+        # "owner": "machine-learning-engineer",
+        # "repository_name": "ml-pipeline",
+        # "alert_id": 101
         # }),
         Action(name="DismissAlert", kwargs={
             "owner": "ml-engineer",
@@ -2474,7 +2474,7 @@ Task(
     annotator="0",
     user_id="task_63",
     instruction=(
-        "Function as 'maya-w' with 'alice.w@acme.dev' and authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your role is to appoint nathan to pull request#5 in the 'acme-webapp' repository, where he added the comment 'Nice Job' and granted his approval for the PR."
+        "Function as 'maya-w' with 'alice.w@acme.dev' and authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your role is to appoint nathan to pull request# 5 in the 'acme-webapp' repository, where he commented 'Great work' and approved the PR.
     ),
     actions=[
         Action(
@@ -2513,7 +2513,7 @@ Task(
     annotator="0",
     user_id="task_64",
     instruction=(
-        "As 'server-main' with 'backend@coreservices.io' and using the auth key 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h', for 'payments-service', insert a diagnostic comment 'Added extra 3DS telemetry to reproduce; monitoring for failures.' to issue #13, close issue #15, and then compile a list of all issues in the repository."
+        "As 'server-main' with 'backend@coreservices.io' and using the auth key 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h', for 'payments-service', insert a diagnostic comment 'Added extra 3DS telemetry to reproduce; monitoring for failures.' to issue #13, close issue # 13, resolve issue #15, and then generate a comprehensive list of all issues in the repository.
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={
@@ -2556,10 +2556,10 @@ Task(
             "owner": "maya-w",
             "repo_name": "acme-webapp"
         }),
-        # Action(name="GetAlertDetails", kwargs={
+        # Action(identifier="GetAlertDetails", parameters={
         #     "owner": "maya-w",
-        #     "repo_name": "acme-webapp",
-        #     "alert_number": 9
+        # "repository_name": "acme-webapp",
+        # "notification_count": 9
         # }),
         Action(name="DismissAlert", kwargs={
             "owner": "maya-w",
@@ -2665,12 +2665,12 @@ Task(
     annotator="0",
     user_id="task_69",
     instruction=(
-        "Act as 'maya-w' with 'alice.w@acme.dev' and the authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to confirm that the repository 'acme-webapp' culminates in a new document at 'docs/RELEASE_NOTES_1.1.0.md' with contents precisely '## 1.1.0 - Minor fixes - Docs update'. This alteration must commence from the branch named 'release-notes-1.1.0', be authored by 'maya-w', and be introduced through a pull request titled 'Docs: Release notes 1.1.0' with the description 'Add release notes for version 1.1.0.' The pull request requires a review by 'nathan'."
+        "Act as 'maya-w' with 'alice.w@acme.dev' and the authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to confirm that the repository 'acme-webapp' culminates in a new document at 'docs/RELEASE_NOTES_1.1.0.md' with contents precisely '## 1.1.0 - Minor adjustments - Documentation revision. This change should start from the 'release-notes-1.1.0' branch, be created by 'maya-w', and submitted via a pull request named 'Docs: Release notes 1.1.0' with the description 'Include release notes for version 1.1.0.' The pull request needs to be reviewed by 'nathan'.
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
         Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
-        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Minor fixes - Docs update"}),
+        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Small corrections - Documentation revision
         Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
         Action(name="CreatePullRequest", kwargs={
             "owner": "maya-w",
@@ -2776,9 +2776,9 @@ Task(
                 name="MergeBranch",
                 kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "source_branch_name":"feature-add-cli", "target_branch_name":"main"},
             ),
-        # Action(
-        #     name="markPrAsMerged",
-        #     kwargs={"owner": "design-team", "repo_name": "ui-kit", "pr_number": 11}
+        # Perform an action
+        # name="markPrAsCombined",
+        # kwargs={"owner": "design-team", "repository": "ui-kit", "pull_request": 11}
         # ),
         Action(
             name="DeleteBranch",
@@ -2916,12 +2916,12 @@ Task(
     annotator="0",
     user_id="task_75",
     instruction=(
-        "Assume the identity of 'maya-w' with 'alice.w@acme.dev' and utilize the authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your duty is to guarantee that the repository 'acme-webapp' is updated to include a new document at 'docs/RELEASE_NOTES_1.1.0.md', containing exactly '## 1.1.0 - Minor fixes - Docs update'. This modification should stem from the branch 'release-notes-1.1.0', be authored by 'maya-w', and be implemented through a pull request with the title 'Docs: Release notes 1.1.0' and the body text 'Add release notes for version 1.1.0.' Reviews must be completed by 'nathan'."
+        "Assume the identity of 'maya-w' with 'alice.w@acme.dev' and utilize the authentication key 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your duty is to guarantee that the repository 'acme-webapp' is updated to include a new document at 'docs/RELEASE_NOTES_1.1.0.md', containing exactly '## Version 1.1.0 - Minor corrections - Documentation update. This change should originate from the 'release-notes-1.1.0' branch, be created by 'maya-w', and submitted via a pull request titled 'Docs: Release notes 1.1.0' with the description 'Add release notes for version 1.1.0.' Reviews are to be finalized by 'nathan'.
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
         Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
-        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Minor fixes - Docs update"}),
+        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Minor adjustments - Documentation update
         Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
         Action(name="CreatePullRequest", kwargs={
             "owner": "maya-w",
@@ -3009,7 +3009,7 @@ Task(
             "repo_name": "acme-webapp",
             "issue_number": 101
         }),
-        # Action(name="GetAllIssuesForRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp"}),
+        # Action(name="FetchAllIssuesForRepository", kwargs={"owner": "maya-w", "repository": "acme-webapp"}),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
     outputs=[]
@@ -3049,8 +3049,8 @@ Task(
             "repo_name": "ui-kit",
             "issue_number": 101
         }),
-        # Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
-        # Action(name="ListAllTerminalMessage", kwargs={}),
+        # Action(name="FetchAllIssuesForRepository", kwargs={"owner": "design-team", "repository_name": "ui-kit"}),
+        # Action(name="ListAllTerminalMessage", parameters={}),
     ],
     outputs=[]
 ),
@@ -3149,12 +3149,12 @@ Task(
     annotator="0",
     user_id="task_82",
     instruction=(
-        "Act as 'maya-w' with 'alice.w@acme.dev' and your auth key is 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to have the repository 'acme-webapp' achieve the state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' is in place, with the exact contents '## 1.1.0 - Minor fixes - Docs update'. This alteration should derive from the line named 'release-notes-1.1.0', be created by 'maya-w', and be enacted through a pull request titled 'Docs: Release notes 1.1.0' carrying the body 'Add release notes for version 1.1.0.' It is essential for the pull request to be reviewed by 'nathan'."
+        "Act as 'maya-w' with 'alice.w@acme.dev' and your auth key is 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to have the repository 'acme-webapp' achieve the state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' is in place, with the exact contents '## 1.1.0 - Small corrections - Documentation update. This change should originate from the line labeled 'release-notes-1.1.0', be authored by 'maya-w', and implemented via a pull request named 'Docs: Release notes 1.1.0' with the content 'Include release notes for version 1.1.0.' The pull request must be approved by 'nathan'.
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
         Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
-        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Minor fixes - Docs update"}),
+        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Bug fixes - Documentation update
         Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
         Action(name="CreatePullRequest", kwargs={
             "owner": "maya-w",
@@ -3242,7 +3242,7 @@ Task(
             "repo_name": "acme-webapp",
             "issue_number": 101
         }),
-        # Action(name="GetAllIssuesForRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp"}),
+        # Action(name="FetchAllIssuesForRepository", kwargs={"owner": "maya-w", "repository": "acme-webapp"}),
         Action(name="ListAllTerminalMessage", kwargs={}),
     ],
     outputs=[]
@@ -3282,8 +3282,8 @@ Task(
             "repo_name": "ui-kit",
             "issue_number": 101
         }),
-        # Action(name="GetAllIssuesForRepo", kwargs={"owner": "design-team", "repo_name": "ui-kit"}),
-        # Action(name="ListAllTerminalMessage", kwargs={}),
+        # Action(name="FetchAllIssuesForRepository", kwargs={"owner": "design-team", "repository": "ui-kit"}),
+        # Action(identifier="ListAllTerminalMessage", parameters={}),
     ],
     outputs=[]
 ),
@@ -3333,10 +3333,10 @@ Task(
             "description": "Unvalidated redirect detected in checkout flow",
             "ref": "refs/heads/main"
         }),
-        # Action(name="GetAlertDetails", kwargs={
-        #     "owner": "ml-engineer",
-        #     "repo_name": "ml-pipeline",
-        #     "alert_number": 101
+        # Action(identifier="GetAlertDetails", parameters={
+        # "owner": "machine-learning-engineer",
+        # "repository_name": "ml-pipeline",
+        # "alert_id": 101
         # }),
         Action(name="DismissAlert", kwargs={
             "owner": "ml-engineer",
@@ -3355,7 +3355,7 @@ Task(
     annotator="0",
     user_id="task_88",
     instruction=(
-        "As 'server-main' using 'backend@coreservices.io' with the authorization key 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h', proceed with adding a diagnostic comment 'Added extra 3DS telemetry to reproduce; monitoring for failures.' to issue #13 within 'payments-service', and ensure closing issue #15, followed by listing all the issues for the repo."
+        "As 'server-main' using 'backend@coreservices.io' with the authorization key 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h', proceed with adding a diagnostic comment 'Added extra 3DS telemetry to reproduce; monitoring for failures.' to issue #13 within 'payments-service', and ensure closing issue # 13 in 'payments-service', and close issue #15, then enumerate all issues for the repository.
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={
@@ -3423,7 +3423,7 @@ Task(
     annotator="0",
     user_id="task_90",
     instruction=(
-        "As 'design-team' using 'team@uidesign.co' and the authentication key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s', handle the approval and merging of pull request #12 for the ui-kit repository."
+        "As 'design-team' using 'team@uidesign.co' and the authentication key 'ghp_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s', handle the approval and merging of pull request # 12 for the UI kit repository.
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={
@@ -3613,7 +3613,7 @@ Task(
 annotator="0",
 user_id="task_95",
     instruction=(
-        "You are 'server-main' with 'backend@coreservices.io' and auth key as 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h'. Resolve the open issue #15 in 'payments-service' titled 'Timeout too aggressive': append a QA confirmation comment 'Validated 60s timeout in staging.' by 'qa-erin'."
+        "You are 'server-main' with 'backend@coreservices.io' and auth key as 'ghp_z5y4x3w2v1u0t9s8r7q6p5o4n3m2l1k0j9i8h'. Resolve the open issue # In 'payments-service' issue 15, labeled 'Timeout too aggressive': add a QA verification comment 'Confirmed 60s timeout in staging.' from 'qa-erin'.
     ),
 actions=[
 Action(name="AuthenticateUser", kwargs={
@@ -3640,12 +3640,12 @@ Task(
     annotator="0",
     user_id="task_96",
     instruction=(
-        "You are 'maya-w' with 'alice.w@acme.dev' and auth key as 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to make sure the repository 'acme-webapp' achieves a state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' exists with the contents exactly '## 1.1.0 - Minor fixes - Docs update'. This alteration needs to start from the line named 'release-notes-1.1.0', be executed by 'maya-w', and be presented through a pull request titled 'Docs: Release notes 1.1.0' with body 'Add release notes for version 1.1.0.' The pull request requires a review from 'nathan'."
+        "You are 'maya-w' with 'alice.w@acme.dev' and auth key as 'ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r'. Your responsibility is to make sure the repository 'acme-webapp' achieves a state where a new document at 'docs/RELEASE_NOTES_1.1.0.md' exists with the contents exactly '## 1.1.0 - Small adjustments - Documentation update. This change should commence at the 'release-notes-1.1.0' line, implemented by 'maya-w', and submitted via a pull request named 'Docs: Release notes 1.1.0' with the description 'Include release notes for version 1.1.0.' The pull request needs to be reviewed by 'nathan'.
     ),
     actions=[
         Action(name="AuthenticateUser", kwargs={"username": "maya-w", "email": "alice.w@acme.dev", "auth_key": "ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"}),
         Action(name="CreateNewBranch", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "base_branch": "main"}),
-        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Minor fixes - Docs update"}),
+        Action(name="AddNewFileInRepo", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "file_name": "docs/RELEASE_NOTES_1.1.0.md", "file_content": "## 1.1.0 - Small corrections - Documentation revision"}),
         Action(name="InitialCommit", kwargs={"owner": "maya-w", "repo_name": "acme-webapp", "branch_name": "release-notes-1.1.0", "commit_message": "Add docs/RELEASE_NOTES_1.1.0.md", "commit_author": "maya-w"}),
         Action(name="CreatePullRequest", kwargs={
             "owner": "maya-w",
@@ -3752,8 +3752,8 @@ Task(
             "alert_number": 101,
             "dismiss_reason": "false_positive"
         }),
-        # Action(name="ListOpenAlertsForRepo", kwargs={
-        #     "owner": "design-team", "repo_name": "ui-kit"
+        # Action(identifier="ListOpenAlertsForRepo", parameters={
+        # "owner": "design-team", "repository_name": "ui-kit"
         # }),
         Action(name="GetAlertDetails", kwargs={
             "owner": "design-team", "repo_name": "ui-kit",
@@ -3773,143 +3773,143 @@ Task(
 ]
 
 
-            # Action(
-            #     name="authenticateUser",
-            #     kwargs={"username":"maya-w", "email":"alice.w@acme.dev", "auth_key":"ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"},
+            # Operation(
+            # identifier="authenticateUser",
+            # parameters={"username":"maya-w", "email":"alice.w@acme.dev", "auth_key":"ghp_1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r"},
             # ),
-            # Action(
-            #     name="getRepoInfoForOwner",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp"},
+            # Execute(
+            # identifier="fetchRepositoryDetailsForOwner",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp"},
             # ),
-            # Action(
-            #     name="getBranchContent",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp","branch_name":"feature-update"},
+            # PerformAction(
+            # identifier="fetchBranchData",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "branch":"feature-update"},
             # ),
-            # Action(
-            #     name="deleteRepository",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp"},
+            # Operation(
+            # identifier="removeRepository",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp"},
             # ),
-            # Action(
-            #     name="createRepository",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "private_flag":False, "auto_init_flag":True},
+            # Perform action
+            # identifier="createRepository",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "is_private":False, "initialize_automatically":True},
             # ),
-            # Action(
-            #     name="createNewBranch",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "branch_name":"feature-update2","base_branch":"feature-update"},
+            # Operation(
+            # identifier="createNewBranch",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "branch":"feature-update2", "base_branch":"feature-update"},
             # ),
-            # Action(
-            #     name="addNewFileInRepo",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "branch_name":"feature-update2","file_name":"docs/CHANGEaszdfaLOG.md", "file_content":"asfasgagasdaaf"},
+            # Execute(
+            # identifier="insertNewFileIntoRepository",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "branch":"feature-update2", "filename":"docs/CHANGEaszdfaLOG.md", "content":"asfasgagasdaaf"},
             # ),
-            # Action(
-            #     name="updateFileInRepo",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "branch_name":"feature-update2","file_name":"docs/CHANGEaszdfaLOG.md", "file_content":"asfasgagasdaaf9137912"},
+            # Operation(
+            # identifier="updateFileInRepo",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "branch":"feature-update2", "file":"docs/CHANGEaszdfaLOG.md", "content":"asfasgagasdaaf9137912"},
             # ),
-            # Action(
-            #     name="deleteFileInRepo",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "branch_name":"feature-update2","file_name":"docs/CHANGEaszdfaLOG.md"},
+            # Perform Action(
+            # identifier="removeFileFromRepository",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "branch":"feature-update2", "file":"docs/CHANGEaszdfaLOG.md"},
             # ),
-            # Action(
-            #     name="createNewBranch",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "branch_name":"feature-update2","base_branch":"feature-update"},
+            # Perform an action
+            # identifier="initializeBranch",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "branch":"feature-update2", "base":"feature-update"},
+            # )
+            # Perform(
+            # identifier="initialCommit",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "branch":"feature-update2", "message":"Initial commit", "author":"maya-w"},
             # ),
-            # Action(
-            #     name="initialCommit",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "branch_name":"feature-update2", "commit_message":"Initial commit", "commit_author":"maya-w"},
+            # Perform an operation
+            # identifier="makeCommit",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "branch":"feature-update2", "message":"second commit", "author":"maya-w"},
             # ),
-            # Action(
-            #     name="makeCommit",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "branch_name":"feature-update2", "commit_message":"second  commit", "commit_author":"maya-w"},
+            # Operation(
+            # identifier="createPullRequest",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "pull_request_title":"InitPR", "pull_request_body":"Initial PR", "source_branch":"feature-update2", "target_branch":"feature-update", "commit_sha":"commit_sha_13", "files_in_pr":["docs/CHANGEaszdfaLOG.md"]},
             # ),
-            # Action(
-            #     name="createPullRequest",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "pr_title":"InitPR", "pr_body":"Initial PR", "head_branch_name":"feature-update2", "base_branch_name":"feature-update", "head_sha":"commit_sha_13", "pr_files":["docs/CHANGEaszdfaLOG.md"]},
+            # Perform an action
+            # identifier="assignPullRequestReviewers",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "pull_request":101, "reviewers":["nathan"]},
             # ),
-            # Action(
-            #     name="assignPullRequestReviewers",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "pr_number":101, "reviewers":["nathan"]},
+            # Execute
+            # identifier="addPullRequestComment",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "pull_request":101, "message":"Great work", "user":"nathan", "review_status":"COMMENT"},
             # ),
-            # Action(
-            #     name="addPullRequestComment",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "pr_number":101, "comment":"Nice Job", "comment_user":"nathan", "review_state":"COMMENT"},
+            # Perform an action
+            # identifier="addPullRequestComment",
+            # kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "pr_number":101, "comment":"Possible modifications required", "comment_user":"nathan", "review_state":"REQUEST_CHANGE"},
             # ),
-            # Action(
-            #     name="addPullRequestComment",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "pr_number":101, "comment":"Maybe need some changes", "comment_user":"nathan", "review_state":"REQUEST_CHANGE"},
-            # ),
-            # Action(
-            #     name="approvePr",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "pr_number":101},
-            # ),
-            
-            # Action(
-            #     name="listOfPrForRepo",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp"},
+            # Operation(
+            # name="approvePurchaseRequest",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "pull_request":101},
             # ),
             
-            # Action(
-            #     name="mergeBranch",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "source_branch_name":"feature-update2", "target_branch_name":"feature-update"},
+            # Execute(
+            # identifier="prListForRepo",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp"},
             # ),
             
-            # Action(
-            #     name="mergePullRequest",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "pr_number":101},
-            # ),
-            # Action(
-            #     name="markPrAsMerged",
-            #     kwargs={"owner": "design-team", "repo_name": "ui-kit", "pr_number": 11}
-            # ),
-            # Action(
-            #     name="getPrDetails",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "pr_number":101},
-            # ),
-            # Action(
-            #     name="deleteBranch",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "branch_name":"feature-update2"},
-            # ),
-            # Action(
-            #     name="createNewIssue",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp","title":"fix UI","body":"Webpage not working","labels":["bug-fix"],"assignees":["frontend team","backend team"]},
-            # ),
-            # Action(
-            #     name="addCommentToIssue",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp","issue_number":101, "issue_comment":"Fixed backend", "issue_comment_user":"backend team"},
+            # Execute(
+            # identifier="mergeBranch",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "source_branch":"feature-update2", "target_branch":"feature-update"},
             # ),
             
-            # Action(
-            #     name="addCommentToIssue",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp","issue_number":101, "issue_comment":"Fixed UI", "issue_comment_user":"frontend team"},
+            # Operation(
+            # identifier="mergePullRequest",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "pull_request":101},
             # ),
-            # Action(
-            #     name="closeIssue",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp","issue_number":101},
+            # Operation(
+            # identifier="markPrAsMerged",
+            # parameters={"owner": "design-team", "repository": "ui-kit", "pull_request": 11}
             # ),
-            # Action(
-            #     name="getAllIssuesForRepo",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp"},
+            # Perform action
+            # identifier="retrievePrDetails",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "pull_request":101},
             # ),
-            # Action(
-            #     name="createCodeScanningAlert",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp","severity":"low", "description":"some bug", "ref":"refs/heads/main"},
+            # PerformAction(
+            # identifier="removeBranch",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "branch":"feature-update2"},
             # ),
-            # Action(
-            #     name="getAlertDetails",
-            #     kwargs={"owner":"maya-w", "repo_name":"acme-webapp","alert_number":101},
+            # Execute(
+            # identifier="initializeNewIssue",
+            # kwargs={"owner":"maya-w", "repo_name":"acme-webapp","title":"UI correction","body":"Webpage malfunctioning","labels":["bug-fix"],"assignees":["frontend team","backend team"]},
             # ),
-            # Action(
-            #     name="listOpenAlertsForRepo",
-            #     kwargs={"owner":"design-team", "repo_name":"ui-kit"},
+            # Operation(
+            # identifier="appendCommentToIssue",
+            # kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "issue_number":101, "issue_comment":"Resolved backend issue", "issue_comment_user":"backend team"},
             # ),
-            # Action(
-            #     name="dismissAlert",
-            #     kwargs={"owner":"design-team", "repo_name":"ui-kit","alert_number":2},
+            
+            # Execute
+            # identifier="addCommentToIssue",
+            # kwargs={"owner":"maya-w", "repo_name":"acme-webapp", "issue_number":101, "issue_comment":"Resolved UI issue", "issue_comment_user":"frontend team"},
             # ),
-            # Action(
-            #     name="listOpenAlertsForRepo",
-            #     kwargs={"owner":"design-team", "repo_name":"ui-kit"},
+            # Operation(
+            # identifier="closeIssue",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp","issueId":101},
             # ),
-            # Action(
-            #     name="listAllTerminalMessage",
-            #     kwargs={},
+            # Operation(
+            # identifier="retrieveAllIssuesForRepository",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp"},
+            # ),
+            # Operation(
+            # name="generateCodeScanningAlert",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp", "level":"low", "details":"some bug", "reference":"refs/heads/main"},
+            # ),
+            # Perform action
+            # identifier="retrieveAlertInfo",
+            # kwargs={"owner":"maya-w", "repository":"acme-webapp","alert_id":101},
+            # ),
+            # Execute(
+            # identifier="listOpenAlertsForRepo",
+            # kwargs={"owner":"design_team", "repository":"ui_kit"},
+            # ),
+            # Execute
+            # identifier="dismissAlert",
+            # kwargs={"owner":"design-team", "repository":"ui-kit","alert_id":2},
+            # ),
+            # Perform an operation
+            # identifier="retrieveOpenAlertsForRepository",
+            # kwargs={"owner":"designTeam", "repository":"uiKit"},
+            # ),
+            # Operation(
+            # identifier="listAllTerminalMessage",
+            # additional arguments as an empty dictionary,
             # ),

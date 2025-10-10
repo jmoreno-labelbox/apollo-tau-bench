@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,14 +20,14 @@ class UpdateTerminalLogLevel(Tool):
         if not message:
             return json.dumps({"error": "message is required."})
 
-        # Validate log level
+        # Check the validity of the log level.
         valid_levels = ['DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL']
         if log_level not in valid_levels:
             return json.dumps({"error": f"Invalid log_level. Must be one of: {', '.join(valid_levels)}"})
 
         terminal_logs = data.get('terminal_logs', [])
 
-        # Create new log entry
+        # Generate a new log entry.
         new_log_entry = {
             "log_ts": datetime.now().isoformat(),
             "message": f"{log_level}: {message}",
@@ -36,14 +36,14 @@ class UpdateTerminalLogLevel(Tool):
             "workflow_id": workflow_id
         }
 
-        # Add entry to logs
+        # Insert log entry
         terminal_logs.append(new_log_entry)
 
-        # Implement log retention - keep only the most recent entries
+        # Establish log retention by retaining only the latest entries.
         if len(terminal_logs) > max_log_entries:
-            # Sort by timestamp and keep the most recent
+            # Order by timestamp and retain the latest entry.
             terminal_logs.sort(key=lambda x: x.get('log_ts', ''))
-            # Remove oldest entries
+            # Eliminate the earliest records.
             excess_count = len(terminal_logs) - max_log_entries
             for _ in range(excess_count):
                 terminal_logs.pop(0)

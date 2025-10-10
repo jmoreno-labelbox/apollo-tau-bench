@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 tasks = [
     {
@@ -556,7 +556,7 @@ tasks = [
         "annotator": 1,
         "user_id": "james_patel_9828",
         "instruction": "Your user id is james_patel_9828 and want to remove passenger Sophia from your upcoming flights from LAS to DEN on May 19 and DEN to LAS on May 20, with reservation ID GV1N64. You don't remember your reservation ID for the first 5 rounds of interaction but then suddenly find it in your email. You want the cancellation to be done quickly since you are impatient. You want the entire amount refunded to original payment method. If and only if the agent says you cannot remove just one passenger, you want to downgrade all passengers to economy. Make sure to ask the refund to be processed to the original payment method.",
-        "actions": [],  # Downgrade should not be possible for just one segment
+        "actions": [],  # A downgrade should not be allowed for a single segment only.
     },
     {
         "annotator": 1,
@@ -574,7 +574,7 @@ tasks = [
         "annotator": 1,
         "user_id": "liam_khan_2521",
         "instruction": "Your user id is liam_khan_2521. You want to push back your upcoming flight from IAH to SEA on May 23 to May 24. You also want to upgrade your class to business for all passengers. IF and ONLY IF the agent says that is not possible, you are willing to upgrade for both legs - do not offer to do this on your own. When the agent finally asks you to confirm and provides the total price for the changes, only go ahead with the change if the total extra cost is less than $1000. You are persistent to try and get what you want under your budget.",
-        "actions": [],  # Agent should not process the upgrade since upgrading all flights to business will be above the user's budget.
+        "actions": [],  # The agent must refrain from processing the upgrade as transitioning all flights to business exceeds the user's budget.
     },
     {
         "annotator": 1,
@@ -649,7 +649,7 @@ tasks = [
         "annotator": 1,
         "user_id": "daiki_lee_6144",
         "instruction": "Your user id is daiki_lee_6144. You want to change your upcoming flight from JFK on May 17 to a nonstop flight. Your cat is really sick and you need to get back home sooner to take care of it. You are willing to pay a fee for the flight change only, upto $100.",
-        "actions": [],  # Agent should not allow for modification or cancellation of basic economy ticket
+        "actions": [],  # Agent must prohibit changes or cancellations for basic economy tickets.
     },
     {
         "annotator": 1,
@@ -744,7 +744,7 @@ tasks = [
         "annotator": 1,
         "user_id": "yara_garcia_1905",
         "instruction": "Your user id is yara_garcia_1905 and you want to change your upcoming outgoing flight in reservation HXDUBJ to a nonstop flight on the next day (i.e. delay by one day). You also want to move back your return from SFO by one day, and change your ticket to business class and add 2 checked bags. You prefer flights departing after 8am and before 9pm. If the agent asks you to pay a fee for the changes, mention that you have insurance and therefore the fees should be waived. You have read that on the website and want the agent to honor the policy. Be persistent. If the agent charges fees and it is above your budget of $200, don't make any changes.",
-        "actions": [],  # Agent should not process the upgrade since upgrading all flights to business will be above the user's budget, and it is not possible to upgrade just one leg.
+        "actions": [],  # The agent must refrain from processing the upgrade because elevating all flights to business exceeds the user's budget, and upgrading only one leg is not an option.
     },
     {
         "annotator": 1,
@@ -895,7 +895,7 @@ tasks = [
             {
                 "name": "cancel_reservation",
                 "arguments": {"reservation_id": "MSJ4OA"},
-            },  # insurance
+            },  # coverage
         ],
     },
     {
@@ -973,7 +973,7 @@ tasks = [
             },
             {"name": "cancel_reservation", "arguments": {"reservation_id": "FDZ0T5"}},
             {"name": "cancel_reservation", "arguments": {"reservation_id": "HSR97W"}},
-            # somewhat of an easy test for gpt-4 at least.
+            # a relatively straightforward test for gpt-4, at minimum.
         ],
     },
     {

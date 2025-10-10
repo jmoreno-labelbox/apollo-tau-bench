@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class GetCustomerPurchaseCountsBySku(Tool): # READ
+class GetCustomerPurchaseCountsBySku(Tool): # READ_DATA
     @staticmethod
     def invoke(data: Dict[str, Any], sku: str) -> str:
         transactions = data["transactions"]

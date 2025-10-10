@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,17 +11,17 @@ class GetPullRequestStatus(Tool):
         """Get combined status checks for a PR."""
         pull_requests = list(data.get("pull_requests", {}).values())
 
-        # Find the pull request
+        # Locate the pull request.
         for pr_entry in pull_requests:
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
                     pr_state = pr_entry["pr_states"][pr_idx]
 
-                    # Generate realistic status checks based on PR state and title
+                    # Create authentic status updates derived from the pull request's status and title.
                     checks = []
 
-                    # Always include CI check
+                    # Ensure CI check is included at all times.
                     if pr_state == "open":
                         checks.append({"context": "continuous-integration", "state": "success"})
                         checks.append({"context": "code-review", "state": "pending"})
@@ -34,7 +34,7 @@ class GetPullRequestStatus(Tool):
                         checks.append({"context": "continuous-integration", "state": "failure"})
                         checks.append({"context": "code-review", "state": "pending"})
 
-                    # Add additional checks based on PR title
+                    # Implement extra validations according to the PR title.
                     pr_title = pr_entry.get("pr_titles", [""])[pr_idx] if pr_idx < len(pr_entry.get("pr_titles", [])) else ""
                     if "test" in pr_title.lower():
                         checks.append({"context": "unit-tests", "state": "success"})
@@ -50,7 +50,7 @@ class GetPullRequestStatus(Tool):
                 except ValueError:
                     pass
 
-        # Default response if PR not found
+        # Standard reply when PR is absent
         result = {
             "state": "pending",
             "total_count": 2,

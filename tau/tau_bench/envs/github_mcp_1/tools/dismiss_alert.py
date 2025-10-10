@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Technologies
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,13 +26,13 @@ class DismissAlert(Tool):
                 indent=2
             )
 
-        # Normalize alert_number
+        # Standardize alert_number
         try:
             alert_number = int(alert_number_raw)
         except Exception:
             return json.dumps({"error": "alert_number must be an integer."}, indent=2)
 
-        # Load alerts DB
+        # Initialize alerts database.
         alerts_db = data.get("code_scanning_alerts", [])
         if not isinstance(alerts_db, list):
             return json.dumps(
@@ -40,7 +40,7 @@ class DismissAlert(Tool):
                 indent=2
             )
 
-        # Find repo bucket
+        # Locate the repository bucket.
         rec = next((r for r in alerts_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             return json.dumps(
@@ -51,13 +51,13 @@ class DismissAlert(Tool):
         alert_numbers: List[int] = rec.get("alert_numbers", [])
         if alert_number not in alert_numbers:
             return json.dumps(
-                {"error": f"Alert #{alert_number} not found for '{owner}/{repo_name}'."},
+                {"error": f"Alert # "{alert_number} is missing for '{owner}/{repo_name}'."
                 indent=2
             )
 
         idx = alert_numbers.index(alert_number)
 
-        # Ensure required arrays exist/padded
+        # Verify the presence and padding of necessary arrays.
         rec.setdefault("states", [])
         rec.setdefault("dismissed_ts_nullables", [])
         while len(rec["states"]) <= idx: rec["states"].append("open")
@@ -66,11 +66,11 @@ class DismissAlert(Tool):
         current_state = rec["states"][idx]
         current_dismissed_ts = rec["dismissed_ts_nullables"][idx]
 
-        # Idempotent behavior if already dismissed
+        # Remains idempotent if previously dismissed.
         if current_state == "dismissed":
             return json.dumps(
                 {
-                    "success": f"Alert #{alert_number} is already dismissed for {owner}/{repo_name}.",
+                    "success": f"Alert # The alert number {alert_number} has already been dismissed for {owner}/{repo_name}.
                     "repo": f"{owner}/{repo_name}",
                     "alert_number": alert_number,
                     "state": "dismissed",
@@ -79,16 +79,16 @@ class DismissAlert(Tool):
                 indent=2
             )
 
-        # Dismiss the alert
+        # Close the alert.
         rec["states"][idx] = "dismissed"
         new_dismissed_ts = get_current_updated_timestamp()
         rec["dismissed_ts_nullables"][idx] = new_dismissed_ts
 
-        add_terminal_message(data, f"Alert #{alert_number} dismissed for {owner}/{repo_name}.", get_current_updated_timestamp())
+        add_terminal_message(data, f"Alert # "{alert_number} has been dismissed for {owner}/{repo_name}.", get_current_updated_timestamp())
 
         return json.dumps(
             {
-                "success": f"Alert #{alert_number} dismissed for {owner}/{repo_name}.",
+                "success": f"Alert # Alert number {alert_number} has been dismissed for {owner}/{repo_name}.
                 "repo": f"{owner}/{repo_name}",
                 "alert_number": alert_number,
                 "state": "dismissed",

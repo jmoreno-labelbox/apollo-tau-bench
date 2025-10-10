@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -33,9 +33,9 @@ class GeneratePersonalizedWelcomeFileTool(Tool):
                     return _err(f"Candidate '{cid}' not found.", code="not_found")
                 continue
 
-            # Hardcoded markdown template
+            # Static markdown template
             template_content = """
-# Welcome, {{candidate_name}}!
+# Greetings, {{candidate_name}}!
 
 We are thrilled to have you join us as a {{role_title}}. Your first day will be on {{start_date}}.
 Your manager will be {{manager_email_nullable}}.

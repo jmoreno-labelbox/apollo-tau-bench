@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -35,7 +35,7 @@ class ListPullRequestsTool(Tool):
     def invoke(data: Dict[str, Any], **kwargs: Any) -> str:
         try:
             repo_name = _validate_param(kwargs, "repo_name", str)
-            state = kwargs.get("state")  # optional
+            state = kwargs.get("state")  # not mandatory
         except (ValueError, TypeError) as e:
             return _response("error", str(e), "VALIDATION_ERROR")
 

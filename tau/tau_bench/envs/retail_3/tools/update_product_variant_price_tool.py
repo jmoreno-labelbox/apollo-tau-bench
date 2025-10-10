@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -30,7 +30,7 @@ class UpdateProductVariantPriceTool(Tool):
         item_id = kwargs.get("item_id")
         new_price = kwargs.get("new_price")
 
-        # Validação básica
+        # Validação fundamental
         if not product_id or not item_id or new_price is None:
             return json.dumps({"error": "product_id, item_id and new_price are required"}, indent=2)
         try:
@@ -57,7 +57,7 @@ class UpdateProductVariantPriceTool(Tool):
 
         old_price = variant.get("price")
         variant["price"] = price_val
-        product["variants"][item_id] = variant  # redundante, mas mantém simetria
+        product["variants"][item_id] = variant  # superfluo, porém preserva a simetria
 
         return json.dumps(
             {

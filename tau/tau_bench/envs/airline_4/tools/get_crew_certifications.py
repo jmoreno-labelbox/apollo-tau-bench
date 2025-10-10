@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,7 +22,7 @@ class GetCrewCertifications(Tool):
 
     @staticmethod
     def _is_active_on(issue_date: Optional[str], expiry_date: Optional[str], day: str) -> bool:
-        # Accept None/''/'null' as open-ended; all dates are ISO by construction of upsert.
+        # Treat None/''/'null' as flexible; all dates are inherently in ISO format due to the upsert design.
         from datetime import date
         d = date.fromisoformat(day)
         start = date.fromisoformat(issue_date) if issue_date else date.min
@@ -37,14 +37,14 @@ class GetCrewCertifications(Tool):
         active_on: Optional[str] = None,
         include_history: bool = False,
     ) -> str:
-        # Validate crew
+        # Verify crew members.
         if not crew_member_id:
             return _json({"error": "missing_params", "reason": "crew_member_id is required"})
         crew = _find_crew_member(data, crew_member_id)
         if not crew:
             return _json({"error": "crew_member_not_found", "crew_member_id": crew_member_id})
 
-        # Resolve certification_code (if provided) to the canonical one in master list
+        # Translate the certification_code (if available) to its standard form in the master list.
         resolved_code = None
         if certification_code:
             cert = _get_cert_by_code(data, certification_code)
@@ -52,18 +52,18 @@ class GetCrewCertifications(Tool):
                 return _json({"error": "certification_not_found", "certification_code": certification_code})
             resolved_code = cert.get("certification_code")
 
-        # Normalize active_on if provided
+        # Standardize active_on if it is supplied.
         day = None
         if active_on not in (None, "", "null"):
             try:
-                # strict ISO; tolerate full ISO datetime by using helper if desired
+                # enforce strict ISO; allow full ISO datetime through a helper if needed
                 day = _to_iso_day(active_on)
                 from datetime import date as _date
                 _date.fromisoformat(day)
             except Exception:
                 return _json({"error": "invalid_date_format", "reason": "active_on must be YYYY-MM-DD"})
 
-        # Collect and filter
+        # Aggregate and refine
         rows = []
         for cc in data.get("crew_certifications", []):
             cm = (cc.get("crew_member") or {}).get("crew_member_id")
@@ -78,7 +78,7 @@ class GetCrewCertifications(Tool):
             i_date = cc.get("issue_date")
             e_date = cc.get("expiry_date")
 
-            # Apply active_on filter
+            # Implement active_on filter
             active_flag = None
             if day:
                 active_flag = GetCrewCertifications._is_active_on(i_date, e_date, day)
@@ -91,10 +91,10 @@ class GetCrewCertifications(Tool):
                 "certification_code": code,
                 "issue_date": i_date,
                 "expiry_date": e_date,
-                "active_on": active_flag,  # None if active_on not provided
+                "active_on": active_flag,  # Returns None if active_on is absent.
             })
 
-        # Deterministic sort
+        # Predictable sorting
         rows.sort(key=lambda r: ((r.get("certification_code") or ""), (r.get("issue_date") or "")))
 
         return _json({

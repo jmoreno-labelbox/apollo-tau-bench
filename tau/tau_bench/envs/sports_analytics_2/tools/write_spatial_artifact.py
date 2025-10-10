@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class WriteSpatialArtifact(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         artifacts = data.setdefault("spatial_artifacts", {})
-        # Generate next ID
+        # Create the subsequent ID.
         next_id = str(len(artifacts) + 1)
         artifacts[next_id] = {
             "game_pk": kwargs.get("game_pk"),

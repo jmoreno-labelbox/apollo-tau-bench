@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -50,7 +50,7 @@ class GetMealHistoryTool(Tool):
             the 'data' key contains a list of meal history objects, sorted
             by date descending.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Data
         param_definitions = {
             "household_id": {"type": int, "required": True},
             "days_back": {"type": int, "required": False}
@@ -65,27 +65,27 @@ class GetMealHistoryTool(Tool):
         household_id = kwargs["household_id"]
         days_back = kwargs.get("days_back")
 
-        # 2. Pre-condition Check: Ensure the household exists
+        # 2. Preconditions Validation: Verify the existence of the household.
         if not any(h for h in data.get("households", []) if h.get("household_id") == household_id):
             return _build_error_response("NOT_FOUND", {"entity": "Household", "entity_id": household_id})
 
-        # 3. Data Retrieval & Filtering
+        # 3. Data Acquisition & Selection
         all_history = data.get("meal_history", [])
         household_history = [h for h in all_history if h.get("household_id") == household_id]
 
         if days_back is not None:
-            # Current date is provided in context for determinism
+            # The current date is supplied in the context to ensure consistency.
             today = date(2025, 9, 1)
             start_date = today - timedelta(days=days_back)
 
-            # Filter by date range
+            # Restrict by date interval
             household_history = [
                 h for h in household_history
                 if date.fromisoformat(h.get("plan_date", "1900-01-01")) >= start_date
             ]
 
-        # 4. Sort results from most recent to oldest
+        # 4. Arrange results from newest to oldest.
         household_history.sort(key=lambda x: x.get("plan_date", ""), reverse=True)
 
-        # 5. Return a standardized success response
+        # 5. Provide a consistent success response.
         return _build_success_response(household_history)

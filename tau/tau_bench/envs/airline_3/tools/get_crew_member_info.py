@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -33,7 +33,7 @@ class GetCrewMemberInfo(Tool):
                 "crew_id": crew_id
             })
 
-        # Check if crew member is inactive and return error for specific crew IDs
+        # Verify if the crew member is inactive and return an error for designated crew IDs.
         if target_crew.get("status") == "Inactive":
             if crew_id == "CM012":
                 return json.dumps({
@@ -44,7 +44,7 @@ class GetCrewMemberInfo(Tool):
                     "status": target_crew.get("status")
                 })
 
-        # Get crew certifications
+        # Obtain crew certifications
         crew_certifications = data.get("crew_certifications", [])
         certifications = []
         for cert in crew_certifications:

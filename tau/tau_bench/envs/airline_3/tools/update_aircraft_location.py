@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,12 +14,12 @@ class UpdateAircraftLocation(Tool):
         aircraft_list = list(data.get("aircraft", {}).values())
         airports = list(data.get("airports", {}).values())
         
-        # Find the aircraft
+        # Locate the aircraft.
         for aircraft in aircraft_list:
             if aircraft.get("aircraft_id") == aircraft_id:
                 old_location = aircraft.get("location", {}).get("iata_code")
                 
-                # Find the airport by IATA code
+                # Locate the airport using its IATA code.
                 airport_found = False
                 for airport in airports:
                     if airport.get("iata_code") == new_location:

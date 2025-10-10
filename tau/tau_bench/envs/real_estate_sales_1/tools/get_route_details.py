@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,12 +14,12 @@ class GetRouteDetails(Tool):
         if not route_id:
             return json.dumps({"error": "route_id is required"}, indent=2)
         
-        # Get route details
+        # Retrieve route information
         routes = list(data.get('routes', {}).values())
         route = next((r for r in routes if r.get('route_id') == route_id), None)
         
         if not route:
-            # If route not found, return a mock route for testing
+            # If the route cannot be located, return a simulated route for testing purposes.
             mock_route = {
                 "route_id": route_id,
                 "client_id": 5,

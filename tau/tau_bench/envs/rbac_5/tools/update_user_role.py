@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -29,7 +29,7 @@ class UpdateUserRole(Tool):
         if action not in ("ADD", "REMOVE"):
             return json.dumps({"error": "action must be ADD or REMOVE"})
 
-        # Existence checks
+        # Presence validations
         if not _find_by_id(list(data.get("users", {}).values()), "user_id", user_id):
             return json.dumps({"error": f"user_id {user_id} not found"})
         if not _find_by_id(list(data.get("roles", {}).values()), "role_id", role_id):
@@ -47,7 +47,7 @@ class UpdateUserRole(Tool):
                 return json.dumps({"error": "assigned_by is required for ADD action"})
 
             if existing_index is not None:
-                # Update existing assignment
+                # Revise the current assignment.
                 existing = assignments[existing_index]
                 updated = dict(existing)
                 if expires_on and existing.get("expires_on") != expires_on:
@@ -57,7 +57,7 @@ class UpdateUserRole(Tool):
                 else:
                     return json.dumps({"ok": True, "no_op": True, "assignment": existing})
             else:
-                # Create new assignment
+                # Generate a new task.
                 new_ur = {
                     "user_role_id": _next_user_role_id(data, user_id),
                     "user_id": user_id,

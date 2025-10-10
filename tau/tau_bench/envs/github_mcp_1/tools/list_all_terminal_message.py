@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class ListAllTerminalMessage(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Load terminal entry
+        # Import terminal input
         terminal = data.get("terminal", [])
         if isinstance(terminal, list):
             entry = terminal[0] if terminal else {"printed_ts": [], "messages": []}
@@ -35,7 +35,7 @@ class ListAllTerminalMessage(Tool):
                 indent=2
             )
 
-        # Pair up to the shortest length
+        # Match to the minimal length.
         n = min(len(ts_list), len(msg_list))
         lines: List[str] = [f"{ts_list[i]} : {msg_list[i]}" for i in range(n)]
 

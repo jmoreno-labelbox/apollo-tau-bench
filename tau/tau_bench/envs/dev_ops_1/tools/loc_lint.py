@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class LocLint(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], locale: str, keys: List[str], ui_px_limit: int) -> str:
-        # Simple deterministic length check against limit
+        # Basic fixed-length verification against the threshold.
         translations = _get_table(data, "translations")
         issues = []
         for k in keys:

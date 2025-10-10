@@ -8,13 +8,13 @@ class GetRoleSkills(Tool):
     def invoke(data: dict[str, Any], role: str = None) -> str:
         catalog = data.get("role_skill_catalog", {}).values()
 
-        # Debug: Verify if the catalog is loaded
+        # Debug: Check if the catalog has been loaded.
         if not catalog:
             payload = {"error": "Role catalog not loaded"}
             out = json.dumps(payload, indent=2)
             return out
 
-        # Attempt an exact match initially
+        # Start with a precise match first.
         for entry in catalog.values():
             if entry.get("role") == role:
                 skills = entry.get("required_skills", [])
@@ -23,7 +23,7 @@ class GetRoleSkills(Tool):
                     out = json.dumps(payload, indent=2)
                     return out
 
-                # Make sure to return a list of strings instead of dictionaries
+                # Ensure that a list of strings is returned rather than dictionaries.
                 skill_names = []
                 for skill in skills:
                     if isinstance(skill, str):
@@ -34,7 +34,7 @@ class GetRoleSkills(Tool):
                 out = json.dumps(payload, indent=2)
                 return out
 
-        # Attempt a partial match for typical role variations
+        # Try a partial match for common role differences.
         role_mapping = {
             "AI Researcher": "Senior Data Scientist",
             "Security Analyst": "Cloud Security Specialist",
@@ -60,7 +60,7 @@ class GetRoleSkills(Tool):
                         out = json.dumps(payload, indent=2)
                         return out
 
-                    # Confirm that we return a list of strings rather than dictionaries
+                    # Verify that the output is a list of strings instead of dictionaries.
                     skill_names = []
                     for skill in skills:
                         if isinstance(skill, str):
@@ -71,7 +71,7 @@ class GetRoleSkills(Tool):
                     out = json.dumps(payload, indent=2)
                     return out
 
-        # Display available roles for debugging purposes
+        # Show the accessible roles for troubleshooting.
         available_roles = [entry.get("role") for entry in catalog.values()]
         payload = {"error": f"Role '{role}' not found", "available_roles": available_roles}
         out = json.dumps(payload, indent=2)

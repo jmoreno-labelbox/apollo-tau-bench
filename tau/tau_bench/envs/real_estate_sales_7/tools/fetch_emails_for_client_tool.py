@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class FetchEmailsForClientTool(Tool):
             return _err("client_id is required")
 
         template_filter = kwargs.get("template_code")
-        since_date = kwargs.get("since_date")  # ISO string, compared lexicographically
+        since_date = kwargs.get("since_date")  # ISO string, evaluated in lexicographical order.
         until_date = kwargs.get("until_date")
         limit = _as_int(kwargs.get("limit")) or 50
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -28,14 +28,14 @@ class SearchCodeTool(Tool):
                 "message": f"Repository '{repo}' not found for owner '{owner}'.",
             }, indent=2)
 
-        # Search code based on file contents
+        # Locate code by examining file content.
         found_occurrences = []
         for file_path, file_content in zip(repository.get('file_paths', {}), repository.get('file_contents', {})):
             if query in file_content:
-                # Code snippet contains the keyword
+                # The code segment includes the keyword.
                 found_occurrences.append({
                     "path": file_path,
-                    "line": file_content.count(query), # A simplistic way to indicate presence
+                    "line": file_content.count(query), # A basic method to show availability
                     "match": query
                 })
 

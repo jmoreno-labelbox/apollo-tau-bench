@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -7,19 +7,19 @@ from tau_bench.envs.tool import Tool
 
 class Artif(Tool):
     @staticmethod
-        # main invoke function
+        # primary execution method
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         game_pk = kwargs.get("game_pk")
         artifact_name = kwargs.get("artifact_name")
         artifacts = data.get("spatial_artifacts", [])
         rec = next((a for a in artifacts if str(a.get("game_pk")) == str(game_pk) and a.get("artifact_name") == artifact_name), None)
-        # return result
+        # return outcome
         return json.dumps(rec or {}, indent=2)
 
     @staticmethod
-        # info metadata
+        # metadata information
     def get_info() -> Dict[str, Any]:
-        # return result
+        # return output
         return {
             "type": "function",
             "function": {

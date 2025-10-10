@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,12 +11,12 @@ class AddInventoryRecord(Tool):
         inventory = list(data.get("inventory", {}).values())
         products = list(data.get("products", {}).values())
 
-        # Check if product exists
+        # Verify the existence of the product.
         product = next((p for p in products if p.get("sku") == sku), None)
         if not product:
             return json.dumps({"error": f"Product with SKU {sku} not found."})
 
-        # Check if inventory record already exists for this SKU and store
+        # Verify if an inventory entry for this SKU and store is already present.
         existing_record = next((inv for inv in inventory if inv.get("sku") == sku and inv.get("store_id") == store_id), None)
         if existing_record:
             return json.dumps({"error": f"Inventory record for SKU {sku} in store {store_id} already exists."})

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,11 +18,11 @@ class UpsertGroceryListItemsFromRecipes(Tool):
         ri = _collect_recipe_ingredients(data, recipe_ids)
         items = _sum_grocery_items(ri)
 
-        # remove old
+        # eliminate outdated
         gli_tbl = data.setdefault("grocery_list_items", [])
         gli_tbl[:] = [r for r in gli_tbl if int(r.get("list_id")) != int(list_id)]
 
-        # insert new
+        # add new
         next_id = _max_id(gli_tbl, "item_id", 8100)
         created_ids: List[int] = []
         for it in items:

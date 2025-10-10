@@ -1,21 +1,21 @@
-# Copyright Sierra
+# Sierra copyright.
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class LoadAuditFindings(Tool):  # READ
+class LoadAuditFindings(Tool):  # READING
     @staticmethod
     def invoke(
         data: Dict[str, Any],
         audit_id: str
     ) -> str:
-        # Validate input
+        # Verify input.
         if not isinstance(audit_id, str) or not audit_id:
             return json.dumps({"error": "Invalid audit_id parameter"})
 
-        # Find the audit
+        # Locate the audit.
         audits = data.get("audits", [])
         audit = None
         for a in audits:
@@ -26,11 +26,11 @@ class LoadAuditFindings(Tool):  # READ
         if not audit:
             return json.dumps({"error": f"Audit with ID '{audit_id}' not found"})
 
-        # Get audit information
+        # Retrieve auditing details.
         audit_type = audit.get("audit_type")
         artifact_id = audit.get("artifact_id")
 
-        # Find related DS findings
+        # Retrieve associated data science insights.
         ds_findings = []
         audit_findings_ds = data.get("audit_findings_ds", [])
         for finding in audit_findings_ds:
@@ -43,7 +43,7 @@ class LoadAuditFindings(Tool):  # READ
                     "severity": finding.get("severity")
                 })
 
-        # Find related A11Y findings
+        # Locate associated accessibility issues.
         a11y_findings = []
         audit_findings_a11y = data.get("audit_findings_a11y", [])
         for finding in audit_findings_a11y:

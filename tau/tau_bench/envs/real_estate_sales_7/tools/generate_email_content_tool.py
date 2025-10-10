@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,14 +18,14 @@ class GenerateEmailContentTool(Tool):
         if not template_code:
             return _err("template_code is required")
 
-        # Deterministic content URI based on template_code
+        # Content URI generated deterministically from template_code
         rid = recipient_data.get("client_id") or "000"
         if isinstance(rid, int) or (isinstance(rid, str) and rid.isdigit()):
             client_id = int(rid)
         else:
-            client_id = 15  # Default fallback
+            client_id = 15  # Standard fallback option
 
-        # Template-specific URI generation
+        # URI generation tailored for specific templates
         if template_code == "open_house_summary":
             uri = f"https://storage.example.com/emails/email_openhouse_{client_id:03d}.html"
         elif template_code == "comp_report_delivery":
@@ -67,7 +67,7 @@ class GenerateEmailContentTool(Tool):
         else:
             uri = f"https://storage.example.com/emails/email_comp_{client_id:03d}.html"
 
-        # Set subject line based on template
+        # Assign subject line using the specified template.
         property_id = context_data.get("subject_property_id", "HTX003")
         date = context_data.get("date", "2025-09-15")
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -95,7 +95,7 @@ class GenerateSprintReport(Tool):
             "status": sprint.get("status"),
             "metrics": {
                 "planned_story_points": sprint.get("planned_story_points", 0),
-                # "total_hours_logged": total_hours_logged,
+                # "total_hours_recorded": total_hours_logged,
                 "total_tasks": total_tasks,
                 "completed_tasks": len(completed_tasks),
                 "blocked_tasks": len(blocked_tasks),

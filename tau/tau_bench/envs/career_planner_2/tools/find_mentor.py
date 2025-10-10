@@ -9,8 +9,8 @@ class FindMentor(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], expertise: list[str] = None) -> str:
         mentors = data.get("user_mentorship", {}).values()
-        # Deterministic choice: the first mentor from the list who meets all expertise criteria and is available.
-        for m in sorted(mentors, key=lambda x: x["mentor_id"]):  # Sort to ensure determinism
+        # Deterministic selection: the initial mentor from the list who satisfies all expertise requirements and is accessible.
+        for m in sorted(mentors, key=lambda x: x["mentor_id"]):  # Sort to guarantee consistent results.
             if m.get("availability") != "Full" and all(
                 e.lower() in [exp.lower() for exp in m.get("expertise", [])]
                 for e in expertise

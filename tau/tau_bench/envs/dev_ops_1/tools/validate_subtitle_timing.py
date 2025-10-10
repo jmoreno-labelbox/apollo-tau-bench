@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,11 +9,11 @@ class ValidateSubtitleTiming(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], line_id: str, locale: str) -> str:
         timing = _get_table(data, "subtitle_timing")
-        # Support either 'line_id' or 'id' for record identification and nested timing status
+        # Allow for record identification and nested timing status using either 'line_id' or 'id'.
         row = next((r for r in timing if (r.get("line_id") or r.get("id")) == line_id and r.get("locale") == locale), None)
         status = "unknown"
         if row:
-            # Prefer flat 'validation_status' if present; otherwise read nested timing_validation.status
+            # Use 'validation_status' if available; else, access timing_validation.status from the nested structure.
             status = row.get("validation_status") or ((row.get("timing_validation") or {}).get("status") or "unknown")
         return json.dumps({"validation_status": status}, indent=2)
 

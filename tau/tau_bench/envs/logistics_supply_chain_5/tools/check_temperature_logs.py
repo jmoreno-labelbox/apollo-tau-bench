@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,7 +24,7 @@ class CheckTemperatureLogs(Tool):
                 max_temp = float(temp_range[1].replace('C', '').strip())
             elif 'to' in required_temp_range:
                 to_range = required_temp_range.replace('C', '').split('to')
-                # Handle negative values in the temperature range
+                # Process negative temperature values.
                 min_temp = float(to_range[0].strip())
                 max_temp = float(to_range[1].strip())
             elif 'Cool, Dry' in required_temp_range:

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class AddPlan(Tool):
         if not all([plan_id, date, author, allocations]):
             return json.dumps({"error": "plan_id, date, author, and allocations are required parameters."})
 
-        # Basic validation for allocations
+        # Fundamental checks for allocations
         if not isinstance(allocations, list):
             return json.dumps({"error": "allocations must be a list."})
 
@@ -29,7 +29,7 @@ class AddPlan(Tool):
             "date": date,
             "total_budget": total_budget,
             "author": author,
-            "created_at": "2025-08-13T01:01:01Z",  # Using hardcoded timestamp for consistency
+            "created_at": "2025-08-13T01:01:01Z",  # Employing a fixed timestamp for uniformity.
             "checksum": "manual_override_checksum",
             "allocations": allocations
         }

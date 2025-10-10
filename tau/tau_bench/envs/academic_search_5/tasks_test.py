@@ -9,9 +9,9 @@ TASKS = [
         Action(name="FindUsers", kwargs={"name": "Dr. Sarah Johnson"}),
         Action(name="FindPublications", kwargs={"author_name": "Dr. Sarah Johnson", "title": "Gene Editing Techniques"}),
         Action(name="FindPublications", kwargs={"author_name": "Dr. Sarah Johnson", "title": "Personalized Cancer Treatment"}),
-        Action(name="FindGrants", kwargs={"funding_source_id": "fs_03"}), # Directly specify ID for determinism
+        Action(name="FindGrants", kwargs={"funding_source_id": "fs_03"}), # Explicitly define ID for consistency.
         Action(name="LaunchProject", kwargs={"project_name": "AI for Drug Discovery", "lead_researcher_id": "res_02", "funding_source_id": "fs_03", "project_id_override": "proj_ai_drug_discovery"}),
-        Action(name="CreateResearchLog", kwargs={"researcher_id": "res_02", "article_id": "art_14", "notes": "Grant amount under $700,000. Co-funding required.", "relevance": "medium"}), # Add conditional log here
+        Action(name="CreateResearchLog", kwargs={"researcher_id": "res_02", "article_id": "art_14", "notes": "Grant amount under $700,000. Co-funding required.", "relevance": "medium"}), # Insert a log statement with a conditional check here.
         Action(name="LinkArticleToProject", kwargs={"project_id": "proj_ai_drug_discovery", "article_id": "art_03"}),
         Action(name="LinkArticleToProject", kwargs={"project_id": "proj_ai_drug_discovery", "article_id": "art_14"}),
         Action(name="NotifyUser", kwargs={"recipient_user_id": "res_02", "message_content": "Your new project 'AI for Drug Discovery' has been created with project ID proj_ai_drug_discovery. It is funded by the 'Medical Research Council'."}),
@@ -26,9 +26,9 @@ TASKS = [
         actions=[
             Action(name="FindPublications", kwargs={"title": "New Biomarkers for Early Detection"}),
             Action(name="LookupSubmissions", kwargs={"article_id": "art_04"}),
-            Action(name="FindUsers", kwargs={"user_id": "res_02"}), # To get author ID for exclude and log
-            Action(name="FindUsers", kwargs={"research_field": "Biomedicine", "availability": "available"}), # To find Dr. Ricardo Mendes
-            Action(name="UpdateUserPreferences", kwargs={"user_id": "res_07", "notification_channel": "email"}), # Removido 'ui_theme': 'light'
+            Action(name="FindUsers", kwargs={"user_id": "res_02"}), # Retrieve author ID for exclusion and logging.
+            Action(name="FindUsers", kwargs={"research_field": "Biomedicine", "availability": "available"}), # Locate Dr. Ricardo Mendes.
+            Action(name="UpdateUserPreferences", kwargs={"user_id": "res_07", "notification_channel": "email"}), # Eliminado 'ui_theme': 'light'
             Action(name="AppointReviewer", kwargs={"submission_id": "sub_02", "reviewer_user_id": "res_07"}),
             Action(name="GetUserPreferences", kwargs={"user_id": "res_07"}),
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_07", "message_content": "You have been assigned to review the submission 'New Biomarkers for Early Detection'."}),
@@ -84,7 +84,7 @@ TASKS = [
             Action(name="FindPublications", kwargs={"topic": "AI", "publication_year": 2024}),
             Action(name="FindReferences", kwargs={"article_id": "art_01", "direction": "to"}),
             Action(name="SearchResearchLogs", kwargs={"researcher_id": "res_04", "article_id": "art_01"}),
-            # Assume que a verificação do search_research_logs resultaria em nenhum log existente, levando à criação.
+            # Presuma que a checagem do search_research_logs não encontraria logs, resultando na criação de um novo.
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_04", "article_id": "art_01", "notes": "Recommendation: This is a highly-cited article in your new field of interest (AI).", "relevance": "medium"}),
             Action(name="SummarizeArticleText", kwargs={"article_id": "art_01"}),
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_04", "message_content": "Based on your new interest in AI, you may find this article interesting: 'Advances in Language Models for Code Generation'..."}),
@@ -115,19 +115,19 @@ TASKS = [
         actions=[
             Action(name="FindUsers", kwargs={"name": "Dr. Kenji Tanaka"}),
             Action(name="FindPublications", kwargs={"author_name": "Dr. Kenji Tanaka"}),
-            # Para obter as revisões de submissões dela, primeiro precisamos das submissões dela.
-            # No submissions.json, art_12 é da autoria de res_01 e tem sub_03.
+            # Para acessar as revisões de suas submissões, é necessário primeiramente obter as submissões.
+            # O arquivo submissions.json não está presente; art_12 foi criado por res_01 e contém sub_03.
             Action(name="LookupSubmissions", kwargs={"author_user_id": "res_01"}),
             Action(name="GetReviewsForSubmission", kwargs={"submission_id": "sub_03"}),
             Action(name="SearchResearchLogs", kwargs={"researcher_id": "res_01"}),
-            # Find projects she leads (res_01 é lead researcher em proj_quantum_ai_synergy que será criado, mas não no estado inicial)
-            # No projects.json, no estado inicial, res_01 não é lead researcher de nenhum projeto.
+            # Identify projects she directs (res_01 is the lead researcher on proj_quantum_ai_synergy, which will be created, but not in its initial state).
+            # Sem projects.json, no estado inicial, res_01 não é pesquisador principal em nenhum projeto.
             Action(name="FindProjects", kwargs={"lead_researcher_id": "res_01"}),
-            # Removendo ações de find_projects por status pois o feedback indicou que não obtêm team_member_id.
-            # A instrução foi ajustada para não esperar explicitamente a lista de projetos em que ela é membro da equipe via ferramenta.
+            # Eliminando chamadas de find_projects por status, pois o retorno mostrou que não inclui team_member_id.
+            # A instrução foi modificada para não depender da lista de projetos em que o usuário é membro da equipe através da ferramenta.
             Action(name="GetUserSubscriptions", kwargs={"user_id": "res_01"}),
             Action(name="FindUsers", kwargs={"user_id": "res_01"}),
-            # Adicionando uma ação de modificação: create_research_log
+            # Incluindo uma ação de alteração: create_research_log
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_01", "article_id": "art_01", "notes": "Activity report compiled for audit.", "relevance": "medium"}),
         ],
         outputs=[]
@@ -139,7 +139,7 @@ TASKS = [
         actions=[
             Action(name="FindUsers", kwargs={"research_field": "Astrophysics", "availability": "available"}),
             Action(name="FindUsers", kwargs={"research_field": "Artificial Intelligence", "availability": "available"}),
-            Action(name="FindProjects", kwargs={"lead_researcher_id": "res_11"}), # To check for existing projects.
+            Action(name="FindProjects", kwargs={"lead_researcher_id": "res_11"}), # To verify the presence of current projects.
             Action(name="LaunchProject", kwargs={"project_name": "Astro-AI Research Initiative", "lead_researcher_id": "res_11", "project_id_override": "proj_astro_ai_initiative"}),
             Action(name="AddResearcherToProjectTeam", kwargs={"project_id": "proj_astro_ai_initiative", "user_id": "res_12"}),
             Action(name="FindGrants", kwargs={"focus_area": "General Science", "status": "available"}),
@@ -155,16 +155,16 @@ TASKS = [
         user_id="submissions_manager_02",
         instruction="""Handle submissions management to assign a reviewer for 'Multimodal AI for Medical Imaging Analysis' (art_12 / sub_03). Identify an available 'Artificial Intelligence' expert (Dr. Kenji Tanaka - res_01) not from the author. Perform a conflict of interest check: if Dr. Souza (res_01) has co-authored with Dr. Thomas Anderson (res_04), create a research log for Dr. Souza (res_01) with the exact content: 'Potential conflict of interest detected: Reviewer Dr. Kenji Tanaka (res_01) has co-authored with Dr. Thomas Anderson.'. Then, assign a different suitable expert (Dr. Sofia Bauer - res_12) as reviewer. Update the submission's status to 'under_review'. Notify the author (Dr. Kenji Tanaka - res_01) with the exact message: 'A reviewer has been assigned to your submission 'Multimodal AI for Medical Imaging Analysis'.'. Display the updated submission details.""",
         actions=[
-            Action(name="FindPublications", kwargs={"title": "Multimodal AI for Medical Imaging Analysis"}), # Encontra art_12
-            Action(name="LookupSubmissions", kwargs={"article_id": "art_12"}), # Encontra sub_03
-            Action(name="FindUsers", kwargs={"user_id": "res_01"}), # Autora é Helena Souza
-            Action(name="FindUsers", kwargs={"research_field": "Artificial Intelligence", "availability": "available"}), # Encontra res_01, res_12
-            Action(name="FindPublications", kwargs={"author_name": "Dr. Kenji Tanaka"}), # Para verificar co-autoria dela
-            Action(name="FindPublications", kwargs={"author_name": "Dr. Thomas Anderson"}), # Para verificar co-autoria com a co-autora de art_12
-            # No articles.json, art_12 é co-autoria de Dr. Kenji Tanaka e Dr. Thomas Anderson.
-            # Então, há um conflito de interesse.
+            Action(name="FindPublications", kwargs={"title": "Multimodal AI for Medical Imaging Analysis"}), # Locate art_12
+            Action(name="LookupSubmissions", kwargs={"article_id": "art_12"}), # Locate sub_03
+            Action(name="FindUsers", kwargs={"user_id": "res_01"}), # Autor: Helena Souza
+            Action(name="FindUsers", kwargs={"research_field": "Artificial Intelligence", "availability": "available"}), # Localiza res_01, res_12
+            Action(name="FindPublications", kwargs={"author_name": "Dr. Kenji Tanaka"}), # Para confirmar a coautoria dela.
+            Action(name="FindPublications", kwargs={"author_name": "Dr. Thomas Anderson"}), # Para confirmar a coautoria com a coautora de art_12.
+            # O arquivo articles.json não está presente; art_12 é coautorado por Dr. Kenji Tanaka e Dr. Thomas Anderson.
+            # Portanto, existe um conflito de interesse.
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_01", "article_id": "art_12", "notes": "Potential conflict of interest detected: Reviewer Dr. Kenji Tanaka (res_01) has co-authored with Dr. Thomas Anderson.", "relevance": "high"}),
-            Action(name="AppointReviewer", kwargs={"submission_id": "sub_03", "reviewer_user_id": "res_12"}), # Atribuir Dra. Sarah Johnson
+            Action(name="AppointReviewer", kwargs={"submission_id": "sub_03", "reviewer_user_id": "res_12"}), # Designar Dra. Sarah Johnson
             Action(name="ModifySubmissionStatus", kwargs={"submission_id": "sub_03", "new_status": "under_review"}),
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_01", "message_content": "A reviewer has been assigned to your submission 'Multimodal AI for Medical Imaging Analysis'."}),
             Action(name="LookupSubmissions", kwargs={"submission_id": "sub_03"}),
@@ -176,8 +176,8 @@ TASKS = [
         user_id="funder_manager_02",
         instruction="""Manage funding operations to secure funding for the 'Federated AI Systems' project (proj_04). Identify and assign an available 'AI' funding source with at least $200,000, specifically the 'Quantum Computing Initiative' (fs_10). Assign 'fs_10' to 'proj_04' and set the project status to 'active'. Create a research log for the lead researcher, Dr. Anna Petrov (res_06), with the exact content: 'Project fully funded and activated.', with relevance 'high', for article art_06. Dispatch a notification to Dr. Khan (res_06) with the exact message: 'Project 'Federated AI Systems' has been fully funded by 'Quantum Computing Initiative' and is now active.'. Display the final project details.""",
         actions=[
-            Action(name="FindProjects", kwargs={"project_name": "Federated AI Systems"}), # Finds proj_04
-            Action(name="FindGrants", kwargs={"focus_area": "AI", "status": "available"}), # Finds fs_01 ($250k), fs_08 ($180k), fs_10 ($800k)
+            Action(name="FindProjects", kwargs={"project_name": "Federated AI Systems"}), # Locates proj_04
+            Action(name="FindGrants", kwargs={"focus_area": "AI", "status": "available"}), # Identifies fs_01 ($250k), fs_08 ($180k), fs_10 ($800k)
             Action(name="AssignFundingToProject", kwargs={"project_id": "proj_04", "funding_source_id": "fs_10"}),
             Action(name="ModifyProjectStatus", kwargs={"project_id": "proj_04", "new_status": "active"}),
             Action(name="FindProjects", kwargs={"project_id": "proj_04"}),
@@ -215,12 +215,12 @@ TASKS = [
         actions=[
             Action(name="FindUsers", kwargs={"name": "Dr. Sarah Johnson"}),
             Action(name="FindUsers", kwargs={"name": "Dr. Kenji Tanaka"}),
-            Action(name="FindPublications", kwargs={"author_name": "Dr. Kenji Tanaka"}), # Para encontrar artigos dela (art_01, art_12, art_15)
-            Action(name="FindProjects", kwargs={"lead_researcher_id": "res_01"}), # Para ver se ela lidera projetos
-            # Verificar se algum artigo de Souza cita artigo de Mendes.
-            # No citations.json, art_01 (Souza) cita art_03 (Mendes). Isso é um conflito.
+            Action(name="FindPublications", kwargs={"author_name": "Dr. Kenji Tanaka"}), # Para localizar os artigos dela (art_01, art_12, art_15)
+            Action(name="FindProjects", kwargs={"lead_researcher_id": "res_01"}), # Para verificar se ela coordena projetos.
+            # Checar se algum trabalho de Souza faz referência ao trabalho de Mendes.
+            # Ausência de citations.json, art_01 (Souza) referencia art_03 (Mendes). Isso gera um conflito.
             Action(name="FindReferences", kwargs={"article_id": "art_01", "direction": "from"}),
-            # Com base na verificação acima, um conflito existe. Então o log deve ser criado.
+            # De acordo com a verificação anterior, há um conflito. Portanto, é necessário criar o log.
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_02", "article_id": "art_01", "notes": "Potential conflict of interest identified with Dr. Kenji Tanaka.", "relevance": "high"}),
             Action(name="SearchResearchLogs", kwargs={"researcher_id": "res_02"}),
             Action(name="FindUsers", kwargs={"user_id": "res_01"}),
@@ -235,7 +235,7 @@ TASKS = [
         user_id="academic_advisor_01",
         instruction="""Provide academic advisory services to identify Dr. Liu Wei (res_05), a researcher subscribed to the 'Astrophysics' topic. For Dr. Tanaka, find his most recent article. Identify 'Gravitational Wave Detection from Binary Black Holes' (art_13) that he has not yet logged. If such an article exists, dispatch a notification to him (res_05) including a summary of 'art_13' and the exact message: 'Recommendation based on your interest in Astrophysics: 'Gravitational Wave Detection... A new study on...''. As part of a system-wide UI update, ensure his UI theme preference is 'dark'. Display the updated user preferences for Dr. Tanaka.""",
         actions=[
-            Action(name="FindUsers", kwargs={"user_id": "res_05"}), # Buscar diretamente res_05
+            Action(name="FindUsers", kwargs={"user_id": "res_05"}), # Localizar diretamente res_05
             Action(name="FindPublications", kwargs={"author_name": "Dr. Liu Wei"}),
             Action(name="SearchResearchLogs", kwargs={"researcher_id": "res_05", "article_id": "art_13"}),
             Action(name="SummarizeArticleText", kwargs={"article_id": "art_13"}),
@@ -253,7 +253,7 @@ TASKS = [
             Action(name="FindPublications", kwargs={"title": "Quantum Cryptography Protocols"}),
             Action(name="LookupSubmissions", kwargs={"article_id": "art_10"}),
             Action(name="FindUsers", kwargs={"research_field": "AI", "availability": "available"}),
-            Action(name="FindUsers", kwargs={"research_field": "AI"}), # To specifically get res_01 and res_12.
+            Action(name="FindUsers", kwargs={"research_field": "AI"}), # To retrieve only res_01 and res_12.
             Action(name="AppointReviewer", kwargs={"submission_id": "sub_04", "reviewer_user_id": "res_01"}),
             Action(name="AppointReviewer", kwargs={"submission_id": "sub_04", "reviewer_user_id": "res_12"}),
             Action(name="SubmitReview", kwargs={"submission_id": "sub_04", "reviewer_user_id": "res_01", "review_content": "Excellent work, clear accept.", "recommendation": "accept"}),
@@ -278,7 +278,7 @@ TASKS = [
             Action(name="FindUsers", kwargs={"research_field": "Biomedicine", "availability": "available"}),
             Action(name="FindPublications", kwargs={"author_name": "Dr. Thomas Anderson"}),
             Action(name="GetUserSubscriptions", kwargs={"user_id": "res_04"}),
-            Action(name="UpdateUserSubscriptions", kwargs={"user_id": "res_04", "topic": "Biomedicine", "action": "add"}), # Adicionado para garantir a subscrição se necessário
+            Action(name="UpdateUserSubscriptions", kwargs={"user_id": "res_04", "topic": "Biomedicine", "action": "add"}), # Incluído para assegurar a assinatura se necessário.
             Action(name="SummarizeArticleText", kwargs={"article_id": "art_11"}),
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_02", "message_content": "For future collaboration, consider Dr. Thomas Anderson. She recently published 'CRISPR-Cas12 Evolution...': A comparative analysis..."}),
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_02", "article_id": "art_14", "notes": "Suggested Dr. Thomas Anderson for collaboration on art_14.", "relevance": "medium"})
@@ -308,10 +308,10 @@ TASKS = [
         actions=[
             Action(name="FindPublications", kwargs={"title": "Multimodal AI for Medical Imaging Analysis"}),
             Action(name="LookupSubmissions", kwargs={"article_id": "art_12"}),
-            Action(name="FindUsers", kwargs={"user_id": "res_01"}), # Autora é Helena Souza
-            Action(name="FindUsers", kwargs={"research_field": "Artificial Intelligence", "availability": "available"}), # Encontra res_01, res_12
-            Action(name="FindPublications", kwargs={"author_name": "Dr. Sofia Bauer"}), # Para verificar co-autoria dela
-            Action(name="FindPublications", kwargs={"author_name": "Dr. Kenji Tanaka"}), # Para verificar co-autoria com a co-autora de art_12
+            Action(name="FindUsers", kwargs={"user_id": "res_01"}), # Authored by Helena Souza
+            Action(name="FindUsers", kwargs={"research_field": "Artificial Intelligence", "availability": "available"}), # Locate res_01, res_12
+            Action(name="FindPublications", kwargs={"author_name": "Dr. Sofia Bauer"}), # Para confirmar a coautoria dela.
+            Action(name="FindPublications", kwargs={"author_name": "Dr. Kenji Tanaka"}), # Para confirmar a coautoria com a coautora de art_12
             Action(name="AppointReviewer", kwargs={"submission_id": "sub_03", "reviewer_user_id": "res_12"}),
             Action(name="ModifySubmissionStatus", kwargs={"submission_id": "sub_03", "new_status": "under_review"}),
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_01", "message_content": "A reviewer has been assigned to your submission 'Multimodal AI for Medical Imaging Analysis'."}),
@@ -324,13 +324,13 @@ TASKS = [
         user_id="research_director_01",
         instruction="""Direct research operations to establish the new 'CRISPR Gene Therapy Trials' project (proj_crispr_trials). Assign Dr. Ana Oliveira (res_10) as the lead researcher, with Dr. Sarah Johnson (res_02) and Dr. Thomas Anderson (res_04) as team members. Find and assign an available 'Biomedicine' grant over $500,000, specifically the 'Medical Research Council' (fs_03), to 'proj_crispr_trials'. Link 'Gene Editing Techniques with CRISPR-Cas9' (art_03) to the project, and set its status to 'active'. Dispatch notifications to Dr. Oliveira (res_10) with the exact message: 'Your new project 'CRISPR Gene Therapy Trials' is active.'; to Dr. Mendes (res_02) with the exact message: 'You have been added to project 'CRISPR Gene Therapy Trials'.'; and to Dr. Bauer (res_04) with the exact message: 'You have been added to project 'CRISPR Gene Therapy Trials'.'. Display the final project details.""",
         actions=[
-            Action(name="FindUsers", kwargs={"user_id": "res_10"}), # Buscar diretamente pelo user_id para garantir que existe
+            Action(name="FindUsers", kwargs={"user_id": "res_10"}), # Consultar directamente por user_id para verificar su existencia.
             Action(name="FindUsers", kwargs={"name": "Dr. Sarah Johnson"}),
             Action(name="FindUsers", kwargs={"name": "Dr. Thomas Anderson"}),
             Action(name="LaunchProject", kwargs={"project_name": "CRISPR Gene Therapy Trials", "lead_researcher_id": "res_10", "project_id_override": "proj_crispr_trials"}),
             Action(name="AddResearcherToProjectTeam", kwargs={"project_id": "proj_crispr_trials", "user_id": "res_02"}),
             Action(name="AddResearcherToProjectTeam", kwargs={"project_id": "proj_crispr_trials", "user_id": "res_04"}),
-            Action(name="FindGrants", kwargs={"funding_source_id": "fs_03"}), # Especificar ID para determinismo
+            Action(name="FindGrants", kwargs={"funding_source_id": "fs_03"}), # Definir ID para garantizar determinismo.
             Action(name="AssignFundingToProject", kwargs={"project_id": "proj_crispr_trials", "funding_source_id": "fs_03"}),
             Action(name="FindPublications", kwargs={"title": "Gene Editing Techniques with CRISPR-Cas9"}),
             Action(name="LinkArticleToProject", kwargs={"project_id": "proj_crispr_trials", "article_id": "art_03"}),
@@ -349,12 +349,12 @@ TASKS = [
         actions=[
             Action(name="FindPublications", kwargs={"title": "New Biomarkers for Early Detection"}),
             Action(name="LookupSubmissions", kwargs={"article_id": "art_04"}),
-            Action(name="FindUsers", kwargs={"research_field": "Biomedicine", "availability": "available"}), # Finds Dr. Thomas Anderson and Dr. Ricardo Mendes.
-            Action(name="FindProjects", kwargs={"lead_researcher_id": "res_04"}), # Checks projects for Sofia Bauer (0 projects).
-            Action(name="FindProjects", kwargs={"lead_researcher_id": "res_07"}), # Checks projects for Maria Santos (0 projects).
-            Action(name="AppointReviewer", kwargs={"submission_id": "sub_02", "reviewer_user_id": "res_04"}), # Assigns Sofia Bauer.
+            Action(name="FindUsers", kwargs={"research_field": "Biomedicine", "availability": "available"}), # Locates Dr. Thomas Anderson and Dr. Ricardo Mendes.
+            Action(name="FindProjects", kwargs={"lead_researcher_id": "res_04"}), # Verifies projects for Sofia Bauer (0 projects).
+            Action(name="FindProjects", kwargs={"lead_researcher_id": "res_07"}), # Verifies projects for Maria Santos (0 projects).
+            Action(name="AppointReviewer", kwargs={"submission_id": "sub_02", "reviewer_user_id": "res_04"}), # Allocates Sofia Bauer.
             Action(name="ModifySubmissionStatus", kwargs={"submission_id": "sub_02", "new_status": "under_review"}),
-            Action(name="FindUsers", kwargs={"user_id": "res_02"}), # To get author ID.
+            Action(name="FindUsers", kwargs={"user_id": "res_02"}), # To retrieve the author ID.
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_02", "message_content": "A reviewer has been assigned to your submission 'New Biomarkers for Early Detection'."}),
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_04", "message_content": "You have been assigned to review the submission 'New Biomarkers for Early Detection'."}),
             Action(name="LookupSubmissions", kwargs={"submission_id": "sub_02"})
@@ -418,8 +418,8 @@ TASKS = [
         instruction="""Direct research operations to manage the allocation of the 'Medical Research Council' grant (fs_03). Identify the project 'Next-Generation CRISPR Technologies' (proj_03), which is an active project in Biomedicine led by Dr. Sarah Johnson (res_02). Ensure proj_03 is assigned to 'fs_03'. Then, based on Dr. Mendes's (res_02) notification preferences, dispatch a notification (e.g., in-app if 'in_app', otherwise email) about their newly assigned funding. Additionally, dispatch a notification to the head of the AI department, Dr. Kenji Tanaka (res_01), with the exact message: 'FYI: A new major grant from the Medical Research Council is now funding projects in Biomedicine.'. Create a research log for Dr. Souza (res_01) with the exact content: 'Noted new funding in Biomedicine (Medical Research Council grant) for collaboration potential.', with 'medium' relevance, for article art_01. Display the notification details for Dr. Souza.""",
         actions=[
             Action(name="FindGrants", kwargs={"funding_source_id": "fs_03"}),
-            Action(name="FindProjects", kwargs={"project_id": "proj_03"}), # Encontrar proj_03
-            Action(name="AssignFundingToProject", kwargs={"project_id": "proj_03", "funding_source_id": "fs_03"}), # Atribuir funding a proj_03
+            Action(name="FindProjects", kwargs={"project_id": "proj_03"}), # Localizar proj_03
+            Action(name="AssignFundingToProject", kwargs={"project_id": "proj_03", "funding_source_id": "fs_03"}), # Asignar financiamiento a proj_03.
             Action(name="FindUsers", kwargs={"user_id": "res_02"}),
             Action(name="GetUserPreferences", kwargs={"user_id": "res_02"}),
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_02", "message_content": "Your project 'Next-Generation CRISPR Technologies' has been assigned funding from the 'Medical Research Council'."}),
@@ -457,7 +457,7 @@ TASKS = [
         user_id="analyst_02",
         instruction="""As an analyst, analyze the research impact of the 'MediCore' institution. Identify all researchers from this institution (e.g., Dr. Sarah Johnson - res_02). For each researcher, find all their published articles and count the total number of times they have been cited across all their papers. Identify the researcher from MediCore with the most total citations. If this top researcher (Dr. Mendes) is not subscribed to the 'AI' topic, a major related field, create a research log for him (res_02) with the exact content: 'Strategic Gap: As a highly cited researcher, should consider subscribing to the 'AI' topic due to its growing relevance in Biomedicine.', with 'high' relevance, for article art_09. Finally, list all projects this top researcher is currently leading.""",
         actions=[
-            Action(name="FindUsers", kwargs={"research_field": "Biomedicine"}), # Buscar por campo de pesquisa associado à instituição
+            Action(name="FindUsers", kwargs={"research_field": "Biomedicine"}), # Realizar búsqueda por campo de investigación vinculado a la institución.
             Action(name="FindPublications", kwargs={"author_name": "Dr. Sarah Johnson"}),
             Action(name="FindReferences", kwargs={"article_id": "art_03", "direction": "to"}),
             Action(name="FindReferences", kwargs={"article_id": "art_09", "direction": "to"}),
@@ -479,10 +479,10 @@ TASKS = [
             Action(name="LaunchProject", kwargs={"project_name": "Quantum AI Synergy", "lead_researcher_id": "res_01", "project_id_override": "proj_quantum_ai_synergy"}),
             Action(name="AssignFundingToProject", kwargs={"project_id": "proj_quantum_ai_synergy", "funding_source_id": "fs_10"}),
             Action(name="AddResearcherToProjectTeam", kwargs={"project_id": "proj_quantum_ai_synergy", "user_id": "res_03"}),
-            Action(name="FindPublications", kwargs={"author_name": "Dr. Kenji Tanaka"}), # Verifica artigos de Souza
-            Action(name="FindPublications", kwargs={"author_name": "Prof. James Wilson"}), # Verifica artigos de Costa
-            # No articles.json, Helena Souza e Prof. James Wilson não co-autores diretamente.
-            # Então, o log de pesquisa será criado.
+            Action(name="FindPublications", kwargs={"author_name": "Dr. Kenji Tanaka"}), # Confere os artigos de Souza.
+            Action(name="FindPublications", kwargs={"author_name": "Prof. James Wilson"}), # Confere os artigos de Costa.
+            # articles.json não está presente, Helena Souza e Prof. James Wilson não são co-autores diretos.
+            # Assim, o registro de pesquisa será gerado.
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_01", "article_id": "art_01", "notes": "New collaboration established with Prof. James Wilson on project Quantum AI Synergy.", "relevance": "high"}),
             Action(name="ModifyProjectStatus", kwargs={"project_id": "proj_quantum_ai_synergy", "new_status": "active"}),
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_01", "message_content": "Your new project 'Quantum AI Synergy' is active."}),
@@ -496,17 +496,17 @@ TASKS = [
         user_id="editor_03",
         instruction="""As an editor, process the 'minor_revisions' review for the submission 'New Biomarkers for Early Detection' (art_04 / sub_02). Dispatch a notification to the author, Dr. Sarah Johnson (res_02), with the exact message: 'A 'minor_revisions' review was submitted for your article 'New Biomarkers for Early Detection'.'. Update his UI theme preference to 'light' to ensure he sees it. After a hypothetical revision period, update the submission status to 'under_review' and then immediately to 'accepted'. Update the linked project 'Next-Generation CRISPR Technologies' (proj_03) status to 'completed'. Create a research log for Dr. Mendes (res_02) with the exact content: 'Congratulations on navigating the review process. Your article 'New Biomarkers for Early Detection' is now accepted.', with 'high' relevance, for article art_04. Display the final submission details.""",
         actions=[
-            Action(name="FindPublications", kwargs={"title": "New Biomarkers for Early Detection"}), # Encontra art_04
-            Action(name="LookupSubmissions", kwargs={"submission_id": "sub_02"}), # Busca sub_02
+            Action(name="FindPublications", kwargs={"title": "New Biomarkers for Early Detection"}), # Locate art_04
+            Action(name="LookupSubmissions", kwargs={"submission_id": "sub_02"}), # Locate sub_02
             Action(name="FindUsers", kwargs={"name": "Dr. Sarah Johnson"}),
-            # Notificação ajustada para refletir art_04.
+            # Notificação modificada para alinhar com art_04.
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_02", "message_content": "A 'minor_revisions' review was submitted for your article 'New Biomarkers for Early Detection'."}),
             Action(name="UpdateUserPreferences", kwargs={"user_id": "res_02", "ui_theme": "light"}),
             Action(name="ModifySubmissionStatus", kwargs={"submission_id": "sub_02", "new_status": "under_review"}),
             Action(name="ModifySubmissionStatus", kwargs={"submission_id": "sub_02", "new_status": "accepted"}),
-            Action(name="FindProjects", kwargs={"project_name": "Next-Generation CRISPR Technologies"}), # proj_03
+            Action(name="FindProjects", kwargs={"project_name": "Next-Generation CRISPR Technologies"}), # project_03
             Action(name="ModifyProjectStatus", kwargs={"project_id": "proj_03", "new_status": "completed"}),
-            # create_research_log com art_04 e mensagem ajustada.
+            # generate_research_log with art_04 and modified message.
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_02", "article_id": "art_04", "notes": "Congratulations on navigating the review process. Your article 'New Biomarkers for Early Detection' is now accepted.", "relevance": "high"}),
             Action(name="LookupSubmissions", kwargs={"submission_id": "sub_02"}),
         ],
@@ -534,18 +534,18 @@ TASKS = [
         user_id="data_governance_officer_01",
         instruction="""As a data governance officer, ensure compliance and update researcher profiles. For Dr. Kenji Tanaka (res_01), retrieve her current user preferences. Change her UI theme preference to 'light'. Ensure she is subscribed to the 'AI' topic. Find her article 'Multimodal AI for Medical Imaging Analysis' (art_12) and retrieve its submission details. If the submission status is 'submitted', change it to 'under_review'. Create a research log for yourself (data_governance_officer_01) with the exact content: 'Profile and submission compliance reviewed for Dr. Souza.', with 'high' relevance, for article art_12. Finally, notify Dr. Kenji Tanaka (res_01) with the exact message: 'Your profile and article submission status have been updated for compliance.'. Display Dr. Souza's updated user preferences and the article's submission details.""",
         actions=[
-            Action(name="FindUsers", kwargs={"user_id": "res_01"}), # 1 edge (literal -> user_id)
+            Action(name="FindUsers", kwargs={"user_id": "res_01"}), # 1 edge (literal to user_id)
             Action(name="GetUserPreferences", kwargs={"user_id": "res_01"}), # 1 edge (output find_users -> user_id)
-            Action(name="UpdateUserPreferences", kwargs={"user_id": "res_01", "ui_theme": "light"}), # 2 edges (output find_users -> user_id; literal -> ui_theme)
+            Action(name="UpdateUserPreferences", kwargs={"user_id": "res_01", "ui_theme": "light"}), # Two edges (output find_users -> user_id; literal -> ui_theme)
             Action(name="GetUserSubscriptions", kwargs={"user_id": "res_01"}), # 1 edge (output find_users -> user_id)
-            Action(name="UpdateUserSubscriptions", kwargs={"user_id": "res_01", "topic": "AI", "action": "add"}), # 2 edges (output find_users -> user_id; literal -> topic)
-            Action(name="FindPublications", kwargs={"article_id": "art_12"}), # Artigo mudado de art_01 para art_12 para ter submissão. 1 edge (literal -> art_id)
-            Action(name="LookupSubmissions", kwargs={"article_id": "art_12"}), # art_12 tem sub_03. 1 edge (literal -> art_id)
-            Action(name="ModifySubmissionStatus", kwargs={"submission_id": "sub_03", "new_status": "under_review"}), # sub_03 status é 'under_review', a ação mudaria para 'under_review' novamente ou deveria ser 'submitted'
-            Action(name="CreateResearchLog", kwargs={"researcher_id": "data_governance_officer_01", "article_id": "art_12", "notes": "Profile and submission compliance reviewed for Dr. Souza.", "relevance": "high"}), # 4 edges (literal -> res_id, art_id, notes, relevance)
-            Action(name="NotifyUser", kwargs={"recipient_user_id": "res_01", "message_content": "Your profile and article submission status have been updated for compliance."}), # 2 edges (output find_users -> res_id; literal -> message)
+            Action(name="UpdateUserSubscriptions", kwargs={"user_id": "res_01", "topic": "AI", "action": "add"}), # Two edges (output find_users -> user_id; literal -> topic)
+            Action(name="FindPublications", kwargs={"article_id": "art_12"}), # Artigo alterado de art_01 para art_12 para submissão. 1 aresta (literal -> art_id)
+            Action(name="LookupSubmissions", kwargs={"article_id": "art_12"}), # art_12 has sub_03. 1 edge (literal -> art_id)
+            Action(name="ModifySubmissionStatus", kwargs={"submission_id": "sub_03", "new_status": "under_review"}), # Se o status de sub_03 é 'under_review', deve mudar para 'under_review' novamente ou para 'submitted'?
+            Action(name="CreateResearchLog", kwargs={"researcher_id": "data_governance_officer_01", "article_id": "art_12", "notes": "Profile and submission compliance reviewed for Dr. Souza.", "relevance": "high"}), # 4 edges (literal -> resource_id, article_id, comments, significance)
+            Action(name="NotifyUser", kwargs={"recipient_user_id": "res_01", "message_content": "Your profile and article submission status have been updated for compliance."}), # Two edges (output find_users -> res_id; literal -> message)
             Action(name="GetUserPreferences", kwargs={"user_id": "res_01"}), # 1 edge (output find_users -> user_id)
-            Action(name="LookupSubmissions", kwargs={"article_id": "art_12"}) # 1 edge (literal -> art_id)
+            Action(name="LookupSubmissions", kwargs={"article_id": "art_12"}) # 1 edge (literal to art_id)
         ],
         outputs=[]
     ),
@@ -597,12 +597,12 @@ TASKS = [
             Action(name="CreateResearchLog", kwargs={"researcher_id": "res_02", "article_id": "art_09", "notes": "Potential inter-institutional collaboration with Prof. James Wilson of OrbitX identified. No prior co-authorship found.", "relevance": "medium"}),
             Action(name="GetUserSubscriptions", kwargs={"user_id": "res_02"}),
             Action(name="UpdateUserSubscriptions", kwargs={"user_id": "res_02", "topic": "Astrophysics", "action": "add"}),
-            Action(name="LaunchProject", kwargs={"project_name": "Quantum Health Horizons", "lead_researcher_id": "res_02", "project_id_override": "proj_quantum_health"}), # Corrigido para 'proj_quantum_health'
-            Action(name="AddResearcherToProjectTeam", kwargs={"project_id": "proj_quantum_health", "user_id": "res_03"}), # Corrigido para 'proj_quantum_health'
+            Action(name="LaunchProject", kwargs={"project_name": "Quantum Health Horizons", "lead_researcher_id": "res_02", "project_id_override": "proj_quantum_health"}), # Alterado para 'proj_quantum_health'
+            Action(name="AddResearcherToProjectTeam", kwargs={"project_id": "proj_quantum_health", "user_id": "res_03"}), # Ajustado para 'proj_quantum_health'
             Action(name="FindGrants", kwargs={"source_name": "Innovation Technology Grant"}),
-            Action(name="AssignFundingToProject", kwargs={"project_id": "proj_quantum_health", "funding_source_id": "fs_05"}), # Corrigido para 'proj_quantum_health'
+            Action(name="AssignFundingToProject", kwargs={"project_id": "proj_quantum_health", "funding_source_id": "fs_05"}), # Ajustado para 'proj_quantum_health'
             Action(name="NotifyUser", kwargs={"recipient_user_id": "res_02", "message_content": "New collaboration opportunity: 'Quantum Health Horizons' project initiated with Prof. James Wilson."}),
-            Action(name="FindProjects", kwargs={"project_id": "proj_quantum_health"}) # Corrigido para 'proj_quantum_health'
+            Action(name="FindProjects", kwargs={"project_id": "proj_quantum_health"}) # Ajustado para 'proj_quantum_health'
         ],
         outputs=[]
     ),
@@ -673,7 +673,7 @@ TASKS = [
         user_id="research_lifecycle_manager_01",
         instruction="""As a research lifecycle manager, ensure all recently 'completed' projects have their lead researchers' preferences updated and summary logs created. Specifically for 'Next-Generation CRISPR Technologies' (proj_03), ensure its end date is set to '2025-06-28'. For its lead researcher, Dr. Sarah Johnson (res_02), change his UI theme preference to 'dark'. Then, create a research log for Dr. Mendes (res_02) with the exact content: 'Project proj_03 completed and profile updated.', with 'low' relevance, for article art_03 (a linked article). Finally, dispatch a notification to Dr. Mendes (res_02) with the exact message: 'Your completed project status and profile have been updated.'. Display the final project details for proj_03.""",
         actions=[
-            Action(name="FindProjects", kwargs={"project_id": "proj_03"}), # Buscar diretamente proj_03
+            Action(name="FindProjects", kwargs={"project_id": "proj_03"}), # Acceder directamente a proj_03.
             Action(name="ModifyProjectStatus", kwargs={"project_id": "proj_03", "new_status": "completed", "end_date": "2025-06-28"}),
             Action(name="FindUsers", kwargs={"user_id": "res_02"}),
             Action(name="GetUserPreferences", kwargs={"user_id": "res_02"}),

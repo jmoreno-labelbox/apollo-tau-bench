@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,14 +20,14 @@ class CreateNewLoanApplication(Tool):
         if not all([customer_id, loan_type, requested_amount, requested_term_months, purpose]):
             return json.dumps({"error": "All loan-related fields and customer_id are required."}, indent=2)
 
-        # Look up customer in the database
+        # Retrieve customer information from the database.
         customers = list(data.get("customers", {}).values())
         customer = next((c for c in customers if c.get("customer_id") == customer_id), None)
 
         if not customer:
             return json.dumps({"error": f"Customer with ID '{customer_id}' not found."}, indent=2)
 
-        # Extract data from customer profile
+        # Retrieve information from the customer profile.
         personal_info = customer.get("personal_info", {})
         contact_info = customer.get("contact_info", {})
         financial_profile = customer.get("financial_profile", {})
@@ -39,12 +39,12 @@ class CreateNewLoanApplication(Tool):
         phone_number = next((p.get("number") for p in contact_info.get("phone_numbers", []) if p.get("is_primary")), None)
         address = contact_info.get("mailing_address") or {}
 
-        employment_status = personal_info.get("occupation", "Employed")  # Default assumption
+        employment_status = personal_info.get("occupation", "Employed")  # Standard presumption
         employer_name = personal_info.get("employer")
         annual_income = financial_profile.get("annual_income", 0)
-        monthly_debt_payments = 0  # Not present in customer DB, default to 0
+        monthly_debt_payments = 0  # Absent in customer database, set to 0 by default.
 
-        # Construct application entry
+        # Create application starting point.
         application_id = get_next_loan_application_id()
         submission_date = get_current_timestamp()
 

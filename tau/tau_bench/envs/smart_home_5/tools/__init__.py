@@ -1,6 +1,6 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
-# Helper function (must be defined BEFORE imports to avoid circular import)
+# Utility function (should be declared BEFORE imports to prevent circular dependencies)
 from datetime import datetime
 
 def _now_iso():

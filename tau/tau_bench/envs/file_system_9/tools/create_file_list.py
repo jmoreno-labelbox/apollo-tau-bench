@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,7 +26,7 @@ class CreateFileList(Tool):
         added_files = []
         for i, filepath in enumerate(filepaths):
             found_size = "0"
-            found_checksum = 'a1f2e3d4c5b6789012345678901234567890abcd' # Default checksum
+            found_checksum = 'a1f2e3d4c5b6789012345678901234567890abcd' # Standard checksum
             file_found = False
             for server in list(data.get("file_system", {}).values()):
                 for directory in server.get("directories", []):

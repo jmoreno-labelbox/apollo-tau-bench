@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -28,7 +28,7 @@ class UpdateFileInRepo(Tool):
                 indent=2
             )
 
-        # Preferred repository access pattern
+        # Recommended method for accessing the repository
         repos: List[Dict[str, Any]] = list(data.get("repositories", {}).values())
         if not isinstance(repos, list):
             return json.dumps(
@@ -36,7 +36,7 @@ class UpdateFileInRepo(Tool):
                 indent=2
             )
 
-        # Locate repository
+        # Find repository
         repo = next(
             (r for r in repos if r.get("owner") == owner and r.get("repo_name") == repo_name),
             None
@@ -55,7 +55,7 @@ class UpdateFileInRepo(Tool):
             )
         idx = branches.index(branch_name)
 
-        # Ensure per-branch structures exist and are aligned
+        # Verify that branch-specific structures are present and properly aligned.
         branch_files_all: List[List[str]] = repo.setdefault("branch_files", [])
         branch_contents_all: List[List[str]] = repo.setdefault("branch_contents", [])
         while len(branch_files_all) < len(branches):
@@ -78,18 +78,18 @@ class UpdateFileInRepo(Tool):
             )
 
         fidx = branch_files.index(file_name)
-        # Keep arrays aligned
+        # Maintain array alignment.
         while len(branch_contents) < len(branch_files):
             branch_contents.append("")
 
         previous_content = branch_contents[fidx]
         branch_contents[fidx] = file_content
 
-        # If main branch, also update repo-level file_contents
+        # If on the main branch, update the repository-level file_contents as well.
         if branch_name == "main":
             repo.setdefault("file_paths", [])
             repo.setdefault("file_contents", [])
-            # Align lengths
+            # Standardize lengths
             while len(repo["file_contents"]) < len(repo["file_paths"]):
                 repo["file_contents"].append("")
             if file_name in repo["file_paths"]:

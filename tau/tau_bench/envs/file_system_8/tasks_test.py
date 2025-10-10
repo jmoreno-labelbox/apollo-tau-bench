@@ -910,7 +910,7 @@ Task(
             "Perform file reorganization of '/var/log' to meet HIPAA compliance requirements for Task ID F_ADJ_012. Target location is '/hipaa/protected_logs' with 'patient.log' files routed to 'phi_data' and 'admin.log' files to 'administrative'. HIPAA compliance validation system requires central task database to contain evidence showing 'Plan registration for F_ADJ_012: Reorganize /var/log for audit.' initially and 'Organized audit-relevant health records from /var/log.' upon completion, with '#hipaa-compliance' notification 'Task F_ADJ_012 (File Tree Adjustment) complete. Health information logs in /var/log have been successfully organized for audit.' Execute reorganization ensuring these HIPAA standards are satisfied."
         ),
         actions=[
-            # Actions remain unchanged
+            # Actions stay the same.
             Action(
                 name="ParseDirectoryRestructureInstructions",
                 kwargs={
@@ -1627,7 +1627,7 @@ Task(
             "Perform archival process meeting MiFID II compliance audit requirements for Task ID ARCH_013. Archive '/trading/records/transactions.csv' and '/trading/records/orders.json' as 'mifid_trading_backup.tar.gz' to 'mifid-archive.eu:/regulatory/trading'. The MiFID II configuration requires compression level 8, MIFID_COMPLIANCE_KEY encryption, and 1825-day retention. Failed workflows due to missing source files must update the database with 'Workflow terminated due to missing source files.' using CRITICAL severity, and notify '#mifid-compliance' with 'Task ARCH_013 failed: Source files not found.' at urgent priority. Ensure MiFID II regulatory requirements are satisfied."
         ),
         actions=[
-            # Actions remain unchanged
+            # Actions stay the same.
             Action(
                 name="ParseArchiveInstructions",
                 kwargs={

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class check_skill_gap_severity(Tool):
         """
         Checks the severity of a specific skill gap for a user from their analysis report.
         """
-        # Find the overall analysis report for the specified user.
+        # Retrieve the comprehensive analysis report for the designated user.
         user_analysis = next(
             (
                 a
@@ -26,7 +26,7 @@ class check_skill_gap_severity(Tool):
                 {"error": f"Skill gap analysis not found for user {user_id}"}, indent=2
             )
 
-        # Within that user's report, find the specific skill gap.
+        # Identify the precise skill deficiency in the user's report.
         skill_gap_details = next(
             (
                 g
@@ -44,7 +44,7 @@ class check_skill_gap_severity(Tool):
                 indent=2,
             )
 
-        # Return the details directly from the found skill gap record.
+        # Retrieve the information directly from the identified skill gap record.
         return json.dumps(
             {
                 "user_id": user_id,

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class CategorizeGroceryListSections(Tool):
             ing = _ingredient_by_id(data, int(it.get("ingredient_id")))
             it["grocery_section"] = (ing or {}).get("grocery_section", "Misc")
             updated += 1
-        # Deterministic header write to ensure write semantics
+        # Predictable header writing to guarantee write behavior.
         gl = _require(data, "grocery_lists", "list_id", int(list_id))
         if gl is not None:
             gl["last_categorized_at"] = "2025-01-01T12:10:00"

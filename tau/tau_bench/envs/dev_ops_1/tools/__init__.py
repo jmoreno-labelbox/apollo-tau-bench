@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .receive_ci_event import ReceiveCiEvent
 from .attach_run_artifacts import AttachRunArtifacts

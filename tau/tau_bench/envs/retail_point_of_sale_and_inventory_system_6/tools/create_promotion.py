@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,7 +22,7 @@ class create_promotion(Tool):
 
         promotion_fields_unpacked = {k: kwargs[k] for k in promotion_fields}
 
-        # If applicable_skus is sent as a json, it needs to be converted to a list
+        # If applicable_skus is provided in JSON format, it must be transformed into a list.
         if isinstance(promotion_fields_unpacked["applicable_skus"], str):
             promotion_fields_unpacked["applicable_skus"] = json.loads(
                 promotion_fields_unpacked["applicable_skus"]
@@ -35,7 +35,7 @@ class create_promotion(Tool):
             max([int(x["promotion_id"].split("-")[1]) for x in promotions]) + 1
         )
 
-        # TODO: set status automatically based on start date
+        # TODO: automatically update status according to start date
         promotion_row = {
             "promotion_id": "PROMO-{promotion_id:03}".format(promotion_id=promotion_id),
             "name": promotion_fields_unpacked["name"],
@@ -50,12 +50,12 @@ class create_promotion(Tool):
             "times_used": 0,
         }
 
-        # Update the skus
+        # Revise the SKUs.
         for product in products:
             if product["sku"] in promotion_fields_unpacked["applicable_skus"]:
                 product["is_discountable"] = True
 
-                # TODO: will need to handle different discount types
+                # TODO: must implement support for various discount types
                 product["discount_rate"] = (
                     promotion_fields_unpacked["discount_value"] / 100.0
                 )

@@ -15,22 +15,22 @@ class AddMentorshipRelationship(Tool):
     ) -> str:
         relationships = data.setdefault("user_mentorship_relationships", [])
 
-        #--- Logic for auto-generating relationship_id ---
+        # --- Mechanism for automatically creating relationship_id ---
         if not relationships:
             new_id_num = 1
         else:
-            #Identify the highest existing ID number to prevent collisions
+            # Determine the maximum current ID value to avoid conflicts.
             max_id = 0
             for rel in relationships:
                 try:
-                    num = int(rel["relationship_id"][2:])  #Presumes the format MR###
+                    num = int(rel["relationship_id"][2:])  #Presumes the format MR### Assumes the structure MR###
                     if num > max_id:
                         max_id = num
                 except (ValueError, IndexError):
-                    continue  #Ignore incorrectly formatted IDs
+                    continue  # Exclude improperly formatted IDs.
             new_id_num = max_id + 1
 
-        new_relationship_id = f"MR{new_id_num:03d}"  #Formats as MR001, MR015, and so on.
+        new_relationship_id = f"MR{new_id_num:03d}"  # Formatted as MR001, MR015, etc.
 
         new_relationship = {
             "relationship_id": new_relationship_id,

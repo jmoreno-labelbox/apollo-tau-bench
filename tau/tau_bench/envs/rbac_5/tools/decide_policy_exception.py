@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,32 +25,32 @@ class DecidePolicyException(Tool):
         if decision not in ("APPROVED", "DENIED"):
             return json.dumps({"error": "decision must be APPROVED or DENIED"})
 
-        # Get exception
+        # Obtain exception
         exceptions = data.get("policy_exceptions", [])
         exception = _find_by_id(exceptions, "exception_id", exception_id)
         if not exception:
             return json.dumps({"error": f"exception_id {exception_id} not found"})
 
-        # Validate reviewer matches
+        # Verify reviewer correspondence.
         if exception.get("reviewed_by") != reviewer_id:
             return json.dumps({"error": f"reviewer_id {reviewer_id} does not match assigned reviewer {exception.get('reviewed_by')}"})
 
-        # Validate status
+        # Check status validity.
         if exception.get("status") != "PENDING_REVIEW":
             return json.dumps({"error": f"exception {exception_id} is not PENDING_REVIEW"})
 
-        # Update status
+        # Refresh status
         updated = dict(exception)
         updated.update({
             "status": "ACTIVE" if decision == "APPROVED" else "DENIED",
             "reviewed_on": reviewed_on,
         })
 
-        # If denied, clear expires_on
+        # If rejected, reset expires_on.
         if decision == "DENIED":
             updated["expires_on"] = None
 
-        # Persist update
+        # Save changes
         for i, exc in enumerate(exceptions):
             if exc.get("exception_id") == exception_id:
                 data["policy_exceptions"][i] = updated

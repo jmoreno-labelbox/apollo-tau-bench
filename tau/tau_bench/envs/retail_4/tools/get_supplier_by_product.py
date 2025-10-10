@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright notice
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class GetSupplierByProduct(Tool):
         if not product_ids:
             return json.dumps({"error": "Product IDs list cannot be empty", "status": "failed"})
 
-        # Get product information for type filtering
+        # Retrieve product details for type-based filtering.
         products = list(data.get("products", {}).values())
         product_name_map = {}
         for product in products:
@@ -25,12 +25,12 @@ class GetSupplierByProduct(Tool):
             if product_id:
                 product_name_map[product_id] = product_name
 
-        # Convert product_type to lowercase for case-insensitive matching
+        # Transform product_type to lowercase for uniform matching regardless of case.
         product_type_lower = []
         if product_type:
             product_type_lower = [ptype.lower() for ptype in product_type]
 
-        # Filter product_ids by product_type if specified
+        # Narrow down product_ids based on the specified product_type.
         filtered_product_ids = []
         if product_type_lower:
             for product_id in product_ids:
@@ -62,20 +62,20 @@ class GetSupplierByProduct(Tool):
         matching_suppliers = []
         product_supplier_map = {}
 
-        # Search through all suppliers to find matches for filtered products
+        # Scan all suppliers to identify matches for the selected products.
         for supplier in suppliers:
             supplier_id = supplier.get("supplier_id")
             supplier_name = supplier.get("name")
             supplier_products = supplier.get("products", [])
             contact_info = supplier.get("contact_info", {})
 
-            # Check which filtered products this supplier has
+            # Verify the products that this supplier offers based on the applied filters.
             matching_products = []
             for product_id in filtered_product_ids:
                 if product_id in supplier_products:
                     matching_products.append(product_id)
 
-                    # Build product to supplier mapping
+                    # Create a mapping of products to their respective suppliers.
                     if product_id not in product_supplier_map:
                         product_supplier_map[product_id] = []
                     product_supplier_map[product_id].append({
@@ -83,7 +83,7 @@ class GetSupplierByProduct(Tool):
                         "supplier_name": supplier_name
                     })
 
-            # If supplier has any matching products, include them
+            # Incorporate any products from the supplier that match.
             if matching_products:
                 supplier_info = {
                     "supplier_id": supplier_id,
@@ -95,7 +95,7 @@ class GetSupplierByProduct(Tool):
                     "last_updated": supplier.get("last_updated", "Never")
                 }
 
-                # Add stock information for matching products if available
+                # Incorporate stock details for corresponding products if present.
                 item_stock = supplier.get("item_stock", {})
                 if item_stock:
                     stock_summary = {
@@ -117,13 +117,13 @@ class GetSupplierByProduct(Tool):
 
                 matching_suppliers.append(supplier_info)
 
-        # Find products with no suppliers
+        # Identify items that lack associated suppliers.
         products_not_found = []
         for product_id in filtered_product_ids:
             if product_id not in product_supplier_map:
                 products_not_found.append(product_id)
 
-        # Sort suppliers by number of matching products (descending)
+        # Order suppliers based on the count of corresponding products (in descending order).
         matching_suppliers.sort(key=lambda x: x["total_matching_products"], reverse=True)
 
         result = {

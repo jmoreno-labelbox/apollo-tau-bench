@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetAggregatorStoreId(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], household_id: int) -> str:
-        # Determine aggregator store dynamically; choose first aggregator platform store
+        # Dynamically identify the aggregator store; select the initial aggregator platform store.
         stores = data.get("stores", [])
         agg = [s for s in stores if str(s.get("platform_enum")) == "aggregator"]
         sid = int(agg[0]["store_id"]) if agg else (int(stores[0]["store_id"]) if stores else 0)

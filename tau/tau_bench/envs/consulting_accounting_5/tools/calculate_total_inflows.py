@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from datetime import datetime
 import json
@@ -22,7 +22,7 @@ class CalculateTotalInflows(Tool):
         for id in invoices_ids:
             invoices_to_consider.append(next((inv for inv in data["invoices"] if inv["invoice_id"] == id), None))
 
-        # Considers past-due invoices as immediately receivable within the window.
+        # Treats overdue invoices as instantly collectible during the period.
         total_inflow = sum(
             inv["total_due"] for inv in invoices_to_consider
             if datetime.strptime(inv["invoice_date"], "%Y-%m-%d") <= end_date

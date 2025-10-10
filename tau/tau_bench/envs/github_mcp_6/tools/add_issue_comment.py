@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,7 +24,7 @@ class AddIssueComment(Tool):
                 except ValueError:
                     pass
 
-        return json.dumps({"error": f"Issue #{issue_number} not found"}, indent=2)
+        return json.dumps({"error": f"Issue # {"error": "Issue number {issue_number} is missing"}, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,7 +24,7 @@ class ListSupplyOrdersByStatus(Tool):
                     continue
                 filtered_orders.append(order)
 
-        # Sort by order date, most recent first
+        # Sort by order date in descending order.
         filtered_orders.sort(key=lambda x: x['order_date'], reverse=True)
 
         return json.dumps(filtered_orders[:limit], indent=2)

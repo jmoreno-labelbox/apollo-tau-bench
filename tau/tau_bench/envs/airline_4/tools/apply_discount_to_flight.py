@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class ApplyDiscountToFlight(Tool):
         date: str,
         percent: float
     ) -> str:
-        # percent parsing & validation
+        # percentage interpretation and verification
         try:
             percent = float(percent)
         except Exception:
@@ -46,14 +46,14 @@ class ApplyDiscountToFlight(Tool):
         except Exception:
             return _json({"error": "fare_class_not_found"})
 
-        # apply discount to BASE FARE; taxes/fees untouched
+        # apply discount to BASE FARE; leave taxes/fees unchanged
         new_price = round(old_price * (1 - percent / 100.0), 2)
         if new_price < 0:
             new_price = 0.0
 
         prices[fare_class] = new_price
 
-        # --- deterministic audit record (NO timestamp) ---
+        # --- fixed audit entry (without timestamp) ---
         change_id = _next_change_id(data, prefix="PC")
         (data.setdefault("price_changes", [])).append({
             "id": change_id,
@@ -63,7 +63,7 @@ class ApplyDiscountToFlight(Tool):
             "fare_class": fare_class,
             "old": round(old_price, 2),
             "new": new_price
-            # no timestamp for determinism per policy
+            # absence of timestamp for policy-driven determinism
         })
 
         return _json({

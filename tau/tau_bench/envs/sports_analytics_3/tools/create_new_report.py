@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,7 +23,7 @@ class CreateNewReport(Tool):
         week_of_date = kwargs.get("week_of_date")
 
 
-        # 1) Validate required inputs
+        # 1) Check mandatory inputs for validity.
         missing = []
         if player_id is None: missing.append("player_id")
         if not isinstance(week_of_date, str) or week_of_date == "": missing.append("week_of_date")
@@ -32,12 +32,12 @@ class CreateNewReport(Tool):
         if missing:
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         reports: List[Dict[str, Any]] = list(data.get("player_dev_reports", {}).values())
 
         new_id = get_next_dev_report_goal_id(data)
 
-        # 4) Build and insert the row
+        # 4) Construct and add the row
         new_row = {
             "dev_report_id": new_id,
             "player_id": player_id,

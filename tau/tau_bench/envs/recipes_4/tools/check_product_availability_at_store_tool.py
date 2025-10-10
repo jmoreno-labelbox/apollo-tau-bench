@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -51,7 +51,7 @@ class CheckProductAvailabilityAtStoreTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains a list of items with potential stock issues.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Data
         param_definitions = {
             "list_id": {"type": int, "required": True},
             "store_id": {"type": int, "required": True},
@@ -63,13 +63,13 @@ class CheckProductAvailabilityAtStoreTool(Tool):
         list_id = kwargs["list_id"]
         store_id = kwargs["store_id"]
 
-        # 2. Pre-condition Checks
+        # 2. Preconditions Verification
         if not any(g.get("list_id") == list_id for g in data.get("grocery_lists", [])):
             return _build_error_response("NOT_FOUND", {"entity": "GroceryList", "entity_id": list_id})
         if not any(s.get("store_id") == store_id for s in data.get("stores", [])):
             return _build_error_response("NOT_FOUND", {"entity": "Store", "entity_id": store_id})
 
-        # 3. Core Logic
+        # 3. Fundamental Logic
         list_items = [item for item in data.get("grocery_list_items", []) if item.get("list_id") == list_id]
         all_store_products = data.get("store_products", [])
         all_ingredients_meta = list(data.get("ingredients", {}).values())
@@ -78,13 +78,13 @@ class CheckProductAvailabilityAtStoreTool(Tool):
         for item in list_items:
             ingredient_id = item["ingredient_id"]
 
-            # Find all products at the store for this ingredient
+            # Retrieve all items in the store containing this ingredient.
             candidate_products = [
                 p for p in all_store_products
                 if p.get("store_id") == store_id and p.get("ingredient_id") == ingredient_id
             ]
 
-            # Find the best available product (in stock or low, and cheapest)
+            # Identify the optimal product that is either in stock or has low availability and is the least expensive.
             in_stock_products = [p for p in candidate_products if p.get("stock_status_enum") in ("in_stock", "low")]
 
             best_product = None
@@ -105,5 +105,5 @@ class CheckProductAvailabilityAtStoreTool(Tool):
                     "status": status
                 })
 
-        # 4. Response
+        # 4. Reply
         return _build_success_response(problem_items)

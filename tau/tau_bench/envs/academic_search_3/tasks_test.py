@@ -12,7 +12,7 @@ TASKS = [
             Action(name="LinkCitedArticle", kwargs={"source_article_id": "art_08", "cited_article_id": "art_05", "citation_context": "Citation added during internal audit for contextual completeness."}),
             Action(name="AddEntryToLog", kwargs={"project_id": "proj_02", "notes": "Citation audit complete. Added link from art_08 to art_05."}),
             Action(name="AddEntryToLog", kwargs={"user_id": "res_03", "notes": "Your co-authored paper art_05 was recently cited by art_08 as part of a data integrity review."}),
-            Action(name="RetrieveCitationData", kwargs={"citation_id": "cit_11"}) # ALTERADO DE cit_05 PARA cit_11
+            Action(name="RetrieveCitationData", kwargs={"citation_id": "cit_11"}) # MODIFICADO DE cit_05 A cit_11
         ],
         outputs=[]
     ),
@@ -25,7 +25,7 @@ TASKS = [
             Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Liu Wei"}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_05"}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_02"}),
-            Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_05", "linked_articles": ["art_08", "art_13"]}), # ALTERADO: Removido "art_02"
+            Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_05", "linked_articles": ["art_08", "art_13"]}), # MODIFICADO: Eliminado "art_02"
             Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_02", "status": "archived"}),
             Action(name="AddEntryToLog", kwargs={"project_id": "proj_05", "notes": "Duplicate project proj_02 merged into this record during data cleanup. Articles consolidated."}),
             Action(name="AddEntryToLog", kwargs={"user_id": "res_05", "notes": "Duplicate records for your project 'Exoplanet Atmospheric Analysis' were found and have been consolidated into a single entry (proj_05)."}),
@@ -38,11 +38,11 @@ TASKS = [
         user_id="submit_and_initiate_project",
         instruction="""Execute research assistance for Dr. Elena Rossi to process his new paper 'AI in Algorithmic Trading' with the abstract 'An analysis of reinforcement learning models for high-frequency trading.'. Create a new article record (art_16) for this paper, and concurrently initiate a new project titled 'AI Trading Strategies' (proj_07) for him, linking this new article to it. Create the official submission record (sub_06) for 'art_16'. Display the final submission details.""",
         actions=[
-            Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Elena Rossi"}), # Esta ação revelaria res_16
+            Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Elena Rossi"}), # Esta operação exibiria res_16.
             Action(name="RegisterArticleRecord", kwargs={"title": "AI in Algorithmic Trading", "authors": ["Dr. Elena Rossi"], "topic": "AI", "abstract": "An analysis of reinforcement learning models for high-frequency trading."}),
-            Action(name="InitiateProject", kwargs={"project_name": "AI Trading Strategies", "lead_researcher_id": "res_16"}), # ALTERADO: res_09 para res_16
+            Action(name="InitiateProject", kwargs={"project_name": "AI Trading Strategies", "lead_researcher_id": "res_16"}), # MODIFICADO: res_09 a res_16
             Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_07", "linked_articles": ["art_16"]}),
-            Action(name="SubmitArticleForReview", kwargs={"article_id": "art_16", "author_user_id": "res_16"}), # ALTERADO: res_09 para res_16
+            Action(name="SubmitArticleForReview", kwargs={"article_id": "art_16", "author_user_id": "res_16"}), # MODIFIED: res_09 to res_16
             Action(name="QuerySubmissions", kwargs={"submission_id": "sub_06"})
         ],
         outputs=[]
@@ -198,12 +198,12 @@ TASKS = [
             Action(name="LocatePapers", kwargs={"title": "Personalized Cancer Treatment with AI-Driven Drug Discovery"}),
             Action(name="LocatePapers", kwargs={"title": "CRISPR-Cas12 Evolution for Enhanced Precision"}),
             Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Sarah Johnson"}),
-            Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Carlos Ruiz"}), # ALTERADO: "Dr. Ana Oliveira" para "Dr. Carlos Ruiz"
+            Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Carlos Ruiz"}), # Modificado: "Dr. Ana Oliveira" para "Dr. Carlos Ruiz"
             Action(name="LinkCitedArticle", kwargs={"source_article_id": "art_14", "cited_article_id": "art_11", "citation_context": "Strategic citation added to link complementary research."}),
             Action(name="AddEntryToLog", kwargs={"article_id": "art_14", "notes": "Cross-citation to art_11 added to improve research linkage."}),
             Action(name="AddEntryToLog", kwargs={"user_id": "res_02", "notes": "Your paper art_14 now cites art_11 to highlight a research synergy."}),
-            Action(name="AddEntryToLog", kwargs={"user_id": "res_10", "notes": "Your paper art_11 has been cited by art_14 to highlight a research synergy."}), # res_10 é o ID de Dr. Carlos Ruiz
-            Action(name="RetrieveCitationData", kwargs={"citation_id": "cit_11"}) # Presume que cit_11 será o ID gerado para a nova citação. Verificar se este ID é sequencialmente correto após as correções em citation_audit_and_correction. A última citação no `citations.json` é `cit_10`, então a próxima seria `cit_11`.
+            Action(name="AddEntryToLog", kwargs={"user_id": "res_10", "notes": "Your paper art_11 has been cited by art_14 to highlight a research synergy."}), # res_10 is the identifier for Dr. Carlos Ruiz.
+            Action(name="RetrieveCitationData", kwargs={"citation_id": "cit_11"}) # Assuma que cit_11 será o ID atribuído à nova citação. Confirme se esse ID está sequencialmente correto após as atualizações em citation_audit_and_correction. O último ID em `citations.json` é `cit_10`, portanto, o próximo deve ser `cit_11`.
         ],
         outputs=[]
     ),
@@ -229,7 +229,7 @@ TASKS = [
         instruction="""Manage program direction to revitalize the 'Federated AI Systems' project (proj_04), which stalled due to the unavailability of its lead, Dr. Anna Petrov. Appoint Dr. Maria Santos (res_09), an available 'Artificial Intelligence' expert from 'NextGen Research', as the new lead. Refocus the project's scope by replacing 'Robotic Process Automation with Large Language Models' (art_15) with 'Multimodal AI for Medical Imaging Analysis' (art_12) in its linked articles, while retaining 'Federated Learning for Privacy-Preserving AI' (art_06). Create a research note on the project record (proj_04) with the exact content: 'Project refocused. New lead is res_09. Article scope updated to art_06 and art_12.'. Concurrently, create a research note for Dr. Maria Santos (res_09) with the exact content: 'You have been assigned as the new lead for the refocused project 'Federated AI Systems' (proj_04).'. Display the updated project details.""",
         actions=[
             Action(name="QueryProjects", kwargs={"project_name": "Federated AI Systems"}),
-            Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Maria Santos", "research_field": "Artificial Intelligence", "availability": "available"}), # ALTERADO: Adicionado 'name' e removido 'institution'
+            Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Maria Santos", "research_field": "Artificial Intelligence", "availability": "available"}), # MODIFIED: Added 'name' and removed 'institution'
             Action(name="LocatePapers", kwargs={"title": "Multimodal AI for Medical Imaging Analysis"}),
             Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_04", "lead_researcher_id": ["res_09"], "linked_articles": ["art_06", "art_12"]}),
             Action(name="AddEntryToLog", kwargs={"project_id": "proj_04", "notes": "Project refocused. New lead is res_09. Article scope updated to art_06 and art_12."}),
@@ -279,11 +279,11 @@ TASKS = [
             Action(name="LocatePapers", kwargs={"title": "Federated Learning for Privacy-Preserving AI"}),
             Action(name="LocatePapers", kwargs={"title": "Robotic Process Automation with Large Language Models"}),
             Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Anna Petrov"}),
-            Action(name="QueryCitationConnections", kwargs={"source_article_id": "art_06", "cited_article_id": "art_15"}), # Ação para verificar se a citação já existe
+            Action(name="QueryCitationConnections", kwargs={"source_article_id": "art_06", "cited_article_id": "art_15"}), # Operação para checar se a referência já está presente.
             Action(name="LinkCitedArticle", kwargs={"source_article_id": "art_06", "cited_article_id": "art_15", "citation_context": "Citation added based on external expert recommendation to link related concepts."}),
             Action(name="AddEntryToLog", kwargs={"article_id": "art_06", "notes": "Citation to art_15 added based on expert feedback."}),
             Action(name="AddEntryToLog", kwargs={"user_id": "res_06", "notes": "A citation to 'Robotic Process Automation...' was added to your article 'Federated Learning...' to strengthen its context."}),
-            Action(name="RetrieveCitationData", kwargs={"citation_id": "cit_11"}) # Presume que cit_11 será o ID gerado para a nova citação
+            Action(name="RetrieveCitationData", kwargs={"citation_id": "cit_11"}) # Assuma que cit_11 será o identificador gerado para a nova referência.
         ],
         outputs=[]
     ),
@@ -308,12 +308,12 @@ TASKS = [
         user_id="funding_source_audit",
         instruction="""Execute financial auditing to conduct an audit on the 'AI Advancement Grant' (fs_01). For each project it funds, specifically 'Federated AI Systems' (proj_04), if its status is 'planning', update it to 'pending_review' and create a research note on the project record with the exact content: 'Project flagged for re-evaluation during audit of funding source fs_01 due to 'planning' status.'. Concurrently, update the funding source record (fs_01) with the log: 'Project proj_04 flagged for re-evaluation.'. Finally, create a research note for the project lead, Dr. Anna Petrov (res_06), with the exact content: 'Your project, 'Federated AI Systems', has been placed under financial review due to an audit of its funding source.'. Display the updated project details (proj_04).""",
         actions=[
-            Action(name="LocateFundingSources", kwargs={"area": "AI", "status": "available"}), # Esta ação pode ser "find_funding_sources", não "locate"
+            Action(name="LocateFundingSources", kwargs={"area": "AI", "status": "available"}), # Esta operação pode ser "find_funding_sources", em vez de "locate".
             Action(name="QueryProjects", kwargs={"funding_source_id": "fs_01"}),
             Action(name="FindUsersByCriteria", kwargs={"user_id": "res_06"}),
             Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_04", "status": "pending_review"}),
             Action(name="AddEntryToLog", kwargs={"project_id": "proj_04", "notes": "Project flagged for re-evaluation during audit of funding source fs_01 due to 'planning' status."}),
-            Action(name="ModifyRecord", kwargs={"record_type": "funding_source", "record_id": "fs_01", "logs": ["Project proj_04 flagged for re-evaluation."]}), # Modificar um campo 'logs' que não está definido na ferramenta RetrieveFundingInfo.
+            Action(name="ModifyRecord", kwargs={"record_type": "funding_source", "record_id": "fs_01", "logs": ["Project proj_04 flagged for re-evaluation."]}), # Alterar um campo 'logs' que não está presente na ferramenta RetrieveFundingInfo.
             Action(name="AddEntryToLog", kwargs={"user_id": "res_06", "notes": "Your project, 'Federated AI Systems', has been placed under financial review due to an audit of its funding source."}),
             Action(name="QueryProjects", kwargs={"project_id": "proj_04"})
         ],
@@ -343,12 +343,12 @@ TASKS = [
         actions=[
             Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Liu Wei"}),
             Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Anna Petrov"}),
-            Action(name="LocateFundingSources", kwargs={"area": "Astrophysics", "status": "available"}), # Ação para simular localização do grant
+            Action(name="LocateFundingSources", kwargs={"area": "Astrophysics", "status": "available"}), # Ação para emular a posição do grant.
             Action(name="LocatePapers", kwargs={"article_id": "art_08"}),
             Action(name="LocatePapers", kwargs={"article_id": "art_06"}),
             Action(name="InitiateProject", kwargs={"project_name": "Astro-AI Analytics for Signal Processing", "lead_researcher_id": ["res_05", "res_06"]}),
             Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_07", "linked_articles": ["art_08", "art_06"], "funding_source_id": "fs_07"}),
-            Action(name="ModifyRecord", kwargs={"record_type": "funding_source", "record_id": "fs_07", "logs": ["Proposal incoming from project proj_07 (Astro-AI Analytics)."]}), # Modificar campo 'logs' não existente na ferramenta, mas simulado para unicidade
+            Action(name="ModifyRecord", kwargs={"record_type": "funding_source", "record_id": "fs_07", "logs": ["Proposal incoming from project proj_07 (Astro-AI Analytics)."]}), # Alterar o campo 'logs', que não está presente na ferramenta, mas é simulado para garantir unicidade.
             Action(name="QueryProjects", kwargs={"project_id": "proj_07"})
         ],
         outputs=[]
@@ -361,7 +361,7 @@ TASKS = [
             Action(name="QuerySubmissions", kwargs={"submission_id": "sub_03"}),
             Action(name="LocatePapers", kwargs={"article_id": "art_12"}),
             Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Thomas Anderson"}),
-            Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Sofia Bauer", "research_field": "Artificial Intelligence", "availability": "available"}), # ALTERADO: Removido o parâmetro 'institution' para evitar a exclusão, e adicionado o nome para deterministicidade.
+            Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Sofia Bauer", "research_field": "Artificial Intelligence", "availability": "available"}), # MODIFICADO: O parâmetro 'institution' foi retirado para prevenir a exclusão, e o nome foi incluído para garantir a determinística.
             Action(name="ModifyRecord", kwargs={"record_type": "submission", "record_id": "sub_03", "assigned_reviewers": ["res_05", "res_12"]}),
             Action(name="DeleteReview", kwargs={"review_id": "rev_03"}),
             Action(name="AddEntryToLog", kwargs={"submission_id": "sub_03", "notes": "Reviewer res_04 removed due to conflict of interest. Replaced with res_12. Invalid review rev_03 deleted."}),
@@ -382,8 +382,8 @@ TASKS = [
             Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Anna Petrov"}),
             Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Liu Wei"}),
             Action(name="LocateFundingSources", kwargs={"area": "Astrophysics"}),
-            Action(name="InitiateProject", kwargs={"project_name": "Federated Analytics for Space Science", "lead_researcher_id": "res_09"}), # CORRIGIDO: lead_researcher_id como string, removido linked_articles e funding_source_id
-            Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_07", "linked_articles": ["art_06", "art_15", "art_08", "art_13"], "funding_source_id": "fs_07"}), # NOVO PASSO: Para definir articles e funding_source
+            Action(name="InitiateProject", kwargs={"project_name": "Federated Analytics for Space Science", "lead_researcher_id": "res_09"}), # CORRIGIDO: lead_researcher_id como string, excluídos linked_articles e funding_source_id.
+            Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_07", "linked_articles": ["art_06", "art_15", "art_08", "art_13"], "funding_source_id": "fs_07"}), # PRÓXIMO PASSO: Para estabelecer articles e funding_source
             Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_04", "status": "archived"}),
             Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_05", "status": "archived"}),
             Action(name="AddEntryToLog", kwargs={"user_id": "res_06", "notes": "Your project proj_04 has been merged into a new initiative, 'Federated Analytics for Space Science' (proj_07), led by Dr. Maria Santos."}),
@@ -477,7 +477,7 @@ TASKS = [
             Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Thomas Anderson"}),
             Action(name="QuerySubmissions", kwargs={"article_id": "art_12"}),
             Action(name="ModifyRecord", kwargs={"record_type": "submission", "record_id": "sub_03", "status": "retracted"}),
-            Action(name="LocateFundingSources", kwargs={"area": "Biomedicine", "status": "available"}), # Ação para simular localização do grant
+            Action(name="LocateFundingSources", kwargs={"area": "Biomedicine", "status": "available"}), # Operação para emular a posição do grant.
             Action(name="InitiateProject", kwargs={"project_name": "BioGen Medical Imaging Initiative", "lead_researcher_id": ["res_04"], "funding_source_id": "fs_03"}),
             Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_07", "linked_articles": ["art_12"]}),
             Action(name="SubmitArticleForReview", kwargs={"article_id": "art_12", "author_user_id": "res_04"}),
@@ -495,8 +495,8 @@ TASKS = [
         actions=[
             Action(name="QueryProjects", kwargs={"project_name": "Quantum Computing Applications"}),
             Action(name="QueryProjects", kwargs={"project_name": "Quantum Cryptography Networks"}),
-            Action(name="ExtractKeywords", kwargs={"article_id": "art_02"}), # Retorna ["quantum computing"]
-            Action(name="ExtractKeywords", kwargs={"article_id": "art_10"}), # Retorna []
+            Action(name="ExtractKeywords", kwargs={"article_id": "art_02"}), # Returns ["quantum computing"]
+            Action(name="ExtractKeywords", kwargs={"article_id": "art_10"}), # Devuelve []
             Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Kenji Tanaka"}),
             Action(name="FindUsersByCriteria", kwargs={"name": "Prof. James Wilson"}),
             Action(name="AddEntryToLog", kwargs={"project_id": "proj_01", "notes": "Proactive collaboration suggested with project proj_06 based on shared research keywords."}),
@@ -516,7 +516,7 @@ TASKS = [
             Action(name="FindUsersByCriteria", kwargs={"user_id": "res_02"}),
             Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Elena Rossi", "research_field": "Artificial Intelligence", "availability": "available", "institution": "MediCore"}),
             Action(name="FindUsersByCriteria", kwargs={"user_id": "res_04"}),
-            Action(name="ModifyRecord", kwargs={"record_type": "submission", "record_id": "sub_05", "assigned_reviewers": ["res_16"]}), # Corrected to only include explicitly requested reviewer
+            Action(name="ModifyRecord", kwargs={"record_type": "submission", "record_id": "sub_05", "assigned_reviewers": ["res_16"]}), # Adjusted to include solely the specified reviewer.
             Action(name="ModifyRecord", kwargs={"record_type": "submission", "record_id": "sub_05", "status": "expedited_review"}),
             Action(name="AddEntryToLog", kwargs={"submission_id": "sub_05", "notes": "Reviewer res_02 replaced by res_16 due to unavailability."}),
             Action(name="DispatchSystemNotification", kwargs={"recipient_user_id": "res_04", "sender_user_id": "system", "message_content": "Your submission sub_05 has had a reviewer change. The review process remains expedited."}),
@@ -531,17 +531,17 @@ TASKS = [
         user_id="funding_source_reallocation_and_researcher_support",
         instruction="""As a grants officer, realign funding for Dr. Anna Petrov's (res_06) stalled project 'Federated AI Systems' (proj_04) due to its current 'planning' status and the depletion of its 'AI Advancement Grant' (fs_01). Find an available 'AI' grant, specifically the 'Machine Learning Excellence Award' (fs_08), and reassign proj_04 to it. Change proj_04's status to 'active'. Due to the funding change, Dr. Anna Petrov (res_06) expresses unavailability. Reassign the lead of proj_04 to Dr. Maria Santos (res_09), an available 'Artificial Intelligence' expert from 'NextGen Research'. Create a research note on proj_04 with the exact content: 'Funding reallocated to fs_08. Status changed to active. Lead reassigned to res_09.'. Concurrently, create a research note for Dr. Khan (res_06) with the exact content: 'Your project proj_04 funding reallocated and lead reassigned to res_09.'. Create a research note for Dr. Maria Santos (res_09) with the exact content: 'You are now the lead for project proj_04.'. Display the updated project details for proj_04.""",
         actions=[
-            Action(name="QueryProjects", kwargs={"project_id": "proj_04"}), # 1 edge (prompt)
-            Action(name="FindUsersByCriteria", kwargs={"user_id": "res_06"}), # 1 edge (prompt)
-            Action(name="LocateFundingSources", kwargs={"funding_source_id": "fs_01"}), # 1 edge (prompt) - confirm depletion if needed (tools don't expose it directly)
-            Action(name="LocateFundingSources", kwargs={"source_name": "Machine Learning Excellence Award", "area": "AI", "status": "available"}), # 3 edges (prompt)
-            Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Maria Santos", "research_field": "Artificial Intelligence", "availability": "available"}), # 3 edges (prompt)
-            Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_04", "funding_source_id": "fs_08", "status": "active"}), # 2 edges (prompt, fs_08)
-            Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_04", "lead_researcher_id": "res_09"}), # 1 edge (prompt, res_09)
-            Action(name="AddEntryToLog", kwargs={"project_id": "proj_04", "notes": "Funding reallocated to fs_08. Status changed to active. Lead reassigned to res_09."}), # 1 edge (prompt)
-            Action(name="AddEntryToLog", kwargs={"user_id": "res_06", "notes": "Your project proj_04 funding reallocated and lead reassigned to res_09."}), # 1 edge (prompt)
-            Action(name="AddEntryToLog", kwargs={"user_id": "res_09", "notes": "You are now the lead for project proj_04."}), # 1 edge (prompt)
-            Action(name="QueryProjects", kwargs={"project_id": "proj_04"}) # 1 edge (prompt)
+            Action(name="QueryProjects", kwargs={"project_id": "proj_04"}), # 1 connection (input)
+            Action(name="FindUsersByCriteria", kwargs={"user_id": "res_06"}), # 1 connection (prompt)
+            Action(name="LocateFundingSources", kwargs={"funding_source_id": "fs_01"}), # 1 edge (prompt) - verify depletion if necessary (tools do not reveal it explicitly)
+            Action(name="LocateFundingSources", kwargs={"source_name": "Machine Learning Excellence Award", "area": "AI", "status": "available"}), # Three edges (input)
+            Action(name="FindUsersByCriteria", kwargs={"name": "Dr. Maria Santos", "research_field": "Artificial Intelligence", "availability": "available"}), # Three edges (input)
+            Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_04", "funding_source_id": "fs_08", "status": "active"}), # Two edges (prompt, fs_08)
+            Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_04", "lead_researcher_id": "res_09"}), # 1 connection (prompt, res_09)
+            Action(name="AddEntryToLog", kwargs={"project_id": "proj_04", "notes": "Funding reallocated to fs_08. Status changed to active. Lead reassigned to res_09."}), # 1 edge (input)
+            Action(name="AddEntryToLog", kwargs={"user_id": "res_06", "notes": "Your project proj_04 funding reallocated and lead reassigned to res_09."}), # 1 vertex (prompt)
+            Action(name="AddEntryToLog", kwargs={"user_id": "res_09", "notes": "You are now the lead for project proj_04."}), # 1 edge (input)
+            Action(name="QueryProjects", kwargs={"project_id": "proj_04"}) # 1 connection (prompt)
         ],
         outputs=[]
     ),
@@ -624,14 +624,14 @@ Task(
         user_id="critical_project_milestone_delivery_and_documentation",
         instruction="""As a project manager, finalize the 'Quantum Computing Applications' project (proj_01) by setting its status to 'completed'. Ensure that its primary publication, 'Limits of Quantum Computing in Optimization Problems' (art_02), is marked as 'published'. Create a research note on proj_01 with the exact content: 'Project completed successfully with art_02 published.'. Concurrently, dispatch a system notification to the lead researcher, Dr. Wei Zhang (res_03), with the exact message: 'Your project proj_01 has been marked as completed, and article art_02 is now published.'. Display the updated project details for proj_01.""",
         actions=[
-            Action(name="QueryProjects", kwargs={"project_id": "proj_01"}),  # 1 edge (prompt)
-            Action(name="LocatePapers", kwargs={"article_id": "art_02"}),  # 1 edge (prompt)
-            Action(name="FindUsersByCriteria", kwargs={"user_id": "res_03"}),  # 1 edge (prompt)
-            Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_01", "status": "completed"}),  # 1 edge (prompt)
-            Action(name="ModifyRecord", kwargs={"record_type": "article", "record_id": "art_02", "status": "published"}),  # 1 edge (prompt)
-            Action(name="AddEntryToLog", kwargs={"project_id": "proj_01", "notes": "Project completed successfully with art_02 published."}),  # 1 edge (prompt)
-            Action(name="DispatchSystemNotification", kwargs={"recipient_user_id": "res_03", "sender_user_id": "system", "message_content": "Your project proj_01 has been marked as completed, and article art_02 is now published."}),  # 1 edge (prompt)
-            Action(name="QueryProjects", kwargs={"project_id": "proj_01"})  # 1 edge (prompt)
+            Action(name="QueryProjects", kwargs={"project_id": "proj_01"}),  # 1 edge (input)
+            Action(name="LocatePapers", kwargs={"article_id": "art_02"}),  # 1 connection (prompt)
+            Action(name="FindUsersByCriteria", kwargs={"user_id": "res_03"}),  # 1 input (prompt)
+            Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_01", "status": "completed"}),  # 1 vertex (input)
+            Action(name="ModifyRecord", kwargs={"record_type": "article", "record_id": "art_02", "status": "published"}),  # 1 edge (input)
+            Action(name="AddEntryToLog", kwargs={"project_id": "proj_01", "notes": "Project completed successfully with art_02 published."}),  # 1 edge (input)
+            Action(name="DispatchSystemNotification", kwargs={"recipient_user_id": "res_03", "sender_user_id": "system", "message_content": "Your project proj_01 has been marked as completed, and article art_02 is now published."}),  # 1 edge (input)
+            Action(name="QueryProjects", kwargs={"project_id": "proj_01"})  # 1 input (prompt)
         ],
         outputs=[]
     ),
@@ -640,15 +640,15 @@ Task(
         user_id="reviewer_performance_evaluation_and_recalibration",
         instruction="""As a journal editor, evaluate the review performance for 'New Biomarkers for Early Detection of Neurodegenerative Diseases' (sub_02). Dr. Ricardo Mendes (res_07) submitted a review with a score of 9 and comments: 'Comprehensive analysis, excellent potential for clinical application.'. Given this positive feedback, change the submission (sub_02) status to 'approved'. Dispatch a system notification to the author, Dr. Thomas Anderson (res_04), with the exact message: 'Your submission sub_02 has been approved for publication. Congratulations!'. Create a research note on sub_02 with the exact content: 'Submission approved based on positive review by res_07.'. Concurrently, create a research note for Dr. Ricardo Mendes (res_07) with the exact content: 'Your review for sub_02 was instrumental in its approval. Thank you!'. Display the updated submission record for sub_02.""",
         actions=[
-            Action(name="QuerySubmissions", kwargs={"submission_id": "sub_02"}),  # 1 edge (prompt)
-            Action(name="FindUsersByCriteria", kwargs={"user_id": "res_07"}),  # 1 edge (prompt)
-            Action(name="FindUsersByCriteria", kwargs={"user_id": "res_04"}),  # 1 edge (prompt)
-            Action(name="GenerateNewReview", kwargs={"submission_id": "sub_02", "reviewer_user_id": "res_07", "score": 9, "comments": "Comprehensive analysis, excellent potential for clinical application."}),  # 4 edges (prompt)
-            Action(name="ModifyRecord", kwargs={"record_type": "submission", "record_id": "sub_02", "status": "approved"}),  # 1 edge (prompt)
-            Action(name="DispatchSystemNotification", kwargs={"recipient_user_id": "res_04", "sender_user_id": "system", "message_content": "Your submission sub_02 has been approved for publication. Congratulations!"}),  # 1 edge (prompt)
-            Action(name="AddEntryToLog", kwargs={"submission_id": "sub_02", "notes": "Submission approved based on positive review by res_07."}),  # 1 edge (prompt)
-            Action(name="AddEntryToLog", kwargs={"user_id": "res_07", "notes": "Your review for sub_02 was instrumental in its approval. Thank you!"}),  # 1 edge (prompt)
-            Action(name="QuerySubmissions", kwargs={"submission_id": "sub_02"})  # 1 edge (prompt)
+            Action(name="QuerySubmissions", kwargs={"submission_id": "sub_02"}),  # 1 connection (prompt)
+            Action(name="FindUsersByCriteria", kwargs={"user_id": "res_07"}),  # 1 edge (input)
+            Action(name="FindUsersByCriteria", kwargs={"user_id": "res_04"}),  # 1 edge (input)
+            Action(name="GenerateNewReview", kwargs={"submission_id": "sub_02", "reviewer_user_id": "res_07", "score": 9, "comments": "Comprehensive analysis, excellent potential for clinical application."}),  # Four edges (input)
+            Action(name="ModifyRecord", kwargs={"record_type": "submission", "record_id": "sub_02", "status": "approved"}),  # 1 connection (prompt)
+            Action(name="DispatchSystemNotification", kwargs={"recipient_user_id": "res_04", "sender_user_id": "system", "message_content": "Your submission sub_02 has been approved for publication. Congratulations!"}),  # 1 connection (prompt)
+            Action(name="AddEntryToLog", kwargs={"submission_id": "sub_02", "notes": "Submission approved based on positive review by res_07."}),  # 1 connection (prompt)
+            Action(name="AddEntryToLog", kwargs={"user_id": "res_07", "notes": "Your review for sub_02 was instrumental in its approval. Thank you!"}),  # 1 edge (input)
+            Action(name="QuerySubmissions", kwargs={"submission_id": "sub_02"})  # 1 boundary (input)
         ],
         outputs=[]
     ),
@@ -657,14 +657,14 @@ Task(
         user_id="inter_project_dependency_management",
         instruction="""As a program coordinator, manage the dependency between 'Next-Generation CRISPR Technologies' (proj_03) and 'Personalized Cancer Treatment with AI-Driven Drug Discovery' (art_14), which is part of another project. Ensure art_14 is formally linked to proj_03 to reflect their interdisciplinary nature. Update the status of proj_03 to 'collaborative_active'. Create a research note on proj_03 with the exact content: 'Inter-project dependency established with art_14 linked. Status updated.'. Concurrently, dispatch a system notification to the lead researcher of proj_03, Dr. Sarah Johnson (res_02), with the exact message: 'Your project proj_03 is now officially linked with art_14, reflecting new collaborations.'. Display the updated project details for proj_03.""",
         actions=[
-            Action(name="QueryProjects", kwargs={"project_id": "proj_03"}),  # 1 edge (prompt)
-            Action(name="LocatePapers", kwargs={"article_id": "art_14"}),  # 1 edge (prompt)
-            Action(name="FindUsersByCriteria", kwargs={"user_id": "res_02"}),  # 1 edge (prompt)
-            Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_03", "linked_articles": ["art_03", "art_11", "art_14"]}),  # 3 edges (derived from query_projects, locate_papers)
-            Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_03", "status": "collaborative_active"}),  # 1 edge (prompt)
-            Action(name="AddEntryToLog", kwargs={"project_id": "proj_03", "notes": "Inter-project dependency established with art_14 linked. Status updated."}),  # 1 edge (prompt)
-            Action(name="DispatchSystemNotification", kwargs={"recipient_user_id": "res_02", "sender_user_id": "system", "message_content": "Your project proj_03 is now officially linked with art_14, reflecting new collaborations."}),  # 1 edge (prompt)
-            Action(name="QueryProjects", kwargs={"project_id": "proj_03"})  # 1 edge (prompt)
+            Action(name="QueryProjects", kwargs={"project_id": "proj_03"}),  # 1 vertex (input)
+            Action(name="LocatePapers", kwargs={"article_id": "art_14"}),  # 1 edge (input)
+            Action(name="FindUsersByCriteria", kwargs={"user_id": "res_02"}),  # 1 connection (input)
+            Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_03", "linked_articles": ["art_03", "art_11", "art_14"]}),  # Three edges (extracted from query_projects and locate_papers)
+            Action(name="ModifyRecord", kwargs={"record_type": "project", "record_id": "proj_03", "status": "collaborative_active"}),  # 1 vertex (input)
+            Action(name="AddEntryToLog", kwargs={"project_id": "proj_03", "notes": "Inter-project dependency established with art_14 linked. Status updated."}),  # 1 connection (input)
+            Action(name="DispatchSystemNotification", kwargs={"recipient_user_id": "res_02", "sender_user_id": "system", "message_content": "Your project proj_03 is now officially linked with art_14, reflecting new collaborations."}),  # 1 connection (prompt)
+            Action(name="QueryProjects", kwargs={"project_id": "proj_03"})  # 1 edge (input)
         ],
         outputs=[]
     ),

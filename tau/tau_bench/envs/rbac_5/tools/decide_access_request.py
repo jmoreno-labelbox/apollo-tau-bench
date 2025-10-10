@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -29,7 +29,7 @@ class DecideAccessRequest(Tool):
         decision_at_kw = kwargs.get("decision_at", get_current_timestamp())
         enforce_admin = kwargs.get("enforce_admin", True)
         enforce_pending = kwargs.get("enforce_pending", True)
-        # SLA enforcement is optional; default to False to avoid blocking decisions in static datasets
+        # SLA enforcement is not mandatory; set to False by default to prevent hindering decisions in static datasets.
         enforce_sla = kwargs.get("enforce_sla", False)
         sla_days = kwargs.get("sla_days", 5)
         waive_sla = kwargs.get("waive_sla", False)
@@ -37,15 +37,15 @@ class DecideAccessRequest(Tool):
         if decision not in ("APPROVED", "REJECTED"):
             return json.dumps({"error": "decision must be APPROVED or REJECTED"})
 
-        # Get request
+        # Retrieve request
         requests = data.get("access_requests", [])
         req = _find_by_id(requests, "request_id", request_id)
         if not req:
             return json.dumps({"error": f"request_id {request_id} not found"})
 
-        # Validate reviewer admin role if required
+        # Check if admin role verification for the reviewer is necessary.
         if enforce_admin:
-            # Find Administrator role_id
+            # Retrieve role_id for Administrator.
             admin_roles = []
             for r in list(data.get("roles", {}).values()):
                 role_name = str(r.get("role_name", "")).strip().lower()
@@ -53,7 +53,7 @@ class DecideAccessRequest(Tool):
                     admin_roles.append(r)
             if not admin_roles:
                 return json.dumps({"error": "Administrator role not defined in roles.json"})
-            # Check assignments
+            # Verify tasks
             has_admin = any(
                 ur.get("user_id") == reviewer_id and ur.get("role_id") in [r.get("role_id") for r in admin_roles]
                 for ur in data.get("user_roles", [])
@@ -61,17 +61,17 @@ class DecideAccessRequest(Tool):
             if not has_admin:
                 return json.dumps({"error": f"reviewer_id {reviewer_id} lacks Administrator role"})
 
-        # Validate pending status
+        # Check the status for pending verification.
         if enforce_pending and req.get("status") != "PENDING":
             return json.dumps({"error": f"request {request_id} is not PENDING"})
 
-        # Validate target user and role exist
+        # Check for the existence of the target user and role.
         user = _find_by_id(list(data.get("users", {}).values()), "user_id", req.get("user_id") or "")
         role = _find_by_id(list(data.get("roles", {}).values()), "role_id", req.get("requested_role_id") or "")
         if not user or not role:
             return json.dumps({"error": "target user or requested role does not exist"})
 
-        # SLA enforcement (only block approvals unless waived)
+        # SLA compliance (restrict approvals unless exempted)
         if enforce_sla and decision == "APPROVED" and not waive_sla:
             sub_dt = _parse_iso(req.get("submitted_at"))
             now_dt = _parse_iso(get_current_timestamp()) or datetime.now(tz=timezone.utc)
@@ -80,7 +80,7 @@ class DecideAccessRequest(Tool):
                 if age_days > int(sla_days):
                     return json.dumps({"error": f"request {request_id} exceeds SLA ({age_days}d) — approval blocked without waiver"})
 
-        # Deterministic decision_at
+        # Predictable decision_at
         decision_at = decision_at_kw or req.get("submitted_at") or get_current_timestamp()
 
         updated = dict(req)
@@ -90,7 +90,7 @@ class DecideAccessRequest(Tool):
             "decision_at": decision_at,
         })
 
-        # Persist update
+        # Save changes
         for i, r in enumerate(requests):
             if r.get("request_id") == request_id:
                 data["access_requests"][i] = updated

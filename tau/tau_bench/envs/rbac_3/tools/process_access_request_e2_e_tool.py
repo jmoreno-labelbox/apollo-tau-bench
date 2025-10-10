@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,7 +24,7 @@ class ProcessAccessRequestE2ETool(Tool):
                 {"error": "request_id and reviewer_id are required"}, indent=2
             )
 
-        # Evaluate policy using existing logic
+        # Assess the policy utilizing current logic.
         decision_raw = json.loads(
             CheckUserStatusTool.invoke(data, request_id=request_id)
         )
@@ -34,7 +34,7 @@ class ProcessAccessRequestE2ETool(Tool):
         approve = bool(decision_raw.get("approve"))
         notes = decision_raw.get("notes")
 
-        # Record decision with audit log
+        # Log decision in the audit trail.
         reviewed_raw = json.loads(
             ReviewAccessRequestTool.invoke(
                 data,
@@ -47,7 +47,7 @@ class ProcessAccessRequestE2ETool(Tool):
         if "error" in reviewed_raw:
             return json.dumps(reviewed_raw, indent=2)
 
-        # If approved, assign role idempotently
+        # If granted, assign the role in an idempotent manner.
         assignment_info = None
         if approve:
             assignment_info = json.loads(
@@ -56,7 +56,7 @@ class ProcessAccessRequestE2ETool(Tool):
                 )
             )
 
-        # Collect final requester state
+        # Gather the final state of the requester.
         req = next(
             (
                 r

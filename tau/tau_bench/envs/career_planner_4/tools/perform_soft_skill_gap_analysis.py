@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class perform_soft_skill_gap_analysis(Tool):
             "analysis_id": f"SGA{int(datetime.now().timestamp() * 1000) % 10000}",
             "user_id": user_id,
             "skills_analyzed": skills,
-            "readiness_score": 65,  # Mock score
+            "readiness_score": 65,  # Simulated score
             "date": "2025-07-04",
         }
         data.setdefault("skill_gap_analysis", []).append(analysis)

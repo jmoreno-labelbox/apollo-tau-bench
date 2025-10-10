@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class UpdateMealPlanEntryTool(Tool):
     A tool to update a single entry within an existing meal plan.
     """
 
-    # Defines which fields of a meal plan entry are safely updatable.
+    # Specifies the fields in a meal plan entry that can be updated without issues.
     UPDATABLE_FIELDS = {
         "recipe_id",
         "servings_adult",
@@ -60,7 +60,7 @@ class UpdateMealPlanEntryTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the updated meal plan entry object.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Values
         param_definitions = {
             "entry_id": {"type": int, "required": True},
             "updates": {"type": dict, "required": True},
@@ -74,13 +74,13 @@ class UpdateMealPlanEntryTool(Tool):
         updates = kwargs["updates"]
         user_id = kwargs.get("user_id")
 
-        # 2. Pre-condition Check: If updating recipe_id, ensure it exists
+        # 2. Pre-condition Verification: Confirm the existence of recipe_id before updating.
         if "recipe_id" in updates:
             new_recipe_id = updates["recipe_id"]
             if not any(r.get("recipe_id") == new_recipe_id for r in list(data.get("recipes", {}).values())):
                 return _build_error_response("NOT_FOUND", {"entity": "Recipe", "entity_id": new_recipe_id})
 
-        # 3. Find and Update the Record
+        # 3. Locate and Modify the Entry
         entry_record = next((e for e in data.get("meal_plan_entries", []) if e.get("entry_id") == entry_id), None)
 
         if not entry_record:
@@ -90,7 +90,7 @@ class UpdateMealPlanEntryTool(Tool):
             if key in UpdateMealPlanEntryTool.UPDATABLE_FIELDS:
                 entry_record[key] = value
 
-        # 4. Auditing
+        # 4. Review and verification
         meal_plan = next((p for p in data.get("meal_plans", []) if p.get("meal_plan_id") == entry_record["meal_plan_id"]), None)
         household_id = meal_plan.get("household_id") if meal_plan else None
 
@@ -104,5 +104,5 @@ class UpdateMealPlanEntryTool(Tool):
             payload_json=updates
         )
 
-        # 5. Response
+        # 5. Reply
         return _build_success_response(entry_record)

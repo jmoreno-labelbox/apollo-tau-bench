@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,25 +18,25 @@ class GetAuditFindingDetails(Tool):
         if not audit_id:
             return json.dumps({"error": "audit_id is required."})
 
-        # Get findings from both datasets
+        # Retrieve results from the two datasets.
         ds_findings = data.get('audit_findings_ds', [])
         a11y_findings = data.get('audit_findings_a11y', [])
 
-        # Filter by audit_id
+        # Filter based on audit_id
         ds_results = [f for f in ds_findings if f.get('audit_id') == audit_id]
         a11y_results = [f for f in a11y_findings if f.get('audit_id') == audit_id]
 
-        # Filter by specific finding_id if provided
+        # Apply a filter based on the specified finding_id if available.
         if finding_id:
             ds_results = [f for f in ds_results if f.get('finding_id') == finding_id]
             a11y_results = [f for f in a11y_results if f.get('finding_id') == finding_id]
 
-        # Filter resolved findings if not requested
+        # Exclude resolved findings unless specifically requested.
         if not include_resolved:
             ds_results = [f for f in ds_results if f.get('status', 'OPEN') not in ['RESOLVED', 'VERIFIED']]
             a11y_results = [f for f in a11y_results if f.get('status', 'OPEN') not in ['RESOLVED', 'VERIFIED']]
 
-        # Combine and enrich results
+        # Merge and enhance outcomes.
         all_findings = []
 
         for finding in ds_results:
@@ -49,7 +49,7 @@ class GetAuditFindingDetails(Tool):
             enriched['finding_category'] = 'accessibility'
             all_findings.append(enriched)
 
-        # Sort by severity and creation order
+        # Order by severity and creation date.
         severity_order = {'CRITICAL': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3}
         all_findings.sort(key=lambda x: (
             severity_order.get(x.get('severity', 'MEDIUM'), 2),

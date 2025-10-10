@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class ModifyCandidate(Tool):
         candidate_id = kwargs.get("candidate_id")
         candidates = list(data.get("candidates", {}).values())
 
-        # Find the candidate in the list and update
+        # Locate the candidate in the list and modify accordingly.
         for c in candidates:
             if c.get("candidate_id") == candidate_id:
                 c.update(updates)

@@ -1801,7 +1801,7 @@ Task(
         ],
         outputs=[]
     ),
-    # FIXED Task 073 (remove non-executable thread update, make parameters deterministic)
+    # RESOLVED Task 073 (eliminate non-executable thread updates, ensure parameters are deterministic)
     Task(
         annotator="v2",
         user_id="073",
@@ -2175,7 +2175,7 @@ Task(
         ],
         outputs=[]
     ),
-    # FIXED Task 090 (use deterministic sequential attachment_id)
+    # RESOLVED Task 090 (implement deterministic sequential attachment_id)
     Task(
         annotator="v2",
         user_id="090",

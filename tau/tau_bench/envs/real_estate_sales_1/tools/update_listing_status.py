@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class UpdateListingStatus(Tool):
                 "error": "listing_id, new_status, and updated_by are required"
             }, indent=2)
         
-        # Simulate status update
+        # Emulate status change.
         result = {
             "success": True,
             "listing_id": listing_id,

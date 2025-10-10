@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class AddNewCustomer(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Required inputs
+        # Necessary inputs
         required = [
             "first_name", "last_name", "date_of_birth", "email_address",
             "phone_number", "street_address", "city","state", "postal_code", "country", "annual_income"
@@ -19,7 +19,7 @@ class AddNewCustomer(Tool):
         if missing:
             return json.dumps({"error": f"Missing required fields: {', '.join(missing)}"}, indent=2)
 
-        # Build minimal customer record
+        # Create basic customer profile.
         customer_id = get_next_customer_id()
         date_joined = get_current_timestamp()
 

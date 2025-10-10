@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class AddItemToGroceryList(Tool):
         unit = kwargs.get("unit")
         
         items = data.get("grocery_list_items", [])
-        # Automatically generate the next item_id
+        # Auto-generate the subsequent item_id.
         new_id = max([item.get("item_id", 0) for item in items]) + 1 if items else 8101
         
         ingredients = list(data.get("ingredients", {}).values())

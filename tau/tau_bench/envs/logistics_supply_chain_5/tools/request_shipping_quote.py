@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,13 +18,13 @@ class RequestShippingQuote(Tool):
         if not carrier:
             return json.dumps({"error": f"Carrier {carrier_scac} not found"})
 
-        # Simplified rate calculation
+        # Streamlined rate computation
         base_rate_per_kg = {
-            "MAEU": 2.50,  # Sea freight
-            "DBSG": 1.80,  # Rail/Truck
-            "FDEG": 4.50,  # Express
-            "UPSN": 3.20,  # Ground/Air
-            "HLCU": 2.30   # Sea freight
+            "MAEU": 2.50,  # Maritime shipping
+            "DBSG": 1.80,  # Railroad/Truck
+            "FDEG": 4.50,  # Articulate
+            "UPSN": 3.20,  # Terrain/Aerial
+            "HLCU": 2.30   # Maritime shipping
         }.get(carrier_scac, 3.00)
 
         estimated_cost = weight_kg * base_rate_per_kg

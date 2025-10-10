@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Technologies
 
 import json
 from typing import Any, Dict, List, Optional
@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetPreferredStoreId(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], household_id: int) -> str:
-        # Determine preferred store dynamically; default to first native store if no explicit mapping
+        # Dynamically identify the preferred store; if no specific mapping exists, use the first native store as the default.
         stores = data.get("stores", [])
         native = [s for s in stores if str(s.get("platform_enum")) == "native"]
         sid = (

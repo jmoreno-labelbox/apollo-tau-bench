@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -43,7 +43,7 @@ class CreateNewPitch(Tool):
 
         pitches: List[Dict[str, Any]] = list(data.get("pitches", {}).values())
 
-        # Generate new pitch_id deterministically
+        # Create pitch_id in a deterministic manner.
         new_id = get_next_pitch_id(data)
 
         new_pitch = {"pitch_id": new_id}
@@ -55,7 +55,7 @@ class CreateNewPitch(Tool):
 
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        # Build JSON schema properties
+        # Create properties for the JSON schema.
         props: Dict[str, Any] = {
             "game_pk": {"type": "integer"}, "at_bat_index": {"type": "integer"},
             "pitch_number": {"type": "integer"}, "pitcher_id": {"type": "integer"},

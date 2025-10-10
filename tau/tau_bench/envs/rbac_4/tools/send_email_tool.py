@@ -10,36 +10,36 @@ class SendEmailTool(Tool):
 
     @staticmethod
     def invoke(data, **kwargs):
-        sender = kwargs["sender"]        # user_id of sender
-        receiver = kwargs["receiver"]    # user_id of receiver
+        sender = kwargs["sender"]        # identifier of the sender's user
+        receiver = kwargs["receiver"]    # ID of the recipient user
         subject = kwargs["subject"]
         body = kwargs["body"]
         timestamp = kwargs["timestamp"]
 
-        # Validate sender exists
+        # Check if the sender is present.
         sender_user = next((u for u in list(data.get("users", {}).values()) if u.get("user_id") == sender), None)
         if not sender_user:
             return json.dumps({"error": f"Sender '{sender}' not found in users.json."}, indent=2)
 
-        # Validate receiver exists
+        # Check if the receiver is present.
         receiver_user = next((u for u in list(data.get("users", {}).values()) if u.get("user_id") == receiver), None)
         if not receiver_user:
             return json.dumps({"error": f"Receiver '{receiver}' not found in users.json."}, indent=2)
 
-        # Receiver must be ACTIVE or PENDING_ACCESS
+        # Receiver must be in ACTIVE or PENDING_ACCESS state.
         if receiver_user.get("status") not in ("ACTIVE", "PENDING_ACCESS"):
             return json.dumps(
                 {"error": f"Receiver '{receiver}' has status '{receiver_user.get('status')}', not allowed."},
                 indent=2
             )
 
-        # Validate subject/body
+        # Verify subject/content
         if not isinstance(subject, str) or not subject.strip():
             return json.dumps({"error": "Subject must be a non-empty string."}, indent=2)
         if not isinstance(body, str) or not body.strip():
             return json.dumps({"error": "Body must be a non-empty string."}, indent=2)
 
-        # Append to emails.json
+        # Add to emails.json
         emails = data.setdefault("emails", [])
         email_id = f"EM-{len(emails) + 1:03d}"
         record = {

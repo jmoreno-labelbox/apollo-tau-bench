@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class UpdateInventoryStatus(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         inventory_id = kwargs.get('inventory_id')
         status = kwargs.get('status')
-        inventory_items = list(data.get("inventory", {}).values())  # Lista []
+        inventory_items = list(data.get("inventory", {}).values())  # Array []
         updated_item = None
         for item in inventory_items:
             if item.get("id") == inventory_id:

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -40,7 +40,7 @@ class GetTaskDetails(Tool):
             "blocked_by": task.get("blocked_by", []),
             "blocks": [],
             "time_logged": task.get("time_logged", 0),
-            # "total_hours_logged": total_hours_logged,
+            # "total_hours_recorded": total_hours_logged,
             "last_time_logged": task.get("last_time_logged"),
             "blocked_date": task.get("blocked_date"),
             "escalated": task.get("escalated", False),

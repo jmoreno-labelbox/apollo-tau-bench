@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 from tau_bench.envs.base import Env
 from tau_bench.envs.career_planner_2.data import load_data

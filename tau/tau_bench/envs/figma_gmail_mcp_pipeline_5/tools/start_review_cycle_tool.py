@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -29,7 +29,7 @@ class StartReviewCycleTool(Tool):
             "sla_hours": _get_config_json(data, "sla_deadlines").get("design_review", 72)
         }
         if cycle_id in idx:
-            # preserve existing thread link
+            # maintain current thread connection
             existing = cycles[idx[cycle_id]]
             row["thread_id_nullable"] = existing.get("thread_id_nullable")
             cycles[idx[cycle_id]] = row

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from copy import deepcopy
@@ -20,11 +20,11 @@ class UpdateReservationFlights(Tool):
             return "Error: reservation not found"
         reservation = reservations[reservation_id]
 
-        # update flights and calculate price
+        # refresh flight data and compute cost
         total_price = 0
         flights = deepcopy(flights)
         for flight in flights:
-            # if existing flight, ignore
+            # if flight already exists, skip
             if _ := [
                 f
                 for f in reservation["flights"]
@@ -61,7 +61,7 @@ class UpdateReservationFlights(Tool):
             reservation["passengers"]
         )
 
-        # check payment
+        # verify payment
         if payment_id not in users[reservation["user_id"]]["payment_methods"]:
             return "Error: payment method not found"
         payment_method = users[reservation["user_id"]]["payment_methods"][payment_id]
@@ -73,7 +73,7 @@ class UpdateReservationFlights(Tool):
         ):
             return "Error: gift card balance is not enough"
 
-        # if checks pass, deduct payment and update seats
+        # Upon successful validation, process payment and update seat availability.
         if payment_method["source"] == "gift_card":
             payment_method["amount"] -= total_price
         reservation["flights"] = flights
@@ -84,7 +84,7 @@ class UpdateReservationFlights(Tool):
                     "amount": total_price,
                 }
             )
-        # do not make flight database update here, assume it takes time to be updated
+        # avoid updating the flight database here, as it may require time to reflect changes
         return json.dumps(reservation)
 
     @staticmethod

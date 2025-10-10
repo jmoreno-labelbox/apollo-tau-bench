@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,16 +17,16 @@ class cancel_promotion(Tool):
         products = list(data.get("products", {}).values())
 
         for promotion in promotions:
-            # Filter to the correct promotion
+            # Select the appropriate promotion.
             if promotion["promotion_id"] == promotion_id:
-                # Remove discounts from products
-                # TODO: check if there can be multiple promotions per product
+                # Eliminate discounts on items.
+                # TODO: verify if a product can have multiple promotions.
                 applicable_skus = promotion["applicable_skus"]
                 for product in products:
                     if product["sku"] in applicable_skus:
                         product["is_discountable"] = False
 
-                # TODO: should the row just be removed?
+                # TODO: Should the row simply be deleted?
                 promotion["status"] = "canceled"
 
         return json.dumps({"success": "complete"})

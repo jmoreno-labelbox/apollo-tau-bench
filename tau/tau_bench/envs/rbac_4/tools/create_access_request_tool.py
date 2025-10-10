@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Technologies
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,12 +17,12 @@ class CreateAccessRequestTool(Tool):
         role_id = kwargs.get("role_id")
         justification = kwargs.get("justification")
 
-        # Prevent duplicate PENDING requests
+        # Eliminate redundant PENDING requests.
         for ar in access_requests:
             if ar["user_id"] == user_id and ar["resource_id"] == resource_id and ar["requested_role_id"] == role_id and ar["status"] == "PENDING":
                 return json.dumps({"error": "Duplicate pending access request"}, indent=2)
 
-        # Deterministic request ID
+        # Fixed request identifier
         new_id = f"AR-{len(access_requests) + 1:03d}"
         access_requests.append({
             "request_id": new_id,
@@ -36,7 +36,7 @@ class CreateAccessRequestTool(Tool):
             "decision_at": None
         })
 
-        # Audit logging
+        # Logging for audit purposes
         new_log_id = f"L-{len(audit_logs) + 1:03d}"
         audit_logs.append({
             "log_id": new_log_id,

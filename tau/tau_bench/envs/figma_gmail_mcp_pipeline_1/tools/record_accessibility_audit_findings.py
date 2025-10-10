@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class RecordAccessibilityAuditFindings(Tool):  # WRITE
+class RecordAccessibilityAuditFindings(Tool):  # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -17,7 +17,7 @@ class RecordAccessibilityAuditFindings(Tool):  # WRITE
         severity: str,
         recommended_fix_summary: str
     ) -> str:
-        # Validate input parameters
+        # Verify input arguments.
         if not isinstance(audit_id, str) or not audit_id:
             return json.dumps({"error": "audit_id must be a non-empty string"})
 
@@ -33,30 +33,30 @@ class RecordAccessibilityAuditFindings(Tool):  # WRITE
         if not isinstance(recommended_fix_summary, str) or not recommended_fix_summary:
             return json.dumps({"error": "recommended_fix_summary must be a non-empty string"})
 
-        # Validate violation_type
+        # Check the validity of violation_type.
         allowed_violation_types = ["TOUCH_TARGET", "CONTRAST", "TEXT_SIZING", "RTL"]
         if violation_type not in allowed_violation_types:
             return json.dumps({"error": f"Invalid violation_type. Allowed: {allowed_violation_types}"})
 
-        # Validate severity
+        # Check severity level.
         allowed_severities = ["HIGH", "MEDIUM", "LOW"]
         if severity not in allowed_severities:
             return json.dumps({"error": f"Invalid severity. Allowed: {allowed_severities}"})
 
-        # Validate audit_id exists
+        # Check if audit_id is present.
         audits = data.get("audits", [])
         audit_exists = any(audit.get("audit_id") == audit_id for audit in audits)
         if not audit_exists:
             return json.dumps({"error": f"Audit with ID '{audit_id}' not found"})
 
-        # Get audit_findings_a11y data
+        # Retrieve audit_findings_a11y information.
         audit_findings_a11y = data.get("audit_findings_a11y", [])
 
-        # Generate new finding_id
+        # Create a new finding_id.
         next_num = len(audit_findings_a11y) + 1
         finding_id = f"finding_a11y_{next_num:03d}"
 
-        # Create new finding entry
+        # Generate a new discovery record.
         new_finding = {
             "finding_id": finding_id,
             "audit_id": audit_id,
@@ -68,7 +68,7 @@ class RecordAccessibilityAuditFindings(Tool):  # WRITE
             "recommended_fix_summary": recommended_fix_summary
         }
 
-        # Add to data
+        # Append to dataset
         audit_findings_a11y.append(new_finding)
 
         return json.dumps({"new_finding": new_finding})

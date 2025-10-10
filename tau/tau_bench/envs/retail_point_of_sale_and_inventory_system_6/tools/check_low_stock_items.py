@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,11 +20,11 @@ class check_low_stock_items(Tool):
         out = []
 
         for item in inventory:
-            # If filtering on store or sku
+            # When applying a filter for store or SKU
             if ((store_id is None) or (item["store_id"] == store_id)) and (
                 (sku is None) or (item["sku"] == sku)
             ):
-                # Check if item needs to be reordered
+                # Verify if the item requires reordering.
                 if item["status"] in ["low_stock", "critical"]:
                     out.append(
                         {

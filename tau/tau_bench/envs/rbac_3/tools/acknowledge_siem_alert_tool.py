@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -36,7 +36,7 @@ class AcknowledgeSiemAlertTool(Tool):
         ack["note"] = note
         ack["ack_at"] = ack_at
 
-        # upsert
+        # insert or update
         replaced = False
         for i, x in enumerate(acks):
             if x.get("alert_id") == alert_id:

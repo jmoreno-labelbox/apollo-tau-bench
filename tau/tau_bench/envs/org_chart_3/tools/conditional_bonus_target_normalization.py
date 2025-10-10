@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class conditional_bonus_target_normalization(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], employee_id: str, compensation_id: str,
                effective_date: str, target_bonus_pct: float) -> str:
-        # Get current compensation
+        # Retrieve the current compensation.
         comp = data.get("compensation_records", [])
         current = [c for c in comp if c["employee_id"] == employee_id]
         current.sort(key=lambda c: c["effective_date"], reverse=True)
@@ -21,7 +21,7 @@ class conditional_bonus_target_normalization(Tool):
         current_bonus = latest.get("bonus_target_pct", 0)
 
         if current_bonus < target_bonus_pct:
-            # Update bonus target to normalize to default
+            # Adjust bonus target to revert to default settings.
             new_comp = {
                 "compensation_id": compensation_id,
                 "employee_id": employee_id,
@@ -32,7 +32,7 @@ class conditional_bonus_target_normalization(Tool):
                 "effective_date": effective_date
             }
 
-            # Remove old record with same ID if exists and add new one
+            # Delete any existing record with the same ID before adding the new one.
             comp = [c for c in comp if c["compensation_id"] != compensation_id]
             comp.append(new_comp)
             data["compensation_records"] = comp

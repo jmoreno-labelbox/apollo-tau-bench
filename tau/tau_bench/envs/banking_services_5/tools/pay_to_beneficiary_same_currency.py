@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,7 +22,7 @@ class PayToBeneficiarySameCurrency(Tool):
                 indent=2
             )
 
-        # Lookup beneficiary and verify ownership
+        # Retrieve beneficiary information and confirm ownership.
         ben = next(
             (b for b in list(data.get("beneficiaries", {}).values())
              if b.get("beneficiary_id") == beneficiary_id and b.get("customer_id") == customer_id),
@@ -31,7 +31,7 @@ class PayToBeneficiarySameCurrency(Tool):
         if not ben:
             return json.dumps({"error": f"Beneficiary '{beneficiary_id}' not found for customer '{customer_id}'."}, indent=2)
 
-        # Lookup source account and verify ownership
+        # Retrieve the source account and confirm ownership.
         acct = next(
             (a for a in list(data.get("accounts", {}).values())
              if a.get("account_id") == source_account_id and a.get("customer_id") == customer_id),
@@ -40,18 +40,18 @@ class PayToBeneficiarySameCurrency(Tool):
         if not acct:
             return json.dumps({"error": f"Source account '{source_account_id}' not found for customer '{customer_id}'."}, indent=2)
 
-        # Currency check
+        # Validate currency
         if acct.get("currency") != currency:
             return json.dumps(
                 {"error": "Currency mismatch for same‑currency payment."},
                 indent=2
             )
 
-        # Balance check
+        # Verify balance
         if acct.get("balance", 0.0) < amount:
             return json.dumps({"error": "Insufficient balance in source account."}, indent=2)
 
-        # Perform debit
+        # Execute debit transaction.
         acct["balance"] -= amount
         target_acc_num = ben["account_details"].get("account_number")
 

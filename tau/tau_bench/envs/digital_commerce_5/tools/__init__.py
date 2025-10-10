@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 from .get_contact_by_email import GetContactByEmail
 from .get_product_by_name import GetProductByName

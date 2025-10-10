@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,8 +11,8 @@ class CalculateTicketMetrics(Tool):
         tickets = kwargs.get("tickets")
         calculated_tickets = []
         for ticket in tickets:
-            ticket["age_hours"] = 72 # Mock calculation
-            ticket["ttr_mins"] = 240 # Mock calculation
+            ticket["age_hours"] = 72 # Simulated computation
+            ticket["ttr_mins"] = 240 # Simulated computation
             calculated_tickets.append(ticket)
         return json.dumps(calculated_tickets, indent=2)
 

@@ -2848,376 +2848,376 @@ Task(
 ),
 
 
-# Task(
+# Operation(
 #   annotator="saaish2",
-#   user_id="task_000",
-#   instruction=(
-#     "You are planning a compact 3-dinner mini-plan for the Wang Solo household (household_id=203) for the week starting 2025-09-01. "
-#     "Acceptance criteria (deterministic terminal state): "
-#     "1) Exactly one new meal plan exists for that week and household. "
-#     "2) The plan has three Dinner entries using protein-forward, peanut-free recipes [402, 404, 407]. "
-#     "3) One grocery list exists for that plan; items are aggregated from those recipes, sections categorized, pantry flags set; list status is left as 'initialized' and readiness is noted via audit. "
-#     "4) Log audits for the meal plan creation and the grocery list creation using deterministic payloads. "
-#     "Return the new grocery_list_id."
+# user_identifier="task_000",
+# command=(
+# "You are organizing a concise 3-dinner mini-plan for the Wang Solo household (household_id=203) for the week beginning 2025-09-01."
+# "Acceptance conditions (definitive end state):"
+# "1) There is a single new meal plan for each household in that week."
+# "2) The menu includes three dinner options featuring protein-rich, peanut-free recipes [402, 404, 407]."
+# "3) A single grocery list is generated for the plan, compiling items from the recipes, organizing them into sections, marking pantry flags, keeping the list status as 'initialized', and tracking readiness through an audit."
+# "4) Record audits for meal plan and grocery list creation utilizing fixed payloads."
+# "Provide the updated grocery_list_id."
 #   ),
-#   actions=[
-#     Action(name="GetHouseholdById", kwargs={"household_id": 203}),
-#     Action(name="CreateMealPlan", kwargs={"household_id": 203, "week_start_date": "2025-09-01", "created_by_user_id": 103}),
-#     Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id": 6003, "week_start_date": "2025-09-01", "selected_recipe_ids_json": "[402,404,407]"}),
-#     Action(name="CreateEmptyGroceryList", kwargs={"household_id": 203, "created_by_user_id": 103, "source_meal_plan_id": 6003, "status_enum": "initialized"}),
+# actionList=[
+# Action(name="FetchHouseholdById", kwargs={"household_id": 203}),
+# Action(name="CreateMealPlan", kwargs={"household_id": 203, "start_date_of_week": "2025-09-01", "user_id_creator": 103}),
+# Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id": 6003, "week_start": "2025-09-01", "selected_recipes_json": "[402,404,407]"}),
+# Action(name="CreateEmptyGroceryList", kwargs={"household_id": 203, "user_id": 103, "meal_plan_id": 6003, "status": "initialized"}),
 #     Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id": 8003, "recipe_ids_json": "[402,404,407]"}),
 #     Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
-#     Action(name="FlagPantryStaplesOnList", kwargs={"list_id": 8003}),
-#     Action(
-#       name="LogAuditEvent",
-#       kwargs={
+# Action(name="MarkPantryItemsOnList", kwargs={"list_id": 8003}),
+# Operation(
+# identifier="LogAuditEvent",
+# additional_arguments={
 #         "household_id": 203,
-#         "user_id": 103,
-#         "entity_type": "meal_plans",
-#         "entity_id": 6003,
-#         "action_enum": "create",
-#         "payload_json": {"week_start_date": "2025-09-01"},
+# "user_identifier": 103,
+# "entity_category": "meal_plans",
+# "entity_identifier": 6003,
+# "action_type": "add",
+# "payload_json": {"start_of_week": "2025-09-01"},
 #       },
 #     ),
-#     Action(
-#       name="LogAuditEvent",
-#       kwargs={
+# Operation(
+# identifier="LogAuditEvent",
+# additional_arguments={
 #         "household_id": 203,
-#         "user_id": 103,
-#         "entity_type": "grocery_lists",
-#         "entity_id": 8003,
-#         "action_enum": "create",
-#         "payload_json": {"source_meal_plan_id": 6003},
-#       },
+# "user_identifier": 103,
+# "entity_category": "grocery_lists",
+# "entity_identifier": 8003,
+# "action_type": "create",
+# "payload_json": {"meal_plan_source_id": 6003},
+# }
 #     ),
 #   ],
-#   outputs=[
-#     "8003"
-#   ]
+# results=[
+# "Eight thousand three"
+# It seems that there's no comment provided for paraphrasing. Please provide a comment for me to rewrite.
 # ),
 
 
-# Task(
-#   annotator="saaish2",
-#   user_id="task_000",
-#   instruction=(
-#     "You are producing a full 7-dinner, child-friendly plan for the Brown-Brown Family (household_id=204) for the week starting 2025-09-01 and placing a GreenGrocer Digital (store_id=9001) order. "
-#     "Acceptance criteria: "
-#     "1) One new meal plan exists for that week with Dinner entries using recipes [402, 404, 405, 407, 408, 423, 427]. "
-#     "2) Child-friendly notes are applied to all new entries using the deterministic template. "
-#     "3) A grocery list is created from those recipes; sections and pantry flags are set; 30-day overlap flags computed with anchor_date=2025-08-31; list status set to 'ready'. "
-#     "4) In-store availability is checked at store_id=9001; suggested substitutes are applied where available; an order is created for 2025-09-03T18:00:00Z–20:00:00Z, items added at lowest price, order status set to 'placed', and the list status set to 'ordered'. "
-#     "5) Audit the plan creation, list creation, order placement, and list status update. "
-#     "Return the list of created meal_plan entry_ids in ascending order."
+# Operation(
+# labeler="saaish2",
+# user_identifier="task_000",
+# command=(
+# "You are creating a complete 7-dinner, child-appropriate menu for the Brown-Brown Family (household_id=204) for the week beginning 2025-09-01 and submitting an order to GreenGrocer Digital (store_id=9001)."
+# "Criteria for acceptance:"
+# "A new weekly meal plan includes Dinner options featuring recipes [402, 404, 405, 407, 408, 423, 427]."
+# "2) A deterministic template is used to apply child-friendly notes to all new entries."
+# "3) A grocery list is generated from the recipes; sections and pantry indicators are established; 30-day overlap indicators calculated with anchor_date=2025-08-31; list status updated to 'ready'."
+# "4) Store availability is verified at store_id=9001; alternative options are provided if available; an order is generated for 2025-09-03T18:00:00Z–20:00:00Z, items are included at the lowest price, order status is marked as 'placed', and the list status is updated to 'ordered'."
+# "5) Review the processes for plan creation, list formulation, order submission, and list status modification."
+# "Output the meal_plan entry_ids in ascending order."
 #   ),
-#   actions=[
-#     Action(name="GetHouseholdById", kwargs={"household_id": 204}),
-#     Action(name="CreateMealPlan", kwargs={"household_id": 204, "week_start_date": "2025-09-01", "created_by_user_id": 104}),
-#     Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id": 6003, "week_start_date": "2025-09-01", "selected_recipe_ids_json": "[402,404,405,407,408,423,427]"}),
-#     Action(name="GenerateChildModifications", kwargs={"recipe_ids_json": "[402,404,405,407,408,423,427]"}),
-#     Action(
-#       name="UpdateMealPlanEntryNotes",
-#       kwargs={
-#         "meal_plan_id": 6003,
-#         "notes_map": {
-#           "402":"Child-friendly: mild seasoning; cut to bite-size; soft textures.",
-#           "404":"Child-friendly: mild seasoning; cut to bite-size; soft textures.",
-#           "405":"Child-friendly: mild seasoning; cut to bite-size; soft textures.",
-#           "407":"Child-friendly: mild seasoning; cut to bite-size; soft textures.",
-#           "408":"Child-friendly: mild seasoning; cut to bite-size; soft textures.",
-#           "423":"Child-friendly: mild seasoning; cut to bite-size; soft textures.",
-#           "427":"Child-friendly: mild seasoning; cut to bite-size; soft textures."
+# actionList=[
+# Action(name="FetchHouseholdById", kwargs={"household_id": 204}),
+# Action(name="CreateMealPlan", kwargs={"household_id": 204, "start_date_of_week": "2025-09-01", "user_id_creator": 104}),
+# Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id": 6003, "week_start_date": "2025-09-01", "selected_recipe_ids_json": "[402,404,405,407,408,423,427]"})
+# Action(name="GenerateChildModifications", kwargs={"recipe_ids_json": "[402, 404, 405, 407, 408, 423, 427]"})
+# Operation(
+# identifier="ModifyMealPlanEntryComments",
+# additional_arguments={
+# "mealPlanId": 6003,
+# "notes_dictionary": {
+# "402":"Suitable for children: lightly seasoned; cut into small pieces; soft consistency."
+# "404":"Suitable for children: lightly seasoned; cut into small pieces; tender consistency."
+# "405": "Suitable for children: lightly seasoned; chopped into small pieces; tender consistency."
+# "407": "Suitable for children: lightly seasoned; cut into small pieces; soft consistency."
+# "408":"Suitable for children: lightly seasoned; portioned into bite-sized pieces; soft consistency."
+# "423":"Suitable for children: lightly seasoned; cut into small pieces; soft consistency."
+# "427": "Suitable for children: lightly seasoned; cut into small pieces; tender textures."
 #         }
 #       },
 #     ),
-#     Action(name="CreateEmptyGroceryList", kwargs={"household_id": 204, "created_by_user_id": 104, "source_meal_plan_id": 6003, "status_enum": "initialized"}),
+# Action(name="CreateEmptyGroceryList", kwargs={"household_id": 204, "user_id_created_by": 104, "meal_plan_id_source": 6003, "status": "initialized"}),
 #     Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id": 8003, "recipe_ids_json": "[402,404,405,407,408,423,427]"}),
-#     Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
-#     Action(name="FlagPantryStaplesOnList", kwargs={"list_id": 8003}),
-#     Action(name="FlagOverlapLastMonthOnList", kwargs={"list_id": 8003, "household_id": 204, "anchor_date": "2025-08-31"}),
-#     Action(name="SetGroceryListStatus", kwargs={"list_id": 8003, "status_enum": "ready"}),
-#     Action(name="CheckStoreInventoryForList", kwargs={"list_id": 8003, "store_id": 9001}),
-#     # Flag only ingredients that were out_of_stock in the inventory check at 9001 (deterministic: [1002]).
-#     Action(
-#       name="ProposeSubstituteProducts",
-#       kwargs={
-#         "store_id": 9001,
+# Action(name="ClassifyGroceryListSections", kwargs={"list_id": 8003}),
+# Action(name="FlagPantryItemsOnList", kwargs={"list_id": 8003}),
+# Action(name="FlagOverlapLastMonthOnList", kwargs={"list_id": 8003, "household_id": 204, "reference_date": "2025-08-31"}),
+# Action(name="SetGroceryListStatus", kwargs={"list_id": 8003, "status": "ready"}),
+# Action(name="VerifyStoreInventoryByList", kwargs={"list_id": 8003, "store_id": 9001}),
+#     # # Mark ingredients that were unavailable during the inventory assessment at 9001 (deterministic: [1002]).
+# Execute
+# name="SuggestAlternativeProducts",
+# additional_arguments={
+# "store_identifier": 9001,
 #         "flagged_items": [{"ingredient_id": 1002}],
-#         "require_peanut_free": False
+# "peanut_free_required": False
 #       },
-#     ),
-#     # No viable substitutions available at this store for the flagged item; apply none.
-#     Action(
-#       name="UpdateGroceryListWithSubstitutes",
+# )
+#     # # No acceptable replacements found at this store for the marked item; apply none.
+# Operation(
+# identifier="ModifyGroceryListWithAlternatives",
 #       kwargs={"list_id": 8003, "substitutions": []},
 #     ),
-#     Action(
-#       name="CreateOrderFromList",
-#       kwargs={
-#         "household_id": 204,
-#         "store_id": 9001,
-#         "list_id": 8003,
-#         "scheduled_slot_start_ts": "2025-09-03T18:00:00Z",
-#         "scheduled_slot_end_ts": "2025-09-03T20:00:00Z",
+# Operation(
+# identifier="GenerateOrderFromList",
+# additional_parameters={
+# "household_identifier": 204,
+# "store_identifier": 9001,
+# "listIdentifier": 8003,
+# "scheduled_slot_start_timestamp": "2025-09-03T18:00:00Z",
+# "scheduled_slot_end_timestamp": "2025-09-03T20:00:00Z",
 #       },
 #     ),
-#     Action(name="AddOrderItemsFromList", kwargs={"order_id": 10003, "store_id": 9001}),
-#     Action(name="UpdateOrderStatus", kwargs={"order_id": 10003, "new_status": "placed"}),
-#     Action(name="SetGroceryListStatus", kwargs={"list_id": 8003, "status_enum": "ordered"}),
-#     Action(
-#       name="LogAuditEvent",
-#       kwargs={
+# Action(name="AddOrderItemsFromList", kwargs={"orderId": 10003, "storeId": 9001}),
+# Action(name="UpdateOrderStatus", kwargs={"order_id": 10003, "status": "placed"}),
+# Action(name="UpdateGroceryListStatus", kwargs={"list_id": 8003, "status": "ordered"}),
+# Execute(
+# identifier="LogAuditEvent",
+# additional_arguments={
 #         "household_id": 204,
-#         "user_id": 104,
-#         "entity_type": "meal_plans",
-#         "entity_id": 6003,
-#         "action_enum": "create",
-#         "payload_json": {"week_start_date": "2025-09-01"},
+# "user_identifier": 104,
+# "entity_category": "meal_plans",
+# "entity_identifier": 6003,
+# "action_type": "add",
+# "payload_json": {"start_date_of_week": "2025-09-01"},
 #       },
 #     ),
-#     Action(
-#       name="LogAuditEvent",
-#       kwargs={
+# Operation(
+# identifier="LogAuditEvent",
+# additional_arguments={
 #         "household_id": 204,
-#         "user_id": 104,
-#         "entity_type": "grocery_lists",
-#         "entity_id": 8003,
-#         "action_enum": "create",
-#         "payload_json": {"source_meal_plan_id": 6003},
+# "user_identifier": 104,
+# "entity_category": "grocery_lists",
+# "entity_identifier": 8003,
+# "action_type": "add",
+# "payload_json": {"meal_plan_source_id": 6003},
 #       },
 #     ),
-#     Action(
-#       name="LogAuditEvent",
-#       kwargs={
-#         "household_id": 204,
-#         "user_id": 104,
-#         "entity_type": "orders",
-#         "entity_id": 10003,
-#         "action_enum": "placed",
-#         "payload_json": {"list_id": 8003, "store_id": 9001},
+# Execute(
+# identifier="LogAuditEvent",
+# additional_arguments={
+# "household_identifier": 204,
+# "user_identifier": 104,
+# "entity_category": "orders",
+# "entity_identifier": 10003,
+# "action_type": "placed",
+# "payload_json": {"id_list": 8003, "id_store": 9001},
 #       },
 #     ),
-#     Action(
-#       name="LogAuditEvent",
-#       kwargs={
+# Execute
+# identifier="LogAuditEvent",
+# additional_arguments={
 #         "household_id": 204,
-#         "user_id": 104,
-#         "entity_type": "grocery_lists",
-#         "entity_id": 8003,
-#         "action_enum": "status_update",
-#         "payload_json": {"status_enum": "ordered"},
+# "user_identifier": 104,
+# "entity_category": "grocery_lists",
+# "entity_identifier": 8003,
+# "action_type": "status_change",
+# "payload_json": {"status_enum": "placed"},
 #       },
 #     ),
 #   ],
-#   outputs=[
-#     "6118","6119","6120","6121","6122","6123","6124"
-#   ]
+# results=[
+# "6118", "6119", "6120", "6121", "6122", "6123", "6124"
+# It seems there is no comment provided to paraphrase. Please provide the text you would like me to rephrase.
 # ),
 
-# Task(
+# Operation(
 #   annotator="saaish2",
-#   user_id="task_000",
-#   instruction=(
-#     "You will create a peanut-free 3-day school-lunch plan for the Lee-Anderson Family anchored to the week starting 2025-09-01. Use recipes with ≥20 g protein per serving and, when more than three qualify, pick the top three by protein; break any remaining ties by lower prep_minutes, then lower recipe_id. Build a dedicated grocery list from those three lunches, categorize by store section, flag pantry staples and 30-day overlaps using 2025-08-30 as the anchor, set the list status to 'ready', and record audits for meal plan creation and grocery list creation/finalization. Accept when the lunch plan exists, the list aggregates exactly those lunches, the status is 'ready', and the audits are recorded."
+# user_identifier="task_000",
+# command=(
+# Develop a peanut-free 3-day school lunch menu for the Lee-Anderson family starting the week of 2025-09-01. Select recipes providing at least 20 g of protein per serving; if there are more than three options, choose the top three based on protein content, then prioritize those with shorter prep times, and finally by recipe ID if needed. Create a grocery list from these three lunches, organizing items by store section, marking pantry staples and items with 30-day overlaps based
 #   ),
-#   actions=[
-#     Action(name="GetHouseholdById", kwargs={"household_id": 209}),
-#     Action(name="GetUserById", kwargs={"user_id": 109}),
-#     Action(name="BuildRecipeFilters", kwargs={"meal_type": "Lunch", "min_protein_g": 20, "peanut_free": True, "cuisines_exclude": []}),
+# operations=[
+# Action(name="FetchHouseholdById", kwargs={"household_id": 209}),
+# Action(name="FetchUserById", kwargs={"user_id": 109}),
+# Action(name="BuildRecipeFilters", kwargs={"mealType": "Lunch", "minProteinG": 20, "peanutFree": True, "excludeCuisines": []}),
 #     Action(name="ListRecipesByFilters", kwargs={"filter_token": "F:Lunch:P20:PF1:EX"}),
-#     Action(name="CreateMealPlan", kwargs={"household_id": 209, "week_start_date": "2025-09-01", "created_by_user_id": 109}),
-#     Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id": 6003, "week_start_date": "2025-09-01", "selected_recipe_ids_json": "[445, 443, 409]"}),
+# Action(name="CreateMealPlan", kwargs={"household_id": 209, "week_start": "2025-09-01", "user_id": 109}),
+# Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id": 6003, "week_start_date": "2025-09-01", "selected_recipe_ids_json": "[445, 443, 409]"})
 #     Action(name="CreateEmptyGroceryList", kwargs={"household_id": 209, "source_meal_plan_id": 6003, "created_by_user_id": 109, "status_enum": "initialized"}),
 #     Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id": 8003, "recipe_ids_json": "[445, 443, 409]"}),
-#     Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
-#     Action(name="FlagPantryStaplesOnList", kwargs={"list_id": 8003}),
-#     Action(name="FlagOverlapLastMonthOnList", kwargs={"list_id": 8003, "household_id": 209, "anchor_date": "2025-08-30"}),
-#     Action(name="SetGroceryListStatus", kwargs={"list_id": 8003, "status_enum": "ready"}),
+# Action(name="ClassifyGroceryListSections", kwargs={"list_id": 8003}),
+# Action(name="FlagPantryItemsInList", kwargs={"list_id": 8003}),
+# Action(name="FlagOverlapLastMonthOnList", kwargs={"list_id": 8003, "household_id": 209, "reference_date": "2025-08-30"}),
+# Action(name="UpdateGroceryListStatus", kwargs={"list_id": 8003, "status": "ready"}),
 #     Action(name="LogAuditEvent", kwargs={"household_id": 209, "user_id": 109, "entity_type": "meal_plans", "entity_id": 6003, "action_enum": "created", "payload_json": {"week_start_date": "2025-09-01"}}),
 #     Action(name="LogAuditEvent", kwargs={"household_id": 209, "user_id": 109, "entity_type": "grocery_list", "entity_id": 8003, "action_enum": "created", "payload_json": {"source_meal_plan_id": 6003}}),
 #     Action(name="LogAuditEvent", kwargs={"household_id": 209, "user_id": 109, "entity_type": "grocery_list", "entity_id": 8003, "action_enum": "finalized", "payload_json": {"status": "ready"}})
 #   ],
-#   outputs=[]
+# results=[]
 # ),
 
-# Task(
+# Operation(
 #   annotator="saaish2",
-#   user_id="task_000",
-#   instruction=(
-#     "You manage weekly dinners for the Bennett Family (household_id 201). Create a new meal plan for the week of 2025-09-01 with exactly three peanut-free Dinner entries on 2025-09-01 through 2025-09-03, each providing at least 22g protein and avoiding any dinners this household cooked from 2025-08-01 to 2025-08-20. Use targets 2200 kcal and 120g protein to choose recipes. Success means: one new meal_plan for that week tied to three Dinner entries dated 2025-09-01..2025-09-03, and one new grocery_list linked to the plan with items equal to the aggregated recipe ingredients, categorized by section, and status='finalized', plus one audit row for that list."
+# user_identifier="task_000",
+# command=(
+# "Oversee the weekly meal arrangements for the Bennett Family (household_id 201). Develop a fresh meal plan for the week of 2025-09-01 featuring three peanut-free Dinner options from 2025-09-01 to 2025-09-03, each containing a minimum of 22g protein, while excluding any dishes prepared by the household between 2025-08-01 and 2025-08-20. Use the targets of 2200 kcal
 #   ),
-#   actions=[
-#     Action(name="GetHouseholdById", kwargs={"household_id": 201}),
-#     Action(name="BuildRecipeFilters", kwargs={"meal_type": "Dinner", "min_protein_g": 22, "peanut_free": True, "cuisines_exclude": []}),
-#     # Known deterministic token for this filter
+# operations=[
+# Action(name="FetchHouseholdById", kwargs={"household_id": 201}),
+# Action(name="BuildRecipeFilters", kwargs={"mealType": "Dinner", "minProteinG": 22, "peanutFree": True, "excludeCuisines": []}),
+#     # # Identified deterministic token for this filter
 #     Action(name="ListRecipesByFilters", kwargs={"filter_token": "F:Dinner:P22:PF1:EX"}),
-#     # Deterministic 20-day window ending 2025-08-20
-#     Action(name="ListRecentMealHistory", kwargs={"household_id": 201, "days_back": 20, "anchor_date": "2025-08-20"}),
-#     # Exclude ALL recent recipe_ids intersecting the candidate list (404,405,407 were recent)
-#     Action(name="ExcludeRecipeIds", kwargs={
+#     # # Fixed 20-day period concluding on 2025-08-20
+# Action(name="ListRecentMealHistory", kwargs={"household_id": 201, "days_ago": 20, "reference_date": "2025-08-20"}),
+#     # # Omit ALL recent recipe_ids that overlap with the candidate list (404, 405, 407 were recent)
+# Action(identifier="ExcludeRecipeIds", parameters={
 #       "candidate_recipe_ids_json": "[402, 404, 405, 407, 423, 425, 427, 428, 429, 434, 435]",
-#       "exclude_recipe_ids": [404, 405, 407]
+# "omit_recipe_ids": [404, 405, 407]
 #     }),
-#     # Rank strictly over the exclude output; pick 3 by stated targets
-#     Action(name="RankRecipesForTargets", kwargs={
+#     # # Prioritize ranking above the excluded output; select 3 based on specified targets.
+# Action(identifier="RankRecipesForTargets", parameters={
 #       "recipe_ids_json": "[402, 423, 425, 427, 428, 429, 434, 435]",
-#       "needed_count": 3,
-#       "target_calories": 2200,
-#       "target_protein": 120
+# "required_count": 3,
+# "desired_calories": 2200,
+# "desired_protein": 120
 #     }),
-#     Action(name="CreateMealPlan", kwargs={"household_id": 201, "week_start_date": "2025-09-01", "created_by_user_id": 101}),
-#     # Use exactly the three selected in the previous step
-#     Action(name="BulkAddMealPlanEntries", kwargs={
-#       "meal_plan_id": 6003,
-#       "week_start_date": "2025-09-01",
+# Action(name="CreateMealPlan", kwargs={"household_id": 201, "week_start_date": "2025-09-01", "user_id_creator": 101}),
+#     # # Utilize only the three chosen in the prior step
+# Action(identifier="BulkAddMealPlanEntries", parameters={
+# "meal_plan_identifier": 6003,
+# "week_begin_date": "2025-09-01",
 #       "selected_recipe_ids_json": "[425, 423, 435]"
 #     }),
-#     Action(name="CreateEmptyGroceryList", kwargs={"household_id": 201, "source_meal_plan_id": 6003, "created_by_user_id": 101, "status_enum": "initialized"}),
-#     Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id": 8003, "recipe_ids_json": "[425, 423, 435]"}),
-#     Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
-#     Action(name="SetGroceryListStatus", kwargs={"list_id": 8003, "status_enum": "finalized"}),
-#     Action(name="LogAuditEvent", kwargs={
-#       "household_id": 201, "user_id": 101,
-#       "entity_type": "grocery_list", "entity_id": 8003,
-#       "action_enum": "finalized",
-#       "payload_json": {"source_meal_plan_id": 6003, "status": "finalized"}
+# Action(name="CreateEmptyGroceryList", kwargs={"household_id": 201, "meal_plan_source_id": 6003, "user_creator_id": 101, "status": "initialized"}),
+# Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id": 8003, "recipe_ids_json": "[425, 423, 435]"})
+# Action(name="ClassifyGroceryListSections", kwargs={"list_id": 8003}),
+# Action(name="SetGroceryListStatus", kwargs={"list_id": 8003, "status": "finalized"}),
+# Action(identifier="LogAuditEvent", parameters={
+# "household_id": 201, "user_identifier": 101,
+# "entity_category": "grocery_list", "entity_identifier": 8003,
+# "action_enum": "completed",
+# "payload_json": {"meal_plan_source_id": 6003, "current_status": "finalized"}
 #     }),
 #   ],
-#   outputs=[]
+# results=[]
 # ),
 
-# Task(
+# Operation(
 #   annotator="saaish2",
-#   user_id="task_000",
-#   instruction=(
-#     "You will plan a full 7-night Dinner week for the Bennett Family for the exact week starting 2025-09-01 using exactly these seven Dinner recipe IDs: 402, 423, 425, 427, 428, 429, 430. Apply the single fixed child-note template to every entry. Keep servings at defaults. Acceptance: the week is populated for all seven days under one new meal plan; each entry has exactly the fixed child-note template (and nothing else); no store or ordering changes."
+# user_identifier="task_000",
+# command=(
+# "Create a complete 7-night dinner schedule for the Bennett Family for the week beginning 2025-09-01, utilizing the specified dinner recipe IDs: 402, 423, 425, 427, 428, 429, 430. Use the standard child-note template for each entry while maintaining default servings. The output should include all seven days in a single meal plan, with each entry containing only the designated child-note template and no modifications to shopping or ordering."
 #   ),
-#   actions=[
-#     Action(name="GetHouseholdById", kwargs={"household_id": 201}),
-#     Action(name="GetUserById", kwargs={"user_id": 101}),
-#     Action(name="CreateMealPlan", kwargs={"household_id": 201, "week_start_date": "2025-09-01", "created_by_user_id": 101}),
-#     Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id": 6003, "week_start_date": "2025-09-01", "selected_recipe_ids_json": "[402,423,425,427,428,429,430]"}),
-#     # Apply one deterministic, fixed template string to every entry (no extra prose):
-#     Action(
-#       name="UpdateMealPlanEntryNotes",
-#       kwargs={
-#         "meal_plan_id": 6003,
-#         "notes_map": {
-#           "402": "Child-friendly: mild seasoning; cut to bite-size; soft textures.",
-#           "423": "Child-friendly: mild seasoning; cut to bite-size; soft textures.",
-#           "425": "Child-friendly: mild seasoning; cut to bite-size; soft textures.",
-#           "427": "Child-friendly: mild seasoning; cut to bite-size; soft textures.",
-#           "428": "Child-friendly: mild seasoning; cut to bite-size; soft textures.",
-#           "429": "Child-friendly: mild seasoning; cut to bite-size; soft textures.",
-#           "430": "Child-friendly: mild seasoning; cut to bite-size; soft textures."
+# action_list=[
+# Action(name="RetrieveHouseholdById", kwargs={"household_id": 201}),
+# Action(name="FetchUserById", kwargs={"user_id": 101}),
+# Action(name="CreateMealPlan", kwargs={"household_id": 201, "week_start_date": "2025-09-01", "user_id_creator": 101}),
+# Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id": 6003, "week_start_date": "2025-09-01", "selected_recipe_ids_json": "[402,423,425,427,428,429,430]"})
+#     # # Utilize a single, consistent template string for all entries (without additional text):
+# Event
+# identifier="UpdateMealPlanEntryNotes",
+# additional_arguments={
+# "meal_plan_identifier": 6003,
+# "notes_dictionary": {
+# "402": "Suitable for children: lightly seasoned; cut into small pieces; tender consistency."
+# "423": "Suitable for children: lightly seasoned; cut into small pieces; tender textures."
+# "425": "Suitable for children: lightly seasoned; cut into small pieces; tender consistency."
+# "427": "Suitable for children: gentle seasoning; chopped into small pieces; tender consistency."
+# "428": "Suitable for children: lightly seasoned; diced into small pieces; tender consistency."
+# "429": "Suitable for children: lightly seasoned; cut into small pieces; soft consistency."
+# "430": "Suitable for kids: gentle spices; portioned for easy eating; soft consistency."
 #         }
 #       }
 #     ),
-#     Action(
-#       name="LogAuditEvent",
-#       kwargs={
-#         "household_id": 201,
-#         "user_id": 101,
-#         "entity_type": "meal_plan",
-#         "entity_id": 6003,
-#         "action_enum": "created",
-#         "payload_json": {"week_start_date": "2025-09-01", "entries": 7}
+# Operation(
+# identifier="LogAuditEvent",
+# additional_arguments={
+# "householdIdentifier": 201,
+# "user_identifier": 101,
+# "entity_category": "meal_plan",
+# "entity_identifier": 6003,
+# "action_enum": "initialized",
+# "payload_json": {"start_of_week": "2025-09-01", "total_entries": 7}
 #       }
 #     )
 #   ],
-#   outputs=[]
+# results=[]
 # ),
 
-# Task(
+# Operation(
 #   annotator="saaish2",
-#   user_id="task_000",
-#   instruction=(
-#     "You will prepare a peanut-free school-lunch pack for Wang Solo by building a dedicated grocery list from exactly these five peanut-free Lunch recipes: 409, 410, 412, 443, 445. Categorize by section and set both pantry-staple and 30-day overlap flags with 2025-09-07 as the anchor. Keep the list initialized. Acceptance: one new list exists with items aggregated from those five lunches; sections assigned; pantry and overlap flags set; no store checks or orders."
+# user_identifier="task_000",
+# command=(
+# "Create a peanut-free lunch pack for Wang Solo by compiling a grocery list based on the following five peanut-free recipes: 409, 410, 412, 443, 445. Organize the list by section and apply both pantry-staple and 30-day overlap flags, using 2025-09-07 as the reference date. Ensure the list is initialized. Acceptance criteria: a new list with combined items from these recipes is generated; sections are categorized; flags are applied
 #   ),
-#   actions=[
-#     Action(name="GetHouseholdById", kwargs={"household_id": 203}),
-#     Action(name="GetUserById", kwargs={"user_id": 103}),
+# actions_list=[
+# Action(name="FetchHouseholdById", kwargs={"household_id": 203}),
+# Action(name="FetchUserById", kwargs={"user_id": 103}),
 #     Action(name="CreateEmptyGroceryList", kwargs={"household_id": 203, "source_meal_plan_id": None, "created_by_user_id": 103, "status_enum": "initialized"}),
 #     Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id": 8003, "recipe_ids_json": "[409,410,412,443,445]"}),
-#     Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
-#     Action(name="FlagPantryStaplesOnList", kwargs={"list_id": 8003}),
+# Action(name="ClassifyGroceryListSections", kwargs={"list_id": 8003}),
+# Action(name="MarkPantryItemsOnList", kwargs={"list_id": 8003}),
 #     Action(name="FlagOverlapLastMonthOnList", kwargs={"list_id": 8003, "household_id": 203, "anchor_date": "2025-09-07"})
-#   ],
-#   outputs=[]
+# ]
+# results=[]
 # ),
 
-# Task(
+# Operation(
 #   annotator="saaish2",
-#   user_id="task_000",
-#   instruction=(
-#     "You will prepare a peanut-free school-lunch pack for the Brown Large Family by creating a dedicated grocery list from exactly these five Lunch recipes: 443, 409, 447, 441, 445. Categorize items and set pantry-staple and 30-day overlap flags using 2025-09-14 as the anchor. Keep the list initialized. Acceptance: one list exists with items aggregated from those five lunches; sections assigned; pantry and overlap flags set; no store checks or orders."
+# user_identifier="task_000",
+# command=(
+# "Create a peanut-free lunch pack for the Brown Large Family by compiling a grocery list based on these five lunch recipes: 443, 409, 447, 441, 445. Organize items into categories and assign pantry-staple and 30-day overlap flags using 2025-09-14 as the reference date. Ensure the list is initialized. Acceptance criteria: a single aggregated list from the specified recipes exists with categorized sections, pantry and overlap flags set, with no store
 #   ),
-#   actions=[
-#     Action(name="GetHouseholdById", kwargs={"household_id": 207}),
-#     Action(name="GetUserById", kwargs={"user_id": 107}),
+# operations=[
+# Action(name="RetrieveHouseholdById", kwargs={"household_id": 207}),
+# Action(name="RetrieveUserById", kwargs={"user_id": 107}),
 #     Action(name="ListHouseholdMembers", kwargs={"household_id": 207}),
 #     Action(name="ListInventoryByHousehold", kwargs={"household_id": 207}),
 #     Action(name="ListRecentMealHistory", kwargs={"household_id": 207, "days_back": 30, "anchor_date": "2025-09-14"}),
 #     Action(name="CreateEmptyGroceryList", kwargs={"household_id": 207, "source_meal_plan_id": None, "created_by_user_id": 107, "status_enum": "initialized"}),
-#     Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id": 8003, "recipe_ids_json": "[443,409,447,441,445]"}),
-#     Action(name="CategorizeGroceryListSections", kwargs={"list_id": 8003}),
-#     Action(name="FlagPantryStaplesOnList", kwargs={"list_id": 8003}),
-#     Action(name="FlagOverlapLastMonthOnList", kwargs={"list_id": 8003, "household_id": 207, "anchor_date": "2025-09-14"}),
-#     Action(name="GetGroceryListDetails", kwargs={"list_id": 8003}),
+# Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id": 8003, "recipe_ids_json": "[443,409,447,441,445]"})
+# Action(name="ClassifyGroceryListSections", kwargs={"list_id": 8003}),
+# Action(name="FlagPantryItemsOnList", kwargs={"list_id": 8003}),
+# Action(name="FlagOverlapLastMonthOnList", kwargs={"list_id": 8003, "household_id": 207, "reference_date": "2025-09-14"}),
+# Action(name="FetchGroceryListDetails", kwargs={"list_id": 8003}),
 #     Action(name="LogAuditEvent", kwargs={"household_id": 207, "user_id": 107, "entity_type": "grocery_list", "entity_id": 8003, "action_enum": "created", "payload_json": {"source":"peanut_free_lunch","selected_recipes":[443,409,447,441,445]}})
 #   ],
-#   outputs=[]
+# results=[]
 # ),
 
-# Task(
+# Operation(
 #   annotator="saaish2",
-#   user_id="task_000",
-#   instruction=(
-#     "You generate a grocery list for the household “Shah Extended Family” (household_id=205) from recipes 401 and 402, created by user_id=105. Build a new list (status initialized), aggregate items from those two recipes, set grocery sections from ingredient metadata, and flag pantry staples on the list. Log one audit event for list generation. Return the new grocery list_id."
+# user_identifier="task_000",
+# command=(
+# "Create a grocery list for the 'Shah Extended Family' (household_id=205) utilizing recipes 401 and 402, authored by user_id=105. Initialize a new list, compile items from both recipes, assign grocery sections based on ingredient metadata, and mark pantry staples. Log a single audit event for the list creation. Return the new grocery list_id."
 #   ),
-#   actions=[
-#     Action(name="GetHouseholdById", kwargs={"household_id":205}),
-#     Action(name="GetUserById", kwargs={"user_id":105}),
-#     Action(name="CreateEmptyGroceryList", kwargs={"household_id":205,"source_meal_plan_id":None,"created_by_user_id":105,"status_enum":"initialized"}),
-#     Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id":8003,"recipe_ids_json":"[401,402]"}),
-#     Action(name="CategorizeGroceryListSections", kwargs={"list_id":8003}),
-#     Action(name="FlagPantryStaplesOnList", kwargs={"list_id":8003}),
+# operations=[
+# Action(name="FetchHouseholdById", kwargs={"household_id":205}),
+# Action(name="FetchUserById", kwargs={"user_id":105}),
+# Action(name="CreateEmptyGroceryList", kwargs={"household_id":205, "source_meal_plan_id":None, "created_by_user_id":105, "status_enum":"initialized"}),
+# Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id":8003, "recipe_ids_json":"[401,402]"})
+# Action(name="ClassifyGroceryListSections", kwargs={"list_id":8003}),
+# Action(name="FlagPantryItemsOnList", kwargs={"list_id":8003}),
 #     Action(name="LogAuditEvent", kwargs={"household_id":205,"user_id":105,"entity_type":"grocery_lists","entity_id":8003,"action_enum":"generate_list","payload_json":{"recipe_ids":[401,402]}}),
 #   ],
-#   outputs=[
-#     "8003"
-#   ]
+# results=[
+# 8003
+# It seems that there is no comment provided for paraphrasing. Please provide a comment for me to rewrite.
 # ),
 
-# Task(
+# Operation(
 #   annotator="saaish2",
-#   user_id="task_000",
-#   instruction=(
-#     "You run a pantry-first dinner restock for the household “Lee-Anderson Family” (household_id=209) for the week starting 2025-09-08. Success requires: one meal plan under user_id=109 containing up to two dinners chosen from {401,402,403,404} that each introduce no more than three non-staple ingredients and align best with the adult target (member_id=327); a single grocery list derived exactly from the selected dinners; availability and product choice at store_id=9001 using lowest-price in-stock/low items for the scheduled slot 2025-09-09T09:00:00Z–11:00:00Z; and one audit event recording order placement. Return the created order_id and final total_cents."
+# user_identifier="task_000",
+# command=(
+# "Initiate a pantry-first dinner restock for the 'Lee-Anderson Family' (household_id=209) for the week starting 2025-09-08. Requirements include: a meal plan under user_id=109 featuring up to two dinners from {401,402,403,404} with no more than three non-staple ingredients each, optimized for the adult target (member_id=327); a grocery list based solely on the chosen dinners; product selection and availability at
 #   ),
-#   actions=[
-#     Action(name="GetHouseholdById", kwargs={"household_id":209}),
-#     Action(name="GetUserById", kwargs={"user_id":109}),
-#     Action(name="GetMemberTargets", kwargs={"member_id":327}),
-#     Action(name="MinimizeNewIngredients", kwargs={"recipe_ids_json":"[401,402,403,404]","max_new_ingredients_per_recipe":3}),
+# operations=[
+# Action(name="FetchHouseholdById", kwargs={"household_id":209}),
+# Action(name="FetchUserById", kwargs={"user_id":109}),
+# Action(name="FetchMemberTargets", kwargs={"member_id":327}),
+# Action(name="MinimizeNewIngredients", kwargs={"recipe_ids_json":"[401,402,403,404]","max_new_ingredients_each_recipe":3}),
 #     Action(name="RankRecipesForTargets", kwargs={"recipe_ids_json":"[401,404]","needed_count":2,"target_calories":2600,"target_protein":120}),
-#     Action(name="CreateMealPlan", kwargs={"household_id":209,"week_start_date":"2025-09-08","created_by_user_id":109}),
+# Action(name="CreateMealPlan", kwargs={"household_id":209, "week_start_date":"2025-09-08", "user_id_creator":109}),
 #     Action(name="LogAuditEvent", kwargs={"household_id":209,"user_id":109,"entity_type":"meal_plans","entity_id":6003,"action_enum":"create_meal_plan","payload_json":{"week_start_date":"2025-09-08"}}),
-#     Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id":6003,"week_start_date":"2025-09-08","selected_recipe_ids_json":"[404, 401]"}),
-#     Action(name="CreateEmptyGroceryList", kwargs={"household_id":209,"source_meal_plan_id":6003,"created_by_user_id":109,"status_enum":"initialized"}),
+# Action(name="BulkAddMealPlanEntries", kwargs={"meal_plan_id":6003, "week_start_date":"2025-09-08", "selected_recipe_ids_json":"[404, 401]"}),
+# Action(name="CreateEmptyGroceryList", kwargs={"household_id":209, "source_meal_plan_id":6003, "user_id":109, "status":"initialized"}),
 #     Action(name="LogAuditEvent", kwargs={"household_id":209,"user_id":109,"entity_type":"grocery_lists","entity_id":8003,"action_enum":"create_grocery_list","payload_json":{"source_meal_plan_id":6003}}),
-#     Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id":8003,"recipe_ids_json":"[404,401]"}),
-#     Action(name="CheckStoreInventoryForList", kwargs={"list_id":8003,"store_id":9001}),
-#     Action(name="ProposeSubstituteProducts", kwargs={"list_id":8003,"store_id":9001}),
-#     Action(name="UpdateGroceryListWithSubstitutes", kwargs={"list_id":8003}),
-#     Action(name="CreateOrderFromList", kwargs={"household_id":209,"store_id":9001,"list_id":8003,"scheduled_slot_start_ts":"2025-09-09T09:00:00Z","scheduled_slot_end_ts":"2025-09-09T11:00:00Z"}),
-#     Action(name="AddOrderItemsFromList", kwargs={"order_id":10003,"store_id":9001}),
+# Action(name="UpsertGroceryListItemsFromRecipes", kwargs={"list_id":8003, "recipe_ids_json":"[404,401]"}),
+# Action(name="VerifyInventoryForList", kwargs={"list_id":8003,"store_id":9001}),
+# Action(name="SuggestAlternativeProducts", kwargs={"list_id":8003, "store_id":9001}),
+# Action(name="ModifyGroceryListWithAlternatives", kwargs={"list_id":8003}),
+# Action(name="CreateOrderFromList", kwargs={"household_id":209,"store_id":9001,"list_id":8003,"scheduled_start":"2025-09-09T09:00:00Z","scheduled_end":"2025-09-09T11:00:00Z"}),
+# Action(name="AddOrderItemsFromList", kwargs={"order_id":10003, "store_id":9001}),
 #     Action(name="LogAuditEvent", kwargs={"household_id":209,"user_id":109,"entity_type":"orders","entity_id":10003,"action_enum":"place_order","payload_json":{"list_id":8003,"store_id":9001}}),
 #   ],
-#   outputs=[
+# results=[
 #     "10003",
 #     "1597"
-#   ]
+# It seems there was no comment provided for paraphrasing. Please provide the comment you would like me to rewrite.
 # ),
 
 ]

@@ -1,8 +1,8 @@
 from tau_bench.types import Action, Task
 
-# Edges = Input kwargs from prompt + Input kwargs sourced from API outputs
-# Each edge represents a dependency where an API call uses data from the prompt or previous API results
-# MEDIUM COMPLEXITY TASKS (7-12 edges)
+# Edges = Input parameters from the prompt + Input parameters obtained from API responses
+# Every edge signifies a dependency indicating that an API call relies on data from the prompt or earlier API responses.
+# MODERATE COMPLEXITY TASKS (7-12 edges)
 
 TASKS = [
     Task(
@@ -76,8 +76,8 @@ TASKS = [
             Action(name="fetchBeneficiariesByRelationship", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18", "relationship": "Personal"}),
             Action(name="verifyBeneficiaryExists", kwargs={"beneficiary_id": "bene_4f3a2b1c-9d8e-7f6a-5b4c-3d2e1f0a9b8c"}),
             Action(name="verifyBeneficiaryExists", kwargs={"beneficiary_id": "bene_9d8e7f6a-5b4c-3d2e-1f0a-9b8c7d6e5f4a"}),
-            Action(name="initiateFundTransferToBeneficiary", kwargs={"source_account_id": "acc_chk_19001", "beneficiary_id": "bene_4f3a2b1c-9d8e-7f6a-5b4c-3d2e1f0a9b8c", "amount": 0.00}), # Balance is now 0
-            Action(name="initiateFundTransferToBeneficiary", kwargs={"source_account_id": "acc_chk_19001", "beneficiary_id": "bene_9d8e7f6a-5b4c-3d2e-1f0a-9b8c7d6e5f4a", "amount": 0.00}), # Balance is still 0
+            Action(name="initiateFundTransferToBeneficiary", kwargs={"source_account_id": "acc_chk_19001", "beneficiary_id": "bene_4f3a2b1c-9d8e-7f6a-5b4c-3d2e1f0a9b8c", "amount": 0.00}), # The current balance is zero.
+            Action(name="initiateFundTransferToBeneficiary", kwargs={"source_account_id": "acc_chk_19001", "beneficiary_id": "bene_9d8e7f6a-5b4c-3d2e-1f0a-9b8c7d6e5f4a", "amount": 0.00}), # Balance remains at 0.
             Action(name="deactivateAccountByRequest", kwargs={"account_id": "acc_chk_19001"}),
             Action(name="createSupportTicketForTransaction", kwargs={"customer_id": "c3d4e5f6-a1b2-c3d4-e5f6-a1b2c3d4e5f6-18", "transaction_id": "loan_pers_013", "reason": "Final Estate Settlement Documentation"}),
         ],
@@ -1028,7 +1028,7 @@ TASKS = [
             Action(name="verifyBeneficiaryExists", kwargs={
                 "beneficiary_id": "bene_9a8b7c6d-5e4f-3a2b-1c9d-8e7f6a5b4c3d"
             }),
-            # Step: Split the charge as per instruction
+            # Action: Divide the charge according to the guidelines.
             Action(name="splitTransactionBetweenAccounts", kwargs={
                 "transaction_id": "txn_9c2a3b7e-1a3e-4b8c-8a2e-5c6a8b3d4e9f",
                 "splits": [
@@ -1036,8 +1036,8 @@ TASKS = [
                     {"account_id": "acc_sav_1002", "amount": -40.00}
                 ]
             }),
-            Action(name="getAccountBalance", kwargs={"account_id": "acc_chk_1001"}),  # New
-            Action(name="getAccountBalance", kwargs={"account_id": "acc_sav_1002"}),  # New
+            Action(name="getAccountBalance", kwargs={"account_id": "acc_chk_1001"}),  # Fresh
+            Action(name="getAccountBalance", kwargs={"account_id": "acc_sav_1002"}),  # Recent
             Action(name="listRecentTransactionsByCategory", kwargs={
                 "account_ids": ["acc_chk_1001", "acc_sav_1002"]
             }),
@@ -2251,8 +2251,8 @@ TASKS = [
         outputs=[]
     ),
 
-    # TASK 32: Deceased Client Account Management
-    # EDGES: 13
+    # TASK 32: Management of Accounts for Deceased Clients
+    # NUMBER OF EDGES: 13
     Task(
         annotator="0",
         user_id="USER_052",
@@ -2908,7 +2908,7 @@ TASKS = [
             Action(name="getCustomerTotalBalance", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23"}),
             Action(name="makeLoanOverpayment", kwargs={"loan_id": "loan_biz_009", "from_account_id": "acc_sav_24002", "amount": 7500000.00}),
             Action(name="deactivateAccountByRequest", kwargs={"account_id": "acc_sav_24002"}),
-            Action(name="updateScheduledPaymentAmount", kwargs={"payment_id": "sp_f4n6a5m7-l2m1-n0o9-p8q7-r6s5t4u3v2w1", "amount": 0.00}), # Simulating pause
+            Action(name="updateScheduledPaymentAmount", kwargs={"payment_id": "sp_f4n6a5m7-l2m1-n0o9-p8q7-r6s5t4u3v2w1", "amount": 0.00}), # Imitating a delay
             Action(name="fetchBeneficiariesByRelationship", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23", "relationship": "Business"}),
             Action(name="reviewOverdraftActivityAndAdjustLimit", kwargs={"account_id": "acc_chk_24001", "new_limit": 50000.00}),
             Action(name="addEmployerToCustomerProfile", kwargs={"customer_id": "b2c3d4e5-f6a1-b2c3-d4e5-f6a1b2c3d4e5-23", "employer": "A.A. Consulting"}),

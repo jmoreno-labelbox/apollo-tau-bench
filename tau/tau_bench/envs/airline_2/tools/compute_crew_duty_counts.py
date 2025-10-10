@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -8,13 +8,13 @@ from tau_bench.envs.tool import Tool
 class ComputeCrewDutyCounts(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], crew_member_id: str, reference_date: str) -> str:
-        # Use crew_members[].flight_log dates + assignments[].flight.flight_number + flights.json (by flight_number via operational_events link if needed)
-        # Here: count assignments in prior windows based on crew member's flight_log (has dates).
-        # Deterministic counts only (no hours).
+        # Utilize crew_members[].flight_log dates combined with assignments[].flight.flight_number and reference flights.json using flight_number through operational_events if necessary.
+        # Count past assignments using the crew member's flight_log, which contains dates.
+        # Counts are deterministic only (excluding hours).
         ref = datetime.fromisoformat(reference_date + "T00:00:00+00:00")
         windows = {"24h": ref - timedelta(hours=24), "30d": ref - timedelta(days=30), "365d": ref - timedelta(days=365)}
         counts = {"24h":0,"30d":0,"365d":0}
-        # From flight_log
+        # Source from flight_log
         for c in data.get("crew_members", []):
             if c.get("crew_member_id") != crew_member_id:
                 continue

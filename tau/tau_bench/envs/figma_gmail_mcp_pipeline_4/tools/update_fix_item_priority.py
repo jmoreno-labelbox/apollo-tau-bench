@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,12 +18,12 @@ class UpdateFixItemPriority(Tool):
         if not all([item_id, new_priority, updated_by]):
             return json.dumps({"error": "item_id, new_priority, and updated_by are required"})
 
-        # Validate priority values
+        # Check the validity of priority values.
         valid_priorities = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']
         if new_priority not in valid_priorities:
             return json.dumps({"error": f"Invalid priority. Must be one of: {', '.join(valid_priorities)}"})
 
-        # Find and update the fix item
+        # Locate and modify the correction item.
         for item in data.get('fix_items', []):
             if item.get('item_id') == item_id:
                 item['priority'] = new_priority

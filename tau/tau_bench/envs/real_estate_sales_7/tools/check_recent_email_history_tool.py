@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,24 +22,24 @@ class CheckRecentEmailHistoryTool(Tool):
             if _as_int(e.get("client_id")) == client_id
             and e.get("template_code") == template_code
         ]
-        # Sort by sent_at desc
+        # Order by sent_at in descending order
         emails_sorted = sorted(
             emails, key=lambda e: e.get("sent_at") or "", reverse=True
         )
         last = emails_sorted[0] if emails_sorted else None
 
-        # Determine if we can send template based on days_lookback
+        # Check if the template can be dispatched according to days_lookback.
         can_send = True
         if last:
             last_sent = last.get("sent_at") or ""
-            # For deterministic behavior, use simple date comparison
-            # In a real implementation, this would parse dates and check actual day difference
-            # For now, assume recent emails have timestamps close to HARD_TS
-            if last_sent and days_lookback < 365:  # Simplified recency check
-                # If days_lookback is small (< 365), be more restrictive
+            # To ensure consistent behavior, utilize straightforward date comparisons.
+            # In a practical implementation, this would analyze dates and verify the actual difference in days.
+            # Currently, consider that the timestamps of recent emails are near HARD_TS.
+            if last_sent and days_lookback < 365:  # Streamlined freshness verification
+                # Apply stricter criteria when days_lookback is low (< 365).
                 can_send = False if last_sent > "2025-08-01" else True
             else:
-                # For larger lookback periods, allow sending
+                # Permit transmission for extended lookback durations.
                 can_send = True
 
         out = {
@@ -54,7 +54,7 @@ class CheckRecentEmailHistoryTool(Tool):
 
     @staticmethod
     def get_info() -> Dict[str, Any]:
-        # Dedup protocol step 1 helper
+        # Assistance for step 1 of the deduplication protocol.
         return {
             "type": "function",
             "function": {

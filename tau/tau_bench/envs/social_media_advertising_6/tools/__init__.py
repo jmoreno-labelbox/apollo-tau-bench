@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 from .get_plan_for_date import GetPlanForDate
 from .get_adset_allocation_from_plan import GetAdsetAllocationFromPlan

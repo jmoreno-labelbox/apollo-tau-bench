@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,7 +24,7 @@ class ScheduleDeviceTimerUpdate(Tool):
                 if timestamp_end == None:
                     return json.dumps({"error": "End time is needed"}, indent=2)
 
-                # Set Device as its needed
+                # Configure the device as required.
                 sched: List[Dict[str, Any]] = dev.setdefault("scheduled_updates", [])
                 if replace:
                     sched[:] = [s for s in sched if s.get("timestamp") != timestamp]

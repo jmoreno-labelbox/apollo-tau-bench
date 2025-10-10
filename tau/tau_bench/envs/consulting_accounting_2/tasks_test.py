@@ -928,78 +928,78 @@ TASKS = [
             "Coordinate a comprehensive financial analysis and strategic planning on February 15, 2024. Investigate payment behavior for publishers PUB001, PUB002, PUB003, PUB004, and PUB005 to evaluate collection efficiency and market positioning. Determine profitability for projects PROJ002, PROJ003, PROJ004, PROJ005, and PROJ006 to assess strategic portfolio value. Calculate the hours worked for projects PROJ002, PROJ004, and PROJ005 from January 25-February 15, 2024 for resource optimization. Create database scheduler run RUN3014 for Comprehensive_Financial_Strategic_Planning and ensure it succeeds."
         ),
              actions=[
-            # Get payment behavior for PUB001
+            # Retrieve payment patterns for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get payment behavior for PUB003
+            # Retrieve payment behavior for PUB003.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Get payment behavior for PUB004
+            # Retrieve payment activity for PUB004.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB004"
             }),
 
-            # Get payment behavior for PUB005
+            # Retrieve payment patterns for PUB005.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB005"
             }),
 
-            # Calculate profitability for PROJ002
+            # Determine the profitability for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
+            # Compute the profit margin for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Calculate profitability for PROJ004
+            # Compute the profitability for PROJ004.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ004"
             }),
 
-            # Calculate profitability for PROJ005
+            # Determine the profit margin for PROJ005.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ005"
             }),
 
-            # Calculate profitability for PROJ006
+            # Compute the profit margins for PROJ006.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ006"
             }),
 
-            # Calculate hours worked for PROJ002
+            # Determine the total hours logged for PROJ002.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-01-25",
                 "end_date": "2024-02-15",
                 "project_ids": ["PROJ002"]
             }),
 
-            # Calculate hours worked for PROJ004
+            # Compute the total hours spent on PROJ004.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-01-25",
                 "end_date": "2024-02-15",
                 "project_ids": ["PROJ004"]
             }),
 
-            # Calculate hours worked for PROJ005
+            # Determine the total hours logged for PROJ005.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-01-25",
                 "end_date": "2024-02-15",
                 "project_ids": ["PROJ005"]
             }),
 
-            # Log comprehensive financial strategic planning completion
+            # Record the completion of detailed financial strategic planning.
                  Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3014",
                 "task_name": "Comprehensive_Financial_Strategic_Planning",
@@ -1016,61 +1016,61 @@ TASKS = [
             "Handle the development of comprehensive strategic portfolio management and performance analytics on April 15, 2024. It is necessary to analyze payment behavior for publishers PUB001, PUB002, and PUB003 to assess collection patterns and revenue predictability. Calculate profitability for projects PROJ001, PROJ002, and PROJ003 to evaluate portfolio performance. Determine hours worked for projects PROJ001, PROJ002, and PROJ003 from March 25-April 15, 2024, for resource planning. Create database scheduler run RUN3015 for Strategic_Portfolio_Management_Performance_Analytics with success status."
         ),
         actions=[
-            # Get payment behavior for PUB001
+            # Retrieve payment patterns for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
+            # Retrieve payment activity for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get payment behavior for PUB003
+            # Retrieve payment patterns for PUB003
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Calculate profitability for PROJ001
+            # Determine the profit margin for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ002
+            # Determine the profitability of PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
+            # Determine the profitability for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Calculate hours worked for PROJ001
+            # Determine the hours logged for PROJ001.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-03-25",
                 "end_date": "2024-04-15",
                 "project_ids": ["PROJ001"]
             }),
 
-            # Calculate hours worked for PROJ002
-            # Calculate hours worked for PROJ002
+            # Compute the total hours logged for PROJ002.
+            # Determine the total hours logged for PROJ002.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-03-25",
                 "end_date": "2024-04-15",
                 "project_ids": ["PROJ002"]
             }),
 
-            # Calculate hours worked for PROJ003
-            # Calculate hours worked for PROJ003
+            # Compute the total hours logged for PROJ003.
+            # Determine the total hours logged for PROJ003.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-03-25",
                 "end_date": "2024-04-15",
                 "project_ids": ["PROJ003"]
             }),
 
-            # Log strategic portfolio management performance analytics completion
-            # Log strategic portfolio management performance analytics completion
+            # Record the completion of performance analytics for strategic portfolio management.
+            # Record the completion of performance analytics for strategic portfolio management.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3015",
                 "task_name": "Strategic_Portfolio_Management_Performance_Analytics",
@@ -1220,58 +1220,58 @@ TASKS = [
             "Coordinate bank account management and liquidity analysis on September 15, 2024. Assess all bank accounts and calculate total liquid assets for immediate liquidity assessment. Conduct invoice aging analysis for September 15, 2024 and forecast cash flow for liquidity planning. Review payment behavior for publishers PUB001, PUB002, and PUB003 to understand cash inflows. Analyze profitability for projects PROJ001, PROJ004, and PROJ006 to ascertain revenue sources. Examine pipeline opportunities with an 0.8 minimum probability threshold for future cash flow. Manage the creation of database scheduler run RUN1901 for Bank_Liquidity_Analysis with success status."
         ),
         actions=[
-            # Get all bank accounts
+            # Retrieve all bank account information.
             Action(name="CaV2GetBankAccounts", kwargs={}),
 
-            # Calculate total liquid assets
+            # Compute the sum of liquid assets.
             Action(name="CaV2CalculateBankTotal", kwargs={}),
 
-                       # Calculate invoice aging
+                       # Determine the age of invoices.
             Action(name="CaV2CalculateInvoiceAging", kwargs={
                 "current_date": "2024-09-15"
             }),
 
-            # Forecast cash flow
+            # Project cash flow.
             Action(name="CaV2ForecastCashFlow", kwargs={
                 "current_date": "2024-09-15"
             }),
 
-            # Get payment behavior for PUB001
+            # Retrieve payment patterns for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get payment behavior for PUB003
+            # Retrieve payment activity for PUB003.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Calculate profitability for PROJ001
+            # Compute the profit margin for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ004
+            # Determine the profit margin for PROJ004.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ004"
             }),
 
-            # Calculate profitability for PROJ006
+            # Compute the profitability for PROJ006.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ006"
             }),
 
-             # Get pipeline opportunities
+             # Retrieve pipeline prospects
              Action(name="CaV2GetPipelineOpportunities", kwargs={
                  "min_probability": 0.8
              }),
 
-             # Log bank liquidity analysis completion
+             # Record the completion of bank liquidity analysis.
              Action(name="CaV2CreateSchedulerRun", kwargs={
                  "run_id": "RUN1901",
                  "task_name": "Bank_Liquidity_Analysis",
@@ -2110,64 +2110,64 @@ TASKS = [
             "Coordinate the collection of comprehensive strategic business intelligence and competitive analysis data on November 28, 2024. Gather payment behavior data for publishers PUB001, PUB002, PUB003, PUB004, and PUB005 to enhance market positioning and assess collection performance. Compile profitability data for projects PROJ001, PROJ002, PROJ003, PROJ004, and PROJ005 to support strategic value creation and competitive advantage assessment. Collect hours worked data for projects PROJ001, PROJ002, and PROJ003 from November 15-28, 2024 to aid in operational efficiency benchmarking. Schedule database scheduler run RUN3034 for Strategic_Business_Intelligence_Competitive_Analysis set for 4:00 PM and executed at 5:45 PM on November 28, 2024, ensuring it achieves a success status."
         ),
         actions=[
-            # Get payment behavior for PUB001
+            # Retrieve payment patterns for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get payment behavior for PUB003
+            # Retrieve payment pattern for PUB003
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Get payment behavior for PUB004
+            # Retrieve payment patterns for PUB004.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB004"
             }),
 
-             # Get payment behavior for PUB005
+             # Retrieve payment patterns for PUB005.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB005"
             }),
 
-            # Calculate profitability for PROJ001
+            # Determine the profit margins for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ002
+            # Determine the profit margin for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
+            # Determine the profit margin for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Calculate profitability for PROJ004
+            # Determine the profitability for PROJ004.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ004"
             }),
 
-            # Calculate profitability for PROJ005
+            # Determine the profit margin for PROJ005.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ005"
             }),
 
-            # Calculate hours worked for all analyzed projects
+            # Determine the total hours worked for each project under analysis.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-11-15",
                 "end_date": "2024-11-28",
                 "project_ids": ["PROJ001", "PROJ002", "PROJ003"]
             }),
 
-            # Log strategic business intelligence competitive analysis completion
+            # Record the completion of strategic business intelligence competitive analysis.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3034",
                 "task_name": "Strategic_Business_Intelligence_Competitive_Analysis",
@@ -2186,23 +2186,23 @@ TASKS = [
             "Handle the payment for invoice INV011 from Midwest Education House on December 15, 2024 at 3:30 PM. Ensure the entire payment process is accompanied by a proper audit trail AUD625 and coordinate strategic client relationship analysis, involving a payment behavior assessment, a review of the active project portfolio, a profitability analysis of their main project PROJ010, and an assessment of YTD revenue impact to aid in ongoing account management decisions. Record completion with scheduler run RUN3501 for Payment_Processing_Analysis with a success status."
         ),
                 actions=[
-            # Get invoice INV011 details
+            # Retrieve details for invoice INV011.
             Action(name="CaV2GetInvoiceById", kwargs={
                 "invoice_id": "INV011"
             }),
 
-            # Find Midwest Education House
+            # Locate the Midwest Education House.
             Action(name="CaV2FindPublisherByName", kwargs={
                 "publisher_name": "Midwest Education House"
             }),
 
-            # Update payment status
+            # Revise payment status
             Action(name="CaV2UpdateInvoicePayment", kwargs={
                 "invoice_id": "INV011",
                 "paid_at": "2024-12-15T15:30:00Z"
             }),
 
-            # Create payment audit AUD625
+            # Generate payment audit for AUD625.
             Action(name="CaV2CreateInvoiceAuditEntry", kwargs={
                 "audit_id": "AUD625",
                 "invoice_id": "INV011",
@@ -2211,28 +2211,28 @@ TASKS = [
                 "notes": "AUD625_payment_received_INV011"
             }),
 
-            # Get payment behavior for PUB005
+            # Retrieve payment patterns for PUB005.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB005"
             }),
 
-            # Get active projects for PUB005
+            # Retrieve ongoing projects for PUB005.
             Action(name="CaV2GetProjectsByPublisher", kwargs={
                 "publisher_id": "PUB005",
                 "active_only": True
             }),
 
-            # Calculate profitability for main project PROJ010
+            # Determine the profit margins for the primary project PROJ010.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ010"
             }),
 
-            # Calculate YTD revenue for comparison
+            # Compute year-to-date revenue for analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Log payment processing completion
+            # Record the completion of payment processing.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3501",
                 "task_name": "Payment_Processing_Analysis",
@@ -2249,23 +2249,23 @@ TASKS = [
             "Manage the payment processing for invoice INV026 from Northern Star Publishers on January 20, 2024 at 2:45 PM. Confirm complete payment processing with the necessary audit trail AUD626 and carry out strategic client relationship analysis, which includes evaluating payment behavior, reviewing the active project portfolio, analyzing profitability of their key project PROJ001, and assessing YTD revenue impact to facilitate ongoing account management decisions. Log completion with scheduler run RUN3601 for Payment_Processing_Analysis with success status."
         ),
                 actions=[
-            # Get invoice INV026 details
+            # Retrieve details for invoice INV026.
             Action(name="CaV2GetInvoiceById", kwargs={
                 "invoice_id": "INV026"
             }),
 
-            # Find Northern Star Publishers
+            # Locate Northern Star Publishers.
             Action(name="CaV2FindPublisherByName", kwargs={
                 "publisher_name": "Northern Star Publishers"
             }),
 
-            # Update payment status
+            # Modify payment status
             Action(name="CaV2UpdateInvoicePayment", kwargs={
                 "invoice_id": "INV026",
                 "paid_at": "2024-01-20T14:45:00Z"
             }),
 
-            # Create payment audit AUD626
+            # Generate payment audit AUD626.
             Action(name="CaV2CreateInvoiceAuditEntry", kwargs={
                 "audit_id": "AUD626",
                 "invoice_id": "INV026",
@@ -2274,28 +2274,28 @@ TASKS = [
                 "notes": "AUD626_payment_received_INV026"
             }),
 
-            # Get payment behavior for PUB001
+            # Retrieve payment pattern for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get active projects for PUB001
+            # Retrieve ongoing projects for PUB001.
             Action(name="CaV2GetProjectsByPublisher", kwargs={
                 "publisher_id": "PUB001",
                 "active_only": True
             }),
 
-            # Calculate profitability for main project PROJ001
+            # Compute the profitability for the primary project PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate YTD revenue for comparison
+            # Compute year-to-date revenue for analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Log payment processing completion
+            # Record the completion of payment processing.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3601",
                 "task_name": "Payment_Processing_Analysis",
@@ -2312,23 +2312,23 @@ TASKS = [
             "Handle the payment processing for invoice INV022 from Summit Educational Publishing on July 15, 2024, at 10:30 AM. Ensure comprehensive payment processing with the correct audit trail AUD637, and carry out strategic client relationship analysis, including payment behavior assessment, active project portfolio review, profitability analysis of their main project PROJ005, and 2024 YTD revenue impact assessment to assist ongoing account management decisions. Confirm completion with scheduler run RUN3701 for Payment_Processing_Analysis marked with a success status."
         ),
         actions=[
-            # Get invoice INV022 details
+            # Retrieve details for invoice INV022.
             Action(name="CaV2GetInvoiceById", kwargs={
                 "invoice_id": "INV022"
             }),
 
-            # Find Summit Educational Publishing
+            # Locate Summit Educational Publishing.
             Action(name="CaV2FindPublisherByName", kwargs={
                 "publisher_name": "Summit Educational Publishing"
             }),
 
-            # Update payment status
+            # Revise payment status
             Action(name="CaV2UpdateInvoicePayment", kwargs={
                 "invoice_id": "INV022",
                 "paid_at": "2024-07-15T10:30:00Z"
             }),
 
-            # Create payment audit AUD637
+            # Generate payment audit AUD637
             Action(name="CaV2CreateInvoiceAuditEntry", kwargs={
                 "audit_id": "AUD637",
                 "invoice_id": "INV022",
@@ -2337,28 +2337,28 @@ TASKS = [
                 "notes": "AUD637_payment_received_INV022"
             }),
 
-            # Get payment behavior for PUB003
+            # Retrieve payment pattern for PUB003.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Get active projects for PUB003
+            # Retrieve ongoing projects for PUB003.
             Action(name="CaV2GetProjectsByPublisher", kwargs={
                 "publisher_id": "PUB003",
                 "active_only": True
             }),
 
-            # Calculate profitability for main project PROJ005
+            # Compute the profit margin for the primary project PROJ005.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ005"
             }),
 
-            # Calculate YTD revenue for comparison
+            # Compute year-to-date revenue for analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Log payment processing completion
+            # Record the completion of payment processing.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3701",
                 "task_name": "Payment_Processing_Analysis",
@@ -2375,23 +2375,23 @@ TASKS = [
             "Coordinate the payment processing for invoice INV024 from Maritime Learning Materials on November 15, 2024, at 9:15 AM. You must ensure complete payment processing with the proper audit trail AUD638 and execute strategic client relationship analysis, including payment behavior assessment, active project portfolio review, profitability analysis of their primary project PROJ007, and the 2024 YTD revenue impact evaluation to support ongoing account management decisions. Mark completion with scheduler run RUN3801 for Payment_Processing_Analysis with a successful status."
         ),
         actions=[
-            # Get invoice INV024 details
+            # Retrieve details for invoice INV024.
             Action(name="CaV2GetInvoiceById", kwargs={
                 "invoice_id": "INV024"
             }),
 
-            # Find Maritime Learning Materials
+            # Locate resources for maritime education.
             Action(name="CaV2FindPublisherByName", kwargs={
                 "publisher_name": "Maritime Learning Materials"
             }),
 
-            # Update payment status
+            # Revise payment status
             Action(name="CaV2UpdateInvoicePayment", kwargs={
                 "invoice_id": "INV024",
                 "paid_at": "2024-11-15T09:15:00Z"
             }),
 
-            # Create payment audit AUD638
+            # Generate payment audit AUD638
             Action(name="CaV2CreateInvoiceAuditEntry", kwargs={
                 "audit_id": "AUD638",
                 "invoice_id": "INV024",
@@ -2400,28 +2400,28 @@ TASKS = [
                 "notes": "AUD638_payment_received_INV024"
             }),
 
-            # Get payment behavior for PUB004
+            # Retrieve payment activity for PUB004.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB004"
             }),
 
-            # Get active projects for PUB004
+            # Retrieve ongoing projects for PUB004
             Action(name="CaV2GetProjectsByPublisher", kwargs={
                 "publisher_id": "PUB004",
                 "active_only": True
             }),
 
-            # Calculate profitability for main project PROJ007
+            # Determine the profitability for the primary project PROJ007.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ007"
             }),
 
-            # Calculate current year YTD revenue for comparison
+            # Compute the year-to-date revenue for the current year for analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Log payment processing completion
+            # Record the completion of payment processing.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3801",
                 "task_name": "Payment_Processing_Analysis",
@@ -2438,23 +2438,23 @@ TASKS = [
             "Handle the payment processing for invoice INV010 from Maritime Learning Materials on October 10, 2024, at 11:30 AM. Ensure to fully process the payment, maintaining a proper audit trail AUD639. Conduct a strategic analysis of client relationships, which includes assessing payment behavior, reviewing active project portfolios, analyzing the profitability of their primary project PROJ007, and evaluating the current year 2024 YTD revenue impact to aid ongoing account management decisions. Document the task completion using scheduler run RUN3209 for Payment_Processing_Analysis with a success status."
         ),
         actions=[
-            # Get invoice INV010 details
+            # Retrieve details for invoice INV010.
             Action(name="CaV2GetInvoiceById", kwargs={
                 "invoice_id": "INV010"
             }),
 
-            # Find Maritime Learning Materials
+            # Locate maritime educational resources.
             Action(name="CaV2FindPublisherByName", kwargs={
                 "publisher_name": "Maritime Learning Materials"
             }),
 
-            # Update payment status
+            # Revise payment status
             Action(name="CaV2UpdateInvoicePayment", kwargs={
                 "invoice_id": "INV010",
                 "paid_at": "2024-10-10T11:30:00Z"
             }),
 
-            # Create payment audit AUD639
+            # Generate payment audit AUD639
             Action(name="CaV2CreateInvoiceAuditEntry", kwargs={
                 "audit_id": "AUD639",
                 "invoice_id": "INV010",
@@ -2463,28 +2463,28 @@ TASKS = [
                 "notes": "AUD639_payment_received_INV010"
             }),
 
-            # Get payment behavior for PUB004
+            # Retrieve payment patterns for PUB004.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB004"
             }),
 
-            # Get active projects for PUB004
+            # Retrieve ongoing projects for PUB004.
             Action(name="CaV2GetProjectsByPublisher", kwargs={
                 "publisher_id": "PUB004",
                 "active_only": True
             }),
 
-            # Calculate profitability for main project PROJ007
+            # Compute the profitability for the primary project PROJ007.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ007"
             }),
 
-            # Calculate current year YTD revenue for comparison
+            # Compute year-to-date revenue for the current year for analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Log payment processing completion
+            # Record the completion of payment processing.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3209",
                 "task_name": "Payment_Processing_Analysis",
@@ -2522,59 +2522,59 @@ TASKS = [
             "Handle comprehensive multi-project performance analysis on January 25, 2025. Calculate profitability for projects PROJ001, PROJ002, PROJ003, and PROJ004 to evaluate revenue distribution. Analyze payment behavior for publishers PUB001, PUB002, and PUB003 to assess collection efficiency. Calculate hours worked for projects PROJ001 and PROJ003 from January 1-25, 2025 to evaluate resource utilization. Review pipeline opportunities and create database scheduler run RUN3211 for Multi_Project_Performance_Analysis with success status."
         ),
         actions=[
-            # Calculate profitability for PROJ001
+            # Determine the profit margin for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ002
+            # Compute the profit margins for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
+            # Determine the profit margin for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Calculate profitability for PROJ004
+            # Determine the profitability for PROJ004.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ004"
             }),
 
-            # Get payment behavior for PUB001
+            # Retrieve payment activity for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get payment behavior for PUB003
+            # Retrieve payment patterns for PUB003.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Calculate hours worked for PROJ001
+            # Compute the total hours logged for PROJ001.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-01-01",
                 "end_date": "2025-01-25",
                 "project_ids": ["PROJ001"]
             }),
 
-            # Calculate hours worked for PROJ003
+            # Determine the hours logged for PROJ003.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-01-01",
                 "end_date": "2025-01-25",
                 "project_ids": ["PROJ003"]
             }),
 
-            # Get pipeline opportunities
+            # Retrieve pipeline prospects
             Action(name="CaV2GetPipelineOpportunities", kwargs={}),
 
-            # Log multi-project performance analysis completion
+            # Record the completion of multi-project performance analysis.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3211",
                 "task_name": "Multi_Project_Performance_Analysis",
@@ -2591,74 +2591,74 @@ TASKS = [
             "Coordinate the preparation of financial compliance and tax planning report on January 26, 2024. Calculate expense summary for categories OFFICE_SUPPLIES, TRAVEL_EXPENSE, and ADVERTISING from January 1-26, 2024. Acquire the tax rate for 2024 and calculate YTD revenue for comprehensive tax planning. Analyze payment behavior for publishers PUB001 and PUB002 to assess cash flow impact. Calculate profitability for projects PROJ001, PROJ003, and PROJ005 to evaluate revenue streams. Create database scheduler run RUN3212 for Financial_Compliance_Tax_Planning with success status."
         ),
         actions=[
-            # Calculate expense summary for office supplies
-            # Calculate expense summary for office supplies
+            # Compute the summary of expenses for office supplies.
+            # Compute the summary of costs for office supplies.
             Action(name="CaV2CalculateExpenseSummary", kwargs={
                 "category_filter": ["OFFICE_SUPPLIES"],
                 "start_date": "2024-01-01",
                 "end_date": "2024-01-26"
             }),
 
-            # Calculate expense summary for travel
-            # Calculate expense summary for travel
+            # Compute travel expense overview.
+            # Compute travel expense overview.
             Action(name="CaV2CalculateExpenseSummary", kwargs={
                 "category_filter": ["TRAVEL_EXPENSE"],
                 "start_date": "2024-01-01",
                 "end_date": "2024-01-26"
             }),
 
-            # Calculate expense summary for marketing
-            # Calculate expense summary for marketing
+            # Compute the summary of marketing expenses.
+            # Compute the summary of marketing expenses.
             Action(name="CaV2CalculateExpenseSummary", kwargs={
                 "category_filter": ["ADVERTISING"],
                 "start_date": "2024-01-01",
                 "end_date": "2024-01-26"
             }),
 
-            # Get tax rate for 2024
-            # Get tax rate for 2024
+            # Retrieve the tax rate for the year 2024.
+            # Retrieve the tax rate for the year 2024.
             Action(name="CaV2GetTaxRateByYear", kwargs={
                 "year": "2024"
             }),
 
-            # Calculate YTD revenue for tax planning
-            # Calculate YTD revenue for tax planning
+            # Compute year-to-date revenue for tax strategy.
+            # Compute year-to-date revenue for tax strategy.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Get payment behavior for PUB001
-            # Get payment behavior for PUB001
+            # Retrieve payment activity for PUB001.
+            # Retrieve payment patterns for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
-            # Get payment behavior for PUB002
+            # Retrieve the payment pattern for PUB002.
+            # Retrieve payment patterns for PUB002
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Calculate profitability for PROJ001
-            # Calculate profitability for PROJ001
+            # Determine the profit margin for PROJ001.
+            # Compute the profit margin for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ003
-            # Calculate profitability for PROJ003
+            # Compute the profitability for PROJ003.
+            # Determine the profitability for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Calculate profitability for PROJ005
-            # Calculate profitability for PROJ005
+            # Determine the profitability of PROJ005.
+            # Determine the profit margins for PROJ005.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ005"
             }),
 
-            # Log financial compliance tax planning completion
-            # Log financial compliance tax planning completion
+            # Record the completion of tax planning for financial compliance.
+            # Record the completion of tax planning for financial compliance.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3212",
                 "task_name": "Financial_Compliance_Tax_Planning",
@@ -2675,86 +2675,86 @@ TASKS = [
             "Handle strategic publisher relationship optimization and revenue enhancement by March 30, 2025. Analyze payment behavior of publishers PUB001, PUB002, PUB003, and PUB004 to assess collection patterns and relationship stability. Calculate profitability for projects PROJ001, PROJ002, PROJ003, PROJ004, and PROJ005 to identify revenue optimization opportunities. Determine hours worked for projects PROJ002, PROJ003, and PROJ005 from March 10-30, 2025, for resource efficiency evaluation. Initiate database scheduler run RUN3043 for Strategic_Publisher_Relationship_Optimization_Revenue_Enhancement and ensure it achieves success status."
         ),
         actions=[
-            # Get payment behavior for PUB001
-            # Get payment behavior for PUB001
+            # Retrieve payment patterns for PUB001.
+            # Retrieve payment patterns for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002.
+            # Retrieve payment pattern for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get payment behavior for PUB003
-            # Get payment behavior for PUB003
+            # Retrieve payment patterns for PUB003.
+            # Retrieve payment patterns for PUB003.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Get payment behavior for PUB004
-            # Get payment behavior for PUB004
+            # Retrieve payment pattern for PUB004.
+            # Retrieve payment activity for PUB004.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB004"
             }),
 
-            # Calculate profitability for PROJ001
-            # Calculate profitability for PROJ001
+            # Compute the profitability for PROJ001.
+            # Compute the profit margin for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ002
-            # Calculate profitability for PROJ002
+            # Compute the profit margins for PROJ002.
+            # Determine the profitability for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
-            # Calculate profitability for PROJ003
+            # Determine the profit margin for PROJ003.
+            # Determine the profit margin for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Calculate profitability for PROJ004
-            # Calculate profitability for PROJ004
+            # Determine the profit margin for PROJ004.
+            # Compute the profitability for PROJ004.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ004"
             }),
 
-            # Calculate profitability for PROJ005
-            # Calculate profitability for PROJ005
+            # Compute the profit margin for PROJ005.
+            # Compute the profit margin for PROJ005.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ005"
             }),
 
-            # Calculate hours worked for PROJ002
-            # Calculate hours worked for PROJ002
+            # Compute total hours for PROJ002.
+            # Determine the total hours logged for PROJ002.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-03-10",
                 "end_date": "2025-03-30",
                 "project_ids": ["PROJ002"]
             }),
 
-            # Calculate hours worked for PROJ003
-            # Calculate hours worked for PROJ003
+            # Compute the hours logged for PROJ003.
+            # Compute the total hours logged for PROJ003.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-03-10",
                 "end_date": "2025-03-30",
                 "project_ids": ["PROJ003"]
             }),
 
-            # Calculate hours worked for PROJ005
-            # Calculate hours worked for PROJ005
+            # Determine the total hours worked for PROJ005.
+            # Determine the total hours logged for PROJ005.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-03-10",
                 "end_date": "2025-03-30",
                 "project_ids": ["PROJ005"]
             }),
 
-            # Log strategic publisher relationship optimization revenue enhancement completion
-            # Log strategic publisher relationship optimization revenue enhancement completion
+            # Record the completion of revenue improvement through strategic publisher relationship optimization.
+            # Record the completion of revenue enhancement through strategic publisher relationship optimization.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3043",
                 "task_name": "Strategic_Publisher_Relationship_Optimization_Revenue_Enhancement",
@@ -2771,76 +2771,76 @@ TASKS = [
             "Coordinate optimization of time management and resource allocation by January 28, 2025. Determine hours worked for projects PROJ001, PROJ002, PROJ003, and PROJ004 from January 1-28, 2025. Calculate profitability across all four projects for resource efficiency evaluation. Assess payment behavior of publishers PUB001 and PUB002 to evaluate revenue impact. Initiate database scheduler run RUN3214 for Time_Management_Resource_Optimization and confirm it reaches success status."
         ),
         actions=[
-            # Calculate hours worked for PROJ001
-            # Calculate hours worked for PROJ001
+            # Determine the total hours spent on PROJ001.
+            # Determine the total hours logged for PROJ001.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-01-01",
                 "end_date": "2025-01-28",
                 "project_ids": ["PROJ001"]
             }),
 
-            # Calculate hours worked for PROJ002
-            # Calculate hours worked for PROJ002
+            # Determine the total hours logged for PROJ002.
+            # Compute the total hours logged for PROJ002.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-01-01",
                 "end_date": "2025-01-28",
                 "project_ids": ["PROJ002"]
             }),
 
-            # Calculate hours worked for PROJ003
-            # Calculate hours worked for PROJ003
+            # Compute the total hours logged for PROJ003.
+            # Determine the total hours logged for PROJ003.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-01-01",
                 "end_date": "2025-01-28",
                 "project_ids": ["PROJ003"]
             }),
 
-            # Calculate hours worked for PROJ004
-            # Calculate hours worked for PROJ004
+            # Determine the total hours worked for PROJ004.
+            # Determine the total hours logged for PROJ004.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-01-01",
                 "end_date": "2025-01-28",
                 "project_ids": ["PROJ004"]
             }),
 
-            # Get payment behavior for PUB001
-            # Get payment behavior for PUB001
+            # Retrieve payment pattern for PUB001.
+            # Retrieve payment patterns for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002
+            # Retrieve payment patterns for PUB002
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Calculate profitability for PROJ001
-            # Calculate profitability for PROJ001
+            # Determine the profitability for PROJ001.
+            # Compute the profit margin for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ002
-            # Calculate profitability for PROJ002
+            # Determine the profit margin for PROJ002.
+            # Determine the profitability for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
-            # Calculate profitability for PROJ003
+            # Determine the profit margin for PROJ003.
+            # Compute the profit margin for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Calculate profitability for PROJ004
-            # Calculate profitability for PROJ004
+            # Compute the profit margin for PROJ004.
+            # Determine the profit margins for PROJ004.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ004"
             }),
 
-            # Log time management resource optimization completion
-            # Log time management resource optimization completion
+            # Record the completion of resource optimization for time management.
+            # Record the completion of resource optimization for time management.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3214",
                 "task_name": "Time_Management_Resource_Optimization",
@@ -2857,92 +2857,92 @@ TASKS = [
             "Conduct advanced business intelligence and strategic performance optimization on April 5, 2025. Analyze payment behavior for publishers PUB001, PUB002, PUB003, PUB004, and PUB005 to evaluate collection efficiency and market position assessment. Calculate profitability for projects PROJ001, PROJ002, PROJ003, PROJ004, and PROJ005 to assess strategic revenue optimization opportunities. Calculate hours worked for projects PROJ001, PROJ002, and PROJ003 from March 15-April 5, 2025 for operational performance evaluation. Create database scheduler run RUN3045 for Advanced_Business_Intelligence_Strategic_Performance_Optimization with success status."
         ),
         actions=[
-            # Get payment behavior for PUB001
-            # Get payment behavior for PUB001
+            # Retrieve payment activity for PUB001.
+            # Retrieve payment patterns for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
-            # Get payment behavior for PUB002
+            # Retrieve payment activity for PUB002
+            # Retrieve payment patterns for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get payment behavior for PUB003
-            # Get payment behavior for PUB003
+            # Retrieve payment patterns for PUB003.
+            # Retrieve payment patterns for PUB003.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Get payment behavior for PUB004
-            # Get payment behavior for PUB004
+            # Retrieve payment patterns for PUB004.
+            # Retrieve payment activity for PUB004
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB004"
             }),
 
-            # Get payment behavior for PUB005
-            # Get payment behavior for PUB005
+            # Retrieve payment patterns for PUB005.
+            # Retrieve payment patterns for PUB005.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB005"
             }),
 
-            # Calculate profitability for PROJ001
-            # Calculate profitability for PROJ001
+            # Determine the profit margins for PROJ001.
+            # Compute the profit margin for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ002
-            # Calculate profitability for PROJ002
+            # Compute the profit margin for PROJ002.
+            # Compute the profit margins for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
-            # Calculate profitability for PROJ003
+            # Determine the profit margin for PROJ003.
+            # Determine the profit margin for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Calculate profitability for PROJ004
-            # Calculate profitability for PROJ004
+            # Determine the profitability for PROJ004.
+            # Determine the profit margin for PROJ004.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ004"
             }),
 
-            # Calculate profitability for PROJ005
-            # Calculate profitability for PROJ005
+            # Determine the profitability for PROJ005.
+            # Compute the profit margin for PROJ005.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ005"
             }),
 
-            # Calculate hours worked for PROJ001
-            # Calculate hours worked for PROJ001
+            # Compute the total hours logged for PROJ001.
+            # Compute the total hours worked for PROJ001.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-03-15",
                 "end_date": "2025-04-05",
                 "project_ids": ["PROJ001"]
             }),
 
-            # Calculate hours worked for PROJ002
-            # Calculate hours worked for PROJ002
+            # Determine the total hours logged for PROJ002.
+            # Determine the total hours logged for PROJ002.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-03-15",
                 "end_date": "2025-04-05",
                 "project_ids": ["PROJ002"]
             }),
 
-            # Calculate hours worked for PROJ003
-            # Calculate hours worked for PROJ003
+            # Determine the total hours logged for PROJ003.
+            # Determine the total hours logged for PROJ003.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-03-15",
                 "end_date": "2025-04-05",
                 "project_ids": ["PROJ003"]
             }),
 
-            # Log advanced business intelligence strategic performance optimization completion
-            # Log advanced business intelligence strategic performance optimization completion
+            # Record the completion of advanced business intelligence strategic performance enhancement.
+            # Record the completion of advanced business intelligence strategy performance enhancement.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3045",
                 "task_name": "Advanced_Business_Intelligence_Strategic_Performance_Optimization",
@@ -2959,27 +2959,27 @@ TASKS = [
             "Process payment for invoice INV026 from Northern Star Publishers on July 15, 2024 at 2:00 PM. Ensure complete payment processing with proper audit trail AUD646 and conduct strategic client relationship analysis including payment behavior assessment, active project portfolio review, profitability analysis of their primary project PROJ001, and YTD revenue impact assessment to support ongoing account management decisions. Document completion with scheduler run RUN4601 for Payment_Processing_Analysis with success status."
         ),
         actions=[
-            # Get invoice INV026 details
-            # Get invoice INV026 details
+            # Retrieve details for invoice INV026.
+            # Retrieve details for invoice INV026.
             Action(name="CaV2GetInvoiceById", kwargs={
                 "invoice_id": "INV026"
             }),
 
-            # Find Northern Star Publishers
-            # Find Northern Star Publishers
+            # Locate Northern Star Publishers
+            # Locate Northern Star Publishers
             Action(name="CaV2FindPublisherByName", kwargs={
                 "publisher_name": "Northern Star Publishers"
             }),
 
-            # Update payment status
-            # Update payment status
+            # Modify payment status
+            # Revise payment status
             Action(name="CaV2UpdateInvoicePayment", kwargs={
                 "invoice_id": "INV026",
                 "paid_at": "2024-07-15T14:00:00Z"
             }),
 
-            # Create payment audit AUD646
-            # Create payment audit AUD646
+            # Generate payment audit AUD646.
+            # Generate payment audit AUD646
             Action(name="CaV2CreateInvoiceAuditEntry", kwargs={
                 "audit_id": "AUD646",
                 "invoice_id": "INV026",
@@ -2988,33 +2988,33 @@ TASKS = [
                 "notes": "AUD646_payment_received_INV026"
             }),
 
-            # Get payment behavior for PUB001
-            # Get payment behavior for PUB001
+            # Retrieve payment patterns for PUB001.
+            # Retrieve payment patterns for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get active projects for PUB001
-            # Get active projects for PUB001
+            # Retrieve ongoing projects for PUB001.
+            # Retrieve ongoing projects for PUB001
             Action(name="CaV2GetProjectsByPublisher", kwargs={
                 "publisher_id": "PUB001",
                 "active_only": True
             }),
 
-            # Calculate profitability for main project PROJ001
-            # Calculate profitability for main project PROJ001
+            # Determine the profit margins for the primary project PROJ001.
+            # Determine the profit margins for the primary project PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate YTD revenue for comparison
-            # Calculate YTD revenue for comparison
+            # Compute year-to-date revenue for analysis.
+            # Compute year-to-date revenue for analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Log payment processing completion
-            # Log payment processing completion
+            # Record the completion of payment processing.
+            # Record the completion of payment processing.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN4601",
                 "task_name": "Payment_Processing_Analysis",
@@ -3031,37 +3031,37 @@ TASKS = [
             "Handle strategic cash flow and investment planning on January 31, 2025. Evaluate collection efficiency by analyzing payment behavior for publishers PUB001 and PUB002. Calculate profitability for projects PROJ001, PROJ002, PROJ003, and PROJ004 to assess revenue streams. Create the database scheduler run RUN3217 for Strategic_Cash_Flow_Investment_Planning and ensure it has a success status."
         ),
         actions=[
-            # Get payment behavior for PUB001
+            # Retrieve payment patterns for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Calculate profitability for PROJ001
+            # Determine the profit margins for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ002
+            # Determine the profitability for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
+            # Determine the profit margin for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Calculate profitability for PROJ004
+            # Determine the profit margin for PROJ004.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ004"
             }),
 
-            # Log strategic cash flow investment planning completion
+            # Record the completion of strategic cash flow investment planning.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3217",
                 "task_name": "Strategic_Cash_Flow_Investment_Planning",
@@ -3078,23 +3078,23 @@ TASKS = [
             "Handle the payment processing for invoice INV012 from Aurora Academic Press on October 1, 2024 at 10:30 AM. Ensure complete payment processing with proper audit trail AUD648, and conduct strategic client relationship analysis. This includes assessing payment behavior, reviewing the active project portfolio, analyzing profitability of their primary project PROJ003, and evaluating the impact on current year 2024 YTD revenue to support ongoing account management decisions. Document the completion with scheduler run RUN4801 for Payment_Processing_Analysis, ensuring a success status."
         ),
         actions=[
-            # Get invoice INV012 details
+            # Retrieve details for invoice INV012.
             Action(name="CaV2GetInvoiceById", kwargs={
                 "invoice_id": "INV012"
             }),
 
-            # Find Aurora Academic Press
+            # Locate Aurora Academic Press.
             Action(name="CaV2FindPublisherByName", kwargs={
                 "publisher_name": "Aurora Academic Press"
             }),
 
-            # Update payment status
+            # Revise payment status
             Action(name="CaV2UpdateInvoicePayment", kwargs={
                 "invoice_id": "INV012",
                 "paid_at": "2024-10-01T10:30:00Z"
             }),
 
-            # Create payment audit AUD648
+            # Generate payment audit AUD648
             Action(name="CaV2CreateInvoiceAuditEntry", kwargs={
                 "audit_id": "AUD648",
                 "invoice_id": "INV012",
@@ -3103,28 +3103,28 @@ TASKS = [
                 "notes": "AUD648_payment_received_INV012"
             }),
 
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get active projects for PUB002
+            # Retrieve ongoing projects for PUB002.
             Action(name="CaV2GetProjectsByPublisher", kwargs={
                 "publisher_id": "PUB002",
                 "active_only": True
             }),
 
-            # Calculate profitability for main project PROJ003
+            # Determine the profitability for the primary project PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Calculate current year YTD revenue for comparison
+            # Compute year-to-date revenue for the current year for analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Log payment processing completion
+            # Record the completion of payment processing.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN4801",
                 "task_name": "Payment_Processing_Analysis",
@@ -3141,73 +3141,73 @@ TASKS = [
             "Handle comprehensive business performance and analytics on February 2, 2024. Ensure you calculate hours worked for projects PROJ001, PROJ002, PROJ003, and PROJ004 from January 1-February 2, 2024. Determine profitability for all four projects to evaluate performance metrics. Assess payment behavior for publishers PUB001, PUB002, and PUB003 to analyze revenue impact. Review pipeline opportunities and create database scheduler run RUN3219 for Comprehensive_Business_Performance_Analytics with success status."
         ),
         actions=[
-            # Calculate hours worked for PROJ001
+            # Determine the hours logged for PROJ001.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-01-01",
                 "end_date": "2024-02-02",
                 "project_ids": ["PROJ001"]
             }),
 
-            # Calculate hours worked for PROJ002
+            # Determine the hours logged for PROJ002.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-01-01",
                 "end_date": "2024-02-02",
                 "project_ids": ["PROJ002"]
             }),
 
-            # Calculate hours worked for PROJ003
+            # Determine the total hours logged for PROJ003.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-01-01",
                 "end_date": "2024-02-02",
                 "project_ids": ["PROJ003"]
             }),
 
-            # Calculate hours worked for PROJ004
+            # Determine the total hours logged for PROJ004.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-01-01",
                 "end_date": "2024-02-02",
                 "project_ids": ["PROJ004"]
             }),
 
-            # Get payment behavior for PUB001
+            # Retrieve payment patterns for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get payment behavior for PUB003
+            # Retrieve payment activity for PUB003.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Calculate profitability for PROJ001
+            # Compute the profit margin for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ002
+            # Determine the profit margin for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
+            # Determine the profit margin for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Calculate profitability for PROJ004
+            # Determine the profitability for PROJ004.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ004"
             }),
 
-            # Get pipeline opportunities
+            # Retrieve pipeline prospects
             Action(name="CaV2GetPipelineOpportunities", kwargs={}),
 
-            # Log comprehensive business performance analytics completion
+            # Record the completion of thorough business performance analytics.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3219",
                 "task_name": "Comprehensive_Business_Performance_Analytics",
@@ -3224,63 +3224,63 @@ TASKS = [
             "Coordinate comprehensive market intelligence and operational optimization on April 10, 2025. Examine payment behavior for publishers PUB001, PUB002, PUB003, and PUB004 to evaluate market positioning and collection dynamics. Assess profitability for projects PROJ002, PROJ003, PROJ004, PROJ005, and PROJ006 to identify strategic value creation opportunities. Determine hours worked for projects PROJ002, PROJ003, and PROJ004 from March 20-April 10, 2025 for resource allocation analysis. Establish database scheduler run RUN3050 for Market_Intelligence_Operational_Optimization with success status."
         ),
         actions=[
-            # Get payment behavior for PUB001
-            # Get payment behavior for PUB001
+            # Retrieve payment activity for PUB001
+            # Retrieve payment activity for PUB001
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002.
+            # Retrieve payment patterns for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get payment behavior for PUB003
-            # Get payment behavior for PUB003
+            # Retrieve payment patterns for PUB003.
+            # Retrieve payment patterns for PUB003.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Get payment behavior for PUB004
-            # Get payment behavior for PUB004
+            # Retrieve payment patterns for PUB004.
+            # Retrieve payment patterns for PUB004
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB004"
             }),
 
-            # Calculate profitability for PROJ002
+            # Compute the profit margins for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
+            # Determine the profit margin for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Calculate profitability for PROJ004
+            # Compute the profit margin for PROJ004.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ004"
             }),
 
-            # Calculate profitability for PROJ005
+            # Compute the profit margin for PROJ005.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ005"
             }),
 
-            # Calculate profitability for PROJ006
+            # Determine the profitability for PROJ006.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ006"
             }),
 
-            # Calculate hours worked for all analyzed projects
+            # Compute the total hours worked across all evaluated projects.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-03-20",
                 "end_date": "2025-04-10",
                 "project_ids": ["PROJ002", "PROJ003", "PROJ004"]
             }),
 
-            # Log market intelligence operational optimization completion
+            # Record the completion of market intelligence operational optimization.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3050",
                 "task_name": "Market_Intelligence_Operational_Optimization",
@@ -3297,60 +3297,60 @@ TASKS = [
             "Handle optimization of advanced publisher portfolio and revenue strategies on February 4, 2025. Analyze payment behavior for publishers PUB001, PUB002, PUB003, and PUB004 to determine collection efficiency. Calculate profitability for projects PROJ001, PROJ002, PROJ003, PROJ004, and PROJ005 to assess revenue distribution. Review pipeline opportunities and compute YTD revenue for strategic planning. Create database scheduler run RUN3221 for Advanced_Publisher_Portfolio_Optimization with success status."
         ),
                 actions=[
-            # Get payment behavior for PUB001
+            # Retrieve payment patterns for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get payment behavior for PUB003
+            # Retrieve payment activity for PUB003.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Get payment behavior for PUB004
+            # Retrieve payment patterns for PUB004.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB004"
             }),
 
-            # Calculate profitability for PROJ001
+            # Compute the profit margin for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ002
+            # Determine the profit margins for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
+            # Determine the profit margin for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Calculate profitability for PROJ004
+            # Determine the profitability for PROJ004.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ004"
             }),
 
-            # Calculate profitability for PROJ005
+            # Determine the profit margin for PROJ005.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ005"
             }),
 
-            # Get pipeline opportunities
+            # Retrieve pipeline prospects
             Action(name="CaV2GetPipelineOpportunities", kwargs={}),
 
-            # Calculate YTD revenue for strategic planning
+            # Compute year-to-date revenue for strategic analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2025"
             }),
 
-            # Log advanced publisher portfolio optimization completion
+            # Record the completion of the advanced publisher portfolio optimization.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3221",
                 "task_name": "Advanced_Publisher_Portfolio_Optimization",
@@ -3367,56 +3367,56 @@ TASKS = [
             "Coordinate implementation of comprehensive time tracking and resource management on February 5, 2025. Calculate hours worked for projects PROJ001, PROJ002, and PROJ003 from January 1-February 5, 2025. Analyze payment behavior for publishers PUB001 and PUB002 to understand collection patterns. Calculate profitability for projects PROJ001, PROJ002, and PROJ003 to evaluate resource efficiency. Review pipeline opportunities and establish database scheduler run RUN3222 for Comprehensive_Time_Tracking_Resource_Management with success status."
         ),
         actions=[
-            # Calculate hours worked for PROJ001
+            # Compute the total hours logged for PROJ001.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-01-01",
                 "end_date": "2025-02-05",
                 "project_ids": ["PROJ001"]
             }),
 
-            # Calculate hours worked for PROJ002
+            # Compute the hours logged for PROJ002.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-01-01",
                 "end_date": "2025-02-05",
                 "project_ids": ["PROJ002"]
             }),
 
-            # Calculate hours worked for PROJ003
+            # Determine the total hours logged for PROJ003.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-01-01",
                 "end_date": "2025-02-05",
                 "project_ids": ["PROJ003"]
             }),
 
-            # Get payment behavior for PUB001
+            # Retrieve payment activity for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Calculate profitability for PROJ001
+            # Determine the profit margins for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ002
+            # Determine the profitability for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
+            # Determine the profit margin for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Get pipeline opportunities
+            # Retrieve pipeline prospects
             Action(name="CaV2GetPipelineOpportunities", kwargs={}),
 
-            # Log comprehensive time tracking resource management completion
+            # Record detailed time tracking for resource management completion.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3222",
                 "task_name": "Comprehensive_Time_Tracking_Resource_Management",
@@ -3433,23 +3433,23 @@ TASKS = [
             "Handle the payment processing for invoice INV023 from Aurora Academic Press on February 6, 2024, at 2:30 PM. Ensure the full processing of the payment with an accurate audit trail AUD653 and perform an in-depth client relationship analysis, which includes assessing payment behavior, reviewing active project portfolios, analyzing the profitability of their main project PROJ009, and evaluating the current year 2024 YTD revenue impact to inform ongoing account management strategies. Finalize documentation by executing scheduler run RUN5301 for Payment_Processing_Analysis, ensuring it concludes with a success status."
         ),
                 actions=[
-            # Get invoice INV023 details
+            # Retrieve details for invoice INV023.
             Action(name="CaV2GetInvoiceById", kwargs={
                 "invoice_id": "INV023"
             }),
 
-            # Find Aurora Academic Press
+            # Locate Aurora Academic Press.
             Action(name="CaV2FindPublisherByName", kwargs={
                 "publisher_name": "Aurora Academic Press"
             }),
 
-            # Update payment status
+            # Revise payment status
             Action(name="CaV2UpdateInvoicePayment", kwargs={
                 "invoice_id": "INV023",
                 "paid_at": "2024-02-06T14:30:00Z"
             }),
 
-            # Create payment audit AUD653
+            # Generate payment audit AUD653
             Action(name="CaV2CreateInvoiceAuditEntry", kwargs={
                 "audit_id": "AUD653",
                 "invoice_id": "INV023",
@@ -3458,28 +3458,28 @@ TASKS = [
                 "notes": "AUD653_payment_received_INV023"
             }),
 
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get active projects for PUB002
+            # Retrieve ongoing projects for PUB002.
             Action(name="CaV2GetProjectsByPublisher", kwargs={
                 "publisher_id": "PUB002",
                 "active_only": True
             }),
 
-            # Calculate profitability for main project PROJ009
+            # Determine the profitability for the primary project PROJ009.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ009"
             }),
 
-            # Calculate current year YTD revenue for comparison
+            # Compute year-to-date revenue for the current year for analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Log payment processing completion
+            # Record the completion of payment processing.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN5301",
                 "task_name": "Payment_Processing_Analysis",
@@ -3497,66 +3497,66 @@ TASKS = [
             "Coordinate the collection of in-depth business intelligence and performance data on February 7, 2025. Assemble resource utilization information for projects PROJ001, PROJ002, and PROJ003 covering the period from January 1-February 7, 2025, to facilitate capacity planning analysis. Gather payment behavior data for publishers PUB001, PUB002, and PUB003 to enhance accounts receivable management optimization. Compile performance metrics data for all three projects to aid in strategic decision-making analysis. Examine pipeline opportunities and accrue YTD revenue data to support strategic planning. Set up database scheduler run RUN3224 for Advanced_Business_Intelligence_Performance_Analytics, ensuring its success status."
         ),
         actions=[
-            # Calculate hours worked for PROJ001
+            # Determine the total hours logged for PROJ001.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-01-01",
                 "end_date": "2025-02-07",
                 "project_ids": ["PROJ001"]
             }),
 
-            # Calculate hours worked for PROJ002
+            # Determine the total hours logged for PROJ002.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-01-01",
                 "end_date": "2025-02-07",
                 "project_ids": ["PROJ002"]
             }),
 
-            # Calculate hours worked for PROJ003
+            # Determine the total hours logged for PROJ003.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2025-01-01",
                 "end_date": "2025-02-07",
                 "project_ids": ["PROJ003"]
             }),
 
-            # Get payment behavior for PUB001
+            # Retrieve payment patterns for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
+            # Retrieve payment pattern for PUB002
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get payment behavior for PUB003
+            # Retrieve payment patterns for PUB003.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Calculate profitability for PROJ001
+            # Determine the profit margin for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ002
+            # Determine the profit margin for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
+            # Determine the profit margins for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Get pipeline opportunities
+            # Retrieve pipeline prospects
             Action(name="CaV2GetPipelineOpportunities", kwargs={}),
 
-            # Calculate YTD revenue for strategic planning
+            # Compute year-to-date revenue for strategic analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2025"
             }),
 
-            # Log advanced business intelligence performance analytics completion
+            # Record the completion of advanced business intelligence performance analytics.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3224",
                 "task_name": "Advanced_Business_Intelligence_Performance_Analytics",
@@ -3840,68 +3840,68 @@ TASKS = [
             "Handle the development of a comprehensive financial intelligence and tax strategy on February 12, 2024. Evaluate payment behavior for publishers PUB001, PUB002, and PUB003 to understand collection patterns and revenue predictability. Calculate profitability for projects PROJ001, PROJ002, and PROJ003 to assess portfolio performance. Calculate hours worked for projects PROJ001, PROJ002, and PROJ003 from January 15-February 12, 2024 for resource planning. Create database scheduler run RUN3229 for Advanced_Financial_Intelligence_Tax_Strategy with success status."
         ),
         actions=[
-            # Get payment behavior for PUB001
-            # Get payment behavior for PUB001
+            # Retrieve payment patterns for PUB001.
+            # Retrieve payment activity for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002.
+            # Retrieve payment activity for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get payment behavior for PUB003
-            # Get payment behavior for PUB003
+            # Retrieve payment patterns for PUB003.
+            # Retrieve payment patterns for PUB003.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Calculate profitability for PROJ001
-            # Calculate profitability for PROJ001
+            # Compute the profit margins for PROJ001.
+            # Determine the profit margin for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ002
-            # Calculate profitability for PROJ002
+            # Determine the profitability for PROJ002.
+            # Determine the profit margins for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
-            # Calculate profitability for PROJ003
+            # Compute the profit margin for PROJ003.
+            # Compute the profit margin for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Calculate hours worked for PROJ001
-            # Calculate hours worked for PROJ001
+            # Determine the total hours logged for PROJ001.
+            # Determine the total hours logged for PROJ001.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-01-15",
                 "end_date": "2024-02-12",
                 "project_ids": ["PROJ001"]
             }),
 
-            # Calculate hours worked for PROJ002
-            # Calculate hours worked for PROJ002
+            # Determine the total hours logged for PROJ002.
+            # Compute the total hours for PROJ002.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-01-15",
                 "end_date": "2024-02-12",
                 "project_ids": ["PROJ002"]
             }),
 
-            # Calculate hours worked for PROJ003
-            # Calculate hours worked for PROJ003
+            # Compute the total hours worked for PROJ003.
+            # Determine the total hours logged for PROJ003.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-01-15",
                 "end_date": "2024-02-12",
                 "project_ids": ["PROJ003"]
             }),
 
-            # Log advanced financial intelligence tax strategy completion
-            # Log advanced financial intelligence tax strategy completion
+            # Record the finalization of the sophisticated financial intelligence tax strategy.
+            # Record the completion of the advanced financial intelligence tax strategy.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3229",
                 "task_name": "Advanced_Financial_Intelligence_Tax_Strategy",
@@ -4147,80 +4147,80 @@ TASKS = [
             "Coordinate the implementation of advanced expense management and financial intelligence on February 17, 2024. Evaluate expense patterns across OFFICE_SUPPLIES, TRAVEL_EXPENSE, and ADVERTISING categories from January 1-February 17, 2024 for cost optimization insights. Assess tax implications for 2024 and evaluate current year 2024 YTD revenue performance for strategic financial planning. Analyze payment behavior patterns for publishers PUB001, PUB002, and PUB003 to optimize cash flow management. Assess profitability metrics for projects PROJ001, PROJ002, and PROJ003 to inform resource allocation decisions. Create database scheduler run RUN3234 for Advanced_Expense_Management_Financial_Intelligence with success status."
         ),
         actions=[
-            # Calculate expense summary for office supplies
-            # Calculate expense summary for office supplies
+            # Compute the total expenses for office supplies.
+            # Compute the summary of expenses for office supplies.
             Action(name="CaV2CalculateExpenseSummary", kwargs={
                 "category_filter": ["OFFICE_SUPPLIES"],
                 "start_date": "2024-01-01",
                 "end_date": "2024-02-17"
             }),
 
-            # Calculate expense summary for travel
-            # Calculate expense summary for travel
+            # Compute the travel expense summary.
+            # Compute travel expense summary.
             Action(name="CaV2CalculateExpenseSummary", kwargs={
                 "category_filter": ["TRAVEL_EXPENSE"],
                 "start_date": "2024-01-01",
                 "end_date": "2024-02-17"
             }),
 
-            # Calculate expense summary for marketing
-            # Calculate expense summary for marketing
+            # Compute the marketing expense overview.
+            # Compute the marketing expense overview.
             Action(name="CaV2CalculateExpenseSummary", kwargs={
                 "category_filter": ["ADVERTISING"],
                 "start_date": "2024-01-01",
                 "end_date": "2024-02-17"
             }),
 
-            # Get current tax rate for 2024
-            # Get current tax rate for 2024
+            # Retrieve the tax rate applicable for 2024.
+            # Retrieve the tax rate for the year 2024.
             Action(name="CaV2GetTaxRateByYear", kwargs={
                 "year": "2024"
             }),
 
-            # Calculate current year YTD revenue for financial planning
-            # Calculate current year YTD revenue for financial planning
+            # Compute year-to-date revenue for the current year for financial forecasting.
+            # Compute year-to-date revenue for the current year for financial forecasting.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Get payment behavior for PUB001
-            # Get payment behavior for PUB001
+            # Retrieve payment patterns for PUB001.
+            # Retrieve payment activity for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
-            # Get payment behavior for PUB002
+            # Retrieve payment patterns for PUB002.
+            # Retrieve payment patterns for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Get payment behavior for PUB003
-            # Get payment behavior for PUB003
+            # Retrieve payment patterns for PUB003.
+            # Retrieve payment patterns for PUB003.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Calculate profitability for PROJ001
-            # Calculate profitability for PROJ001
+            # Determine the profit margins for PROJ001.
+            # Determine the profit margins for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ002
-            # Calculate profitability for PROJ002
+            # Compute the profit margin for PROJ002.
+            # Determine the profit margin for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate profitability for PROJ003
-            # Calculate profitability for PROJ003
+            # Determine the profit margin for PROJ003.
+            # Determine the profit margin for PROJ003.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ003"
             }),
 
-            # Log advanced expense management financial intelligence completion
-            # Log advanced expense management financial intelligence completion
+            # Record the completion of advanced financial intelligence for expense management.
+            # Record the completion of advanced financial intelligence for expense management.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3234",
                 "task_name": "Advanced_Expense_Management_Financial_Intelligence",
@@ -4287,27 +4287,27 @@ TASKS = [
             "Coordinate the processing of payment for invoice INV008 from Summit Educational Publishing on February 19, 2024 at 3:15 PM. Ensure the fully completed payment processing with a proper audit trail AUD666 and conduct a strategic client relationship analysis including a payment behavior assessment, an active project portfolio review, a profitability analysis of their primary project PROJ005, and a current year 2024 YTD revenue impact assessment to support ongoing account management decisions. Document completion with scheduler run RUN6601 for Payment_Processing_Analysis with success status."
         ),
         actions=[
-            # Get invoice INV008 details
-            # Get invoice INV008 details
+            # Retrieve details for invoice INV008.
+            # Retrieve details for invoice INV008.
             Action(name="CaV2GetInvoiceById", kwargs={
                 "invoice_id": "INV008"
             }),
 
-            # Find Summit Educational Publishing
-            # Find Summit Educational Publishing
+            # Locate Summit Educational Publishing.
+            # Locate Summit Educational Publishing.
             Action(name="CaV2FindPublisherByName", kwargs={
                 "publisher_name": "Summit Educational Publishing"
             }),
 
-            # Update payment status
-            # Update payment status
+            # Revise payment status.
+            # Revise the payment status.
             Action(name="CaV2UpdateInvoicePayment", kwargs={
                 "invoice_id": "INV008",
                 "paid_at": "2024-02-19T15:15:00Z"
             }),
 
-            # Create payment audit AUD666
-            # Create payment audit AUD666
+            # Generate payment audit AUD666
+            # Generate payment audit AUD666.
             Action(name="CaV2CreateInvoiceAuditEntry", kwargs={
                 "audit_id": "AUD666",
                 "invoice_id": "INV008",
@@ -4316,33 +4316,33 @@ TASKS = [
                 "notes": "AUD666_payment_received_INV008"
             }),
 
-            # Get payment behavior for PUB003
-            # Get payment behavior for PUB003
+            # Retrieve payment patterns for PUB003.
+            # Retrieve payment patterns for PUB003.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB003"
             }),
 
-            # Get active projects for PUB003
-            # Get active projects for PUB003
+            # Retrieve ongoing projects for PUB003.
+            # Retrieve ongoing projects for PUB003
             Action(name="CaV2GetProjectsByPublisher", kwargs={
                 "publisher_id": "PUB003",
                 "active_only": True
             }),
 
-            # Calculate profitability for main project PROJ005
-            # Calculate profitability for main project PROJ005
+            # Compute the profitability for primary project PROJ005.
+            # Determine the profitability for the primary project PROJ005.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ005"
             }),
 
-            # Calculate current year YTD revenue for comparison
-            # Calculate current year YTD revenue for comparison
+            # Compute year-to-date revenue for the current year for analysis.
+            # Compute year-to-date revenue for the current year for analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Log payment processing completion
-            # Log payment processing completion
+            # Record the conclusion of payment processing.
+            # Record the completion of payment processing.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN6601",
                 "task_name": "Payment_Processing_Analysis",
@@ -5035,40 +5035,40 @@ TASKS = [
             "Handle the implementation of advanced expense management and financial intelligence on March 5, 2024. Assess payment behavior for publishers PUB001 and PUB002 to evaluate collection patterns and revenue predictability. Determine profitability for projects PROJ001 and PROJ002 to analyze portfolio performance. Compute hours worked for projects PROJ001 and PROJ002 from January 15-March 5, 2024 for resource planning. Create database scheduler run RUN3248 for Advanced_Expense_Management_Financial_Intelligence with success status."
         ),
         actions=[
-            # Get payment behavior for PUB001
-            # Get payment behavior for PUB001
+            # Retrieve payment activity for PUB001.
+            # Retrieve payment activity for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get payment behavior for PUB002
-            # Get payment behavior for PUB002
+            # Retrieve payment activity for PUB002.
+            # Retrieve payment patterns for PUB002.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB002"
             }),
 
-            # Calculate profitability for PROJ001
-            # Calculate profitability for PROJ001
+            # Determine the profit margin for PROJ001.
+            # Compute the profit margin for PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate profitability for PROJ002
-            # Calculate profitability for PROJ002
+            # Determine the profitability for PROJ002.
+            # Compute the profit margin for PROJ002.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ002"
             }),
 
-            # Calculate hours worked for all analyzed projects
-            # Calculate hours worked for all analyzed projects
+            # Compute the total hours spent on all evaluated projects.
+            # Compute the total hours logged for each project under analysis.
             Action(name="CaV2CalculateHoursWorkedInPeriod", kwargs={
                 "start_date": "2024-01-15",
                 "end_date": "2024-03-05",
                 "project_ids": ["PROJ001", "PROJ002"]
             }),
 
-            # Log advanced expense management financial intelligence completion
-            # Log advanced expense management financial intelligence completion
+            # Record the completion of advanced financial intelligence for expense management.
+            # Record completion of advanced financial intelligence for expense management.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN3248",
                 "task_name": "Advanced_Expense_Management_Financial_Intelligence",
@@ -5278,23 +5278,23 @@ TASKS = [
             "Handle payment processing for invoice INV009 from Northern Star Publishers on October 5, 2024 at 1:45 PM. Ensure that the payment is processed completely with a proper audit trail AUD683. Conduct a strategic client relationship analysis encompassing payment behavior assessment, active project portfolio review, profitability analysis of their primary project PROJ001, and an evaluation of the current year 2024 YTD revenue impact to aid ongoing account management decisions. Document the task completion with scheduler run RUN8301 for Payment_Processing_Analysis indicating success."
         ),
         actions=[
-            # Get invoice INV009 details
+            # Retrieve details for invoice INV009.
             Action(name="CaV2GetInvoiceById", kwargs={
                 "invoice_id": "INV009"
             }),
 
-            # Find Northern Star Publishers
+            # Locate Northern Star Publishers.
             Action(name="CaV2FindPublisherByName", kwargs={
                 "publisher_name": "Northern Star Publishers"
             }),
 
-            # Update payment status
+            # Revise payment status
             Action(name="CaV2UpdateInvoicePayment", kwargs={
                 "invoice_id": "INV009",
                 "paid_at": "2024-10-05T13:45:00Z"
             }),
 
-            # Create payment audit AUD683
+            # Generate payment audit AUD683
             Action(name="CaV2CreateInvoiceAuditEntry", kwargs={
                 "audit_id": "AUD683",
                 "invoice_id": "INV009",
@@ -5303,28 +5303,28 @@ TASKS = [
                 "notes": "AUD683_payment_received_INV009"
             }),
 
-            # Get payment behavior for PUB001
+            # Retrieve payment patterns for PUB001.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB001"
             }),
 
-            # Get active projects for PUB001
+            # Retrieve ongoing projects for PUB001
             Action(name="CaV2GetProjectsByPublisher", kwargs={
                 "publisher_id": "PUB001",
                 "active_only": True
             }),
 
-            # Calculate profitability for main project PROJ001
+            # Compute the profitability for the primary project PROJ001.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ001"
             }),
 
-            # Calculate current year YTD revenue for comparison
+            # Compute the year-to-date revenue for the current year for analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Log payment processing completion
+            # Record the completion of payment processing.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN8301",
                 "task_name": "Payment_Processing_Analysis",
@@ -5521,23 +5521,23 @@ TASKS = [
             "Handle the payment processing for invoice INV024 from Maritime Learning Materials on August 10, 2024 at 3:45 PM. Ensure the full completion of the payment process with an accurate audit trail AUD687 and perform a strategic analysis of client relationships. This includes assessing payment behavior, reviewing the active project portfolio, analyzing the profitability of their main project PROJ007, and evaluating the 2024 year-to-date revenue impact to aid in ongoing account management decisions. Conclude the documentation by executing scheduler run RUN8701 for Payment_Processing_Analysis, confirming it is successful."
         ),
         actions=[
-            # Get invoice INV024 details
+            # Retrieve details for invoice INV024.
             Action(name="CaV2GetInvoiceById", kwargs={
                 "invoice_id": "INV024"
             }),
 
-            # Find Maritime Learning Materials
+            # Locate maritime educational resources.
             Action(name="CaV2FindPublisherByName", kwargs={
                 "publisher_name": "Maritime Learning Materials"
             }),
 
-            # Update payment status
+            # Revise payment status
             Action(name="CaV2UpdateInvoicePayment", kwargs={
                 "invoice_id": "INV024",
                 "paid_at": "2024-08-10T15:45:00Z"
             }),
 
-            # Create payment audit AUD687
+            # Generate payment audit AUD687
             Action(name="CaV2CreateInvoiceAuditEntry", kwargs={
                 "audit_id": "AUD687",
                 "invoice_id": "INV024",
@@ -5546,28 +5546,28 @@ TASKS = [
                 "notes": "AUD687_payment_received_INV024"
             }),
 
-            # Get payment behavior for PUB004
+            # Retrieve payment pattern for PUB004.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB004"
             }),
 
-            # Get active projects for PUB004
+            # Retrieve ongoing projects for PUB004.
             Action(name="CaV2GetProjectsByPublisher", kwargs={
                 "publisher_id": "PUB004",
                 "active_only": True
             }),
 
-            # Calculate profitability for main project PROJ007
+            # Determine the profitability for the primary project PROJ007.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ007"
             }),
 
-            # Calculate current year YTD revenue for comparison
+            # Compute year-to-date revenue for the current year for analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Log payment processing completion
+            # Record the completion of payment processing.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN8701",
                 "task_name": "Payment_Processing_Analysis",
@@ -5644,23 +5644,23 @@ TASKS = [
             "Handle the payment processing for invoice INV010 from Maritime Learning Materials scheduled on August 10, 2024 at 4:20 PM. Ensure the payment is thoroughly processed along with a proper audit trail AUD689. Conduct a strategic analysis of the client relationship, which includes the assessment of payment behavior, reviewing the active project portfolio, analyzing the profitability of their primary project PROJ007, and evaluating the current year 2024 YTD revenue impact to aid in ongoing account management decisions. Document the completion with scheduler run RUN8901 for Payment_Processing_Analysis marked as successful."
         ),
         actions=[
-            # Get invoice INV010 details
+            # Retrieve details for invoice INV010.
             Action(name="CaV2GetInvoiceById", kwargs={
                 "invoice_id": "INV010"
             }),
 
-            # Find Maritime Learning Materials
+            # Locate maritime educational resources.
             Action(name="CaV2FindPublisherByName", kwargs={
                 "publisher_name": "Maritime Learning Materials"
             }),
 
-            # Update payment status
+            # Revise the payment status.
             Action(name="CaV2UpdateInvoicePayment", kwargs={
                 "invoice_id": "INV010",
                 "paid_at": "2024-08-10T16:20:00Z"
             }),
 
-            # Create payment audit AUD689
+            # Generate payment audit AUD689
             Action(name="CaV2CreateInvoiceAuditEntry", kwargs={
                 "audit_id": "AUD689",
                 "invoice_id": "INV010",
@@ -5669,28 +5669,28 @@ TASKS = [
                 "notes": "AUD689_payment_received_INV010"
             }),
 
-            # Get payment behavior for PUB004
+            # Retrieve payment patterns for PUB004.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB004"
             }),
 
-            # Get active projects for PUB004
+            # Retrieve ongoing projects for PUB004.
             Action(name="CaV2GetProjectsByPublisher", kwargs={
                 "publisher_id": "PUB004",
                 "active_only": True
             }),
 
-            # Calculate profitability for main project PROJ007
+            # Determine the profitability for the primary project PROJ007.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ007"
             }),
 
-            # Calculate current year YTD revenue for comparison
+            # Compute year-to-date revenue for the current year for analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Log payment processing completion
+            # Record the completion of payment processing.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN8901",
                 "task_name": "Payment_Processing_Analysis",
@@ -5762,23 +5762,23 @@ TASKS = [
             "Handle payment processing for invoice INV025 from Midwest Education House scheduled on September 1, 2024 at 2:30 PM. Ensure thorough payment completion with an accurate audit trail AUD691 and perform a strategic analysis of the client relationship including payment behavior evaluation, active project portfolio review, profitability analysis of their key project PROJ010, and evaluation of the current year 2024 YTD revenue impact to aid ongoing account management choices. Record the completion with the scheduler run RUN9101 for Payment_Processing_Analysis with a success status."
         ),
         actions=[
-            # Get invoice INV025 details
+            # Retrieve details for invoice INV025.
             Action(name="CaV2GetInvoiceById", kwargs={
                 "invoice_id": "INV025"
             }),
 
-            # Find Midwest Education House
+            # Locate the Midwest Education House.
             Action(name="CaV2FindPublisherByName", kwargs={
                 "publisher_name": "Midwest Education House"
             }),
 
-            # Update payment status
+            # Modify payment status
             Action(name="CaV2UpdateInvoicePayment", kwargs={
                 "invoice_id": "INV025",
                 "paid_at": "2024-09-01T14:30:00Z"
             }),
 
-            # Create payment audit AUD691
+            # Generate payment audit AUD691
             Action(name="CaV2CreateInvoiceAuditEntry", kwargs={
                 "audit_id": "AUD691",
                 "invoice_id": "INV025",
@@ -5787,28 +5787,28 @@ TASKS = [
                 "notes": "AUD691_payment_received_INV025"
             }),
 
-            # Get payment behavior for PUB005
+            # Retrieve payment patterns for PUB005.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB005"
             }),
 
-            # Get active projects for PUB005
+            # Retrieve ongoing projects for PUB005.
             Action(name="CaV2GetProjectsByPublisher", kwargs={
                 "publisher_id": "PUB005",
                 "active_only": True
             }),
 
-            # Calculate profitability for main project PROJ010
+            # Determine the profitability for the primary project PROJ010.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ010"
             }),
 
-            # Calculate current year YTD revenue for comparison
+            # Compute year-to-date revenue for the current year for analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Log payment processing completion
+            # Record the completion of payment processing.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN9101",
                 "task_name": "Payment_Processing_Analysis",
@@ -5971,23 +5971,23 @@ TASKS = [
             "Handle the payment processing for invoice INV024 from Maritime Learning Materials scheduled on November 15, 2024 at 11:15 AM. Ensure that the payment processing is completed with a proper audit trail AUD697. Additionally, conduct a strategic client relationship analysis, which includes assessing payment behavior, reviewing the active project portfolio, analyzing the profitability of their primary project PROJ007, and assessing the 2024 year-to-date revenue impact to support ongoing account management decisions. Record the completion with the scheduler run RUN9701 for Payment_Processing_Analysis with a success status."
         ),
         actions=[
-            # Get invoice INV024 details
+            # Retrieve details for invoice INV024.
             Action(name="CaV2GetInvoiceById", kwargs={
                 "invoice_id": "INV024"
             }),
 
-            # Find Maritime Learning Materials
+            # Locate maritime educational resources.
             Action(name="CaV2FindPublisherByName", kwargs={
                 "publisher_name": "Maritime Learning Materials"
             }),
 
-            # Update payment status
+            # Modify the status of the payment
             Action(name="CaV2UpdateInvoicePayment", kwargs={
                 "invoice_id": "INV024",
                 "paid_at": "2024-11-15T11:15:00Z"
             }),
 
-            # Create payment audit AUD697
+            # Generate payment audit AUD697
             Action(name="CaV2CreateInvoiceAuditEntry", kwargs={
                 "audit_id": "AUD697",
                 "invoice_id": "INV024",
@@ -5996,28 +5996,28 @@ TASKS = [
                 "notes": "AUD697_payment_received_INV024"
             }),
 
-            # Get payment behavior for PUB004
+            # Retrieve payment patterns for PUB004.
             Action(name="CaV2GetPaymentBehaviorByPublisher", kwargs={
                 "publisher_id": "PUB004"
             }),
 
-            # Get active projects for PUB004
+            # Retrieve ongoing projects for PUB004.
             Action(name="CaV2GetProjectsByPublisher", kwargs={
                 "publisher_id": "PUB004",
                 "active_only": True
             }),
 
-            # Calculate profitability for main project PROJ007
+            # Determine the profitability for the primary project PROJ007.
             Action(name="CaV2CalculateProjectProfitability", kwargs={
                 "project_id": "PROJ007"
             }),
 
-            # Calculate current year YTD revenue for comparison
+            # Compute year-to-date revenue for the current year for analysis.
             Action(name="CaV2CalculateYtdRevenue", kwargs={
                 "year": "2024"
             }),
 
-            # Log payment processing completion
+            # Record the completion of payment processing.
             Action(name="CaV2CreateSchedulerRun", kwargs={
                 "run_id": "RUN9701",
                 "task_name": "Payment_Processing_Analysis",

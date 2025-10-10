@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class GetLoanInformationByLoanId(Tool):
         if not customer_id or not loan_id:
             return json.dumps({"error": "customer_id and loan_id are required."}, indent=2)
 
-        # Verify and fetch the loan
+        # Authenticate and retrieve the loan.
         loans = list(data.get("loans", {}).values())
         loan = next(
             (ln for ln in loans

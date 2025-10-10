@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,10 +10,10 @@ class create_employee(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         employees = list(data.get("employees", {}).values())
 
-        # Timestamp needs to be sent for database records
+        # A timestamp must be included for database entries.
         timestamp = kwargs.get("timestamp")
 
-        # These values must be sent
+        # These values are required to be transmitted.
         required_cols = [
             "name",
             "phone_number",
@@ -23,14 +23,14 @@ class create_employee(Tool):
             "store_id",
         ]
 
-        # These values have defaults if not sent
+        # Default values are provided if none are specified.
         optional_cols = []
 
         required_values = {k: kwargs.get(k) for k in required_cols}
         optional_values = {}
         optional_values.update({k: kwargs[k] for k in optional_cols if k in kwargs})
 
-        # These values are calculated by the function
+        # The function computes these values.
         fill_in = {
             "employee_id": "EMP-1{employee_id:03}".format(
                 employee_id=max(
@@ -43,7 +43,7 @@ class create_employee(Tool):
             "status": "active",
         }
 
-        # Throw an error if any of the required values are missing
+        # Generate an error if any essential values are absent.
         if any([required_values[k] is None for k in required_values.keys()]):
             return json.dumps(
                 {
@@ -55,8 +55,8 @@ class create_employee(Tool):
                 indent=2,
             )
 
-        # This is the order that the items appear in the database
-        # May not be necessary since dictionaries are unordered, but it can make valiation easier if the items appear in the same order everytime
+        # This is the sequence of items stored in the database.
+        # Although dictionaries lack order, maintaining a consistent item sequence can simplify validation.
         col_order = [
             "employee_id",
             "name",
@@ -68,16 +68,16 @@ class create_employee(Tool):
             "status",
         ]
 
-        # Order the items
+        # Sort the items.
         row = required_values | optional_values | fill_in
         row_final = OrderedDict()
         for k in col_order:
             row_final[k] = row[k]
 
-        # Add to the database
+        # Insert into the database.
         employees.append(json.dumps(row_final, indent=2))
 
-        # Return the whole row for reference
+        # Retrieve the complete row for reference.
         return json.dumps(row_final, indent=2)
 
     @staticmethod

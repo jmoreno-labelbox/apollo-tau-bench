@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,7 +23,7 @@ class AssignRoleToUser(Tool):
             "user_id": kwargs.get("user_id"),
             "role_id": kwargs.get("role_id"),
             "assigned_by": kwargs.get("assigned_by"),
-            "expires_on": kwargs.get("expires_on", None) # Optional: for temporary roles
+            "expires_on": kwargs.get("expires_on", None) # Optional: for interim positions
         }
 
         user_roles.append(new_assignment)

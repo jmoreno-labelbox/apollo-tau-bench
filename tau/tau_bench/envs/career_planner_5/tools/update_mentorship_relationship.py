@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,10 +21,10 @@ class update_mentorship_relationship(Tool):
         if not rel:
             return json.dumps({"error": "relationship not found"})
 
-        # --- SIMPLIFIED LOGIC ---
-        # The tool now only performs a direct update.
+        # --- EASED LOGIC ---
+        # The tool now executes only a straightforward update.
         rel.update(updates)
-        # --- END OF SIMPLIFICATION ---
+        # --- SIMPLIFICATION COMPLETED ---
 
         return json.dumps({"success": f"relationship {relationship_id} updated"})
 

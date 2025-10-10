@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class CreateInventoryRecord(Tool):
         store_id = kwargs.get('store_id')
         location = kwargs.get('location')
 
-        inventory_list = list(data.get("inventory", {}).values())  # Corrigido para lista
+        inventory_list = list(data.get("inventory", {}).values())  # Ajustado para lista
 
         for item in inventory_list:
             if item.get("sku") == sku and item.get("store_id") == store_id:
@@ -44,7 +44,7 @@ class CreateInventoryRecord(Tool):
             "last_stock_count": "2025-07-28"
         }
 
-        inventory_list.append(new_record)  # Corrigido para append
+        inventory_list.append(new_record)  # Ajustado para adicionar.
         data["inventory"] = inventory_list
 
         return json.dumps({"status": "created", "inventory_id": new_inv_id})

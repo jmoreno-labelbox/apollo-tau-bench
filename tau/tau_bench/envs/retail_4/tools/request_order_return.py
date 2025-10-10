@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,14 +13,14 @@ class RequestOrderReturn(Tool):
 
         Writes to: orders.json (adds return request to order)
         """
-        # Rule: Validate user identity exists before processing any user requests
+        # Requirement: Confirm the existence of user identity prior to handling any user requests.
         users = list(data.get("users", {}).values())
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
             return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
-        # Validate input parameters - must provide either single item or return_items list
+        # Check input parameters - either a single item or a return_items list must be supplied.
         if not return_items and not item_id:
             return json.dumps({
                 "error": "Either 'return_items' list or 'item_id' must be provided",
@@ -33,7 +33,7 @@ class RequestOrderReturn(Tool):
                 "status": "failed"
             })
 
-        # Build return items list from single item parameters if provided
+        # Generate a list of return items based on the provided single item parameters.
         if item_id:
             if not return_reason and not item_return_reason:
                 return json.dumps({
@@ -47,25 +47,25 @@ class RequestOrderReturn(Tool):
                 "reason": item_return_reason if item_return_reason else return_reason
             }]
 
-            # Set overall return reason if not provided
+            # Assign default return reason if none is specified.
             if not return_reason:
                 return_reason = item_return_reason
 
-        # Validate return_items structure
+        # Verify the structure of return_items.
         if not return_items:
             return json.dumps({
                 "error": "Return items list cannot be empty",
                 "status": "failed"
             })
 
-        # Validate return_reason is provided
+        # Check that return_reason is supplied.
         if not return_reason:
             return json.dumps({
                 "error": "Return reason must be provided",
                 "status": "failed"
             })
 
-        # Find the order to process return for
+        # Determine the sequence for handling the return of
         orders = list(data.get("orders", {}).values())
         order_to_return = None
         order_index = None
@@ -84,14 +84,14 @@ class RequestOrderReturn(Tool):
 
         current_status = order_to_return.get("status")
 
-        # Can only request returns for delivered orders
+        # Returns can only be requested for orders that have been delivered.
         if current_status != "delivered":
             return json.dumps({
                 "error": f"Returns can only be requested for delivered orders. Current status: {current_status}",
                 "status": "failed"
             })
 
-        # Validate return items exist in the original order
+        # Verify that the returned items are part of the initial order.
         order_items = order_to_return.get("items", [])
         valid_return_items = []
         total_return_amount = 0.0
@@ -100,7 +100,7 @@ class RequestOrderReturn(Tool):
             item_id = return_item.get("item_id")
             return_quantity = return_item.get("quantity", 1)
 
-            # Find the item in the original order
+            # Locate the item in its initial sequence.
             original_item = None
             for order_item in order_items:
                 if order_item.get("item_id") == item_id:
@@ -119,7 +119,7 @@ class RequestOrderReturn(Tool):
                     "status": "failed"
                 })
 
-            # Calculate return amount
+            # Compute the refund amount.
             item_price = original_item.get("price", 0)
             return_amount = item_price * return_quantity
             total_return_amount += return_amount
@@ -133,12 +133,12 @@ class RequestOrderReturn(Tool):
                 "return_reason": return_item.get("reason", return_reason)
             })
 
-        # Generate return request ID
+        # Create a return request identifier.
         existing_returns = order_to_return.get("returns", [])
         return_number = len(existing_returns) + 1
         return_request_id = f"RET_{order_id}_{return_number}"
 
-        # WRITE OPERATION: Add return request to order
+        # CREATE OPERATION: Append return request to order
         return_request = {
             "return_id": return_request_id,
             "requested_date": datetime.now().isoformat(),
@@ -155,7 +155,7 @@ class RequestOrderReturn(Tool):
         order_to_return["returns"].append(return_request)
         order_to_return["last_updated"] = datetime.now().isoformat()
 
-        # Update the order in the data structure
+        # Revise the order within the data structure.
         data["orders"][order_index] = order_to_return
 
         result = {

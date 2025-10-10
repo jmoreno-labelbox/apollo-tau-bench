@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class LogUpgradeNoCharge(Tool):
         to_cabin: str,
         reason: Optional[str] = None
     ) -> str:
-        date_str       = date # YYYY-MM-DD (optional but recommended)
+        date_str       = date # Format: YYYY-MM-DD (optional, but advisable)
         from_cabin     = (from_cabin or "").lower()
         to_cabin       = (to_cabin or "").lower()
         reason         = reason or "no_charge_upgrade"
@@ -31,7 +31,7 @@ class LogUpgradeNoCharge(Tool):
         if not from_cabin or not to_cabin or from_cabin == to_cabin:
             return _json({"error":"invalid_cabins"})
 
-        # Deterministic id and timestamp
+        # Predictable identifier and time marker
         change_id = _next_change_id(data, prefix="PC")
         det_ts = f"{str(date_str)[:10]}T00:00:00Z" if date_str else None
 

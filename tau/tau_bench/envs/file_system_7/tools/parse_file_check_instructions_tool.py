@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -37,12 +37,12 @@ class ParseFileCheckInstructionsTool(Tool):
         if not task_details:
             return json.dumps({"error": f"Task ID {task_id} not found."})
 
-        # The parsed_instructions field is already structured, so we can use it directly
+        # The parsed_instructions field is pre-structured, allowing for direct usage.
         instructions = task_details.get("parsed_instructions", {})
         if "task_instructions" not in data:
             data["task_instructions"] = []
 
-        # Reconstruct the simplified task_instructions format from the detailed parsed_instructions
+        # Rebuild the simplified task_instructions structure using the detailed parsed_instructions.
         parsed_instruction = {
             "task_id": task_id,
             "remote_address": task_details.get("remote_server"),

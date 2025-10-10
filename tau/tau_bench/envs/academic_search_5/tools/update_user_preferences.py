@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,7 +24,7 @@ class UpdateUserPreferences(Tool):
                     pref['ui_theme'] = ui_theme
                 return json.dumps({"success": True, "updated_preferences": pref})
 
-        # If no preferences found, create one
+        # If no preferences exist, generate a new one.
         new_pref = {"preference_id": f"pref_{uuid.uuid4().hex[:4]}", "user_id": user_id}
         if notification_channel:
             new_pref['notification_channel'] = notification_channel

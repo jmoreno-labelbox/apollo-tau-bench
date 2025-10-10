@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,12 +10,12 @@ class RecordAutomationRun(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         _ensure_list(data, "automation_runs")
         row = dict(kwargs)
-        # try:
-        #     t0 = datetime.fromisoformat(row["started_at"].replace("Z","+00:00"))
-        #     t1 = datetime.fromisoformat(row["ended_at"].replace("Z","+00:00"))
-        #     row["duration_ms"] = int((t1 - t0).total_seconds()*1000)
-        # except Exception:
-        #     row["duration_ms"] = None
+        # attempt:
+        # t0 = datetime.fromisoformat(row["started_at"].replace("Z", "+00:00"))
+        # t1 = datetime.fromisoformat(row["ended_at"].replace("Z", "+00:00"))
+        # row["duration_ms"] = int((t1 - t0).total_seconds() * 1000)
+        # catch Exception:
+        # row["duration_ms"] = null
         data["automation_runs"].append(row)
         return json.dumps(row)
 

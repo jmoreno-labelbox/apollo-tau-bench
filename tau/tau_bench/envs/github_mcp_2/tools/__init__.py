@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .get_repository import GetRepository
 from .get_default_branch import GetDefaultBranch

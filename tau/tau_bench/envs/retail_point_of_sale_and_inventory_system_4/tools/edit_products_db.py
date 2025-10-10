@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class EditProductsDb(Tool): # WRITE
+class EditProductsDb(Tool): # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -33,11 +33,11 @@ class EditProductsDb(Tool): # WRITE
             idx, row = _find_by_id(db, "sku", sku)
             if row:
                 if delete:
-                    # --- DELETE ---
+                    # --- REMOVE ---
                     del db[idx]
                     return json.dumps({"result": "deleted"})
                 else:
-                    # --- UPDATE ---
+                    # --- MODIFICATION ---
                     if name is not None: row["name"] = name
                     if category is not None: row["category"] = category
                     if price is not None: row["price"] = price
@@ -58,7 +58,7 @@ class EditProductsDb(Tool): # WRITE
             else:
                 return json.dumps({"error": f"Product {sku} not found"})
         else:
-            # --- CREATE ---
+            # --- INITIATE ---
             if name is None or price is None or current_time is None:
                 return json.dumps({"error": "Missing required field for creation (name, price, current_time)"})
             new_row = {

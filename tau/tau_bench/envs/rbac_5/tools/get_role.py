@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class GetRole(Tool):
         role_id = kwargs.get("role_id")
         role_name = kwargs.get("role_name")
 
-        # Validate that exactly one parameter is provided
+        # Ensure that precisely one argument is supplied.
         if not role_id and not role_name:
             return json.dumps({"error": "Must provide either role_id or role_name"})
 
@@ -29,12 +29,12 @@ class GetRole(Tool):
 
         roles = list(data.get("roles", {}).values())
 
-        # Search by role_id
+        # Query based on role_id
         if role_id:
             role = _find_by_id(roles, "role_id", role_id)
             return json.dumps(role or {"error": f"role_id {role_id} not found"})
 
-        # Search by role_name (case-insensitive)
+        # Perform a case-insensitive search using role_name.
         if role_name:
             name_lower = role_name.strip().lower()
             for r in roles:

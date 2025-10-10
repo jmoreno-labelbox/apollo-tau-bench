@@ -1,21 +1,21 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class CreateAndDeliverFixPlan(Tool):  # WRITE
+class CreateAndDeliverFixPlan(Tool):  # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
         plan_id: str
     ) -> str:
-        # Validate input
+        # Verify input data.
         if not isinstance(plan_id, str) or not plan_id:
             return json.dumps({"error": "plan_id must be a non-empty string"})
 
-        # Find the fix plan
+        # Identify the resolution strategy.
         fix_plans = data.get("fix_plans", [])
         fix_plan = next((plan for plan in fix_plans if plan.get("plan_id") == plan_id), None)
 
@@ -26,7 +26,7 @@ class CreateAndDeliverFixPlan(Tool):  # WRITE
         audit_id = fix_plan.get("audit_id")
         owner_email = fix_plan.get("owner_email")
 
-        # Find the audit to get artifact_id
+        # Retrieve the artifact_id by locating the audit.
         audits = data.get("audits", [])
         audit = next((a for a in audits if a.get("audit_id") == audit_id), None)
 
@@ -36,12 +36,12 @@ class CreateAndDeliverFixPlan(Tool):  # WRITE
         artifact_id = audit.get("artifact_id")
 
         if delivery_method == "TICKETS":
-            # Generate JIRA ticket ID using custom hash
+            # Create a JIRA ticket identifier utilizing a custom hash function.
             hash_value = custom_hash(f"{plan_id}_ticket")
-            ticket_digits = f"{hash_value % 10000:04d}"  # 4 random digits
+            ticket_digits = f"{hash_value % 10000:04d}"  # Four random numbers.
             ticket_id = f"JIRA-{ticket_digits}"
 
-            # Update all fix_items with this plan_id to set external_ticket_ref_nullable
+            # Modify all fix_items associated with this plan_id to update external_ticket_ref_nullable.
             fix_items = data.get("fix_items", [])
             updated_count = 0
             for item in fix_items:
@@ -56,7 +56,7 @@ class CreateAndDeliverFixPlan(Tool):  # WRITE
             })
 
         elif delivery_method == "COMMENTS":
-            # Create new figma comment
+            # Add a new comment in Figma.
             figma_comments = data.get("figma_comments", [])
             next_num = len(figma_comments) + 1
             comment_id = f"comment_{next_num:03d}"
@@ -80,7 +80,7 @@ class CreateAndDeliverFixPlan(Tool):  # WRITE
             })
 
         elif delivery_method == "PDF":
-            # Create new asset
+            # Generate a new asset.
             assets = data.get("assets", [])
             next_num = len(assets) + 1
             asset_id = f"asset_{next_num:03d}"

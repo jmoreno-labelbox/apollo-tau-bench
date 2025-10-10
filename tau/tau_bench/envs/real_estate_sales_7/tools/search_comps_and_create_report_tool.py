@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,12 +10,12 @@ class SearchCompsAndCreateReportTool(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # --- Parameters from both tools ---
+        # --- Parameters sourced from both instruments ---
         subject_property_id = kwargs.get("subject_property_id")
         client_id = _as_int(kwargs.get("client_id"))
         created_by_broker_id = _as_int(kwargs.get("created_by_broker_id"))
 
-        # Validation for required params
+        # Verification of mandatory parameters.
         if client_id is None or not subject_property_id or created_by_broker_id is None:
             return _err(
                 "client_id, subject_property_id, and created_by_broker_id are required"
@@ -25,7 +25,7 @@ class SearchCompsAndCreateReportTool(Tool):
         if need_prop:
             return _err(need_prop)
 
-        # --- Search & Rank Logic (from SearchAndRankCompsTool) ---
+        # --- Search and Ranking Mechanism (from SearchAndRankCompsTool) ---
         client_neighborhoods = {
             v
             for v in (_as_int(x) for x in (kwargs.get("client_neighborhoods") or []))
@@ -122,7 +122,7 @@ class SearchCompsAndCreateReportTool(Tool):
             "selected_comparables": selected,
         }
 
-        # --- Create Report Logic (from CreateCompReportEntryTool) ---
+        # --- Report Generation Logic (from CreateCompReportEntryTool) ---
         rows = data.setdefault("comp_reports", [])
         report_id = _next_int_id(rows, "report_id")
         report_rec = {
@@ -136,7 +136,7 @@ class SearchCompsAndCreateReportTool(Tool):
         }
         rows.append(report_rec)
 
-        # --- Combine and return ---
+        # --- Merge and output ---
         return json.dumps(
             {
                 "report_entry": report_rec,

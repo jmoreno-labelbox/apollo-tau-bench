@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .get_customer_accounts_by_type import GetCustomerAccountsByType
 from .list_recent_transactions_by_category import ListRecentTransactionsByCategory

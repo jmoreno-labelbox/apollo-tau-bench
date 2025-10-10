@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class GetUserIdFromEmail(Tool): # READ
+class GetUserIdFromEmail(Tool): # ACCESS
     @staticmethod
     def invoke(data: Dict[str, Any], email: str) -> str:
         db = list(data.get("users", {}).values())

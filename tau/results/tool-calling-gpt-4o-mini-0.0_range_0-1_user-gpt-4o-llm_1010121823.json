@@ -1,0 +1,805 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "TASK_01",
+        "actions": [
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "101"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "102"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "103"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "104"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "105"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "106"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "107"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "108"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "109"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "110"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "111"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "112"
+            }
+          },
+          {
+            "name": "FreezePlan",
+            "kwargs": {
+              "plan_id": "plan_soc_001",
+              "date": "2025-08-13",
+              "created_at": "2025-08-14T00:00:00Z",
+              "author": "automation_agent",
+              "checksum": "CHK001",
+              "total_budget": 8860.0,
+              "adset_mapping": [
+                {
+                  "adset_id": "101",
+                  "name": "Electronics - CA",
+                  "category": "Electronics",
+                  "campaign_id": "1"
+                },
+                {
+                  "adset_id": "102",
+                  "name": "Apparel - CA",
+                  "category": "Apparel",
+                  "campaign_id": "1"
+                },
+                {
+                  "adset_id": "103",
+                  "name": "Brand - Video Ads",
+                  "category": "All",
+                  "campaign_id": "2"
+                },
+                {
+                  "adset_id": "104",
+                  "name": "Fall Fashion - Women",
+                  "category": "Apparel",
+                  "campaign_id": "3"
+                },
+                {
+                  "adset_id": "105",
+                  "name": "Fall Fashion - Men",
+                  "category": "Apparel",
+                  "campaign_id": "3"
+                },
+                {
+                  "adset_id": "106",
+                  "name": "Holiday - Home Goods",
+                  "category": "Home",
+                  "campaign_id": "5"
+                },
+                {
+                  "adset_id": "107",
+                  "name": "Holiday - Toys",
+                  "category": "Toys",
+                  "campaign_id": "5"
+                },
+                {
+                  "adset_id": "108",
+                  "name": "Back to School - Laptops",
+                  "category": "Electronics",
+                  "campaign_id": "6"
+                },
+                {
+                  "adset_id": "109",
+                  "name": "Back to School - Stationery",
+                  "category": "Office",
+                  "campaign_id": "6"
+                },
+                {
+                  "adset_id": "110",
+                  "name": "App Installs - Android",
+                  "category": "Mobile",
+                  "campaign_id": "7"
+                },
+                {
+                  "adset_id": "111",
+                  "name": "App Installs - iOS",
+                  "category": "Mobile",
+                  "campaign_id": "7"
+                },
+                {
+                  "adset_id": "112",
+                  "name": "Electronics - UK",
+                  "category": "Electronics",
+                  "campaign_id": "1"
+                }
+              ],
+              "strategies": [
+                {
+                  "adset_id": "101",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 32.0
+                },
+                {
+                  "adset_id": "102",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "103",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "104",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 20.0
+                },
+                {
+                  "adset_id": "105",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "106",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 18.0
+                },
+                {
+                  "adset_id": "107",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "108",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 42.0
+                },
+                {
+                  "adset_id": "109",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "110",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "111",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 2.5
+                },
+                {
+                  "adset_id": "112",
+                  "bid_strategy": "lowest_cost"
+                }
+              ],
+              "creatives": [
+                {
+                  "adset_id": "101",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "102",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "103",
+                  "creative_type": "video"
+                },
+                {
+                  "adset_id": "104",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "105",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "106",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "107",
+                  "creative_type": "video"
+                },
+                {
+                  "adset_id": "108",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "109",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "110",
+                  "creative_type": "video"
+                },
+                {
+                  "adset_id": "111",
+                  "creative_type": "video"
+                },
+                {
+                  "adset_id": "112",
+                  "creative_type": "image"
+                }
+              ],
+              "policy_snapshot": {
+                "min_budget_allocation": 100,
+                "budget_rounding_unit": 10,
+                "currency": "USD",
+                "timezone": "UTC"
+              },
+              "allocations": [
+                {
+                  "adset_id": "101",
+                  "budget": 920.0
+                },
+                {
+                  "adset_id": "102",
+                  "budget": 590.0
+                },
+                {
+                  "adset_id": "103",
+                  "budget": 1180.0
+                },
+                {
+                  "adset_id": "104",
+                  "budget": 740.0
+                },
+                {
+                  "adset_id": "105",
+                  "budget": 750.0
+                },
+                {
+                  "adset_id": "106",
+                  "budget": 500.0
+                },
+                {
+                  "adset_id": "107",
+                  "budget": 400.0
+                },
+                {
+                  "adset_id": "108",
+                  "budget": 780.0
+                },
+                {
+                  "adset_id": "109",
+                  "budget": 300.0
+                },
+                {
+                  "adset_id": "110",
+                  "budget": 1000.0
+                },
+                {
+                  "adset_id": "111",
+                  "budget": 1000.0
+                },
+                {
+                  "adset_id": "112",
+                  "budget": 700.0
+                }
+              ]
+            }
+          },
+          {
+            "name": "ApplyPlanAllocations",
+            "kwargs": {
+              "plan_id": "plan_soc_001",
+              "timestamp": "2025-08-14T00:00:00Z",
+              "request_id": "ap-1"
+            }
+          },
+          {
+            "name": "UpdatePlanStatus",
+            "kwargs": {
+              "plan_id": "plan_soc_001",
+              "status": "applied",
+              "applied_at": "2025-08-14T00:00:00Z"
+            }
+          },
+          {
+            "name": "RecordAutomationRun",
+            "kwargs": {
+              "run_type": "plan_apply",
+              "started_at": "2025-08-14T00:00:00Z",
+              "ended_at": "2025-08-14T00:00:00Z",
+              "status": "completed",
+              "input_ref": "ap-1",
+              "outputs_json": {
+                "plan_id": "plan_soc_001",
+                "applied_adsets_count": 0,
+                "applied_at": "2025-08-14T00:00:00Z",
+                "run_status": "completed"
+              },
+              "errors_json": null
+            }
+          }
+        ],
+        "instruction": "As the Snapshot Planner at 2025-08-14T00:00:00Z, prepare plan_soc_001 (date 2025-08-13) utilizing the exact adset names from the DB as a full-fidelity envelope; ensure totals remain unchanged. Implement and document the process.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.002415,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "6c367e0a0b4b67df17d62a6591ca62638a89c9722d5e285871652311da7b8f6c"
+        },
+        "actions": [
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "101"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "102"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "103"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "104"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "105"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "106"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "107"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "108"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "109"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "110"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "111"
+            }
+          },
+          {
+            "name": "GetAdsetDetailsById",
+            "kwargs": {
+              "adset_id": "112"
+            }
+          },
+          {
+            "name": "FreezePlan",
+            "kwargs": {
+              "plan_id": "plan_soc_001",
+              "date": "2025-08-13",
+              "created_at": "2025-08-14T00:00:00Z",
+              "author": "automation_agent",
+              "checksum": "CHK001",
+              "total_budget": 8860.0,
+              "adset_mapping": [
+                {
+                  "adset_id": "101",
+                  "name": "Electronics - CA",
+                  "category": "Electronics",
+                  "campaign_id": "1"
+                },
+                {
+                  "adset_id": "102",
+                  "name": "Apparel - CA",
+                  "category": "Apparel",
+                  "campaign_id": "1"
+                },
+                {
+                  "adset_id": "103",
+                  "name": "Brand - Video Ads",
+                  "category": "All",
+                  "campaign_id": "2"
+                },
+                {
+                  "adset_id": "104",
+                  "name": "Fall Fashion - Women",
+                  "category": "Apparel",
+                  "campaign_id": "3"
+                },
+                {
+                  "adset_id": "105",
+                  "name": "Fall Fashion - Men",
+                  "category": "Apparel",
+                  "campaign_id": "3"
+                },
+                {
+                  "adset_id": "106",
+                  "name": "Holiday - Home Goods",
+                  "category": "Home",
+                  "campaign_id": "5"
+                },
+                {
+                  "adset_id": "107",
+                  "name": "Holiday - Toys",
+                  "category": "Toys",
+                  "campaign_id": "5"
+                },
+                {
+                  "adset_id": "108",
+                  "name": "Back to School - Laptops",
+                  "category": "Electronics",
+                  "campaign_id": "6"
+                },
+                {
+                  "adset_id": "109",
+                  "name": "Back to School - Stationery",
+                  "category": "Office",
+                  "campaign_id": "6"
+                },
+                {
+                  "adset_id": "110",
+                  "name": "App Installs - Android",
+                  "category": "Mobile",
+                  "campaign_id": "7"
+                },
+                {
+                  "adset_id": "111",
+                  "name": "App Installs - iOS",
+                  "category": "Mobile",
+                  "campaign_id": "7"
+                },
+                {
+                  "adset_id": "112",
+                  "name": "Electronics - UK",
+                  "category": "Electronics",
+                  "campaign_id": "1"
+                }
+              ],
+              "strategies": [
+                {
+                  "adset_id": "101",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 32.0
+                },
+                {
+                  "adset_id": "102",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "103",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "104",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 20.0
+                },
+                {
+                  "adset_id": "105",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "106",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 18.0
+                },
+                {
+                  "adset_id": "107",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "108",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 42.0
+                },
+                {
+                  "adset_id": "109",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "110",
+                  "bid_strategy": "lowest_cost"
+                },
+                {
+                  "adset_id": "111",
+                  "bid_strategy": "cost_cap",
+                  "bid_amount": 2.5
+                },
+                {
+                  "adset_id": "112",
+                  "bid_strategy": "lowest_cost"
+                }
+              ],
+              "creatives": [
+                {
+                  "adset_id": "101",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "102",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "103",
+                  "creative_type": "video"
+                },
+                {
+                  "adset_id": "104",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "105",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "106",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "107",
+                  "creative_type": "video"
+                },
+                {
+                  "adset_id": "108",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "109",
+                  "creative_type": "image"
+                },
+                {
+                  "adset_id": "110",
+                  "creative_type": "video"
+                },
+                {
+                  "adset_id": "111",
+                  "creative_type": "video"
+                },
+                {
+                  "adset_id": "112",
+                  "creative_type": "image"
+                }
+              ],
+              "policy_snapshot": {
+                "min_budget_allocation": 100,
+                "budget_rounding_unit": 10,
+                "currency": "USD",
+                "timezone": "UTC"
+              },
+              "allocations": [
+                {
+                  "adset_id": "101",
+                  "budget": 920.0
+                },
+                {
+                  "adset_id": "102",
+                  "budget": 590.0
+                },
+                {
+                  "adset_id": "103",
+                  "budget": 1180.0
+                },
+                {
+                  "adset_id": "104",
+                  "budget": 740.0
+                },
+                {
+                  "adset_id": "105",
+                  "budget": 750.0
+                },
+                {
+                  "adset_id": "106",
+                  "budget": 500.0
+                },
+                {
+                  "adset_id": "107",
+                  "budget": 400.0
+                },
+                {
+                  "adset_id": "108",
+                  "budget": 780.0
+                },
+                {
+                  "adset_id": "109",
+                  "budget": 300.0
+                },
+                {
+                  "adset_id": "110",
+                  "budget": 1000.0
+                },
+                {
+                  "adset_id": "111",
+                  "budget": 1000.0
+                },
+                {
+                  "adset_id": "112",
+                  "budget": 700.0
+                }
+              ]
+            }
+          },
+          {
+            "name": "ApplyPlanAllocations",
+            "kwargs": {
+              "plan_id": "plan_soc_001",
+              "timestamp": "2025-08-14T00:00:00Z",
+              "request_id": "ap-1"
+            }
+          },
+          {
+            "name": "UpdatePlanStatus",
+            "kwargs": {
+              "plan_id": "plan_soc_001",
+              "status": "applied",
+              "applied_at": "2025-08-14T00:00:00Z"
+            }
+          },
+          {
+            "name": "RecordAutomationRun",
+            "kwargs": {
+              "run_type": "plan_apply",
+              "started_at": "2025-08-14T00:00:00Z",
+              "ended_at": "2025-08-14T00:00:00Z",
+              "status": "completed",
+              "input_ref": "ap-1",
+              "outputs_json": {
+                "plan_id": "plan_soc_001",
+                "applied_adsets_count": 0,
+                "applied_at": "2025-08-14T00:00:00Z",
+                "run_status": "completed"
+              },
+              "errors_json": null
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You function as a Social Media Advertising automation agent, accessing information exclusively from the supplied JSON-backed tables and making modifications solely via the authorized write-capable tools.\",\n    \"During execution, the authoritative data source is the in-memory `data` object, which includes tables like adsets, ads, plans, budget_changes, strategy_changes, creative_rotations, reports, automation_runs, policy_params, f_insights, f_sales, and f_viewership.\",\n    \"Do not create any new fields or values. If a required field or row does not exist, issue an error and refrain from performing any write operations.\",\n    \"Behavior must remain deterministic at all times. Do not invoke clocks or random number generators. All time-related fields (created_at, applied_at, started_at, ended_at, rotated_at, updated_at) are to be received from the caller and passed through without alteration.\",\n    \"For any write operation requiring a date part (such as ad.start_date), deterministically derive it from the supplied timestamp\u2019s ISO date segment.\",\n    \"Each write operation must contain a request_id provided by the caller, which must also be recorded in the audit logs without modification.\",\n    \"Select the most precise tool capable of performing the requested modification. Refrain from combining ad hoc logic outside of designated tools.\",\n    \"Aim for a single logical write operation in each step; ensure inputs are validated prior to writing, and provide explicit error messages if validation does not succeed.\",\n    \"Prevent duplicate writes (idempotency): when the current state already aligns with the requested target, bypass mutation and respond with a no-op result including the reason.\",\n    \"A plan denotes the intended allocations, strategies, and creative targets for a specific date. It may be composed (as an envelope), applied, verified, and have its status updated.\",\n    \"Compose/Freeze: During the composition of a plan or envelope, ensure inclusion of at least the following: date_yesterday (or the designated target date), allocations (mapping adset_id to amount), strategies (mapping adset_id to bid_strategy and, if applicable, bid_amount), creatives (mapping adset_id to creative_type), adset_mapping (mapping adset_id to category, campaign, and name), and policy_snapshot (defining min/max per category and floors/ceilings). The compose operation must log created_at, author, and checksum as specified.\",\n    \"Apply: Prior to writing, application tools are required to validate category totals, per-adset limits, and adherence to policy constraints. Budgets and strategies are atomically updated for each adset that successfully passes validation.\",\n    \"Verification: Following the apply step, a verification tool deterministically checks each adset_id by comparing the live state to the intended plan fields, and then reports whether they match or do not match.\",\n    \"Status: Once a plan has been both applied and verified successfully, update status to 'applied' and record the applied_at value as provided by the caller. Do not assign applied_at automatically.\",\n    \"Enforce category-level invariants from policy_params, ensuring adherence to min_per_cat and, if specified, maintaining per-category totals unchanged throughout rebalancing.\",\n    \"Allocation modifications must adhere to the min/max per category constraints. If a proposed change would exceed these limits, adjust it to the closest permissible value or omit it, providing a deterministic justification (such as 'would_break_min_per_cat').\",\n    \"If instructions specify 'keep totals fixed', ensure that the total of allocations within the specified scope remains precisely the same after rounding is applied.\",\n    \"Rounding procedures must be deterministic. When allocations require rounding, perform rounding to whole currency units only after calculating the complete allocation, and resolve any remaining difference by assigning it to deterministic tie-break winners.\",\n    \"Budget writes are required to comply with per-adset constraints specified in policy_params: min_daily, max_daily, max_pct_step, min_abs_step, rounding increment, daily_change_limit, and cooldown_hours.\",\n    \"Prior to applying a budget change: (a) restrict the new value to the range [min_daily, max_daily\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi! Could you help me with preparing plan_soc_001 for the date 2025-08-13? I need to use the exact adset names from the database as a full-fidelity envelope, and it\u2019s important that the totals remain the same. Do you know where I should start?"
+      },
+      {
+        "content": "To prepare the plan `plan_soc_001` for the date `2025-08-13`, you'll need to follow these steps:\n\n1. **Retrieve Existing Adsets**: First, you need to get the adsets associated with the campaign that the plan will be based on. This will help you gather the necessary adset names and IDs.\n\n2. **Gather Allocations and Strategies**: You will need to determine the current allocations and strategies for each adset to ensure that the totals remain the same.\n\n3. **Compose the Plan**: Once you have the necessary information, you can compose the plan, ensuring that it includes the required fields such as allocations, strategies, creatives, adset mapping, and policy snapshot.\n\n4. **Validate the Plan**: Before freezing the plan, you will need to validate it against the policy parameters to ensure compliance.\n\n5. **Freeze the Plan**: Finally, you will freeze the plan to create a full-fidelity envelope.\n\nWould you like me to start by retrieving the adsets for the relevant campaign? If so, please provide the campaign name or ID.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I actually don't have the campaign name or ID at the moment. Is there another way I can gather the adsets needed for the plan?"
+      },
+      {
+        "content": "If you don't have the campaign name or ID, you can retrieve all available campaigns and their associated adsets. This way, you can identify the relevant adsets for your plan.\n\nWould you like me to retrieve all campaigns first? Once we have that information, we can proceed to gather the adsets associated with the desired campaign.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Yes, retrieving all campaigns first sounds like a good start. Let's do that."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"name\":\"\"}",
+              "name": "get_campaign_by_name"
+            },
+            "id": "call_HIIvvXfA0zHlwlE1RTspqvlG",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_HIIvvXfA0zHlwlE1RTspqvlG",
+        "name": "get_campaign_by_name",
+        "content": "Error: name '_require' is not defined"
+      },
+      {
+        "content": "It seems that I attempted to retrieve campaigns incorrectly. Unfortunately, I don't have a direct method to list all campaigns without a specific name. \n\nIf you have any specific criteria or details about the campaigns you might remember, please share them. Otherwise, if you have access to the campaign names or IDs from another source, that would be helpful. \n\nLet me know how you would like to proceed!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I don't have any specific criteria or details about the campaigns either. I might need to look into another source to find some campaign names or IDs. Once I have them, I'll get back to you. Thanks for your help so far!"
+      },
+      {
+        "content": "You're welcome! Feel free to reach out whenever you have the campaign names or IDs, and I'll be here to assist you with preparing the plan. Good luck, and have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you! I'll get started on finding that information, and I'll contact you again when I'm ready. Have a great day as well! ###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

@@ -2,7 +2,7 @@ from tau_bench.types import Action, Task
 
 TASKS = [
 
-    # Customer Service
+    # Client Support
 
     Task(
         annotator="lucas",
@@ -20,7 +20,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Product Management
+    # Product Oversight
 
     Task(
         annotator="lucas",
@@ -37,7 +37,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Omnichannel Customer Journey
+    # Unified Customer Experience Across Channels
 
     Task(
         annotator="lucas",
@@ -67,7 +67,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Inventory Management
+    # Stock Control
 
     Task(
         annotator="lucas",
@@ -86,7 +86,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Sales Operations
+    # Sales Operations Management
 
     Task(
         annotator="lucas",
@@ -105,7 +105,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Product Category Management
+    # Management of Product Categories
 
     Task(
         annotator="lucas",
@@ -125,7 +125,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Return Processing
+    # Processing Returns
 
     Task(
         annotator="lucas",
@@ -144,7 +144,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Return Management
+    # Return Control
 
     Task(
         annotator="lucas",
@@ -162,7 +162,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Product Inventory Management
+    # Inventory Control for Products
 
     Task(
         annotator="lucas",
@@ -180,7 +180,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Product Category Management
+    # Management of Product Categories
     Task(
         annotator="lucas",
         user_id="lucas_task_010_product_category",
@@ -197,7 +197,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Return Processing Management
+    # Management of Return Processing
 
     Task(
         annotator="lucas",
@@ -216,7 +216,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Advanced Customer Analytics
+    # Sophisticated Client Data Analysis
 
     Task(
         annotator="lucas",
@@ -261,7 +261,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Strategic Inventory Management
+    # Tactical Stock Control
 
     Task(
         annotator="lucas",
@@ -308,7 +308,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Inventory Restocking Management
+    # Inventory Replenishment Control
 
     Task(
         annotator="lucas",
@@ -328,7 +328,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Sales
+    # Revenue generation
 
     Task(
         annotator="lucas",
@@ -347,7 +347,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Employee Performance Management
+    # Staff Performance Evaluation
 
     Task(
         annotator="lucas",
@@ -355,22 +355,22 @@ TASKS = [
         instruction="Retrieve employee details for EMP-1002. If EMP-1002 is currently inactive, change status to 'active'. Introduce new employee Lisa Martinez as Sales Associate at STORE-001 whose phone number is +1-555-210-1015 and email is lisa.martinez@retailpos.com. If EMP-1003 is present, eliminate employee EMP-1003. Retrieve employee details for EMP-1008 to confirm the final state, and update employee status for EMP-1008 to 'active'.",
         actions=[
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1002"}),
-            # if EMP-1002 is not currently active:
+            # if EMP-1002 is inactive:
             Action(name="UpdateEmployeeStatus", kwargs={"employee_id": "EMP-1002", "new_status": "active"}),
             Action(name="AddEmployee", kwargs={"name": "Lisa Martinez", "role": "Sales Associate", "store_id": "STORE-001", "email": "lisa.martinez@retailpos.com", "phone_number": "+1-555-210-1015"}),
             Action(name="ListAllEmployees", kwargs={}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1003"}),
-            # if EMP-1003 exists:
+            # if EMP-1003 is present:
             Action(name="RemoveEmployee", kwargs={"employee_id": "EMP-1003"}),
             Action(name="ListAllEmployees", kwargs={}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1008"}),
-            # always update EMP-1008 to active:
+            # consistently set EMP-1008 to active:
             Action(name="UpdateEmployeeStatus", kwargs={"employee_id": "EMP-1008", "new_status": "active"})
         ],
         outputs=[]
     ),
 
-    # Customer Segmentation Analysis
+    # Analysis of Customer Segmentation
 
     Task(
         annotator="lucas",
@@ -391,7 +391,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Innovation Growth Strategy
+    # Strategy for Growth through Innovation
 
     Task(
         annotator="lucas",
@@ -400,19 +400,19 @@ TASKS = [
         actions=[
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1002"}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1003"}),
-            # if EMP-1003 is active:
+            # when EMP-1003 is enabled:
             Action(name="RemoveEmployee", kwargs={"employee_id": "EMP-1003"}),
             Action(name="AddEmployee", kwargs={"name": "Sarah Wilson", "role": "Sales Associate", "store_id": "STORE-001", "email": "sarah.wilson@retailpos.com", "phone_number": "+1-555-210-1016"}),
             Action(name="ListAllEmployees", kwargs={}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1004"}),
-            # if EMP-1004 is not already on_leave:
+            # if EMP-1004 is not currently on leave:
             Action(name="UpdateEmployeeStatus", kwargs={"employee_id": "EMP-1004", "new_status": "on_leave"}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1008"})
         ],
         outputs=[]
     ),
 
-    # Inventory Audit and Reconciliation
+    # Stock Verification and Reconciliation
 
     Task(
         annotator="lucas",
@@ -428,7 +428,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Customer Lifecycle Management
+    # Management of the customer lifecycle
 
     Task(
         annotator="lucas",
@@ -445,7 +445,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Employee Management
+    # Staff Administration
 
     Task(
         annotator="lucas",
@@ -453,23 +453,23 @@ TASKS = [
         instruction="Retrieve employee details for EMP-1003. Should the employee status not be 'active', change it to 'active'. Enumerate all employees and count how many are present in STORE-001. If more than 2 employees work in STORE-001, introduce new employee Michael Brown as Sales Associate at STORE-002 with email michael.brown@retailpos.com and phone +1-555-210-2002. If EMP-1004 is present and has 'active' status, terminate employee EMP-1004. List all employees again and check for the existence of EMP-1008. If EMP-1008 exists and is 'active', modify the status of employee EMP-1008 to 'on_leave'. Finally, list all employees to confirm the final status.",
         actions=[
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1003"}),
-            # if status != 'active':
+            # if status is not 'active':
             Action(name="UpdateEmployeeStatus", kwargs={"employee_id": "EMP-1003", "new_status": "active"}),
             Action(name="ListAllEmployees", kwargs={}),
             Action(name="AddEmployee", kwargs={"name": "Michael Brown", "role": "Sales Associate", "store_id": "STORE-002", "email": "michael.brown@retailpos.com", "phone_number": "+1-555-210-2002"}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1004"}),
-            # if EMP-1004 exists and status == 'active':
+            # if EMP-1004 is present and status is 'active':
             Action(name="RemoveEmployee", kwargs={"employee_id": "EMP-1004"}),
             Action(name="ListAllEmployees", kwargs={}),
             Action(name="GetEmployeeDetails", kwargs={"employee_id": "EMP-1008"}),
-            # if EMP-1008 exists and status == 'active':
+            # if EMP-1008 is present and status is 'active':
             Action(name="UpdateEmployeeStatus", kwargs={"employee_id": "EMP-1008", "new_status": "on_leave"}),
             Action(name="ListAllEmployees", kwargs={})
         ],
         outputs=[]
     ),
 
-    # Multi Store Operations
+    # Multiple Store Management
 
     Task(
         annotator="lucas",
@@ -491,7 +491,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Sales Performance Analytics
+    # Sales Performance Analysis
 
     Task(
         annotator="lucas",
@@ -513,7 +513,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Multi Product Sales
+    # Multiple Product Transactions
 
     Task(
         annotator="lucas",
@@ -521,23 +521,23 @@ TASKS = [
         instruction="Retrieve inventory for ELEC-4KTV55. If current stock is below 20, modify it to 15. Get product specifics for AUDIO-BTSPKR02. If the current price is below $140, adjust it to $139.99. Collect sales analytics for the date 2025-06-05. If the sales total surpasses $1000, increase customer loyalty points for CUST-5005 by adding 75 points. Seek customer details for CUST-5005. If this customer has fewer than 400 loyalty points, add 50 more points. Enumerate low stock products with a threshold of 10 to assess inventory needs.",
         actions=[
             Action(name="GetInventoryLevel", kwargs={"sku": "ELEC-4KTV55"}),
-            # if current_stock < 20:
+            # if current_stock is less than 20:
             Action(name="UpdateProductStock", kwargs={"sku": "ELEC-4KTV55", "new_stock_quantity": 15}),
             Action(name="GetProductDetailsBySku", kwargs={"sku": "AUDIO-BTSPKR02"}),
-            # if current_price < 140:
+            # if current_price is less than 140:
             Action(name="UpdateProductPrice", kwargs={"sku": "AUDIO-BTSPKR02", "new_price": 139.99}),
             Action(name="GetTotalSalesByDate", kwargs={"date": "2025-06-05"}),
-            # if sales_total > 1000:
+            # if sales_total exceeds 1000:
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5005", "points_to_add": 75}),
             Action(name="GetCustomerDetails", kwargs={"customer_id": "CUST-5005"}),
-            # if customer.loyalty_points < 400:
+            # if customer.loyalty_points is less than 400:
             Action(name="UpdateCustomerLoyaltyPoints", kwargs={"customer_id": "CUST-5005", "points_to_add": 50}),
             Action(name="ListLowStockProducts", kwargs={"threshold": 10})
         ],
         outputs=[]
     ),
 
-    # Cross-Segment Loyalty Optimization
+    # Optimizing Loyalty Across Segments
 
     Task(
         annotator="lucas",
@@ -557,7 +557,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Inventory Management Complex
+    # Complex Inventory Management
     Task(
         annotator="lucas",
         user_id="lucas_task_026_inventory_complex",
@@ -576,7 +576,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Customer Account Management
+    # Client Account Administration
 
     Task(
         annotator="lucas",
@@ -596,7 +596,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Multi Store Employee Coordination
+    # Coordination of Employees Across Multiple Stores
 
     Task(
         annotator="lucas",
@@ -615,7 +615,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Complex Sales Transaction
+    # Intricate Sales Deal
 
     Task(
         annotator="lucas",
@@ -635,7 +635,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Advanced Customer Management
+    # Sophisticated Client Administration
 
     Task(
         annotator="lucas",
@@ -655,7 +655,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Inventory Optimization
+    # Inventory Efficiency Improvement
     Task(
         annotator="lucas",
         user_id="lucas_task_031_inventory_optimization",
@@ -674,7 +674,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Employee Training Program
+    # Staff Development Initiative
 
     Task(
         annotator="lucas",
@@ -694,7 +694,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Multi Category Sales Analysis
+    # Analysis of Sales Across Multiple Categories
 
     Task(
         annotator="lucas",
@@ -714,7 +714,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Comprehensive Store Audit
+    # Thorough Inventory Evaluation
     Task(
         annotator="lucas",
         user_id="lucas_task_034_comprehensive_audit",
@@ -735,7 +735,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Customer Relationship Management
+    # Client Relationship Management
 
     Task(
         annotator="lucas",
@@ -754,7 +754,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Inventory Rebalancing Strategy
+    # Stock Redistribution Approach
 
     Task(
         annotator="lucas",
@@ -773,7 +773,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Customer Data Migration
+    # Migration of Customer Data
 
     Task(
         annotator="lucas",
@@ -795,7 +795,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Staff Reorganization Management
+    # Employee Restructuring Oversight
 
     Task(
         annotator="lucas",
@@ -814,7 +814,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Complex Return Processing
+    # Intricate Return Handling
 
     Task(
         annotator="lucas",
@@ -834,7 +834,7 @@ TASKS = [
         outputs=[]
     ),
 
-       # Product Expansion Strategy
+       # Strategy for Product Growth
 
     Task(
         annotator="lucas",
@@ -856,7 +856,7 @@ TASKS = [
         outputs=[]
     ),
 
-     # Seasonal Inventory Management
+     # Inventory Control for Seasonal Demand
 
     Task(
         annotator="lucas",
@@ -875,7 +875,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Employee Performance Review
+    # Staff Evaluation Assessment
     Task(
         annotator="lucas",
         user_id="lucas_task_042_performance_review",
@@ -895,7 +895,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Cross Category Sales Campaign
+    # Intercategory Sales Initiative
 
     Task(
         annotator="lucas",
@@ -915,7 +915,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Employee Management
+    # Staff Administration
 
     Task(
         annotator="lucas",
@@ -934,7 +934,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Advanced Transaction Management
+    # Sophisticated Transaction Control
 
     Task(
         annotator="lucas",
@@ -955,7 +955,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Comprehensive Business Intelligence
+    # Holistic Business Analytics
 
     Task(
         annotator="lucas",
@@ -978,7 +978,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Strategic Resource Reallocation
+    # Tactical Resource Redistribution
 
     Task(
         annotator="lucas",
@@ -999,7 +999,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Customer Journey Optimization
+    # Enhancing the Customer Experience Pathway
 
     Task(
         annotator="lucas",
@@ -1019,7 +1019,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Workforce Development Program
+    # Employee Training Initiative
 
     Task(
         annotator="lucas",
@@ -1038,7 +1038,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Advanced Return Processing
+    # Enhanced Return Handling
     Task(
         annotator="lucas",
         user_id="lucas_task_050_advanced_return",
@@ -1064,7 +1064,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Product Innovation Strategy
+    # Strategy for Product Innovation
 
     Task(
         annotator="lucas",
@@ -1090,7 +1090,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Supply Chain Optimization
+    # Supply Chain Enhancement
 
     Task(
         annotator="lucas",
@@ -1108,7 +1108,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Employee Excellence Program
+    # Staff Performance Improvement Initiative
 
     Task(
         annotator="lucas",
@@ -1128,7 +1128,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Market Expansion Strategy
+    # Strategy for Market Growth
 
     Task(
         annotator="lucas",
@@ -1151,7 +1151,7 @@ TASKS = [
 
 
 
-    # Customer Experience Enhancement
+    # Improvement of Customer Experience
 
     Task(
         annotator="lucas",
@@ -1171,7 +1171,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Operational Excellence Audit
+    # Operational Efficiency Assessment
 
     Task(
         annotator="lucas",
@@ -1192,7 +1192,7 @@ TASKS = [
 
 
 
-    # Comprehensive Business Analytics
+    # In-depth Business Analytics
 
     Task(
         annotator="lucas",
@@ -1215,7 +1215,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Strategic Portfolio Management
+    # Strategic Asset Management
     Task(
         annotator="lucas",
         user_id="lucas_task_058_product_expansion",
@@ -1232,7 +1232,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Premium Customer Onboarding
+    # High-Tier Client Integration
 
     Task(
         annotator="lucas",
@@ -1250,7 +1250,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Supply Chain Optimization
+    # Supply Chain Efficiency Enhancement
     Task(
         annotator="lucas",
         user_id="lucas_task_060_innovation_growth",
@@ -1268,7 +1268,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Strategic Customer Portfolio
+    # Targeted Client Portfolio
 
     Task(
         annotator="lucas",
@@ -1287,7 +1287,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Multi Store Employee Operations
+    # Operations for Employees Across Multiple Stores
 
     Task(
         annotator="lucas",
@@ -1305,7 +1305,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Seasonal Inventory Adjustment
+    # Adjustment of Inventory Based on Seasonal Trends
 
     Task(
         annotator="lucas",
@@ -1323,7 +1323,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Supply Chain Optimization
+    # Supply Chain Efficiency Improvement
 
     Task(
         annotator="lucas",
@@ -1342,7 +1342,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Strategic Customer Portfolio
+    # Strategic Client Portfolio
 
     Task(
         annotator="lucas",
@@ -1366,7 +1366,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Customer Loyalty Management
+    # Management of Customer Loyalty
 
     Task(
         annotator="lucas",
@@ -1389,7 +1389,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Employee Performance Management
+    # Management of Employee Performance
     Task(
         annotator="lucas",
         user_id="lucas_task_067_employee_performance_management",
@@ -1410,7 +1410,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Customer Relationship Excellence
+    # Exceptional Customer Relationship Management
     Task(
         annotator="lucas",
         user_id="lucas_task_068_strategic_portfolio",
@@ -1436,7 +1436,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Strategic Inventory Optimization
+    # Tactical Inventory Enhancement
 
     Task(
         annotator="lucas",
@@ -1458,7 +1458,7 @@ TASKS = [
     ),
 
 
-    # Store Operations Management
+    # Management of Store Operations
 
     Task(
         annotator="lucas",
@@ -1479,7 +1479,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Advanced Customer Management
+    # Enhanced Client Administration
 
     Task(
         annotator="lucas",
@@ -1499,7 +1499,7 @@ TASKS = [
     ),
 
 
-    # Customer Relationship Building
+    # Establishing Customer Relationships
 
     Task(
         annotator="lucas",
@@ -1519,7 +1519,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Advanced Inventory Rebalancing
+    # Sophisticated Inventory Redistribution
 
     Task(
         annotator="lucas",
@@ -1541,7 +1541,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Multi Department Staff Reorganization
+    # Reorganization of Staff Across Multiple Departments
     Task(
         annotator="lucas",
         user_id="lucas_task_074_staff_reorganization",
@@ -1560,7 +1560,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Product Line Expansion
+    # Expansion of Product Range
 
     Task(
         annotator="lucas",
@@ -1582,7 +1582,7 @@ TASKS = [
     ),
 
 
-    # Multi Store Product Distribution
+    # Distribution of Products Across Multiple Stores
 
     Task(
         annotator="lucas",
@@ -1602,7 +1602,7 @@ TASKS = [
     ),
 
 
-    # Strategic Inventory Reallocation
+    # Tactical Inventory Redistribution
 
     Task(
         annotator="lucas",
@@ -1624,7 +1624,7 @@ TASKS = [
     ),
 
 
-    # Workforce Development Initiative
+    # Employee Training Program
 
     Task(
         annotator="lucas",
@@ -1644,7 +1644,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Product Innovation Pipeline
+    # New Product Development Process
 
     Task(
         annotator="lucas",
@@ -1665,7 +1665,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Market Expansion Strategy
+    # Growth Strategy for Market Reach
 
     Task(
         annotator="lucas",
@@ -1686,7 +1686,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Customer Experience Enhancement
+    # Improving Customer Experience
 
     Task(
         annotator="lucas",
@@ -1707,7 +1707,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Innovation and Growth Strategy
+    # Strategy for Innovation and Growth
 
     Task(
         annotator="lucas",
@@ -1727,7 +1727,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Employee Performance
+    # Staff Performance
 
     Task(
         annotator="lucas",
@@ -1748,7 +1748,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Store Operations Management
+    # Management of Store Operations
 
     Task(
         annotator="lucas",
@@ -1769,7 +1769,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Advanced Customer Management
+    # Sophisticated Client Administration
 
     Task(
         annotator="lucas",
@@ -1788,7 +1788,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Advanced Customer Relationship Management
+    # Sophisticated Customer Relationship Management
 
     Task(
         annotator="lucas",
@@ -1818,7 +1818,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Advanced Inventory Rebalancing
+    # Sophisticated Inventory Redistribution
 
     Task(
         annotator="lucas",
@@ -1849,7 +1849,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Multi Department Staff Reorganization
+    # Reorganization of Staff Across Multiple Departments
     Task(
         annotator="lucas",
         user_id="lucas_task_088_staff_reorganization",
@@ -1868,7 +1868,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Product Line Expansion
+    # Expansion of Product Range
 
     Task(
         annotator="lucas",
@@ -1889,7 +1889,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Workforce Development Initiative
+    # Employee Training Program
 
     Task(
         annotator="lucas",
@@ -1909,7 +1909,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Product Innovation Pipeline
+    # Product Development Workflow
 
     Task(
         annotator="lucas",
@@ -1933,7 +1933,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Innovation and Growth Strategy
+    # Strategy for Innovation and Growth
     Task(
         annotator="lucas",
         user_id="lucas_task_093_strategic_portfolio",
@@ -1953,7 +1953,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Inventory Optimization
+    # Inventory Enhancement
 
     Task(
         annotator="lucas",
@@ -1979,7 +1979,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Advanced Employee Performance Management
+    # Enhanced Employee Performance Evaluation
 
     Task(
         annotator="lucas",
@@ -2007,7 +2007,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Advanced Customer Relationship Management
+    # Sophisticated Client Relationship Management
 
     Task(
         annotator="lucas",
@@ -2030,7 +2030,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Strategic Product Portfolio Management
+    # Tactical Management of Product Portfolio
 
     Task(
         annotator="lucas",
@@ -2054,7 +2054,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Strategic Product Development Innovation
+    # Innovative Development of Strategic Products
 
     Task(
         annotator="lucas",
@@ -2081,7 +2081,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Strategic Market Analysis Intelligence
+    # Strategic Market Insight Analysis
 
     Task(
         annotator="lucas",
@@ -2109,7 +2109,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Advanced Customer Success Retention
+    # Enhanced Customer Success Retention
 
     Task(
         annotator="lucas",
@@ -2133,7 +2133,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Strategic Business Intelligence Analytics
+    # Tactical Business Insight Analytics
 
     Task(
         annotator="lucas",
@@ -2159,7 +2159,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Strategic Digital Transformation
+    # Tactical Digital Evolution
 
     Task(
         annotator="lucas",
@@ -2187,7 +2187,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Advanced Operational Excellence
+    # Enhanced Operational Efficiency
 
     Task(
         annotator="lucas",
@@ -2211,7 +2211,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # Sales Analytics
+    # Sales Data Analysis
 
     Task(
         annotator="lucas",

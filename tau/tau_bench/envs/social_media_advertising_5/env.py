@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from tau_bench.envs.base import Env
 from tau_bench.envs.social_media_advertising_5.data import load_data

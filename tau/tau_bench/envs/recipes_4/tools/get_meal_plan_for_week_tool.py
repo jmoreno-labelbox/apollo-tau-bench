@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -47,7 +47,7 @@ class GetMealPlanForWeekTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the fully detailed and hydrated meal plan object.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Values
         param_definitions = {
             "meal_plan_id": {"type": int, "required": True}
         }
@@ -57,7 +57,7 @@ class GetMealPlanForWeekTool(Tool):
 
         meal_plan_id = kwargs["meal_plan_id"]
 
-        # 2. Data Retrieval: Find the base meal plan object
+        # 2. Data Acquisition: Locate the primary meal plan object
         meal_plan_record = next(
             (p for p in data.get("meal_plans", []) if p.get("meal_plan_id") == meal_plan_id),
             None
@@ -66,7 +66,7 @@ class GetMealPlanForWeekTool(Tool):
         if not meal_plan_record:
             return _build_error_response("NOT_FOUND", {"entity": "MealPlan", "entity_id": meal_plan_id})
 
-        # 3. Data Enrichment (Hydration): Fetch and enrich plan entries
+        # 3. Data Enrichment (Hydration): Retrieve and enhance plan records.
         plan_entries = [
             e for e in data.get("meal_plan_entries", []) if e.get("meal_plan_id") == meal_plan_id
         ]
@@ -82,12 +82,12 @@ class GetMealPlanForWeekTool(Tool):
             enriched_entry["recipe_title"] = recipe_info.get("recipe_title") if recipe_info else "Unknown Recipe"
             enriched_entries.append(enriched_entry)
 
-        # Sort entries by date for a logical view
+        # Organize entries chronologically for better clarity.
         enriched_entries.sort(key=lambda x: x.get("plan_date", ""))
 
-        # 4. Build the final response object
+        # 4. Construct the final response object.
         detailed_plan = meal_plan_record.copy()
         detailed_plan["entries"] = enriched_entries
 
-        # 5. Return the standardized success response
+        # 5. Provide the uniform success response.
         return _build_success_response(detailed_plan)

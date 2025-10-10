@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -30,7 +30,7 @@ class EscalateTask(Tool):
                     "already_escalated": True,
                     "message": f"Task '{task_id}' is already escalated",
                     "existing_escalation_id": task.get("escalation_id"),
-                    # "new_escalation_created": False,
+                    # "escalation_created": False,
                 }
             )
 
@@ -58,7 +58,7 @@ class EscalateTask(Tool):
                 "success": True,
                 "escalation": escalation,
                 "task_priority": task["priority"],
-                # "new_escalation_created": True,
+                # "escalation_initiated": True,
             }
         )
 

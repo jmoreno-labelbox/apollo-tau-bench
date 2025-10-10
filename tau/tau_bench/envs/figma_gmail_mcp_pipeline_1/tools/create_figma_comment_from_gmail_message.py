@@ -1,25 +1,25 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class CreateFigmaCommentFromGmailMessage(Tool):  # WRITE
+class CreateFigmaCommentFromGmailMessage(Tool):  # Please provide the comment you'd like me to paraphrase.
     @staticmethod
     def invoke(
         data: Dict[str, Any],
         artifact_id: str,
         gmail_message_id: str,
     ) -> str:
-        # Validate input
+        # Verify input correctness.
         if not isinstance(artifact_id, str) or not artifact_id:
             return json.dumps({"error": "artifact_id must be a non-empty string"})
         if not isinstance(gmail_message_id, str) or not gmail_message_id:
             return json.dumps({"error": "gmail_message_id must be a non-empty string"})
         gmail_messages = data.get("gmail_messages", [])
         figma_comments = data.get("figma_comments", [])
-        # Find the gmail message
+        # Locate the Gmail message.
         gmail_msg = next((m for m in gmail_messages if m.get("message_id") == gmail_message_id), None)
         if not gmail_msg:
             return json.dumps({"error": "gmail_message_id not found in gmail_messages"})
@@ -27,7 +27,7 @@ class CreateFigmaCommentFromGmailMessage(Tool):  # WRITE
         comment_text = gmail_msg.get("body_text_stripped")
         next_num = len(figma_comments) + 1
         comment_id = f"comment_{next_num:03d}"
-        created_ts = "2025-08-26T12:00:00Z"  # Use current date/time in production
+        created_ts = "2025-08-26T12:00:00Z"  # Utilize the current date and time in the production environment.
         new_comment = {
             "comment_id": comment_id,
             "artifact_id": artifact_id,

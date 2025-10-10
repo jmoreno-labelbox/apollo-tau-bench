@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,13 +11,13 @@ class UpdateUserSubscriptions(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         user_id = kwargs.get('user_id')
         topic = kwargs.get('topic')
-        action = kwargs.get('action', 'add')  # 'add' or 'remove'
+        action = kwargs.get('action', 'add')  # 'include' or 'exclude'
         if not user_id or not topic:
             return json.dumps({"error": "user_id and topic are required."})
 
         subscriptions = list(data.get('subscriptions', {}).values())
         if action.lower() == 'add':
-            # Check if subscription already exists
+            # Verify if the subscription is already present.
             for sub in subscriptions:
                 if sub.get('user_id') == user_id and sub.get('topic', '').lower() == topic.lower():
                     return json.dumps({"success": True, "message": "User is already subscribed to this topic."})

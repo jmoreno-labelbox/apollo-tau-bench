@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -34,7 +34,7 @@ class AppendMessageToThreadTool(Tool):
         else:
             messages.append(row)
 
-        # Mark thread updated_ts
+        # Update the timestamp for the thread.
         threads = _safe_table(data, "gmail_threads")
         t_idx = _index_by(threads, "thread_id")
         if thread_id in t_idx:

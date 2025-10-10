@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class ListAllSuppliers(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         suppliers = data['suppliers']
 
-        # Return basic supplier info without detailed inventory
+        # Provide fundamental supplier details excluding comprehensive inventory data.
         supplier_list = []
         for supplier in suppliers:
             supplier_list.append({

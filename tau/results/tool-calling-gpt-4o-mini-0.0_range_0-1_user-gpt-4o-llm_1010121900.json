@@ -1,0 +1,258 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "task": {
+        "user_id": "TASK_95",
+        "actions": [
+          {
+            "name": "searchProductsByCategory",
+            "kwargs": {
+              "category": "Running Shoes"
+            }
+          },
+          {
+            "name": "createPromotionalCampaign",
+            "kwargs": {
+              "campaign_name": "Spring Running Season",
+              "target_category": "Running Shoes",
+              "discount_percentage": 30
+            }
+          },
+          {
+            "name": "getTopSellingProducts",
+            "kwargs": {
+              "category": "Running Shoes"
+            }
+          },
+          {
+            "name": "updateProductPrice",
+            "kwargs": {
+              "product_id": "6938111410",
+              "item_id": "4153505238",
+              "new_price": 200
+            }
+          }
+        ],
+        "instruction": "Initiate a seasonal campaign by searching for Running Shoes products. Develop a promotional campaign titled 'Spring Running Season' offering a 30% discount, identify the top-selling items in this category, and adjust the price of the highest priced item in this category to $200.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0016650000000000002,
+      "reward_info": {
+        "reward": 0.0,
+        "info": {
+          "r_actions": 0.0,
+          "gt_data_hash": "9bee2e0e116e51216d276cdcba38c6dbc51249c64a66dca75c12e2fe97c1b9c5"
+        },
+        "actions": [
+          {
+            "name": "searchProductsByCategory",
+            "kwargs": {
+              "category": "Running Shoes"
+            }
+          },
+          {
+            "name": "createPromotionalCampaign",
+            "kwargs": {
+              "campaign_name": "Spring Running Season",
+              "target_category": "Running Shoes",
+              "discount_percentage": 30
+            }
+          },
+          {
+            "name": "getTopSellingProducts",
+            "kwargs": {
+              "category": "Running Shoes"
+            }
+          },
+          {
+            "name": "updateProductPrice",
+            "kwargs": {
+              "product_id": "6938111410",
+              "item_id": "4153505238",
+              "new_price": 200
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"You serve as a specialist in retail operations, focusing on e-commerce order management, inventory oversight, customer support, and supply chain processes.\",\n    \"Consistently authenticate customer identity by utilizing user_id.\",\n    \"Prior to confirming orders or handling exchanges, ensure product availability, review stock levels, and examine variant options to avoid overselling and stock shortages.\",\n    \"Ensure that detailed audit logs are kept for every order transaction, inventory modification, and customer interaction, capturing accurate timestamps and recording user actions.\",\n    \"Adhere to rigorous product compliance by checking product availability, confirming the accuracy of pricing, and verifying correct item categorization within the catalog.\",\n    \"The platform accommodates various payment methods such as credit cards (credit_card), PayPal (paypal), and gift cards (gift_card). Always verify the payment status prior to completing any order.\",\n    \"You are permitted to access the retail database, which holds data on products, orders, users, suppliers, couriers, tracking, and supply orders.\",\n    \"For any operation, you are required to utilize the corresponding tool (API) that matches the intended action: retrieving data, creating new entries, modifying current records, or handling inventory.\",\n    \"Consistently refer to the available tools to identify the proper method for accessing or altering the retail system's database.\",\n    \"Do not create, infer, or generate any information that has not been directly supplied by the user or obtained from the tools. Treat the tools as the definitive source of truth. Always consider the information provided by the tools to be accurate and do not challenge it.\",\n    \"Perform no more than one tool call at any given time, and when initiating a tool call, refrain from responding to the user concurrently.\",\n    \"Guarantee effective coordination among order fulfillment, shipping carriers, and tracking systems to provide a smooth customer experience.\",\n    \"Carefully manage product variants by verifying specific item_ids, colors, sizes, and other relevant attributes to prevent the shipment of incorrect items.\",\n    \"Track the status of payment processing and work with payment providers to quickly address any transaction problems.\",\n    \"If multiple products, items, or couriers satisfy the specified criteria and a single selection is required, select the one with the lowest ID as the tiebreaker.\",\n    \"Multiple orders may share the same id, and it is also permissible for several supply orders to have identical ids.\",\n    \"The actions create_supply_order and create_pending_supply_order will consistently generate deterministic order ids.\",\n    \"To generate recommendations, simply invoke the create_recommendations API, which will automatically determine the appropriate number of recommendations to return. The add_payment_method_to_user action will always produce a deterministic payment_method_id by appending the id fd520c73 to the payment method. Remember that all ids and any data produced by the tools or API calls are deterministic.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi there! I'm looking to start a seasonal campaign focusing on running shoes. Could you help me find the products within that category?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"category\":\"running shoes\"}",
+              "name": "search_products_by_category"
+            },
+            "id": "call_MqK7b1f45UFgSNb6pZqrDDe5",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_MqK7b1f45UFgSNb6pZqrDDe5",
+        "name": "search_products_by_category",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems there was an issue retrieving the products in the running shoes category. Let me try that again.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"category\":\"running shoes\"}",
+              "name": "search_products_by_category"
+            },
+            "id": "call_kpMbg6ASvBYxheGx5rAoOKpi",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_kpMbg6ASvBYxheGx5rAoOKpi",
+        "name": "search_products_by_category",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It appears that I'm currently unable to retrieve the products in the running shoes category due to a technical issue. Unfortunately, I can't proceed with the search at this moment.\n\nIf you have any specific requirements or details about the campaign, please let me know, and I can assist you in other ways!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "I understand. Let's move on to creating the 'Spring Running Season' campaign instead. Could you help me with setting up a 30% discount for this campaign?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"campaign_name\":\"Spring Running Season\",\"target_category\":\"running shoes\",\"discount_percentage\":30}",
+              "name": "create_promotional_campaign"
+            },
+            "id": "call_jyfrhfyy0GlzaO9xiqgsaBnU",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_jyfrhfyy0GlzaO9xiqgsaBnU",
+        "name": "create_promotional_campaign",
+        "content": "Error: name 'get_current_timestamp' is not defined"
+      },
+      {
+        "content": "It seems there was an error while trying to create the promotional campaign. Unfortunately, I'm unable to set up the campaign at this moment due to a technical issue.\n\nIf there's anything else you would like to do or if you have other questions, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No worries. Could you assist me in identifying the top-selling items in the running shoes category?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"category\":\"running shoes\"}",
+              "name": "get_top_selling_products"
+            },
+            "id": "call_jGOyEpqbobavB8PrmsMQxUxV",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_jGOyEpqbobavB8PrmsMQxUxV",
+        "name": "get_top_selling_products",
+        "content": "Error: string indices must be integers, not 'str'"
+      },
+      {
+        "content": "It seems that I'm currently facing issues retrieving the top-selling items in the running shoes category as well. Unfortunately, I can't proceed with that request at this moment.\n\nIf there's anything else you would like to explore or any other assistance you need, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alright, can we try adjusting the price of the highest priced running shoe to $200?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"limit\":1,\"category\":\"running shoes\"}",
+              "name": "get_top_selling_products"
+            },
+            "id": "call_zFlg10h8UyUzOiSUJAh9fW1f",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_zFlg10h8UyUzOiSUJAh9fW1f",
+        "name": "get_top_selling_products",
+        "content": "Error: string indices must be integers, not 'str'"
+      },
+      {
+        "content": "It appears that I'm unable to retrieve the top-selling products or their details at this time due to a technical issue. Unfortunately, I can't proceed with adjusting the price of the highest-priced running shoe.\n\nIf you have any other requests or need assistance with something else, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Thank you for trying to help. I'll reach out for support later. Have a great day!"
+      },
+      {
+        "content": "You're welcome! I'm sorry I couldn't assist you fully today. If you need help in the future, don't hesitate to reach out. Have a wonderful day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

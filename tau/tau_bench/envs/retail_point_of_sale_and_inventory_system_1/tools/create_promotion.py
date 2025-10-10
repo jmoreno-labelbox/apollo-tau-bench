@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,10 +19,10 @@ class CreatePromotion(Tool):
         usage_limit = kwargs.get('usage_limit')
         times_used = kwargs.get('times_used')
 
-        promotions = data.get("promotions", [])  # Mudei para lista []
+        promotions = data.get("promotions", [])  # Alterei para uma lista [].
 
         max_promotion_id_num = 0
-        for promo in promotions:  # Itera direto na lista
+        for promo in promotions:  # Percorra a lista diretamente.
             if isinstance(promo.get("promotion_id"), str):
                 match = re.match(r"PROMO-(\d+)", promo["promotion_id"])
                 if match:
@@ -31,7 +31,7 @@ class CreatePromotion(Tool):
                         max_promotion_id_num = num
 
         next_promotion_id_num = max_promotion_id_num + 1
-        new_promotion_id = f"PROMO-{next_promotion_id_num:03d}"  # Garante 3 dígitos com zeros à esquerda
+        new_promotion_id = f"PROMO-{next_promotion_id_num:03d}"  # Assegura que haja 3 dígitos, preenchendo com zeros à esquerda.
 
         new_promotion = {
             "promotion_id": new_promotion_id,
@@ -47,7 +47,7 @@ class CreatePromotion(Tool):
             "times_used": times_used
         }
 
-        promotions.append(new_promotion)  # Adiciona à lista
+        promotions.append(new_promotion)  # Insere na lista
         data["promotions"] = promotions
         return json.dumps({"promotion_id": new_promotion_id})
 

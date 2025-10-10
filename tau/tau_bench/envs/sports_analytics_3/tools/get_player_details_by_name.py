@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class GetPlayerDetailsByName(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         full_name = kwargs.get("full_name")
 
-        # 1) Validate
+        # 1) Verify
         if not full_name:
             return json.dumps({"error": "Missing required field: full_name"}, indent=2)
 
-        # 2) Get DB from passed-in data
+        # 2) Retrieve the database from the provided data.
         players = list(data.get("players", {}).values())
 
-        # 3) Exact match lookup (no normalization)
+        # 3) Direct match search (without normalization)
         for player in players:
             if player.get("full_name") == full_name:
                 return json.dumps(player, indent=2)

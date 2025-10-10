@@ -1,18 +1,18 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class UpdateReviewCycleStatus(Tool):  # WRITE
+class UpdateReviewCycleStatus(Tool):  # GENERATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
         cycle_id: str,
         new_status: str
     ) -> str:
-        # Validate input
+        # Verify input correctness.
         if not isinstance(cycle_id, str) or not cycle_id:
             return json.dumps({"error": "cycle_id must be a non-empty string"})
 
@@ -22,7 +22,7 @@ class UpdateReviewCycleStatus(Tool):  # WRITE
 
         review_cycles = data.get("review_cycles", [])
 
-        # Find the review cycle to update
+        # Locate the review cycle for updates.
         cycle_found = False
         for cycle in review_cycles:
             if cycle.get("cycle_id") == cycle_id:
@@ -30,7 +30,7 @@ class UpdateReviewCycleStatus(Tool):  # WRITE
                 old_status = cycle.get("status")
                 cycle["status"] = new_status
 
-                # If status is changing to ESCALATED, set escalated timestamp
+                # When the status changes to ESCALATED, update the escalated timestamp.
                 if new_status == "ESCALATED" and old_status != "ESCALATED":
                     cycle["escalated_ts_nullable"] = "2025-08-26T12:00:00Z"
                 elif new_status != "ESCALATED":

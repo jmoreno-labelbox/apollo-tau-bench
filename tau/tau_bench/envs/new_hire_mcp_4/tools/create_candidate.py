@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright notice
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,7 +22,7 @@ class CreateCandidate(Tool):
         if not c["candidate_id"]:
             return json.dumps({"error": "missing_candidate_id"}, indent=2)
         data.setdefault("candidates", [])
-        # upsert by candidate_id
+        # insert or update based on candidate_id
         for i, existing in enumerate(data["candidates"]):
             if existing.get("candidate_id") == c["candidate_id"]:
                 updated = dict(existing)

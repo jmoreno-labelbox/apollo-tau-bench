@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class UpdateSupplyOrderTerms(Tool):
         if new_unit_cost is not None and new_unit_cost < 0:
             return json.dumps({"error": "Unit cost cannot be negative", "status": "failed"})
 
-        # Find the supply order to update
+        # Locate the supply order that requires updating.
         supply_orders = data.get("supply_orders", [])
         supply_order_to_update = None
         order_index = None
@@ -31,7 +31,7 @@ class UpdateSupplyOrderTerms(Tool):
         if not supply_order_to_update:
             return json.dumps({"error": f"Supply order {supply_order_id} not found", "status": "failed"})
 
-        # Rule: Supply orders with status 'cancelled' require alternative sourcing and cannot be fulfilled
+        # Condition: Orders marked as 'cancelled' necessitate alternative sourcing and cannot be executed.
         current_status = supply_order_to_update.get("status")
         if current_status == "fulfilled":
             return json.dumps({
@@ -39,7 +39,7 @@ class UpdateSupplyOrderTerms(Tool):
                 "status": "failed"
             })
 
-        # WRITE OPERATION: Update supply order terms
+        # UPDATE OPERATION: Modify terms of supply order
         updates_applied = []
         old_unit_cost = supply_order_to_update.get("unit_cost", 0)
         quantity = supply_order_to_update.get("quantity", 0)
@@ -60,7 +60,7 @@ class UpdateSupplyOrderTerms(Tool):
 
         supply_order_to_update["terms_updated"] = datetime.now().isoformat()
 
-        # Update the supply order in the data structure
+        # Modify the data structure to reflect the supply order changes.
         data["supply_orders"][order_index] = supply_order_to_update
 
         result = {

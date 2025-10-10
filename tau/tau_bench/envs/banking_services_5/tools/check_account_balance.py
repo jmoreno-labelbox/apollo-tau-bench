@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class CheckAccountBalance(Tool):
                 indent=2
             )
 
-        # find the account and verify ownership
+        # locate the account and confirm ownership
         acct = next(
             (a for a in list(data.get("accounts", {}).values())
              if a.get("account_id") == account_id

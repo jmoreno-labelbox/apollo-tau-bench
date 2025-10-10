@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,7 +25,7 @@ class MakeCommit(Tool):
                 "error": "Parameters 'owner', 'repo_name', 'branch_name', 'commit_message', and 'commit_author' are required."
             })
 
-        # Load commits DB (prefer dict["commits"], fallback to top-level list)
+        # Load commits database using dict["commits"], with a fallback to the top-level list.
         commits_db = None
         if isinstance(data, dict):
             commits_db = list(data.get("commits", {}).values())
@@ -37,7 +37,7 @@ class MakeCommit(Tool):
         if not isinstance(commits_db, list):
             return json.dumps({"error": "Invalid commits store: expected a list."})
 
-        # Find existing repo record
+        # Locate the current repository entry.
         rec = next((r for r in commits_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             return json.dumps({"error": f"No commits entry for {owner}/{repo_name}. Use InitialCommit first."})
@@ -53,23 +53,23 @@ class MakeCommit(Tool):
 
         idx = branch_names.index(branch_name)
 
-        # Defensive alignment (ensure branch arrays exist)
+        # Defensive setup (verify presence of branch arrays)
         while len(commit_shas) <= idx: commit_shas.append([])
         while len(commit_messages) <= idx: commit_messages.append([])
         while len(commit_authors) <= idx: commit_authors.append([])
         while len(commit_timestamps) <= idx: commit_timestamps.append([])
 
-        # Deterministic fields
-        new_sha = get_next_commit_sha(data)         # <- called
+        # Predictable fields
+        new_sha = get_next_commit_sha(data)         # <- invoked
         new_ts = get_current_updated_timestamp()
 
-        # Append commit
+        # Add commit
         commit_shas[idx].append(new_sha)
         commit_messages[idx].append(commit_message)
         commit_authors[idx].append(commit_author)
         commit_timestamps[idx].append(new_ts)
 
-        # Write back (in case keys were missing initially)
+        # Respond if any keys were initially absent.
         rec["branch_names"] = branch_names
         rec["commit_shas"] = commit_shas
         rec["commit_messages"] = commit_messages

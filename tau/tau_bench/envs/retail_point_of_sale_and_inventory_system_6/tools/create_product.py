@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,10 +10,10 @@ class create_product(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         products = list(data.get("products", {}).values())
 
-        # Timestamp needs to be sent for database records
+        # A timestamp must be included for database entries.
         timestamp = kwargs.get("timestamp")
 
-        # These values must be sent
+        # These values need to be transmitted.
         required_cols = [
             "sku",
             "name",
@@ -29,7 +29,7 @@ class create_product(Tool):
             "tax_rate",
         ]
 
-        # These values have defaults if not sent
+        # Default values are provided if none are specified.
         optional_cols = ["is_discountable", "status", "expiry_date", "discount_rate"]
 
         required_values = {k: kwargs.get(k) for k in required_cols}
@@ -41,10 +41,10 @@ class create_product(Tool):
         }
         optional_values.update({k: kwargs[k] for k in optional_cols if k in kwargs})
 
-        # These values are calculated by the function
+        # The function computes these values.
         fill_in = {"created_at": timestamp, "updated_at": timestamp}
 
-        # Throw an error if any of the required values are missing
+        # Raise an error if any necessary values are absent.
         if any([required_values[k] is None for k in required_values.keys()]):
             return json.dumps(
                 {
@@ -56,8 +56,8 @@ class create_product(Tool):
                 indent=2,
             )
 
-        # This is the order that the items appear in the database
-        # May not be necessary since dictionaries are unordered, but it can make valiation easier if the items appear in the same order everytime
+        # This is the sequence in which the items are listed in the database.
+        # Although dictionaries are unordered, maintaining the same order for items can simplify validation.
         col_order = [
             "sku",
             "name",
@@ -79,16 +79,16 @@ class create_product(Tool):
             "updated_at",
         ]
 
-        # Order the items
+        # Sort the items.
         row = required_values | optional_values | fill_in
         row_final = OrderedDict()
         for k in col_order:
             row_final[k] = row[k]
 
-        # Add to the database
+        # Insert into the database.
         products.append(json.dumps(row_final, indent=2))
 
-        # Return the whole row for reference
+        # Provide the entire row for context.
         return json.dumps(row_final, indent=2)
 
     @staticmethod

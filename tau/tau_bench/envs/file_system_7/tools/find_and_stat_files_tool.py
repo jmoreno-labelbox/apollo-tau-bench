@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -32,13 +32,13 @@ class FindAndStatFilesTool(Tool):
         log_name = "file_check_log.json"
         all_remote_files: List[Dict[str, Any]] = []
 
-        # Walk the simulated file_system structure and collect files deterministically.
+        # Traverse the simulated file_system layout and gather files in a consistent manner.
         for server in data.get("file_system", []):
             server_host = server.get("host", server.get("remote_address", "unknown"))
             for directory in server.get("directories", []):
                 dir_path = directory.get("path", "")
                 for f in directory.get("files", []) or []:
-                    # support string entries or dicts with varying keys
+                    # handle string inputs or dictionaries with diverse keys
                     if isinstance(f, str):
                         name = f
                         path = f if f.startswith("/") else f"{dir_path}/{f}".replace("//", "/")
@@ -64,6 +64,6 @@ class FindAndStatFilesTool(Tool):
                     }
                     all_remote_files.append(entry)
 
-        # Persist log deterministically
+        # Ensure logs are saved in a consistent manner.
         data[log_name] = {"data": all_remote_files}
         return json.dumps({"status": "success", "log_name": log_name, "file_count": len(all_remote_files)})

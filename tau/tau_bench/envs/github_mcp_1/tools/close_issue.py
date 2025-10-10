@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,29 +26,29 @@ class CloseIssue(Tool):
                 indent=2
             )
 
-        # Normalize issue_number
+        # Standardize issue_number
         try:
             issue_number = int(issue_number_raw)
         except Exception:
             return json.dumps({"error": "issue_number must be an integer."}, indent=2)
 
-        # Load issues DB
+        # Initialize issues database
         issues_db = list(data.get("issues", {}).values())
         if not isinstance(issues_db, list):
             return json.dumps({"error": "Invalid issues DB: expected a list at data['issues']."}, indent=2)
 
-        # Find repo bucket
+        # Locate the repository bucket.
         rec = next((r for r in issues_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             return json.dumps({"error": f"No issues found for repository '{owner}/{repo_name}'."}, indent=2)
 
         issue_numbers: List[int] = rec.get("issue_numbers", [])
         if issue_number not in issue_numbers:
-            return json.dumps({"error": f"Issue #{issue_number} not found for '{owner}/{repo_name}'."}, indent=2)
+            return json.dumps({"error": f"Issue # {issue_number} does not exist for '{owner}/{repo_name}'."}, indent=2)
 
         idx = issue_numbers.index(issue_number)
 
-        # Ensure arrays exist and are padded
+        # Verify the existence of arrays and apply padding.
         rec.setdefault("issue_states", [])
         rec.setdefault("updated_ts", [])
         while len(rec["issue_states"]) <= idx: rec["issue_states"].append("open")
@@ -56,10 +56,10 @@ class CloseIssue(Tool):
 
         current_state = rec["issue_states"][idx]
         if current_state == "closed":
-            # Idempotent response if already closed
+            # Response is idempotent if it is already closed.
             return json.dumps(
                 {
-                    "success": f"Issue #{issue_number} is already closed for {owner}/{repo_name}.",
+                    "success": f"Issue # The issue number {issue_number} is already resolved for {owner}/{repo_name}.
                     "repo": f"{owner}/{repo_name}",
                     "issue_number": issue_number,
                     "state": "closed",
@@ -68,18 +68,18 @@ class CloseIssue(Tool):
                 indent=2
             )
 
-        # Close the issue
+        # Resolve the issue.
         rec["issue_states"][idx] = "closed"
 
-        # Bump updated_ts using environment-provided deterministic helper
+        # Update updated_ts using the deterministic helper supplied by the environment.
         new_updated_ts = get_current_updated_timestamp()
         rec["updated_ts"][idx] = new_updated_ts
 
-        add_terminal_message(data, f"Issue #{issue_number} closed for {owner}/{repo_name}.", get_current_updated_timestamp())
+        add_terminal_message(data, f"Issue # Closed issue {issue_number} for repository {owner}/{repo_name} at {get_current_updated_timestamp()}.
 
         return json.dumps(
             {
-                "success": f"Issue #{issue_number} closed for {owner}/{repo_name}.",
+                "success": f"Issue # Closed issue number {issue_number} for {owner}/{repo_name}.
                 "repo": f"{owner}/{repo_name}",
                 "issue_number": issue_number,
                 "state": "closed",

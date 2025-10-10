@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,8 +22,8 @@ class ValidateSupplierCapacity(Tool):
                 "status": "not_found"
             })
 
-        # Rule: Supply orders must reference valid supplier_id and existing product_id
-        # Rule: Supply orders with status 'cancelled' require alternative sourcing and cannot be fulfilled
+        # Constraint: Supply orders must include a valid supplier_id and an existing product_id.
+        # Condition: Orders marked as 'cancelled' must be sourced from alternatives and are not eligible for fulfillment.
         pending_orders = []
         fulfilled_orders = []
         cancelled_orders = []
@@ -37,7 +37,7 @@ class ValidateSupplierCapacity(Tool):
             elif status == "cancelled":
                 cancelled_orders.append(order)
 
-        # Calculate capacity metrics
+        # Determine capacity measurements.
         total_pending_quantity = sum(order.get("quantity", 0) for order in pending_orders)
         total_fulfilled_quantity = sum(order.get("quantity", 0) for order in fulfilled_orders)
         total_cancelled_quantity = sum(order.get("quantity", 0) for order in cancelled_orders)
@@ -45,11 +45,11 @@ class ValidateSupplierCapacity(Tool):
         total_pending_cost = sum(order.get("total_cost", 0) for order in pending_orders)
         total_fulfilled_cost = sum(order.get("total_cost", 0) for order in fulfilled_orders)
 
-        # Calculate reliability metrics
+        # Compute reliability measures.
         total_completed_orders = len(fulfilled_orders) + len(cancelled_orders)
         fulfillment_rate = (len(fulfilled_orders) / total_completed_orders * 100) if total_completed_orders > 0 else 0
 
-        # Generate rating and feedback based on fulfillment rate
+        # Create a rating and review based on the fulfillment percentage.
         def get_supplier_rating_and_feedback(fulfillment_rate_percent):
             if fulfillment_rate_percent >= 90:
                 return {
@@ -87,10 +87,10 @@ class ValidateSupplierCapacity(Tool):
                     "recommendation": "Not recommended - seek immediate alternative suppliers for all future orders."
                 }
 
-        # Get supplier rating and feedback
+        # Obtain supplier evaluations and reviews.
         rating_info = get_supplier_rating_and_feedback(fulfillment_rate)
 
-        # Calculate additional performance insights
+        # Derive extra performance metrics.
         def get_performance_insights(fulfillment_rate_percent, total_orders, cancelled_count):
             insights = []
 

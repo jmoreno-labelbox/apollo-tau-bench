@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -7,7 +7,7 @@ from tau_bench.envs.tool import Tool
 
 class Spatials(Tool):
     @staticmethod
-        # main invoke function
+        # primary execution method
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         artifacts = data.setdefault("spatial_artifacts", [])
         artifacts.append({
@@ -15,13 +15,13 @@ class Spatials(Tool):
             "artifact_name": kwargs.get("artifact_name"),
             "qc_status": kwargs.get("qc_status", "passed")
         })
-        # return result
+        # return output
         return json.dumps({"status": "ok"}, indent=2)
 
     @staticmethod
-        # info metadata
+        # metadata information
     def get_info() -> Dict[str, Any]:
-        # return result
+        # return outcome
         return {
             "type": "function",
             "function": {

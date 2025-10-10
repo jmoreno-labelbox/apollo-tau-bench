@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,7 +23,7 @@ class FindProjectOwnerTeam(Tool):
             return json.dumps({"error": "Could not determine repository for project."})
             
         for team in teams:
-            # "project_focus": ["proj_001", "proj_002", "proj_003"],
+            # "project_targets": ["proj_001", "proj_002", "proj_003"],
             if project_id in team['project_focus']:
                  return json.dumps({"team_id": team['id']})
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class AddCuratedInsight(Tool):
         need = _check_required(kwargs, ["report_id","player_id","insight_text","insight_type","supporting_stat_value"])
         if need:
             return json.dumps({"error": need}, indent=2)
-        # Enforce deterministic template and allowed types
+        # Ensure consistent template and permitted types.
         allowed_types = {"tendency","execution","stamina","situational","predictability"}
         t = kwargs.get("insight_type")
         if t not in allowed_types:

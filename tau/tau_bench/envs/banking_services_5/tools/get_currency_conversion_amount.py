@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,7 +25,7 @@ class GetCurrencyConversionAmount(Tool):
             "GBP_USD": 1.33,
             "USD_CAD": 1.25,
             "CAD_USD": 0.80,
-            # add more as needed
+            # increase as required
         }
 
         key = f"{source.upper()}_{target.upper()}"

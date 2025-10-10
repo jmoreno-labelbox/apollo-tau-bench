@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class PostAuditEvent(Tool):
                 "error": "actor_id, action, entity_type, and entity_id are required"
             }, indent=2)
         
-        # Create audit event
+        # Generate audit record
         audit_event = {
             "audit_id": 501,
             "actor_id": actor_id,

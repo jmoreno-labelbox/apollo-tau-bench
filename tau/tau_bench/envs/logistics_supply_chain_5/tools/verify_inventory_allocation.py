@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class VerifyInventoryAllocation(Tool):
         warehouse_id = order.get("warehouse_id")
         total_units = order.get("total_units", 0)
 
-        # Simplified allocation check - in real system would check line items
+        # Streamlined allocation verification - in a production environment, line items would be evaluated.
         warehouse_inventory = [item for item in inventory if item.get("warehouse_id") == warehouse_id]
         total_available = sum(item.get("quantity_available", 0) for item in warehouse_inventory)
 

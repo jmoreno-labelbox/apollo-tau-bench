@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,9 +24,9 @@ class AdjustSeasonalPricing(Tool):
         multiplier: float = 1.0,
         max_preview: int = 0,
         fare_class: Optional[str] = None,
-        dedupe: bool = True,  # repeat-safe by default
+        dedupe: bool = True,  # default is repeat-safe
     ) -> str:
-        # validate dates/window
+        # check date range validity
         try:
             sd = date.fromisoformat(start_date)
             ed = date.fromisoformat(end_date)
@@ -35,24 +35,24 @@ class AdjustSeasonalPricing(Tool):
         if sd > ed:
             return _json({"error": "invalid_date_range", "start_date": start_date, "end_date": end_date})
 
-        # normalize inputs
+        # standardize input values
         fare_class = (fare_class or "").strip().lower() or None
         mult_dec = Decimal(str(multiplier))
         f = _get_flight(data, flight_number)
         if not f:
             return _json({"error": "flight_not_found"})
 
-        # audit store + deterministic id generator
-        audits = data.setdefault("seasonal_multiplier_audits", [])  # list of dict
+        # audit repository + unique identifier generator
+        audits = data.setdefault("seasonal_multiplier_audits", [])  # collection of dictionaries
         preview: List[Dict[str, Any]] = []
         changed = 0
 
-        # iterate deterministically by date
+        # loop through dates in a fixed order
         for d in sorted((f.get("dates") or {}).keys()):
             if not (start_date <= d <= end_date):
                 continue
             rec = (f.get("dates") or {}).get(d) or {}
-            # ensure availability for price writes
+            # guarantee accessibility for price updates
             if _norm_status(rec.get("status")) != "available":
                 rec["status"] = "available"
 
@@ -60,14 +60,14 @@ class AdjustSeasonalPricing(Tool):
             if not isinstance(prices, dict):
                 continue
 
-            # cabins to consider
+            # cabins to evaluate
             cabins = [fare_class] if fare_class else list(prices.keys())
 
             for cab in cabins:
                 if cab not in prices:
                     continue
 
-                # dedupe check per (flight, date, cabin, multiplier)
+                # duplicate verification based on (flight, date, cabin, multiplier)
                 if dedupe:
                     exists = next((
                         a for a in audits
@@ -77,7 +77,7 @@ class AdjustSeasonalPricing(Tool):
                         and float(a.get("multiplier")) == float(multiplier)
                     ), None)
                     if exists:
-                        # already applied; skip
+                        # already processed; omit
                         continue
 
                 try:
@@ -93,7 +93,7 @@ class AdjustSeasonalPricing(Tool):
                     if len(preview) < max_preview:
                         preview.append({"date": d, "cabin": cab, "old": oldp, "new": newp})
 
-                # record audit (even if no change, we can still log intent; keeping it to changed-only reduces noise)
+                # log audit regardless of changes; capturing intent helps reduce noise compared to logging only modifications.
                 audit_id = _next_change_id(data, prefix="SM")
                 audits.append({
                     "id": audit_id,

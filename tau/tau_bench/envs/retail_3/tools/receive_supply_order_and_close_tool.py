@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -39,12 +39,12 @@ class ReceiveSupplyOrderAndCloseTool(Tool):
         if not so:
             return json.dumps({"error": f"supply_order_id '{so_id}' not found"}, indent=2)
 
-        # 1. Update status to 'received' and add received_at timestamp
+        # Set status to 'received' and include received_at timestamp.
         so["status"] = "received"
         if not so.get("received_at"):
             so["received_at"] = _now_iso()
 
-        # Append 'received' event
+        # Add 'received' event
         event = {
             "type": "received",
             "message": (note or "supply order received"),
@@ -52,7 +52,7 @@ class ReceiveSupplyOrderAndCloseTool(Tool):
         }
         (so.setdefault("events", [])).append(event)
 
-        # 2. Update product stock for each item in the supply order
+        # 2. Refresh inventory levels for every item in the supply order.
         for so_item in so.get("items", []):
             product_id = so_item.get("product_id")
             quantity = so_item.get("quantity", 0)
@@ -62,7 +62,7 @@ class ReceiveSupplyOrderAndCloseTool(Tool):
                 product["quantity"] = product.get("quantity", 0) + quantity
                 product["reserved_quantity"] = product.get("reserved_quantity", 0) + quantity
 
-        # 3. Set final status to 'closed' and add closed_at timestamp
+        # 3. Update the final status to 'closed' and record the closed_at timestamp.
         so["status"] = "closed"
         so["closed_at"] = _now_iso()
 

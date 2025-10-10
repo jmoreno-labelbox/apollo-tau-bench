@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class LogTaskStart(Tool):
             "task_type": task_type,
             "user_id": user_id,
             "result": "in_progress",
-            "started_at": "2025-08-13T01:01:01Z", # Simulated timestamp
+            "started_at": "2025-08-13T01:01:01Z", # Emulated timestamp
             "notes": "Task initiated by agent."
         }
         data["task_logs"].append(new_task_log)

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class ApplyCreatives(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Require deterministic fields; user must provide plan_id OR targets
+        # Deterministic fields are mandatory; the user needs to supply either plan_id or targets.
         err = _require(kwargs, ["request_id", "timestamp", "rationale"])
         if err:
             return json.dumps({"error": err})
@@ -23,13 +23,13 @@ class ApplyCreatives(Tool):
         _ensure_list(data, "adsets")
         _ensure_list(data, "creative_rotations")
         _ensure_list(data, "f_insights")
-        _ensure_list(data, "plans")  # for plan_id path
+        _ensure_list(data, "plans")  # for the path of plan_id
 
         ts = kwargs["timestamp"]
         rationale = kwargs["rationale"]
 
-        # ---- Build targets -------------------------------------------------
-        # Option A: from plan_id (allocations[*].creative_type)
+        # ---- Compilation targets -------------------------------------------------
+        # Option A: based on plan_id (allocations[*].creative_type)
         targets: List[Dict[str, Any]] = []
         if "plan_id" in kwargs:
             pid = kwargs["plan_id"]
@@ -44,9 +44,9 @@ class ApplyCreatives(Tool):
                         "creative_type": ct,
                         "ad_name": row.get("ad_name")
                     })
-        # Option B: explicit targets array
+        # Option B: defined targets array
         if "targets" in kwargs and kwargs["targets"]:
-            # normalize & merge (plan targets first, explicit targets can override)
+            # standardize and combine (prioritize plan targets, explicit targets may take precedence)
             explicit: List[Dict[str, Any]] = kwargs["targets"]
             by_id = {t["adset_id"]: t for t in targets if t.get("adset_id")}
             for t in explicit:
@@ -61,7 +61,7 @@ class ApplyCreatives(Tool):
             targets = list(by_id.values())
 
         if not targets:
-            # Nothing to do; deterministic no-op
+            # No actions required; a deterministic no-operation.
             return json.dumps({
                 "plan_id": kwargs.get("plan_id"),
                 "request_id": kwargs["request_id"],
@@ -69,7 +69,7 @@ class ApplyCreatives(Tool):
                 "rotations": []
             })
 
-        # ---- Helpers -------------------------------------------------------
+        # ---- Utility Functions ---------------------------------------------
         ads_by_adset: Dict[str, List[Dict[str, Any]]] = {}
         for a in data["ads"]:
             ads_by_adset.setdefault(str(a.get("adset_id")), []).append(a)
@@ -78,7 +78,7 @@ class ApplyCreatives(Tool):
             actives = [a for a in ads_by_adset.get(adset_id, []) if a.get("status") == "active"]
             if not actives:
                 return None
-            # Compute naive CPA = spend / purchases from f_insights (if available)
+            # Calculate naive CPA as spend divided by purchases from f_insights (if present).
             cpa_by_ad: Dict[str, float] = {}
             for row in data.get("f_insights", []):
                 if str(row.get("adset_id")) == adset_id:
@@ -106,7 +106,7 @@ class ApplyCreatives(Tool):
                     mx = max(mx, int(rid))
             return f"CR-{mx + 1}"
 
-        # ---- Apply per-adset ----------------------------------------------
+        # ---- Implement on a per-adset basis ----------------------------------------------
         updated: List[str] = []
         rotations_written: List[str] = []
 
@@ -117,13 +117,13 @@ class ApplyCreatives(Tool):
             current_active = [a for a in ads_by_adset.get(adset_id, []) if a.get("status") == "active"]
             current_type = current_active[0].get("creative_type") if current_active else None
 
-            # If already correct and single active, skip
+            # If it's already correct and uniquely active, proceed to skip.
             if current_type == want_type and len(current_active) == 1:
                 continue
 
             old_active_id = _worst_active(adset_id)
 
-            # Create new active ad
+            # Generate a new active advertisement.
             new_id = _next_ad_id()
             new_ad = {
                 "ad_id": new_id,
@@ -137,20 +137,20 @@ class ApplyCreatives(Tool):
             data["ads"].append(new_ad)
             ads_by_adset.setdefault(adset_id, []).append(new_ad)
 
-            # Pause previous worst active (if any)
+            # Suspend the current worst active (if it exists).
             if old_active_id:
                 for a in data["ads"]:
                     if str(a.get("ad_id")) == old_active_id:
                         a["status"] = "paused"
 
-            # Touch adset metadata deterministically
+            # Interact with adset metadata in a predictable manner.
             for aset in data["adsets"]:
                 if str(aset.get("adset_id")) == adset_id:
                     aset["updated_at"] = ts
                     aset["rev"] = _i(aset.get("rev"), 0) + 1
                     break
 
-            # Rotation log row (strict schema)
+            # Strict schema for rotation log entry
             rot_id = _next_rotation_id()
             data["creative_rotations"].append({
                 "rotation_id": rot_id,

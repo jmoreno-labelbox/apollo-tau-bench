@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,11 +21,11 @@ class CheckOrderStatus(Tool):
 
         order_id = order_id.strip()
 
-        # Add # prefix if not provided (for convenience)
+        # Add # Prefix with # if it isn't already present (for ease of use)
         if not order_id.startswith("#"):
             order_id = f"#{order_id}"
 
-        # Find the order
+        # Determine the sequence.
         orders = list(data.get("orders", {}).values())
         target_order = None
 
@@ -40,16 +40,16 @@ class CheckOrderStatus(Tool):
                 "status": "not_found"
             })
 
-        # Rule: Only process orders with valid status: pending, processed, delivered, cancelled
+        # Condition: Handle orders exclusively with the following valid statuses: pending, processed, delivered, cancelled.
         order_status = target_order.get("status")
         order_timestamp = target_order.get("timestamp")
         user_id = target_order.get("user_id")
 
-        # Get fulfillment information
+        # Retrieve fulfillment details.
         fulfillments = target_order.get("fulfillments", [])
         tracking_info = None
         if fulfillments:
-            latest_fulfillment = fulfillments[-1]  # Get most recent fulfillment
+            latest_fulfillment = fulfillments[-1]  # Retrieve the latest fulfillment.
             tracking_info = {
                 "tracking_id": latest_fulfillment.get("tracking_id"),
                 "courier_id": latest_fulfillment.get("courier_id"),
@@ -58,12 +58,12 @@ class CheckOrderStatus(Tool):
                 "timestamp": latest_fulfillment.get("timestamp")
             }
 
-        # Get payment information
+        # Retrieve payment details
         payment_history = target_order.get("payment_history", [])
         total_paid = sum(payment.get("amount", 0) for payment in payment_history if payment.get("transaction_type") == "payment")
         total_refunded = sum(payment.get("amount", 0) for payment in payment_history if payment.get("transaction_type") == "refund")
 
-        # Get order items summary
+        # Retrieve summary of order items.
         order_items = target_order.get("items", [])
         items_summary = {
             "total_items": len(order_items),
@@ -71,13 +71,13 @@ class CheckOrderStatus(Tool):
             "item_ids": [item.get("item_id") for item in order_items],
         }
 
-        # Get delivery address
+        # Retrieve shipping address
         delivery_address = target_order.get("address", {})
 
-        # Check for cancellation info
+        # Verify cancellation details.
         cancellation_info = target_order.get("cancellation_info")
 
-        # Check for returns
+        # Verify for return values
         returns = target_order.get("returns", [])
         return_info = None
         if returns:

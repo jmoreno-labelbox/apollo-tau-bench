@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class LogAuditTrail(Tool):
         audit_event = kwargs.get('audit_event')
         subject_id = kwargs.get('subject_id')
         outcome_code = kwargs.get('outcome_code')
-        outcome_details = kwargs.get('outcome_details') # This is a dictionary
+        outcome_details = kwargs.get('outcome_details') # This is a map.
 
         if not all([audit_event, subject_id, outcome_code]):
             return json.dumps({"error": "audit_event, subject_id, and outcome_code are required."}, indent=2)

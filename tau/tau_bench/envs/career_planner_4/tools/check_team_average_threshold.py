@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class check_team_average_threshold(Tool):
         members = team.get("team_members", [])
         progress_data = data.get("user_course_progress", [])
 
-        # Calculate team average
+        # Compute the average for the team.
         total_progress = 0
         member_count = 0
 

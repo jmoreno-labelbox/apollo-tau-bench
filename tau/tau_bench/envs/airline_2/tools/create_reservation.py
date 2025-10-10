@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright notice.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,21 +10,21 @@ class CreateReservation(Tool):
     Create a reservation for an existing user identified by email.
     """
 
-    # --- helpers (internal style) ---
+    # --- internal utility functions ---
     @staticmethod
     def _find_user(data: Dict[str, Any],users: List[Dict[str, Any]], user_email: str) -> Dict[str, str]:
-        # look up user by email
+        # retrieve user using email address
         for u in users:
             if u.get("email") == user_email:
-                # check their reservations list
+                # verify the reservations list
                 res_ids = u.get("reservations", [])
-                # search global reservations for matching id
+                # query global reservations for corresponding id
 
                 for r in list(data.get("reservations", {}).values()):
                     if r.get("reservation_id") in res_ids and r.get("user_id"):
                         return {"email": user_email, "id": r["user_id"]}
 
-                # fallback if no reservation match found
+                # alternative if no reservation is matched
                 first = (u.get("name", {}).get("first_name") or "").lower()
                 last = (u.get("name", {}).get("last_name") or "").lower()
                 return {"email": user_email, "id": f"{first}_{last}_1234"}
@@ -50,7 +50,7 @@ class CreateReservation(Tool):
                 u.setdefault("reservations", []).append(res_id)
                 break
 
-    # --- tool entrypoint ---
+    # --- tool initialization point ---
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -63,15 +63,15 @@ class CreateReservation(Tool):
         users = list(data.get("users", {}).values())
         reservations = list(data.get("reservations", {}).values())
 
-        # locate user + synthesize deterministic user_id (kept identical to original logic)
+        # find user and generate a consistent user_id (maintaining original logic)
         target_user = CreateReservation._find_user(data,users, user_email)
         if not target_user:
             return json.dumps({"error": "User not found", "email": user_email})
 
-        # generate next reservation id (same scheme: RES####)
+        # generate next reservation id (same scheme: RES#### create the next reservation identifier (following the format: RES####)
         new_res_id = CreateReservation._next_reservation_id(reservations)
 
-        # build reservation record (unchanged field names/values)
+        # create reservation entry (field names/values remain the same)
         new_reservation = {
             "reservation_id": new_res_id,
             "user_id": target_user["id"],
@@ -88,7 +88,7 @@ class CreateReservation(Tool):
             "status": "CONFIRMED",
         }
 
-        # persist in provided data dict
+        # store in the given data dictionary
         reservations.append(new_reservation)
         CreateReservation._attach_reservation_to_user(users, user_email, new_res_id)
 

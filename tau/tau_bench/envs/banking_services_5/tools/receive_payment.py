@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class ReceivePayment(Tool):
                 indent=2
             )
 
-        # Find account and verify ownership
+        # Locate the account and confirm ownership.
         account = next(
             (a for a in list(data.get("accounts", {}).values())
              if a.get("account_id") == account_id and a.get("customer_id") == customer_id),
@@ -33,14 +33,14 @@ class ReceivePayment(Tool):
                 indent=2
             )
 
-        # Currency check
+        # Verify currency
         if account.get("currency") != currency:
             return json.dumps(
                 {"error": "Currency mismatch with account."},
                 indent=2
             )
 
-        # Perform credit
+        # Execute credit operation
         account["balance"] = account.get("balance", 0.0) + amount
 
         return json.dumps({

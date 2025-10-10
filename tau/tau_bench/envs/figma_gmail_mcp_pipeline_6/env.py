@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from tau_bench.envs.base import Env
 from tau_bench.envs.figma_gmail_mcp_pipeline_6.data import load_data

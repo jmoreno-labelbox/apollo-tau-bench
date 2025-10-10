@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,20 +11,20 @@ class SearchSubmissions(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         submission_id, article_id, review_id = kwargs.get('submission_id'), kwargs.get('article_id'), kwargs.get('review_id')
 
-        # Logic from the old SearchReviews tool
+        # Code from the previous SearchReviews utility.
         if review_id:
             reviews = list(data.get('reviews', {}).values())
             target_review = next((r for r in reviews if r.get('review_id') == review_id), None)
             if not target_review:
-                return json.dumps([]) # Return empty list if review not found
+                return json.dumps([]) # Return an empty list if no review is found.
 
-            # Use the submission_id from the review to find the submission
+            # Retrieve the submission using the submission_id from the review.
             submission_id_from_review = target_review.get('submission_id')
             submissions = list(data.get('submissions', {}).values())
             results = [s for s in submissions if s.get('submission_id') == submission_id_from_review]
 
             if results:
-                results[0]['review_details'] = target_review # Attach the entire review object
+                results[0]['review_details'] = target_review # Include the complete review object.
             return json.dumps(results, indent=2)
 
         if not submission_id and not article_id:

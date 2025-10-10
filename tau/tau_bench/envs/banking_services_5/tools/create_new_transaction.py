@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -31,7 +31,7 @@ class CreateNewTransaction(Tool):
         currency = kwargs.get("currency", "").strip()
         transaction_status = "Completed" if account["balance"] >= amount else "Pending"
 
-        # Deduct amount from account if balance is sufficient
+        # Subtract the amount from the account if there are enough funds.
         if transaction_status == "Completed":
             account["balance"] -= amount
 

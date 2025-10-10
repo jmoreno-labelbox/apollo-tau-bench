@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,14 +13,14 @@ class CaV2ForecastCashFlow(Tool):
         forecast_months = kwargs.get("forecast_months", 3)
         current_date = kwargs.get("current_date", "2024-12-10")
 
-        # Get unpaid invoices
+        # Retrieve outstanding invoices
         invoices = data.get("invoices", [])
         unpaid_invoices = [inv for inv in invoices if not inv.get("paid_at")]
 
-        # Get payment behaviors
+        # Retrieve payment patterns.
         payment_behaviors = data.get("payment_behavior", [])
 
-        # Forecast collections
+        # Predict revenue collections
         forecasted_collections = []
         for invoice in unpaid_invoices:
             publisher_id = invoice.get("publisher_id")
@@ -38,11 +38,11 @@ class CaV2ForecastCashFlow(Tool):
                 "confidence": behavior.get("payment_consistency", "moderate") if behavior else "moderate"
             })
 
-        # Get recurring expenses
+        # Retrieve periodic expenditures.
         recurring_schedules = data.get("recurring_schedules", [])
         active_schedules = [sch for sch in recurring_schedules if sch.get("is_active")]
 
-        # Summarize by month
+        # Aggregate data on a monthly basis.
         monthly_summary = {}
         for i in range(forecast_months):
             month_start = datetime.fromisoformat(current_date + "T00:00:00") + timedelta(days=30*i)
@@ -53,20 +53,20 @@ class CaV2ForecastCashFlow(Tool):
                 "net_flow": 0
             }
 
-        # Add collections to summary
+        # Incorporate collections into the summary.
         for collection in forecasted_collections:
             payment_month = collection["expected_payment_date"][:7]
             if payment_month in monthly_summary:
                 monthly_summary[payment_month]["expected_collections"] += collection["amount"]
 
-        # Add expenses to summary
+        # Incorporate costs into the summary.
         for schedule in active_schedules:
             monthly_amount = schedule.get("amount", 0)
             for month_key in monthly_summary.keys():
                 if schedule.get("frequency") == "monthly":
                     monthly_summary[month_key]["scheduled_expenses"] += monthly_amount
 
-        # Calculate net flow
+        # Determine the net flow.
         for month_data in monthly_summary.values():
             month_data["net_flow"] = month_data["expected_collections"] - month_data["scheduled_expenses"]
 

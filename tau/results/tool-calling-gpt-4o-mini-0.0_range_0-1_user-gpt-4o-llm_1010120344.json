@@ -1,0 +1,294 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "task_700",
+        "actions": [
+          {
+            "name": "CreateRepo",
+            "kwargs": {
+              "name": "blog-lite"
+            }
+          },
+          {
+            "name": "CreateBranch",
+            "kwargs": {
+              "repo": "blog-lite",
+              "branch": "feature-home"
+            }
+          },
+          {
+            "name": "AddCommit",
+            "kwargs": {
+              "repo": "blog-lite",
+              "branch": "feature-home",
+              "message": "setup index"
+            }
+          },
+          {
+            "name": "OpenPr",
+            "kwargs": {
+              "repo": "blog-lite",
+              "head_branch": "feature-home",
+              "base_branch": "main",
+              "title": "Home section"
+            }
+          },
+          {
+            "name": "AddLabel",
+            "kwargs": {
+              "kind": "pr",
+              "repo": "blog-lite",
+              "number": 1,
+              "label": "docs"
+            }
+          },
+          {
+            "name": "ListPrs",
+            "kwargs": {
+              "repo": "blog-lite",
+              "state": "open"
+            }
+          }
+        ],
+        "instruction": "Handle repository 'blog-lite' to ensure that a pull request is open from branch 'feature-home' to 'main', with the label 'docs' attached. Once this condition is fulfilled, list the open pull requests for 'blog-lite'.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0016425,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "a9263f7145fc769fe3d940f22014701a2c024da4876418b968bbc3bf211b225c"
+        },
+        "actions": [
+          {
+            "name": "CreateRepo",
+            "kwargs": {
+              "name": "blog-lite"
+            }
+          },
+          {
+            "name": "CreateBranch",
+            "kwargs": {
+              "repo": "blog-lite",
+              "branch": "feature-home"
+            }
+          },
+          {
+            "name": "AddCommit",
+            "kwargs": {
+              "repo": "blog-lite",
+              "branch": "feature-home",
+              "message": "setup index"
+            }
+          },
+          {
+            "name": "OpenPr",
+            "kwargs": {
+              "repo": "blog-lite",
+              "head_branch": "feature-home",
+              "base_branch": "main",
+              "title": "Home section"
+            }
+          },
+          {
+            "name": "AddLabel",
+            "kwargs": {
+              "kind": "pr",
+              "repo": "blog-lite",
+              "number": 1,
+              "label": "docs"
+            }
+          },
+          {
+            "name": "ListPrs",
+            "kwargs": {
+              "repo": "blog-lite",
+              "state": "open"
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"Identity: GitHub MCP agent, variation 7 (tyler). Use only provided tools.\",\n    \"Execute workflows in a single turn, allowing only one tool call per operation.\",\n    \"Always perform authentication before proceeding; do not disclose any secrets.\",\n    \"Operate exclusively on repositories that are owned.\",\n    \"Apply deterministic timestamps and prioritize times reported by the tool.\",\n    \"When the current time is needed, utilize FIXED_NOW.\",\n    \"Avoid creating parameters; instead, obtain them from provided inputs or tool-generated outputs.\",\n    \"New repositories use 'main' as the default branch.\",\n    \"When a repository name conflict occurs, add '_v2' to the name.\",\n    \"Perform feature or bugfix development on branches other than the default, starting from the most recent base.\",\n    \"Perform file write or update operations on the target branch, then confirm success by reading the file afterward.\",\n    \"Use default commit messages in the format: 'Add <filename>' or 'Update <filename>'.\",\n    \"Initiate pull requests from the feature branch to the base branch; the initial state must be open.\",\n    \"Refrain from merging when any required checks are either incomplete or have failed.\",\n    \"Instructions specify intended end-states using second person; the agent is responsible for verifying the existence of referenced repositories (creating them if absent) prior to actions such as transfer, and may include complete object details in reports.\",\n    \"Proceed with merging solely when the item is open, mergeable, and\u2014if applicable\u2014approved; following the merge, remove the source branch.\",\n    \"A title is mandatory for issues; their initial state is open; closing an issue updates its state to closed.\",\n    \"To prevent duplicates, perform a search beforehand when applicable.\",\n    \"Code-scanning alerts can be created, listed, or dismissed if present; dismissing an alert is idempotent.\",\n    \"The 'most recent' refers to the item with the highest item number; give precedence to open items.\",\n    \"Ensure inputs are validated; adhere to permissions; avoid logging secrets.\",\n    \"If a tool error occurs, halt processing and display the error.\",\n    \"Provide precisely what is requested and confirm the results.\",\n    \"Instructions are directed at you (second person). When displaying issues or PRs, it is permissible to return complete object details.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi! Could you help me with managing a repository? I need to check a specific pull request situation."
+      },
+      {
+        "content": "Sure! Please provide me with the name of the repository and any specific details about the pull request you want to check.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "The repository is called 'blog-lite'. I need to ensure there's a pull request from the 'feature-home' branch to 'main'."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "list_repos"
+            },
+            "id": "call_RnzopYubrihGYnAJZRyDjnI6",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_RnzopYubrihGYnAJZRyDjnI6",
+        "name": "list_repos",
+        "content": "Error: name '_actor_name' is not defined"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "who_am_i"
+            },
+            "id": "call_vVoZXpb4JP1E4BvRHvZ78fyh",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_vVoZXpb4JP1E4BvRHvZ78fyh",
+        "name": "who_am_i",
+        "content": "Error: 0"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "list_repos"
+            },
+            "id": "call_I2Rc39OEuEWh0lHdjm9dGEcG",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_I2Rc39OEuEWh0lHdjm9dGEcG",
+        "name": "list_repos",
+        "content": "Error: name '_actor_name' is not defined"
+      },
+      {
+        "content": "It seems there is an issue with retrieving your repositories. Unfortunately, I cannot proceed without confirming your identity. Please try again later or check your GitHub account directly.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Could you help me look into the existing pull requests in 'blog-lite'? I'm particularly interested in the one between the 'feature-home' branch and 'main'."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"owner\":\"\",\"repo\":\"blog-lite\"}",
+              "name": "list_prs"
+            },
+            "id": "call_jdaqs5xjaIoLJNCoihuhtPYW",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_jdaqs5xjaIoLJNCoihuhtPYW",
+        "name": "list_prs",
+        "content": "Error: name '_actor_name' is not defined"
+      },
+      {
+        "content": "I am currently unable to access the list of pull requests due to an issue with retrieving your repository information. Please check your GitHub account directly for the pull requests in the 'blog-lite' repository. If you need further assistance, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No worries! Just let me know if the pull request from 'feature-home' to 'main' has the 'docs' label attached."
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"owner\":\"\",\"repo\":\"blog-lite\"}",
+              "name": "list_prs"
+            },
+            "id": "call_8VPXIEVzuUAcTo9vUOfveTtS",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_8VPXIEVzuUAcTo9vUOfveTtS",
+        "name": "list_prs",
+        "content": "Error: name '_actor_name' is not defined"
+      },
+      {
+        "content": "I am still unable to access the pull requests for the 'blog-lite' repository due to the ongoing issue with retrieving your repository information. Unfortunately, I cannot check for the 'docs' label on the pull request from 'feature-home' to 'main'. Please check your GitHub account directly for this information. If you have any other questions or need further assistance, let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alright, thanks for your help anyway! If you're able to assist further later, just let me know."
+      },
+      {
+        "content": "You're welcome! If you have any more questions or need assistance in the future, feel free to reach out. Have a great day!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "You too! Take care. ###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

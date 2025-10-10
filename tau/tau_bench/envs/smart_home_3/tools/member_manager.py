@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class MemberManager(Tool):
             for member in members:
                 if member['id'] == member_id:
                     for field, value in field_updates.items():
-                        if '.' in field:  # nested field like 'contact.phone'
+                        if '.' in field:  # hierarchical field such as 'contact.phone'
                             parts = field.split('.')
                             obj = member
                             for part in parts[:-1]:

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,11 +10,11 @@ class FindCanonicalDuplicateV2(Tool):
     def invoke(data: Dict[str, Any], ticket_key: str) -> str:
         dedups = _get_table(data, "bug_deduplication")
         links = _get_table(data, "bug_links")
-        # Prefer explicit dedup table first
+        # Prioritize the explicit deduplication table initially.
         row = next((d for d in dedups if d.get("new_bug_id") == ticket_key and (d.get("status") in ("confirmed_duplicate", "new_bug") or d.get("status"))), None)
         if row and row.get("canonical_bug_id"):
             return json.dumps({"canonical_bug_id": row.get("canonical_bug_id")}, indent=2)
-        # Fallback to bug_links with relation_type duplicate
+        # Revert to bug_links for duplicate relation_type.
         link = next((l for l in links if l.get("relation_type") == "duplicate" and (l.get("primary_bug_id") == ticket_key or l.get("related_bug_id") == ticket_key)), None)
         if link:
             if link.get("primary_bug_id") == ticket_key:

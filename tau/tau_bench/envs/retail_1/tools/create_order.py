@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,7 +26,7 @@ class CreateOrder(Tool):
                     }
                     items.append(item_info)
 
-        # Check if the user exists
+        # Verify the existence of the user.
         user = [row for row in users if row["user_id"] == user_id]
         if len(user) > 1:
             return json.dumps({"error": "Multiple users found"})
@@ -34,16 +34,16 @@ class CreateOrder(Tool):
             return json.dumps({"error": "User not found"})
         user = user[0]
 
-        # Check if the payment method exists
+        # Verify the existence of the payment method.
         if payment_method_id not in user["payment_methods"]:
             return json.dumps({"error": "Payment method not found"})
 
-        # Calculate the total price of the items
+        # Compute the overall cost of the items.
         total_price = 0
         for item in items:
             total_price += item["price"]
 
-        # Check if the payment method is a gift card and has enough balance
+        # Verify if the payment method is a gift card and has sufficient funds.
         payment_method = user["payment_methods"][payment_method_id]
         if payment_method["source"] == "gift_card":
             if payment_method["balance"] < total_price:
@@ -58,7 +58,7 @@ class CreateOrder(Tool):
             "payment_method_id": payment_method_id,
         }
 
-        # Create a new order
+        # Initiate a new order.
         order_id = f"#W{len(orders) + 1:07d}"
         order = {
             "order_id": order_id,
@@ -68,10 +68,10 @@ class CreateOrder(Tool):
             "fulfilments": [],
             "status": "pending",
             "payment_history": [payment],
-            "timestamp": "2025-07-15T03:35:22.797102" # Fixed timestamp for determinism
+            "timestamp": "2025-07-15T03:35:22.797102" # Established a fixed timestamp to ensure determinism.
         }
 
-        # Add the order to the user's orders and the global orders list
+        # Insert the order into both the user's orders and the global orders array.
         orders.append(order)
         user.setdefault("orders", []).append(order_id)
 

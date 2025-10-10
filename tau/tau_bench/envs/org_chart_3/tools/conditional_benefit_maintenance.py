@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class conditional_benefit_maintenance(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], employee_id: str, equity_threshold: float,
                maintain_benefits: List[str], reduced_benefits: List[str]) -> str:
-        # Get current compensation
+        # Retrieve the current salary.
         comp = data.get("compensation_records", [])
         current = [c for c in comp if c["employee_id"] == employee_id]
         current.sort(key=lambda c: c["effective_date"], reverse=True)
@@ -27,12 +27,12 @@ class conditional_benefit_maintenance(Tool):
             return json.dumps({"error": f"Employee {employee_id} not found"}, indent=2)
 
         if current_equity > equity_threshold:
-            # Maintain full benefits
+            # Preserve all advantages.
             employee["benefit_plan_ids"] = maintain_benefits
             action_taken = "Benefits maintained due to high equity"
             final_benefits = maintain_benefits
         else:
-            # Reduce benefits during leave
+            # Diminish advantages while on leave.
             employee["benefit_plan_ids"] = reduced_benefits
             action_taken = "Benefits reduced during leave due to lower equity"
             final_benefits = reduced_benefits

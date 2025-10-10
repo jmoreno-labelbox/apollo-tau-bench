@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,10 +16,10 @@ class GetAuditSummary(Tool):
         if not audit_id:
             return json.dumps({"error": "audit_id is required"})
 
-        # Find the audit
+        # Locate the audit.
         for audit in data.get('audits', []):
             if audit.get('audit_id') == audit_id:
-                # Count findings by severity
+                # Tally results based on severity.
                 findings = [f for f in data.get('audit_findings', []) if f.get('audit_id') == audit_id]
                 severity_counts = {}
                 for finding in findings:

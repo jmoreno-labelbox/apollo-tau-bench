@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -60,7 +60,7 @@ class AddRecipeToMealPlanTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the newly created meal plan entry object.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Data
         param_definitions = {
             "meal_plan_id": {"type": int, "required": True},
             "recipe_id": {"type": int, "required": True},
@@ -81,14 +81,14 @@ class AddRecipeToMealPlanTool(Tool):
         meal_type = kwargs.get("meal_type", "Dinner")
         user_id = kwargs.get("user_id")
 
-        # 2. Pre-condition Checks
+        # 2. Preconditions Verification
         meal_plan_record = next((p for p in data.get("meal_plans", []) if p.get("meal_plan_id") == meal_plan_id), None)
         if not meal_plan_record:
             return _build_error_response("NOT_FOUND", {"entity": "MealPlan", "entity_id": meal_plan_id})
         if not any(r.get("recipe_id") == recipe_id for r in list(data.get("recipes", {}).values())):
             return _build_error_response("NOT_FOUND", {"entity": "Recipe", "entity_id": recipe_id})
 
-        # Business Rule: Ensure date is within the plan's week
+        # Business Rule: Confirm the date falls within the designated week of the plan.
         try:
             plan_start_date = date.fromisoformat(meal_plan_record["week_start_date"])
             entry_date = date.fromisoformat(plan_date)
@@ -99,11 +99,11 @@ class AddRecipeToMealPlanTool(Tool):
         if not (plan_start_date <= entry_date <= plan_end_date):
             return _build_error_response("UNSUPPORTED_OPERATION", {"operation": "Add Entry", "entity": f"Date {plan_date} is outside the week of MealPlan {meal_plan_id}"})
 
-        # Business Rule: Prevent duplicate entries
+        # Business Rule: Disallow repeating entries
         if any(e for e in data.get("meal_plan_entries", []) if e.get("meal_plan_id") == meal_plan_id and e.get("plan_date") == plan_date and e.get("meal_type") == meal_type):
             return _build_error_response("ALREADY_EXISTS", {"entity": "MealPlanEntry", "entity_id": f"for {plan_date} {meal_type}"})
 
-        # 3. Data Creation
+        # 3. Data Generation
         entries_table = data.setdefault("meal_plan_entries", [])
         max_id = max((e.get("entry_id", 0) for e in entries_table), default=DEFAULT_BUSINESS_RULES["INITIAL_ID_DEFAULTS"]["meal_plan_entries"])
         new_entry_id = max_id + 1
@@ -120,7 +120,7 @@ class AddRecipeToMealPlanTool(Tool):
         }
         entries_table.append(new_entry_record)
 
-        # 4. Auditing
+        # 4. Review and verification
         _log_audit_event(
             data=data,
             household_id=meal_plan_record.get("household_id"),
@@ -131,5 +131,5 @@ class AddRecipeToMealPlanTool(Tool):
             payload_json={"recipe_id": recipe_id, "plan_date": plan_date}
         )
 
-        # 5. Response
+        # 5. Reply
         return _build_success_response(new_entry_record)

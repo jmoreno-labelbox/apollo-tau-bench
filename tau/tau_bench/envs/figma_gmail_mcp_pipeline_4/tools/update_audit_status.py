@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,12 +19,12 @@ class UpdateAuditStatus(Tool):
         if not all([audit_id, new_status, updated_by]):
             return json.dumps({"error": "audit_id, new_status, and updated_by are required"})
 
-        # Validate status values
+        # Check the validity of status values.
         valid_statuses = ['DRAFT', 'IN_PROGRESS', 'PENDING_REVIEW', 'COMPLETED', 'ARCHIVED']
         if new_status not in valid_statuses:
             return json.dumps({"error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"})
 
-        # Find and update the audit
+        # Locate and revise the audit.
         for audit in data.get('audits', []):
             if audit.get('audit_id') == audit_id:
                 audit['status'] = new_status

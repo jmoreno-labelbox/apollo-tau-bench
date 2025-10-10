@@ -1,19 +1,4 @@
-from datetime import datetime
-# Copyright Sierra
-
-
-# Fixed timestamp for consistent testing
-FIXED_NOW = datetime.now().isoformat()
-
-
-
-def _find_one(items, key, value):
-    """Find one item in a list where item[key] == value."""
-    for item in items:
-        if item.get(key) == value:
-            return item
-    return None
-
+# Copyright owned by Sierra.
 
 from .find_product_by_name import FindProductByName
 from .add_cart_item import AddCartItem

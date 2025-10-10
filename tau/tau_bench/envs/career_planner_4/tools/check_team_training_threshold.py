@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,12 +10,12 @@ class check_team_training_threshold(Tool):
     def invoke(
         data: Dict[str, Any], team_id: str, threshold: int, comparison: str
     ) -> str:
-        # Mock team training hours calculation
+        # Calculation of training hours for the mock team.
         training_data = data.get("team_training_log", [])
         team_sessions = [t for t in training_data if t.get("team_id") == team_id]
 
-        # Mock calculation - in real system would sum actual training hours
-        total_hours = len(team_sessions) * 25  # Assume 25 hours per session
+        # Sample calculation - actual training hours would be totaled in a real system.
+        total_hours = len(team_sessions) * 25  # Consider each session to be 25 hours long.
 
         if comparison == "below":
             condition_met = total_hours < threshold

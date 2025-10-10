@@ -320,7 +320,7 @@ TASKS = [
             '"sample_size": 3'
         ]
     ),
-    # Hard version
+    # Difficult version
     Task(
         user_id="USER_009",
         instruction=(
@@ -347,7 +347,7 @@ TASKS = [
             Action(name="GetAircraftProfile", kwargs={"aircraft_id": "AC008"}),
             Action(name="ListAircraftAtAirport", kwargs={"iata_code": "LAS", "model_id": "ATR72-600"}),
 
-            # publish flight, then per-cabin price writes (no seats!)
+            # Post flight details, followed by per-cabin pricing (excluding seat information!).
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT021", "dates": ["2024-05-23"], "status": "available"
             }),
@@ -424,10 +424,10 @@ TASKS = [
 
         ],
         outputs=[
-        # Route profile (limit check + route echo)
+        # Route analysis (constraint verification + route feedback)
         '"route":"PHL→LGA","limit":1000,"total":60',
 
-        # Operating eligibility on 2024-05-23
+        # Eligibility for operation on 2024-05-23
         '"date":"2024-05-23","flight_number":"HAT096","flight_status":"available"',
         '"date":"2024-05-23","flight_number":"HAT296","flight_status":"available"',
 
@@ -471,7 +471,7 @@ TASKS = [
                 "tie_breaker": "lexicographic_flight_number"
             }),
         ],
-        outputs=[],  # reporting lives in tools' return; no extra strings needed
+        outputs=[],  # Reporting resides in the tool's output; no additional strings required.
     ),
     Task(
         user_id="USER_012",
@@ -564,7 +564,7 @@ TASKS = [
             Action(name="AdjustSeasonalPricing", kwargs={
                 "flight_number": "HAT001", "start_date": "2024-05-21", "end_date": "2024-05-21", "multiplier": 1.00
             }),
-            # Seats by cabin (atomic)
+            # Cabin-specific seat allocation (atomic)
             Action(name="UpdateFlightInventoryAndPrices", kwargs={
                 "flight_number": "HAT001", "date": "2024-05-21", "available_seats": {"basic_economy": 16}
             }),
@@ -574,7 +574,7 @@ TASKS = [
             Action(name="UpdateFlightInventoryAndPrices", kwargs={
                 "flight_number": "HAT001", "date": "2024-05-21", "available_seats": {"business": 10}
             }),
-            # Prices by cabin (atomic)
+            # Cabin pricing (atomic)
             Action(name="UpdateFlightInventoryAndPrices", kwargs={
                 "flight_number": "HAT001", "date": "2024-05-21", "prices": {"basic_economy": 76}
             }),
@@ -679,7 +679,7 @@ TASKS = [
                 "status": "cancelled",
                 "max_preview": 0
             }),
-            # Final readback for grounding (covers both dates)
+            # Conclusive readback for grounding (includes both dates)
             Action(name="GetFlightSchedule", kwargs={
                 "flight_number": "HAT001",
                 "start_date": "2024-05-20",
@@ -1029,12 +1029,12 @@ TASKS = [
             "Scope is strictly these flights and dates; policy applies for determinism and idempotency."
         ),
         actions=[
-            # HAT111 snapshot on 2024-05-21
+            # HAT111 snapshot taken on 2024-05-21
             Action(name="GetCurrentTicketPrice", kwargs={
                 "flight_number": "HAT111", "date": "2024-05-21", "fare_class": "economy"
             }),
 
-            # HAT001 normalization write + read-after-write
+            # HAT001 normalization for write and read-after-write operations.
             Action(name="SetTicketPrice", kwargs={
                 "flight_number": "HAT001", "date": "2024-05-21",
                 "fare_class": "economy", "price": 134.42,
@@ -1044,12 +1044,12 @@ TASKS = [
                 "flight_number": "HAT001", "date": "2024-05-21", "fare_class": "economy"
             }),
 
-            # HAT111 point-in-time snapshot on 2024-05-20
+            # HAT111 snapshot taken at a specific moment on 2024-05-20.
             Action(name="GetCurrentTicketPrice", kwargs={
                 "flight_number": "HAT111", "date": "2024-05-20", "fare_class": "economy"
             }),
 
-            # HAT111 enforce schedule + read-after-write
+            # HAT111 implements schedule enforcement with read-after-write consistency.
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT111", "dates": ["2024-05-17"], "status": "available"
             }),
@@ -1057,7 +1057,7 @@ TASKS = [
                 "flight_number": "HAT111", "start_date": "2024-05-17", "end_date": "2024-05-17"
             }),
 
-            # HAT111 enforce economy seats/prices + read-after-write
+            # HAT111 mandates economy seating/pricing along with read-after-write functionality.
             Action(name="UpdateFlightInventoryAndPrices", kwargs={
                 "flight_number": "HAT111", "date": "2024-05-17",
                 "available_seats": {"economy": 13},
@@ -1182,7 +1182,7 @@ TASKS = [
                 "flight_number": "HAT003", "start_date": "2024-05-20", "end_date": "2024-05-30",
                 "status": "available", "max_preview": 0
             }),
-            # Economy-only seasonal uplift (agents often uplift all cabins)
+            # Seasonal increase for economy class only (agents frequently enhance all cabin classes).
             Action(name="AdjustSeasonalPricing", kwargs={
                 "flight_number": "HAT001", "start_date": "2024-05-20", "end_date": "2024-05-30",
                 "multiplier": 1.05, "max_preview": 5, "fare_class": "economy"
@@ -1195,7 +1195,7 @@ TASKS = [
                 "flight_number": "HAT003", "start_date": "2024-05-20", "end_date": "2024-05-30",
                 "multiplier": 1.05, "max_preview": 5, "fare_class": "economy"
             }),
-            # Required final-state revert (agents often forget)
+            # Necessary to restore the final state (agents frequently overlook this)
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT002", "dates": ["2024-05-25"], "status": "cancelled", "max_preview": 0
             }),
@@ -1212,25 +1212,25 @@ TASKS = [
             "unchanged; scope is strictly these flights and dates."
         ),
         actions=[
-            # publish window (idempotent)
+            # publish window (safe to repeat)
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT001", "start_date": "2024-05-20", "end_date": "2024-05-30", "status": "available"
             }),
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT002", "start_date": "2024-05-20", "end_date": "2024-05-30", "status": "available"
             }),
-            # Tripwire A: per-cabin atomic seasonal on HAT001 (economy only)
+            # Tripwire A: individual cabin seasonal for HAT001 (economy class only)
             Action(name="AdjustSeasonalPricing", kwargs={
                 "flight_number": "HAT001", "start_date": "2024-05-20", "end_date": "2024-05-30",
                 "multiplier": 1.05, "fare_class": "economy"
             }),
-            # Tripwire B: all-cabins seasonal on HAT002 (no fare_class filter)
+            # Tripwire B: seasonal for all cabins on HAT002 (without fare_class filter)
             Action(name="AdjustSeasonalPricing", kwargs={
                 "flight_number": "HAT002", "start_date": "2024-05-20", "end_date": "2024-05-30",
                 "multiplier": 1.05
             }),
-            # HAT003 intentionally untouched (frozen)
-            # Tripwire C: single-date re-cancel (agents often forget)
+            # HAT003 remains deliberately unaltered (frozen).
+            # Tripwire C: re-cancel for a single date (agents frequently overlook this)
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT002", "dates": ["2024-05-27"], "status": "cancelled"
             }),
@@ -1424,7 +1424,7 @@ TASKS = [
                 "price": 280.00,
                 "require_available": True
             }),
-            # Verification: confirm schedule is available
+            # Validation: ensure schedule is accessible.
             Action(name="GetFlightStatusByDate", kwargs={
                 "flight_number": "HAT270",
                 "date": "2024-05-24"
@@ -1453,7 +1453,7 @@ TASKS = [
             "Scope is confined to this flight and window ONLY; output is limited to the named structured fields."
         ),
         actions=[
-            # Context-only read (explicit window + availability)
+            # Read-only access based on context (defined window + accessibility).
             Action(name="GetHistoricalTicketPrices", kwargs={
                 "flight_number": "HAT001",
                 "fare_class": "economy",
@@ -1461,7 +1461,7 @@ TASKS = [
                 "end_date": "2024-05-30",
                 "require_available": True
             }),
-            # Write: apply seasonal normalization (economy only)
+            # Implement seasonal normalization (for economy data only)
             Action(name="AdjustSeasonalPricing", kwargs={
                 "flight_number": "HAT001",
                 "fare_class": "economy",
@@ -1470,7 +1470,7 @@ TASKS = [
                 "multiplier": 0.95,
                 "max_preview": 5
             }),
-            # Post-write readback for verification (explicitly post-normalization)
+            # Verification through readback after writing (specifically post-normalization).
             Action(name="GetAverageTicketPrice", kwargs={
                 "flight_number": "HAT001",
                 "fare_class": "economy",
@@ -1488,12 +1488,12 @@ TASKS = [
             '"start_date": "2024-05-20"',
             '"end_date": "2024-05-30"',
 
-            # Window statistics (post-adjustment values—numbers from your run)
+            # Window metrics (adjusted values—figures from your execution)
             '"average_price": 137.66',
             '"median_price": 134.9',
             '"sample_size": 11',
 
-            # Seasonal normalization preview anchors (economy-only; 5 examples)
+            # Preview of seasonal normalization anchors (economy-specific; 5 instances)
             '"date": "2024-05-20"', '"old": 137.0', '"new": 130.15',
             '"date": "2024-05-21"', '"old": 118.0', '"new": 112.1',
             '"date": "2024-05-22"', '"old": 120.0', '"new": 114.0',
@@ -1645,7 +1645,7 @@ TASKS = [
             "Return only the requested fields."
         ),
         actions=[
-            # temporary normalization for coverage (gate for price ops)
+            # provisional normalization for coverage (threshold for pricing operations)
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT001",
                 "start_date": "2024-05-21",
@@ -1653,7 +1653,7 @@ TASKS = [
                 "status": "available"
             }),
 
-            # TRIPWIRE: neutral seasonal write (economy only) creates an audit row most agents omit
+            # TRIPWIRE: neutral seasonal write (economy only) generates an audit entry that is often overlooked by most agents.
             Action(name="AdjustSeasonalPricing", kwargs={
                 "flight_number": "HAT001",
                 "start_date": "2024-05-21",
@@ -1662,7 +1662,7 @@ TASKS = [
                 "fare_class": "economy"
             }),
 
-            # reads for the audit
+            # retrieves data for the audit
             Action(name="GetPriceChangeHistory", kwargs={
                 "flight_number": "HAT001",
                 "fare_class": "business",
@@ -1700,7 +1700,7 @@ TASKS = [
                 "tie_breaker": "lexicographic_flight_number"
             }),
 
-            # final-state: cancelled + explicit aircraft retained on that date
+            # final-state: cancelled + specified aircraft held on that date
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT001",
                 "dates": ["2024-05-21"],
@@ -1736,12 +1736,12 @@ TASKS = [
                 "flight_number": "HAT001",
                 "date": "2024-05-27"
             }),
-            # Removed the pre-update aircraft
+            # Eliminated the aircraft from the pre-update version.
             Action(name="UpdateAircraftStatus", kwargs={
                 "tail_number": "PP-PTM",
                 "status": "stored"
             }),
-            # Post-update readback to capture normalized lowercase status
+            # Readback after update to retrieve normalized lowercase state.
             Action(name="GetAircraftByTailNumber", kwargs={
                 "tail_number": "PP-PTM"
             }),
@@ -1752,17 +1752,17 @@ TASKS = [
             }),
         ],
         outputs=[
-            # Schedule confirmations
+            # Confirmations of schedules
             '"flight_number": "HAT001"', '"date": "2024-05-20"', '"status": "available"',
             '"flight_number": "HAT001"', '"date": "2024-05-27"', '"status": "available"',
 
-            # Snapshot readback
+            # Readback of the snapshot
             '"flight_number": "HAT001"', '"date": "2024-05-27"', '"flight_status": "available"',
 
-            # Aircraft context (from post-update read, normalized to lowercase)
+            # Normalized aircraft context (derived from post-update read, converted to lowercase)
             '"tail_number": "PP-PTM"', '"aircraft_id": "AC008"', '"status": "stored"',
 
-            # Assignment confirmation
+            # Task verification
             '"flight_number": "HAT001"', '"date": "2024-05-27"', '"new_aircraft_id": "AC008"', '"status": "success"',
         ],
     ),
@@ -1817,7 +1817,7 @@ TASKS = [
             "Scope is confined strictly to this flight and window; output is limited to the named structured fields."
         ),
         actions=[
-            # Write confined to the window and to Business only
+            # Restrict writing to the window and Business exclusively.
             Action(name="AdjustSeasonalPricing", kwargs={
                 "flight_number": "HAT002",
                 "start_date": "2024-05-23",
@@ -1826,7 +1826,7 @@ TASKS = [
                 "max_preview": 0,
                 "fare_class": "business"
             }),
-            # Window statistics for Business
+            # Business window metrics
             Action(name="GetAverageTicketPrice", kwargs={
                 "flight_number": "HAT002",
                 "fare_class": "business",
@@ -1836,7 +1836,7 @@ TASKS = [
                 "min_samples": 1,
                 "include": {"median": True, "count": True}
             }),
-            # Business price-change history for the same window
+            # Historical pricing changes for the business within the same timeframe.
             Action(name="GetPriceChangeHistory", kwargs={
                 "flight_number": "HAT002",
                 "fare_class": "business",
@@ -1845,18 +1845,18 @@ TASKS = [
             }),
         ],
         outputs=[
-            # Scope anchors from READ action (Action 2 output)
+            # Scope references from the READ operation (output of Action 2)
             '"flight_number": "HAT002"',
             '"fare_class": "business"',
             '"start_date": "2024-05-23"',
             '"end_date": "2024-05-29"',
 
-            # Stats from READ action (Action 2 output, per your log)
+            # Statistics from the READ operation (output of Action 2, according to your log)
             '"average_price": 361.68"',
             '"median_price": 354.32"',
             '"sample_size": 7"',
 
-            # Price-change history from READ action (Action 3 output)
+            # History of price changes from the READ operation (output of Action 3)
             '"date": "2024-05-23"', '"price": 381.1"',
             '"date": "2024-05-24"', '"price": 427.45"',
             '"date": "2024-05-25"', '"price": 307.97"',
@@ -1877,7 +1877,7 @@ TASKS = [
             "Return only minimal confirmation of the corridor parameters and the 2024-05-21 HAT001 price target."
         ),
         actions=[
-            # Cheapest-by-date report over the requested window
+            # Cost-effective report by date for the specified period.
             Action(name="ComputeCheapestByDateForRoute", kwargs={
                 "origin": "PHL",
                 "destination": "LGA",
@@ -1889,7 +1889,7 @@ TASKS = [
                 "end_date": "2024-05-21"
             }),
 
-            # Final deterministic write (price target publish)
+            # Conclusive deterministic write (release price target)
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT001",
                 "dates": ["2024-05-21"],
@@ -1951,13 +1951,13 @@ TASKS = [
             "• Return only minimal verification."
         ),
         actions=[
-            # Publish required dates (publish-before-writes)
+            # Release necessary timestamps (publish-before-writes)
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT223",
                 "dates": ["2024-05-23", "2024-05-24", "2024-05-25"],
                 "status": "available"
             }),
-            # Enforce no-charge upgrade mapping over the window
+            # Implement no-cost upgrade mapping throughout the duration.
             Action(name="BulkUpgradeTicketPrices", kwargs={
                 "flight_number": "HAT223",
                 "start_date": "2024-05-23",
@@ -1966,13 +1966,13 @@ TASKS = [
                 "to_cabin": "economy",
                 "no_charge": True
             }),
-            # Canonical price write (economy only) — no legacy/inventory writes
+            # Write canonical price (economy only) — excludes legacy/inventory updates.
             Action(name="UpdateFlightInventoryAndPrices", kwargs={
                 "flight_number": "HAT223",
                 "date": "2024-05-24",
                 "prices": {"economy": 255.00}
             }),
-            # Canonical readback for audit (must report price_source='canonical')
+            # Canonical readback for auditing (price_source='canonical' is required).
             Action(name="GetCurrentTicketPrice", kwargs={
                 "flight_number": "HAT223",
                 "date": "2024-05-24",
@@ -2431,7 +2431,7 @@ TASKS = [
             "taxes, fees, or any other dates."
         ),
         actions=[
-            # publication window
+            # release period
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT008", "start_date": "2024-09-15", "end_date": "2024-09-17", "status": "available"
             }),
@@ -2439,7 +2439,7 @@ TASKS = [
                 "flight_number": "HAT009", "start_date": "2024-09-15", "end_date": "2024-09-17", "status": "available"
             }),
 
-            # TRIPWIRE: upgrades only for the middle day (agents often do all three days)
+            # TRIPWIRE: enhancements are available solely for the second day (agents typically perform tasks across all three days).
             Action(name="BulkUpgradeTicketPrices", kwargs={
                 "flight_number": "HAT008", "start_date": "2024-09-16", "end_date": "2024-09-16",
                 "from_cabin": "economy", "to_cabin": "business", "no_charge": True
@@ -2449,7 +2449,7 @@ TASKS = [
                 "from_cabin": "basic_economy", "to_cabin": "economy", "no_charge": True
             }),
 
-            # TRIPWIRE: final-state re-cancel
+            # TRIPWIRE: re-cancel to final state
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT009", "dates": ["2024-09-17"], "status": "cancelled"
             }),
@@ -2580,7 +2580,7 @@ TASKS = [
             Action(name="UpdateAircraftStatus", kwargs={
                 "aircraft_id": "AC003", "status": "Active", "reason": "no status change required"
             }),
-            Action(name="GetAircraftProfile", kwargs={"aircraft_id": "AC003"}),  # verify ORD + tail 'PP-LTM'
+            Action(name="GetAircraftProfile", kwargs={"aircraft_id": "AC003"}),  # check ORD + tail 'PP-LTM'
             Action(name="AssignAircraftToFlight", kwargs={
                 "flight_number": "HAT018", "date": "2024-05-05", "new_aircraft_id": "AC007"
             }),
@@ -2873,7 +2873,7 @@ TASKS = [
                 kwargs={"tail_number": "D-A-VJW"}
             ),
             Action(name="ListAircraftAtAirport", kwargs={"iata_code": "ORD", "model_id": "CRJ900"}),
-            # Relocate AC013 to DEN
+            # Move AC013 to DEN.
             Action(name="RepositionAircraft", kwargs={
                 "aircraft_id": "AC013",
                 "to_iata": "DEN",
@@ -3006,7 +3006,7 @@ TASKS = [
                 "status": "active",
                 "reason": "status reconfirmation—no change expected at CLT"
             }),
-            # verification reads (model/status filtered)
+            # validity checks (model/status refined)
             Action(name="GetAircraftProfile", kwargs={"aircraft_id": "AC015"}),
             Action(name="ListAircraftAtAirport", kwargs={"iata_code": "CLT", "model_id": "E175", "status": "active"}),
         ],
@@ -3103,18 +3103,18 @@ TASKS = [
             "No return payload is included; evaluation relies solely on the terminal database state."
         ),
         actions=[
-            # Normalize aircraft home/base & status
+            # Standardize aircraft home/base and operational status.
             Action(name="RepositionAircraft", kwargs={"aircraft_id": "AC006", "to_iata": "LHR"}),
             Action(name="UpdateAircraftStatus", kwargs={"aircraft_id": "AC006", "status": "Active"}),
 
-            # Assign AC006 to HAT014 on 2024-05-05 (use assignment tool, not schedule edit)
+            # Allocate AC006 to HAT014 on 2024-05-05 (utilize the assignment tool instead of schedule editing).
             Action(name="AssignAircraftToFlight", kwargs={
                 "flight_number": "HAT014",
                 "date": "2024-05-05",
                 "new_aircraft_id": "AC006"
             }),
 
-            # Ensure HAT001 is operating on 2024-05-17
+            # Verify that HAT001 is functioning on May 17, 2024.
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT001",
                 "dates": ["2024-05-17"],
@@ -3122,7 +3122,7 @@ TASKS = [
                 "max_preview": 0
             }),
 
-            # Publish exact base_fare prices for HAT001 on 2024-05-17 (per-cabin deterministic writes)
+            # Release precise base_fare amounts for HAT001 on 2024-05-17 (deterministic writes by cabin).
             Action(name="SetTicketPrice", kwargs={
                 "flight_number": "HAT001",
                 "date": "2024-05-17",
@@ -3265,7 +3265,7 @@ TASKS = [
             "(d) publish status then per-cabin seat writes then per-cabin price writes. Scope is strictly these entities and this date. Return no outputs."
         ),
         actions=[
-            # (a) Reposition — exact EN DASH required in reason
+            # (a) Adjust position — precise EN DASH needed in justification
             Action(name="RepositionAircraft", kwargs={
                 "aircraft_id": "AC009", "to_iata": "GRU",
                 "reason": "Brazil demand uplift – GRU push Q3"
@@ -3382,15 +3382,15 @@ TASKS = [
             }),
         ],
         outputs=[
-            # (a) status read back
+            # (a) status retrieval
             '"flight_number": "HAT250"',
             '"date": "2024-05-21"',
             '"flight_status": "available"',
 
-            # (b) schedule/status set to available
+            # (b) status/schedule updated to available
             '"status": "available"',
 
-            # (c) exact base fares confirmed via reads
+            # (c) precise base rates validated through readings
             '"fare_class": "basic_economy"', '"price": 134.42',
             '"fare_class": "economy"',       '"price": 234.42',
             '"fare_class": "business"',      '"price": 334.42',
@@ -3427,12 +3427,12 @@ TASKS = [
             }),
         ],
         outputs=[
-            # (a) flight status read back
+            # (a) read back flight status
             '"flight_number": "HAT004"',
             '"date": "2024-05-01"',
             '"flight_status": "landed"',
 
-            # (b) CM001 certification record
+            # (b) Record of CM001 certification
             '"crew_member_id": "CM001"',
             '"certification_code": "A320neo"',
             '"issue_date": "2025-01-15"',
@@ -3440,7 +3440,7 @@ TASKS = [
             '"action": "created"',
             '"success": true',
 
-            # (c) CM002 certification record
+            # (c) Record for CM002 certification
             '"crew_member_id": "CM002"',
             '"certification_code": "A320neo"',
             '"issue_date": "2025-01-20"',
@@ -3488,13 +3488,13 @@ TASKS = [
             "return only minimal verification fields."
         ),
         actions=[
-            # flight context (read-only)
+            # immutable flight context
             Action(name="GetFlightStatusByDate", kwargs={
                 "flight_number": "HAT004",
                 "date": "2024-05-01"
             }),
 
-            # scoped crew updates (deterministic upserts)
+            # targeted crew modifications (predictable updates)
             Action(name="UpsertCrewCertification", kwargs={
                 "crew_member_id": "CM001",
                 "certification_code": "A220-300",
@@ -3508,7 +3508,7 @@ TASKS = [
                 "expiry_date": "2026-06-01"
             }),
 
-            # minimal verification reads
+            # basic validation checks
             Action(name="GetCrewCertifications", kwargs={"crew_member_id": "CM001"}),
             Action(name="GetCrewCertifications", kwargs={"crew_member_id": "CM002"}),
         ],
@@ -3590,23 +3590,23 @@ TASKS = [
             "is included; evaluation relies solely on the terminal database state."
         ),
         actions=[
-            # (a) Baseline context for AC001
+            # (a) Reference framework for AC001
             Action(name="GetAircraftProfile", kwargs={"aircraft_id": "AC001"}),
 
-            # (b) Verify HAT250 is available on 2024-05-21 (read-only; if your policy needs enforcement, add an update)
+            # (b) Check if HAT250 is accessible on 2024-05-21 (read-only; if policy enforcement is required, include an update)
             Action(name="GetFlightStatusByDate", kwargs={
                 "flight_number": "HAT250",
                 "date": "2024-05-21"
             }),
 
-            # (c) Record reassignment via explicit assignment audit (not a schedule field write)
+            # (c) Document record reassignment through direct assignment verification (instead of modifying a schedule field).
             Action(name="AssignAircraftToFlight", kwargs={
                 "flight_number": "HAT014",
                 "date": "2024-05-21",
                 "new_aircraft_id": "AC007"
             }),
 
-            # (d) Ensure HAT001 published state on 2024-05-21 matches exactly (status + seats + prices)
+            # (d) Confirm that the published state of HAT001 on 2024-05-21 aligns precisely (status + seats + prices).
             Action(name="UpdateFlightInventoryAndPrices", kwargs={
                 "flight_number": "HAT001",
                 "date": "2024-05-21",
@@ -3771,7 +3771,7 @@ TASKS = [
                     "(e) explicit evidence that HAT002 on 2024-05-24 is assigned to 'AC002'. Keep scope limited to these entities, "
                     "dates, and values, avoid modifying other resources, and return only the verification fields."),
         actions=[
-            Action(name="GetAircraftProfile", kwargs={"aircraft_id": "AC002"}),  # baseline
+            Action(name="GetAircraftProfile", kwargs={"aircraft_id": "AC002"}),  # reference point
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT002",
                 "dates": ["2024-05-23","2024-05-24","2024-05-25"],
@@ -3779,7 +3779,7 @@ TASKS = [
                 "aircraft": "AC002"
             }),
             Action(name="GetFlightStatusByDate", kwargs={"flight_number": "HAT002", "date": "2024-05-24"}),
-            Action(name="GetAircraftByTailNumber", kwargs={"tail_number": "PR-XBE"}),  # matches AC002
+            Action(name="GetAircraftByTailNumber", kwargs={"tail_number": "PR-XBE"}),  # corresponds to AC002
             Action(name="AssignAircraftToFlight", kwargs={
                 "flight_number": "HAT002",
                 "date": "2024-05-24",
@@ -3820,11 +3820,11 @@ TASKS = [
             }),
         ],
         outputs=[
-            # schedule updates applied
+            # applied schedule modifications
             '"flight_number": "HAT001"', '"changed": 2', '"success": true',
             '"flight_number": "HAT002"', '"changed": 2', '"success": true',
 
-            # HAT001 economy fare with 5% discount on 2024-05-20
+            # HAT001 economy ticket with a 5% reduction on 2024-05-20
             '"flight_number": "HAT001"',
             '"date": "2024-05-20"',
             '"fare_class": "economy"',
@@ -3833,7 +3833,7 @@ TASKS = [
             '"new_price": 130.15"',
             '"success": true',
 
-            # HAT002 business fare with 10% discount on 2024-05-21
+            # HAT002 business ticket with a 10% discount for 2024-05-21.
             '"flight_number": "HAT002"',
             '"date": "2024-05-21"',
             '"fare_class": "business"',
@@ -3921,7 +3921,7 @@ TASKS = [
             "all writes must be idempotent. Scope is strictly HAT007 on 2024-05-24, with minimal confirmation only."
         ),
         actions=[
-            # Publish schedule on 2024-05-24
+            # Release timetable on 2024-05-24
             Action(name="UpdateFlightSchedule", kwargs={
                 "flight_number": "HAT007",
                 "dates": ["2024-05-24"],
@@ -3929,7 +3929,7 @@ TASKS = [
                 "max_preview": 0
             }),
 
-            # Cabin normalization for 2024-05-24
+            # Normalization of cabin data for 2024-05-24.
             Action(name="UpdateFlightInventoryAndPrices", kwargs={
                 "flight_number": "HAT007",
                 "date": "2024-05-24",
@@ -3937,7 +3937,7 @@ TASKS = [
                 "prices": {"basic_economy": 76.00, "economy": 189.00, "business": 201.00}
             }),
 
-            # Verification: schedule status on 2024-05-24
+            # Check the schedule status for 2024-05-24.
             Action(name="GetFlightStatusByDate", kwargs={
                 "flight_number": "HAT007",
                 "date": "2024-05-24"

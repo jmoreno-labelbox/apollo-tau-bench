@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class CreateNewCandidateRecordTool(Tool):
 
         candidates = data.setdefault("candidates", [])
 
-        # Duplicate check
+        # Redundancy verification
         if any(c.get("candidate_email") == candidate_email for c in candidates):
             return _err(f"Candidate with email '{candidate_email}' already exists.", code="conflict")
 

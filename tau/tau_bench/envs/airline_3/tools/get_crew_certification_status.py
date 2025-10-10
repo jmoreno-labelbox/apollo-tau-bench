@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,24 +25,24 @@ class GetCrewCertificationStatus(Tool):
         crew_members = data.get("crew_members", [])
         filtered_certifications = []
 
-        # Set default expiry threshold if not provided
+        # Establish default expiration limit if not specified.
         if expiry_threshold_days is None:
             expiry_threshold_days = 90
 
-        # Handle both crew_id and crew_member_id parameters
+        # Manage parameters for crew_id and crew_member_id.
         target_crew_id = crew_id or crew_member_id
 
         today = datetime(2025, 9, 15, 0, 0, 0).date()
         threshold_date = today + timedelta(days=expiry_threshold_days)
 
         for cert in crew_certifications:
-            # Apply filters
+            # Implement filters
             if target_crew_id and cert.get("crew_member", {}).get("crew_member_id") != target_crew_id:
                 continue
             if certification_type and cert.get("certification", {}).get("certification_code") != certification_type:
                 continue
 
-            # Get crew member details
+            # Retrieve details of the crew member.
             crew_member_id = cert.get("crew_member", {}).get("crew_member_id")
             crew_details = None
             for crew in crew_members:
@@ -50,7 +50,7 @@ class GetCrewCertificationStatus(Tool):
                     crew_details = crew
                     break
 
-            # Calculate certification status
+            # Determine the certification status.
             expiry_date = cert.get("expiry_date")
             if expiry_date:
                 try:
@@ -85,14 +85,14 @@ class GetCrewCertificationStatus(Tool):
 
             filtered_certifications.append(cert_info)
 
-        # Sort by status priority and expiry date
+        # Order by status priority and expiration date.
         status_priority = {"expired": 1, "expiring_soon": 2, "valid": 3, "no_expiry": 4, "unknown": 5}
         filtered_certifications.sort(key=lambda x: (
             status_priority.get(x["status"], 6),
             x["days_until_expiry"] if x["days_until_expiry"] is not None else float('inf')
         ))
 
-        # Calculate summary statistics
+        # Compute aggregate statistics.
         total_certifications = len(filtered_certifications)
         status_counts = {}
         type_counts = {}
@@ -125,7 +125,7 @@ class GetCrewCertificationStatus(Tool):
             "certifications": filtered_certifications
         }
 
-        # Add alerts for critical certifications
+        # Implement notifications for essential certifications.
         if expired_count > 0 or expiring_soon_count > 0:
             response["alerts"] = {}
             if expired_count > 0:
@@ -133,7 +133,7 @@ class GetCrewCertificationStatus(Tool):
             if expiring_soon_count > 0:
                 response["alerts"]["expiring_soon_certifications"] = expiring_soon_count
 
-        # Add recommendations if no specific filters
+        # Provide suggestions when no particular filters are applied.
         if not any([target_crew_id, certification_type]) and total_certifications > 0:
             if expired_count > 0:
                 response["recommendations"] = {

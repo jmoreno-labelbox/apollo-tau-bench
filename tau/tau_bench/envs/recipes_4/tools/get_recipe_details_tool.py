@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -52,7 +52,7 @@ class GetRecipeDetailsTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the fully detailed and hydrated recipe object.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Data
         param_definitions = {
             "recipe_id": {"type": int, "required": True}
         }
@@ -65,7 +65,7 @@ class GetRecipeDetailsTool(Tool):
 
         recipe_id = kwargs["recipe_id"]
 
-        # 2. Data Retrieval: Find the base recipe object
+        # 2. Data Acquisition: Locate the primary recipe object.
         recipe_record = next(
             (r for r in list(data.get("recipes", {}).values()) if r.get("recipe_id") == recipe_id),
             None
@@ -74,7 +74,7 @@ class GetRecipeDetailsTool(Tool):
         if not recipe_record:
             return _build_error_response("NOT_FOUND", {"entity": "Recipe", "entity_id": recipe_id})
 
-        # 3. Data Enrichment (Hydration): Fetch and enrich ingredients
+        # 3. Data Enrichment (Hydration): Retrieve and enhance ingredient details.
         recipe_ingredients_links = [
             ri for ri in data.get("recipe_ingredients", []) if ri.get("recipe_id") == recipe_id
         ]
@@ -93,9 +93,9 @@ class GetRecipeDetailsTool(Tool):
                 "unit": link.get("unit"),
             })
 
-        # 4. Build the final response object
+        # 4. Construct the ultimate response object.
         detailed_recipe = recipe_record.copy()
         detailed_recipe["ingredients"] = enriched_ingredients
 
-        # 5. Return the standardized success response
+        # 5. Provide the normalized success response.
         return _build_success_response(detailed_recipe)

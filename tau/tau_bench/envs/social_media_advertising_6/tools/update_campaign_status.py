@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class UpdateCampaignStatus(Tool):
         if not row: return _fail("campaign_not_found")
         row["status"] = kwargs["status"]
         row["updated_at"] = kwargs["timestamp"]
-        # optional: log to automation_runs
+        # optional: record in automation_runs
         runs = _assert_table(data, "automation_runs")
         _append_change(runs, {"run_type": "campaign_status_update", "started_at": kwargs["timestamp"],
                               "ended_at": kwargs["timestamp"], "status": "completed",

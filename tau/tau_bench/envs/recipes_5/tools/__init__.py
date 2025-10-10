@@ -1,7 +1,7 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 
-# Helper functions
+# Utility functions
 def _household_for_user(data, user_id):
     """Get household for a user."""
     users = list(data.get('users', {}).values())
@@ -20,7 +20,7 @@ def _first_user_id(data):
 
 
 
-# Helper function
+# Utility function
 import json
 
 def _json_dump(obj):

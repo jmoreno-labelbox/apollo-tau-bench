@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,7 +25,7 @@ class GetAccountTypeAndAccountTypeCode(Tool):
 
         account_code = type_map.get(account_type_input)
         if account_code:
-            standardized_type = account_type_input.title()  # e.g., "savings" → "Savings"
+            standardized_type = account_type_input.title()  # For instance, "savings" becomes "Savings".
             return json.dumps({
                 "account_type": standardized_type,
                 "account_code": account_code

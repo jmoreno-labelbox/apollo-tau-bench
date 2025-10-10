@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class DelayFlightActualTimesForDate(Tool):
             def _bump(ts: Optional[str]):
                 if not ts:
                     return ts
-                # ts like 2024-05-01T06:26:00 (no timezone)
+                # timestamp format: 2024-05-01T06:26:00 (without timezone)
                 try:
                     dt = datetime.fromisoformat(ts)
                     dt = dt + timedelta(minutes=delay_minutes)

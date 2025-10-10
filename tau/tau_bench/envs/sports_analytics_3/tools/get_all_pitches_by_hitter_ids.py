@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,23 +12,23 @@ class GetAllPitchesByHitterIds(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         hitter_ids = kwargs.get("hitter_ids")
 
-        # 1) Validate
+        # 1) Verify
         if not isinstance(hitter_ids, list) or len(hitter_ids) == 0:
             return json.dumps(
                 {"error": "Missing required field: hitter_ids (non-empty list of integers)"},
                 indent=2
             )
 
-        # 2) Get DB
+        # Retrieve database
         pitches: List[Dict[str, Any]] = list(data.get("pitches", {}).values())
 
-        # 3) Filter
+        # 3) Selection
         id_set = set(hitter_ids)
         matches = [p for p in pitches if p.get("hitter_id") in id_set]
         if not matches:
             return json.dumps({"error": f"No pitches found for hitter_ids {hitter_ids}"}, indent=2)
 
-        # 4) Deterministic order: game_pk, at_bat_index, pitch_number, pitch_id (ASC)
+        # 4) Fixed sequence: game_pk, at_bat_index, pitch_number, pitch_id (ascending)
         matches.sort(
             key=lambda p: (
                 int(p.get("game_pk", 0)),
@@ -38,7 +38,7 @@ class GetAllPitchesByHitterIds(Tool):
             )
         )
 
-        # 5) Return list of pitch records only
+        # 5) Output a list containing only pitch records.
         return json.dumps(matches, indent=2)
 
     @staticmethod

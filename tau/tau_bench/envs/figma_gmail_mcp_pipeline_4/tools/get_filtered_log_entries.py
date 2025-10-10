@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,26 +19,26 @@ class GetFilteredLogEntries(Tool):
 
         terminal_logs = data.get('terminal_logs', [])
 
-        # Filter logs by criteria
+        # Apply filters to the logs based on specified conditions.
         results = []
         for log in terminal_logs:
-            # Apply log level filter
+            # Implement a log level restriction.
             if log_level:
                 log_message = log.get('message', '')
                 if not log_message.startswith(f"{log_level}:"):
                     continue
 
-            # Apply message pattern filter
+            # Implement message pattern filtering.
             if message_pattern:
                 if message_pattern.lower() not in log.get('message', '').lower():
                     continue
 
-            # Apply component filter
+            # Implement component filtering.
             if component:
                 if log.get('component') != component:
                     continue
 
-            # Apply timestamp filters
+            # Implement timestamp filtering.
             if after_timestamp:
                 log_time = log.get('log_ts', '')
                 if log_time < after_timestamp:
@@ -51,7 +51,7 @@ class GetFilteredLogEntries(Tool):
 
             results.append(log)
 
-        # Create summary by log level
+        # Generate a summary categorized by log severity.
         level_counts = {}
         for log in results:
             message = log.get('message', '')

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -48,7 +48,7 @@ class RemoveRecipeFromMealPlanTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains a confirmation of the deletion.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Data
         param_definitions = {
             "entry_id": {"type": int, "required": True},
             "user_id": {"type": int, "required": False},
@@ -62,13 +62,13 @@ class RemoveRecipeFromMealPlanTool(Tool):
 
         entries_table = data.get("meal_plan_entries", [])
 
-        # 2. Find the entry to remove
+        # 2. Locate the item to delete
         entry_to_remove = next((e for e in entries_table if e.get("entry_id") == entry_id), None)
 
         if not entry_to_remove:
             return _build_error_response("NOT_FOUND", {"entity": "MealPlanEntry", "entity_id": entry_id})
 
-        # 3. Auditing (must be done before the data is removed)
+        # 3. Audit (required prior to data deletion)
         meal_plan = next((p for p in data.get("meal_plans", []) if p.get("meal_plan_id") == entry_to_remove["meal_plan_id"]), None)
         household_id = meal_plan.get("household_id") if meal_plan else None
 
@@ -79,13 +79,13 @@ class RemoveRecipeFromMealPlanTool(Tool):
             entity_type="meal_plan_entries",
             entity_id=entry_id,
             action_enum="delete",
-            payload_json=entry_to_remove # Log the data that was deleted
+            payload_json=entry_to_remove # Record the deleted data.
         )
 
-        # 4. Perform the removal
+        # 4. Execute the deletion.
         data["meal_plan_entries"] = [e for e in entries_table if e.get("entry_id") != entry_id]
 
-        # 5. Response
+        # 5. Reply
         return _build_success_response({
             "status": "success",
             "deleted_entry": entry_to_remove

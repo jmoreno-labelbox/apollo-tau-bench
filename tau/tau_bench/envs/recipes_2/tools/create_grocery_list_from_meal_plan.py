@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class CreateGroceryListFromMealPlan(Tool):
         user_id = kwargs.get("user_id")
 
         lists = data.get("grocery_lists", [])
-        # Automatically generate the next list_id
+        # Automatically create the subsequent list_id.
         new_id = max([l.get("list_id", 0) for l in lists]) + 1 if lists else 8001
 
         new_list = {
@@ -22,7 +22,7 @@ class CreateGroceryListFromMealPlan(Tool):
             "household_id": household_id,
             "source_meal_plan_id": meal_plan_id,
             "created_by_user_id": user_id,
-            "created_at": "2025-08-20T12:00:00Z", # Using a fixed timestamp for consistency
+            "created_at": "2025-08-20T12:00:00Z", # Employing a constant timestamp for uniformity.
             "status_enum": "initialized"
         }
         data["grocery_lists"].append(new_list)

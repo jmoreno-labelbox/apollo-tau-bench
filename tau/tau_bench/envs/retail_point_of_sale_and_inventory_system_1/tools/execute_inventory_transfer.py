@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class ExecuteInventoryTransfer(Tool):
         from_store_id = kwargs.get('from_store_id')
         to_store_id = kwargs.get('to_store_id')
 
-        inventory = list(data.get("inventory", {}).values())  # Corrigido para lista
+        inventory = list(data.get("inventory", {}).values())  # Ajustado para lista
         from_item = None
         to_item = None
 

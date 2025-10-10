@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class BlockAccountForCustomerId(Tool):
                 indent=2
             )
 
-        # Find the account and verify ownership
+        # Locate the account and confirm ownership.
         accounts = list(data.get("accounts", {}).values())
         account = next((a for a in accounts
                         if a["account_id"] == account_id
@@ -29,7 +29,7 @@ class BlockAccountForCustomerId(Tool):
                 indent=2
             )
 
-        # Block it
+        # Prevent it.
         account["status"] = "Blocked"
         return json.dumps(account, indent=2)
 

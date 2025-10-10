@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class SearchLogsTool(Tool):
         results = []
         for l in logs:
             details_val = l.get("details")
-            # Only do the containment check if both are str
+            # Perform the containment check only if both variables are of type str.
             if not (isinstance(details_val, str) and isinstance(query, str) and query in details_val):
                 continue
             if res_id and l.get("target_id") != res_id:

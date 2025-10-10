@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,16 +19,16 @@ class UpdateGameEventStatus(Tool):
         event_id = kwargs.get("event_id")
         draft_status = kwargs.get("draft_status")
 
-        # 1) Validate
+        # 1) Verify
         if event_id is None:
             return json.dumps({"error": "Missing required field: event_id"}, indent=2)
         if not isinstance(draft_status, str) or draft_status == "":
             return json.dumps({"error": "Missing required field: draft_status"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         events: List[Dict[str, Any]] = list(data.get("game_day_events", {}).values())
 
-        # 3) Find and update
+        # Locate and modify
         for event in events:
             if event.get("event_id") == event_id:
                 event["draft_status"] = draft_status

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,5 +21,5 @@ class GetIdleCpuCountTool(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Return a fixed number for deterministic behavior.
+        # Provide a constant value to ensure consistent results.
         return json.dumps({"idle_cpus": 6})

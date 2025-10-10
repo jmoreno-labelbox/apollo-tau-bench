@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class ListCartItems(Tool):
             return json.dumps({"error": "cart_id is required."}, indent=2)
         cart_id = _as_id(cart_id)
         rows = [ci for ci in data.get("cart_items", []) if _as_id(ci.get("cart_id")) == cart_id]
-        # return minimal, deterministic fields
+        # return basic, predictable fields
         items = [
             {
                 "cart_item_id": r.get("cart_item_id"),

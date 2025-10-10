@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -31,17 +31,17 @@ class update_stock_quantity(Tool):
         inventory = list(data.get("inventory", {}).values())
 
         for item in inventory:
-            # Matching item
+            # Corresponding element
             if (item["store_id"] == store_id) and (item["sku"] == sku):
                 former_quantity = item["quantity"]
 
-                # Update the quantity
+                # Modify the amount.
                 if quantity is not None:
                     item["quantity"] = quantity
                 else:
                     item["quantity"] += int(relative_quantity)
 
-                # Update the status
+                # Revise the status.
                 if item["quantity"] <= item["safety_stock"]:
                     item["status"] = "critical"
                 elif item["quantity"] <= item["reorder_level"]:

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class GetProductByItemId(Tool):
 
         products = data['products']
 
-        # Search through all products to find which one contains this item_id
+        # Scan all products to identify the one that includes this item_id.
         for product in products:
             if item_id in product['variants']:
                 variant_info = product['variants'][item_id]

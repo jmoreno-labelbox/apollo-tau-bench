@@ -27,7 +27,7 @@ class ScheduleDeviceUpdate(Tool):
                     sched.append({"timestamp": timestamp, "update": update, "rrule": rrule})
                 else:
                     sched.append({"timestamp": timestamp, "update": update})
-                sched.sort(key=lambda x: x["timestamp"])  # keep chronologically ordered
+                sched.sort(key=lambda x: x["timestamp"])  # maintain chronological sequence
                 return json.dumps({"success": True, "scheduled_updates": sched}, indent=2)
         return json.dumps({"error": f"Device '{device_id}' not found"}, indent=2)
 

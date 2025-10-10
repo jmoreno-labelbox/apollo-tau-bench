@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class UpsertCrewCertification(Tool):
         """Normalize incoming date-like to ISO 'YYYY-MM-DD' or None (accepts None, '', 'null')."""
         if d in (None, "", "null"):
             return None
-        date.fromisoformat(d)  # raises if invalid
+        date.fromisoformat(d)  # throws an exception if invalid
         return d
 
     @staticmethod
@@ -41,19 +41,19 @@ class UpsertCrewCertification(Tool):
         cert_id = certification_id
         strategy = upsert_strategy
 
-        # validate crew
+        # verify crew
         if not crew_member_id:
             return _json({"error": "missing_params", "reason": "crew_member_id is required"})
         crew = _find_crew_member(data, crew_member_id)
         if not crew:
             return _json({"error": "crew_member_not_found", "crew_member_id": crew_member_id})
 
-        # exactly one of code or id
+        # precisely one of code or id
         if bool(certification_code) == bool(cert_id):
             return _json({"error": "invalid_params",
                           "reason": "Provide exactly one of certification_code or certification_id."})
 
-        # resolve certification
+        # complete certification process
         cert = _get_cert_by_code(data, certification_code) if certification_code else _get_cert_by_id(data, cert_id)
         if not cert:
             return _json({"error": "certification_not_found",
@@ -62,13 +62,13 @@ class UpsertCrewCertification(Tool):
         resolved_code = cert.get("certification_code")
         resolved_id = cert.get("certification_id")
 
-        # normalize and validate strategy
+        # standardize and verify approach
         strategy = (strategy.strip().lower() if isinstance(strategy, str) else "create_new")
         if strategy not in ("create_new", "replace_if_overlap"):
             return _json({"error": "invalid_params",
                           "reason": "upsert_strategy must be 'create_new' or 'replace_if_overlap'."})
 
-        # date validation + normalization
+        # date verification and standardization
         if not issue_date:
             return _json({"error": "missing_params", "reason": "issue_date is required"})
         try:
@@ -77,18 +77,18 @@ class UpsertCrewCertification(Tool):
         except Exception:
             return _json({"error": "invalid_date_format", "reason": "Dates must be YYYY-MM-DD or null"})
 
-        # collections
+        # data structures
         existing_list = data.setdefault("crew_certifications", [])
         audits = data.setdefault("crew_cert_audits", [])
 
-        # matches for this crew + cert_code
+        # associations for this team + cert_code
         matches = [
             cc for cc in existing_list
             if ((cc.get("crew_member") or {}).get("crew_member_id") == crew_member_id) and
                ((cc.get("certification") or {}).get("certification_code") == resolved_code)
         ]
 
-        # deterministic IDs
+        # fixed identifiers
         det_cc_id = f"CC-{crew_member_id}-{resolved_code}-{issue_date}"
         audit_id = f"CA-{crew_member_id}-{issue_date}"
 
@@ -146,7 +146,7 @@ class UpsertCrewCertification(Tool):
                 new_cc_id = det_cc_id
                 action = "created"
 
-        # deterministic audit (avoid duplicate audit with same id)
+        # ensured audit uniqueness (prevent duplicate audits with identical id)
         if not any(a.get("id") == audit_id for a in audits):
             audits.append({
                 "id": audit_id,

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class GetHighlightsByName(Tool):
     """
     Fetch a highlight playlist by name.
     Inputs:
-      - name (string) [required]  # The suffix; code will prepend 'Game Highlights - '
+      - name (string) [required]  # The suffix; code will add 'Game Highlights - ' at the beginning.
     Behavior:
       - Compute full_name = "Game Highlights - " + name and return the matching playlist.
       - If multiple match (unlikely), return the one with the smallest playlist_id for determinism.
@@ -19,16 +19,16 @@ class GetHighlightsByName(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         name = kwargs.get("name")
 
-        # 1) Validate
+        # 1) Verify
         if not isinstance(name, str) or name == "":
             return json.dumps({"error": "Missing required field: name"}, indent=2)
 
         full_name = f"Game Highlights - {name}"
 
-        # 2) Get DB
+        # Retrieve database.
         playlists: List[Dict[str, Any]] = list(data.get("video_playlists", {}).values())
 
-        # 3) Exact match search (no normalization)
+        # 3) Precise match query (without normalization)
         matches = [p for p in playlists if p.get("playlist_name") == full_name]
 
         if not matches:

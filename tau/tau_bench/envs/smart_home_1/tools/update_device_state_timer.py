@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -30,7 +30,7 @@ class UpdateDeviceStateTimer(Tool):
                     {"success": True, "device_id": device_id},
                     indent=2,
                 )
-        # try sensors if not found in devices
+        # attempt sensors if devices are unavailable
         sensors: List[Dict[str, Any]] = list(data.get("sensors", {}).values())
         for sensor in sensors:
             if sensor.get("id") == device_id:

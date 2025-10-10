@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class GetWeatherForecast(Tool):
     @staticmethod
     def _parse_iso(ts: str) -> Optional[datetime]:
         try:
-            # aceita "YYYY-MM-DDTHH:MM:SSZ" e "YYYY-MM-DDTHH:MM:SS"
+            # aceita os formatos "YYYY-MM-DDTHH:MM:SSZ" e "YYYY-MM-DDTHH:MM:SS"
             return datetime.fromisoformat(ts.replace("Z", "+00:00"))
         except Exception:
             return None
@@ -36,22 +36,22 @@ class GetWeatherForecast(Tool):
             rec_end = GetWeatherForecast._parse_iso(rec.get("end_ts", ""))
             if not rec_start or not rec_end:
                 continue
-            # exigimos cobertura total do intervalo solicitado
+            # requeremos a cobertura completa do intervalo especificado
             if rec_start <= start_dt and rec_end >= end_dt:
                 ts_list = rec.get("timestamps") or []
-                # sub-seleciona o range
+                # sub-selects the range
                 def in_range(ts):
                     dt = GetWeatherForecast._parse_iso(ts)
                     return dt is not None and (start_dt <= dt <= end_dt)
 
                 out_ts = [t for t in ts_list if in_range(t)]
-                # alinhar séries (pode haver _nullable)
+                # alinhar séries (pode conter _nullable)
                 precip = rec.get("precipitation_mm_hr_nullable") or []
                 temp = rec.get("temperature_2m_c_nullable") or []
                 wind = rec.get("wind_speed_10m_ms_nullable") or []
 
-                # cortar pelos mesmos índices selecionados
-                # (assume alinhamento por posição com timestamps)
+                # remover elementos nos mesmos índices escolhidos
+                # (assume alignment by position with timestamps)
                 idxs = [i for i, t in enumerate(ts_list) if t in out_ts]
                 def sel(arr): return [arr[i] for i in idxs if i < len(arr)]
                 result = {

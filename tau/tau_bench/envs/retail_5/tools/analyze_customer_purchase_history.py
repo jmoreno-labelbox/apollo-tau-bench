@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class AnalyzeCustomerPurchaseHistory(Tool):
 
         orders = data['orders']
         user_orders = [o for o in orders if o['user_id'] == user_id]
-        # and o['status'] in ['delivered', 'completed', 'processed']
+        # and o['status'] is one of ['delivered', 'completed', 'processed']
 
         total_spent = 0.0
         categories = {}

@@ -2,7 +2,7 @@ from tau_bench.types import Action, Task
 
 
 TASKS = [
-    # Task 1
+    # Activity 1
     Task(
         annotator="0",
         user_id="U01",
@@ -70,7 +70,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 2
+    # Activity 2
     Task(
         annotator="0",
         user_id="U02",
@@ -140,7 +140,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 3
+    # Activity 3
     Task(
         annotator="0",
         user_id="U03",
@@ -208,7 +208,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 4
+    # Activity 4
     Task(
         annotator="0",
         user_id="U04",
@@ -261,7 +261,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 5
+    # Activity 5
     Task(
         annotator="0",
         user_id="U05",
@@ -315,7 +315,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 6
+    # Activity 6
     Task(
         annotator="0",
         user_id="U06",
@@ -368,7 +368,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 7
+    # Activity 7
     Task(
         annotator="0",
         user_id="U07",
@@ -406,7 +406,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 8
+    # Objective 8
     Task(
         annotator="0",
         user_id="U08",
@@ -432,7 +432,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 9
+    # Activity 9
     Task(
         annotator="0",
         user_id="U09",
@@ -485,7 +485,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 10
+    # Assignment 10
     Task(
         annotator="0",
         user_id="U10",
@@ -553,7 +553,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 11
+    # Assignment 11
     Task(
         annotator="0",
         user_id="U11",
@@ -625,7 +625,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 12
+    # Assignment 12
     Task(
         annotator="0",
         user_id="U12",
@@ -680,7 +680,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 13
+    # Assignment 13
     Task(
         annotator="0",
         user_id="U13",
@@ -839,7 +839,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 15
+    # Assignment 15
     Task(
         annotator="0",
         user_id="U15",
@@ -897,7 +897,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 16
+    # Assignment 16
     Task(
         annotator="0",
         user_id="U16",
@@ -1003,7 +1003,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 18
+    # Assignment 18
     Task(
         annotator="0",
         user_id="U18",
@@ -1110,7 +1110,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 20
+    # Assignment 20
     Task(
         annotator="0",
         user_id="U20",
@@ -1164,7 +1164,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 21
+    # Assignment 21
     Task(
         annotator="0",
         user_id="U21",
@@ -1241,7 +1241,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 22
+    # Task number 22
     Task(
         annotator="0",
         user_id="U22",
@@ -1294,7 +1294,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 23
+    # Activity 23
     Task(
         annotator="0",
         user_id="U23",
@@ -1365,7 +1365,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 24
+    # Activity 24
     Task(
         annotator="0",
         user_id="U24",
@@ -1473,7 +1473,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 26
+    # Assignment 26
     Task(
         annotator="0",
         user_id="U26",
@@ -1526,7 +1526,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 27
+    # Activity 27
     Task(
         annotator="0",
         user_id="U27",
@@ -1619,7 +1619,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 28
+    # Activity 28
     Task(
         annotator="0",
         user_id="U28",
@@ -1683,7 +1683,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 29
+    # Assignment 29
     Task(
         annotator="0",
         user_id="U29",
@@ -1757,7 +1757,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 30
+    # Activity 30
     Task(
         annotator="0",
         user_id="U30",
@@ -1812,7 +1812,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 31
+    # Activity 31
     Task(
         annotator="0",
         user_id="U31",
@@ -1879,7 +1879,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 32
+    # Activity 32
     Task(
         annotator="0",
         user_id="U32",
@@ -1932,7 +1932,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 33
+    # Assignment 33
     Task(
         annotator="0",
         user_id="U33",
@@ -2012,7 +2012,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 34
+    # Activity 34
     Task(
         annotator="0",
         user_id="U34",
@@ -2077,7 +2077,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 35
+    # Objective 35
     Task(
         annotator="0",
         user_id="U35",
@@ -2153,7 +2153,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 36
+    # Assignment 36
     Task(
         annotator="0",
         user_id="U36",
@@ -2200,7 +2200,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 37
+    # Assignment 37
     Task(
         annotator="0",
         user_id="U37",
@@ -2247,7 +2247,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 38
+    # Assignment 38
     Task(
         annotator="0",
         user_id="U38",
@@ -2317,7 +2317,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 39
+    # Operation 39
     Task(
         annotator="0",
         user_id="U39",
@@ -2372,7 +2372,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 40
+    # Assignment 40
     Task(
         annotator="0",
         user_id="U40",
@@ -2444,7 +2444,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 41
+    # Activity 41
     Task(
         annotator="0",
         user_id="U41",
@@ -2528,7 +2528,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 42
+    # Assignment 42
     Task(
         annotator="0",
         user_id="U42",
@@ -2587,7 +2587,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 43
+    # Activity 43
     Task(
         annotator="0",
         user_id="U43",
@@ -2712,7 +2712,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 44
+    # Assignment 44
     Task(
         annotator="0",
         user_id="U44",
@@ -2766,7 +2766,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 45
+    # Activity 45
     Task(
         annotator="0",
         user_id="U45",
@@ -2818,7 +2818,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 46
+    # Objective 46
     Task(
         annotator="0",
         user_id="U46",
@@ -2877,7 +2877,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 47
+    # Assignment 47
     Task(
         annotator="0",
         user_id="U47",
@@ -2924,7 +2924,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 48
+    # Activity 48
     Task(
         annotator="0",
         user_id="U48",
@@ -2965,7 +2965,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 49
+    # Activity 49
     Task(
         annotator="0",
         user_id="U49",
@@ -3024,7 +3024,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 50
+    # Assignment 50
     Task(
         annotator="0",
         user_id="U50",
@@ -3076,7 +3076,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 51
+    # Assignment 51
     Task(
         annotator="0",
         user_id="U51",
@@ -3263,7 +3263,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 54
+    # Assignment 54
     Task(
         annotator="0",
         user_id="U54",
@@ -3317,7 +3317,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 55
+    # Assignment 55
     Task(
         annotator="0",
         user_id="U55",
@@ -3370,7 +3370,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 56
+    # Assignment 56
     Task(
         annotator="0",
         user_id="U56",
@@ -3424,7 +3424,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 57
+    # Activity 57
     Task(
         annotator="0",
         user_id="U57",
@@ -3531,7 +3531,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 59
+    # Assignment 59
     Task(
         annotator="0",
         user_id="U59",
@@ -3585,7 +3585,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 60
+    # Activity 60
     Task(
         annotator="0",
         user_id="U60",
@@ -3715,7 +3715,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 62
+    # Assignment 62
     Task(
         annotator="0",
         user_id="U62",
@@ -3817,7 +3817,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 63
+    # Assignment 63
     Task(
         annotator="0",
         user_id="U63",
@@ -3888,7 +3888,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 64
+    # Assignment 64
     Task(
         annotator="0",
         user_id="U64",
@@ -3942,7 +3942,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 65
+    # Assignment 65
     Task(
         annotator="0",
         user_id="U65",
@@ -3995,7 +3995,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 66
+    # Assignment 66
     Task(
         annotator="0",
         user_id="U66",
@@ -4049,7 +4049,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 67
+    # Assignment 67
     Task(
         annotator="0",
         user_id="U67",
@@ -4155,7 +4155,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 69
+    # Objective 69
     Task(
         annotator="0",
         user_id="U69",
@@ -4209,7 +4209,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 70
+    # Activity 70
     Task(
         annotator="0",
         user_id="U70",
@@ -4256,7 +4256,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 71
+    # Assignment 71
     Task(
         annotator="0",
         user_id="U71",
@@ -4310,7 +4310,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 72
+    # Assignment 72
     Task(
         annotator="0",
         user_id="U72",
@@ -4371,7 +4371,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 73
+    # Assignment 73
     Task(
         annotator="0",
         user_id="U73",
@@ -4418,7 +4418,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 74
+    # Assignment 74
     Task(
         annotator="0",
         user_id="U74",
@@ -4477,7 +4477,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 75
+    # Assignment 75
     Task(
         annotator="0",
         user_id="U75",
@@ -4534,7 +4534,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 76
+    # Assignment 76
     Task(
         annotator="0",
         user_id="U76",
@@ -4590,7 +4590,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 77
+    # Assignment 77
     Task(
         annotator="0",
         user_id="U77",
@@ -4645,7 +4645,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 78
+    # Assignment 78
     Task(
         annotator="0",
         user_id="U78",
@@ -4700,7 +4700,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 79
+    # Assignment 79
     Task(
         annotator="0",
         user_id="U79",
@@ -4754,7 +4754,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 80
+    # Activity 80
     Task(
         annotator="0",
         user_id="U80",
@@ -4810,7 +4810,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 81
+    # Assignment 81
     Task(
         annotator="0",
         user_id="U81",
@@ -4912,7 +4912,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 83
+    # Assignment 83
     Task(
         annotator="0",
         user_id="U83",
@@ -4971,7 +4971,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 84
+    # Assignment 84
     Task(
         annotator="0",
         user_id="U84",
@@ -5051,7 +5051,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 85
+    # Assignment 85
     Task(
         annotator="0",
         user_id="U85",
@@ -5194,7 +5194,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 87
+    # Activity 87
     Task(
         annotator="0",
         user_id="U87",
@@ -5276,7 +5276,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 88
+    # Assignment 88
     Task(
         annotator="0",
         user_id="U88",
@@ -5404,7 +5404,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 90
+    # Assignment 90
     Task(
         annotator="0",
         user_id="U90",
@@ -5539,7 +5539,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 92
+    # Task 092
     Task(
         annotator="0",
         user_id="U92",
@@ -5616,7 +5616,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 93
+    # Activity 93
     Task(
         annotator="0",
         user_id="U93",
@@ -5686,7 +5686,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 94
+    # Assignment 94
     Task(
         annotator="0",
         user_id="U94",
@@ -5751,7 +5751,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 95
+    # Assignment 95
     Task(
         annotator="0",
         user_id="U95",
@@ -5831,7 +5831,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 96
+    # Assignment 96
     Task(
         annotator="0",
         user_id="U96",
@@ -5993,7 +5993,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 98
+    # Assignment 98
     Task(
         annotator="0",
         user_id="U98",
@@ -6063,7 +6063,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 99
+    # Assignment 99
     Task(
         annotator="0",
         user_id="U99",
@@ -6116,7 +6116,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # Task 100
+    # Assignment 100
     Task(
         annotator="0",
         user_id="U100",

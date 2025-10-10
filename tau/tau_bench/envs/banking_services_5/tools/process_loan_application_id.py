@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,11 +18,11 @@ class ProcessLoanApplicationId(Tool):
         loan_applications = data.get("loan_applications", [])
         customers = list(data.get("customers", {}).values())
 
-        # verify customer exists
+        # check if customer is present
         if not any(c.get("customer_id") == customer_id for c in customers):
             return json.dumps({"error": "Customer not found."}, indent=2)
 
-        # Find loan application
+        # Locate loan application
         loan_application = next(
             (l for l in loan_applications
              if l.get("application_id") == application_id
@@ -32,7 +32,7 @@ class ProcessLoanApplicationId(Tool):
         if not loan_application:
             return json.dumps({"error": "Loan application not found for this customer."}, indent=2)
 
-        # Extract loan and customer financial info
+        # Retrieve financial details for loans and customers.
         loan_details = loan_application.get("loan_details", {})
         financials = loan_application.get("financial_snapshot", {})
         annual_income = financials.get("annual_income", 0)
@@ -41,7 +41,7 @@ class ProcessLoanApplicationId(Tool):
         requested_amount = loan_details.get("requested_amount", 0)
         loan_type = loan_details.get("loan_type","Others")
 
-        # Derived metrics
+        # Calculated metrics
         dti = monthly_debt / (annual_income / 12) if annual_income else 1.0
         now = datetime.utcnow().isoformat() + "Z"
 
@@ -49,7 +49,7 @@ class ProcessLoanApplicationId(Tool):
         approved = True
         rejection_reason = None
 
-        # Loan approval logic
+        # Logic for approving loans
         if annual_income < 15000:
             approved = False
             rejection_reason = "Insufficient income"
@@ -87,7 +87,7 @@ class ProcessLoanApplicationId(Tool):
             loan_application["application_status"] = "Rejected"
             decision["reason"] = rejection_reason
 
-        # Save decision
+        # Store choice
         loan_application["decision"] = decision
 
         return json.dumps({

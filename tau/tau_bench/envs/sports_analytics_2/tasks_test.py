@@ -951,7 +951,7 @@ TASKS = [
         outputs=[]
     ),
 
-    # In-Game Monitoring and Advanced Analytics Variations (Tasks 037-042)
+    # Variations for In-Game Monitoring and Advanced Analytics (Tasks 037-042)
     Task(
         annotator="0",
         user_id="sports_var2_037",

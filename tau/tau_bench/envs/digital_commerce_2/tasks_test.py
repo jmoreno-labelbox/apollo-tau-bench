@@ -62,7 +62,7 @@ TASKS = [
     Task(
         annotator="v1",
         user_id="task_004",
-        instruction="Draft a B2B reorder quote for Maria Garcia based on his shipped order #9002 and open a case 'Reorder Quote Prepared' (Low).",
+        instruction="Draft a B2B reorder quote for Maria Garcia based on his shipped order # 9002 and create a case labeled 'Reorder Quote Prepared' (Low).
         actions=[
             Action(name="GetContactByName", kwargs={"first_name": "John", "last_name": "Doe"}),
             Action(name="GetOrderDetailsById", kwargs={"order_id": "9002"}),
@@ -182,7 +182,7 @@ Task(
     Task(
         annotator="v1",
         user_id="task_010",
-        instruction="Cancel David Chen’s order #9010, record a high-priority case with the title 'Ordered By Mistake', and return both the order status and updated stock counts after restocking the items.",
+        instruction="Cancel David Chen’s order # 9010, log a high-priority issue titled 'Ordered By Mistake', and provide the order status along with the revised stock levels post-restocking.
         actions=[
             Action(name="GetContactByName", kwargs={"first_name": "Mike", "last_name": "Rivera"}),
             Action(name="GetOrderDetailsById", kwargs={"order_id": "9010"}),
@@ -526,7 +526,7 @@ Task(
     Task(
         annotator="v1",
         user_id="task_026",
-        instruction="Handle a return for Maria Garcia’s delivered order #9001: return the 'Branded T-Shirt (L)' item, initiate a case titled 'Return Requested' (Low), update the order status to Returned, and close the case.",
+        instruction="Handle a return for Maria Garcia’s delivered order # 9001: process the return for the 'Branded T-Shirt (L)' item, create a case named 'Return Requested' (Low), set the order status to Returned, and finalize the case.
         actions=[
             Action(name="GetContactByName", kwargs={"first_name": "Alice", "last_name": "Johnson"}),
             Action(name="GetOrderDetailsById", kwargs={"order_id": "9001"}),
@@ -886,7 +886,7 @@ Task(
     Task(
         annotator="v1",
         user_id="task_043",
-        instruction="Manage a partial return for Maria Garcia’s order shipped under #9002: restock one 'USB-C Hub', initiate a case 'Return Requested' (Medium), recalculate the returned subtotal, and resolve the case.",
+        instruction="Manage a partial return for Maria Garcia’s order shipped under # 9002: replenish one 'USB-C Hub', create a case labeled 'Return Requested' (Medium), update the returned subtotal, and close the case.
         actions=[
             Action(name="GetContactByName", kwargs={"first_name": "John", "last_name": "Doe"}),
             Action(name="GetOrderDetailsById", kwargs={"order_id": "9002"}),
@@ -1103,7 +1103,7 @@ Task(
     Task(
         annotator="v1",
         user_id="task_053",
-        instruction="Cancel David Chen’s order #9010 due to 'Ordered By Mistake' (High). Create a case and proceed with restocking the items.",
+        instruction="Cancel David Chen’s order # 9010 for 'Ordered By Mistake' (High). Generate a case and continue with restocking the products.
         actions=[
             Action(name="GetContactByName", kwargs={"first_name": "Mike", "last_name": "Rivera"}),
             Action(name="GetOrderDetailsById", kwargs={"order_id": "9010"}),
@@ -1140,7 +1140,7 @@ Task(
         annotator="v1",
         user_id="task_055",
         instruction=(
-            "Replenish one 'USB-C Hub (Deluxe)' from Alice Johnson’s delivered order #9005; if the precise variant is not present in the catalog, utilize the standard 'USB-C Hub'. Update the order status to Returned and document a low-priority case named 'Partial Return − 1 item'."
+            "Replenish one 'USB-C Hub (Deluxe)' from Alice Johnson’s delivered order # 9005; if the exact variant is unavailable in the catalog, use the standard 'USB-C Hub'. Change the order status to Returned and log a low-priority case titled 'Partial Return − 1 item'.
         ),
         actions=[
             Action(name="GetContactByName", kwargs={"first_name": "Maria", "last_name": "Garcia"}),
@@ -1198,7 +1198,7 @@ Task(
     Task(
         annotator="v1",
         user_id="task_058",
-        instruction="Organize a complete return for delivered order #9005 by replenishing the items and updating the order status to Returned. Supply a concise receipt with the final status and revised stock counts.",
+        instruction="Organize a complete return for delivered order # 9005 by restocking the items and changing the order status to Returned. Provide a succinct receipt with the updated status and adjusted inventory levels.
 
         actions=[
             Action(name="GetOrderDetailsById", kwargs={"order_id": "9005"}),
@@ -1406,7 +1406,7 @@ Task(
         annotator="dc",
         user_id="task_067",
         instruction=(
-            "Coordinate the restocking of one 'USB-C Hub (Deluxe)' from Alice Johnson’s completed order #9005; if the specific variant isn't listed, opt for the standard 'USB-C Hub'. Change the order status to Returned and log a low-priority case named 'Partial Return − 1 item'."
+            "Coordinate the restocking of one 'USB-C Hub (Deluxe)' from Alice Johnson’s completed order # 9005; if the particular variant is unavailable, select the default 'USB-C Hub'. Update the order status to Returned and create a low-priority case titled 'Partial Return − 1 item'.
         ),
         actions=[
             Action(name="GetContactByName", kwargs={"first_name": "Maria", "last_name": "Garcia"}),
@@ -1575,7 +1575,7 @@ Task(
     Task(
         annotator="v1",
         user_id="task_075",
-        instruction="You annul David Chen’s order #9010, replenish its items from the order lines, and conclude a case 'Ordered By Mistake' (High).",
+        instruction="You annul David Chen’s order # 9010, restock its products from the order lines, and finalize a 'Ordered By Mistake' case (High).
         actions=[
             Action(name="GetContactByName", kwargs={"first_name": "Mike", "last_name": "Rivera"}),
             Action(name="GetOrderDetailsById", kwargs={"order_id": "9010"}),
@@ -2032,7 +2032,7 @@ Task(
         annotator="v1",
         user_id="task_097",
         instruction=(
-            "Finalize a return for Maria Garcia’s delivered order #9002 by restocking exactly the returned item ('USB-C Hub' only) and marking the order as Returned, then initiate a high-priority case 'Return Completed'. Provide the final order status and updated stock levels."
+            "Finalize a return for Maria Garcia’s delivered order # Restock the returned item ('USB-C Hub' exclusively) and label the order as Returned, then create a high-priority case titled 'Return Completed'. Include the final order status and revised stock quantities.
         ),
         actions=[
             Action(name="GetContactByName", kwargs={"first_name": "John", "last_name": "Doe"}),

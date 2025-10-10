@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,7 +26,7 @@ class CreateInboundReturnShipment(Tool):
 
         new_shipment = {
             "shipment_id": new_shipment_id,
-            "purchase_order_number": rma_id, # Using RMA as the reference number
+            "purchase_order_number": rma_id, # Utilizing RMA as the identifier.
             "supplier_id": from_customer_id,
             "supplier_name": "CUSTOMER_RETURN",
             "origin_address": customer.get("customer_address"),

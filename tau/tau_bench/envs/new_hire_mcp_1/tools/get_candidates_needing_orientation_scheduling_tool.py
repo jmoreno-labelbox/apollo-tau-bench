@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,20 +26,20 @@ class GetCandidatesNeedingOrientationSchedulingTool(Tool):
             if not start_date:
                 continue
 
-            # Check days until start
+            # Verify days remaining until the start.
             if _days_between(HARD_TS.split('T')[0], start_date) > days_until_start:
                 continue
 
-            # Check status (assuming 'Asset Pending' or 'Packet Sent' are ready states)
+            # Verify status (considering 'Asset Pending' or 'Packet Sent' as acceptable states)
             if candidate.get("onboarding_status") not in ["Asset Pending", "Packet Sent", "Started"]:
                  continue
 
-            # Check access checks
+            # Verify access permissions
             candidate_access_checks = [ac for ac in access_checks if str(ac.get("candidate_id")) == cid]
             if not candidate_access_checks or any(ac.get("status") == "Failed" for ac in candidate_access_checks):
                 continue
 
-            # Check for existing orientation invitation by searching subject
+            # Verify for a pre-existing orientation invitation by examining the subject line.
             has_invitation = any(
                 "orientation invitation" in str(e.get("subject", "")).lower()
                 for e in emails
@@ -49,7 +49,7 @@ class GetCandidatesNeedingOrientationSchedulingTool(Tool):
                 continue
 
             candidate_copy = candidate.copy()
-            # Simple priority scoring
+            # Basic priority assessment
             priority_score = 100 - _days_between(HARD_TS.split('T')[0], start_date)
             candidate_copy["scheduling_priority_score"] = priority_score
             ready_candidates.append(candidate_copy)

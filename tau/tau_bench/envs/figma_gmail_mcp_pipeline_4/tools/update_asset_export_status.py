@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,34 +20,34 @@ class UpdateAssetExportStatus(Tool):
         if not all([asset_id, new_status]):
             return json.dumps({"error": "asset_id and new_status are required."})
 
-        # Validate status values
+        # Check the validity of status values.
         valid_statuses = ['PENDING', 'EXPORTING', 'COMPLETED', 'FAILED', 'ARCHIVED']
         if new_status not in valid_statuses:
             return json.dumps({"error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"})
 
         assets = data.get('assets', [])
 
-        # Find the asset
+        # Locate the asset.
         asset_found = False
         for asset in assets:
             if asset.get('asset_id') == asset_id:
                 asset_found = True
                 old_status = asset.get('export_status', 'PENDING')
 
-                # Update asset status
+                # Revise the status of the asset.
                 asset['export_status'] = new_status
                 asset['last_updated'] = datetime.now().isoformat()
 
-                # Update DLP scan status if provided
+                # Modify the DLP scan status if available.
                 if dlp_scan_status:
                     asset['dlp_scan_status'] = dlp_scan_status
                     asset['dlp_scan_timestamp'] = datetime.now().isoformat()
 
-                # Update storage reference if provided
+                # Modify the storage reference if it is given.
                 if storage_ref:
                     asset['storage_ref'] = storage_ref
 
-                # Add export notes
+                # Include export documentation.
                 if export_notes:
                     if 'export_history' not in asset:
                         asset['export_history'] = []
@@ -57,7 +57,7 @@ class UpdateAssetExportStatus(Tool):
                         "notes": export_notes
                     })
 
-                # Log the status change
+                # Record the status update.
                 if 'status_history' not in asset:
                     asset['status_history'] = []
                 asset['status_history'].append({

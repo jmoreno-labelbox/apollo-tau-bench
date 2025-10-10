@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,8 +10,8 @@ class check_readiness_threshold(Tool):
     def invoke(
         data: Dict[str, Any], user_id: str, threshold: int, comparison: str
     ) -> str:
-        # Mock implementation - in real system would check actual readiness scores
-        readiness_score = 75  # Mock score
+        # Stub implementation - in a production environment, it would verify true readiness metrics.
+        readiness_score = 75  # Simulated score
 
         if comparison == "below":
             meets_condition = readiness_score < threshold

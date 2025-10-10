@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class FindInboundShipmentsByWarehouse(Tool):
         inbound_shipments = list(data.get("inbound_shipments", {}).values())
         found_shipments = []
         for shipment in inbound_shipments:
-            # Handle potential key errors for destination_warehouse_id
+            # Manage possible key errors for destination_warehouse_id.
             dest_id = shipment.get("destination_warehouse_id") or shipment.get(
                 "destination_warehouse_id"
             )

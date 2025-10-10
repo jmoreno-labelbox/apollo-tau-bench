@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class AppendTerminal(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], command: str) -> str:
         """Execute terminal-like commands for GitHub operations analysis and workflow insights."""
-        # Ensure terminal data exists and has the correct structure
+        # Verify that terminal data is present and conforms to the expected format.
         if "terminal" not in data or not data["terminal"]:
             data["terminal"] = [{
                 "printed_ts": [],
@@ -19,7 +19,7 @@ class AppendTerminal(Tool):
 
         terminal_data = data["terminal"]
 
-        # Ensure the first element exists and has the correct structure
+        # Verify that the initial element is present and follows the proper format.
         if not terminal_data or not isinstance(terminal_data[0], dict):
             terminal_data[0] = {
                 "printed_ts": [],
@@ -27,7 +27,7 @@ class AppendTerminal(Tool):
                 "outputs": []
             }
 
-        # Ensure all required keys exist
+        # Verify the presence of all necessary keys.
         if "printed_ts" not in terminal_data[0]:
             terminal_data[0]["printed_ts"] = []
         if "commands" not in terminal_data[0]:
@@ -39,7 +39,7 @@ class AppendTerminal(Tool):
         terminal_data[0]["printed_ts"].append(timestamp)
         terminal_data[0]["commands"].append(command)
 
-        # Process different terminal commands for GitHub workflow analysis
+        # Execute various terminal commands for analyzing GitHub workflows.
         if command.startswith("git status"):
             output = "Repository status: Clean working directory, all changes committed"
         elif command.startswith("git log"):
@@ -57,7 +57,7 @@ class AppendTerminal(Tool):
         elif command.startswith("npm"):
             output = "Dependencies: All packages installed, security audit passed, no vulnerabilities"
         elif command.startswith("echo"):
-            # Extract message after echo
+            # Retrieve the message following the echo command.
             message = command.replace("echo ", "").strip('"\'')
             output = f"DEBUG: {message}"
         elif command.startswith("cat"):

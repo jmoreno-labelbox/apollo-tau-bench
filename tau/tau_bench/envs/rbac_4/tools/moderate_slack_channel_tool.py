@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class ModerateSlackChannelTool(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         messages = data.get("slack_messages", [])
         channel = kwargs.get("channel")
-        action = kwargs.get("action")  # "archive", "pin", "unpin", "move"
+        action = kwargs.get("action")  # "store", "attach", "detach", "relocate"
         message_ids = kwargs.get("message_ids", [])
         target_channel = kwargs.get("target_channel")
         moderator_id = kwargs.get("moderator_id")

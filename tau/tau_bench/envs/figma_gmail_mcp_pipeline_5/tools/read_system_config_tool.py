@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class ReadSystemConfigTool(Tool):
             if r.get("config_key") == config_key:
                 return json.dumps({
                     "config_key": r.get("config_key"),
-                    "sample": (r.get("config_value_json") or "")[:200]  # preview only
+                    "sample": (r.get("config_value_json") or "")[:200]  # display only
                 }, indent=2)
         return json.dumps({"error": f"config_key {config_key} not found"})
 

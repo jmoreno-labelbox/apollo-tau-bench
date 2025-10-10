@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class CompleteCertification(Tool):
             return json.dumps({"error": f"reviewer_id {reviewer_id} does not match certification reviewer"})
 
         if cert.get("status") not in ("PENDING", "IN_PROGRESS"):
-            # idempotent completion returns current
+            # The idempotent completion provides the current value.
             if cert.get("status") == "COMPLETED":
                 return json.dumps({"ok": True, "certification": cert})
             return json.dumps({"error": f"certification {certification_id} not completable from status {cert.get('status')}"})

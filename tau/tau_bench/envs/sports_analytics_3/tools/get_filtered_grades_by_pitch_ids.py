@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,7 +25,7 @@ class GetFilteredGradesByPitchIds(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # ---- 1) Validate inputs
+        # ---- 1) Verify input values
         pitch_ids = kwargs.get("pitch_ids")
         grades_to_exclude = kwargs.get("grades")
 
@@ -40,10 +40,10 @@ class GetFilteredGradesByPitchIds(Tool):
                 indent=2
             )
 
-        # ---- 2) Get DB
+        # ---- 2) Retrieve database
         grades: List[Dict[str, Any]] = list(data.get("pitch_execution_grades", {}).values())
 
-        # ---- 3) Collect matches by pitch_ids
+        # ---- 3) Aggregate matches using pitch_ids
         id_set = set(pitch_ids)
         initial = [rec for rec in grades if rec.get("pitch_id") in id_set]
 
@@ -53,7 +53,7 @@ class GetFilteredGradesByPitchIds(Tool):
                 indent=2
             )
 
-        # ---- 4) Filter OUT records whose execution_grade is in grades_to_exclude (exact, case-sensitive)
+        # ---- 4) Exclude records where execution_grade matches any value in grades_to_exclude (exact, case-sensitive)
         excl_set = set(grades_to_exclude)
         filtered = [rec for rec in initial if rec.get("execution_grade") in excl_set]
 
@@ -68,7 +68,7 @@ class GetFilteredGradesByPitchIds(Tool):
                 indent=2
             )
 
-        # ---- 5) Deterministic sort: pitch_id ASC, grade_id ASC
+        # ---- 5) Ordered sorting: pitch_id in ascending order, grade_id in ascending order
         filtered.sort(key=lambda r: (int(r.get("pitch_id", 0)), int(r.get("grade_id", 0))))
 
         return json.dumps(filtered, indent=2)

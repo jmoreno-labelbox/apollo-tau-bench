@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class NotifyStakeholders(Tool):  # WRITE
+class NotifyStakeholders(Tool):  # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -15,7 +15,7 @@ class NotifyStakeholders(Tool):  # WRITE
         status: str,
         owner_email: str
     ) -> str:
-        # Validate input
+        # Verify input correctness.
         if not isinstance(plan_id, str) or not plan_id:
             return json.dumps({"error": "plan_id must be a non-empty string"})
         if not isinstance(stakeholder_emails, list) or not all(isinstance(e, str) for e in stakeholder_emails):
@@ -27,15 +27,15 @@ class NotifyStakeholders(Tool):  # WRITE
         if not isinstance(owner_email, str) or not owner_email:
             return json.dumps({"error": "owner_email must be a non-empty string"})
 
-        # Get valid Gmail labels for notification workflow
+        # Retrieve appropriate Gmail labels for the notification process.
         gmail_labels = get_config_options(data, "gmail_labels")
         notification_labels = ["fix-plan", "audit", "notification"]
         valid_labels = [label for label in notification_labels if label in gmail_labels]
         if not valid_labels:
-            # Fallback to available labels
+            # Revert to accessible labels.
             valid_labels = gmail_labels[:2] if len(gmail_labels) >= 2 else gmail_labels
 
-        # Create Gmail thread first
+        # Initiate the Gmail conversation first.
         gmail_threads = data.get("gmail_threads", [])
         next_thread_num = len(gmail_threads) + 1
         thread_id = f"thread_{next_thread_num:03d}"
@@ -53,13 +53,13 @@ class NotifyStakeholders(Tool):  # WRITE
         }
         gmail_threads.append(new_thread)
 
-        # Create Gmail message in the thread
+        # Compose a Gmail message within the conversation thread.
         gmail_messages = data.get("gmail_messages", [])
         next_msg_num = len(gmail_messages) + 1
         message_id = f"msg_{next_msg_num:03d}"
         sent_ts = created_ts
 
-        # Create notification message content
+        # Generate content for notification messages.
         body_text_stripped = f"Hello, this is a notification regarding fix plan {plan_id} for audit {audit_id}. Current status: {status}. Please review the attached fix plan details."
 
         new_message = {

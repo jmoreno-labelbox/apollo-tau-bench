@@ -1,8 +1,8 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 
 
-# Helper function
+# Utility function
 def _next_int_id(items, id_key='id', prefix=''):
     """Generate next integer ID based on existing items."""
     if not items:
@@ -10,7 +10,7 @@ def _next_int_id(items, id_key='id', prefix=''):
     max_id = 0
     for item in items:
         item_id = str(item.get(id_key, ''))
-        # Extract number from ID
+        # Retrieve number from identifier
         if prefix:
             item_id = item_id.replace(prefix, '')
         try:
@@ -21,7 +21,7 @@ def _next_int_id(items, id_key='id', prefix=''):
     return f"{prefix}{max_id + 1}"
 
 
-# Helper function
+# Utility function
 from datetime import datetime
 
 def _fixed_now_iso():

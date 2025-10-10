@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,14 +15,14 @@ class GetAllReportForPlayer(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         player_id = kwargs.get("player_id")
 
-        # 1) Validate
+        # 1) Verify
         if player_id is None:
             return json.dumps({"error": "Missing required field: player_id"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         reports: List[Dict[str, Any]] = list(data.get("player_dev_reports", {}).values())
 
-        # 3) Filter and sort
+        # 3) Apply filtering and sorting
         matching = [r for r in reports if r.get("player_id") == player_id]
 
         if not matching:

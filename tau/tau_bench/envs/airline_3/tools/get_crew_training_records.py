@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -34,7 +34,7 @@ class GetCrewTrainingRecords(Tool):
                 "crew_id": crew_id
             })
 
-        # Generate training records based on crew data
+        # Create training logs from crew information.
         training_records = [
             {
                 "training_type": "Initial Flight Training",
@@ -62,7 +62,7 @@ class GetCrewTrainingRecords(Tool):
             }
         ]
 
-        # Calculate training summary
+        # Compute training overview.
         completed_trainings = len([t for t in training_records if t["status"] == "Completed"])
         average_score = sum(t["score"] for t in training_records if t["status"] == "Completed") / completed_trainings if completed_trainings > 0 else 0
         latest_training = max(training_records, key=lambda x: x["completion_date"]) if training_records else None

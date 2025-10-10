@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -28,7 +28,7 @@ class ProcessReturn(Tool):
             if return_quantity > original_item.get("quantity", 0):
                 return json.dumps({"error": f"Cannot return {return_quantity} of {sku}. Original quantity was {original_item.get('quantity', 0)}."})
 
-            # Update inventory (add back returned items)
+            # Revise inventory (reintroduce returned products)
             any_store_inventory = next((inv for inv in inventory if inv.get("sku") == sku), None)
             if any_store_inventory:
                 any_store_inventory["quantity"] = any_store_inventory.get("quantity", 0) + return_quantity

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -50,7 +50,7 @@ class GetMemberDetailsTool(Tool):
             the 'data' key contains the member object. On failure, it
             contains a structured error object.
         """
-        # 1. Validate Inputs: 'member_id' is mandatory for this tool.
+        # 1. Input Validation: The 'member_id' is required for this tool.
         param_definitions = {
             "member_id": {"type": int, "required": True}
         }
@@ -63,18 +63,18 @@ class GetMemberDetailsTool(Tool):
 
         member_id = kwargs.get("member_id")
 
-        # 2. Data Retrieval: Find the specific member in the dataset.
+        # 2. Data Acquisition: Locate the particular member within the dataset.
         member_profile = next(
             (m for m in data.get("members", []) if m.get("member_id") == member_id),
             None
         )
 
-        # 3. Handle cases where the member is not found
+        # 3. Manage scenarios when the member cannot be located.
         if not member_profile:
             return _build_error_response(
                 "NOT_FOUND",
                 details={"entity": "Member", "entity_id": member_id}
             )
 
-        # 4. Return a standardized success response
+        # 4. Provide a uniform success response.
         return _build_success_response(member_profile)

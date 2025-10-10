@@ -1,4 +1,4 @@
-# Copyright Sierra
+# © Sierra
 
 from tau_bench.envs.base import Env
 from tau_bench.envs.sports_analytics_5.data import load_data

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class GetAccessRequestTool(Tool):
                 {"error": f"Access request {request_id} not found"}, indent=2
             )
 
-        # normalize shape + provide stable defaults
+        # standardize dimensions and ensure reliable defaults
         out = {
             "request_id": rec.get("request_id", request_id),
             "user_id": rec.get("user_id"),

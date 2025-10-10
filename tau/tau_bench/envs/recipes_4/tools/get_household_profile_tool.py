@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -54,7 +54,7 @@ class GetHouseholdProfileTool(Tool):
             the 'data' key contains the hydrated household profile. On failure,
             it contains a structured error object.
         """
-        # 1. Validate Inputs using our helper
+        # 1. Use our helper to verify inputs.
         param_definitions = {
             "household_id": {"type": int, "required": False}
         }
@@ -67,7 +67,7 @@ class GetHouseholdProfileTool(Tool):
 
         household_id = kwargs.get("household_id")
 
-        # 2. Business Logic: Determine target household if not provided
+        # 2. Business Logic: Identify target household if it's not specified.
         if not household_id:
             first_user = list(data.get("users", {}).values())[0] if data.get("users") else None
             if not first_user:
@@ -79,22 +79,22 @@ class GetHouseholdProfileTool(Tool):
                 return _build_error_response("NOT_FOUND", {"entity": "Household", "entity_id": f"for user {first_user_id}"})
             household_id = household.get("household_id")
 
-        # 3. Data Retrieval
+        # 3. Data Extraction
         target_household = next((h for h in data.get("households", []) if h.get("household_id") == household_id), None)
 
         if not target_household:
             return _build_error_response("NOT_FOUND", {"entity": "Household", "entity_id": household_id})
 
-        # 4. Data Enrichment (Hydration): Fetch associated members
+        # 4. Data Enrichment (Hydration): Retrieve related members
         household_members = [
             m for m in data.get("members", []) if m.get("household_id") == household_id
         ]
 
-        # 5. Build the final profile object
+        # 5. Construct the final profile object.
         profile_data = {
             "household_info": target_household,
             "members": household_members
         }
 
-        # 6. Return a standardized success response
+        # 6. Generate a uniform success reply.
         return _build_success_response(profile_data)

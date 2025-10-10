@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class ReassignTrackingToNewCourierTool(Tool):
     - Appends a fulfillment update into the corresponding order noting the reassignment and new tracking id.
 
     Input (kwargs):
-        tracking_id (str, required)     # any id currently on the record
+        tracking_id (str, required)     # any identifier presently in the database
         new_courier_name (str, required)
 
     Output:

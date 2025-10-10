@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,10 +11,10 @@ class GetLabels(Tool):
         """Get all available labels for a repository."""
         issues_data = list(data.get("issues", {}).values())
 
-        # Find the repository in issues data
+        # Locate the repository within the issues dataset.
         for issue_entry in issues_data:
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
-                # Collect all unique labels from all issues in this repository
+                # Gather all distinct labels from every issue in this repository.
                 all_labels = set()
                 for labels_list in issue_entry["labels"]:
                     if isinstance(labels_list, list):
@@ -22,7 +22,7 @@ class GetLabels(Tool):
                     elif isinstance(labels_list, str):
                         all_labels.add(labels_list)
 
-                # Convert to sorted list for consistent output
+                # Transform into a sorted list to ensure uniform results.
                 available_labels = sorted(list(all_labels))
 
                 return json.dumps({
@@ -39,7 +39,7 @@ class GetLabels(Tool):
                     }
                 }, indent=2)
 
-        # If repository not found, return empty labels list
+        # Return an empty list of labels if the repository is missing.
         return json.dumps({
             "success": True,
             "data": {

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright held by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,13 +16,13 @@ class CheckPullRequestMergeability(Tool):
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
 
-                    # Get PR details
+                    # Retrieve pull request information.
                     pr_state = pr_entry["pr_states"][pr_idx]
                     mergeable = pr_entry["mergeable_flags"][pr_idx]
                     merged = pr_entry["merged_flags"][pr_idx]
                     review_states = pr_entry["review_states"][pr_idx] if pr_idx < len(pr_entry["review_states"]) else []
 
-                    # Check if PR is already merged
+                    # Verify if the pull request has been merged.
                     if merged:
                         return json.dumps({
                             "mergeable": False,
@@ -31,7 +31,7 @@ class CheckPullRequestMergeability(Tool):
                             "review_states": review_states
                         }, indent=2)
 
-                    # Check if PR is closed
+                    # Verify if the pull request is closed.
                     if pr_state == "closed":
                         return json.dumps({
                             "mergeable": False,
@@ -40,7 +40,7 @@ class CheckPullRequestMergeability(Tool):
                             "review_states": review_states
                         }, indent=2)
 
-                    # Check if PR is mergeable
+                    # Verify if the pull request can be merged.
                     if not mergeable:
                         return json.dumps({
                             "mergeable": False,
@@ -49,7 +49,7 @@ class CheckPullRequestMergeability(Tool):
                             "review_states": review_states
                         }, indent=2)
 
-                    # Check review states
+                    # Verify review statuses
                     if not review_states:
                         return json.dumps({
                             "mergeable": False,
@@ -58,7 +58,7 @@ class CheckPullRequestMergeability(Tool):
                             "review_states": review_states
                         }, indent=2)
 
-                    # Check if any review is pending or requires changes
+                    # Verify if any reviews are outstanding or need modifications.
                     for review_state in review_states:
                         if review_state in ["PENDING", "REQUEST_CHANGES", "COMMENT"]:
                             return json.dumps({
@@ -68,7 +68,7 @@ class CheckPullRequestMergeability(Tool):
                                 "review_states": review_states
                             }, indent=2)
 
-                    # If we get here, the PR should be mergeable
+                    # Reaching this point indicates that the PR is ready to be merged.
                     return json.dumps({
                         "mergeable": True,
                         "reason": "All checks passed and reviews approved",
@@ -79,7 +79,7 @@ class CheckPullRequestMergeability(Tool):
                 except (ValueError, IndexError):
                     pass
 
-        return json.dumps({"error": f"Pull request #{pullNumber} not found"}, indent=2)
+        return json.dumps({"error": f"Pull request # {pullNumber} not located"}, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

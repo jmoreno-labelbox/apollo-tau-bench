@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,23 +23,23 @@ class AdjustFareClassPricing(Tool):
         delta: Optional[float] = None,
         target_price: Optional[float] = None
     ) -> str:
-        # normalize inputs
+        # standardize inputs
         fare_class = (fare_class or "").strip().lower()
 
-        # validate mutually exclusive/required params
+        # check for mutually exclusive or mandatory parameters
         if target_price is None and delta is None:
             return _json({"error": "invalid_params", "reason": "Provide target_price or delta"})
         if target_price is not None and delta is not None:
             return _json({"error": "invalid_params", "reason": "Provide either target_price or delta, not both"})
 
-        # fetch flight/date record
+        # retrieve flight/date entry
         flight = _get_flight(data, flight_number)
         if not flight:
             return _json({"error": "flight_not_found"})
         rec = _get_date_record(flight, date)
         if not rec:
             return _json({"error": "price_not_available_for_date"})
-        # ensure availability before price write
+        # verify availability prior to price assignment
         if _norm_status(rec.get("status")) != "available":
             rec["status"] = "available"
 
@@ -47,13 +47,13 @@ class AdjustFareClassPricing(Tool):
         if fare_class not in prices:
             return _json({"error": "fare_class_not_found"})
 
-        # read current price
+        # retrieve the current price
         try:
             cur = float(prices[fare_class])
         except Exception:
             return _json({"error": "invalid_price_value"})
 
-        # compute target
+        # calculate objective
         if target_price is not None:
             try:
                 tgt = float(target_price)
@@ -61,12 +61,12 @@ class AdjustFareClassPricing(Tool):
                 return _json({"error": "invalid_target_price"})
         else:
             try:
-                d = float(delta)  # already validated via not None
+                d = float(delta)  # previously confirmed as not None
             except Exception:
                 return _json({"error": "invalid_delta"})
             tgt = cur + d
 
-        # HALF-UP to 2 decimals for both before/after comparison and the write
+        # Round to 2 decimal places using HALF-UP for both pre- and post-comparison, as well as for the write operation.
         cur_r = float(Decimal(str(cur)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
         tgt_r = float(Decimal(str(tgt)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
 
@@ -74,7 +74,7 @@ class AdjustFareClassPricing(Tool):
         if changed:
             prices[fare_class] = tgt_r
 
-        # after snapshot
+        # subsequent to the snapshot
         after = {
             "flight_number": flight_number,
             "date": date,

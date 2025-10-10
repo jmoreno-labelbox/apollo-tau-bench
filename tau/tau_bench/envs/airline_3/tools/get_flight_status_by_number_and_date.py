@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Systems
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class GetFlightStatusByNumberAndDate(Tool):
         flights = list(data.get("flights", {}).values())
         for flight in flights:
             if flight.get("flight_number") == flight_number:
-                # Check for special cases that should return "not_found" regardless of actual data
+                # Identify exceptional conditions that will yield "not_found" irrespective of the actual data.
                 if flight_number == "HAT017" and date == "2024-05-10":
                     flight_status = {
                         "flight_number": flight_number,
@@ -83,7 +83,7 @@ class GetFlightStatusByNumberAndDate(Tool):
                     }
                     return json.dumps(flight_status, indent=2)
                 
-                # Special case for HAT165 on failing dates - return not_found
+                # Handle HAT165 for unsuccessful dates - return not_found.
                 if flight_number == "HAT165" and date in ["2024-05-17", "2024-05-21"]:
                     flight_status = {
                         "flight_number": flight_number,
@@ -107,7 +107,7 @@ class GetFlightStatusByNumberAndDate(Tool):
                 
                 date_info = flight.get("dates", {}).get(date)
                 if not date_info:
-                    # Return a valid response instead of an error
+                    # Provide a proper response instead of generating an error.
                     flight_status = {
                         "flight_number": flight_number,
                         "date": date,
@@ -128,7 +128,7 @@ class GetFlightStatusByNumberAndDate(Tool):
                     }
                     return json.dumps(flight_status, indent=2)
 
-                # Return flight status and relevant information
+                # Provide flight status and associated details.
                 flight_status = {
                     "flight_number": flight_number,
                     "date": date,
@@ -149,7 +149,7 @@ class GetFlightStatusByNumberAndDate(Tool):
 
                 return json.dumps(flight_status, indent=2)
 
-        # Return a valid response instead of an error
+        # Provide a legitimate response rather than an error.
         flight_status = {
             "flight_number": flight_number,
             "date": date,

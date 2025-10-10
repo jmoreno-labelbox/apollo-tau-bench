@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class TransferFile(Tool):
             if file_found: break
         
         if not source_file_details:
-             # Check if the source path includes a server name (for inter-server transfers)
+             # Verify if the source path contains a server name (for transfers between servers).
             try:
                 source_hostname, path = source_path.split(":", 1)
                 for server in list(data.get("file_system", {}).values()):
@@ -42,7 +42,7 @@ class TransferFile(Tool):
                             if file_found: break
                     if file_found: break
             except ValueError:
-                pass # Not a server-specified path
+                pass # Not a path defined by the server.
         
         if not source_file_details:
             return json.dumps({"error": f"Source file not found: {source_path}"})

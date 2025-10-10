@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class LogValidateSubstitutionsByPlanKeys(Tool):
         week_start_date: str,
         recipe_id: Optional[int] = None,
     ) -> str:
-        # entity_type as 'meal_history' with entity_id = 0 per policy note
+        # set entity_type to 'meal_history' where entity_id equals 0 according to policy note
         tbl = _tbl(data, "audit_logs")
         next_id = _max_id(tbl, "audit_id", 12000) + 1
         payload = {}

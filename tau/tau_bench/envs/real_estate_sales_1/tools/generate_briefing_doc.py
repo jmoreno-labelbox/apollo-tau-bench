@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,9 +18,9 @@ class GenerateBriefingDoc(Tool):
                 "error": "client_id and broker_id are required"
             }, indent=2)
         
-        # Generate briefing document with unique ID
+        # Create a briefing document with a distinct identifier.
         import time
-        timestamp = str(int(time.time() * 1000))  # millisecond timestamp
+        timestamp = str(int(time.time() * 1000))  # timestamp in milliseconds
         document_id = f"DOC-{client_id}-{timestamp}"
         document = {
             "document_id": document_id,

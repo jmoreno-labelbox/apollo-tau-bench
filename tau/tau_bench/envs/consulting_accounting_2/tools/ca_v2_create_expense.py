@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,7 +22,7 @@ class CaV2CreateExpense(Tool):
         if not all([expense_id, vendor, expense_date, gross_amount, description, category_code]):
             return _error("Required fields: expense_id, vendor, expense_date, gross_amount, description, category_code")
 
-        # Get category to calculate allowed amount
+        # Retrieve category for determining permissible amount.
         expense_categories = data.get("expense_categories", [])
         category = _find_one(expense_categories, "category_code", category_code)
 

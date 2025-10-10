@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class DetectChangedStrings(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], pr_number: int) -> str:
         loc_strings = _get_table(data, "loc_strings")
-        # Deterministically return all keys changed in last_changed_commit matching PR head commit if linked
+        # Return all keys that were modified in the last_changed_commit corresponding to the PR head commit, if associated.
         prs = _get_table(data, "pull_requests")
         pr = next((p for p in prs if p.get("pr_number") == pr_number), None)
         head_commit = (pr or {}).get("head")

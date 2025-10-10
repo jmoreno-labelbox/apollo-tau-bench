@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,30 +10,30 @@ class find_promotions(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         promotions = data.get("promotions", [])
 
-        # If customer id is sent, then it will override all other criteria
+        # When a customer ID is provided, it will take precedence over any other filters.
         promotion_id = kwargs.get("promotion_id")
 
-        # These columns will be matched exactly to the value sent
+        # These columns will align precisely with the provided value.
         exact_match_cols = ["type", "status"]
         exact_match_values = {k: kwargs.get(k) for k in exact_match_cols}
 
-        # These columns will be matched as long as the database field contains the sent value
+        # The columns will be aligned if the database field includes the provided value.
         approximate_match_cols = ["name", "description"]
         approximate_match_values = {k: kwargs.get(k) for k in approximate_match_cols}
 
-        # These columns have special matching criteria
+        # These columns utilize specific matching criteria.
         special_match_cols = ["has_sku"]
         special_match_values = {k: kwargs.get(k) for k in special_match_cols}
 
         matches = []
         for promotion in promotions:
-            # customer_id takes priority
+            # customer_id is prioritized.
             if (promotion_id is not None) and (
                 promotion["promotion_id"] == promotion_id
             ):
                 return json.dumps(promotion, indent=2)
 
-            # If all sent criteria match, then add it to the return list
+            # If all specified conditions are met, include it in the return list.
             elif (
                 all(
                     [

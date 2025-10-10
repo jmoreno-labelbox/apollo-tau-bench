@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class FindCheapestCarrierByService(Tool):
             )
 
         cheapest_carrier = None
-        # Initialize with a very high cost
+        # Start with an extremely high value for the cost.
         min_cost = float("inf")
 
         for carrier in carriers:
@@ -37,8 +37,8 @@ class FindCheapestCarrierByService(Tool):
                 and mode_of_transport.lower() in supported_modes
                 and service_level.lower() in supported_services
             ):
-                # This is a mock cost; in a real scenario, this would be a complex calculation or API call
-                # For this simulation, we'll use the length of the carrier name as a proxy for cost.
+                # This is a simulated cost; in an actual situation, it would involve a detailed calculation or an API request.
+                # In this simulation, the length of the carrier name will serve as a substitute for cost.
                 current_cost = len(carrier.get("carrier_name", ""))
                 if current_cost < min_cost:
                     min_cost = current_cost

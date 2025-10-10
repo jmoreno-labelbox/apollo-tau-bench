@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -63,7 +63,7 @@ class AddItemToInventoryTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the final state of the inventory item.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Data
         param_definitions = {
             "household_id": {"type": int, "required": True},
             "ingredient_id": {"type": int, "required": True},
@@ -81,13 +81,13 @@ class AddItemToInventoryTool(Tool):
         unit = kwargs["unit"]
         user_id = kwargs.get("user_id")
 
-        # 2. Pre-condition Checks
+        # 2. Validation of Preconditions
         if not any(h.get("household_id") == household_id for h in data.get("households", [])):
             return _build_error_response("NOT_FOUND", {"entity": "Household", "entity_id": household_id})
         if not any(i.get("ingredient_id") == ingredient_id for i in list(data.get("ingredients", {}).values())):
             return _build_error_response("NOT_FOUND", {"entity": "Ingredient", "entity_id": ingredient_id})
 
-        # 3. Logic: Find existing item or prepare for creation
+        # 3. Logic: Locate existing item or set up for creation.
         inventory_table = data.setdefault("inventory_items", [])
         existing_item = next(
             (item for item in inventory_table if item.get("household_id") == household_id and item.get("ingredient_id") == ingredient_id),
@@ -110,16 +110,16 @@ class AddItemToInventoryTool(Tool):
                 context
             )
 
-            # Now that both are in the standard unit, we can safely add them
+            # Having converted both to the standard unit, we can now add them without concern.
             new_total_quantity = normalized_existing["quantity"] + normalized_addition["quantity"]
 
             existing_item["quantity"] = round(new_total_quantity, 2)
-            existing_item["unit"] = normalized_existing["unit"] # Store in the standard unit
+            existing_item["unit"] = normalized_existing["unit"] # Save in the default unit.
 
             final_record = existing_item
             entity_id = existing_item["inv_item_id"]
         else:
-            # Create new item (normalize the input for consistency)
+            # Generate a new item (standardize the input for uniformity)
             action = "create"
             normalized_input = _normalize_domain_data(
                 "unit_measurement",
@@ -136,14 +136,14 @@ class AddItemToInventoryTool(Tool):
                 "ingredient_id": ingredient_id,
                 "quantity": normalized_input["quantity"],
                 "unit": normalized_input["unit"],
-                "location_enum": "pantry", # Default location
+                "location_enum": "pantry", # Standard location
                 "best_by_date": None
             }
             inventory_table.append(new_record)
             final_record = new_record
             entity_id = new_item_id
 
-        # 4. Auditing
+        # 4. Review and verification
         _log_audit_event(
             data=data,
             household_id=household_id,
@@ -154,5 +154,5 @@ class AddItemToInventoryTool(Tool):
             payload_json={"ingredient_id": ingredient_id, "quantity_added": quantity, "unit": unit}
         )
 
-        # 5. Response
+        # 5. Reply
         return _build_success_response(final_record)

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -31,7 +31,7 @@ class RepositionAircraft(Tool):
 
         cur_iata = ((ac.get("location") or {}).get("iata_code") or "").upper()
         if cur_iata == to_iata:
-            # No-op, but return a verification snapshot ("after")
+            # No operation performed, but provide a verification snapshot ("after").
             return _json({
                 "success": True,
                 "aircraft_id": ac.get("aircraft_id"),

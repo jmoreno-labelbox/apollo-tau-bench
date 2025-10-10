@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,22 +25,22 @@ class GetPlayerInsightsByPlayeridAndType(Tool):
         player_id = kwargs.get("player_id")
         type_filter = kwargs.get("type")
 
-        # 1) Validate
+        # 1) Verify
         if player_id is None:
             return json.dumps({"error": "Missing required field: player_id"}, indent=2)
         if not isinstance(type_filter, str) or type_filter == "":
             return json.dumps({"error": "Missing required field: type"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         insights: List[Dict[str, Any]] = list(data.get("curated_insights", {}).values())
 
-        # 3) Filter by player_id
+        # 3) Apply filter based on player_id
         player_insights = [i for i in insights if i.get("player_id") == player_id]
 
         if not player_insights:
             return json.dumps({"error": f"No insights found for player_id {player_id}"}, indent=2)
 
-        # 4) Apply type filter
+        # 4) Implement type filter
         if type_filter != "all":
             player_insights = [i for i in player_insights if i.get("insight_type") == type_filter]
             if not player_insights:
@@ -49,7 +49,7 @@ class GetPlayerInsightsByPlayeridAndType(Tool):
                     indent=2
                 )
 
-        # 5) Deterministic ordering
+        # 5) Fixed sequence
         player_insights.sort(key=lambda i: int(i.get("insight_id", 0)))
 
         return json.dumps(player_insights, indent=2)

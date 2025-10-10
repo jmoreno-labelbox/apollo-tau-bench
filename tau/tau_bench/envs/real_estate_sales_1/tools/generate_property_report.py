@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class GeneratePropertyReport(Tool):
         if not property_id:
             return json.dumps({"error": "property_id is required"}, indent=2)
         
-        # Get property listing
+        # Retrieve property listings
         listings = list(data.get('listings', {}).values())
         listing = next((l for l in listings if l.get('property_id') == property_id), None)
         
@@ -23,11 +23,11 @@ class GeneratePropertyReport(Tool):
                 "error": f"Property {property_id} not found"
             }, indent=2)
         
-        # Get comparables
+        # Retrieve comparable data.
         comparables = list(data.get('comparables', {}).values())
         property_comparables = [c for c in comparables if c.get('property_id') == property_id]
         
-        # Calculate market analysis
+        # Perform market analysis calculations.
         all_prices = [c.get('comparable_price', 0) for c in property_comparables]
         if all_prices:
             avg_comparable_price = sum(all_prices) / len(all_prices)

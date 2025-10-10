@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class GetMortgageRates(Tool):
         loan_type = kwargs.get('loan_type', 'conventional')
         term_years = kwargs.get('term_years', 30)
         
-        # Get mortgage rates from database
+        # Retrieve mortgage rates from the database.
         rates = list(data.get('mortgage_rates', {}).values())
         filtered_rates = []
         

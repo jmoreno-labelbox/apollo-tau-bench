@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,19 +15,19 @@ class GetAutomationRunHistory(Tool):
 
         runs = data.get('automation_runs', [])
 
-        # Filter by run type if specified
+        # Apply filter based on the specified run type.
         if run_type:
             runs = [r for r in runs if r.get('run_type') == run_type]
 
-        # Filter by status if specified
+        # Apply status filter if provided.
         if status_filter:
             runs = [r for r in runs if r.get('status') == status_filter]
 
-        # Sort by started_at (most recent first) and limit results
+        # Order by started_at in descending order and restrict the number of results.
         runs.sort(key=lambda x: x.get('started_at', ''), reverse=True)
         runs = runs[:limit]
 
-        # Calculate summary statistics
+        # Compute descriptive statistics.
         total_runs = len(runs)
         success_count = len([r for r in runs if r.get('status') == 'completed'])
         failure_count = len([r for r in runs if r.get('status') == 'failed'])

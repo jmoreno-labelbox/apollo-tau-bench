@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,14 +10,14 @@ class CreateAuditLogTool(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Required fields
+        # Mandatory fields
         actor_id = kwargs.get("actor_id")
         action_type = kwargs.get("action_type")
         target_id = kwargs.get("target_id")
         timestamp = kwargs.get("timestamp")
         details = kwargs.get("details")
 
-        # Generate log_id deterministically (e.g., sequential or hash of inputs)
+        # Create log_id in a deterministic manner (e.g., using a sequence or hashing input values).
         logs = data.get("audit_logs", [])
         next_id = f"L-{len(logs) + 1:03d}"
 

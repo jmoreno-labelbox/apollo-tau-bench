@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class RecordDsAuditFindings(Tool):  # WRITE
+class RecordDsAuditFindings(Tool):  # GENERATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -17,7 +17,7 @@ class RecordDsAuditFindings(Tool):  # WRITE
         code_connect_link_nullable: str = None,
         severity: str = "MEDIUM"
     ) -> str:
-        # Validate input parameters
+        # Check the validity of input parameters.
         if not isinstance(audit_id, str) or not audit_id:
             return json.dumps({"error": "audit_id must be a non-empty string"})
 
@@ -27,37 +27,37 @@ class RecordDsAuditFindings(Tool):  # WRITE
         if not isinstance(layer_name, str) or not layer_name:
             return json.dumps({"error": "layer_name must be a non-empty string"})
 
-        # Validate finding_type
+        # Verify finding_type
         allowed_finding_types = ["UNMAPPED", "AMBIGUOUS", "SUBSTITUTE_RECOMMENDED"]
         if finding_type not in allowed_finding_types:
             return json.dumps({"error": f"Invalid finding_type. Allowed: {allowed_finding_types}"})
 
-        # Validate severity
+        # Check severity level.
         allowed_severities = ["HIGH", "MEDIUM", "LOW"]
         if severity not in allowed_severities:
             return json.dumps({"error": f"Invalid severity. Allowed: {allowed_severities}"})
 
-        # Validate audit_id exists
+        # Check for the existence of audit_id.
         audits = data.get("audits", [])
         audit_exists = any(audit.get("audit_id") == audit_id for audit in audits)
         if not audit_exists:
             return json.dumps({"error": f"Audit with ID '{audit_id}' not found"})
 
-        # Validate nullable fields
+        # Check the validity of optional fields.
         if recommended_component_id_nullable is not None and not isinstance(recommended_component_id_nullable, str):
             return json.dumps({"error": "recommended_component_id_nullable must be a string or None"})
 
         if code_connect_link_nullable is not None and not isinstance(code_connect_link_nullable, str):
             return json.dumps({"error": "code_connect_link_nullable must be a string or None"})
 
-        # Get audit_findings_ds data
+        # Retrieve data from audit_findings_ds.
         audit_findings_ds = data.get("audit_findings_ds", [])
 
-        # Generate new finding_id
+        # Create a new finding identifier.
         next_num = len(audit_findings_ds) + 1
         finding_id = f"finding_ds_{next_num:03d}"
 
-        # Create new finding entry
+        # Add a new finding record.
         new_finding = {
             "finding_id": finding_id,
             "audit_id": audit_id,
@@ -69,7 +69,7 @@ class RecordDsAuditFindings(Tool):  # WRITE
             "severity": severity
         }
 
-        # Add to data
+        # Append to dataset
         audit_findings_ds.append(new_finding)
 
         return json.dumps({"new_finding": new_finding})

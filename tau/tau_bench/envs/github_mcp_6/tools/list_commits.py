@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class ListCommits(Tool):
         pull_requests_data = list(data.get("pull_requests", {}).values())
         issues_data = list(data.get("issues", {}).values())
 
-        # Find repository to validate it exists
+        # Locate the repository to confirm its existence.
         target_repo = None
         for repository in repositories:
             if repository["owner"] == owner and repository["repo_name"] == repo:
@@ -36,29 +36,29 @@ class ListCommits(Tool):
                 ]
             }, indent=2)
 
-        # Find commits for the repository and branch
+        # Retrieve commits for the specified repository and branch.
         for commit_entry in commits:
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 try:
                     branch_idx = commit_entry["branch_names"].index(branch)
                     all_commits = []
 
-                    # Build comprehensive commit information
+                    # Create detailed commit metadata.
                     for i, sha in enumerate(commit_entry["commit_shas"][branch_idx]):
                         message = commit_entry["commit_messages"][branch_idx][i]
                         author = commit_entry["commit_authors"][branch_idx][i]
                         timestamp = commit_entry["commit_timestamps"][branch_idx][i]
 
-                        # Mock additional commit data
+                        # Simulate extra commit information.
                         tree_sha = f"tree_{sha[-8:]}"
                         parent_shas = [f"parent_{i-1}_{sha[-6:]}"] if i > 0 else []
 
-                        # Calculate stats (mock based on message)
+                        # Compute statistics (simulated from message)
                         is_merge = "merge" in message.lower()
                         additions = 50 if not is_merge else 100
                         deletions = 10 if not is_merge else 20
 
-                        # Find affected files (mock based on file patterns in message)
+                        # Identify impacted files using patterns specified in the message.
                         files_changed = []
                         for file_path in target_repo.get("file_paths", []):
                             filename = file_path.split('/')[-1]
@@ -66,7 +66,7 @@ class ListCommits(Tool):
                                 files_changed.append(file_path)
 
                         if not files_changed and not is_merge:
-                            # Default to some common files if no specific matches
+                            # Fallback to standard files when there are no specific matches.
                             files_changed = target_repo.get("file_paths", [])[:3]
 
                         commit_data = {
@@ -90,12 +90,12 @@ class ListCommits(Tool):
                         }
                         all_commits.append(commit_data)
 
-                    # Apply pagination
+                    # Implement pagination.
                     start_idx = (page - 1) * per_page
                     end_idx = start_idx + per_page
                     paginated_commits = all_commits[start_idx:end_idx]
 
-                    # Find related pull requests and issues
+                    # Locate associated pull requests and issues.
                     related_prs = []
                     related_issues = []
 
@@ -111,12 +111,12 @@ class ListCommits(Tool):
                                 if any(word in " ".join([c["message"] for c in all_commits]) for word in issue_title.lower().split() if len(word) > 3):
                                     related_issues.append(issue_entry["issue_numbers"][i])
 
-                    # Calculate statistics
+                    # Compute metrics.
                     unique_authors = list(set([c["author"] for c in all_commits]))
                     merge_commits = [c for c in all_commits if "merge" in c["message"].lower()]
                     files_touched = list(set([f for c in all_commits for f in c["files_changed"]]))
 
-                    # Find tags (mock some version tags)
+                    # Retrieve version tags (simulate some version tags).
                     tags = []
                     if len(all_commits) > 10:
                         tags = [f"v1.{len(all_commits) // 10}.0"]
@@ -157,7 +157,7 @@ class ListCommits(Tool):
                 except ValueError:
                     pass
 
-        # Branch not found
+        # Branch does not exist
         return json.dumps({
             "success": False,
             "error": f"Branch {branch} not found in repository {owner}/{repo}",

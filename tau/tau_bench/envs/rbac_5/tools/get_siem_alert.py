@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,14 +24,14 @@ class GetSiemAlert(Tool):
 
         siem_alerts = data.get("siem_alerts", [])
 
-        # If alert_id is provided, return single alert
+        # Return a single alert if alert_id is specified.
         if alert_id:
             alert = _find_by_id(siem_alerts, "alert_id", alert_id)
             if not alert:
                 return json.dumps({"error": f"SIEM alert {alert_id} not found"})
             return json.dumps({"ok": True, "siem_alert": alert})
 
-        # Filter alerts based on provided criteria
+        # Refine alerts according to specified parameters.
         filtered_alerts = []
         for alert in siem_alerts:
             if user_id and alert.get("user_id") != user_id:

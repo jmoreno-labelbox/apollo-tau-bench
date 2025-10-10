@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,16 +25,16 @@ class GetGradesByGradeForGame(Tool):
         game_pk = kwargs.get("game_pk")
         grades_filter = kwargs.get("grades")
 
-        # 1) Validate
+        # 1) Verify
         if game_pk is None:
             return json.dumps({"error": "Missing required field: game_pk"}, indent=2)
         if not isinstance(grades_filter, list) or len(grades_filter) == 0:
             return json.dumps({"error": "Missing required field: grades (non-empty list of strings)"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database
         records: List[Dict[str, Any]] = list(data.get("pitch_execution_grades", {}).values())
 
-        # 3) Filter (exact, case-sensitive)
+        # 3) Exact case-sensitive filtering
         allowed = set(grades_filter)
         matches = [
             r for r in records
@@ -47,7 +47,7 @@ class GetGradesByGradeForGame(Tool):
                 indent=2
             )
 
-        # 4) Deterministic ordering
+        # 4) Fixed sequence
         matches.sort(key=lambda r: (int(r.get("pitch_id", 0)), int(r.get("grade_id", 0))))
 
         return json.dumps(matches, indent=2)

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Technologies
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class ListOfPRForRepo(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         owner = kwargs.get("owner", "").strip()
         repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
-        state_filter = (kwargs.get("state") or "").strip().lower()  # optional
+        state_filter = (kwargs.get("state") or "").strip().lower()  # not mandatory
 
         if not owner or not repo_name:
             return json.dumps(
@@ -31,14 +31,14 @@ class ListOfPRForRepo(Tool):
                 indent=2
             )
 
-        # Load PR DB (supports dict with 'pull_requests' or a top-level list)
+        # Load the PR database (accepts a dictionary containing 'pull_requests' or a top-level array).
         pr_db = list(data.get("pull_requests", {}).values())
         
 
         if not isinstance(pr_db, list):
             return json.dumps({"error": "Invalid pull requests DB: expected a list."}, indent=2)
 
-        # Find the repo bucket
+        # Locate the repository bucket.
         rec = next((r for r in pr_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             return json.dumps(
@@ -52,7 +52,7 @@ class ListOfPRForRepo(Tool):
             arr = rec.get(name, [])
             return arr[i] if i < len(arr) else None
 
-        # Build list of (number, index) and sort by PR number ascending
+        # Create a list of (number, index) pairs and sort it in ascending order by the PR number.
         indexed: List[tuple] = [(num, i) for i, num in enumerate(pr_numbers)]
         indexed.sort(key=lambda t: t[0])
 
@@ -60,14 +60,14 @@ class ListOfPRForRepo(Tool):
         for num, idx in indexed:
             pr_state = get_at("pr_states", idx)
             merged_flag = bool(get_at("merged_flags", idx))
-            # If a state filter is set, apply it
+            # Apply the filter if a state filter is configured.
             if state_filter:
                 if state_filter == "merged" and not merged_flag:
                     continue
                 if state_filter in {"open", "closed"} and pr_state != state_filter:
                     continue
 
-            files_entry = get_at("pr_files", idx)  # stored shape is typically [ [ "fileA", ... ] ]
+            files_entry = get_at("pr_files", idx)  # the stored format usually appears as [ [ "fileA", ... ] ]
             pr_summary = {
                 "number": num,
                 "title": get_at("pr_titles", idx),

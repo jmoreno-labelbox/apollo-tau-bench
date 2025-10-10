@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 from .edit_customers_db import EditCustomersDb
 from .get_customers_info_by_param import GetCustomersInfoByParam

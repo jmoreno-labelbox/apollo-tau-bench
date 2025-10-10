@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class GetOrderFinancialsTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         order_id = kwargs.get("order_id")
-        # Reads the 'orders' object from the in-memory state, which may have been modified.
+        # Fetches the 'orders' object from the in-memory state, which might have been altered.
         orders = list(data.get("orders", {}).values())
 
         order = next((o for o in orders if o.get("order_id") == order_id), None)
@@ -20,7 +20,7 @@ class GetOrderFinancialsTool(Tool):
                 {"error": f"Order '{order_id}' not found in the current state"}, indent=2
             )
 
-        # This will now reflect any changes made by previous tools
+        # This will now incorporate changes made by earlier tools.
         return json.dumps(
             {"order_id": order_id, "items_total": order.get("items_total", 0)}, indent=2
         )

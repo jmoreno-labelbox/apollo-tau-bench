@@ -1,5 +1,4 @@
-from datetime import datetime
-# Copyright Sierra
+# Sierra Copyright
 
 from .get_publisher_by_name import GetPublisherByName
 from .get_publisher_invoices import GetPublisherInvoices

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Inc.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class FetchClientFullContextTool(Tool):
         if client_id is None:
             return _err("client_id is required")
 
-        # --- Preferences ---
+        # --- User Settings ---
         p = _get_client_prefs(data, client_id) or {}
         prefs_out = {
             "neighborhoods_json": p.get("neighborhoods_json") or [],
@@ -29,7 +29,7 @@ class FetchClientFullContextTool(Tool):
             "commute_max_minutes": p.get("commute_max_minutes"),
         }
 
-        # --- Mortgage profile (tolerate mortage_profiles typo) ---
+        # --- Mortgage configuration (allow mortgage_profiles misspelling) ---
         msrc = data.get("mortgage_profiles") or data.get("mortage_profiles") or []
         m = (
             next((r for r in msrc if _as_int(r.get("client_id")) == client_id), None)
@@ -45,7 +45,7 @@ class FetchClientFullContextTool(Tool):
             "last_reviewed_at": m.get("last_reviewed_at"),
         }
 
-        # --- Inferred assigned broker (no clients table) ---
+        # --- Deducted assigned broker (clients table not present) ---
         assigned_broker_id, assignment_basis, last_interaction, broker_active = (
             None,
             None,
@@ -53,7 +53,7 @@ class FetchClientFullContextTool(Tool):
             None,
         )
 
-        # 1) Most recent comp_report for this client
+        # Latest comp_report for this client
         crs = [
             r
             for r in data.get("comp_reports", [])
@@ -70,7 +70,7 @@ class FetchClientFullContextTool(Tool):
             last_interaction = latest.get("updated_at") or latest.get("created_at")
             broker_active = True
 
-        # 2) Fallback: most recent calendar event
+        # 2) Backup: latest calendar appointment
         if assigned_broker_id is None:
             evs = [
                 e
@@ -96,7 +96,7 @@ class FetchClientFullContextTool(Tool):
             "broker_active": broker_active,
         }
 
-        # --- Recent activity counts ---
+        # --- Count of recent activities ---
         emails_cnt = sum(
             1
             for e in data.get("emails", [])
@@ -119,7 +119,7 @@ class FetchClientFullContextTool(Tool):
             "properties_viewed": events_cnt,
         }
 
-        # If literally nothing exists for this client, return not_found
+        # If there are no records for this client, return not_found.
         if not p and not m and emails_cnt == 0 and reports_cnt == 0 and events_cnt == 0:
             return _err(f"client_id {client_id} not found", code="not_found")
 

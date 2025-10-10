@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class CreateDirectoryAccount(Tool):
         status: str = "enabled",
         group_ids: Optional[List[str]] = None,
     ) -> str:
-        # Validate employee exists
+        # Check if the employee is present.
         if not _find_one(data["employees"], employee_id=employee_id):
             _append_row(
                 data["validation_issues"],

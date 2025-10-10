@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,14 +18,14 @@ class CheckDriveTimeConstraints(Tool):
                 "error": "property_ids is required"
             }, indent=2)
         
-        # Simulate drive time checking
-        feasible = len(property_ids) <= 4  # Simple rule: max 4 properties within time limit
+        # Emulate drive time verification.
+        feasible = len(property_ids) <= 4  # Basic guideline: a maximum of 4 properties allowed within the time constraint.
         
         result = {
             "feasible": feasible,
             "property_count": len(property_ids),
             "max_minutes_per_hop": max_minutes,
-            "estimated_total_time": len(property_ids) * 25,  # 25 min average per property
+            "estimated_total_time": len(property_ids) * 25,  # Average of 25 minutes per property.
             "properties_checked": property_ids
         }
         

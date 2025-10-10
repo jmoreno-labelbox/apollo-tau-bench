@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,13 +21,13 @@ class AssignPermissionToRole(Tool):
         if not role_id or not permission_id:
             return json.dumps({"error": "role_id and permission_id are required"})
 
-        # Validate existence
+        # Check for presence
         if not _find_by_id(list(data.get("roles", {}).values()), "role_id", role_id):
             return json.dumps({"error": f"role_id {role_id} not found"})
         if not _find_by_id(list(data.get("permissions", {}).values()), "permission_id", permission_id):
             return json.dumps({"error": f"permission_id {permission_id} not found"})
 
-        # Check if mapping exists
+        # Verify the presence of a mapping.
         mappings = data.get("role_permissions", [])
         for rp in mappings:
             if rp.get("role_id") == role_id and rp.get("permission_id") == permission_id:

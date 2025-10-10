@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright Sierra Technologies
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class CreatePurchaseTransaction(Tool): # WRITE
+class CreatePurchaseTransaction(Tool): # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -29,7 +29,7 @@ class CreatePurchaseTransaction(Tool): # WRITE
             if not product:
                 return json.dumps({"error": f"Product with SKU {sku} not found."})
 
-            # Check inventory for stock
+            # Verify stock levels in inventory.
             inv_item = next((i for i in inventory if i["sku"] == sku and i["store_id"] == store_id), None)
             if not inv_item or inv_item.get("quantity", 0) < quantity:
                 return json.dumps({"error": f"Insufficient stock of SKU {sku} in store {store_id}."})
@@ -37,7 +37,7 @@ class CreatePurchaseTransaction(Tool): # WRITE
             unit_price = product["price"]
             if product.get("is_discountable", True):
                 discount_rate = product.get("discount_rate", 0.0)
-                # set to 0 if not a float or int
+                # assign 0 if the value is neither a float nor an integer
                 if not isinstance(discount_rate, (float, int)):
                     discount_rate = 0.0
             else:
@@ -54,7 +54,7 @@ class CreatePurchaseTransaction(Tool): # WRITE
             total_tax += tax
             discount_total += discount
 
-            # Deduct inventory
+            # Subtract inventory
             inv_item["quantity"] -= quantity
 
         transaction_id = f"TXN-{1000+ len(transactions) + 1}"

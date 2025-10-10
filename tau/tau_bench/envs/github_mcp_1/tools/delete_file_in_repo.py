@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,7 +26,7 @@ class DeleteFileInRepo(Tool):
                 indent=2
             )
 
-        # Preferred repository access pattern
+        # Optimal method for accessing the repository
         repos: List[Dict[str, Any]] = list(data.get("repositories", {}).values())
         if not isinstance(repos, list):
             return json.dumps(
@@ -34,7 +34,7 @@ class DeleteFileInRepo(Tool):
                 indent=2
             )
 
-        # Locate repository
+        # Find the repository.
         repo = next(
             (r for r in repos if r.get("owner") == owner and r.get("repo_name") == repo_name),
             None
@@ -53,7 +53,7 @@ class DeleteFileInRepo(Tool):
             )
         idx = branches.index(branch_name)
 
-        # Ensure per-branch structures exist and are aligned
+        # Verify the existence and alignment of structures for each branch.
         branch_files_all: List[List[str]] = repo.setdefault("branch_files", [])
         branch_contents_all: List[List[str]] = repo.setdefault("branch_contents", [])
         while len(branch_files_all) < len(branches):
@@ -76,25 +76,25 @@ class DeleteFileInRepo(Tool):
                 indent=2
             )
 
-        # Keep arrays aligned before deletion
+        # Ensure arrays are aligned prior to removal.
         while len(branch_contents) < len(branch_files):
             branch_contents.append("")
 
         fidx = branch_files.index(file_name)
         removed_content = branch_contents[fidx]
 
-        # Delete from branch-level arrays (same index)
+        # Remove from branch-specific arrays (identical index)
         branch_files.pop(fidx)
         branch_contents.pop(fidx)
 
-        # If 'main' branch, also remove from repo-level lists (by filename)
+        # If on the 'main' branch, also delete from repository-wide lists (by filename).
         repo_files_after = None
         if branch_name == "main":
             repo.setdefault("file_paths", [])
             repo.setdefault("file_contents", [])
             if file_name in repo["file_paths"]:
                 ridx = repo["file_paths"].index(file_name)
-                # Align before deletion
+                # Ensure proper alignment prior to removal.
                 while len(repo["file_contents"]) < len(repo["file_paths"]):
                     repo["file_contents"].append("")
                 repo["file_paths"].pop(ridx)
@@ -113,10 +113,10 @@ class DeleteFileInRepo(Tool):
                 "file_name": file_name,
                 "content": removed_content
             },
-            "available_files": list(branch_files)  # remaining files in this branch
+            "available_files": list(branch_files)  # files left in this branch
         }
         if repo_files_after is not None:
-            result["repo_available_files"] = repo_files_after  # remaining repo-level files (main only)
+            result["repo_available_files"] = repo_files_after  # files at the repository level (main branch only)
 
         return json.dumps(result, indent=2)
 

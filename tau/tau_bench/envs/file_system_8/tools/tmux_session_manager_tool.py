@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -32,17 +32,17 @@ class TmuxSessionManagerTool(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         requested_session = kwargs["session_name"]
 
-        # Set up session tracking
+        # Initialize session tracking.
         data.setdefault("tmux_sessions", [])
 
-        # Check if session already exists
+        # Verify the existence of the session.
         if requested_session in data["tmux_sessions"]:
             return json.dumps({
                 "status": "exists",
                 "session_name": requested_session
             })
 
-        # Register new session
+        # Initialize a new session.
         data["tmux_sessions"].append(requested_session)
 
         return json.dumps({

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class ShipOutboundOrder(Tool):
         if not order_to_update:
             return json.dumps({"error": f"Order '{order_id}' not found."}, indent=2)
 
-        # --- NEW LOGIC START ---
+        # --- INITIATING NEW LOGIC ---
         total_weight_kg = 0
         line_items = order_to_update.get("line_items", [])
         product_master = list(data.get('product_master', {}).values())
@@ -28,10 +28,10 @@ class ShipOutboundOrder(Tool):
             if product:
                 total_weight_kg += product.get('weight_kg', 0) * item['quantity']
 
-        # Deterministic shipping cost calculation
+        # Fixed shipping cost computation
         shipping_cost = round((total_weight_kg * 2.5) + 100, 2)
         order_to_update['shipping_cost'] = shipping_cost
-        # --- NEW LOGIC END ---
+        # --- END OF NEW LOGIC ---
 
         order_to_update['status'] = 'Shipped'
         order_to_update['warehouse_id'] = warehouse_id

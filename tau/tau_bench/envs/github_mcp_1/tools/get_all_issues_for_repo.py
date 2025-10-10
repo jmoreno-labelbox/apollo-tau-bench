@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,12 +22,12 @@ class GetAllIssuesForRepo(Tool):
                 indent=2
             )
 
-        # Load issues DB
+        # Load the issues database.
         issues_db = list(data.get("issues", {}).values())
         if not isinstance(issues_db, list):
             return json.dumps({"error": "Invalid issues DB: expected a list at data['issues']."}, indent=2)
 
-        # Find repo bucket
+        # Locate the repository bucket.
         rec = next((r for r in issues_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             return json.dumps({"error": f"No issues found for repository '{owner}/{repo_name}'."}, indent=2)
@@ -38,7 +38,7 @@ class GetAllIssuesForRepo(Tool):
             arr = rec.get(key, [])
             return arr[i] if i < len(arr) else None
 
-        # Build (number, index) pairs and sort by issue number
+        # Create pairs of (number, index) and arrange them in order of issue number.
         indexed: List[tuple] = [(num, i) for i, num in enumerate(issue_numbers)]
         indexed.sort(key=lambda t: t[0])
 

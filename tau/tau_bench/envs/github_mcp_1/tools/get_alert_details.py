@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,13 +23,13 @@ class GetAlertDetails(Tool):
                 indent=2
             )
 
-        # Normalize alert_number
+        # Standardize alert_number
         try:
             alert_number = int(alert_number_raw)
         except Exception:
             return json.dumps({"error": "alert_number must be an integer."}, indent=2)
 
-        # Load alerts DB
+        # Initialize alerts database.
         alerts_db = data.get("code_scanning_alerts", [])
         if not isinstance(alerts_db, list):
             return json.dumps(
@@ -37,7 +37,7 @@ class GetAlertDetails(Tool):
                 indent=2
             )
 
-        # Find repo bucket
+        # Locate the repository bucket.
         rec = next((r for r in alerts_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             return json.dumps(
@@ -48,7 +48,7 @@ class GetAlertDetails(Tool):
         alert_numbers: List[int] = rec.get("alert_numbers", [])
         if alert_number not in alert_numbers:
             return json.dumps(
-                {"error": f"Alert #{alert_number} not found for '{owner}/{repo_name}'."},
+                {"error": f"Alert # "{alert_number} is missing for '{owner}/{repo_name}'."
                 indent=2
             )
 

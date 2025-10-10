@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -33,7 +33,7 @@ class SyncGmailIntentsToReviewTool(Tool):
             if any(k in body for k in blocker):
                 counts["blocker"] += 1
 
-        # Store counts on cycle for visibility (non-destructive)
+        # Maintain counts on cycle for transparency (non-intrusive)
         cycles = _safe_table(data, "review_cycles")
         idx = _index_by(cycles, "cycle_id")
         if cycle_id in idx:

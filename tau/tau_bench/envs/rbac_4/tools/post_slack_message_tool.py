@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class PostSlackMessageTool(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Expect: data["slack_messages"] is a list of dicts from /mnt/data/slack_messages.json
+        # Assume: data["slack_messages"] consists of a list of dictionaries sourced from /mnt/data/slack_messages.json.
         slack_messages = data.get("slack_messages", [])
         if not isinstance(slack_messages, list):
             return json.dumps({"error": "slack_messages must be a list"}, indent=2)
@@ -23,7 +23,7 @@ class PostSlackMessageTool(Tool):
         if not isinstance(message, str) or not message.strip():
             return json.dumps({"error": "message must be a non-empty string"}, indent=2)
 
-        # Append a new message to the log (mock posting)
+        # Add a new entry to the log (simulated posting)
         new_entry = {
             "channel": channel,
             "message": message,
@@ -44,7 +44,7 @@ class PostSlackMessageTool(Tool):
                     "properties": {
                         "channel": {
                             "type": "string",
-                            "description": "Slack channel name or ID, e.g. #general"
+                            "description": "Slack channel name or ID, e.g. # broad
                         },
                         "message": {
                             "type": "string",

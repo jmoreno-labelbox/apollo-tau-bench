@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,38 +20,38 @@ class UpdateFixPlanStatus(Tool):
         if not all([plan_id, new_status]):
             return json.dumps({"error": "plan_id and new_status are required."})
 
-        # Validate status values
+        # Check validity of status values.
         valid_statuses = ['DRAFTED', 'IN_PROGRESS', 'DELIVERED', 'ARCHIVED']
         if new_status not in valid_statuses:
             return json.dumps({"error": f"Invalid status. Must be one of: {', '.join(valid_statuses)}"})
 
-        # Validate delivery method if provided
+        # Check the delivery method if it has been specified.
         valid_delivery_methods = ['COMMENTS', 'TICKETS', 'PDF']
         if delivery_method and delivery_method not in valid_delivery_methods:
             return json.dumps({"error": f"Invalid delivery_method. Must be one of: {', '.join(valid_delivery_methods)}"})
 
         fix_plans = data.get('fix_plans', [])
 
-        # Find the fix plan
+        # Determine the solution strategy.
         plan_found = False
         for plan in fix_plans:
             if plan.get('plan_id') == plan_id:
                 plan_found = True
                 old_status = plan.get('status')
 
-                # Update plan status
+                # Revise the status of the plan.
                 plan['status'] = new_status
                 plan['last_updated'] = datetime.now().isoformat()
 
-                # Update owner if provided
+                # Modify owner if supplied.
                 if owner_email:
                     plan['owner_email'] = owner_email
 
-                # Update delivery method if provided
+                # Modify the delivery method if available.
                 if delivery_method:
                     plan['delivery_method'] = delivery_method
 
-                # Handle status-specific logic
+                # Manage logic based on status conditions.
                 if new_status == 'DELIVERED':
                     plan['delivered_at'] = datetime.now().isoformat()
                     if delivery_notes:
@@ -62,7 +62,7 @@ class UpdateFixPlanStatus(Tool):
                     if delivery_notes:
                         plan['archive_reason'] = delivery_notes
 
-                # Log the status change
+                # Record the status update.
                 if 'status_history' not in plan:
                     plan['status_history'] = []
                 plan['status_history'].append({

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class GetAdsetDetailsByID(Tool):
         if not row:
             return json.dumps({"error": "adset_not_found"})
 
-        # Join ads on adset_id; tolerate missing ads table by returning an empty list
+        # Perform a join on adset_id with the ads table; handle the absence of the ads table by returning an empty array.
         try:
             ads_tbl = _assert_table(data, "ads")
         except Exception:
@@ -26,10 +26,10 @@ class GetAdsetDetailsByID(Tool):
 
         ads_for_adset = [a for a in ads_tbl if str(a.get("adset_id")) == adset_id]
 
-        # Sort: active first, then by start_date (string-safe), then by name for determinism
+        # Order by active status first, followed by start_date (string-safe), and then by name for consistency.
         def sort_key(a: Dict[str, Any]) -> Tuple[Any, Any, Any]:
             status = a.get("status", "")
-            start_date = a.get("start_date", "")  # keep as string to avoid parse errors
+            start_date = a.get("start_date", "")  # retain as a string to prevent parsing issues
             name = a.get("name", "")
             return (status != "active", str(start_date), str(name))
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,14 +26,14 @@ class GetBullpenSessionInfoForPlayer(Tool):
         date_filter = kwargs.get("date")
         type_filter = kwargs.get("type")
 
-        # 1) Validate required input
+        # 1) Check for mandatory input validity
         if playerid is None:
             return json.dumps({"error": "Missing required field: playerid"}, indent=2)
 
-        # 2) Access DB
+        # 2) Connect to the database
         sessions: List[Dict[str, Any]] = list(data.get("bullpen_sessions", {}).values())
 
-        # 3) Filter by exact fields
+        # 3) Apply filters based on specific fields.
         def match(session: Dict[str, Any]) -> bool:
             if session.get("player_id") != playerid:
                 return False
@@ -46,7 +46,7 @@ class GetBullpenSessionInfoForPlayer(Tool):
         matches = [s for s in sessions if match(s)]
 
         if not matches:
-            # Build an informative, structured error
+            # Create a detailed, organized error message.
             parts = [f"player_id {playerid}"]
             if date_filter is not None:
                 parts.append(f"date {date_filter}")
@@ -54,7 +54,7 @@ class GetBullpenSessionInfoForPlayer(Tool):
                 parts.append(f"type {type_filter}")
             return json.dumps({"error": f"No bullpen sessions found for {'; '.join(parts)}"}, indent=2)
 
-        # 4) Deterministic ordering
+        # 4) Fixed sequence
         matches.sort(key=lambda s: (s.get("session_date", ""), int(s.get("session_id", 0))))
 
         return json.dumps(matches, indent=2)

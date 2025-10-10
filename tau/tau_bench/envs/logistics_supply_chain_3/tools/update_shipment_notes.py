@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class UpdateShipmentNotes(Tool):
         for shipment in inbound_shipments:
             if shipment.get("shipment_id") == shipment_id:
                 original_note = shipment.get("notes")
-                # Append new note to existing notes if they exist, separated by a pipe
+                # Add the new note to the current notes if present, using a pipe as a separator.
                 if original_note:
                     shipment["notes"] = f"{original_note} | {new_note}"
                 else:

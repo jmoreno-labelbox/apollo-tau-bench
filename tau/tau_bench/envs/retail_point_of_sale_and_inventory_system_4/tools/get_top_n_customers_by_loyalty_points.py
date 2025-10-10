@@ -1,15 +1,15 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class GetTopNCustomersByLoyaltyPoints(Tool): # READ
+class GetTopNCustomersByLoyaltyPoints(Tool): # READ DATA
     @staticmethod
     def invoke(data: Dict[str, Any], n: int) -> str:
         customers = data["customers"]
-        # Sort by loyalty_points in descending order
+        # Order by loyalty_points in descending fashion.
         sorted_customers = sorted(customers, key=lambda c: c["loyalty_points"], reverse=True)
         top_customers = sorted_customers[:n]
         return json.dumps(top_customers)

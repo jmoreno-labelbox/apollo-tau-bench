@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -30,7 +30,7 @@ class GridEncodePitchLocations(Tool):
             out.append({"pitch_id": p.get("pitch_id"), "zone_cell_12x12": _cell(p.get("plate_x"), p.get("plate_z"))})
 
         if kwargs.get("persist"):
-            # write back to source table
+            # update the original table
             for p, rec in zip(data["pitches"], out):
                 p["zone_cell_12x12"] = rec["zone_cell_12x12"]
         return json.dumps(out, indent=2)

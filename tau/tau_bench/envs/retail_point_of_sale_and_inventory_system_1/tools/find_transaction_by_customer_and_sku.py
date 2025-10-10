@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,13 +10,13 @@ class FindTransactionByCustomerAndSku(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         customer_id = kwargs.get('customer_id')
         sku = kwargs.get('sku')
-        transactions = list(data.get("transactions", {}).values())  # Lista []
+        transactions = list(data.get("transactions", {}).values())  # Array []
         for txn in transactions:
             if txn.get("customer_id") == customer_id:
                 for item in txn.get("line_items", []):
                     if item.get("sku") == sku:
                         return json.dumps({
-                            "transaction_id": txn.get("transaction_id"),  # Supondo que id esteja no objeto
+                            "transaction_id": txn.get("transaction_id"),  # Assumindo que o id está presente no objeto.
                             "unit_price": item.get("unit_price")
                         })
         return json.dumps({})

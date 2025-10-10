@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra copyright.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,10 +10,10 @@ class find_employees(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         employees = list(data.get("employees", {}).values())
 
-        # If customer id is sent, then it will override all other criteria
+        # Sending a customer ID will take precedence over all other parameters.
         employee_id = kwargs.get("employee_id")
 
-        # These columns will be matched exactly to the value sent
+        # These columns will correspond precisely to the provided value.
         exact_match_cols = [
             "phone_number",
             "membership_level",
@@ -25,17 +25,17 @@ class find_employees(Tool):
         ]
         exact_match_values = {k: kwargs.get(k) for k in exact_match_cols}
 
-        # These columns will be matched as long as the database field contains the sent value
+        # These columns will be aligned as long as the database field includes the provided value.
         approximate_match_cols = ["name", "email", "address"]
         approximate_match_values = {k: kwargs.get(k) for k in approximate_match_cols}
 
         matches = []
         for employee in employees:
-            # customer_id takes priority
+            # customer_id is prioritized.
             if (employee_id is not None) and (employee["employee_id"] == employee_id):
                 return json.dumps(employee, indent=2)
 
-            # If all sent criteria match, then add it to the return list
+            # If all specified conditions are met, include it in the return list.
             elif all(
                 [
                     exact_match_values[k] == employee[k]

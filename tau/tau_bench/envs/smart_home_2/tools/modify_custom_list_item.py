@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class ModifyCustomListItem(Tool):
         if not lst:
             return json.dumps({"error": f"list '{list_id}' not found"}, indent=2)
         items = lst.setdefault("items", [])
-        # locate existing item by name
+        # find existing item using its name
         idx = next((i for i, it in enumerate(items) if it["item"] == item.get("item")), None)
         if action == "add":
             if idx is not None:

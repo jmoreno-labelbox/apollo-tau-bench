@@ -1,6 +1,6 @@
 # rules.py
-# NOTE: Rules must be a plain list of strings. No code, no objects, no conditionals.
-# These rules are intentionally declarative so the LLM can infer workflows without being spoon-fed steps.
+# IMPORTANT: The rules should be represented as a simple array of strings, without any code, objects, or conditional statements.
+# These guidelines are purposefully declarative to enable the LLM to deduce workflows independently without explicit step-by-step instructions.
 
 RULES = [
     "WORKFLOW: review_kickoff — initiate a review for a Figma artifact; export assets utilizing the designated profile; send an email to stakeholders with the asset attached; at kickoff, apply the 'needs-review' tag; log the run.",

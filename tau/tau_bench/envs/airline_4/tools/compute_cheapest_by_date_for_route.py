@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,10 +21,10 @@ class ComputeCheapestByDateForRoute(Tool):
         tie_breaker: str = "lexicographic_flight_number",
         start_date: Optional[str] = None,
         end_date: Optional[str] = None,
-        fare_class: Optional[str] = None,  # tolerate single-cabin callers
+        fare_class: Optional[str] = None,  # accept single-cabin callers
     ) -> str:
 
-        # Back-compat shim: allow 'fare_class' as alias for single-cabin
+        # Backward compatibility layer: permit 'fare_class' as a synonym for single-cabin.
         if cabins is None and fare_class:
             cabins = [fare_class]
 
@@ -65,7 +65,7 @@ class ComputeCheapestByDateForRoute(Tool):
                 if not isinstance(rec, dict):
                     continue
 
-                # Window filter (ISO YYYY-MM-DD lexicographic safe)
+                # Date filter for window (ISO format YYYY-MM-DD, lexicographically safe)
                 if start_date and d < start_date:
                     continue
                 if end_date and d > end_date:
@@ -149,7 +149,7 @@ class ComputeCheapestByDateForRoute(Tool):
                             "type": "array",
                             "items": {"type": "string", "enum": ["basic_economy", "economy", "business"]}
                         },
-                        "fare_class": {  # back-compat alias
+                        "fare_class": {  # legacy compatibility alias
                             "type": "string",
                             "enum": ["basic_economy", "economy", "business"],
                             "description": "Alias for single-cabin; if set and 'cabins' omitted, uses [fare_class]."

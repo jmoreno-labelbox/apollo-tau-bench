@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,9 +18,9 @@ class GetFileContents(Tool):
         repo = _find_repo_record(data, repo_name)
         idx = _branch_index(repo, branch)
         files = repo["branch_files"][idx]
-        # print("fuiles:", files)
+        # print("files:", files)
         contents = repo["branch_contents"][idx]
-        # print("contents:", contents)
+        # output("contents:", contents)
 
         if path not in files:
             return json.dumps({"error": f"File '{path}' not found."}, indent=2)

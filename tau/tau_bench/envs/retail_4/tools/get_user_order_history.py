@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,29 +13,29 @@ class GetUserOrderHistory(Tool):
 
         Data Sources: users.json (user_id, orders, payment_methods, name, email, address), orders.json (order details), products.json (product names for filtering)
         """
-        # Rule: Validate user identity exists before processing any user requests
+        # Condition: Confirm user identity is present prior to handling any requests.
         users = list(data.get("users", {}).values())
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
             return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
-        # Extract user information from users.json structure
+        # Retrieve user data from the users.json format.
         user_orders = user.get("orders", [])
         payment_methods = user.get("payment_methods", {})
         user_name = user.get("name", {})
         user_address = user.get("address", {})
 
-        # Get detailed order information if product_type filter is specified
+        # Retrieve comprehensive order details when a product_type filter is applied.
         filtered_orders = user_orders
         filter_applied = False
 
         if product_type:
-            # Convert product_type to lowercase for case-insensitive matching
+            # Transform product_type to lowercase for uniform matching regardless of case.
             product_type_lower = [ptype.lower() for ptype in product_type]
             filter_applied = True
 
-            # Get product information for filtering
+            # Retrieve product details for filtering purposes.
             products = list(data.get("products", {}).values())
             product_name_map = {}
             for product in products:
@@ -44,12 +44,12 @@ class GetUserOrderHistory(Tool):
                 if product_id:
                     product_name_map[product_id] = product_name
 
-            # Get order details to filter by product type
+            # Retrieve order information for filtering based on product type.
             orders = list(data.get("orders", {}).values())
             filtered_orders = []
 
             for order_id in user_orders:
-                # Find the order details
+                # Retrieve the order information.
                 order_details = None
                 for order in orders:
                     if order.get("order_id") == order_id and order.get("user_id") == user_id:
@@ -60,7 +60,7 @@ class GetUserOrderHistory(Tool):
                     order_items = order_details.get("items", [])
                     order_has_matching_products = False
 
-                    # Check if any item in the order matches the product type filter
+                    # Verify if any item in the order corresponds to the product type filter.
                     for item in order_items:
                         item_product_id = item.get("product_id")
                         if item_product_id:
@@ -74,11 +74,11 @@ class GetUserOrderHistory(Tool):
                                     order_has_matching_products = True
                                     break
 
-                    # Include order if it has matching products
+                    # Add the order if corresponding products are present.
                     if order_has_matching_products:
                         filtered_orders.append(order_id)
 
-        # Rule: Payment methods must be valid type: credit_card, paypal, or gift_card
+        # Requirement: Accepted payment methods include credit_card, paypal, or gift_card.
         valid_payment_methods = []
         for method_id, method_details in payment_methods.items():
             payment_source = method_details.get("source")
@@ -88,7 +88,7 @@ class GetUserOrderHistory(Tool):
                     "source": payment_source
                 }
 
-                # Add specific details based on payment type
+                # Incorporate details tailored to the payment method.
                 if payment_source == "credit_card":
                     method_info["brand"] = method_details.get("brand")
                     method_info["last_four"] = method_details.get("last_four")
@@ -97,14 +97,14 @@ class GetUserOrderHistory(Tool):
 
                 valid_payment_methods.append(method_info)
 
-        # Rule: Validate all required address fields: address1, city, country, state, zip
+        # Validation is required for all mandatory address fields: address1, city, country, state, and zip.
         address_complete = all(user_address.get(field) for field in ["address1", "city", "country", "state", "zip"])
 
-        # Get detailed information about filtered orders (both with and without product type filter)
+        # Retrieve comprehensive data on filtered orders, including those with and without a product type filter.
         order_details_summary = []
         orders = list(data.get("orders", {}).values())
 
-        # Get product information for item_ids mapping
+        # Retrieve product details for item_ids mapping
         products = list(data.get("products", {}).values())
         product_name_map = {}
         for product in products:
@@ -117,7 +117,7 @@ class GetUserOrderHistory(Tool):
             for order in orders:
                 if order.get("order_id") == order_id and order.get("user_id") == user_id:
                     if filter_applied and product_type:
-                        # Get matching products in this order (filtered case)
+                        # Retrieve products that match in this sequence (filtered case)
                         matching_products = []
                         order_items = order.get("items", [])
 
@@ -148,7 +148,7 @@ class GetUserOrderHistory(Tool):
                                 "total_matching_items": len(matching_products)
                             })
                     else:
-                        # Get all products in this order (no filter case)
+                        # Retrieve all products in this sequence (without any filter applied).
                         all_products = []
                         order_items = order.get("items", [])
 

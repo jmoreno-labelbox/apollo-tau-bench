@@ -1,4 +1,4 @@
-# Copyright Sierra
+# All rights reserved by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,7 +23,7 @@ class CreateOrientationInvitationEmailsTool(Tool):
             context = candidate.copy()
             context.update(orientation_details)
 
-            # Orientation Email
+            # Welcome Email
             rendered_orient = _get_hardcoded_template_and_render("orientation_invitation", context)
             orient_email_id = _next_str_id(emails, "message_id", "msg_")
             orient_email = {
@@ -38,7 +38,7 @@ class CreateOrientationInvitationEmailsTool(Tool):
             }
             emails.append(orient_email)
 
-            # Manager Intro Email
+            # Email to introduce the manager
             rendered_intro = _get_hardcoded_template_and_render("manager_introduction", context)
             intro_email_id = _next_str_id(emails, "message_id", "msg_")
             intro_email = {

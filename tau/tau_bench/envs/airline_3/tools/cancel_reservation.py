@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,7 +25,7 @@ class CancelReservation(Tool):
         if reservation.get("status") == "cancelled":
             return json.dumps({"status": "already_cancelled", "reservation_id": reservation_id})
 
-        # Process refunds
+        # Handle refund transactions.
         user_id = reservation.get("user_id")
         user = next((u for u in users if u.get("email", "").startswith(user_id)), None)
 
@@ -34,20 +34,20 @@ class CancelReservation(Tool):
             amount = payment.get("amount", 0)
             payment_id = payment.get("payment_id")
 
-            # Create a refund transaction record
+            # Generate a record for the refund transaction.
             refund_transactions.append({
                 "payment_id": payment_id,
                 "amount": -amount,
                 "type": "REFUND"
             })
 
-            # If the user and payment method can be found, restore the balance for gift cards/certificates
+            # If the user and payment method are identified, replenish the balance for gift cards/certificates.
             if user and payment_id:
                 payment_method = user.get("payment_methods", {}).get(payment_id)
                 if payment_method and payment_method.get("source") in ["gift_card", "certificate"]:
                     payment_method["amount"] = payment_method.get("amount", 0) + amount
 
-        # Update reservation status and payment history
+        # Modify the status of the reservation and the payment records.
         reservation["status"] = "cancelled"
         if "payment_history" not in reservation:
             reservation["payment_history"] = []

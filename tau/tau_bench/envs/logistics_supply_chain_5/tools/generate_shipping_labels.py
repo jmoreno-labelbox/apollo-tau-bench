@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,10 +17,10 @@ class GenerateShippingLabels(Tool):
 
         carrier = next((c for c in carriers if c.get("scac") == carrier_scac), None)
 
-        # UPDATED: Handle carriers referenced in orders but not in carriers.json
+        # REVISION: Manage carriers mentioned in orders that are absent from carriers.json.
         tracking = ""
         if not carrier:
-            # Check if carrier exists in order data (fallback for data inconsistencies)
+            # Verify the presence of carrier in the order data (backup for data discrepancies).
             order_carrier = order.get("carrier_scac")
             if order_carrier == carrier_scac:
                 carrier_name = order.get("carrier_name", f"Carrier {carrier_scac}")

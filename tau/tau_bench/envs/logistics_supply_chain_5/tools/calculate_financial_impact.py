@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class CalculateFinancialImpact(Tool):
             "product_value_at_risk": product_value,
             "estimated_liability": liability_estimate,
             "total_financial_impact": product_value + liability_estimate,
-            "insurance_coverage": min(product_value * 0.8, 100000),  # Simplified coverage calc
+            "insurance_coverage": min(product_value * 0.8, 100000),  # Streamlined coverage calculation
             "net_exposure": max(0, (product_value + liability_estimate) - min(product_value * 0.8, 100000)),
             "calculation_date": get_current_timestamp()
         }

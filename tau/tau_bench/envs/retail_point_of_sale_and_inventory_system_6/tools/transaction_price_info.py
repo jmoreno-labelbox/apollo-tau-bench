@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class transaction_price_info(Tool):
     A tool that will create a price from the given information. Does not do any write operations. The finish the transaction, use make_transaction
     """
 
-    # TODO: gather logic into a shared utility for make_transaction
+    # TODO: consolidate logic into a common utility for make_transaction.
 
     @staticmethod
     def get_detailed_line_item_price(data, **kwargs):
@@ -28,22 +28,22 @@ class transaction_price_info(Tool):
             if ((sku is not None) and (product["sku"] == sku)) or (
                 (barcode is not None) and (product["barcode"] == barcode)
             ):
-                # Get the sku if barcode was used
+                # Retrieve the SKU if a barcode has been utilized.
                 sku = product["sku"]
 
-                # Get the promotion information
+                # Retrieve the promotion details.
                 for promotion in promotions:
                     if sku in promotion["applicable_skus"]:
                         use_promotion = promotion
                         break
 
-                # Use the discount rate if the product is marked as discountable, otherwise set as 0
-                # if use_promotion["type"] == "percentage"
+                # Apply the discount rate if the item is eligible for a discount; otherwise, assign a value of 0.
+                # if use_promotion["type"] == "percent"
                 discount_rate = (
                     product["discount_rate"] if product["is_discountable"] else 0.0
                 )
 
-                # Calculate the discount amount
+                # Determine the amount of the discount.
                 # discount = round(product["price"] * discount_rate, 2)
 
                 tax_rate = product["tax_rate"]
@@ -71,10 +71,10 @@ class transaction_price_info(Tool):
         if item_list is None:
             return json.dumps({"error": "item_list must be sent"})
 
-        # Line items suitable for a transaction record
+        # Items appropriate for a transaction log
         line_items = []
 
-        # Running trackers for the overall order
+        # Executing monitors for the total order.
         total_amount = 0
         tax_amount = 0
         tax_rate = 0
@@ -84,27 +84,27 @@ class transaction_price_info(Tool):
             barcode = item.get("barcode")
             quantity = item.get("quantity")
 
-            # Get the price info for the item
+            # Retrieve the pricing details for the item.
             line_item_info = make_transaction.get_detailed_line_item_price(
                 data, sku=sku, barcode=barcode
             )
             line_item_info = json.loads(line_item_info)
 
-            # Unpack values
+            # Extract values
             sku = line_item_info["sku"]
             unit_price = line_item_info["unit_price"]
             unit_tax_rate = line_item_info["tax_rate"]
             discount_rate = line_item_info["discount_rate"]
 
-            # Calculate line item totals
-            # TODO: discount needs more work to account for different discount types
+            # Compute totals for each line item.
+            # TODO: enhance discount implementation to handle various discount types.
             unit_discount = unit_price * discount_rate
             item_sub_total = quantity * (unit_price - unit_discount)
             item_discount = round(quantity * unit_discount, 2)
             item_tax_amount = round(item_sub_total * unit_tax_rate, 2)
             item_final_amount = round(item_sub_total + item_tax_amount, 2)
 
-            # Create the line item transaction log
+            # Generate the transaction log for line items.
             line_item = {
                 "sku": sku,
                 "quantity": quantity,
@@ -113,13 +113,13 @@ class transaction_price_info(Tool):
             }
             line_items.append(line_item)
 
-            # Update the running totals
+            # Revise the cumulative totals.
             total_amount += item_final_amount
             tax_amount += item_tax_amount
             discount_total += item_discount
             tax_rate = max(tax_rate, unit_tax_rate)
 
-        # Build the final transaction log
+        # Construct the complete transaction log.
         total_amount = round(total_amount, 2)
         tax_amount = round(tax_amount, 2)
         discount_total = round(discount_total, 2)

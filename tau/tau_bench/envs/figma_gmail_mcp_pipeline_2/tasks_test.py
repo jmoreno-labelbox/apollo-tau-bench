@@ -55,8 +55,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Design Review: Homepage Hero Section"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Operation(
+        # identifier="RetrieveFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -250,8 +250,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Admin Panel Accessibility Audit"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Operation(
+        # identifier="RetrieveFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -756,8 +756,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Admin Panel Accessibility Audit"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Perform an action
+        # identifier="RetrieveFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -841,8 +841,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Design Review: Homepage Hero Section"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # PerformAction(
+        # identifier="FetchFullEmailChain",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -926,8 +926,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Design Review: Homepage Hero Section"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # PerformAction(
+        # identifier="RetrieveFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -1121,8 +1121,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Admin Panel Accessibility Audit"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Operation(
+        # identifier="FetchFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -1627,8 +1627,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Admin Panel Accessibility Audit"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # PerformAction(
+        # identifier="RetrieveFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -1712,8 +1712,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Design Review: Homepage Hero Section"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # PerformAction(
+        # name="RetrieveFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -1989,8 +1989,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Admin Panel Accessibility Audit"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Operation(
+        # identifier="RetrieveFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -2495,9 +2495,9 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Admin Panel Accessibility Audit"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
-        #         kwargs={"thread_id":"thread_001"},
+        # Operation(
+        # identifier="RetrieveFullEmailConversation",
+        # kwargs={"thread_identifier":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
             "thread_id": "thread_004",
@@ -2580,8 +2580,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Design Review: Homepage Hero Section"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Operation(
+        # identifier="FetchFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -2665,9 +2665,9 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Design Review: Homepage Hero Section"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
-        #         kwargs={"thread_id":"thread_001"},
+        # Operation(
+        # identifier="FetchFullEmailConversation",
+        # kwargs={"thread_identifier":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
             "thread_id": "thread_001",
@@ -2860,8 +2860,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Admin Panel Accessibility Audit"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Operation(
+        # identifier="RetrieveFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -3366,8 +3366,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Admin Panel Accessibility Audit"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Execute(
+        # identifier="FetchFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -3451,8 +3451,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Design Review: Homepage Hero Section"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Execute(
+        # identifier="FetchFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -3536,8 +3536,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Design Review: Homepage Hero Section"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Operation(
+        # identifier="RetrieveFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -3731,9 +3731,9 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Admin Panel Accessibility Audit"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
-        #         kwargs={"thread_id":"thread_001"},
+        # Execute(
+        # identifier="RetrieveFullEmailConversation",
+        # kwargs={"thread_identifier":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
             "thread_id": "thread_004",
@@ -4237,8 +4237,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Admin Panel Accessibility Audit"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Operation(
+        # identifier="RetrieveFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -4322,8 +4322,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Design Review: Homepage Hero Section"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Perform an action
+        # identifier="FetchFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -4407,8 +4407,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Design Review: Homepage Hero Section"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # PerformAction(
+        # identifier="RetrieveFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -4602,8 +4602,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Admin Panel Accessibility Audit"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Operation(
+        # name="RetrieveFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -5108,9 +5108,9 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Admin Panel Accessibility Audit"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
-        #         kwargs={"thread_id":"thread_001"},
+        # Operation(
+        # name="RetrieveFullEmailThread",
+        # kwargs={"thread_identifier":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
             "thread_id": "thread_004",
@@ -5193,8 +5193,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Design Review: Homepage Hero Section"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Perform an operation
+        # identifier="FetchFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -5344,8 +5344,8 @@ Task(
         Action(name="GetThreadBySubject", kwargs={
             "subject": "Admin Panel Accessibility Audit"
         }),
-        # Action(
-        #         name="GetCompleteEmailThread",
+        # Perform an action
+        # identifier="RetrieveFullEmailConversation",
         #         kwargs={"thread_id":"thread_001"},
         #     ),
         Action(name="SendEmailInThread", kwargs={
@@ -5453,109 +5453,109 @@ outputs=[]
 
 
 
-# Action(
-            #     name="getArtifactWithId",
-            #     kwargs={"artifact_id": "art_001"},
+# Operation(
+            # identifier="retrieveArtifactById",
+            # kwargs={"artifact_identifier": "art_001"},
             # ),
-            # Action(
-            #     name="GetAllArtifactsOfTypeWithTagsAndEmail",
-            #     kwargs={"artifact_type": "FRAME", "owner_email":"emma.creative@company.com", "tags":["needs-review"]},
+            # Operation(
+            # identifier="FetchAllArtifactsByTypeWithTagsAndEmail",
+            # kwargs={"artifact_type": "FRAME", "owner_email": "emma.creative@company.com", "tags": ["needs-review"]},
             # ),
-            # Action(
-            #     name="CreateNewArtifact",
-            #     kwargs={
+            # Operation(
+            # identifier="CreateNewArtifact",
+            # additional_arguments={
             #         "artifact_type":"FRAME",
-            #         "frame_id_nullable":"3:3",
-            #         "artifact_name":"Hero Section", 
-            #         "figma_file_id":"figd_abc123def456", 
-            #         "page_id":"1:2", 
+            # "frame_id_optional":"3:3",
+            # "artifact_name":"Main Hero Area",
+            # "figma_file_identifier":"figd_abc123def456",
+            # "page_identifier":"1:2",
             #         "owner_email":"emma.creative@company.com", 
             #         "deep_link":"https://www.figma.com/file/abc123def456/Design-System?node-id=1%3A3sdf",
-            #         "current_tags":["user", "settings"],
+            # "active_tags":["user", "settings"],
             #         },
             # ),
-            # Action(
-            #     name="getArtifactsWithFileId",
-            #     kwargs={"figma_file_id": "figd_xyz789ghi012","artifact_type":"FRAME", "page_id":"2:1", "frame_id":"2:2"},
+            # Operation(
+            # identifier="retrieveArtifactsByFileId",
+            # kwargs={"figmaFileId": "figd_xyz789ghi012", "artifactType": "FRAME", "pageId": "2:1", "frameId": "2:2"},
             # ),
-            # Action(
-            #     name="GetAssetById",
-            #     kwargs={"asset_id": "asset_003"},
+            # Operation(
+            # identifier="FetchAssetById",
+            # kwargs={"asset_identifier": "asset_003"},
             # ),
-            # Action(
-            #     name="CreateNewAsset",
-            #     kwargs={
-            #         "artifact_id":"art_001", 
-            #         "export_profile":"PNG 2x", 
-            #         "file_size_bytes":245760, 
-            #         "storage_ref":"gs://company-assets/figma-exports/hero-section.svg",
+            # Operation(
+            # identifier="CreateNewAsset",
+            # additional_arguments={
+            # "artifact_identifier":"art_001",
+            # "export_profile":"PNG double resolution",
+            # "file_size_in_bytes":245760,
+            # "storage_ref": "gs://company-assets/figma-exports/hero-section.svg",
             #         },
             # ),
-            # Action(
-            #     name="getAssetsByArtifactId",
+            # Operation(
+            # name="retrieveAssetsByArtifactId",
             #     kwargs={"artifact_id": "art_001"},
             # ),
-            # Action(
-            #     name="CreateNewCycle",
+            # Operation(
+            # identifier="CreateNewCycle",
             #     kwargs={"artifact_id":"art_011", "sla_deadline_ts":"2024-08-26T10:30:00Z"},
             # ),
-            # Action(
-            #     name="UpdateCycleStatus",
-            #     kwargs={"cycle_id": "cycle_012", "new_status": "APPROVED","escalated_ts":"025-08-26T12:00:00Z","thread_id":None},
+            # Execute(
+            # identifier="UpdateCycleStatus",
+            # kwargs={"cycle_id": "cycle_012", "new_status": "APPROVED", "escalated_ts": "025-08-26T12:00:00Z", "thread_id": None},
             # ),
-            # Action(
-            #     name="getCycleById",
-            #     kwargs={"cycle_id":"cycle_013"},
+            # Operation(
+            # identifier="retrieveCycleById",
+            # kwargs={"cycleId":"cycle_013"},
             # ),
-            # Action(
-            #     name="StartEmailThread",
-            #     kwargs={
-            #         "subject":"Design Review", 
-            #         "sender_id":"emma.creative@company.com", 
+            # Operation(
+            # name="InitiateEmailConversation",
+            # additional_arguments={
+            # "topic":"Design Evaluation",
+            # "sender_id":"emma.creative@organization.com",
             #         "recipients":["jake.design@company.com", "chris.engineer@company.com", "anna.brand@company.com"], 
-            #         "current_labels":["design-review", "urgent", "figma"], 
-            #         "body_html":"<p>Hi team,</p><p>I've completed the homepage hero section design. Please review the attached Figma file and let me know your feedback.</p><p>Key changes:</p><ul><li>Updated CTA button styling</li><li>Improved responsive layout</li><li>Enhanced typography hierarchy</li></ul><p>Best regards,<br>Sarah</p>", 
-            #         "attachments_asset_ids":["asset_001", "asset_002"]
+            # "active_tags":["design-review", "urgent", "figma"],
+            # "body_html":"<p>Hello team,</p><p>I have finished designing the homepage hero section. Kindly check the attached Figma file and share your thoughts.</p><p>Major updates:</p><ul><li>Modified CTA button design</li><li>Refined responsive layout</li><li>Upgraded typography hierarchy</li></ul><p>Regards,<br>Sarah</p>",
+            # "attached_asset_ids":["asset_001", "asset_002"]
             #         },
             # ),
-            # Action(
-            #     name="SendEmailInThread",
-            #     kwargs={"thread_id":"thread_015", "sender_id":"anna.brand@company.com", "body_html":"<p>Hi team,</p><p>I've completed the homepage hero section design Approved"},
+            # Event
+            # name="DispatchEmailInThread",
+            # kwargs={"thread_id":"thread_015", "sender_id":"anna.brand@company.com", "body_html":"<p>Hello team,</p><p>The design for the homepage hero section has been completed and approved."}
             # ),
-            # Action(
-            #     name="GetCompleteEmailThread",
+            # Operation(
+            # identifier="FetchFullEmailConversation",
             #     kwargs={"thread_id":"thread_015"},
             # ),
-            # Action(
-            #     name="AddComment",
-            #     kwargs={"artifact_id":"art_001", "author_email":"chris.engineer@company.com", "content":"XYZ", "resolved_flag":False, "source_message_id":"msg_002"},
+            # Operation(
+            # identifier="AddComment",
+            # kwargs={"artifact_id":"art_001", "author_email":"chris.engineer@company.com", "content":"XYZ", "resolved":False, "source_msg_id":"msg_002"},
             # ),
 
-            # Action(
-            #     name="ApproveReview",
-            #     kwargs={"cycle_id":"cycle_001", "approver_email":"arah.designer@company.co","approval_comment_ref":"comment_003"},
+            # Operation(
+            # identifier="ApproveReview",
+            # kwargs={"cycle_id":"cycle_001", "approver_email":"arah.designer@company.co", "approval_comment_ref":"comment_003"},
             # ),
-            # Action(
-            #     name="CreateNewRelease",
-            #     kwargs={"figma_file_id":"figd_xyz789ghi012", "version_id":"v2.1.0", "version_tag":"release/mobile-app-v2.1.0", "release_name":"Mobile App v2.1.0 ", "owner_email":"jake.design@company.com","thread_id":"thread_007"},
+            # Operation(
+            # name="GenerateNewRelease",
+            # kwargs={"figma_file_id":"figd_xyz789ghi012", "version_id":"v2.1.0", "version_tag":"release/mobile-app-v2.1.0", "release_name":"Mobile App v2.1.0", "owner_email":"jake.design@company.com", "thread_id":"thread_007"},
             # ),
-            # Action(
-            #     name="getReleaseById",
+            # Execute(
+            # identifier="fetchReleaseById",
             #     kwargs={"release_id":"release_008"},
             # ),
-            # Action(
-            #     name="CreateReleaseDiff",
-            #     kwargs={"release_id":"release_013","prior_release_id":"release_001","frames_added":["1:20"],"frames_updated":["1:15", "1:16", "1:17"], "frames_removed": ["1:3","1:4"],"component_version_bumps":["Button-v1.2", "Card-v1.1", "Modal-v1.0"],"changelog_highlights":["Added new form components", "Enhanced button variants"]},
+            # Execute(
+            # identifier="CreateReleaseDiff",
+            # kwargs={"release_id":"release_013","prior_release_id":"release_001","frames_added":["1:20"],"frames_updated":["1:15", "1:16", "1:17"],"frames_removed":["1:3","1:4"],"component_version_bumps":["Button-v1.2", "Card-v1.1", "Modal-v1.0"],"changelog_highlights":["Introduced new form components","Improved button variants"]},
             # ),
-            # Action(
-            #     name="GetReleaseDiffByReleaseId",
+            # Operation(
+            # identifier="GetReleaseDiffByReleaseId",
             #     kwargs={"release_id":"release_013"},
             # ),
-            # Action(
-            #     name="compareBeforeAfterVisuals",
-            #     kwargs={"before_release_id":"release_001", "after_release_id":"release_013"},
+            # Operation(
+            # identifier="compareBeforeAfterVisuals",
+            # kwargs={"previous_release_id":"release_001", "next_release_id":"release_013"},
             # ),
-            # Action(
-            #     name="NotifyStakeholders",
+            # Operation(
+            # identifier="NotifyStakeholders",
             #     kwargs={"thread_id":"thread_004", "body_html":"<p>release notes</p>", "attachments_asset_ids":["asset_007"]},
             # ),

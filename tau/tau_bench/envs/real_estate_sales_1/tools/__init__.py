@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .search_listings import SearchListings
 from .get_listing_details import GetListingDetails

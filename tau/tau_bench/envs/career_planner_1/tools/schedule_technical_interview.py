@@ -6,7 +6,7 @@ from typing import Any
 class ScheduleTechnicalInterview(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], application_id: str) -> str:
-        # Generate an interview record containing only vital data
+        # Create a record of the interview that includes only essential information.
         interview = {
             "application_id": application_id,
             "status": "scheduled",

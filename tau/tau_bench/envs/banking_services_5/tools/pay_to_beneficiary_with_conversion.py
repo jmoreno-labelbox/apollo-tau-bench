@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,7 +23,7 @@ class PayToBeneficiaryWithConversion(Tool):
                 indent=2
             )
 
-        # lookup beneficiary and verify ownership
+        # retrieve beneficiary and confirm ownership
         ben = next(
             (b for b in list(data.get("beneficiaries", {}).values())
              if b.get("beneficiary_id") == beneficiary_id and b.get("customer_id") == customer_id),
@@ -35,7 +35,7 @@ class PayToBeneficiaryWithConversion(Tool):
                 indent=2
             )
 
-        # lookup source account and verify ownership
+        # retrieve source account and confirm ownership
         acct = next(
             (a for a in list(data.get("accounts", {}).values())
              if a.get("account_id") == source_account_id and a.get("customer_id") == customer_id),
@@ -47,13 +47,13 @@ class PayToBeneficiaryWithConversion(Tool):
                 indent=2
             )
 
-        # currency & balance checks
+        # currency and balance validations
         if acct.get("currency") != source_currency:
             return json.dumps({"error": "Source currency mismatch."}, indent=2)
         if acct.get("balance", 0.0) < source_amount:
             return json.dumps({"error": "Insufficient balance in source account."}, indent=2)
 
-        # determine conversion rate
+        # calculate conversion rate
         rates = {
             "USD_EUR": 0.85,
             "EUR_USD": 1.18,
@@ -72,7 +72,7 @@ class PayToBeneficiaryWithConversion(Tool):
 
         target_amount = round(source_amount * rate, 2)
 
-        # debit and pay
+        # charge and settle
         acct["balance"] -= source_amount
         target_acc_num = ben["account_details"].get("account_number")
 

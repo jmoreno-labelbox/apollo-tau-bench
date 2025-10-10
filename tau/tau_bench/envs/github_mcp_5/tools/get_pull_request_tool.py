@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -34,7 +34,7 @@ class GetPullRequestTool(Tool):
         if not pull_request:
             return json.dumps({
                 "status": "error",
-                "message": f"Pull request #{pr_number} not found in repository '{repo}'.",
+                "message": f"Pull request # Pull request number {pr_number} does not exist in the '{repo}' repository.
             }, indent=2)
 
         return json.dumps({

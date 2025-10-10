@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,7 +24,7 @@ class EnsureUserRole(Tool):
         assigned_on = kwargs.get("assigned_on") or get_current_timestamp()
         expires_on = kwargs.get("expires_on")
 
-        # Existence checks
+        # Presence validations
         if not _find_by_id(list(data.get("users", {}).values()), "user_id", user_id):
             return json.dumps({"error": f"user_id {user_id} not found"})
         if not _find_by_id(list(data.get("roles", {}).values()), "role_id", role_id):
@@ -40,7 +40,7 @@ class EnsureUserRole(Tool):
                 break
 
         if existing:
-            # If expires_on is provided and different from existing, update it
+            # Update expires_on if a new value is supplied and differs from the current one.
             if expires_on and existing.get("expires_on") != expires_on:
                 updated = dict(existing)
                 updated["expires_on"] = expires_on
@@ -49,7 +49,7 @@ class EnsureUserRole(Tool):
             else:
                 return json.dumps({"ok": True, "no_op": True, "assignment": existing})
         else:
-            # nothing to update/ensure
+            # no updates or confirmations needed
             return json.dumps({"error": "no existing assignment found"})
 
     @staticmethod

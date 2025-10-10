@@ -381,7 +381,7 @@ TASKS = [
             ),
             Action(
                 name="UpdatePromotionDetails",
-                kwargs={"promotion_id": "PROMO-008", "times_used": 0, "usage_limit": 500}, # PROMO-008 is the next ID
+                kwargs={"promotion_id": "PROMO-008", "times_used": 0, "usage_limit": 500}, # The following ID is PROMO-008.
             ),
             Action(
                 name="GetPromotionById",
@@ -405,7 +405,7 @@ TASKS = [
             ),
             Action(
                 name="UpdatePromotionDetails",
-                kwargs={"promotion_id": "PROMO-001", "status": "expired", "description": "Promotion expired due to end date."}, # De instrução
+                kwargs={"promotion_id": "PROMO-001", "status": "expired", "description": "Promotion expired due to end date."}, # From the instruction
             ),
             Action(
                 name="GetProductDetailsBySku",
@@ -417,7 +417,7 @@ TASKS = [
             ),
             Action(
                 name="GetPromotionById",
-                kwargs={"promotion_id": "PROMO-001"}, # Para confirmar
+                kwargs={"promotion_id": "PROMO-001"}, # Para verificar
             )
         ],
         outputs=[]
@@ -432,12 +432,12 @@ TASKS = [
                 kwargs={"sku": "SPORT-YOGMAT01"},
             ),
             Action(
-                name="UpdateProductDetails", # Condicional, mas executada para determinismo
+                name="UpdateProductDetails", # Condicional, mas realizada para garantir determinismo
                 kwargs={"sku": "SPORT-YOGMAT01", "category": "Sports & Outdoors"},
             ),
             Action(
                 name="ActivatePromotion",
-                kwargs={"promotion_id": "PROMO-003"}, # Agora existe
+                kwargs={"promotion_id": "PROMO-003"}, # Agora is now available.
             ),
             Action(
                 name="GetPromotionsByStatus",
@@ -477,7 +477,7 @@ TASKS = [
             ),
             Action(
                 name="GetPromotionByNameAndDate",
-                kwargs={"promotion_name": "Smart Home Starter Discount", "query_date": "2025-07-28"}, # Esta chamada deve retornar {}, ou uma promoção inativa.
+                kwargs={"promotion_name": "Smart Home Starter Discount", "query_date": "2025-07-28"}, # Esta invocación debe devolver {}, o una promoción desactivada.
             ),
             Action(
                 name="GetCustomerIdByName",
@@ -511,7 +511,7 @@ TASKS = [
                     "total_amount": 156.41,
                     "tax_amount": 11.92,
                     "payment_method": "credit_card",
-                    "discount_total": 0.00, # No discount applied
+                    "discount_total": 0.00, # Discount not applied.
                     "customer_id": "CUST-5001",
                     "line_items": [
                         {"sku": "AUDIO-BTSPKR02", "quantity": 1, "unit_price": 129.99, "discount": 0.0},
@@ -524,7 +524,7 @@ TASKS = [
                 kwargs={"customer_id": "CUST-5001", "points_to_add": 50},
             ),
             Action(
-                name="GetCustomerDetailsById", # Usar a nova ferramenta
+                name="GetCustomerDetailsById", # Utilizar a nova ferramenta.
                 kwargs={"customer_id": "CUST-5001"},
             ),
         ],
@@ -659,12 +659,12 @@ TASKS = [
                 kwargs={"employee_name": "Amanda Romano"},
             ),
             Action(
-                name="UpdatePromotionDetails", # Activate PROMO-007
+                name="UpdatePromotionDetails", # Enable PROMO-007
                 kwargs={"promotion_id": "PROMO-007", "status": "active", "start_date": "2025-09-10", "end_date": "2025-09-11"},
             ),
             Action(
-                name="UpdatePromotionDetails", # Add SKUs and set discount value
-                kwargs={"promotion_id": "PROMO-007", "applicable_skus": ["OFFC-ERGCHR01", "HOME-DESKLMP01", "HOM-COFMKR12", "KITCH-CHEFKNF8", "HOME-BTHTWL01", "KITCH-FRYPAN10"], "discount_value": 18.0}, # Corrected applicable_skus
+                name="UpdatePromotionDetails", # Incorporate SKUs and define the discount amount.
+                kwargs={"promotion_id": "PROMO-007", "applicable_skus": ["OFFC-ERGCHR01", "HOME-DESKLMP01", "HOM-COFMKR12", "KITCH-CHEFKNF8", "HOME-BTHTWL01", "KITCH-FRYPAN10"], "discount_value": 18.0}, # Updated applicable_skus.
             ),
             Action(
                 name="UpdateInventorySale",
@@ -707,7 +707,7 @@ TASKS = [
                 kwargs={"customer_id": "CUST-5004", "membership_level": "diamond"},
             ),
             Action(
-                name="GetCustomerDetailsById", # Corrected to get full details
+                name="GetCustomerDetailsById", # Adjusted to retrieve complete information.
                 kwargs={"customer_id": "CUST-5004"},
             ),
         ],
@@ -1470,7 +1470,7 @@ TASKS = [
                 name="UpdateProductDetails",
                 kwargs={"sku": "ELEC-RCHAA04", "status": "discontinued"}
             ),
-            # ACTION CORRIGIDA:
+            # CORRECTED ACTION:
             Action(
                 name="FindCustomersByCriteria",
                 kwargs={
@@ -1596,7 +1596,7 @@ TASKS = [
         actions=[
             Action(name="GetProductSkuByName", kwargs={"product_name": "BrewMaster 12-Cup Coffee Maker"}),
             Action(name="GetInventoryItemBySkuAndStore", kwargs={"sku": "HOM-COFMKR12", "store_id": "STORE-001"}),
-            Action(name="UpdateStockLevel", kwargs={"inventory_id": "INV-0003", "quantity_to_add": -5}), # 25 -> 20
+            Action(name="UpdateStockLevel", kwargs={"inventory_id": "INV-0003", "quantity_to_add": -5}), # Reduce 25 to 20.
             Action(name="UpdateInventoryStatus", kwargs={"inventory_id": "INV-0003", "status": "low_stock"}),
             Action(name="GetProductDetailsBySku", kwargs={"sku": "HOM-COFMKR12"}),
             Action(name="CreatePromotion", kwargs={

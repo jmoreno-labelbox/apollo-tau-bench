@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,14 +16,14 @@ class AnalyzeAttachmentFileInventoryTool(Tool):
         attachments = data.get("attachments", [])
         emails = data.get("emails", [])
 
-        # Create a map for quick lookup
+        # Generate a map for rapid access.
         email_id_to_candidate_id = {
             e.get("message_id"): e.get("candidate_id_nullable") for e in emails
         }
 
-        # Filter by candidate if provided
+        # Apply filter based on candidate if available
         if candidate_id:
-            # Get all attachment IDs linked to the candidate's emails
+            # Retrieve all attachment IDs associated with the candidate's emails.
             candidate_attachment_ids = set()
             for email in emails:
                 if str(email.get("candidate_id_nullable")) == str(candidate_id):
@@ -35,14 +35,14 @@ class AnalyzeAttachmentFileInventoryTool(Tool):
                 if att.get("attachment_id") in candidate_attachment_ids
             ]
 
-        # Filter by file type
+        # Restrict by file format
         if file_type_filter:
             attachments = [
                 att for att in attachments
                 if att.get("mime_type") == file_type_filter
             ]
 
-        # Analysis
+        # Examination
         total_size = sum(att.get("size_bytes", 0) for att in attachments)
         file_type_distribution = {}
         for att in attachments:
@@ -53,7 +53,7 @@ class AnalyzeAttachmentFileInventoryTool(Tool):
             "total_attachments": len(attachments),
             "total_size_bytes": total_size,
             "file_type_distribution": file_type_distribution,
-            "attachments_sample": attachments[:10] # a sample
+            "attachments_sample": attachments[:10] # an example
         }
         return json.dumps(result, indent=2)
 

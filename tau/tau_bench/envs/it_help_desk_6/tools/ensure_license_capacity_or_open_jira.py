@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class EnsureLicenseCapacityOrOpenJira(Tool):
             return json.dumps({"status": "error", "reason": "license_not_found"})
         if inv["used_seats"] + inv["reserved_seats"] + needed_count <= inv["total_seats"]:
             return json.dumps({"status": "ok", "capacity": True})
-        # open jira and indicate block
+        # Access Jira and mark the issue as blocked.
         jira = {
             "jira_id": jira_id,
             "issue_type": "License Shortage",

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,10 +21,10 @@ class GetTerminalLogsSummary(Tool):
 
         terminal_logs = data.get('terminal_logs', [])
 
-        # Filter logs by criteria
+        # Apply criteria to filter logs.
         results = []
         for log in terminal_logs:
-            # Apply filters
+            # Implement filters
             if log_level:
                 log_message = log.get('message', '')
                 if not log_message.startswith(f"{log_level}:"):
@@ -43,7 +43,7 @@ class GetTerminalLogsSummary(Tool):
                 if not any(keyword.lower() in message for keyword in message_keywords):
                     continue
 
-            # Apply date filters
+            # Implement date filters
             if created_after:
                 log_ts = log.get('log_ts', '')
                 if log_ts < created_after:
@@ -56,12 +56,12 @@ class GetTerminalLogsSummary(Tool):
 
             results.append(log)
 
-        # Sort by timestamp (most recent first) and apply limit
+        # Order by timestamp (newest first) and set a limit.
         results.sort(key=lambda x: x.get('log_ts', ''), reverse=True)
         if limit:
             results = results[:limit]
 
-        # Create summary with log level distribution
+        # Generate a summary that includes the distribution of log levels.
         summary = {
             "total_matching_logs": len(results),
             "by_level": {},
@@ -71,7 +71,7 @@ class GetTerminalLogsSummary(Tool):
         }
 
         for log in results:
-            # Extract log level from message
+            # Retrieve the log level from the message.
             message = log.get('message', '')
             level = 'UNKNOWN'
             for lvl in ['DEBUG', 'INFO', 'WARN', 'ERROR', 'CRITICAL']:
@@ -83,13 +83,13 @@ class GetTerminalLogsSummary(Tool):
                 summary["by_level"][level] = 0
             summary["by_level"][level] += 1
 
-            # Group by component
+            # Organize by component
             component = log.get('component', 'unknown')
             if component not in summary["by_component"]:
                 summary["by_component"][component] = 0
             summary["by_component"][component] += 1
 
-            # Group by workflow
+            # Organize by workflow
             workflow = log.get('workflow_id', 'unknown')
             if workflow not in summary["by_workflow"]:
                 summary["by_workflow"][workflow] = 0

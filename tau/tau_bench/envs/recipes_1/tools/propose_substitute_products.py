@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class ProposeSubstituteProducts(Tool):
         suggestions = []
         for f in flagged:
             iid = int(f.get("ingredient_id"))
-            # Primary: same ingredient best in-stock
+            # Main: optimal ingredient available in inventory
             prods = _store_products_for_ingredient(data, int(store_id), iid)
             best = _lowest_price_pref_stock([p for p in prods if p.get("stock_status_enum") in ("in_stock","low")])
             if best:
@@ -28,11 +28,11 @@ class ProposeSubstituteProducts(Tool):
                     "substitute_product_id": int(best["product_id"])
                 })
                 continue
-            # Fallback: any in_store product for same ingredient category (no dataset category => skip)
-            # Keep deterministic behavior by returning no suggestion when none are available
+            # Fallback: any in-store item within the same ingredient category (if no dataset category, then omit).
+            # Ensure predictable functionality by returning no suggestions when none exist.
             ing = _ingredient_by_id(data, iid)
             if require_peanut_free and ing and not bool(ing.get("peanut_free_flag", True)):
-                # skip non-peanut-free bases if required
+                # bypass bases that are not peanut-free if necessary
                 continue
         return _json_dump({"substitutions": suggestions})
 

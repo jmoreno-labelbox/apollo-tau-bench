@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class AssignCourierToOrder(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], order_id: str, courier_id: str, tracking_ids: List[str], item_ids: List[str]) -> str:
-        # Verify courier exists and owns all tracking_ids
+        # Confirm the courier's existence and ownership of all tracking_ids.
         couriers = data.get("couriers", [])
         courier = None
         for c in couriers:
@@ -27,7 +27,7 @@ class AssignCourierToOrder(Tool):
             if t not in courier.get("tracking_ids", []):
                 return json.dumps({"error": "Tracking ID not owned by courier", "courier_id": courier_id, "tracking_id": t})
 
-        # Update order fulfillments
+        # Revise order fulfillments.
         orders = list(data.get("orders", {}).values())
         for order in orders:
             if order.get("order_id") == order_id:

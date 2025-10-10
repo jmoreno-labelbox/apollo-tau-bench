@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class RetrieveMortgageProfile(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         client_id = kwargs.get("client_id")
-        profiles = data.get("mortgage_profiles") or data.get("mortage_profiles") or []  # typo tolerance
+        profiles = data.get("mortgage_profiles") or data.get("mortage_profiles") or []  # error tolerance
         prof = next((m for m in profiles if m.get("client_id") == client_id), None)
         if not prof:
             return json.dumps({"error": f"No mortgage profile for client_id={client_id}"}, indent=2)

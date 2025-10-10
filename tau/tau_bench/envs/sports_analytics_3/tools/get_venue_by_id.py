@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class GetVenueById(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         venue_id = kwargs.get("venue_id")
 
-        # 1) Validate
+        # 1) Verify
         if venue_id is None:
             return json.dumps({"error": "Missing required field: venue_id"}, indent=2)
 
-        # 2) Get DB from passed-in data
+        # Retrieve the database from the provided data.
         venues: List[Dict[str, Any]] = list(data.get("venues", {}).values())
 
-        # 3) Exact match lookup
+        # 3) Precise match retrieval
         for venue in venues:
             if venue.get("venue_id") == venue_id:
                 return json.dumps(venue, indent=2)

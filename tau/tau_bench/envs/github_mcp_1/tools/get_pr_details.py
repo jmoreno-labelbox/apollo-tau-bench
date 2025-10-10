@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class GetPRDetails(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         owner = kwargs.get("owner", "").strip()
         repo_name = (kwargs.get("repo_name") or kwargs.get("repo_name") or "").strip()
-        # Support both 'pr_number' and 'prnumber'
+        # Handle both 'pr_number' and 'prnumber' formats.
         pr_number_raw = kwargs.get("pr_number", kwargs.get("prnumber", None))
 
         if not owner or not repo_name or pr_number_raw is None:
@@ -25,7 +25,7 @@ class GetPRDetails(Tool):
                 indent=2
             )
 
-        # Normalize pr_number to int
+        # Convert pr_number to an integer.
         try:
             pr_number = int(pr_number_raw)
         except Exception:
@@ -34,7 +34,7 @@ class GetPRDetails(Tool):
                 indent=2
             )
 
-        # Load PR DB (supports dict with 'pull_requests' or a top-level list)
+        # Load the PR database (accepts a dictionary containing 'pull_requests' or a primary list).
         pr_db = list(data.get("pull_requests", {}).values())
 
 
@@ -44,7 +44,7 @@ class GetPRDetails(Tool):
                 indent=2
             )
 
-        # Find the repo bucket
+        # Locate the repository bucket.
         rec = next((r for r in pr_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if rec is None:
             return json.dumps(
@@ -55,18 +55,18 @@ class GetPRDetails(Tool):
         pr_numbers: List[int] = rec.get("pr_numbers", [])
         if pr_number not in pr_numbers:
             return json.dumps(
-                {"error": f"PR #{pr_number} not found for '{owner}/{repo_name}'."},
+                {"error": f"PR # "{pr_number} does not exist for '{owner}/{repo_name}'."
                 indent=2
             )
 
         idx = pr_numbers.index(pr_number)
 
-        # Helper to safely fetch an indexed value from a list, else None
+        # Utility to securely retrieve an indexed element from a list, returning None if the index is out of bounds.
         def _get_at(lst_name: str):
             lst = rec.get(lst_name, [])
             return lst[idx] if idx < len(lst) else None
 
-        # Extract all relevant fields (defensive on lengths)
+        # Retrieve all pertinent fields (cautious regarding lengths)
         details = {
             "number": pr_number,
             "title": _get_at("pr_titles"),
@@ -77,7 +77,7 @@ class GetPRDetails(Tool):
             "head_sha": _get_at("head_shas"),
             "mergeable": _get_at("mergeable_flags"),
             "merged": _get_at("merged_flags"),
-            # Files/comments/reviews are often nested; return as stored in DB
+            # Files, comments, and reviews may be nested; return them as they are stored in the database.
             "files": _get_at("pr_files"),
             "comments": _get_at("pr_comments"),
             "comment_users": _get_at("pr_comment_users"),

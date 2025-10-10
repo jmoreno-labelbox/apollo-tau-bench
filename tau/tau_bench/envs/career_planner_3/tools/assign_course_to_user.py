@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,14 +11,14 @@ class AssignCourseToUser(Tool):
         user_id = kwargs["user_id"]
         course_id = kwargs["course_id"]
 
-        # Generate deterministic date based on user_id and course_id
+        # Create a consistent date derived from user_id and course_id.
         import hashlib
 
         hash_input = f"{user_id}_{course_id}"
         hash_value = int(hashlib.md5(hash_input.encode()).hexdigest()[:8], 16)
-        days_offset = hash_value % 30  # 0-29 days from base date
+        days_offset = hash_value % 30  # 0-29 days from the reference date
 
-        # Use a fixed base date for deterministic results
+        # Utilize a static base date for consistent outcomes.
         base_date = "2025-07-01"
         from datetime import datetime, timedelta
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class GetRepoInfoForOwner(Tool):
                 indent=2
             )
 
-        # DB may be { "repositories": [...] } or a direct list
+        # DB could either be { "repositories": [...] } or a straightforward list.
         repos = list(data.get("repositories", {}).values())
 
         repo = next(

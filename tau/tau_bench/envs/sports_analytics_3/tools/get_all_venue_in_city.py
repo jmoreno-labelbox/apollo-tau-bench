@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class GetAllVenueInCity(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         city = kwargs.get("city")
 
-        # 1) Validate
+        # 1) Verify
         if not isinstance(city, str) or city == "":
             return json.dumps({"error": "Missing required field: city"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         venues: List[Dict[str, Any]] = list(data.get("venues", {}).values())
 
-        # 3) Filter by exact city
+        # 3) Filter by specific city
         matching = [v for v in venues if v.get("city") == city]
 
         if not matching:

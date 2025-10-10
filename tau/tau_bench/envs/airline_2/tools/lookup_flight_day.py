@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class LookupFlightDay(Tool):
                 continue
             day = (f.get("dates") or {}).get(date)
             if day is not None:
-                # combine top-level schedule with per-day status/times
+                # merge overall schedule with daily status and timings
                 out = {
                     "flight_number": f.get("flight_number"),
                     "origin": f.get("origin"),

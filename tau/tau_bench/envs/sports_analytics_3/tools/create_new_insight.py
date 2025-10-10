@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -28,7 +28,7 @@ class CreateNewInsight(Tool):
         insight_type = kwargs.get("insight_type")
         supporting_stat_value = kwargs.get("supporting_stat_value")
 
-        # 1) Validate required inputs
+        # 1) Check for necessary inputs
         missing = []
         if report_id is None: missing.append("report_id")
         if player_id is None: missing.append("player_id")
@@ -39,13 +39,13 @@ class CreateNewInsight(Tool):
         if missing:
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         insights: List[Dict[str, Any]] = list(data.get("curated_insights", {}).values())
 
-        # 3) Generate new insight_id deterministically
+        # 3) Create a new insight_id in a deterministic manner.
         new_id = get_next_insight_id(data)
 
-        # 4) Build and insert the row
+        # 4) Create and add the row.
         new_row = {
             "insight_id": new_id,
             "report_id": report_id,

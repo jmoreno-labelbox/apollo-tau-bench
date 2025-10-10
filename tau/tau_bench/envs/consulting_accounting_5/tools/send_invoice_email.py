@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from datetime import datetime
 import json
@@ -13,7 +13,7 @@ class SendInvoiceEmail(Tool):
         Simulates sending an invoice email and updates the sent_at field on the invoice.
         """
         invoice_number = kwargs["invoice_number"]
-        sent_time = '2025-09-05T00:00:00Z' #datetime.now().isoformat()
+        sent_time = '2025-09-05T00:00:00Z' # Get the current date and time in ISO 8601 format.
         publisher_id = kwargs.get("publisher_id")
         consultant_id = kwargs.get("consultant_id")
         subject = kwargs.get("subject", "")

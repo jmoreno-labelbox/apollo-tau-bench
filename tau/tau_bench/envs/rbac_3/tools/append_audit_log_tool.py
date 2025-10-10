@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class AppendAuditLogTool(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Generate log_id if not provided
+        # Create a log_id if one is not supplied.
         if "log_id" not in kwargs or kwargs["log_id"] is None:
             access_request = kwargs["access_request"]
             log_id = f"LOG-{access_request}-decision"

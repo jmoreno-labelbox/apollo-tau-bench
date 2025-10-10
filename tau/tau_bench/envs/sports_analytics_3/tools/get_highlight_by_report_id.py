@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,20 +12,20 @@ class GetHighlightByReportId(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         report_id = kwargs.get("report_id")
 
-        # 1) Validate
+        # 1) Verify
         if report_id is None:
             return json.dumps({"error": "Missing required field: report_id"}, indent=2)
 
-        # 2) Get DB from passed-in data
+        # Retrieve the database from the provided input data.
         playlists: List[Dict[str, Any]] = list(data.get("video_playlists", {}).values())
 
-        # 3) Exact match lookup (no normalization)
+        # 3) Precise match retrieval (without normalization)
         matches = [p for p in playlists if p.get("report_id") == report_id]
 
         if not matches:
             return json.dumps({"error": f"No video playlists found for report_id {report_id}"}, indent=2)
 
-        # 4) Deterministic ordering
+        # 4) Fixed sequence
         matches.sort(key=lambda p: int(p.get("playlist_id", 0)))
 
         return json.dumps(matches, indent=2)

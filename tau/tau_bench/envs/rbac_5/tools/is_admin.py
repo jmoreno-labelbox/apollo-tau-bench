@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Corp.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,7 +25,7 @@ class IsAdmin(Tool):
         if not user_id:
             return json.dumps({"error": "user_id is required"})
 
-        # Validate user exists
+        # Check if the user is present.
         if not _find_by_id(list(data.get("users", {}).values()), "user_id", user_id):
             return json.dumps({"error": f"user_id {user_id} not found"})
 
@@ -43,7 +43,7 @@ class IsAdmin(Tool):
             exp = _parse_iso(ur.get("expires_on"))
             return (exp is None) or (exp > on_dt)
 
-        # Active assignments for user
+        # Current tasks assigned to the user
         assignments = [
             ur for ur in data.get("user_roles", [])
             if ur.get("user_id") == user_id and is_active(ur)

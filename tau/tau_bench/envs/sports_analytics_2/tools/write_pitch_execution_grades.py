@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class WritePitchExecutionGrades(Tool):
         game_pk = kwargs.get("game_pk")
         grades_count = kwargs.get("grades_count")
         grades = data.setdefault("pitch_execution_grades", {})
-        # Generate next ID
+        # Create the subsequent identifier.
         next_id = str(len(grades) + 1)
         grades[next_id] = {
             "grade_id": f"grade_{next_id}",

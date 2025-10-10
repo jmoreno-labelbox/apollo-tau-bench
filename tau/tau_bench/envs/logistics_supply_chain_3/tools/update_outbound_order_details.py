@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,13 +24,13 @@ class UpdateOutboundOrderDetails(Tool):
 
         updated_fields = []
 
-        # Iterate over possible fields to update
+        # Loop through the fields that can be modified.
         for key, value in kwargs.items():
             if key == "order_id":
                 continue
 
             if key == "notes":
-                # Append new note to existing notes
+                # Add a new note to the current notes.
                 original_note = order_to_update.get("notes", "")
                 if original_note:
                     order_to_update["notes"] = f"{original_note} | {value}"

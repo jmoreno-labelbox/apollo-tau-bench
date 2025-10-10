@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,14 +22,14 @@ class GetReleasesByOwner(Tool):
 
         releases = data.get('releases', [])
 
-        # Filter releases by criteria
+        # Select releases based on specified criteria.
         results = []
         for release in releases:
-            # Primary filter - owner email
+            # Main filter - owner's email address
             if release.get('owner_email') != owner_email:
                 continue
 
-            # Apply optional filters
+            # Implement optional filtering.
             if release_id:
                 if release.get('release_id') != release_id:
                     continue
@@ -38,7 +38,7 @@ class GetReleasesByOwner(Tool):
                 if version_tag not in release.get('version_tag', ''):
                     continue
 
-            # Apply date filters
+            # Implement date filtering.
             if created_after:
                 release_created = release.get('created_ts', '')
                 if release_created < created_after:
@@ -51,7 +51,7 @@ class GetReleasesByOwner(Tool):
 
             results.append(release)
 
-        # Create summary
+        # Generate a concise overview.
         summary = {
             "owner_email": owner_email,
             "total_releases": len(results),

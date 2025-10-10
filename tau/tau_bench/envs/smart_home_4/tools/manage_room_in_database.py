@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -58,7 +58,7 @@ class ManageRoomInDatabase(Tool):
             for r in rooms:
                 if r["id"] == room_id:
                     if device_id in r["devices"]:
-                        # This is a placeholder; actual device settings per room would need a schema
+                        # This serves as a placeholder; a schema is required for the real device configurations for each room.
                         if "device_settings" not in r:
                             r["device_settings"] = {}
                         r["device_settings"][device_id] = device_settings

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class CreateNewBranch(Tool):
         owner = kwargs.get("owner", "").strip()
         repo_name = kwargs.get("repo_name", "").strip()
         branch_name = kwargs.get("branch_name", "").strip()
-        base_branch = kwargs.get("base_branch", "").strip()  # optional
+        base_branch = kwargs.get("base_branch", "").strip()  # not mandatory
 
         if not owner or not repo_name or not branch_name:
             return json.dumps(
@@ -29,7 +29,7 @@ class CreateNewBranch(Tool):
                 indent=2
             )
 
-        # Preferred repository access pattern
+        # Recommended method for accessing the repository
         repos: List[Dict[str, Any]] = list(data.get("repositories", {}).values())
         if not isinstance(repos, list):
             return json.dumps(
@@ -37,7 +37,7 @@ class CreateNewBranch(Tool):
                 indent=2
             )
 
-        # Locate repo
+        # Find repository
         repo = next((r for r in repos if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if not repo:
             return json.dumps({"error": f"Repository '{owner}/{repo_name}' not found."}, indent=2)
@@ -46,7 +46,7 @@ class CreateNewBranch(Tool):
         if branch_name in branches:
             return json.dumps({"error": f"Branch '{branch_name}' already exists."}, indent=2)
 
-        # Resolve base branch (default to repo's default_branch)
+        # Determine the base branch (defaulting to the repository's default_branch).
         if not base_branch:
             base_branch = repo.get("default_branch", "main")
 
@@ -58,7 +58,7 @@ class CreateNewBranch(Tool):
 
         base_idx = branches.index(base_branch)
 
-        # Ensure per-branch structures exist & are aligned
+        # Verify that branch-specific structures are present and properly aligned.
         branch_files_all: List[List[str]] = repo.setdefault("branch_files", [])
         branch_contents_all: List[List[str]] = repo.setdefault("branch_contents", [])
         while len(branch_files_all) < len(branches):
@@ -66,35 +66,35 @@ class CreateNewBranch(Tool):
         while len(branch_contents_all) < len(branches):
             branch_contents_all.append([])
 
-        # Prepare new branch data (copy from base deterministically)
+        # Generate new branch data (deterministically replicate from the base).
         base_files = branch_files_all[base_idx] if base_idx < len(branch_files_all) else []
         base_contents = branch_contents_all[base_idx] if base_idx < len(branch_contents_all) else []
 
         new_files = list(base_files) if isinstance(base_files, list) else []
         new_contents = list(base_contents) if isinstance(base_contents, list) else []
 
-        # New branch index will be the current length (appending at the end)
+        # The new branch index will correspond to the current length, indicating an append operation at the end.
         new_branch_index = len(branches)
 
-        # Append branch name
+        # Add branch identifier
         branches.append(branch_name)
 
-        # Append aligned arrays for the new branch
+        # Concatenate aligned arrays for the new branch.
         branch_files_all.append(new_files)
         branch_contents_all.append(new_contents)
 
-        # Ensure branch_shas exists and append deterministic SHA
+        # Verify the existence of branch_shas and add a consistent SHA.
         branch_shas: List[str] = repo.setdefault("branch_shas", [])
-        # If branch_shas is shorter than existing branches, pad to align first
+        # If branch_shas is smaller than current branches, add padding for alignment first.
         while len(branch_shas) < new_branch_index:
-            branch_shas.append("")  # placeholder to align lengths deterministically
+            branch_shas.append("")  # marker for consistent length alignment
 
         new_branch_sha = get_next_branch_sha(data)
         branch_shas.append(new_branch_sha)
 
         repo["updated_ts"] = get_current_updated_timestamp()
 
-        # (No repo-level file_paths/file_contents changes here)
+        # (No modifications to file_paths/file_contents at the repository level)
 
         add_terminal_message(data, f"Branch '{branch_name}' created in {owner}/{repo_name} from '{base_branch}'.", get_current_timestamp())
 

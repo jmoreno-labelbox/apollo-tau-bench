@@ -37,7 +37,7 @@ class UpdateGoal(Tool):
             )
             return out
 
-        # Implement updates if supplied
+        # Apply modifications if provided.
         if status is not None:
             goal_to_update["status"] = status
         if progress_percent is not None:
@@ -49,7 +49,7 @@ class UpdateGoal(Tool):
             else:
                 goal_to_update["notes"] = notes_to_append.strip()
 
-        # Assign the last_updated date based on the supplied parameter
+        # Set the last_updated date according to the provided argument.
         goal_to_update["last_updated"] = last_updated_date
         payload = {"success": f"Goal {goal_id} updated for user {user_id}"}
         out = json.dumps(

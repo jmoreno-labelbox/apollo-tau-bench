@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class AddOrderPayment(Tool):
         if not o:
             return json.dumps({"error":f"order_id {order_id} not found"}, indent=2)
         hist = _ensure_list(o, 'payment_history')
-        # idempotent: replace existing by same txn_id
+        # idempotent: substitute existing with identical txn_id
         existing = next((h for h in hist if h.get('transaction_id') == txn_id), None)
         record = {"transaction_type":"payment","amount": float(amount),"payment_method_id": payment_method_id,"transaction_id": txn_id}
         if existing:

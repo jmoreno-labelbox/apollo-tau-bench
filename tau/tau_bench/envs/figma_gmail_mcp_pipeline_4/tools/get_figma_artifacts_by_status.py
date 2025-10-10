@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright held by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,11 +20,11 @@ class GetFigmaArtifactsByStatus(Tool):
         figma_artifacts = data.get('figma_artifacts', [])
         review_cycles = data.get('review_cycles', [])
 
-        # If artifact_id is provided, return specific artifact
+        # Return the specified artifact if artifact_id is supplied.
         if artifact_id:
             for artifact in figma_artifacts:
                 if artifact.get('artifact_id') == artifact_id:
-                    # Enrich with review cycle information
+                    # Augment with review cycle details.
                     artifact_copy = artifact.copy()
                     for cycle in review_cycles:
                         if cycle.get('artifact_id') == artifact_id:
@@ -33,10 +33,10 @@ class GetFigmaArtifactsByStatus(Tool):
                     return json.dumps(artifact_copy, indent=2)
             return json.dumps({"error": f"Artifact with ID '{artifact_id}' not found."})
 
-        # Filter artifacts by criteria
+        # Filter artifacts based on specified criteria.
         results = []
         for artifact in figma_artifacts:
-            # Apply filters
+            # Implement filters
             if status and artifact.get('status') != status:
                 continue
 
@@ -48,14 +48,14 @@ class GetFigmaArtifactsByStatus(Tool):
                 if not any(tag in artifact_tags for tag in tags):
                     continue
 
-            # Enrich with review cycle information
+            # Add details about the review cycle.
             artifact_copy = artifact.copy()
             for cycle in review_cycles:
                 if cycle.get('artifact_id') == artifact.get('artifact_id'):
                     artifact_copy['review_cycle'] = cycle
                     break
 
-            # Apply review status filter
+            # Implement filter for review status.
             if review_status:
                 if 'review_cycle' not in artifact_copy:
                     continue

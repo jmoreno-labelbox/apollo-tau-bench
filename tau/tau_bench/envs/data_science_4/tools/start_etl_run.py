@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Technologies
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class StartEtlRun(Tool):
         water = kwargs.get("water_levels_raw_path")
         city = kwargs.get("city_name")
 
-        # deterministically produce processed path
+        # generate a processed path in a deterministic manner
         elt_id = "ETL_001"
         processed_path = f"/data/processed/timeseries_{elt_id}.csv"
 

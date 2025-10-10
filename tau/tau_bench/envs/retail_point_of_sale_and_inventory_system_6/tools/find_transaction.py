@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,15 +23,15 @@ class find_transaction(Tool):
 
         matches = []
         for transaction in transactions:
-            # If transaction_id is sent, then use it over the other parameters
+            # Use transaction_id if provided, prioritizing it over other parameters.
             if (transaction_id is not None) and (
                 transaction["transaction_id"] == transaction_id
             ):
                 return transaction
 
-            # Otherwise, add to the list of matches if any of the search parameters matches
+            # If any search parameters match, include them in the list of matches.
             else:
-                # Get matches
+                # Retrieve matches
                 store_id_match = (store_id is not None) and (
                     transaction["store_id"] == store_id
                 )
@@ -48,8 +48,8 @@ class find_transaction(Tool):
                     transaction["timestamp"][:10] == date
                 )
 
-                # Determine if row is a match
-                # It should match all criteria that have been sent
+                # Check if the row is a match.
+                # It must fulfill all specified criteria.
                 is_match = all(
                     [
                         bool_out

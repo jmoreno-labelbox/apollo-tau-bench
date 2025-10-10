@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,7 +24,7 @@ class GetAlertSummaryPerRepo(Tool):
                 sev = a.get("severity", "Unknown")
                 summary[repo]["severity_counts"][sev] += 1
 
-        # Convert nested defaultdicts to normal dicts
+        # Transform nested defaultdicts into standard dicts.
         clean_summary = {
             repo: {
                 "total": val["total"],

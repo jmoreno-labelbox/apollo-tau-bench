@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .get_build_run_by_id import GetBuildRunById
 from .get_bisect_result_for_build_run import GetBisectResultForBuildRun

@@ -1,0 +1,275 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "task_001",
+        "actions": [
+          {
+            "name": "FilterFigmaArtifactsByTags",
+            "kwargs": {
+              "tags": [
+                "needs-review"
+              ]
+            }
+          },
+          {
+            "name": "ExportFigmaArtifactsToAssets",
+            "kwargs": {
+              "artifact_ids": [
+                "art_001",
+                "art_007"
+              ],
+              "export_profile": {
+                "format": "PNG",
+                "scale": "2x"
+              }
+            }
+          },
+          {
+            "name": "CreateGmailThread",
+            "kwargs": {
+              "sender_email": "design-lead@company.com",
+              "recipients_emails": [
+                "design-review@company.com",
+                "ux-team@company.com"
+              ],
+              "workflow_type": "review",
+              "current_labels": [
+                "design-review",
+                "figma"
+              ]
+            }
+          },
+          {
+            "name": "CreateReviewCycle",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "status": "NEEDS_REVIEW",
+              "thread_id_nullable": "thread_015"
+            }
+          },
+          {
+            "name": "CreateReviewCycle",
+            "kwargs": {
+              "artifact_id": "art_007",
+              "status": "NEEDS_REVIEW",
+              "thread_id_nullable": "thread_015"
+            }
+          },
+          {
+            "name": "CreateGmailMessage",
+            "kwargs": {
+              "sender_email": "design-lead@company.com",
+              "workflow_type": "review",
+              "thread_id": "thread_015",
+              "attachments_asset_ids": [
+                "asset_art_001_png_2x",
+                "asset_art_007_png_2x"
+              ]
+            }
+          }
+        ],
+        "instruction": "Handle a detailed design review process for artifacts needing feedback. Concentrate on those tagged with 'needs-review' and get them ready for stakeholder evaluation. Export these as PNG at 2x scale for the best review quality. Operate as 'design-lead@company.com' with design-review@company.com and ux-team@company.com as recipients. Utilize 'design-review' and 'figma' labels for organizing threads, and make sure each artifact receives a NEEDS_REVIEW status for proper tracking.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.0022725,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "34f935e3053d8eeb84c29c38993f6851060de6fffffe0bc065724f5a87f20369"
+        },
+        "actions": [
+          {
+            "name": "FilterFigmaArtifactsByTags",
+            "kwargs": {
+              "tags": [
+                "needs-review"
+              ]
+            }
+          },
+          {
+            "name": "ExportFigmaArtifactsToAssets",
+            "kwargs": {
+              "artifact_ids": [
+                "art_001",
+                "art_007"
+              ],
+              "export_profile": {
+                "format": "PNG",
+                "scale": "2x"
+              }
+            }
+          },
+          {
+            "name": "CreateGmailThread",
+            "kwargs": {
+              "sender_email": "design-lead@company.com",
+              "recipients_emails": [
+                "design-review@company.com",
+                "ux-team@company.com"
+              ],
+              "workflow_type": "review",
+              "current_labels": [
+                "design-review",
+                "figma"
+              ]
+            }
+          },
+          {
+            "name": "CreateReviewCycle",
+            "kwargs": {
+              "artifact_id": "art_001",
+              "status": "NEEDS_REVIEW",
+              "thread_id_nullable": "thread_015"
+            }
+          },
+          {
+            "name": "CreateReviewCycle",
+            "kwargs": {
+              "artifact_id": "art_007",
+              "status": "NEEDS_REVIEW",
+              "thread_id_nullable": "thread_015"
+            }
+          },
+          {
+            "name": "CreateGmailMessage",
+            "kwargs": {
+              "sender_email": "design-lead@company.com",
+              "workflow_type": "review",
+              "thread_id": "thread_015",
+              "attachments_asset_ids": [
+                "asset_art_001_png_2x",
+                "asset_art_007_png_2x"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"WORKFLOW 1a - DESIGN REVIEW STEP 1. Locate figma artifacts with a particular tag Apply filter_figma_artifacts_by_tags, with required kwargs: 'tags': <list_of_tags_to_filter_by> STEP 2. Export the located figma artifacts as assets Invoke export_figma_artifacts_to_assets, with required kwargs: 'artifact_ids': <list_of_artifacts_to_export>, 'export_profile': {'format': <one_of_['PNG', 'JPG', 'SVG', 'PDF'\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi there! I'm managing the design review process today. Do you have any artifacts labeled with 'needs-review' that require feedback?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"tags\":[\"needs-review\"]}",
+              "name": "filter_figma_artifacts_by_tags"
+            },
+            "id": "call_uy5J020GBxnqpteYcRYzkpTX",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_uy5J020GBxnqpteYcRYzkpTX",
+        "name": "filter_figma_artifacts_by_tags",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems there was an error while trying to retrieve the artifacts labeled with 'needs-review'. Let me try that again.",
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"tags\":[\"needs-review\"]}",
+              "name": "filter_figma_artifacts_by_tags"
+            },
+            "id": "call_8IyYO9Zx5bxk4ULNrWmopgmW",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_8IyYO9Zx5bxk4ULNrWmopgmW",
+        "name": "filter_figma_artifacts_by_tags",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It appears that I'm encountering a persistent issue when trying to filter the artifacts. Unfortunately, I can't retrieve the artifacts labeled with 'needs-review' at the moment. \n\nIf you have any specific artifact names or other tags in mind, please let me know, and I can try searching for those instead!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No worries! If you could search for artifacts using the tag 'figma', we might be able to identify the ones that need attention. Let me know if this works for you!"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"tags\":[\"figma\"]}",
+              "name": "filter_figma_artifacts_by_tags"
+            },
+            "id": "call_DPcHU6gA1NvSw5ZneoLRj5Zz",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_DPcHU6gA1NvSw5ZneoLRj5Zz",
+        "name": "filter_figma_artifacts_by_tags",
+        "content": "Error: 'str' object has no attribute 'get'"
+      },
+      {
+        "content": "It seems that I'm still facing issues with retrieving artifacts using tags. Unfortunately, I can't access the artifacts at this time.\n\nIf you have any other specific requests or if there's another way I can assist you with the design review process, please let me know!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "That\u2019s okay! If you can manually check if there are any artifacts that need reviewing, we can start with those. Otherwise, we can resolve any system issues and try again later. What would you like to do next?"
+      },
+      {
+        "content": "Since I'm currently unable to access the system to check for artifacts, it might be best to resolve the system issues first. Once the issues are fixed, we can efficiently retrieve the artifacts that need reviewing.\n\nIf you have any other tasks or questions in the meantime, feel free to let me know! Otherwise, we can wait for the system to be resolved and try again later. What would you like to do?",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "That sounds like a wise approach. Let's focus on resolving those access issues first. If you need assistance with that, just let me know; otherwise, feel free to reach out once everything is up and running again. We can revisit the artifact review later. Anything else you want to address now?"
+      },
+      {
+        "content": "Thank you for your understanding! I appreciate your patience as we work through these access issues. For now, I don't have any other tasks to address, but I'll be ready to assist you as soon as the system is operational again.\n\nIf you have any other questions or need assistance in the future, don't hesitate to reach out. Have a great day, and I'll be in touch once we can proceed with the artifact review!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Great! I'll be here whenever you're ready to continue with the artifact review. Don't hesitate to reach out if there's anything else you need. Have a wonderful day! ###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class QueryEntities(Tool):
         collection = data.get(entity_type, [])
         matches: List[Dict[str, Any]] = []
         
-        # If no filters, return all items
+        # Return all items if there are no filters applied.
         if filters is None or not filters:
             matches = collection if isinstance(collection, list) else list(collection.values()) if isinstance(collection, dict) else []
         else:

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .authenticate_user_tool import AuthenticateUserTool
 from .search_repositories_tool import SearchRepositoriesTool

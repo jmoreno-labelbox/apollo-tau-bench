@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,8 +15,8 @@ class UpdateInboundShipment(Tool):
         shipments = data.get("inbound_shipments", [])
         for shipment in shipments:
             if shipment.get("shipment_id") == shipment_id:
-                # if shipment["status"] not in ["In Transit", "Delayed"]:
-                #      return json.dumps({"error": f"Shipment {shipment_id} cannot be updated with status '{shipment['status']}'"}, indent=2)
+                # if shipment["status"] not in ["In Transit", "On Hold"]:
+                # return json.dumps({"error": f"Unable to update shipment {shipment_id} with status '{shipment['status']}'"}, indent=2)
                 if destination_warehouse_id:
                     shipment["destination_warehouse_id"] = destination_warehouse_id
                 if destination_warehouse_name:

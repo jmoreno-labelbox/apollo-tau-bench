@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 from .find_user_id_by_name_zip import FindUserIdByNameZip
 from .get_user_details import GetUserDetails

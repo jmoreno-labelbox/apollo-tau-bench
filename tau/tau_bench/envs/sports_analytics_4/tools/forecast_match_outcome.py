@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -7,24 +7,24 @@ from tau_bench.envs.tool import Tool
 
 class ForecastMatchOutcome(Tool):
     @staticmethod
-        # main invoke function
+        # primary execution function
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         home_team = kwargs.get("home_team_id")
         away_team = kwargs.get("away_team_id")
-        # Dummy deterministic model: higher average runs wins
+        # Basic deterministic model: greater average runs lead to victory.
         games = data.get("games", [])
         def avg_runs(team):
             team_games = [g for g in games if g.get("home_team_id") == team or g.get("away_team_id") == team]
-        # return result
+        # return outcome
             return sum(g.get("final_score", {}).get(str(team), 0) for g in team_games) / max(len(team_games), 1)
         winner = home_team if avg_runs(home_team) >= avg_runs(away_team) else away_team
-        # return result
+        # return output
         return json.dumps({"predicted_winner": winner}, indent=2)
 
     @staticmethod
-        # info metadata
+        # metadata information
     def get_info() -> Dict[str, Any]:
-        # return result
+        # return outcome
         return {
             "type": "function",
             "function": {

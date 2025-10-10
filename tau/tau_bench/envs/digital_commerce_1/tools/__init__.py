@@ -1,8 +1,8 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 
 
-# Helper function
+# Utility function
 def _ensure_table(data, table_name):
     """Ensure table exists in data, create if missing."""
     if table_name not in data:
@@ -11,7 +11,7 @@ def _ensure_table(data, table_name):
 
 
 
-# Helper function
+# Utility function
 def _get_network_defaults():
     """Get default network configuration."""
     return {

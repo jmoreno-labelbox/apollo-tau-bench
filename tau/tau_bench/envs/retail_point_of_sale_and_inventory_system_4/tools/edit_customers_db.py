@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class EditCustomersDb(Tool): # WRITE
+class EditCustomersDb(Tool): # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -27,11 +27,11 @@ class EditCustomersDb(Tool): # WRITE
             idx, row = _find_by_id(db, "customer_id", customer_id)
             if row:
                 if delete:
-                    # --- DELETE ---
+                    # --- REMOVE ---
                     del db[idx]
                     return json.dumps({"result": "deleted"})
                 else:
-                    # --- UPDATE ---
+                    # --- MODIFICATION ---
                     if name is not None: row["name"] = name
                     if email is not None: row["email"] = email
                     if address is not None: row["address"] = address
@@ -46,7 +46,7 @@ class EditCustomersDb(Tool): # WRITE
             else:
                 return json.dumps({"error": f"Customer {customer_id} not found"})
         else:
-            # --- CREATE ---
+            # --- INITIALIZE ---
             if name is None or email is None or current_time is None:
                 return json.dumps({"error": "Missing required field for creation (name, email, current_time)"})
             new_row = {

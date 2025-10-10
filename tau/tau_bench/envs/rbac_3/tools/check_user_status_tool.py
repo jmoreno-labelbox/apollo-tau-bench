@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -33,11 +33,11 @@ class CheckUserStatusTool(Tool):
             rid = r.get("role_id")
             if not rid or not name:
                 continue
-            # Leadership roles: strict suffix '-lead' (avoids
-            # 'sales-lead-manager' false-positive)
+            # Leadership positions: enforce the '-lead' suffix (prevents
+            # 'sales-lead-manager' incorrect detection
             if name.endswith("-lead"):
                 admin_like.add(rid)
-            # Administrative roles: any containing '-admin'
+            # Roles with '-admin' in their name.
             if "-admin" in name:
                 admin_like.add(rid)
         return admin_like
@@ -137,14 +137,14 @@ class CheckUserStatusTool(Tool):
         data: Dict[str, Any], user_id: str, role_id: str, resource_id: str
     ) -> bool:
         """Check for active policy exceptions for user/permission combination."""
-        # Get permissions for the requested role
+        # Obtain permissions for the specified role.
         role_permissions = [
             rp.get("permission_id")
             for rp in data.get("role_permissions", [])
             if rp.get("role_id") == role_id
         ]
 
-        # Check if user has active policy exceptions for any of these permissions
+        # Verify if the user possesses any active policy exceptions for the specified permissions.
         for perm_id in role_permissions:
             exception = next(
                 (
@@ -170,7 +170,7 @@ class CheckUserStatusTool(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         mode = (kwargs.get("mode") or "access_request").lower()
 
-        # Branch: revoke evaluation
+        # Branch: cancel assessment
         if mode in ("revoke", "revoke_evaluation"):
             user_id = kwargs.get("user_id")
             role_id = kwargs.get("role_id")
@@ -181,7 +181,7 @@ class CheckUserStatusTool(Tool):
                     indent=2,
                 )
 
-            # Verify assignment exists
+            # Check if the assignment is present.
             active_assignment = any(
                 ur.get("user_id") == user_id
                 and ur.get("role_id") == role_id
@@ -200,7 +200,7 @@ class CheckUserStatusTool(Tool):
                     indent=2,
                 )
 
-            # Determine role permissions resource IDs
+            # Identify resource IDs for role permissions.
             role_perm_ids = [
                 rp.get("permission_id")
                 for rp in data.get("role_permissions", [])
@@ -212,7 +212,7 @@ class CheckUserStatusTool(Tool):
                 if p.get("permission_id") in role_perm_ids
             ]
 
-            # Resource coverage check (if resource_id provided)
+            # Validation of resource coverage (when resource_id is supplied)
             if resource_id and not CheckUserStatusTool._check_resource_coverage(
                 data, role_id, resource_id
             ):
@@ -227,7 +227,7 @@ class CheckUserStatusTool(Tool):
                     indent=2,
                 )
 
-            # Certification requirements
+            # Certification criteria
             has_req, all_completed, _ = (
                 CheckUserStatusTool._check_certifications_for_role(
                     data, user_id, role_id, perm_resource_ids
@@ -245,7 +245,7 @@ class CheckUserStatusTool(Tool):
                     indent=2,
                 )
 
-            # Admin-like roles can be candidates for right-sizing
+            # Roles similar to admin can be considered for optimization.
             if role_id in CheckUserStatusTool._admin_like_roles(data):
                 return json.dumps(
                     {
@@ -258,7 +258,7 @@ class CheckUserStatusTool(Tool):
                     indent=2,
                 )
 
-            # Default: do not revoke
+            # Default: do not cancel
             return json.dumps(
                 {
                     "user_id": user_id,
@@ -270,7 +270,7 @@ class CheckUserStatusTool(Tool):
                 indent=2,
             )
 
-        # Default branch: access request decision
+        # Default branch: decision on access request
         request_id = kwargs.get("request_id")
         reviewer_id = kwargs.get("reviewer_id")
         if not request_id:
@@ -288,7 +288,7 @@ class CheckUserStatusTool(Tool):
                 {"error": f"Access request {request_id} not found"}, indent=2
             )
 
-        # Check request status first (Rule 1)
+        # Verify the status of the request initially (Rule 1)
         if req.get("status") != "PENDING":
             return json.dumps(
                 {
@@ -299,7 +299,7 @@ class CheckUserStatusTool(Tool):
                 indent=2,
             )
 
-        # Reviewer authorization (if provided)
+        # Reviewer approval (if given)
         if reviewer_id and not CheckUserStatusTool._reviewer_authorized(
             data, reviewer_id
         ):
@@ -317,19 +317,19 @@ class CheckUserStatusTool(Tool):
         resource_id = req.get("resource_id")
         submitted_at = req.get("submitted_at")
 
-        # Current roles from DB
+        # Active roles retrieved from the database.
         current_roles = [
             ur.get("role_id")
             for ur in data.get("user_roles", [])
             if ur.get("user_id") == user_id and not ur.get("expires_on")
         ]
 
-        # Rule 2: duplicate request
+        # Rule 2: repeated request
         if role_id in current_roles:
             approve = False
             notes = "Already assigned."
         else:
-            # Check resource coverage first (Rule 5)
+            # Verify resource allocation initially (Rule 5)
             if not CheckUserStatusTool._check_resource_coverage(
                 data, role_id, resource_id
             ):
@@ -338,7 +338,7 @@ class CheckUserStatusTool(Tool):
             else:
                 admin_like_block = CheckUserStatusTool._admin_like_roles(data)
 
-                # Rule 4 (placed before generic admin-like block): ROL-032 prereq
+                # Rule 4 (preceding the general admin block): ROL-032 prerequisite
                 if role_id == "ROL-032":
                     approve = "ROL-029" in current_roles
                     notes = (
@@ -346,12 +346,12 @@ class CheckUserStatusTool(Tool):
                         if approve
                         else "Missing prerequisite finance-base (ROL-029)."
                     )
-                # Rule 3: dynamic admin-like block
+                # Rule 3: block resembling dynamic admin functionality
                 elif role_id in admin_like_block:
                     approve = False
                     notes = "Admin-like role blocked by policy."
                 else:
-                    # Rule 6: Check certification requirements
+                    # Rule 6: Verify certification criteria
                     has_cert_reqs, all_certs_completed, cert_reviewer_id = (
                         CheckUserStatusTool._check_certifications(
                             data, user_id, resource_id
@@ -362,7 +362,7 @@ class CheckUserStatusTool(Tool):
                         approve = False
                         notes = "Required certification not completed."
                     else:
-                        # Rule 7: Check policy exceptions
+                        # Rule 7: Verify exceptions to the policy.
                         has_policy_exception = (
                             CheckUserStatusTool._check_policy_exceptions(
                                 data, user_id, role_id, resource_id
@@ -373,7 +373,7 @@ class CheckUserStatusTool(Tool):
                             approve = True
                             notes = "Policy exception approved."
                         else:
-                            # Rule 8: Default approval with appropriate notes
+                            # Rule 8: Standard approval accompanied by relevant annotations
                             approve = True
                             if has_cert_reqs and all_certs_completed:
                                 notes = "Certification verified; within clearance and least-privilege."

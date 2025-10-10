@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 from .get_product_details import GetProductDetails
 from .list_warehouses_by_capability import ListWarehousesByCapability

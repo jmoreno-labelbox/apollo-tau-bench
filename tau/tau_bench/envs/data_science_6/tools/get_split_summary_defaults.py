@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,10 +14,10 @@ class GetSplitSummaryDefaults(Tool):
         items = data.get("file_store", [])
         for blob in items:
             if blob.get("paths") and path in blob.get("paths"):
-                # This branch would require searching in arrays; not used here.
+                # This branch necessitates array searches, which are not utilized in this context.
                 break
 
-        # Direct lookup from parsed contents (processed file registry)
+        # Immediate retrieval from the parsed data (processed file registry).
         texts = data.get("file_store", [])
         for rec in texts:
             if rec.get("paths") and path in rec.get("paths"):

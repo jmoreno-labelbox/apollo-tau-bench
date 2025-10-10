@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,14 +26,14 @@ class GetNextGame(Tool):
         current_date= kwargs.get("current_date")
         team_id= kwargs.get("team_id")
 
-        # 1) Validate
+        # 1) Verify
         if not isinstance(current_date, str) or current_date == "":
             return json.dumps({"error": "Missing required field: current_date (YYYY-MM-DD)"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         games: List[Dict[str, Any]] = list(data.get("games", {}).values())
 
-        # 3) Filter eligible future games
+        # 3) Select qualifying upcoming games
         def is_eligible(g: Dict[str, Any]) -> bool:
             if g.get("game_status") != "Scheduled":
                 return False
@@ -49,7 +49,7 @@ class GetNextGame(Tool):
             target = f"after {current_date}" if team_id is None else f"for team_id {team_id} after {current_date}"
             return json.dumps({"error": f"No next scheduled game {target}"}, indent=2)
 
-        # 4) Deterministic selection: earliest date, then smallest game_pk
+        # 4) Deterministic selection: prioritize earliest date, followed by the smallest game_pk.
         future.sort(key=lambda g: (g.get("game_date", ""), g.get("game_pk", 0)))
         return json.dumps(future[0], indent=2)
 

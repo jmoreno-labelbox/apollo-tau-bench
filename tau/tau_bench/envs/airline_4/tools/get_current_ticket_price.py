@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class GetCurrentTicketPrice(Tool):
         flight_number: str,
         date: str,
         fare_class: str,
-        fallback_to_flights: Optional[bool] = None,  # tolerate caller's arg
+        fallback_to_flights: Optional[bool] = None,  # accept caller's argument
     ) -> str:
         day = date
         flight = _get_flight(data, flight_number)

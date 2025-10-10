@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from copy import deepcopy
@@ -27,7 +27,7 @@ class BookReservation(Tool):
             return "Error: user not found"
         user = users[user_id]
 
-        # assume each task makes at most 3 reservations
+        # consider that each task can create a maximum of 3 reservations
         reservation_id = "HATHAT"
         if reservation_id in reservations:
             reservation_id = "HATHAU"
@@ -50,7 +50,7 @@ class BookReservation(Tool):
             "insurance": insurance,
         }
 
-        # update flights and calculate price
+        # refresh flight information and compute cost
         total_price = 0
         for flight in reservation["flights"]:
             flight_number = flight["flight_number"]
@@ -90,7 +90,7 @@ class BookReservation(Tool):
         if sum(payment["amount"] for payment in payment_methods) != total_price:
             return f"Error: payment amount does not add up, total price is {total_price}, but paid {sum(payment['amount'] for payment in payment_methods)}"
 
-        # if checks pass, deduct payment and update seats
+        # Upon successful verification, process payment and update seat availability.
         for payment_method in payment_methods:
             payment_id = payment_method["payment_id"]
             amount = payment_method["amount"]

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class GetCalendarEventsForClient(Tool):
         if not client_id:
             return json.dumps({"error": "client_id is required"}, indent=2)
         
-        # Get calendar events for client
+        # Retrieve client calendar events.
         events = list(data.get('calendar_events', {}).values())
         client_events = [e for e in events if e.get('client_id') == client_id]
         

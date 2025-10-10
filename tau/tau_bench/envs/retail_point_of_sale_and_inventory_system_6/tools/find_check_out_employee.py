@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,7 +26,7 @@ class find_check_out_employee(Tool):
         if isinstance(ignore_ids, str):
             ignore_ids = json.loads(ignore_ids)
 
-        # Inefficient double loop, but should be fine due to low number of roles
+        # Suboptimal nested loop, but acceptable given the small number of roles.
         for role in find_check_out_employee.priority:
             for employee in employees:
                 if (

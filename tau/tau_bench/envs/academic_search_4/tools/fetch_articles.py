@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,8 +19,8 @@ class FetchArticles(Tool):
         if article_id:
             for article in articles:
                 if article.get('article_id') == article_id:
-                    return json.dumps([article], indent=2) # Return list with one item for consistency
-            return json.dumps([]) # Return empty list if not found
+                    return json.dumps([article], indent=2) # Provide a list containing a single element for uniformity.
+            return json.dumps([]) # Return an empty list if no results are found.
 
         results = []
         for article in articles:

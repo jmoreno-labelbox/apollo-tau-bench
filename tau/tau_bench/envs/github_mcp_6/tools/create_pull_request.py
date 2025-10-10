@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class CreatePullRequest(Tool):
         commits_data = list(data.get("commits", {}).values())
         issues_data = list(data.get("issues", {}).values())
 
-        # Validate repository exists
+        # Check if the repository is present.
         target_repo = None
         for repository in repositories:
             if repository["owner"] == owner and repository["repo_name"] == repo:
@@ -36,7 +36,7 @@ class CreatePullRequest(Tool):
                 ]
             }, indent=2)
 
-        # Validate branches exist
+        # Check for the existence of branches.
         if head not in target_repo.get("branches", []):
             return json.dumps({
                 "success": False,
@@ -69,7 +69,7 @@ class CreatePullRequest(Tool):
                 ]
             }, indent=2)
 
-        # Find existing PR entry for this repo
+        # Locate the current PR entry for this repository.
         repo_prs = None
         for pr_entry in pull_requests:
             if pr_entry["owner"] == owner and pr_entry["repo_name"] == repo:
@@ -77,7 +77,7 @@ class CreatePullRequest(Tool):
                 break
 
         if not repo_prs:
-            # Create new PR entry
+            # Generate a new pull request entry.
             pr_number = 1
             repo_prs = {
                 "owner": owner,
@@ -102,7 +102,7 @@ class CreatePullRequest(Tool):
             }
             pull_requests.append(repo_prs)
         else:
-            # Add to existing PR entry
+            # Append to the current PR record.
             pr_number = max(repo_prs["pr_numbers"]) + 1
             repo_prs["pr_numbers"].append(pr_number)
             repo_prs["pr_titles"].append(title)
@@ -122,7 +122,7 @@ class CreatePullRequest(Tool):
             repo_prs["created_ts"].append("2023-12-05T12:00:00Z")
             repo_prs["updated_ts"].append("2023-12-05T12:00:00Z")
 
-        # Calculate changed files and commits
+        # Determine modified files and commit counts.
         head_idx = target_repo["branches"].index(head)
         base_idx = target_repo["branches"].index(base)
 
@@ -130,33 +130,33 @@ class CreatePullRequest(Tool):
         base_files = set(target_repo.get("branch_files", [[]])[base_idx] if base_idx < len(target_repo.get("branch_files", [])) else [])
 
         changed_files = list(head_files.symmetric_difference(base_files))
-        additions = len(head_files - base_files) * 20  # Mock 20 lines per new file
-        deletions = len(base_files - head_files) * 10   # Mock 10 lines per deleted file
+        additions = len(head_files - base_files) * 20  # Create a mock file containing 20 lines each.
+        deletions = len(base_files - head_files) * 10   # Simulate 10 lines for each removed file.
 
-        # Find commits in head branch but not in base
+        # Identify commits present in the head branch that are absent in the base branch.
         commits_in_pr = []
         for commit_entry in commits_data:
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:
                 if head in commit_entry.get("branch_names", []):
                     head_branch_idx = commit_entry["branch_names"].index(head)
-                    commits_in_pr = commit_entry.get("commit_shas", [[]])[head_branch_idx][:5]  # Limit to 5 commits
+                    commits_in_pr = commit_entry.get("commit_shas", [[]])[head_branch_idx][:5]  # Restrict to a maximum of 5 commits.
                     break
 
-        # Find linked issues (parse body for issue references)
+        # Identify associated issues (analyze content for issue mentions)
         linked_issues = []
         for issue_entry in issues_data:
             if issue_entry["owner"] == owner and issue_entry["repo_name"] == repo:
                 for i, issue_number in enumerate(issue_entry.get("issue_numbers", [])):
-                    if f"#{issue_number}" in body or f"closes #{issue_number}" in body.lower() or f"fixes #{issue_number}" in body.lower():
+                    if f"#{issue_number}" in body or f"closes #{issue_number}" in body.lower() or f"fixes # {issue_number} is present in body.lower() or f"fixes #{issue_number}" exists in body.lower():
                         linked_issues.append(issue_number)
 
-        # Find conflicting PRs (mock based on same base branch)
+        # Identify conflicting pull requests (mocked on the same base branch).
         conflicts_with = []
         for i, pr_base in enumerate(repo_prs.get("base_branches", [])):
             if pr_base == base and repo_prs["pr_numbers"][i] != pr_number and repo_prs["pr_states"][i] == "open":
                 conflicts_with.append(repo_prs["pr_numbers"][i])
 
-        # Mock status checks
+        # Simulated status verification
         checks = {
             "status": "pending",
             "total": 3,

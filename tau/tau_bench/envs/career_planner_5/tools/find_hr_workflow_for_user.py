@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class find_hr_workflow_for_user(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], user_id: str) -> str:
         workflows = data.get("hr_workflows", [])
-        # A user can be the primary employee or a candidate in a workflow
+        # A user may act as either the main employee or a candidate within a workflow.
         workflow = next(
             (
                 w

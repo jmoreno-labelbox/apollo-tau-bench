@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -37,7 +37,7 @@ class AssignLicenses(Tool):
                 new_id_num = str(int(last_id[1])).zfill(4)
                 new_license_assignment = {
                         "assignment_id": f'{last_id[0]}_{new_id_num}',
-                        "account_id": "acc_000000", #Assign a unique account id for each user
+                        "account_id": "acc_000000", # Allocate a distinct account identifier for every user.
                         "employee_id": "emp_0001",
                         "license_id": employee_id,
                         "status": "active",

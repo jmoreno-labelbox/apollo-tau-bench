@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,8 +9,8 @@ class FindWorkItemByPr(Tool):
     """Finds a work item associated with a pull request number."""
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # This is a mock implementation as there's no direct link in the schema.
-        # It will find a work item that matches the PR title approximately.
+        # This is a simulated implementation since the schema lacks a direct connection.
+        # It will locate a work item that closely corresponds to the PR title.
         pr_number = kwargs.get("pr_number")
         repo_id = kwargs.get("repository_id")
         prs = list(data.get("pull_requests", {}).values())

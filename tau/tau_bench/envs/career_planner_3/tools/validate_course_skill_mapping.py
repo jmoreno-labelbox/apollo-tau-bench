@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,7 +24,7 @@ class ValidateCourseSkillMapping(Tool):
                 indent=2,
             )
 
-        # Check if skill is covered by the course
+        # Verify if the course includes the skill.
         skills_covered = []
         for skill_imparted in course.get("skills_imparted", []):
             skills_covered.append(skill_imparted.get("skill", ""))

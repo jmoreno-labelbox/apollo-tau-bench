@@ -1,32 +1,32 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class PrioritizeAuditFindings(Tool):  # READ
+class PrioritizeAuditFindings(Tool):  # ACQUIRE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
         finding_ids_list: List[str]
     ) -> str:
-        # Validate input
+        # Check input for correctness.
         if not isinstance(finding_ids_list, list) or not all(isinstance(fid, str) for fid in finding_ids_list):
             return json.dumps({"error": "finding_ids_list must be a list of strings"})
 
         if not finding_ids_list:
             return json.dumps({"error": "finding_ids_list cannot be empty"})
 
-        # Get findings data
+        # Retrieve findings information.
         audit_findings_ds = data.get("audit_findings_ds", [])
         audit_findings_a11y = data.get("audit_findings_a11y", [])
 
-        # Collect all findings with their details
+        # Gather all results along with their specifics.
         findings_with_details = []
 
         for finding_id in finding_ids_list:
-            # Search in DS findings first
+            # Prioritize searching within DS findings initially.
             ds_finding = next((f for f in audit_findings_ds if f.get("finding_id") == finding_id), None)
             if ds_finding:
                 findings_with_details.append({
@@ -38,7 +38,7 @@ class PrioritizeAuditFindings(Tool):  # READ
                 })
                 continue
 
-            # Search in A11Y findings
+            # Look for issues in A11Y results.
             a11y_finding = next((f for f in audit_findings_a11y if f.get("finding_id") == finding_id), None)
             if a11y_finding:
                 findings_with_details.append({
@@ -50,20 +50,20 @@ class PrioritizeAuditFindings(Tool):  # READ
                 })
                 continue
 
-            # Finding not found
+            # Search unsuccessful
             return json.dumps({"error": f"Finding with ID '{finding_id}' not found in either DS or A11Y findings"})
 
-        # Define severity priority (higher number = higher priority)
+        # Establish severity levels (larger number indicates greater priority).
         severity_priority = {
             "HIGH": 3,
             "MEDIUM": 2,
             "LOW": 1
         }
 
-        # Extract finding number from finding_id for tie-breaking
+        # Retrieve the finding number from finding_id for resolving ties.
         def get_finding_number(finding_id):
             try:
-                # Extract number from finding_id like "finding_ds_001" or "finding_a11y_001"
+                # Retrieve the number from finding_id formatted as "finding_ds_001" or "finding_a11y_001".
                 parts = finding_id.split('_')
                 if len(parts) >= 3:
                     return int(parts[-1])
@@ -71,21 +71,21 @@ class PrioritizeAuditFindings(Tool):  # READ
             except (ValueError, IndexError):
                 return 0
 
-        # Sort findings by severity (descending) then by finding number (ascending)
+        # Order findings first by severity in descending order, and then by finding number in ascending order.
         sorted_findings = sorted(
             findings_with_details,
             key=lambda x: (
-                -severity_priority.get(x["severity"], 0),  # Negative for descending order
-                get_finding_number(x["finding_id"])        # Ascending order for tie-breaking
+                -severity_priority.get(x["severity"], 0),  # Indicates descending order with a negative value.
+                get_finding_number(x["finding_id"])        # Order in ascending manner for resolving ties.
             )
         )
 
-        # Create priority mapping
+        # Establish priority assignments.
         priority_mapping = {}
         for i, finding in enumerate(sorted_findings, 1):
             priority_mapping[finding["finding_id"]] = i
 
-        # Create detailed result
+        # Generate comprehensive output.
         prioritized_findings = []
         for i, finding in enumerate(sorted_findings, 1):
             prioritized_findings.append({

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class CreateCalendarEventEntryTool(Tool):
         location = kwargs.get("location")
         source = kwargs.get("source")
 
-        # Enhancement: if date provided, auto-fill full-day times when start/end missing
+        # Improvement: Automatically populate full-day times if a date is given and start/end times are absent.
         date = kwargs.get("date")
         if date and (not start_at or not end_at):
             date_str = str(date)

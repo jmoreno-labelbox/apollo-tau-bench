@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -38,7 +38,7 @@ class AddToOrder(Tool):
                 "status": "failed"
             })
 
-        # Validate optional amounts
+        # Check the validity of optional amounts.
         if tax_amount is not None and tax_amount < 0:
             return json.dumps({
                 "error": "Tax amount cannot be negative",
@@ -51,10 +51,10 @@ class AddToOrder(Tool):
                 "status": "failed"
             })
 
-        # Add # prefix if not provided (for convenience)
+        # Add # Prefix with # if absent (for ease of use)
         formatted_order_id = order_id if order_id.startswith("#") else f"#{order_id}"
 
-        # Find the order to update
+        # Determine the sequence for updating.
         orders = list(data.get("orders", {}).values())
         order_to_update = None
         order_index = None
@@ -71,7 +71,7 @@ class AddToOrder(Tool):
                 "status": "failed"
             })
 
-        # Rule: Can only add items to pending orders
+        # Constraint: Items can solely be added to pending orders.
         current_status = order_to_update.get("status")
         if current_status != "pending":
             return json.dumps({
@@ -79,7 +79,7 @@ class AddToOrder(Tool):
                 "status": "failed"
             })
 
-        # Get user ID from order for payment validation
+        # Retrieve user ID from the order for payment verification.
         user_id = order_to_update.get("user_id")
         if not user_id:
             return json.dumps({
@@ -87,14 +87,14 @@ class AddToOrder(Tool):
                 "status": "failed"
             })
 
-        # Rule: Validate user identity exists before processing any user requests
+        # Requirement: Confirm the existence of user identity prior to handling any user requests.
         users = list(data.get("users", {}).values())
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
             return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
-        # Validate payment method
+        # Verify payment method
         payment_methods = user.get("payment_methods", {})
         selected_payment = None
 
@@ -110,7 +110,7 @@ class AddToOrder(Tool):
         if payment_source not in ["credit_card", "paypal", "gift_card"]:
             return json.dumps({"error": f"Invalid payment method type: {payment_source}", "status": "failed"})
 
-        # Rule: Confirm item_id exists in product variants before including in orders
+        # Verify that item_id is present in product variants prior to adding to orders.
         products = list(data.get("products", {}).values())
         variant_found = None
         product_found = None
@@ -128,43 +128,43 @@ class AddToOrder(Tool):
                 "status": "failed"
             })
 
-        # Rule: Check product availability status before allocation - never allocate unavailable items
+        # Condition: Verify product availability prior to allocation - do not allocate items that are out of stock.
         if not variant_found.get("available", False):
             return json.dumps({
                 "error": f"Item {item_id} ({product_found.get('name')}) is not available",
                 "status": "failed"
             })
 
-        # Get item details
+        # Retrieve item information.
         unit_price = variant_found.get("price", 0)
         line_total = unit_price * quantity
 
-        # Capture current order state before modification
+        # Store the current order status prior to any changes.
         current_order_items = order_to_update.get("items", []).copy()
         current_subtotal = sum(item.get("price", 0) * item.get("quantity", 1) for item in current_order_items)
         current_payment_history = order_to_update.get("payment_history", []).copy()
         current_total_paid = sum(payment.get("amount", 0) for payment in current_payment_history if payment.get("transaction_type") == "payment")
 
-        # WRITE OPERATION: Add item to order
+        # ORDER OPERATION: Include item in order
         order_items = order_to_update.get("items", [])
 
-        # Check if item already exists in the order
+        # Verify if the item is already present in the order.
         item_exists = False
         added_quantity = quantity
         for existing_item in order_items:
             if existing_item.get("item_id") == item_id:
-                # Update quantity of existing item
+                # Modify the count of the current item.
                 old_quantity = existing_item.get("quantity", 1)
                 new_quantity = old_quantity + quantity
                 existing_item["quantity"] = new_quantity
-                existing_item["price"] = unit_price  # Update price in case it changed
+                existing_item["price"] = unit_price  # Revise the price if it has been modified.
                 item_exists = True
 
                 result_message = f"Updated quantity of existing item from {old_quantity} to {new_quantity}"
                 break
 
         if not item_exists:
-            # Add new item to order
+            # Insert a new item into the order.
             new_item = {
                 "name": product_found.get("name"),
                 "product_id": product_found.get("product_id"),
@@ -178,21 +178,21 @@ class AddToOrder(Tool):
 
         order_to_update["items"] = order_items
 
-        # Calculate new order totals
+        # Compute updated order totals.
         new_subtotal = sum(item.get("price", 0) * item.get("quantity", 1) for item in order_items)
 
-        # Calculate additional costs
+        # Compute supplementary expenses
         additional_tax = tax_amount if tax_amount is not None else 0
         additional_shipping = shipping_cost if shipping_cost is not None else 0
 
-        # Calculate total additional amount (item cost + additional fees)
+        # Compute the total extra amount (item price + supplementary charges)
         total_additional_amount = line_total + additional_tax + additional_shipping
         new_order_total = new_subtotal + additional_tax + additional_shipping
 
-        # Rule: High-value orders (>$1000 total) require payment verification before fulfillment
+        # Policy: Orders exceeding $1000 must undergo payment verification prior to processing.
         requires_verification = new_order_total > 1000.0
 
-        # Rule: Gift card payments cannot exceed available balance - verify balance sufficiency before processing
+        # Condition: Ensure gift card payments do not surpass the available balance - check balance adequacy prior to processing.
         if payment_source == "gift_card":
             available_balance = selected_payment.get("balance", 0)
             if total_additional_amount > available_balance:
@@ -201,7 +201,7 @@ class AddToOrder(Tool):
                     "status": "failed"
                 })
 
-        # Process payment for the additional amount
+        # Execute payment for the extra amount.
         payment_result = {
             "payment_method_id": payment_method,
             "payment_source": payment_source,
@@ -210,7 +210,7 @@ class AddToOrder(Tool):
             "transaction_id": f"TXN_{user_id}_{payment_method}_{int(total_additional_amount)}"
         }
 
-        # Add specific details based on payment type
+        # Incorporate details relevant to the payment method.
         if payment_source == "gift_card":
             new_balance = selected_payment.get("balance", 0) - total_additional_amount
             payment_result["remaining_gift_card_balance"] = new_balance
@@ -218,7 +218,7 @@ class AddToOrder(Tool):
             payment_result["card_brand"] = selected_payment.get("brand")
             payment_result["card_last_four"] = selected_payment.get("last_four")
 
-        # Add payment transaction to order history
+        # Incorporate payment transaction into order history.
         payment_transaction = {
             "transaction_type": "payment",
             "amount": total_additional_amount,
@@ -232,7 +232,7 @@ class AddToOrder(Tool):
             order_to_update["payment_history"] = []
         order_to_update["payment_history"].append(payment_transaction)
 
-        # Add order modification log
+        # Implement a log for order modifications.
         if "modifications" not in order_to_update:
             order_to_update["modifications"] = []
 
@@ -252,10 +252,10 @@ class AddToOrder(Tool):
 
         order_to_update["last_updated"] = datetime.now().isoformat()
 
-        # Update the order in the data structure
+        # Revise the order within the data structure.
         data["orders"][order_index] = order_to_update
 
-        # Calculate comprehensive metrics
+        # Compute detailed metrics
         total_items_count = len(order_items)
         total_quantity = sum(item.get("quantity", 1) for item in order_items)
         new_total_paid = current_total_paid + total_additional_amount

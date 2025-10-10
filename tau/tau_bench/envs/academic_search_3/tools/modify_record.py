@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -34,7 +34,7 @@ class ModifyRecord(Tool):
 
         for item in target_list:
             if item.get(id_key) == record_id:
-                # Update the item with the remaining kwargs
+                # Modify the item using the leftover kwargs.
                 for key, value in kwargs.items():
                     item[key] = value
                 return json.dumps(item, indent=2)

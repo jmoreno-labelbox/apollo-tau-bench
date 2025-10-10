@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -32,7 +32,7 @@ class CreateCodeScanningAlert(Tool):
                 indent=2
             )
 
-        # Normalize/validate severity
+        # Standardize/verify severity
         severity = severity_raw.lower()
         allowed = {"critical", "high", "medium", "low"}
         if severity not in allowed:
@@ -41,7 +41,7 @@ class CreateCodeScanningAlert(Tool):
                 indent=2
             )
 
-        # Load alerts DB
+        # Initialize alerts database.
         alerts_db = data.get("code_scanning_alerts", [])
         if not isinstance(alerts_db, list):
             return json.dumps(
@@ -49,7 +49,7 @@ class CreateCodeScanningAlert(Tool):
                 indent=2
             )
 
-        # Find or create repo bucket
+        # Locate or establish a repository bucket.
         rec = next((r for r in alerts_db if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         created_bucket = False
         if rec is None:
@@ -67,17 +67,17 @@ class CreateCodeScanningAlert(Tool):
             alerts_db.append(rec)
             created_bucket = True
 
-        # Ensure arrays exist
+        # Verify the presence of arrays.
         for key in ["alert_numbers","severities","states","descriptions","refs","created_ts","dismissed_ts_nullables"]:
             rec.setdefault(key, [])
 
-        # Next alert number (per repo)
+        # Subsequent alert identifier (for each repository)
         next_alert_number = get_next_alert_number(data)
 
-        # Deterministic timestamp from your environment helper
+        # Environment helper for obtaining a deterministic timestamp.
         new_ts = get_current_timestamp()
 
-        # Append new alert
+        # Add a new notification.
         rec["alert_numbers"].append(next_alert_number)
         rec["severities"].append(severity)
         rec["states"].append("open")
@@ -86,14 +86,14 @@ class CreateCodeScanningAlert(Tool):
         rec["created_ts"].append(new_ts)
         rec["dismissed_ts_nullables"].append(None)
 
-        add_terminal_message(data, f"Created new alerts bucket and alert #{next_alert_number}" if created_bucket else f"Added alert #{next_alert_number} to existing bucket", get_current_timestamp())
+        add_terminal_message(data, f"Created new alerts bucket and alert #{next_alert_number}" if created_bucket else f"Added alert # f"Next alert number is {next_alert_number}" if created_bucket else f"Alert #{next_alert_number} added to existing bucket", get_current_timestamp()
 
         return json.dumps(
             {
                 "success": (
-                    f"Created new alerts bucket and alert #{next_alert_number}"
+                    f"Created new alerts bucket and alert # {subsequent_alert_number}
                     if created_bucket else
-                    f"Added alert #{next_alert_number} to existing bucket"
+                    f"Added alert # Add {next_alert_number} to the current bucket.
                 ),
                 "repo": f"{owner}/{repo_name}",
                 "alert": {

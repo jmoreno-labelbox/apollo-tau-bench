@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class CreateArticle(Tool):
     """Creates a new article record."""
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Extract parameters for the new article
+        # Retrieve parameters for the new article.
         title = kwargs.get('title')
         authors = kwargs.get('authors')
         topic = kwargs.get('topic')

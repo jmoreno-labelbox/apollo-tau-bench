@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class GetAllTeamsInLeague(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         league = kwargs.get("league")
 
-        # 1) Validate
+        # 1) Verify
         if not isinstance(league, str) or league == "":
             return json.dumps({"error": "Missing required field: league"}, indent=2)
 
-        # 2) Get DB from passed-in data
+        # Retrieve database from the provided input data.
         teams: List[Dict[str, Any]] = list(data.get("teams", {}).values())
 
-        # 3) Filter teams by exact league
+        # 3) Select teams based on the specific league.
         matching_teams = [
             team for team in teams
             if team.get("league") == league

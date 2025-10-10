@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class GenerateCompReportDocumentTool(Tool):
         if report_id is None:
             return _err("report_id is required")
 
-        # Deterministic URI based on report_id
+        # Fixed URI determined by report_id
         uri = f"https://storage.example.com/reports/comp_{int(report_id):03d}.pdf"
         out = {
             "document_uri": uri,

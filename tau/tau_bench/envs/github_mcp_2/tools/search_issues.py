@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class SearchIssues(Tool):
         results = []
 
         for issue in _issues(data):
-            # print("ISWEU::", issue)
+            # output("ISWEU::", issue)
             title = issue.get("title", "").lower()
             body = issue.get("body", "").lower()
             raw_labels = issue.get("labels", [])

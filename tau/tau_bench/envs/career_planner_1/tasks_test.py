@@ -1,8 +1,8 @@
 from tau_bench.types import Action, Task
 
-# ───────────────────────────── TASK DEFINITIONS ──────────────────────────────
+# ───────────────────────────── TASK SPECIFICATIONS ──────────────────────────────
 TASKS = [
-    # 1 REPLACED
+    # 1 SUBSTITUTED
     Task(
         annotator="0",
         user_id="res_70",
@@ -240,7 +240,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 6 REPLACED
+    # 6 SUBSTITUTED
     Task(
         annotator="0",
         user_id="res_75",
@@ -291,7 +291,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 7 REPLACED
+    # 7 SUBSTITUTED
     Task(
         annotator="0",
         user_id="res_76",
@@ -458,7 +458,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 10 REPLACED
+    # 10 SUBSTITUTED
     Task(
         annotator="0",
         user_id="res_79",
@@ -671,7 +671,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 14 REPLACED
+    # 14 SUBSTITUTED
     Task(
         annotator="0",
         user_id="res_84",
@@ -714,7 +714,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 15 REPLACED
+    # 15 substituted
     Task(
         annotator="0",
         user_id="res_85",
@@ -864,7 +864,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 18 REPLACED
+    # 18 SUBSTITUTED
     Task(
         annotator="0",
         user_id="res_88",
@@ -926,7 +926,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 19 REPLACED
+    # 19 SUBSTITUTED
     Task(
         annotator="0",
         user_id="res_89",
@@ -1087,7 +1087,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 22 REPLACED
+    # 22 SUBSTITUTED
     Task(
         annotator="0",
         user_id="res_92",
@@ -1140,7 +1140,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 23 REPLACED
+    # 23 SUBSTITUTED
     Task(
         annotator="0",
         user_id="res_93",
@@ -1204,7 +1204,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 24 REPLACED
+    # 24 substituted
     Task(
         annotator="0",
         user_id="res_94",
@@ -1306,7 +1306,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 26 REPLACED
+    # 26 SUBSTITUTED
     Task(
         annotator="0",
         user_id="res_96",
@@ -1405,7 +1405,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 28 REPLACED
+    # 28 SUBSTITUTED
     Task(
         annotator="0",
         user_id="res_98",
@@ -1465,7 +1465,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 29 REPLACED
+    # 29 UPDATED
     Task(
         annotator="0",
         user_id="res_99",
@@ -1628,7 +1628,7 @@ TASKS = [
         ],
         outputs=[]
     ),
-    # 32 REPLACED
+    # 32 substituted
     Task(
         annotator="0",
         user_id="res_102",

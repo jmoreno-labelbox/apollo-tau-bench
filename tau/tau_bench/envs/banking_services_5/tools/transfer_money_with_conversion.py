@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -43,7 +43,7 @@ class TransferMoneyWithConversion(Tool):
         if src.get("balance", 0.0) < source_amount:
             return json.dumps({"error": "Insufficient balance in source account."}, indent=2)
 
-        # perform the transfer
+        # execute the transfer
         src["balance"] -= source_amount
         tgt["balance"] = tgt.get("balance", 0.0) + target_amount
 

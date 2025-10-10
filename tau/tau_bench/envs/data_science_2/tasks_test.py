@@ -147,14 +147,14 @@ TASKS = [
             "Serve as a data-science automation agent. Create a station confirmation snapshot for Orlando by implementing the Datum-and-Method Station Confirmation Protocol with the following override: if the water levels datum for station 8723214 is 'NAVD88' within the period 2024-02-01T00:00:00Z to 2024-02-02T00:00:00Z but its tide predictions method within that same time frame is not 'harmonic', employ backup station 8723170; otherwise, retain 8723214. Employ the flood_risk_miami_v1 variant. Provide the selected station id, the model AUC and Accuracy, the predictions CSV path, and the processed dataset summary from /data/processed/timeseries_miami_weather.csv (columns, row_count, min_timestamp, max_timestamp). Utilize the configured station search distance from project_config for Orlando and use 2024-02-02T15:45:00Z as the timestamp to be printed for the terminal log entry. Apply coordinates 25.7617,-80.1918 and a radius of 25.0 for the station search."
         ),
         actions=[
-            # Candidate stations (deterministic coords + radius from project_config)
+            # Potential stations (fixed coordinates + radius from project_config)
             Action(
                 name="GetStationsByLocation",
                 kwargs={"query_latitude": 25.7617,
                         "query_longitude": -80.1918, "radius_km": 25.0}
             ),
 
-            # Validate datum condition on 8723214
+            # Check the data status for 8723214.
             Action(
                 name="GetWaterLevelsWindow",
                 kwargs={
@@ -164,7 +164,7 @@ TASKS = [
                 }
             ),
 
-            # Validate method condition on 8723214
+            # Check the method condition for 8723214.
             Action(
                 name="GetTidePredictionsWindow",
                 kwargs={
@@ -174,19 +174,19 @@ TASKS = [
                 }
             ),
 
-            # Summarize processed dataset (explicit CSV path from instruction)
+            # Provide a summary of the processed dataset (specific CSV path as per instructions).
             Action(
                 name="GetProcessedTimeseriesSummary",
                 kwargs={"csv_path": "/data/processed/timeseries_miami_weather.csv"}
             ),
 
-            # Retrieve model artifacts (Miami)
+            # Fetch model artifacts (Miami)
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "flood_risk_miami_v1"}),
             Action(name="GetPredictionsByModelName", kwargs={
                 "model_name": "flood_risk_miami_v1"}),
 
-            # Deterministic terminal log
+            # Predictable endpoint log
             Action(
                 name="AppendTerminalLogEntry",
                 kwargs={
@@ -222,8 +222,8 @@ TASKS = [
                 "station_id": "8723214", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "flood_risk_miami_v1"}),
-            # Action(name="GetPredictionsByModelName", kwargs={
-            #     "model_name": "flood_risk_miami_v1"}),
+            # Action(identifier="GetPredictionsByModelName", parameters={
+            # "model_identifier": "flood_risk_miami_v1"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_sf_weather.csv"}),
             Action(
@@ -327,26 +327,26 @@ TASKS = [
             "As an automated data-science agent, your task is to choose between Portland and Oakland for advancing the model under the Cross-City AUC-Gap Promotion Protocol while adhering to policy precedence and determinism. Implement a fixed AUC-gap threshold of 0.05; if the gap is under this threshold, prefer the city where the validated station condition is met; if both are satisfactory, select the city with the most recent metrics.generated_ts. For Portland, apply constraints: utilize coordinates 47.6062,-122.3321 with a 60.0 km coverage radius; conduct tide prediction validation using the 'harmonic_analysis' method for station 9447130 from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; refer to /data/processed/timeseries_seattle_weather.csv and simple_model. For Oakland, apply constraints: utilize coordinates 37.7749,-122.4194 with a 50.0 km coverage radius; conduct tide prediction validation using the 'harmonic_analysis' method for station 9414290 from 2024-03-15T00:00:00Z to 2024-03-22T00:00:00Z; refer to /data/processed/timeseries_sf_weather.csv and flood_risk_sf_v2. Your output delivers only the selected city along with its model metrics (AUC and Accuracy), the chosen model's predictions CSV path, and a summary of the processed dataset (columns, row_count, min_timestamp, max_timestamp) for the selected city. For review purposes, add a completion record with the label 'ccap_promotion_seattle-san-francisco', exit_code 0, and printed timestamp 2024-03-18T16:34:10Z."
         ),
         actions=[
-            # Portland validations & metrics
+            # Portland checks and measurements
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062, "query_longitude": -122.3321, "radius_km": 60.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-08T00:00:00Z"}),
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
-            # Oakland validations & metrics
+            # Validation and metrics for Oakland
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 37.7749, "query_longitude": -122.4194, "radius_km": 50.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9414290", "window_start_ts": "2024-03-15T00:00:00Z", "window_end_ts": "2024-03-22T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "flood_risk_sf_v2"}),
-            # Winner artifacts (San Francisco)
+            # Winning artifacts (San Francisco)
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_sf_weather.csv"}),
-            # Audit log
+            # Log of audits
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_seattle-san-francisco",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -369,13 +369,13 @@ TASKS = [
             Action(name="GetMetricsByModelName", kwargs={"model_name": "flood_risk_miami_v1"}),
             Action(name="GetPredictionsByModelName", kwargs={"model_name": "flood_risk_miami_v1"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={"csv_path": "/data/processed/timeseries_miami_weather.csv"}),
-            # Providence
+            # Divine guidance or care.
             Action(name="GetStationsByLocation", kwargs={"query_latitude": 42.3601,"query_longitude": -71.0589,"radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={"station_id": "8443970","window_start_ts":"2024-03-01T00:00:00Z","window_end_ts":"2024-03-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={"model_name": "boston_harbor_model"}),
             Action(name="GetPredictionsByModelName", kwargs={"model_name": "boston_harbor_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={"csv_path": "/data/processed/timeseries_boston_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "multi_snapshot_miami-boston",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -504,7 +504,7 @@ TASKS = [
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_seattle_weather.csv"}),
-            # Providence
+            # Foresight
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
@@ -515,7 +515,7 @@ TASKS = [
                    "model_name": "boston_harbor_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_boston_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "multi_snapshot_seattle-boston",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -532,7 +532,7 @@ TASKS = [
             "Functioning as a data-science automation agent, execute the Datum-and-Method Station Confirmation Protocol for Providence with the condition that if the tide predictions method for station 8443970 is 'harmonic_analysis' during the period 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z and its water levels are referenced to datum 'NAVD88' in the same timeframe, retain 8443970; otherwise, switch to backup station 8447930. Work with the processed dataset located at /data/processed/timeseries_boston_weather.csv and the boston_harbor_model variant, publish an audit receipt involving /data/processed/predictions_boston.csv and /processed_data/metrics_boston.csv with a generated_ts of 2024-03-01T14:02:00Z, and log the confirmation in the terminal with the command 'dmsc_snapshot_boston' and printed_ts 2024-03-01T14:02:00Z. Report the selected station id, the model's AUC and Accuracy, the path to the predictions CSV, and a summary of the processed dataset."
         ),
         actions=[
-            # READS
+            # INPUTS
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
@@ -545,7 +545,7 @@ TASKS = [
                    "model_name": "boston_harbor_model"}),
             Action(name="GetPredictionsByModelName", kwargs={
                    "model_name": "boston_harbor_model"}),
-            # WRITES
+            # GENERATES
             Action(name="PublishStakeholderOutputs", kwargs={
                 "predictions_final_csv_path": "/data/processed/predictions_boston.csv",
                 "metrics_summary_csv_path": "/processed_data/metrics_boston.csv",
@@ -563,7 +563,7 @@ TASKS = [
             "As a data-science automation agent, handle the City Status Compilation Protocol for Oakland by applying the overrides where the primary station should be 9414290 if the tide predictions method is 'harmonic' within the timeframe of 2024-03-15T00:00:00Z to 2024-03-22T00:00:00Z; otherwise, use 9414750. The terminal log printed_ts must be sourced from the metrics.generated_ts of flood_risk_sf_v2. Utilize coordinates 37.7749,-122.4194 with a radius of 50.0, along with the processed dataset located at /data/processed/timeseries_sf_weather.csv with the flood_risk_sf_v2 model. Provide the city, the primary_station_id, the predictions CSV path, the model AUC and Accuracy, and confirm the terminal log."
         ),
         actions=[
-            # READS
+            # INPUTS
             Action(name="GetProjectConfigByCity",
                    kwargs={"target_city": "Oakland"}),
             Action(name="GetGeocodingResultByCity",
@@ -578,7 +578,7 @@ TASKS = [
                    kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_sf_v2"}),
-            # WRITE (LOG)
+            # OUTPUT (LOG)
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "status_compilation_san-francisco", "exit_code": 0, "stdout": "", "stderr": "",
                 "printed_message": "status_compilation_san-francisco completed", "printed_ts": "2024-03-18T15:45:00Z"})
@@ -616,26 +616,26 @@ TASKS = [
             "As a data-science automation agent, your task is to choose between Orlando and Oakland for model promotion under the Cross-City AUC-Gap Promotion Protocol, adhering to policy precedence and determinism. An absolute AUC-gap threshold of 0.05 is in use; if the gap is under this threshold, prioritize the city with a valid station condition; if both meet this condition, select the city with the most recent metrics.generated_ts. Orlando specifics: location at 25.7617,-80.1918 with a 25.0 km coverage area; verify water levels referencing 'NAVD88' at station 8723214 from 2024-02-01T00:00:00Z to 2024-02-02T00:00:00Z; available dataset in /data/processed/timeseries_miami_weather.csv; model flood_risk_miami_v1. Oakland specifics: location at 37.7749,-122.4194 within a 50.0 km coverage range; validate tide forecasts using 'harmonic_analysis' at station 9414290 from 2024-03-15T00:00:00Z to 2024-03-22T00:00:00Z; dataset present in /data/processed/timeseries_sf_weather.csv; model flood_risk_sf_v2. Your output should list only the chosen_city alongside its model metrics (AUC and Accuracy), the CSV path for predictions of the chosen model, and a summary of the processed dataset (columns, row_count, min_timestamp, max_timestamp) for the selected city. For auditing purposes, submit a completion record marked 'ccap_promotion_miami-san-francisco' with exit_code 0, stdout '', stderr '', printed_message 'ccap_promotion_miami-san-francisco completed', and a printed timestamp 2024-03-18T16:33:10Z."
         ),
         actions=[
-            # Orlando validations & metrics
+            # Orlando checks and performance indicators
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0}),
             Action(name="GetWaterLevelsWindow", kwargs={
                    "station_id": "8723214", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_miami_v1"}),
-            # Oakland validations & metrics
+            # Oakland checks and performance indicators
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 37.7749, "query_longitude": -122.4194, "radius_km": 50.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                    "station_id": "9414290", "window_start_ts": "2024-03-15T00:00:00Z", "window_end_ts": "2024-03-22T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_sf_v2"}),
-            # Winner: Oakland
+            # Victorious team: Oakland
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_sf_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_miami-san-francisco",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -652,30 +652,30 @@ TASKS = [
             "Your role as a data-science automation agent is to generate a status snapshot for Portland, following the City Status Compilation Protocol while observing policy precedence and determinism. The constraints are: Portland is the city of reference at 47.6062,-122.3321 with a 60.0 km coverage scope; the key station is NOAA 9447130, requiring confirmation that tide forecasts use the 'harmonic' method and cover the period from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; processed data is accessible at /data/processed/timeseries_seattle_weather.csv; the model employed is simple_model. Your deliverables comprise the city name, primary_station_id, the predictions CSV link for the specified model, the model metrics (AUC and Accuracy), and a summary of the processed dataset details (columns, row_count, min_timestamp, max_timestamp) for /data/processed/timeseries_seattle_weather.csv. For ensuring auditability, record a completion entry called 'status_compilation_seattle' along with the message 'status_compilation_seattle completed', exit_code 0, and a printed timestamp of 2024-02-01T15:25:00Z."
         ),
         actions=[
-            # Station neighborhood context (non-procedural instruction specifies constraints only)
+            # Context of the station's surroundings (non-procedural guidelines define only limitations)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062,
                 "query_longitude": -122.3321,
                 "radius_km": 60.0
             }),
-            # Verify tide predictions method/window for the designated primary station
+            # Confirm the tide forecast method/timeframe for the specified primary station.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-08T00:00:00Z"
             }),
-            # Summarize the processed dataset
+            # Provide an overview of the modified dataset.
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
-            # Model artifacts (model of record defined in the instruction)
+            # Model assets (recorded model specified in the guidelines)
             Action(name="GetPredictionsByModelName", kwargs={
                 "model_name": "simple_model"
             }),
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "simple_model"
             }),
-            # Deterministic audit trail entry (instruction specifies required fields, not the tool)
+            # Fixed audit trail entry (instruction defines necessary fields, not the tool)
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "status_compilation_seattle",
                 "exit_code": 0,
@@ -694,18 +694,18 @@ TASKS = [
             "You function as a data-science automation agent. Your goal is to organize a time-based dataset split for Providence while adhering to policy precedence and determinism. You follow the Modeling & Risk Protocol — Data Preparation (Time-Based Partitioning Rule), explicitly choosing this policy for partitioning. You utilize the processed dataset located at /data/processed/timeseries_boston_weather.csv (covering 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z, row_count 120). Apply the Providence test-fraction defined by policy; if multiple values are allowed, resolve the choice using the city-level override to 0.25. Record the split deterministically with the split timestamp 2024-03-01T13:20:00Z and use the canonical naming convention for Providence split summaries as dictated by policy. Your deliverable is a structured, machine-verifiable summary of the split and a brief overview of the referenced processed dataset; refrain from listing tool names or prescribing steps. For audit purposes, include a completion record labeled 'dataset_split_boston' with exit_code 0 and printed timestamp 2024-03-01T13:20:00Z."
         ),
         actions=[
-            # Read the processed dataset summary (Boston)
+            # Examine the summary of the processed dataset (Boston).
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_boston_weather.csv"
             }),
-            # Create the deterministic time-based split using the dataset's row_count
+            # Generate a deterministic time-based partition using the dataset's row count.
             Action(name="CreateTimeBasedDatasetSplit", kwargs={
                 "processed_csv_path": "/data/processed/timeseries_boston_weather.csv",
                 "test_fraction": 0.25,
                 "split_summary_json_path": "/processed_data/split_summary_boston.json",
                 "split_ts": "2024-03-01T13:20:00Z"
             }),
-            # Deterministic audit trail entry
+            # Predictable audit log entry
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "dataset_split_boston",
                 "exit_code": 0,
@@ -724,18 +724,18 @@ TASKS = [
             "You are acting as a data-science automation agent under the City Status Compilation Protocol. The aim is to create a model readiness snapshot for Providence while following policy precedence and determinism. Operate with these constraints: the primary coastal station is NOAA 8443970 with tide predictions using method 'harmonic_analysis' available from 2024-03-01T00:00:00Z through 2024-03-02T00:00:00Z; the processed dataset is situated at /data/processed/timeseries_boston_weather.csv, covering 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z with row_count 120; the model of record is boston_harbor_model. Your deliverable should include the city, the primary_station_id, the predictions CSV path for the referenced model, the model metrics (AUC and Accuracy), and a processed-dataset summary (columns, row_count, min_timestamp, max_timestamp) for /data/processed/timeseries_boston_weather.csv. For audit purposes, the trail must include a completion entry labeled 'model_readiness_boston' with message 'model_readiness_boston completed', exit_code 0, and the printed timestamp 2024-03-01T13:22:00Z."
         ),
         actions=[
-            # Model metrics and predictions for the declared model of record
+            # Metrics and predictions for the specified model of record.
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "boston_harbor_model"
             }),
             Action(name="GetPredictionsByModelName", kwargs={
                 "model_name": "boston_harbor_model"
             }),
-            # Processed dataset summary
+            # Summary of the processed dataset
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_boston_weather.csv"
             }),
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "model_readiness_boston",
                 "exit_code": 0,
@@ -754,7 +754,7 @@ TASKS = [
             "As a data‑science automation agent, your target is to choose between Portland and Providence for model promotion according to the Cross‑City AUC‑Gap Promotion Protocol, ensuring adherence to policy precedence and determinism. Implement an absolute AUC‑gap threshold of 0.04; if the gap is under this threshold, favor the city whose validated station condition succeeds; if both cities qualify, select the one with the most recently updated metrics.generated_ts. City conditions: Portland utilizes primary coastal station NOAA 9447130 with tide predictions through 'harmonic_analysis' available from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z, with the processed dataset at /data/processed/timeseries_seattle_weather.csv, using the model simple_model. Providence operates with primary coastal station NOAA 8443970, tide predictions via 'harmonic_analysis' from 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z, processed dataset at /data/processed/timeseries_boston_weather.csv, and the model boston_harbor_model. Submit only the selected city with its model metrics (AUC and Accuracy), the path to predictions CSV for the chosen model, and a processed‑dataset synopsis (columns, row_count, min_timestamp, max_timestamp) for the selected city. Ensure auditability by including a completion record tagged 'ccap_promotion_seattle-boston' with exit_code 0 and printed timestamp 2024-02-08T12:00:00Z."
         ),
         actions=[
-            # Validate Portland window/method, gather Portland metrics
+            # Verify Portland window/method and collect Portland metrics.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
@@ -763,7 +763,7 @@ TASKS = [
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
 
-            # Validate Providence window/method, gather Providence metrics
+            # Verify the Providence window/method and collect Providence metrics.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "8443970",
                 "window_start_ts": "2024-03-01T00:00:00Z",
@@ -772,14 +772,14 @@ TASKS = [
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
 
-            # Decision (gap 0.79 vs 0.73 >= 0.04) ⇒ choose Seattle; fetch chosen artifacts only
+            # Selection (gap 0.79 vs 0.73 >= 0.04) ⇒ select Seattle; retrieve only selected artifacts
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
 
-            # Deterministic audit record (correct protocol command name)
+            # Guaranteed audit log (accurate protocol command designation)
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_seattle-boston",
                 "exit_code": 0,
@@ -798,19 +798,19 @@ TASKS = [
             "Functioning as a data‑science automation agent under the City Status Compilation Protocol, your mission is to create a status snapshot for Portland while adhering to policy precedence and determinism. Follow these directives: select Portland at coordinates 47.6062,-122.3321 with a coverage radius of 60.0 km; the primary coastal station must be resolved per policy in that location context, confirming tide predictions using 'harmonic_analysis' available between 2024-02-01T00:00:00Z and 2024-02-08T00:00:00Z; the processed dataset is found at /data/processed/timeseries_seattle_weather.csv, spanning 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z with row_count 240; the designated model is simple_model. Include in your submission the city, primary_station_id, the predictions CSV path for the intended model, the model metrics (AUC and Accuracy), and a synopsis of the processed dataset (columns, row_count, min_timestamp, max_timestamp) for /data/processed/timeseries_seattle_weather.csv. To maintain auditability, attach a completion record marked 'status_snapshot_seattle' with exit_code 0 and printed timestamp 2024-02-08T12:15:00Z."
         ),
         actions=[
-            # Resolve candidate stations from location context (policy requirement)
+            # Identify potential stations based on the location context (policy mandate).
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062,
                 "query_longitude": -122.3321,
                 "radius_km": 60.0
             }),
-            # Validate tide predictions method/window for the resolved primary station (9447130)
+            # Verify the tide forecast approach/time frame for the specified primary station (9447130).
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-08T00:00:00Z"
             }),
-            # Model artifacts and dataset summary
+            # Summary of model artifacts and dataset.
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetMetricsByModelName",
@@ -818,7 +818,7 @@ TASKS = [
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "status_snapshot_seattle",
                 "exit_code": 0,
@@ -864,46 +864,46 @@ TASKS = [
             "As a data-science automation agent, your goal is to choose between Providence and Orlando for model promotion, following the Cross-City AUC-Gap Promotion Protocol while adhering to policy precedence and maintaining determinism. Implement an absolute AUC-gap threshold of 0.05; if the gap is below this threshold, prioritize the city with a validated station condition; if both are validated, prefer the city with the most recent metrics.generated_ts. City's specific criteria: Providence is located at coordinates 42.3601,-71.0589 with a coverage radius of 40.0 km; the primary coastal station must be identified from that location context and verify tide predictions using the 'harmonic_analysis' method available from 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z; the processed dataset is located at /data/processed/timeseries_boston_weather.csv (time window 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z, with a row_count of 120); the model of record is boston_harbor_model. Orlando is positioned at coordinates 25.7617,-80.1918 with a coverage radius of 25.0 km; the primary coastal station must be identified from that location context and verify water levels with datum 'NAVD88' available from 2024-02-01T00:00:00Z to 2024-02-02T00:00:00Z; the processed dataset is at /data/processed/timeseries_miami_weather.csv; the model of record is flood_risk_miami_v1. Deliver the selected city along with its model metrics (AUC and Accuracy), the predictions CSV path for the chosen model, and a processed-dataset summary (columns, row_count, min_timestamp, max_timestamp) for the selected city. For accountability, include a completion record titled 'ccap_promotion_boston-miami' with an exit_code of 0 and a printed timestamp of 2024-03-01T13:18:00Z."
         ),
         actions=[
-            # Resolve candidate stations per policy (Boston)
+            # Determine candidate stations according to the policy (Boston)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601,
                 "query_longitude": -71.0589,
                 "radius_km": 40.0
             }),
-            # Validate Providence tide window/method
+            # Verify the Providence tide calculation approach.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "8443970",
                 "window_start_ts": "2024-03-01T00:00:00Z",
                 "window_end_ts": "2024-03-02T00:00:00Z"
             }),
-            # Providence metrics
+            # Metrics for Providence
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
 
-            # Resolve candidate stations per policy (Miami)
+            # Determine eligible stations according to the policy (Miami).
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 25.7617,
                 "query_longitude": -80.1918,
                 "radius_km": 25.0
             }),
-            # Validate Orlando water‑levels datum/window
+            # Verify Orlando water level reference/window.
             Action(name="GetWaterLevelsWindow", kwargs={
                 "station_id": "8723214",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-02T00:00:00Z"
             }),
-            # Orlando metrics
+            # Orlando performance indicators
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "flood_risk_miami_v1"}),
 
-            # Decision (AUC tie → Providence by recency); fetch chosen artifacts only
+            # Decision (AUC tie → select based on recency); retrieve only the selected artifacts.
             Action(name="GetPredictionsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_boston_weather.csv"
             }),
 
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_boston-miami",
                 "exit_code": 0,
@@ -922,19 +922,19 @@ TASKS = [
             "As a data‑science automation agent following the City Status Compilation Protocol, your task is to generate a status snapshot for Providence, ensuring you adhere to policy precedence and determinism. Here are your parameters: the city is Providence with coordinates 42.3601,-71.0589 and a coverage area of 40.0 km; the primary coastal station must be identified based on policy from that location context and use 'harmonic_analysis' to validate tide predictions, available from 2024-03-01T00:00:00Z through 2024-03-02T00:00:00Z; the dataset you'll process is at /data/processed/timeseries_boston_weather.csv, spanning 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z with a row_count of 120; the designated model is boston_harbor_model. Your assignment requires including the city, the primary_station_id, the predictions CSV path for the indicated model, the model metrics (AUC and Accuracy), and a summary of the processed-dataset (columns, row_count, min_timestamp, max_timestamp) for /data/processed/timeseries_boston_weather.csv. Ensure auditability by including a completion record labeled 'status_snapshot_boston' with exit_code 0 and printed timestamp 2024-03-01T13:21:00Z."
         ),
         actions=[
-            # Resolve candidate stations from location context (policy requirement)
+            # Determine potential stations based on location context (policy mandate)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601,
                 "query_longitude": -71.0589,
                 "radius_km": 40.0
             }),
-            # Validate tide predictions method/window for the resolved primary station (8443970)
+            # Verify the tide forecast method/timeframe for the specified primary station (8443970).
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "8443970",
                 "window_start_ts": "2024-03-01T00:00:00Z",
                 "window_end_ts": "2024-03-02T00:00:00Z"
             }),
-            # Model artifacts and dataset summary
+            # Summary of model artifacts and dataset.
             Action(name="GetPredictionsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
             Action(name="GetMetricsByModelName", kwargs={
@@ -942,7 +942,7 @@ TASKS = [
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_boston_weather.csv"
             }),
-            # Deterministic audit record
+            # Guaranteed audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "status_snapshot_boston",
                 "exit_code": 0,
@@ -961,19 +961,19 @@ TASKS = [
             "As a data‑science automation agent under the City Status Compilation Protocol, your aim is to assemble a model readiness snapshot for Portland while adhering to policy precedence and determinism. Your operations are bound by these constraints: the city is Portland at coordinates 47.6062,-122.3321 with a coverage radius of 60.0 km; the primary coastal station must be resolved under policy from that location context, validating tide predictions using 'harmonic_analysis', available from 2024-02-01T00:00:00Z through 2024-02-08T00:00:00Z; the dataset you'll evaluate is located at /data/processed/timeseries_seattle_weather.csv covering 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z with a row_count of 240; the model of record is simple_model. Your deliverable must encompass the city, the primary_station_id, the predictions CSV path for the specified model, the model metrics (AUC and Accuracy), and a processed-dataset summary (columns, row_count, min_timestamp, max_timestamp) for /data/processed/timeseries_seattle_weather.csv. For audit purposes, include a completion record labeled 'model_readiness_seattle' with exit_code 0 and printed timestamp 2024-02-08T12:18:00Z."
         ),
         actions=[
-            # Resolve candidate stations from location context (policy requirement)
+            # Determine potential stations based on location context (policy mandate).
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062,
                 "query_longitude": -122.3321,
                 "radius_km": 60.0
             }),
-            # Validate tide predictions method/window for the resolved primary station (9447130)
+            # Assess the tide forecast approach/timeframe for the identified main station (9447130).
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-08T00:00:00Z"
             }),
-            # Model artifacts and dataset summary
+            # Summary of model artifacts and dataset.
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetPredictionsByModelName",
@@ -981,7 +981,7 @@ TASKS = [
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "model_readiness_seattle",
                 "exit_code": 0,
@@ -1000,46 +1000,46 @@ TASKS = [
             "Act as a data‑science automation agent. Your task is to choose between Portland and Orlando for model promotion according to the Cross‑City AUC‑Gap Promotion Protocol, considering policy precedence and determinism. Implement an absolute AUC‑gap threshold of 0.05; if the gap is smaller, favor the city whose validated station condition is met; in cases where both are met, select the city with the latest metrics.generated_ts. City details: Portland is located at coordinates 47.6062,-122.3321 with a coverage radius of 60.0 km; the primary coastal station must be identified from this situational context and validate tide predictions using 'harmonic_analysis' from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; the processed data file is /data/processed/timeseries_seattle_weather.csv (window 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z, row_count 240); the reference model is simple_model. Orlando is positioned at coordinates 25.7617,-80.1918 with a coverage radius of 25.0 km; resolve the primary coastal station from this locality and validate water levels with datum 'NAVD88' available from 2024-02-01T00:00:00Z through 2024-02-02T00:00:00Z; the processed data file is /data/processed/timeseries_miami_weather.csv; the reference model is flood_risk_miami_v1. Your output should present only the selected city with its model metrics (AUC and Accuracy), the path to the predictions CSV for the chosen model, and a processed‑dataset summary (columns, row_count, min_timestamp, max_timestamp) for the selected city. Ensure auditability by including a completion record labeled 'ccap_promotion_seattle-miami' with exit_code 0 and printed timestamp 2024-02-08T12:10:00Z."
         ),
         actions=[
-            # Resolve candidate stations per policy (Seattle)
+            # Determine candidate stations according to the policy (Seattle)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062,
                 "query_longitude": -122.3321,
                 "radius_km": 60.0
             }),
-            # Validate Portland tide window/method
+            # Verify the tide window/method for Portland.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-08T00:00:00Z"
             }),
-            # Portland metrics
+            # Portland measurements
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
 
-            # Resolve candidate stations per policy (Miami)
+            # Determine candidate stations according to the policy (Miami)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 25.7617,
                 "query_longitude": -80.1918,
                 "radius_km": 25.0
             }),
-            # Validate Orlando water‑levels datum/window
+            # Verify the water levels reference/window for Orlando.
             Action(name="GetWaterLevelsWindow", kwargs={
                 "station_id": "8723214",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-02T00:00:00Z"
             }),
-            # Orlando metrics
+            # Orlando performance indicators
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_miami_v1"}),
 
-            # Decision (AUC 0.79 vs 0.73 ≥ 0.05) ⇒ choose Seattle; fetch chosen artifacts only
+            # Decision (AUC 0.79 vs 0.73 ≥ 0.05) ⇒ select Seattle; retrieve only selected artifacts
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
 
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_seattle-miami",
                 "exit_code": 0,
@@ -1058,19 +1058,19 @@ TASKS = [
             "Operate as a data‑science automation agent adhering to the City Status Compilation Protocol. Your aim is to create a status snapshot for Providence while observing policy precedence and determinism. Work within these constraints: the city is Providence at coordinates 42.3601,-71.0589 with a 40.0 km coverage radius; identify the primary coastal station as per policy from this location context and ensure tide predictions are validated using 'harmonic_analysis' from 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z; find the processed dataset at /data/processed/timeseries_boston_weather.csv covering from 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z with row_count 120; the designated model is boston_harbor_model. Your output must comprise the city, the primary_station_id, the predictions CSV path for the cited model, the model's metrics (AUC and Accuracy), and a processed‑dataset summary (columns, row_count, min_timestamp, max_timestamp) for /data/processed/timeseries_boston_weather.csv. Maintain auditability by attaching a completion record marked 'status_snapshot_boston' with exit_code 0 and printed timestamp 2024-03-01T13:24:00Z."
         ),
         actions=[
-            # Resolve candidate stations from location context (policy requirement)
+            # Determine potential stations based on location context (policy requirement).
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601,
                 "query_longitude": -71.0589,
                 "radius_km": 40.0
             }),
-            # Validate tide predictions method/window for the resolved primary station (8443970)
+            # Verify the tide forecast approach/timeframe for the identified primary station (8443970).
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "8443970",
                 "window_start_ts": "2024-03-01T00:00:00Z",
                 "window_end_ts": "2024-03-02T00:00:00Z"
             }),
-            # Model artifacts and dataset summary
+            # Summary of model artifacts and datasets
             Action(name="GetPredictionsByModelName", kwargs={
                    "model_name": "boston_harbor_model"}),
             Action(name="GetMetricsByModelName", kwargs={
@@ -1078,7 +1078,7 @@ TASKS = [
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_boston_weather.csv"
             }),
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "status_snapshot_boston",
                 "exit_code": 0,
@@ -1124,19 +1124,19 @@ TASKS = [
             "Function as a data-science automation agent under the City Status Compilation Protocol. Your task is to generate a status snapshot for Portland while respecting policy precedence and determinism. Operate with the following constraints: the city is Portland at coordinates 47.6062,-122.3321 with a coverage radius of 60.0 km; deduce the primary coastal station from this location context under policy and verify tide predictions using method 'harmonic_analysis' available from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; the processed dataset can be found at /data/processed/timeseries_seattle_weather.csv covering 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z with row_count 240; the official model is simple_model. Your deliverable encompasses the city, the primary_station_id, the predictions CSV path for the given model, the model metrics (AUC and Accuracy), and a summarized version of the processed dataset (columns, row_count, min_timestamp, max_timestamp) for /data/processed/timeseries_seattle_weather.csv. For auditing, append a completion record labeled 'status_compilation_seattle' with exit_code 0 and printed timestamp 2024-02-08T12:22:00Z."
         ),
         actions=[
-            # Resolve candidate stations from location context (policy requirement)
+            # Determine potential stations based on the contextual location (policy necessity).
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062,
                 "query_longitude": -122.3321,
                 "radius_km": 60.0
             }),
-            # Validate tide predictions method/window for the resolved primary station (9447130)
+            # Verify the tide forecast approach/timeframe for the identified primary station (9447130).
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-08T00:00:00Z"
             }),
-            # Model artifacts and dataset summary
+            # Summary of model artifacts and dataset
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetPredictionsByModelName",
@@ -1144,7 +1144,7 @@ TASKS = [
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
-            # Deterministic audit record (protocol‑aligned command name)
+            # Deterministic audit log (command name aligned with protocol)
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "status_compilation_seattle",
                 "exit_code": 0,
@@ -1163,46 +1163,46 @@ TASKS = [
             "Acting as a data-science automation agent, your goal is to choose between Portland and Providence for model promotion under the Cross-City AUC-Gap Promotion Protocol while adhering to policy precedence and determinism. You utilize an absolute AUC-gap threshold of 0.06; if the gap is below this threshold, prioritize the city whose validated station condition is satisfied; if both conditions are met, select the city with the latest metrics.generated_ts. City specifications: Portland is situated at coordinates 47.6062,-122.3321 with a coverage radius of 60.0 km; the primary coastal station must be determined from this location and validate tide predictions using the 'harmonic_analysis' method available from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; the processed dataset is /data/processed/timeseries_seattle_weather.csv (window from 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z, row_count 240); the registered model is simple_model. Providence is positioned at coordinates 42.3601,-71.0589 with a coverage radius of 40.0 km; the primary coastal station must be determined from this location and validate tide predictions using the 'harmonic_analysis' method available from 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z; the processed dataset is /data/processed/timeseries_boston_weather.csv (window from 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z, row_count 120); the registered model is boston_harbor_model. Your output should only include the selected city with its model metrics (AUC and Accuracy), the CSV path for the chosen model's predictions, and a processed-dataset summary (columns, row_count, min_timestamp, max_timestamp) for the selected city. For transparency, provide a completion record tagged 'ccap_promotion_seattle-boston' with exit_code 0 and printed timestamp 2024-02-08T12:30:00Z."
         ),
         actions=[
-            # Resolve candidate stations per policy (Seattle)
+            # Determine eligible stations according to the policy (Seattle).
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062,
                 "query_longitude": -122.3321,
                 "radius_km": 60.0
             }),
-            # Validate Portland tide window/method
+            # Verify the Portland tide calculation approach.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-08T00:00:00Z"
             }),
-            # Portland metrics
+            # Metrics for Portland
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
 
-            # Resolve candidate stations per policy (Boston)
+            # Determine potential stations according to policy (Boston)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601,
                 "query_longitude": -71.0589,
                 "radius_km": 40.0
             }),
-            # Validate Providence tide window/method
+            # Verify the Providence tide time frame/methodology.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "8443970",
                 "window_start_ts": "2024-03-01T00:00:00Z",
                 "window_end_ts": "2024-03-02T00:00:00Z"
             }),
-            # Providence metrics
+            # Metrics for Providence
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "boston_harbor_model"}),
 
-            # Decision (gap 0.79 vs 0.73 not below 0.06) ⇒ choose Seattle; fetch chosen artifacts only
+            # Decision (gap 0.79 vs 0.73, not less than 0.06) ⇒ select Seattle; retrieve selected artifacts only.
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
 
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_seattle-boston",
                 "exit_code": 0,
@@ -1221,42 +1221,42 @@ TASKS = [
             "As a data-science automation agent, your task is to select between Portland and Orlando for model promotion under the Cross-City AUC-Gap Promotion Protocol while adhering to policy precedence and determinism. Utilize an absolute AUC-gap threshold of 0.04; if the gap is lower than this threshold, prioritize the city whose validated station condition fulfills; if both fulfill, choose the city with the most recent metrics.generated_ts. City parameters: Portland is located at coordinates 47.6062,-122.3321 with a coverage radius of 60.0 km; the primary coastal station is resolved from this location context and must validate tide predictions using the 'harmonic_analysis' method available from 2024-02-01T00:00:00Z through 2024-02-08T00:00:00Z; the processed dataset is /data/processed/timeseries_seattle_weather.csv (window 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z, row_count 240); the designated model is simple_model. Orlando is positioned at coordinates 25.7617,-80.1918 with a coverage radius of 25.0 km; the primary coastal station is resolved from this location context and must validate water levels with datum 'NAVD88' available from 2024-02-01T00:00:00Z to 2024-02-02T00:00:00Z; the processed dataset is /data/processed/timeseries_miami_weather.csv; the registered model is flood_risk_miami_v1. Your output returns only the selected city along with its model metrics (AUC and Accuracy), the predictions CSV path for the chosen model, and a processed-dataset summary (columns, row_count, min_timestamp, max_timestamp) for the chosen city. For audit purposes, ensure you include a completion record marked 'ccap_promotion_seattle-miami' with exit_code 0 and printed timestamp 2024-02-08T12:35:00Z."
         ),
         actions=[
-            # Resolve candidate stations per policy (Seattle)
+            # Determine candidate stations according to the policy (Seattle)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062, "query_longitude": -122.3321, "radius_km": 60.0
             }),
-            # Validate Portland tide window/method
+            # Check the Portland tide window and method for accuracy.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-08T00:00:00Z"
             }),
-            # Portland metrics
+            # Metrics for Portland
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
 
-            # Resolve candidate stations per policy (Miami)
+            # Determine candidate stations according to policy (Miami)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0
             }),
-            # Validate Orlando water‑levels datum/window
+            # Check the water-level reference/window for Orlando.
             Action(name="GetWaterLevelsWindow", kwargs={
                 "station_id": "8723214",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-02T00:00:00Z"
             }),
-            # Orlando metrics
+            # Orlando measurements
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "flood_risk_miami_v1"}),
 
-            # Decision ⇒ choose Seattle; fetch chosen artifacts only
+            # Decision ⇒ select Seattle; retrieve only the selected artifacts
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
 
-            # Deterministic audit record
+            # Fixed audit log entry
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_seattle-miami",
                 "exit_code": 0,
@@ -1275,17 +1275,17 @@ TASKS = [
             "You function as a data-science automation agent following the City Status Compilation Protocol. Your task is to create a status snapshot for Portland while adhering to policy precedence and determinism. You work within these constraints: the city is Portland with coordinates 47.6062,-122.3321 and a coverage radius of 60.0 km; the main coastal station is determined from that location context under policy and must verify tide predictions using the method 'harmonic_analysis' available from 2024-02-01T00:00:00Z through 2024-02-08T00:00:00Z; the processed dataset is situated at /data/processed/timeseries_seattle_weather.csv covering 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z with row_count 240; the designated model is simple_model. Your output includes the city, the primary_station_id, the predictions CSV path for the specified model, the model metrics (AUC and Accuracy), and a summary of the processed dataset (columns, row_count, min_timestamp, max_timestamp) for /data/processed/timeseries_seattle_weather.csv. For audit purposes, you include a completion record marked 'status_compilation_seattle' with exit_code 0 and printed timestamp 2024-02-08T12:40:00Z."
         ),
         actions=[
-            # Resolve candidate stations from location context
+            # Identify potential stations based on location context.
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062, "query_longitude": -122.3321, "radius_km": 60.0
             }),
-            # Validate tide predictions method/window for the resolved primary station (9447130)
+            # Verify the tide prediction method/window for the identified primary station (9447130).
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-08T00:00:00Z"
             }),
-            # Model artifacts and dataset summary
+            # Summary of dataset and model artifacts
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetMetricsByModelName",
@@ -1293,7 +1293,7 @@ TASKS = [
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "status_compilation_seattle",
                 "exit_code": 0,
@@ -1339,17 +1339,17 @@ TASKS = [
             "As a data-science automation agent functioning under the City Status Compilation Protocol, your task is to develop a status snapshot for Providence while maintaining adherence to policy precedence and determinism. Operate within these parameters: the designated city is Providence located at coordinates 42.3601,-71.0589 with a 40.0 km coverage radius; the main coastal station should be determined from that location context in compliance with policy, and must authenticate tide predictions using the 'harmonic_analysis' method available from 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z; access the processed dataset at /data/processed/timeseries_boston_weather.csv covering the period from 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z with a total of 120 rows; the official model in use is boston_harbor_model. Your submission should include the city, the primary_station_id, the predictions CSV path for the specified model, the model metrics (AUC and Accuracy), and a summary of the processed dataset (columns, row_count, min_timestamp, max_timestamp) for /data/processed/timeseries_boston_weather.csv. For audit trail purposes, provide a completion record titled 'status_compilation_boston' with exit_code 0 and the timestamp 2024-03-01T13:26:00Z."
         ),
         actions=[
-            # Resolve candidate stations from location context
+            # Determine potential stations based on location context.
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0
             }),
-            # Validate tide predictions method/window for the resolved primary station (8443970)
+            # Verify the tide prediction method/window for the specified primary station (8443970).
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "8443970",
                 "window_start_ts": "2024-03-01T00:00:00Z",
                 "window_end_ts": "2024-03-02T00:00:00Z"
             }),
-            # Model artifacts and dataset summary
+            # Summary of model artifacts and dataset.
             Action(name="GetPredictionsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
             Action(name="GetMetricsByModelName", kwargs={
@@ -1357,7 +1357,7 @@ TASKS = [
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_boston_weather.csv"
             }),
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "status_compilation_boston",
                 "exit_code": 0,
@@ -1376,7 +1376,7 @@ TASKS = [
             "Under the role of a data-science automation agent, generate a comparative risk snapshot between Providence and Oakland adhering to the Multi-City Comparative Snapshot Protocol, ensuring alignment with policy precedence and determinism. Opt for higher AUC, and if the AUCs are identical, choose based on higher Accuracy. Parameters for Boston: coordinates 42.3601,-71.0589 (radius 40.0 km); use 'harmonic' method for tide prediction validation at station 8443970 from 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z; dataset /data/processed/timeseries_boston_weather.csv; model boston_harbor_model. Parameters for San Francisco: coordinates 37.7749,-122.4194 (radius 50.0 km); use 'harmonic' method for tide prediction validation at station 9414290 from 2024-03-15T00:00:00Z to 2024-03-22T00:00:00Z; dataset /data/processed/timeseries_sf_weather.csv; model flood_risk_sf_v2. Report the winning_city, and for each city, provide the model metrics (AUC and Accuracy), the path of the predictions CSV, and a summary of the processed dataset (columns, row_count, min_timestamp, max_timestamp). To ensure clarity in audit processes, include a completion record marked 'multi_snapshot_boston-san-francisco' with exit_code 0, an empty stdout and stderr, printed_message 'multi_snapshot_boston-san-francisco completed', and the printed timestamp 2024-03-18T16:32:40Z."
         ),
         actions=[
-            # Providence
+            # Foresight
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
@@ -1398,7 +1398,7 @@ TASKS = [
                    kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_sf_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "multi_snapshot_boston-san-francisco",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -1415,42 +1415,42 @@ TASKS = [
             "You function as a data‑science automation agent. Your aim is to determine whether Portland or Providence should be selected for model promotion, following the Cross‑City AUC‑Gap Promotion Protocol while adhering to policy precedence and determinism. Apply an absolute AUC‑gap threshold of 0.05; if the gap is less than this threshold, prioritize the city whose validated station condition is met; if both conditions are satisfied, prefer the city with the latest metrics.generated_ts. City specifics: Portland is positioned at coordinates 47.6062,-122.3321 with a coverage radius of 60.0 km; identify the primary coastal station based on that locale and ensure tide predictions are validated using 'harmonic_analysis' available from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; the dataset in question is /data/processed/timeseries_seattle_weather.csv (coverage 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z, row_count 240); utilize the simple_model. Boston's coordinates are 42.3601,-71.0589 with a 40.0 km range; derive the primary coastal station using that locale and ensure tide predictions through 'harmonic_analysis' from 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z; dataset used is /data/processed/timeseries_boston_weather.csv (window 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z, row_count 120); employ the boston_harbor_model. Your output should expressly include the selected city alongside its model metrics (AUC and Accuracy), the predictions CSV path for the model chosen, and a concise processed‑dataset summary (columns, row_count, min_timestamp, max_timestamp) for the chosen city. Ensure auditability by attaching a completion record identified as 'ccap_promotion_seattle-boston' with exit_code 0 and timestamp 2024-02-08T12:45:00Z."
         ),
         actions=[
-            # Resolve candidate stations per policy (Seattle)
+            # Determine eligible stations according to the policy (Seattle)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062, "query_longitude": -122.3321, "radius_km": 60.0
             }),
-            # Validate Portland tide window/method
+            # Verify the Portland tide procedure/approach.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-08T00:00:00Z"
             }),
-            # Portland metrics
+            # Metrics for Portland
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
 
-            # Resolve candidate stations per policy (Boston)
+            # Determine candidate stations according to the policy (Boston)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0
             }),
-            # Validate Providence tide window/method
+            # Verify the Providence tide timing/approach.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "8443970",
                 "window_start_ts": "2024-03-01T00:00:00Z",
                 "window_end_ts": "2024-03-02T00:00:00Z"
             }),
-            # Providence metrics
+            # Metrics for Providence
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
 
-            # Decision (AUC 0.79 vs 0.73 ≥ 0.05) ⇒ choose Seattle; fetch chosen artifacts only
+            # Selection (AUC 0.79 vs 0.73 ≥ 0.05) ⇒ opt for Seattle; retrieve only selected artifacts
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
 
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_seattle-boston",
                 "exit_code": 0,
@@ -1469,17 +1469,17 @@ TASKS = [
             "Acting as a data‑science automation agent, your task under the City Status Compilation Protocol is to compile a status capture for Portland while respecting policy precedence and determinism. Operate under these parameters: Portland is fixed at coordinates 47.6062,-122.3321, encompassing a 60.0 km radius; pinpoint the primary coastal station per location policy dictates, and valid tide predictions should be confirmed using 'harmonic_analysis' available from 2024-02-01T00:00:00Z until 2024-02-08T00:00:00Z; the suitable dataset is found at /data/processed/timeseries_seattle_weather.csv, encompassing 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z with a row_count of 240; apply the simple_model. Your report should include the city, the primary_station_id, the referenced model's predictions CSV path, the model metrics (AUC and Accuracy), and an outlined processed‑dataset summary (columns, row_count, min_timestamp, max_timestamp) for /data/processed/timeseries_seattle_weather.csv. Guarantee auditability by incorporating a completion log labeled as 'status_compilation_seattle' with an exit_code 0 and timestamp 2024-02-08T12:50:00Z."
         ),
         actions=[
-            # Resolve candidate stations from location context (policy requirement)
+            # Identify potential stations based on location context (policy necessity).
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062, "query_longitude": -122.3321, "radius_km": 60.0
             }),
-            # Validate tide predictions method/window for the resolved primary station (9447130)
+            # Verify the tide forecast method/timeframe for the identified primary station (9447130).
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-08T00:00:00Z"
             }),
-            # Model artifacts and dataset summary
+            # Summary of model artifacts and dataset.
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetMetricsByModelName",
@@ -1487,7 +1487,7 @@ TASKS = [
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "status_compilation_seattle",
                 "exit_code": 0,
@@ -1533,17 +1533,17 @@ TASKS = [
             "You are a data-science automation agent functioning under the City Status Compilation Protocol. Your goal is to create a status snapshot for Providence while respecting policy precedence and determinism. Operate with the following parameters: the city is Providence at coordinates 42.3601,-71.0589 with a coverage radius of 40.0 km; identify the primary coastal station from that location context under policy, ensuring to validate tide predictions using method 'harmonic_analysis' available from 2024-03-01T00:00:00Z through 2024-03-02T00:00:00Z; locate the processed dataset at /data/processed/timeseries_boston_weather.csv covering 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z with row_count 120; the official model is boston_harbor_model. Your deliverable should include the city, the primary_station_id, the path to the predictions CSV for the referenced model, the model metrics (AUC and Accuracy), and a processed-dataset summary (columns, row_count, min_timestamp, max_timestamp) for /data/processed/timeseries_boston_weather.csv. For auditability, provide a completion record entitled 'status_compilation_boston' with exit_code 0 and printed timestamp 2024-03-01T13:28:00Z."
         ),
         actions=[
-            # Resolve candidate stations from location context (policy requirement)
+            # Determine potential stations based on location context (policy necessity)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0
             }),
-            # Validate tide predictions method/window for the resolved primary station (8443970)
+            # Verify the tide prediction method/window for the specified primary station (8443970).
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "8443970",
                 "window_start_ts": "2024-03-01T00:00:00Z",
                 "window_end_ts": "2024-03-02T00:00:00Z"
             }),
-            # Model artifacts and dataset summary
+            # Summary of model artifacts and dataset.
             Action(name="GetPredictionsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
             Action(name="GetMetricsByModelName", kwargs={
@@ -1551,7 +1551,7 @@ TASKS = [
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_boston_weather.csv"
             }),
-            # Deterministic audit record
+            # Fixed audit log entry
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "status_compilation_boston",
                 "exit_code": 0,
@@ -1567,45 +1567,45 @@ TASKS = [
         annotator="0",
         user_id="task_43",
         instruction=(
-            "As a data&#8209;science automation agent, your objective is to choose between Portland and Orlando for model promotion under the Cross&#8209;City AUC&#8209;Gap Promotion Protocol while adhering to policy precedence and determinism. Utilize an absolute AUC&#8209;gap threshold of 0.05; if the gap is below this threshold, favor the city where the validated station condition is met; if both conditions are met, opt for the city with the latest metrics.generated_ts. City specifics: Portland is located at coordinates 47.6062,-122.3321, with a coverage radius of 60.0 km; the main coastal station must validate tide predictions using the 'harmonic_analysis' method, available from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; the processed dataset is /data/processed/timeseries_seattle_weather.csv (window 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z, row_count 240); the model in use is simple_model. Orlando is positioned at 25.7617,-80.1918, with a coverage radius of 25.0 km; its main coastal station must validate water levels with datum 'NAVD88', available from 2024-02-01T00:00:00Z to 2024-02-02T00:00:00Z; the processed dataset is /data/processed/timeseries_miami_weather.csv; the model in use is flood_risk_miami_v1. Your deliverable should return only the selected city along with its model metrics (AUC and Accuracy), the predictions CSV path for the selected model, and a processed&#8209;dataset summary (columns, row_count, min_timestamp, max_timestamp) for that city. For auditability, include a completion record titled 'ccap_promotion_seattle-miami' with exit_code 0 and printed timestamp 2024-02-08T12:55:00Z."
+            "As a data&#8209;science automation agent, your objective is to choose between Portland and Orlando for model promotion under the Cross&#8209;City AUC&#8209;Gap Promotion Protocol while adhering to policy precedence and determinism. Utilize an absolute AUC&#8209;gap threshold of 0.05; if the gap is below this threshold, favor the city where the validated station condition is met; if both conditions are met, opt for the city with the latest metrics.generated_ts. City specifics: Portland is located at coordinates 47.6062,-122.3321, with a coverage radius of 60.0 km; the main coastal station must validate tide predictions using the 'harmonic_analysis' method, available from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; the processed dataset is /data/processed/timeseries_seattle_weather.csv (window 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z, row_count 240); the model in use is simple_model. Orlando is positioned at 25.7617,-80.1918, with a coverage radius of 25.0 km; its main coastal station must validate water levels with datum 'NAVD88', available from 2024-02-01T00:00:00Z to 2024-02-02T00:00:00Z; the processed dataset is /data/processed/timeseries_miami_weather.csv; the model in use is flood_risk_miami_v1. Your deliverable should return only the selected city along with its model metrics (AUC and Accuracy), the predictions CSV path for the selected model, and a processed&# As the science automation agent, your task is to determine whether to promote the model in Portland or Orlando according to the Cross-City AUC-Gap Promotion Protocol, while following policy precedence and ensuring determinism. Apply a strict AUC-gap threshold of 0.05; if the gap is below this, choose the city with validated station conditions; if both cities meet this criterion, select the one with the most recent metrics.generated_ts. Portland's details include coordinates 47.6062,-122
         ),
         actions=[
-            # Resolve candidate stations per policy (Seattle)
+            # Determine eligible stations according to the policy (Seattle).
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062, "query_longitude": -122.3321, "radius_km": 60.0
             }),
-            # Validate Portland tide window/method
+            # Verify the Portland tide calculation approach.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-08T00:00:00Z"
             }),
-            # Portland metrics
+            # Metrics for Portland
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
 
-            # Resolve candidate stations per policy (Miami)
+            # Determine eligible stations according to policy (Miami)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0
             }),
-            # Validate Orlando water‑levels datum/window
+            # Verify the datum/window for Orlando water levels.
             Action(name="GetWaterLevelsWindow", kwargs={
                 "station_id": "8723214",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-02T00:00:00Z"
             }),
-            # Orlando metrics
+            # Orlando performance indicators
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "flood_risk_miami_v1"}),
 
-            # Decision (AUC 0.79 vs 0.73 ≥ 0.05) ⇒ choose Seattle; fetch chosen artifacts only
+            # Decision (AUC 0.79 vs 0.73 ≥ 0.05) ⇒ select Seattle; retrieve only the selected artifacts
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
 
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_seattle-miami",
                 "exit_code": 0,
@@ -1621,45 +1621,45 @@ TASKS = [
         annotator="0",
         user_id="task_44",
         instruction=(
-            "As a data&#8209;science automation agent, your task is to choose between Portland and Providence for model promotion under the Cross&#8209;City AUC&#8209;Gap Promotion Protocol while adhering to policy precedence and determinism. Utilize an absolute AUC&#8209;gap threshold of 0.03; if the gap is below this threshold, favor the city where the validated station condition is met; if both conditions are met, opt for the city with the most recent metrics.generated_ts. City specifics: Portland is situated at coordinates 47.6062,-122.3321, with a coverage radius of 60.0 km; the main coastal station must validate tide predictions using the 'harmonic_analysis' method, available from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; the processed dataset is /data/processed/timeseries_seattle_weather.csv (window 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z, row_count 240); the model in use is simple_model. Providence is positioned at 42.3601,-71.0589, with a coverage radius of 40.0 km; its main coastal station must validate tide predictions using the 'harmonic_analysis' method, available from 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z; the processed dataset is /data/processed/timeseries_boston_weather.csv (window 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z, row_count 120); the model in use is boston_harbor_model. Your deliverable should only include the selected city along with its model metrics (AUC and Accuracy), the predictions CSV path for the chosen model, and a processed&#8209;dataset summary (columns, row_count, min_timestamp, max_timestamp) for that city. For auditability, include a completion record titled 'ccap_promotion_seattle-boston' with exit_code 0 and printed timestamp 2024-02-08T12:58:00Z."
+            "As a data&#8209;science automation agent, your task is to choose between Portland and Providence for model promotion under the Cross&#8209;City AUC&#8209;Gap Promotion Protocol while adhering to policy precedence and determinism. Utilize an absolute AUC&#8209;gap threshold of 0.03; if the gap is below this threshold, favor the city where the validated station condition is met; if both conditions are met, opt for the city with the most recent metrics.generated_ts. City specifics: Portland is situated at coordinates 47.6062,-122.3321, with a coverage radius of 60.0 km; the main coastal station must validate tide predictions using the 'harmonic_analysis' method, available from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; the processed dataset is /data/processed/timeseries_seattle_weather.csv (window 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z, row_count 240); the model in use is simple_model. Providence is positioned at 42.3601,-71.0589, with a coverage radius of 40.0 km; its main coastal station must validate tide predictions using the 'harmonic_analysis' method, available from 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z; the processed dataset is /data/processed/timeseries_boston_weather.csv (window 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z, row_count 120); the model in use is boston_harbor_model. Your deliverable should only include the selected city along with its model metrics (AUC and Accuracy), the predictions CSV path for the chosen model, and a processed&# As the science automation agent, you are to decide between Portland and Providence for model promotion under the Cross-City AUC-Gap Promotion Protocol, following policy precedence and determinism. Apply an absolute AUC-gap threshold of 0.03; if the gap is less than this, select the city with the validated station condition met. If both cities meet this condition, choose the one with the latest metrics.generated_ts. City details: Portland is located at 47.6062,-122.332
         ),
         actions=[
-            # Resolve candidate stations per policy (Seattle)
+            # Determine eligible stations according to the policy (Seattle).
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062, "query_longitude": -122.3321, "radius_km": 60.0
             }),
-            # Validate Portland tide window/method
+            # Verify the tide calculation method for Portland.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-08T00:00:00Z"
             }),
-            # Portland metrics
+            # Portland measurements
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
 
-            # Resolve candidate stations per policy (Boston)
+            # Determine candidate stations according to the policy (Boston)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0
             }),
-            # Validate Providence tide window/method
+            # Verify the Providence tide timing/approach.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "8443970",
                 "window_start_ts": "2024-03-01T00:00:00Z",
                 "window_end_ts": "2024-03-02T00:00:00Z"
             }),
-            # Providence metrics
+            # Metrics for Providence
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
 
-            # Decision ⇒ choose Seattle; fetch chosen artifacts only
+            # Selection ⇒ opt for Seattle; retrieve only selected artifacts
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
 
-            # Deterministic audit record
+            # Predictable audit log entry
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_seattle-boston",
                 "exit_code": 0,
@@ -1678,11 +1678,11 @@ TASKS = [
             "You function as a data-science automation agent. Your task is to choose between Providence and Orlando for model promotion under the Cross-City AUC-Gap Promotion Protocol, adhering to policy precedence and determinism. Implement an absolute AUC-gap threshold of 0.02; when the gap is beneath this threshold, favor the city with validated station conditions; if both conditions are met, select the city with the latest metrics.generated_ts. City constraints: Providence is located at coordinates 42.3601,-71.0589 with a coverage radius of 40.0 km; the primary coastal station must confirm tide predictions using the 'harmonic_analysis' method available from 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z; the dataset processed is /data/processed/timeseries_boston_weather.csv (window 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z, row_count 120); the model of record is boston_harbor_model. Orlando is at coordinates 25.7617,-80.1918 with a coverage radius of 25.0 km; the primary coastal station must validate water levels with datum 'NAVD88' available from 2024-02-01T00:00:00Z to 2024-02-02T00:00:00Z; the dataset processed is /data/processed/timeseries_miami_weather.csv; the model of record is flood_risk_miami_v1. Your output returns only the selected city along with its model metrics (AUC and Accuracy), the predictions CSV path for the chosen model, and a summary of the processed dataset (columns, row_count, min_timestamp, max_timestamp) for the chosen city. For audit purposes, you provide a completion record labeled 'ccap_promotion_boston-miami' with exit_code 0 and printed timestamp 2024-03-01T13:18:00Z."
         ),
         actions=[
-            # Resolve stations (Boston)
+            # Identify stations (Boston)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0
             }),
-            # Validate Providence tide window/method; gather Providence metrics
+            # Verify the Providence tide window/method and collect Providence metrics.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "8443970",
                 "window_start_ts": "2024-03-01T00:00:00Z",
@@ -1691,11 +1691,11 @@ TASKS = [
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
 
-            # Resolve stations (Miami)
+            # Address Miami stations.
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0
             }),
-            # Validate Orlando datum/window; gather Orlando metrics
+            # Verify Orlando data/window; collect Orlando metrics.
             Action(name="GetWaterLevelsWindow", kwargs={
                 "station_id": "8723214",
                 "window_start_ts": "2024-02-01T00:00:00Z",
@@ -1704,14 +1704,14 @@ TASKS = [
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "flood_risk_miami_v1"}),
 
-            # Decision (AUC tie, both pass, choose Providence by recency); fetch chosen artifacts only
+            # Selection (AUC tie, both acceptable, opt for Providence based on latest data); retrieve selected artifacts exclusively.
             Action(name="GetPredictionsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_boston_weather.csv"
             }),
 
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_boston-miami",
                 "exit_code": 0,
@@ -1730,17 +1730,17 @@ TASKS = [
             "You serve as a data-science automation agent adhering to the City Status Compilation Protocol. Your mission is to compile a status snapshot for Providence while observing policy precedence and determinism. Operate with these constraints: the city of interest is Providence at coordinates 42.3601,-71.0589 with a coverage radius of 40.0 km; under policy, the primary coastal station must confirm tide predictions using the 'harmonic_analysis' method available from 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z; the dataset processed is accessible at /data/processed/timeseries_boston_weather.csv covering 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z with a row_count of 120; the model of record is boston_harbor_model. Your deliverable must include the city, the primary_station_id, the model's predictions CSV path, the model metrics (AUC and Accuracy), and a summary of the processed dataset (columns, row_count, min_timestamp, max_timestamp) for /data/processed/timeseries_boston_weather.csv. For audit transparency, incorporate a completion record labeled 'status_compilation_boston' with exit_code 0 and printed timestamp 2024-03-01T13:33:00Z."
         ),
         actions=[
-            # Resolve candidate stations from location context (policy requirement)
+            # Determine potential stations based on location context (policy necessity)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0
             }),
-            # Validate tide predictions method/window for the resolved primary station (8443970)
+            # Verify the tide prediction method/window for the identified primary station (8443970).
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "8443970",
                 "window_start_ts": "2024-03-01T00:00:00Z",
                 "window_end_ts": "2024-03-02T00:00:00Z"
             }),
-            # Model artifacts and dataset summary
+            # Summary of model artifacts and dataset.
             Action(name="GetPredictionsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
             Action(name="GetMetricsByModelName", kwargs={
@@ -1748,7 +1748,7 @@ TASKS = [
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_boston_weather.csv"
             }),
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "status_compilation_boston",
                 "exit_code": 0,
@@ -1794,17 +1794,17 @@ TASKS = [
             "Functioning as a data-science automation agent under the City Status Compilation Protocol, your aim is to compile a status snapshot for Portland while maintaining policy precedence and determinism. You work within these constraints: the city is Portland with coordinates 47.6062,-122.3321 and a coverage radius of 60.0 km; the primary coastal station is chosen based on that location context under policy and must validate tide predictions using the 'harmonic_analysis' method, available from 2024-02-01T00:00:00Z until 2024-02-08T00:00:00Z; access the processed dataset at /data/processed/timeseries_seattle_weather.csv covering from 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z with a row_count of 240; the model of record is simple_model. Your task includes the city, the primary_station_id, the predictions CSV path for the listed model, the model metrics (AUC and Accuracy), and a processed-dataset summary (columns, row_count, min_timestamp, max_timestamp) pertaining to /data/processed/timeseries_seattle_weather.csv. For audit purposes, add a completion record labeled 'status_compilation_seattle' with exit_code 0 and printed timestamp 2024-02-08T12:53:00Z."
         ),
         actions=[
-            # Resolve candidate stations from location context
+            # Determine potential stations based on location context.
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062, "query_longitude": -122.3321, "radius_km": 60.0
             }),
-            # Validate tide predictions method/window for the resolved primary station (9447130)
+            # Verify the tide forecast approach/timeframe for the identified main station (9447130).
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
                 "window_end_ts": "2024-02-08T00:00:00Z"
             }),
-            # Model artifacts and dataset summary
+            # Summary of model artifacts and datasets.
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetMetricsByModelName",
@@ -1812,7 +1812,7 @@ TASKS = [
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "status_compilation_seattle",
                 "exit_code": 0,
@@ -1831,11 +1831,11 @@ TASKS = [
             "As a data-science automation agent, your task is to choose between Portland and Orlando for model promotion based on the Cross-City AUC-Gap Promotion Protocol, ensuring adherence to policy precedence and determinism. You use an absolute AUC-gap threshold of 0.10; if the gap is beneath this threshold, opt for the city where the validated station condition is met; if both conditions are satisfied, select the city with the latest metrics.generated_ts. City specifics: Portland is located at coordinates 47.6062,-122.3321 with a coverage radius of 60.0 km; the main coastal station here must verify tide predictions using 'harmonic_analysis', available from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; the dataset used is /data/processed/timeseries_seattle_weather.csv (window 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z, row_count 240); the designated model is simple_model. Orlando is positioned at coordinates 25.7617,-80.1918 with a coverage radius of 25.0 km; its primary coastal station must confirm water levels with the 'NAVD88' datum, available from 2024-02-01T00:00:00Z to 2024-02-02T00:00:00Z; the dataset in use is /data/processed/timeseries_miami_weather.csv; the model of choice is flood_risk_miami_v1. Your output should include only the selected city with its model metrics (AUC and Accuracy), the path to the predictions CSV for the chosen model, and a processed dataset summary (columns, row_count, min_timestamp, max_timestamp) for that city. To ensure auditability, provide a completion record named 'ccap_promotion_seattle-miami' with exit_code 0 and a timestamp of 2024-02-08T12:57:00Z."
         ),
         actions=[
-            # Resolve stations (Seattle)
+            # Handle station data for Seattle.
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062, "query_longitude": -122.3321, "radius_km": 60.0
             }),
-            # Validate Portland tide window/method; gather Portland metrics
+            # Verify the Portland tide calculation approach and collect related metrics.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
@@ -1844,11 +1844,11 @@ TASKS = [
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
 
-            # Resolve stations (Miami)
+            # Address stations (Miami)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0
             }),
-            # Validate Orlando datum/window; gather Orlando metrics
+            # Verify Orlando data/window; collect Orlando metrics.
             Action(name="GetWaterLevelsWindow", kwargs={
                 "station_id": "8723214",
                 "window_start_ts": "2024-02-01T00:00:00Z",
@@ -1857,14 +1857,14 @@ TASKS = [
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "flood_risk_miami_v1"}),
 
-            # Decision (gap 0.79 vs 0.73 < 0.10 → pick by recency; Portland more recent) ⇒ choose Seattle; fetch chosen artifacts only
+            # Select Seattle based on recency, as the decision gap of 0.79 vs 0.73 is less than 0.10; retrieve only the selected artifacts.
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
 
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_seattle-miami",
                 "exit_code": 0,
@@ -1910,17 +1910,17 @@ TASKS = [
             "Acting as a data-science automation agent within the City Status Compilation Protocol, your task is to generate a status snapshot for Providence, adhering to policy precedence and determinism. Operate with these constraints: Providence is designated at coordinates 42.3601,-71.0589, maintaining a coverage radius of 40.0 km; the primary coastal station must be resolved from that context and needs to validate tide predictions using the 'harmonic_analysis' method available between 2024-03-01T00:00:00Z and 2024-03-02T00:00:00Z; the processed dataset is located at /data/processed/timeseries_boston_weather.csv, covering from 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z with 120 entries; the authoritative model is boston_harbor_model. Your output should include the city, primary_station_id, predictions CSV path for the mentioned model, the model metrics (AUC and Accuracy), and a summary of the processed dataset (columns, row_count, min_timestamp, max_timestamp) for /data/processed/timeseries_boston_weather.csv. Ensure auditability by providing a completion record labeled 'status_compilation_boston', with an exit_code 0 and a printed timestamp of 2024-03-01T13:35:00Z."
         ),
         actions=[
-            # Resolve candidate stations from location context (policy requirement)
+            # Determine potential stations based on the location context (policy obligation).
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0
             }),
-            # Validate tide predictions method/window for the resolved primary station (8443970)
+            # Verify the tidal prediction method/window for the specified primary station (8443970).
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "8443970",
                 "window_start_ts": "2024-03-01T00:00:00Z",
                 "window_end_ts": "2024-03-02T00:00:00Z"
             }),
-            # Model artifacts and dataset summary
+            # Summary of model artifacts and dataset.
             Action(name="GetPredictionsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
             Action(name="GetMetricsByModelName", kwargs={
@@ -1928,7 +1928,7 @@ TASKS = [
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_boston_weather.csv"
             }),
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "status_compilation_boston",
                 "exit_code": 0,
@@ -1947,11 +1947,11 @@ TASKS = [
             "Functioning as a data-science automation agent, your mission is to choose between Providence and Portland for model promotion in line with the Cross-City AUC-Gap Promotion Protocol, maintaining policy precedence and determinism. Implement an absolute AUC-gap threshold of 0.05; if the gap is under this level, prioritize the city where the validated station condition is met; if both cities fulfill this criterion, select the one with the latest metrics.generated_ts. City parameters: Providence is situated at coordinates 42.3601,-71.0589 with a coverage radius of 40.0 km; its primary coastal station is resolved from that context and must validate tide predictions using the 'harmonic_analysis' method available between 2024-03-01T00:00:00Z and 2024-03-02T00:00:00Z; the processed dataset is found at /data/processed/timeseries_boston_weather.csv (covering the period from 2024-03-01T00:00:00Z to 2024-03-06T00:00:00Z, with 120 rows); its designated model is boston_harbor_model. Portland is positioned at coordinates 47.6062,-122.3321 with a coverage radius of 60.0 km; the primary coastal station must be resolved in that context and validate tide predictions using the 'harmonic_analysis' method available between 2024-02-01T00:00:00Z and 2024-02-08T00:00:00Z; the processed dataset is located at /data/processed/timeseries_seattle_weather.csv (covering the window from 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z, with 240 entries); its specified model is simple_model. Your output should present only the selected city along with its model metrics (AUC and Accuracy), the predictions CSV path for the selected model, and a summary of the processed dataset (columns, row_count, min_timestamp, max_timestamp) for that city. Ensure auditability by including a completion record labeled 'ccap_promotion_boston-seattle', with an exit_code 0 and a printed timestamp of 2024-03-01T13:36:00Z."
         ),
         actions=[
-            # Resolve candidate stations per policy (Boston)
+            # Determine candidate stations based on the policy (Boston).
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0
             }),
-            # Validate Providence tide window/method; gather Providence metrics
+            # Verify the Providence tide approach and collect Providence metrics.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "8443970",
                 "window_start_ts": "2024-03-01T00:00:00Z",
@@ -1960,11 +1960,11 @@ TASKS = [
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
 
-            # Resolve candidate stations per policy (Seattle)
+            # Identify potential stations according to the policy (Seattle)
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062, "query_longitude": -122.3321, "radius_km": 60.0
             }),
-            # Validate Portland tide window/method; gather Portland metrics
+            # Verify the Portland tide parameters/approach; collect Portland data.
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130",
                 "window_start_ts": "2024-02-01T00:00:00Z",
@@ -1973,14 +1973,14 @@ TASKS = [
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
 
-            # Decision (gap 0.79 vs 0.73 ≥ 0.05) ⇒ choose Seattle; fetch chosen artifacts only
+            # Selection (gap 0.79 vs 0.73 ≥ 0.05) ⇒ opt for Seattle; retrieve only selected artifacts.
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"
             }),
 
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_boston-seattle",
                 "exit_code": 0,
@@ -2146,7 +2146,7 @@ TASKS = [
             "As a data-science automation agent, your requirement is to generate a comparative risk snapshot between Providence and Portland by executing the Multi-City Comparative Snapshot Protocol, adhering to policy precedence and determinism. Providence specifications: apply coordinates 42.3601,-71.0589 with a coverage radius of 40.0 km; confirm tide predictions utilizing method 'harmonic_analysis' for station 8443970 from 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z; reference /data/processed/timeseries_boston_weather.csv and model boston_harbor_model. Portland specifics: employ coordinates 47.6062,-122.3321 with a coverage radius of 60.0 km; validate tide predictions through method 'harmonic_analysis' for station 9447130 from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; refer to /data/processed/timeseries_seattle_weather.csv and model simple_model. Return the winning_city and, for each city, include the model metrics (AUC and Accuracy), the predictions CSV path, and a processed-dataset summary (columns, row_count, min_timestamp, max_timestamp). For auditability, ensure a completion record is labeled 'multi_snapshot_boston-seattle' with exit_code 0, stdout '', stderr '', printed_message 'multi_snapshot_boston-seattle completed', and the printed timestamp 2024-03-01T14:12:50Z."
         ),
         actions=[
-            # Providence
+            # Guidance
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
@@ -2168,7 +2168,7 @@ TASKS = [
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_seattle_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "multi_snapshot_boston-seattle",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -2185,26 +2185,26 @@ TASKS = [
             "As a data-science automation agent, determine whether Providence or Orlando should be selected for the model promotion in line with the Cross-City AUC-Gap Promotion Protocol while adhering to policy precedence and predictability. Employ a set AUC-gap threshold of 0.04; select the city whose validated station condition is successful if the gap is less than this limit; in cases both conditions are successful, choose based on the city with the latest metrics.generated_ts. Providence specifics: operate using coordinates 42.3601,-71.0589 within a 40.0 km coverage area; assure tide predictions validation employing 'harmonic_analysis' for station 8443970 from 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z; refer to /data/processed/timeseries_boston_weather.csv and the boston_harbor_model. Orlando specifics: operate with coordinates 25.7617,-80.1918 within a 25.0 km coverage area; ensure validation of water levels using datum 'NAVD88' for station 8723214 from 2024-02-01T00:00:00Z to 2024-02-02T00:00:00Z; refer to /data/processed/timeseries_miami_weather.csv and the flood_risk_miami_v1 model. Your output should display only the selected city along with its model metrics (AUC and Accuracy), the designated predictions CSV path for the selected model, and a summary of the processed dataset (columns, row_count, min_timestamp, max_timestamp) of the selected city. For auditing, attach a completion record tagged 'ccap_promotion_boston-miami' including exit_code 0, stdout '', stderr '', printed_message 'ccap_promotion_boston-miami completed', and the timestamp noted as 2024-03-01T14:13:30Z."
         ),
         actions=[
-            # Providence validations & metrics
+            # Providence checks and performance indicators
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                    "station_id": "8443970", "window_start_ts": "2024-03-01T00:00:00Z", "window_end_ts": "2024-03-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "boston_harbor_model"}),
-            # Orlando validations & metrics
+            # Orlando checks and measurements
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0}),
             Action(name="GetWaterLevelsWindow", kwargs={
                    "station_id": "8723214", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_miami_v1"}),
-            # Winner artifacts (Boston)
+            # Winning artifacts (Boston)
             Action(name="GetPredictionsByModelName", kwargs={
                    "model_name": "boston_harbor_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_boston_weather.csv"}),
-            # Audit log
+            # Log of audits
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_boston-miami",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -2221,7 +2221,7 @@ TASKS = [
             "Acting as a data-science automation agent, make a promotion choice between Oakland and Orlando by using the Cross-City AUC-Gap Promotion Protocol with this adjustment: employ an AUC gap threshold of 0.12; when |AUC(flood_risk_sf_v2) - AUC(flood_risk_miami_v1)| is less than 0.12, select the city with a passing validated station condition; otherwise opt for the city with a superior AUC. Ensure for Oakland that station 9414290 confirms tide predictions by method 'harmonic' during 2024-03-15T00:00:00Z to 2024-03-22T00:00:00Z; validate for Orlando that station 8723214 meets water levels with datum 'NAVD88' for 2024-02-01T00:00:00Z to 2024-02-02T00:00:00Z. If Oakland ends up being selected, extract the summary of the processed dataset from /data/processed/timeseries_sf_weather.csv; if Orlando is selected, obtain it from /data/processed/timeseries_miami_weather.csv. Log the completion in the terminal using command 'ccap_promotion_san-francisco-miami' with printed_ts '2024-03-18T15:45:00Z'. Deliver the chosen_city, its metrics (auc, accuracy), its predictions_csv_path, the processed_dataset_summary (columns, row_count, min_timestamp, max_timestamp), and the terminal log confirmation."
         ),
         actions=[
-            # SF validations and artifacts
+            # SF checks and resources
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 37.7749, "query_longitude": -122.4194, "radius_km": 50.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
@@ -2230,7 +2230,7 @@ TASKS = [
                 "window_end_ts": "2024-03-22T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_sf_v2"}),
-            # Orlando validations and artifacts
+            # Orlando checks and resources
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0}),
             Action(name="GetWaterLevelsWindow", kwargs={
@@ -2239,7 +2239,7 @@ TASKS = [
                 "window_end_ts": "2024-02-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_miami_v1"}),
-            # Winner artifacts (SF)
+            # Winning artifacts (SF)
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
@@ -2274,12 +2274,12 @@ TASKS = [
                    "station_id": "9447130", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-08T00:00:00Z"}),
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
-            # Winner: Portland
+            # Victorious: Portland
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_seattle_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_miami-seattle",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -2333,26 +2333,26 @@ TASKS = [
             "You function as a data-science automation agent. Your goal is to select either Portland or Orlando for model promotion according to the Cross-City AUC-Gap Promotion Protocol, ensuring adherence to policy precedence and determinism. An absolute AUC-gap threshold of 0.06 is applied; if the gap is under this threshold, prioritize the city with a validated station condition; if both qualify, choose based on the most recent metrics.generated_ts. City constraints: Portland is located at coordinates 47.6062,-122.3321 with a 60.0 km coverage radius; the primary coastal station is identified from the location context and must verify tide predictions using 'harmonic_analysis' available from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; the dataset processed is /data/processed/timeseries_seattle_weather.csv (window 2024-02-01T00:00:00Z to 2024-02-11T00:00:00Z, row_count 240); the reference model is simple_model. Orlando is located at coordinates 25.7617,-80.1918 with a 25.0 km coverage radius; the primary coastal station is identified from the location context and must validate water levels with 'NAVD88' datum accessible from 2024-02-01T00:00:00Z to 2024-02-02T00:00:00Z; the dataset processed is /data/processed/timeseries_miami_weather.csv; the reference model is flood_risk_miami_v1. Your task returns only the selected city along with its model metrics (AUC and Accuracy), the predictions CSV path for the chosen model, and a processed-dataset summary (columns, row_count, min_timestamp, max_timestamp) for the chosen city. For audit purposes, provide a completion record titled 'ccap_promotion_seattle-miami' with exit_code 0 and printed timestamp 2024-02-08T12:42:00Z."
         ),
         actions=[
-            # Resolve & validate Portland
+            # Address and confirm Portland.
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 47.6062, "query_longitude": -122.3321, "radius_km": 60.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                    "station_id": "9447130", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-08T00:00:00Z"}),
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
-            # Resolve & validate Orlando
+            # Address and verify Orlando.
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0}),
             Action(name="GetWaterLevelsWindow", kwargs={
                    "station_id": "8723214", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_miami_v1"}),
-            # Winner artifacts (gap == 0.06 ⇒ not below threshold ⇒ choose higher AUC: Portland)
+            # Winning artifacts (gap == 0.06 implies above threshold, select higher AUC: Portland)
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_seattle_weather.csv"}),
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_seattle-miami", "exit_code": 0, "stdout": "", "stderr": "",
                 "printed_message": "ccap_promotion_seattle-miami completed", "printed_ts": "2024-02-08T12:42:00Z"
@@ -2439,7 +2439,7 @@ TASKS = [
             "You are a data‑science automation agent. Your task is to choose between Providence and Portland for model promotion under the Cross‑City AUC‑Gap Promotion Protocol while respecting policy precedence and determinism. An absolute AUC‑gap threshold of 0.08 is applied; if the gap is below this threshold, favor the city with a passing validated station condition; if both conditions pass, select the city with the latest metrics.generated_ts. Providence setup: use coordinates 42.3601,-71.0589 with a 40.0 km coverage radius; validate tide predictions with 'harmonic_analysis' for station 8443970 from 2024‑03‑01T00:00:00Z through 2024‑03‑02T00:00:00Z; reference /data/processed/timeseries_boston_weather.csv and model boston_harbor_model. Portland setup: use coordinates 47.6062,-122.3321 with a 60.0 km coverage radius; validate tide predictions with 'harmonic_analysis' for station 9447130 from 2024‑02‑01T00:00:00Z through 2024‑02‑08T00:00:00Z; reference /data/processed/timeseries_seattle_weather.csv and model simple_model. The deliverable includes only the chosen_city with its model metrics (AUC and Accuracy), the predictions CSV path for the chosen model, and a summary of the processed‑dataset (columns, row_count, min_timestamp, max_timestamp) for the selected city. For audit purposes, incorporate a completion record tagged 'ccap_promotion_boston-seattle' with exit_code 0, stdout '', stderr '', printed_message 'ccap_promotion_boston-seattle completed', and a printed timestamp 2024‑03‑01T14:08:00Z."
         ),
         actions=[
-            # Providence
+            # Divine guidance or care.
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
@@ -2453,12 +2453,12 @@ TASKS = [
                 "station_id": "9447130", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-08T00:00:00Z"}),
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
-            # Winner: Portland
+            # Champion: Portland
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_boston-seattle",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -2475,26 +2475,26 @@ TASKS = [
             "You are a data‑science automation agent. Your task is to choose between Portland and Orlando for model promotion under the Cross‑City AUC‑Gap Promotion Protocol while respecting policy precedence and determinism. An absolute AUC‑gap threshold of 0.10 is applied; if the gap is below this threshold, favor the city with a passing validated station condition; if both pass, select the city with the latest metrics.generated_ts. Portland setup: coordinates 47.6062,-122.3321 with a 60.0 km coverage radius; validate tide predictions using 'harmonic_analysis' for station 9447130 from 2024‑02‑01T00:00:00Z to 2024‑02‑08T00:00:00Z; processed dataset /data/processed/timeseries_seattle_weather.csv; model simple_model. Orlando setup: coordinates 25.7617,-80.1918 with a 25.0 km coverage radius; validate water levels using datum 'NAVD88' for station 8723214 from 2024‑02‑01T00:00:00Z to 2024‑02‑02T00:00:00Z; processed dataset /data/processed/timeseries_miami_weather.csv; model flood_risk_miami_v1. The deliverable includes only the chosen_city with its model metrics (AUC and Accuracy), the predictions CSV path for the chosen model, and a summary of the processed‑dataset (columns, row_count, min_timestamp, max_timestamp) for the chosen city. For audit purposes, incorporate a completion record tagged 'ccap_promotion_seattle-miami' with exit_code 0, stdout '', stderr '', printed_message 'ccap_promotion_seattle-miami completed', and a printed timestamp 2024‑02‑08T13:02:00Z."
         ),
         actions=[
-            # Portland validations & metrics
+            # Portland checks and measurements
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 47.6062, "query_longitude": -122.3321, "radius_km": 60.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "9447130", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-08T00:00:00Z"}),
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
-            # Orlando validations & metrics
+            # Orlando checks and performance indicators
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0}),
             Action(name="GetWaterLevelsWindow", kwargs={
                 "station_id": "8723214", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "flood_risk_miami_v1"}),
-            # Winner: Portland
+            # Champion: Portland
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_seattle-miami",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -2539,26 +2539,26 @@ TASKS = [
             "Act as a data-science automation agent tasked to determine whether Oakland or Orlando should be selected for model promotion under the Cross-City AUC-Gap Promotion Protocol while maintaining policy precedence and determinism. An absolute AUC-gap threshold of 0.06 should be applied; if the gap is below this threshold, favour the city whose validated station condition is met; if both satisfy conditions, choose based on the most recent metrics.generated_ts. For Oakland, apply 37.7749,-122.4194 coordinates with a 50.0 km coverage radius and validate tide predictions via 'harmonic_analysis' for station 9414290 from 2024-03-15T00:00:00Z to 2024-03-22T00:00:00Z. Reference /data/processed/timeseries_sf_weather.csv and use the model flood_risk_sf_v2. For Orlando, work with coordinates 25.7617,-80.1918 with a 25.0 km coverage radius; validate water levels using datum 'NAVD88' for station 8723214 from 2024-02-01T00:00:00Z to 2024-02-02T00:00:00Z. Use /data/processed/timeseries_miami_weather.csv and the model flood_risk_miami_v1. The deliverable should only return the chosen_city along with its model metrics (AUC and Accuracy), the predictions CSV path for the chosen model, and a processed-dataset summary (columns, row_count, min_timestamp, max_timestamp) for the selected city. To ensure auditability, include a completion record labeled 'ccap_promotion_san-francisco-miami' with exit_code 0, stdout '', stderr '', printed_message 'ccap_promotion_san-francisco-miami completed', and a printed timestamp of 2024-03-18T16:28:10Z."
         ),
         actions=[
-            # SF validations & metrics
+            # Salesforce validations and performance indicators
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 37.7749, "query_longitude": -122.4194, "radius_km": 50.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                    "station_id": "9414290", "window_start_ts": "2024-03-15T00:00:00Z", "window_end_ts": "2024-03-22T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_sf_v2"}),
-            # Orlando validations & metrics
+            # Orlando checks and measurements
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0}),
             Action(name="GetWaterLevelsWindow", kwargs={
                    "station_id": "8723214", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_miami_v1"}),
-            # Winner artifacts (San Francisco)
+            # Winning artifacts (San Francisco)
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_sf_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_san-francisco-miami",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -2582,19 +2582,19 @@ TASKS = [
                 "station_id": "9414290", "window_start_ts": "2024-03-15T00:00:00Z", "window_end_ts": "2024-03-22T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "flood_risk_sf_v2"}),
-            # Providence
+            # Foresight
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                 "station_id": "8443970", "window_start_ts": "2024-03-01T00:00:00Z", "window_end_ts": "2024-03-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
-            # Winner: Oakland
+            # Victorious team: Oakland
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_sf_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_san-francisco-boston",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -2661,7 +2661,7 @@ TASKS = [
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "boston_harbor_model"}),
 
-            # Winner: Oakland (AUC 0.89 > 0.73)
+            # Winner: Oakland (AUC 0.89 surpasses 0.73)
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
@@ -2693,19 +2693,19 @@ TASKS = [
                    "station_id": "9447130", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-08T00:00:00Z"}),
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
-            # Providence
+            # Foresight
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                    "station_id": "8443970", "window_start_ts": "2024-03-01T00:00:00Z", "window_end_ts": "2024-03-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                 "model_name": "boston_harbor_model"}),
-            # Winner: Portland
+            # Champion: Portland
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                 "csv_path": "/data/processed/timeseries_seattle_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_seattle-boston",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -2892,7 +2892,7 @@ TASKS = [
             "As a data-science automation agent, your aim is to choose between Providence and Portland for model promotion adhering to the Cross-City AUC-Gap Promotion Protocol while following policy precedence and determinism. Implement an absolute AUC-gap threshold of 0.04; if the gap falls below this threshold, prioritize the city with validated station conditions; if both cities' stations validate, opt for the city with the latest metrics.generated_ts. Providence requirements include coordinates 42.3601,-71.0589 with a coverage radius of 40.0 km; station validation entails tide predictions using the 'harmonic_analysis' method available from 2024-03-01T00:00:00Z to 2024-03-02T00:00:00Z; utilize processed dataset /data/processed/timeseries_boston_weather.csv; and the model boston_harbor_model. For Portland, follow constraints including coordinates 47.6062,-122.3321 and a coverage radius of 60.0 km; verify station validation through tide predictions using the 'harmonic_analysis' method available from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; processed dataset /data/processed/timeseries_seattle_weather.csv; and model simple_model. If Portland is selected, consult the processed-dataset summary from /data/processed/timeseries_seattle_weather.csv; if Providence is selected, review it from /data/processed/timeseries_boston_weather.csv. Your output should provide only the chosen_city, including its model metrics (AUC and Accuracy), the predictions_csv_path for the chosen model, and a processed-dataset summary (columns, row_count, min_timestamp, max_timestamp) for the selected city. To ensure auditability, add a completion record tagged 'ccap_promotion_boston-seattle' with exit_code 0, stdout '', stderr '', printed_message 'ccap_promotion_boston-seattle completed', and a printed timestamp 2024-03-01T13:40:00Z."
         ),
         actions=[
-            # Providence
+            # Foresight
             Action(name="GetStationsByLocation", kwargs={
                 "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0
             }),
@@ -2916,7 +2916,7 @@ TASKS = [
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
 
-            # Winner: Portland
+            # Portland is the victor.
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
@@ -3031,7 +3031,7 @@ TASKS = [
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_seattle_weather.csv"}),
 
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "multi_snapshot_san-francisco-seattle",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -3048,7 +3048,7 @@ TASKS = [
             "Act as a data‑science automation agent and determine the better choice between Oakland and Orlando for model promotion under the Cross‑City AUC‑Gap Promotion Protocol, ensuring adherence to policy precedence and determinism. Utilize an absolute AUC‑gap threshold of 0.09; if the gap is within this threshold, favor the city whose validated station condition is confirmed; if both conditions are met, select the city with the latest metrics.generated_ts. Oakland is located at coordinates 37.7749,-122.4194 with a 50.0 km coverage radius; the primary coastal station is derived from the location context and should validate tide predictions using the 'harmonic_analysis' method available from 2024‑03‑15T00:00:00Z to 2024‑03‑22T00:00:00Z; the processed dataset is /data/processed/timeseries_sf_weather.csv, and the model of record is flood_risk_sf_v2. Orlando is positioned at coordinates 25.7617,-80.1918 with a 25.0 km coverage radius; the primary coastal station is drawn from the location context and needs to validate water levels with the datum 'NAVD88' available from 2024‑02‑01T00:00:00Z to 2024‑02‑02T00:00:00Z; the processed dataset is /data/processed/timeseries_miami_weather.csv, and the model of record is flood_risk_miami_v1. If Oakland is chosen, consult the processed‑dataset summary from /data/processed/timeseries_sf_weather.csv; if Orlando is selected, use the summary from /data/processed/timeseries_miami_weather.csv. The output includes only the chosen_city with its model metrics (AUC and Accuracy), the predictions_csv_path for the chosen model, and a processed‑dataset summary (columns, row_count, min_timestamp, max_timestamp) for the selected city. Ensure auditability by recording a completion record tagged 'ccap_promotion_san-francisco-miami' with exit_code 0, stdout '', stderr '', printed_message 'ccap_promotion_san-francisco-miami completed', and the printed timestamp 2024‑03‑18T16:01:00Z."
         ),
         actions=[
-            # Oakland validations and metrics
+            # Oakland checks and measurements
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 37.7749, "query_longitude": -122.4194, "radius_km": 50.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
@@ -3056,7 +3056,7 @@ TASKS = [
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_sf_v2"}),
 
-            # Orlando validations and metrics
+            # Orlando checks and measurements
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0}),
             Action(name="GetWaterLevelsWindow", kwargs={
@@ -3064,13 +3064,13 @@ TASKS = [
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_miami_v1"}),
 
-            # Winner artifacts (AUC 0.89 − 0.73 ≥ 0.09 ⇒ Oakland)
+            # Winning artifacts (AUC 0.89 - 0.73 ≥ 0.09 ⇒ Oakland)
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_sf_weather.csv"}),
 
-            # Deterministic audit record
+            # Predictable audit log
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_san-francisco-miami",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -3087,7 +3087,7 @@ TASKS = [
             "Serve as a data‑science automation agent to choose between Providence and Oakland for model promotion under the Cross‑City AUC‑Gap Promotion Protocol, respecting policy precedence and determinism. Implement an absolute AUC‑gap threshold of 0.06; if the gap falls below this threshold, select the city with the successfully validated station condition; if both validate, pick the city with the most updated metrics.generated_ts. Providence is located at coordinates 42.3601,-71.0589 with a coverage radius of 40.0 km; the primary coastal station is resolved from that location context and must validate tide predictions using the 'harmonic_analysis' method available from 2024‑03‑01T00:00:00Z to 2024‑03‑02T00:00:00Z; the processed dataset is /data/processed/timeseries_boston_weather.csv, and the model of record is boston_harbor_model. Oakland is at coordinates 37.7749,-122.4194 with a coverage radius of 50.0 km; the primary coastal station is determined from that location context and should validate tide predictions using 'harmonic_analysis' available from 2024‑03‑15T00:00:00Z through 2024‑03‑22T00:00:00Z; the processed dataset is /data/processed/timeseries_sf_weather.csv, and the model of record is flood_risk_sf_v2. The output returns only the chosen_city with its model metrics (AUC and Accuracy), the predictions_csv_path for the selected model, and a processed‑dataset summary (columns, row_count, min_timestamp, max_timestamp) for the chosen city. Ensure traceability by recording a completion document labeled 'ccap_promotion_boston-san-francisco' with exit_code 0, stdout '', stderr '', printed_message 'ccap_promotion_boston-san-francisco completed', and a printed timestamp 2024‑03‑18T16:02:00Z."
         ),
         actions=[
-            # Providence validation and metrics
+            # Validation and metrics for Providence
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
@@ -3095,7 +3095,7 @@ TASKS = [
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "boston_harbor_model"}),
 
-            # Oakland validation and metrics
+            # Validation and metrics for Oakland.
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 37.7749, "query_longitude": -122.4194, "radius_km": 50.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
@@ -3103,13 +3103,13 @@ TASKS = [
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_sf_v2"}),
 
-            # Winner artifacts (AUC 0.89 − 0.73 ≥ 0.06 ⇒ Oakland)
+            # Winning artifacts (AUC 0.89 - 0.73 ≥ 0.06 ⇒ Oakland)
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_sf_weather.csv"}),
 
-            # Audit
+            # Review
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_boston-san-francisco",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -3234,7 +3234,7 @@ TASKS = [
             "You function as a data‑science automation agent. Your goal is to select between Orlando and Providence for model promotion following the Cross‑City AUC‑Gap Promotion Protocol while adhering to policy precedence and determinism. Implement an absolute AUC‑gap threshold of 0.02; if the gap is less than this threshold, favor the city where the validated station condition is met; if both cities meet the condition, select the one with the latest metrics.generated_ts. Orlando, located at 25.7617,-80.1918, has a coverage radius of 25.0 km; the primary coastal station is resolved from that location context and must validate water levels with the datum 'NAVD88' available from 2024‑02‑01T00:00:00Z through 2024‑02‑02T00:00:00Z; the processed dataset can be found at /data/processed/timeseries_miami_weather.csv; the model of record is flood_risk_miami_v1. Providence, positioned at 42.3601,-71.0589, encompasses a coverage radius of 40.0 km; the primary coastal station is resolved from the location context and must authenticate tide predictions using the 'harmonic_analysis' method available from 2024‑03‑01T00:00:00Z through 2024‑03‑02T00:00:00Z; the processed dataset is stored at /data/processed/timeseries_boston_weather.csv; the recording model is boston_harbor_model. You’ll provide only the chosen_city with its model metrics (AUC and Accuracy), predictions_csv_path for the selected model, and a processed‑dataset summary (columns, row_count, min_timestamp, max_timestamp) for the chosen city. Ensure auditability by including a completion record tagged 'ccap_promotion_miami-boston' with exit_code 0 and a the printed timestamp 2024‑03‑01T14:04:00Z."
         ),
         actions=[
-            # Orlando validations & metrics
+            # Orlando validation processes and performance indicators
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0}),
             Action(name="GetWaterLevelsWindow", kwargs={
@@ -3242,7 +3242,7 @@ TASKS = [
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_miami_v1"}),
 
-            # Providence validations & metrics
+            # Providence checks and performance indicators
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
@@ -3250,13 +3250,13 @@ TASKS = [
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "boston_harbor_model"}),
 
-            # Winner artifacts (Boston by recency when gap < threshold and both pass)
+            # Artifacts for winners (Boston based on recency when the gap is below the threshold and both conditions are met)
             Action(name="GetPredictionsByModelName", kwargs={
                    "model_name": "boston_harbor_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_boston_weather.csv"}),
 
-            # Audit
+            # Review
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_miami-boston",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -3273,18 +3273,18 @@ TASKS = [
             "You operate as a data‑science automation agent. Your task is to choose between Providence and Oakland for model promotion according to the Cross‑City AUC‑Gap Promotion Protocol while following policy precedence and determinism. Apply an absolute AUC‑gap threshold of 0.09; if the gap falls below this threshold, prioritize the city where the validated station condition is satisfied; if both cities are satisfactory, pick the city with the most up-to-date metrics.generated_ts. Providence details: located at 42.3601,-71.0589 (radius 40.0 km); validate tide predictions via the 'harmonic_analysis' method for station 8443970 from 2024‑03‑01T00:00:00Z to 2024‑03‑02T00:00:00Z; dataset location is /data/processed/timeseries_boston_weather.csv; model is boston_harbor_model. Oakland specifics: situated at 37.7749,-122.4194 (radius 50.0 km); use 'harmonic_analysis' to validate tide predictions for station 9414290 from 2024‑03‑15T00:00:00Z to 2024‑03‑22T00:00:00Z; processed dataset is located at /data/processed/timeseries_sf_weather.csv; model is flood_risk_sf_v2. You will return solely the chosen_city with its model metrics (AUC and Accuracy), the predictions CSV path for the selected model, and a processed‑dataset summary (columns, row_count, min_timestamp, max_timestamp) for the chosen city. Ensure auditability by providing a completion record labeled 'ccap_promotion_boston-san-francisco' with an exit_code of 0 and a printed timestamp 2024‑03‑18T16:36:00Z."
         ),
         actions=[
-            # Providence validations & metrics
+            # Validations and metrics for Providence
             Action(name="GetStationsByLocation", kwargs={"query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={"station_id": "8443970","window_start_ts":"2024-03-01T00:00:00Z","window_end_ts":"2024-03-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={"model_name": "boston_harbor_model"}),
-            # Oakland validations & metrics
+            # Oakland checks and measurements
             Action(name="GetStationsByLocation", kwargs={"query_latitude": 37.7749, "query_longitude": -122.4194, "radius_km": 50.0}),
             Action(name="GetTidePredictionsWindow", kwargs={"station_id": "9414290","window_start_ts":"2024-03-15T00:00:00Z","window_end_ts":"2024-03-22T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={"model_name": "flood_risk_sf_v2"}),
-            # Winner artifacts (San Francisco)
+            # Winning artifacts (San Francisco)
             Action(name="GetPredictionsByModelName", kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={"csv_path": "/data/processed/timeseries_sf_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_boston-san-francisco",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -3312,7 +3312,7 @@ TASKS = [
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_seattle_weather.csv"}),
-            # Providence
+            # Foresight
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
@@ -3323,7 +3323,7 @@ TASKS = [
                    "model_name": "boston_harbor_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_boston_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "multi_snapshot_seattle-boston",
                 "exit_code": 0,
@@ -3342,26 +3342,26 @@ TASKS = [
             "You function as a data-science automation agent. Your task is to opt between Oakland and Portland for model promotion following the Cross-City AUC-Gap Promotion Protocol, with adherence to policy precedence and determinism. Apply a strict AUC-gap threshold of 0.08; when the gap is beneath this limit, prioritize the city where the validated station condition succeeds; if both conditions succeed, favor the city with the most updated metrics.generated_ts. Oakland parameters: utilize coordinates 37.7749,-122.4194 with a 50.0 km coverage radius; verify tide predictions employing 'harmonic_analysis' for station 9414290 from 2024-03-15T00:00:00Z to 2024-03-22T00:00:00Z; reference /data/processed/timeseries_sf_weather.csv and model flood_risk_sf_v2. Portland parameters: utilize coordinates 47.6062,-122.3321 with a 60.0 km coverage radius; verify tide predictions employing 'harmonic_analysis' for station 9447130 from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; reference /data/processed/timeseries_seattle_weather.csv and apply model simple_model. Deliver only the chosen_city in addition to its model metrics (AUC and Accuracy), the predictions CSV path for the selected model, and a processed dataset summary (columns, row_count, min_timestamp, max_timestamp) for the chosen city. For audit purposes, append a completion record titled 'ccap_promotion_san-francisco-seattle' with a timestamp 2024-03-18T16:05:00Z."
         ),
         actions=[
-            # SF validations and metrics
+            # Salesforce validations and performance metrics
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 37.7749, "query_longitude": -122.4194, "radius_km": 50.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                    "station_id": "9414290", "window_start_ts": "2024-03-15T00:00:00Z", "window_end_ts": "2024-03-22T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_sf_v2"}),
-            # Portland validations and metrics
+            # Validation and metrics for Portland
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 47.6062, "query_longitude": -122.3321, "radius_km": 60.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                    "station_id": "9447130", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-08T00:00:00Z"}),
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
-            # Winner artifacts (San Francisco)
+            # Winning artifacts (San Francisco)
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_sf_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_san-francisco-seattle",
                 "exit_code": 0,
@@ -3380,26 +3380,26 @@ TASKS = [
             "As a data-science automation agent, your task is to choose between Orlando and Portland for model promotion following the Cross-City AUC-Gap Promotion Protocol, ensuring policy precedence and determinism are upheld. Utilize an absolute AUC-gap threshold of 0.05; should the gap fall below this threshold, favor the city whose validated station condition succeeds; if both conditions are met, select the city with the latest metrics.generated_ts. Orlando stipulations include using coordinates 25.7617,-80.1918 with a coverage radius of 25.0 km; validate water levels using datum 'NAVD88' for station 8723214 from 2024-02-01T00:00:00Z to 2024-02-02T00:00:00Z; reference /data/processed/timeseries_miami_weather.csv and employ model flood_risk_miami_v1. Portland requirements involve using coordinates 47.6062,-122.3321 with a coverage radius of 60.0 km; confirm tide predictions via method 'harmonic_analysis' for station 9447130 from 2024-02-01T00:00:00Z to 2024-02-08T00:00:00Z; reference /data/processed/timeseries_seattle_weather.csv and employ model simple_model. Your output should list only the chosen_city along with its model metrics (AUC and Accuracy), the path to the predictions CSV of the selected model, and a processed-dataset summary (columns, row_count, min_timestamp, max_timestamp) for the chosen city. For auditability purposes, include a completion record tagged 'ccap_promotion_miami-seattle' with a printed timestamp of 2024-02-08T12:58:30Z."
         ),
         actions=[
-            # Orlando validations and metrics
+            # Orlando checks and measurements
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0}),
             Action(name="GetWaterLevelsWindow", kwargs={
                    "station_id": "8723214", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_miami_v1"}),
-            # Portland validations and metrics
+            # Portland checks and measurements
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 47.6062, "query_longitude": -122.3321, "radius_km": 60.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                    "station_id": "9447130", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-08T00:00:00Z"}),
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
-            # Winner artifacts (Seattle)
+            # Winning artifacts (Seattle)
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_seattle_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_miami-seattle",
                 "exit_code": 0,
@@ -3448,26 +3448,26 @@ TASKS = [
             "As a data‑science automation agent, your task is to select either Providence or Orlando for model promotion in accordance with the Cross‑City AUC‑Gap Promotion Protocol, ensuring adherence to policy precedence and determinism. Utilize an absolute AUC‑gap threshold of 0.03; if the gap falls below this level, prioritize the city whose validated station condition is met; if both conditions are met, opt for the city with the latest metrics.generated_ts. Providence, located at 42.3601,-71.0589, has a coverage radius of 40.0 km, where the primary coastal station must validate tide forecasts using the 'harmonic_analysis' method from 2024‑03‑01T00:00:00Z to 2024‑03‑02T00:00:00Z; the processed dataset is found at /data/processed/timeseries_boston_weather.csv (window 2024‑03‑01T00:00:00Z to 2024‑03‑06T00:00:00Z, row_count 120); the designated model is boston_harbor_model. Orlando, positioned at 25.7617,-80.1918, has a coverage radius of 25.0 km, where the primary coastal station's water levels must be validated with datum 'NAVD88' from 2024‑02‑01T00:00:00Z to 2024‑02‑02T00:00:00Z; the dataset is located at /data/processed/timeseries_miami_weather.csv (window 2024‑02‑01T00:00:00Z to 2024‑02‑05T00:00:00Z, row_count 96); flood_risk_miami_v1 is the model in use. Your output will include only the chosen_city, its model metrics (AUC and Accuracy), predictions_csv_path for the selected model, and a summary of the processed‑dataset (columns, row_count, min_timestamp, max_timestamp) for that city. Ensure auditability by adding a completion record titled 'ccap_promotion_boston-miami' with the timestamp 2024‑03‑01T13:59:00Z."
         ),
         actions=[
-            # Providence validations & metrics
+            # Validation and metrics for Providence.
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                    "station_id": "8443970", "window_start_ts": "2024-03-01T00:00:00Z", "window_end_ts": "2024-03-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "boston_harbor_model"}),
-            # Orlando validations & metrics
+            # Orlando checks and measurements
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0}),
             Action(name="GetWaterLevelsWindow", kwargs={
                    "station_id": "8723214", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_miami_v1"}),
-            # Winner: Providence (tie on AUC, both pass, Providence more recent)
+            # Winner: Providence (equal AUC, both successful, Providence is more recent)
             Action(name="GetPredictionsByModelName", kwargs={
                    "model_name": "boston_harbor_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_boston_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_boston-miami",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -3491,19 +3491,19 @@ TASKS = [
                    "station_id": "9414290", "window_start_ts": "2024-03-15T00:00:00Z", "window_end_ts": "2024-03-22T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_sf_v2"}),
-            # Providence
+            # Foresight
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                    "station_id": "8443970", "window_start_ts": "2024-03-01T00:00:00Z", "window_end_ts": "2024-03-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "boston_harbor_model"}),
-            # Winner SF
+            # Champion SF
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_sf_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_san-francisco-boston",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -3520,7 +3520,7 @@ TASKS = [
             "You are a data‑science automation agent. Your task is to generate a comparative risk overview between Providence and Portland by utilizing the Multi‑City Comparative Snapshot Protocol, ensuring adherence to policy precedence and determinism. Boston's parameters: coordinates 42.3601,-71.0589 with a coverage radius of 40.0 km; verify tide predictions using the 'harmonic_analysis' method from 2024‑03‑01T00:00:00Z to 2024‑03‑02T00:00:00Z; dataset utilized /data/processed/timeseries_boston_weather.csv; model boston_harbor_model. Seattle's parameters: coordinates 47.6062,-122.3321 with a coverage radius of 60.0 km; validate tidal forecasts via 'harmonic_analysis' from 2024‑02‑01T00:00:00Z to 2024‑02‑08T00:00:00Z; dataset used /data/processed/timeseries_seattle_weather.csv; model simple_model. Provide the winning_city and, for each city, include model metrics (AUC and Accuracy), the predictions_csv_path, and a processed‑dataset summary (columns, row_count, min_timestamp, max_timestamp). For auditability, register a completion record labeled 'multi_snapshot_boston-seattle' with the timestamp printed 2024‑03‑01T13:57:30Z."
         ),
         actions=[
-            # Providence
+            # Divine guidance or care.
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
@@ -3542,7 +3542,7 @@ TASKS = [
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_seattle_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "multi_snapshot_boston-seattle",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -3566,19 +3566,19 @@ TASKS = [
                    "station_id": "9447130", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-08T00:00:00Z"}),
             Action(name="GetMetricsByModelName",
                    kwargs={"model_name": "simple_model"}),
-            # Providence
+            # Foresight
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 42.3601, "query_longitude": -71.0589, "radius_km": 40.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                    "station_id": "8443970", "window_start_ts": "2024-03-01T00:00:00Z", "window_end_ts": "2024-03-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "boston_harbor_model"}),
-            # Winner: Portland
+            # Champion: Portland
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "simple_model"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_seattle_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_seattle-boston",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -3595,26 +3595,26 @@ TASKS = [
             "As a data-science automation agent, your task is to choose between Oakland and Orlando for model promotion following the Cross-City AUC-Gap Promotion Protocol while respecting policy precedence and determinism. Utilize an absolute AUC-gap threshold of 0.11; if the gap is under this threshold, choose the city where the validated station condition is met; if both conditions are satisfied, select the city with the most recent metrics.generated_ts. Oakland is positioned at coordinates 37.7749,-122.4194 with a coverage radius of 50.0 km; the main coastal station is determined from that location context and should validate tide predictions using the 'harmonic_analysis' method available from 2024-03-15T00:00:00Z through 2024-03-22T00:00:00Z; the processed dataset is /data/processed/timeseries_sf_weather.csv; the model in use is flood_risk_sf_v2. Orlando is situated at coordinates 25.7617,-80.1918 with a coverage radius of 25.0 km; the primary coastal station is identified from that location context and must validate water levels with datum 'NAVD88' available from 2024-02-01T00:00:00Z through 2024-02-02T00:00:00Z; the processed dataset is /data/processed/timeseries_miami_weather.csv; the model applied is flood_risk_miami_v1. Your output should only include the chosen_city along with its model metrics (AUC and Accuracy), the predictions_csv_path for the selected model, and a processed-dataset summary (columns, row_count, min_timestamp, max_timestamp) for the selected city. For traceability, provide a completion record labeled 'ccap_promotion_san-francisco-miami' with a logged timestamp 2024-03-18T16:14:00Z."
         ),
         actions=[
-            # Oakland validations & metrics
+            # Oakland checks and measurements
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 37.7749, "query_longitude": -122.4194, "radius_km": 50.0}),
             Action(name="GetTidePredictionsWindow", kwargs={
                    "station_id": "9414290", "window_start_ts": "2024-03-15T00:00:00Z", "window_end_ts": "2024-03-22T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_sf_v2"}),
-            # Orlando validations & metrics
+            # Orlando checks and performance indicators
             Action(name="GetStationsByLocation", kwargs={
                    "query_latitude": 25.7617, "query_longitude": -80.1918, "radius_km": 25.0}),
             Action(name="GetWaterLevelsWindow", kwargs={
                    "station_id": "8723214", "window_start_ts": "2024-02-01T00:00:00Z", "window_end_ts": "2024-02-02T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_miami_v1"}),
-            # Winner: Oakland
+            # Victorious team: Oakland
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_sf_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_san-francisco-miami",
                 "exit_code": 0, "stdout": "", "stderr": "",
@@ -3673,12 +3673,12 @@ TASKS = [
                    "station_id": "9414290", "window_start_ts": "2024-03-15T00:00:00Z", "window_end_ts": "2024-03-22T00:00:00Z"}),
             Action(name="GetMetricsByModelName", kwargs={
                    "model_name": "flood_risk_sf_v2"}),
-            # Winner: Oakland
+            # Victorious team: Oakland
             Action(name="GetPredictionsByModelName",
                    kwargs={"model_name": "flood_risk_sf_v2"}),
             Action(name="GetProcessedTimeseriesSummary", kwargs={
                    "csv_path": "/data/processed/timeseries_sf_weather.csv"}),
-            # Log
+            # Record
             Action(name="AppendTerminalLogEntry", kwargs={
                 "command": "ccap_promotion_seattle-san-francisco",
                 "exit_code": 0, "stdout": "", "stderr": "",

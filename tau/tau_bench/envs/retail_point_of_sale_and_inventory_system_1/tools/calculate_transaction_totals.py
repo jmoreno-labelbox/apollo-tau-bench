@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,8 +12,8 @@ class CalculateTransactionTotals(Tool):
         promotion_ids = kwargs.get('promotion_ids', [])
         credit_amount = kwargs.get('credit_amount', 0.0)
 
-        products = list(data.get("products", {}).values())  # Corrigido para lista
-        promotions = data.get("promotions", [])  # Corrigido para lista
+        products = list(data.get("products", {}).values())  # Ajustado para lista
+        promotions = data.get("promotions", [])  # Ajustado para lista
 
         subtotal = 0.0
         total_discount = 0.0

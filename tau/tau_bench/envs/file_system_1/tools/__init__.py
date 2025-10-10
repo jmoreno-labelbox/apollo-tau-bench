@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .get_archive_instructions_by_id import GetArchiveInstructionsByID
 from .get_file_check_task_by_id import GetFileCheckTaskByID

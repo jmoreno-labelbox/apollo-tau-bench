@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class SchedulePropertyShowing(Tool):
                 "error": "property_id, client_id, broker_id, and scheduled_time are required"
             }, indent=2)
         
-        # Create showing appointment
+        # Generate appointment display
         showing = {
             "showing_id": 901,
             "property_id": property_id,

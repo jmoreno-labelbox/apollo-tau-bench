@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class SearchGetSupplyOrders(Tool):
                 "status": "failed"
             })
 
-        # Basic validation
+        # Fundamental validation
         if min_quantity is not None and min_quantity < 0:
             return json.dumps({"error": "Minimum quantity must be non-negative", "status": "failed"})
         if max_quantity is not None and max_quantity < 0:
@@ -30,7 +30,7 @@ class SearchGetSupplyOrders(Tool):
         if max_cost is not None and max_cost < 0:
             return json.dumps({"error": "Maximum cost must be non-negative", "status": "failed"})
 
-        # Handle status filtering (single or multiple)
+        # Manage filtering based on status (single or multiple).
         if status and statuses:
             return json.dumps({
                 "error": "Cannot specify both 'status' and 'statuses' parameters. Use one or the other.",
@@ -50,7 +50,7 @@ class SearchGetSupplyOrders(Tool):
                 return json.dumps({"error": f"Invalid statuses: {', '.join(invalid_statuses)}. Valid statuses: {', '.join(valid_statuses)}", "status": "failed"})
             status_filter = statuses
 
-        # Get product information for item-to-product mapping
+        # Retrieve product details for item-to-product associations.
         products = list(data.get("products", {}).values())
         item_to_product_map = {}
         for product in products:
@@ -60,7 +60,7 @@ class SearchGetSupplyOrders(Tool):
                 for item_id in variants.keys():
                     item_to_product_map[item_id] = product_id
 
-        # Filter supply orders and collect IDs
+        # Select supply orders and gather their IDs.
         supply_orders = data.get("supply_orders", [])
         all_supply_order_ids = set()
         all_supplier_ids = set()
@@ -73,7 +73,7 @@ class SearchGetSupplyOrders(Tool):
             order_status = order.get("status", "")
             order_cost = order.get("total_cost", 0.0)
 
-            # Apply filters
+            # Implement filters
             if order_supplier_id not in supplier_ids:
                 continue
             if min_quantity is not None and order_quantity < min_quantity:
@@ -87,7 +87,7 @@ class SearchGetSupplyOrders(Tool):
             if max_cost is not None and order_cost > max_cost:
                 continue
 
-            # Collect IDs from matching orders
+            # Gather identifiers from corresponding orders.
             supply_order_id = order.get("supply_order_id")
             if supply_order_id:
                 all_supply_order_ids.add(supply_order_id)
@@ -95,29 +95,29 @@ class SearchGetSupplyOrders(Tool):
             if order_supplier_id:
                 all_supplier_ids.add(order_supplier_id)
 
-            # Get product_ids and item_ids
+            # Retrieve product_ids and item_ids.
             if order.get("product_id"):
                 all_product_ids.add(order.get("product_id"))
 
             if order.get("item_id"):
                 all_item_ids.add(order.get("item_id"))
-                # Map item to product if not already present
+                # Associate item with product if it isn't already linked.
                 product_id = item_to_product_map.get(order.get("item_id"))
                 if product_id:
                     all_product_ids.add(product_id)
 
-            # Handle multi-item orders
+            # Process orders containing multiple items
             if "items" in order and order.get("items"):
                 for item_detail in order.get("items", []):
                     item_id = item_detail.get("item_id")
                     if item_id:
                         all_item_ids.add(item_id)
-                        # Map item to product
+                        # Associate item with product.
                         product_id = item_to_product_map.get(item_id)
                         if product_id:
                             all_product_ids.add(product_id)
 
-        # Convert sets to sorted lists
+        # Transform sets into ordered lists.
         result = {
             "status": "success",
             "supply_order_ids": sorted(list(all_supply_order_ids)),

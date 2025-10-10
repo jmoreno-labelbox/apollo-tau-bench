@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class CreateNewGrade(Tool):
         miss_distance_inches = kwargs.get("miss_distance_inches")
         execution_grade = kwargs.get("execution_grade")
 
-        # 1) Validate required fields
+        # 1) Check mandatory fields for validity
         missing = []
         if pitch_id is None: missing.append("pitch_id")
         if game_pk is None: missing.append("game_pk")
@@ -39,13 +39,13 @@ class CreateNewGrade(Tool):
         if missing:
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         grades: List[Dict[str, Any]] = list(data.get("pitch_execution_grades", {}).values())
 
-        # 3) Generate new grade_id
+        # 3) Create a new grade_id
         new_id = get_next_grade_id(data)
 
-        # 4) Create new record
+        # 4) Generate a new entry
         new_record = {
             "grade_id": new_id,
             "pitch_id": pitch_id,

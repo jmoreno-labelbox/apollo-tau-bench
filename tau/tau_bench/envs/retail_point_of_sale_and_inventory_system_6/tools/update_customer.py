@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,14 +10,14 @@ class update_customer(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         customers = list(data.get("customers", {}).values())
 
-        # These parameters are mandatory for updates
+        # These parameters are required for updates.
         row_id = kwargs.get("customer_id")
         timestamp = kwargs.get("timestamp")
 
         if (row_id is None) or (timestamp is None):
             return json.dumps({"error": "customer_id and timestamp must be sent"})
 
-        # These are the parameters being sent for update
+        # These are the parameters provided for the update.
         updatable_cols = [
             "name",
             "phone_number",
@@ -34,7 +34,7 @@ class update_customer(Tool):
         for customer in customers:
             if customer["customer_id"] == row_id:
                 for col, value in updating_values.items():
-                    # Update any sent values
+                    # Modify all transmitted values.
                     if value is not None:
                         customer[col] = value
 

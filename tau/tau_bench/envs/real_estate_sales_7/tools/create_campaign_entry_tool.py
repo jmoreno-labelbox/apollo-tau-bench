@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class CreateCampaignEntryTool(Tool):
         if not campaign_name or not campaign_type or created_by is None:
             return _err("campaign_name, campaign_type, and created_by are required")
 
-        # --- Create Campaign Entry ---
+        # --- Initialize Campaign Entry ---
         campaign_rows = data.setdefault("campaigns", [])
         campaign_id = _next_int_id(campaign_rows, "campaign_id")
         campaign_rec = {
@@ -29,7 +29,7 @@ class CreateCampaignEntryTool(Tool):
         }
         campaign_rows.append(campaign_rec)
 
-        # --- Create Audit Event Entry ---
+        # --- Generate Audit Event Record ---
         audit_rows = data.setdefault("audit_events", [])
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -43,7 +43,7 @@ class LogTimeOnTask(Tool):
             {
                 "success": True,
                 "time_log": log_entry,
-                # "total_time_logged": task["time_logged"],
+                # "total_time_recorded": task["time_logged"],
             }
         )
 

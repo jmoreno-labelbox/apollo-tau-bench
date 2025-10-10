@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -57,7 +57,7 @@ class UpdateFlightInventoryAndPrices(Tool):
             "prices": {}
         })
 
-        # Optional status (validate if you enforce enums)
+        # Optional state (check if enum enforcement is applied)
         status_updated = False
         if status is not None:
             s = _norm_status(status)
@@ -72,19 +72,19 @@ class UpdateFlightInventoryAndPrices(Tool):
                 date_info["status"] = s
                 status_updated = True
 
-        # If writing seats/prices (any number of cabins), ensure availability precondition (auto-set to 'available' if needed)
+        # When specifying seats/prices (regardless of cabin count), verify the availability condition (automatically set to 'available' if required).
         writing_inventory = isinstance(available_seats, dict) and len(available_seats) > 0
         writing_prices = isinstance(prices, dict) and len(prices) > 0
         if (writing_inventory or writing_prices) and _norm_status(date_info.get("status")) != "available":
             date_info["status"] = "available"
             status_updated = True
 
-        # Optional debug of discovered cabins (kept for future troubleshooting)
+        # Optional logging of identified cabins (retained for future diagnostics)
         _ = UpdateFlightInventoryAndPrices._existing_cabins(route, date)
 
         changed = 0
 
-        # Merge seats (all provided keys)
+        # Combine seats (using all supplied keys)
         if writing_inventory:
             seat_map = date_info.setdefault("available_seats", {})
             for cabin_key, v in available_seats.items():
@@ -98,7 +98,7 @@ class UpdateFlightInventoryAndPrices(Tool):
                     seat_map[cabin_key] = iv
                     changed += 1
 
-        # Merge prices (all provided keys) with rounding
+        # Combine prices (using all specified keys) with rounding applied.
         if writing_prices:
             price_map = date_info.setdefault("prices", {})
             for cabin_key, v in prices.items():
@@ -122,7 +122,7 @@ class UpdateFlightInventoryAndPrices(Tool):
             "prices_keys": sorted(list(prices.keys())) if isinstance(prices, dict) else []
         }
 
-        # Return a per-date snapshot for immediate verification
+        # Provide a daily snapshot for prompt confirmation.
         return _json({
             "flight_number": flight_number,
             "date": date,

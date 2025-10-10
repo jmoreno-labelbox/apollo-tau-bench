@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetAutomationRunHistory(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # optional filters by type
+        # filters by type are optional
         rtype = kwargs.get("run_type")
         runs = _assert_table(data, "automation_runs")
         out = [r for r in runs if (rtype is None or r.get("run_type") == rtype)]

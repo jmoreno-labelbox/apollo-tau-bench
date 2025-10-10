@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -45,7 +45,7 @@ class FlagOverlapLastMonthOnList(Tool):
                 continue
             it["overlap_last_month_flag"] = int(it.get("ingredient_id")) in recent_iids
             updated += 1
-        # Deterministic header write to ensure write semantics
+        # Consistent header writing to guarantee write behavior.
         gl = _require(data, "grocery_lists", "list_id", int(list_id))
         if gl is not None:
             gl["last_overlap_check_at"] = "2025-01-01T12:20:00"

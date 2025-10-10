@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,13 +23,13 @@ class FindCandidatesByOnboardingStatusTool(Tool):
 
         candidates = data.get("candidates", [])
 
-        # Filter by status
+        # Filter based on status
         filtered_candidates = [c for c in candidates if c.get("onboarding_status") == status]
 
-        # Filter by start date
+        # Apply filter based on the starting date.
         if start_date_after:
             try:
-                # Validate date format
+                # Check the format of the date.
                 datetime.fromisoformat(start_date_after)
                 filtered_candidates = [c for c in filtered_candidates if (c.get("start_date") or "0000-00-00") > start_date_after]
             except ValueError:

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -33,7 +33,7 @@ class UpdateHubspotTicketTool(Tool):
         if not t:
             return json.dumps({"error": f"Ticket {ticket_id} not found"}, indent=2)
 
-        # Track changed fields for audit details
+        # Monitor modified fields for auditing purposes.
         changed_fields: List[str] = []
         for k, v in updatable_fields.items():
             if v is not None and t.get(k) != v:

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,14 +13,14 @@ class SearchListings(Tool):
         listings = list(data.get('listings', {}).values())
         results = []
         
-        # Get search criteria
+        # Retrieve search parameters
         status = kwargs.get('status')
         min_price = kwargs.get('min_price', 0)
         max_price = kwargs.get('max_price', float('inf'))
         property_id = kwargs.get('property_id')
         
         for listing in listings:
-            # Filter by criteria
+            # Apply criteria-based filtering.
             if property_id and listing.get('property_id') != property_id:
                 continue
             if status and listing.get('status') != status:

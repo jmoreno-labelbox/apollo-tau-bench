@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class SetWaterLevels(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         station_id = kwargs.get("station_id")
-        # This is a simulation; in a real environment, this would fetch data from NOAA.
+        # This is a simulated environment; in reality, it would retrieve data from NOAA.
 
         water_level_data = {
             "station_id": station_id,

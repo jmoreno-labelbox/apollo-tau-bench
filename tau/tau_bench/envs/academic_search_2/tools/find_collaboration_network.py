@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,17 +17,17 @@ class FindCollaborationNetwork(Tool):
         if not author_name:
             return json.dumps({"error": "author_name is required."})
 
-        # Find all articles by the main author
+        # Retrieve all publications by the primary author.
         articles = [a for a in list(data.get('articles', {}).values()) if author_name in a.get('authors', [])]
 
-        # Count all collaborators from those articles
+        # Calculate the total number of contributors from the specified articles.
         all_collaborators = Counter()
         for article in articles:
             for author in article.get('authors', []):
                 if author != author_name:
                     all_collaborators[author] += 1
 
-        # If a specific list of authors is provided, filter the results
+        # Filter the results based on the given list of authors.
         if authors_to_check:
             final_counts = {author: all_collaborators.get(author, 0) for author in authors_to_check}
             return json.dumps(final_counts, indent=2)

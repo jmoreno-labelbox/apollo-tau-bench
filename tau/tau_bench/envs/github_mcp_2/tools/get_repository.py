@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class GetRepository(Tool):
             return json.dumps({"error": "repo_name is required."}, indent=2)
 
         try:
-            # Search all repos in dataset, not just those owned by auth user
+            # Search all repositories in the dataset, including those not owned by the authenticated user.
             for repo in _repos(data):
                 if repo.get("repo_name") == repo_name:
                     return json.dumps(repo, indent=2)

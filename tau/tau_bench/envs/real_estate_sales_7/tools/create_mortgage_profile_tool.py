@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -28,11 +28,11 @@ class CreateMortgageProfileTool(Tool):
                 "client_id, loan_amount, down_payment, interest_rate, and term_years are required"
             )
 
-        # Optional fields
+        # Non-mandatory fields
         credit_score = _as_int(kwargs.get("credit_score"))
         region = kwargs.get("region")
 
-        # Tolerate typo "mortage_profiles"
+        # Allow for the misspelling "mortage_profiles."
         if "mortgage_profiles" in data:
             rows = data.setdefault("mortgage_profiles", [])
         else:
@@ -40,7 +40,7 @@ class CreateMortgageProfileTool(Tool):
 
         existing = _get_mortgage_profile(data, client_id)
         if existing:
-            # Update existing profile
+            # Modify the current profile.
             existing.update(
                 {
                     "credit_score": credit_score,
@@ -55,7 +55,7 @@ class CreateMortgageProfileTool(Tool):
             )
             return json.dumps(existing, indent=2)
         else:
-            # Create new profile
+            # Generate a new user profile.
             mortgage_id = _next_int_id(rows, "mortgage_id")
             rec = {
                 "mortgage_id": mortgage_id,

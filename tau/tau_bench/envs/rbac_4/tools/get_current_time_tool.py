@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class GetCurrentTimeTool(Tool):
 
     @staticmethod
     def invoke(data: dict, **kwargs) -> str:
-        # always return the same canonical time
+        # consistently provide the identical standard time
         return json.dumps({"current_time": "2025-08-17T00:00:00Z"})
 
     @staticmethod

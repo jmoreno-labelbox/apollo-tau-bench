@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from typing import Any, Dict
 from tau_bench.envs.tool import Tool

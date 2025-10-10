@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .get_current_time import GetCurrentTime
 from .create_user import CreateUser

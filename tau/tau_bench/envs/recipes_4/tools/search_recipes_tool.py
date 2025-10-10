@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -69,7 +69,7 @@ class SearchRecipesTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains a list of matching recipe objects.
         """
-        # 1. Validate all provided inputs
+        # 1. Verify all submitted inputs
         param_definitions = {
             "cuisine": {"type": str, "required": False},
             "meal_type": {"type": str, "required": False},
@@ -84,10 +84,10 @@ class SearchRecipesTool(Tool):
                 validation_error["details"]
             )
 
-        # 2. Start with the full list of recipes
+        # Begin with the complete set of recipes.
         results = list(data.get("recipes", {}).values())
 
-        # 3. Apply filters sequentially
+        # 3. Sequentially implement filters.
         if "cuisine" in kwargs:
             cuisine = kwargs["cuisine"].lower()
             results = [r for r in results if r.get("cuisine", "").lower() == cuisine]
@@ -108,5 +108,5 @@ class SearchRecipesTool(Tool):
         if kwargs.get("is_peanut_free") is True:
             results = [r for r in results if r.get("is_peanut_free") is True]
 
-        # 4. Return the filtered list in a standard success response
+        # 4. Provide the filtered list within a standard success response format.
         return _build_success_response(results)

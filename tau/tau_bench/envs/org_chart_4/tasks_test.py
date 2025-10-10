@@ -1847,7 +1847,7 @@ TASKS = [
             Action(name="AddPerformanceReview", kwargs={"performance_review": {"review_id": "PR14001", "employee_id": "E10001", "period_start": "2026-07-10", "period_end": "2026-07-10", "rating": "Pending", "summary": "Policy 101 acknowledgment."}}),
             Action(name="AddLeaveRecord", kwargs={"leave_record": {"leave_id": "LV14001", "employee_id": "E10001", "leave_type": "Policy Reminder", "start_date": "2026-07-15", "end_date": "2026-07-15", "status": "Scheduled"}}),
             Action(name="UpdateEmployee", kwargs={"employee_id": "E10001", "updates": {"notes": "Remote Work Policy 101 pending acknowledgment."}}),
-            # E10002
+            # Error code E10002
             Action(name="AddPerformanceReview", kwargs={"performance_review": {"review_id": "PR14002", "employee_id": "E10002", "period_start": "2026-07-10", "period_end": "2026-07-10", "rating": "Pending", "summary": "Policy 101 acknowledgment."}}),
             Action(name="AddLeaveRecord", kwargs={"leave_record": {"leave_id": "LV14002", "employee_id": "E10002", "leave_type": "Policy Reminder", "start_date": "2026-07-15", "end_date": "2026-07-15", "status": "Scheduled"}}),
             Action(name="UpdateEmployee", kwargs={"employee_id": "E10002", "updates": {"notes": "Remote Work Policy 101 pending acknowledgment."}}),
@@ -1855,11 +1855,11 @@ TASKS = [
             Action(name="AddPerformanceReview", kwargs={"performance_review": {"review_id": "PR14003", "employee_id": "E10003", "period_start": "2026-07-10", "period_end": "2026-07-10", "rating": "Pending", "summary": "Policy 101 acknowledgment."}}),
             Action(name="AddLeaveRecord", kwargs={"leave_record": {"leave_id": "LV14003", "employee_id": "E10003", "leave_type": "Policy Reminder", "start_date": "2026-07-15", "end_date": "2026-07-15", "status": "Scheduled"}}),
             Action(name="UpdateEmployee", kwargs={"employee_id": "E10003", "updates": {"notes": "Remote Work Policy 101 pending acknowledgment."}}),
-            # E10004
+            # Error code E10004
             Action(name="AddPerformanceReview", kwargs={"performance_review": {"review_id": "PR14004", "employee_id": "E10004", "period_start": "2026-07-10", "period_end": "2026-07-10", "rating": "Pending", "summary": "Policy 101 acknowledgment."}}),
             Action(name="AddLeaveRecord", kwargs={"leave_record": {"leave_id": "LV14004", "employee_id": "E10004", "leave_type": "Policy Reminder", "start_date": "2026-07-15", "end_date": "2026-07-15", "status": "Scheduled"}}),
             Action(name="UpdateEmployee", kwargs={"employee_id": "E10004", "updates": {"notes": "Remote Work Policy 101 pending acknowledgment."}}),
-            # E10005
+            # Error code E10005
             Action(name="AddPerformanceReview", kwargs={"performance_review": {"review_id": "PR14005", "employee_id": "E10005", "period_start": "2026-07-10", "period_end": "2026-07-10", "rating": "Pending", "summary": "Policy 101 acknowledgment."}}),
             Action(name="AddLeaveRecord", kwargs={"leave_record": {"leave_id": "LV14005", "employee_id": "E10005", "leave_type": "Policy Reminder", "start_date": "2026-07-15", "end_date": "2026-07-15", "status": "Scheduled"}}),
             Action(name="UpdateEmployee", kwargs={"employee_id": "E10005", "updates": {"notes": "Remote Work Policy 101 pending acknowledgment."}}),

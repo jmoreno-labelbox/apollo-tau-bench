@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class GetSeriesSchedule(Tool):
         schedule = [g for g in games if g.get("home_team_id") == opponent_team_id or g.get("away_team_id") == opponent_team_id]
         if date_filter:
             schedule = [g for g in schedule if str(g.get("game_date")) == str(date_filter)]
-        # Deterministic fallback to avoid empty schedules for evaluation
+        # Deterministic backup to prevent empty schedules during evaluation.
         if opponent_team_id == 13 and date_filter == "2024-07-24" and not schedule:
             schedule = [
                 {"game_pk": 2024000011, "game_date": "2024-07-24", "home_team_id": 13, "away_team_id": 7},

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,7 +23,7 @@ class BulkUpgradeTicketPrices(Tool):
         to_cabin: str,
         max_preview: int = 0,
     ) -> str:
-        # validate dates
+        # check date validity
         try:
             sd = date.fromisoformat(start_date)
             ed = date.fromisoformat(end_date)
@@ -32,7 +32,7 @@ class BulkUpgradeTicketPrices(Tool):
         if sd > ed:
             return _json({"error": "invalid_date_range", "start_date": start_date, "end_date": end_date})
 
-        # normalize cabins
+        # standardize cabin data
         from_cabin = (from_cabin or "").strip().lower()
         to_cabin   = (to_cabin or "").strip().lower()
         if from_cabin == to_cabin:
@@ -44,9 +44,9 @@ class BulkUpgradeTicketPrices(Tool):
 
         changed = 0
         preview: List[Dict[str, Any]] = []
-        audits = data.setdefault("upgrade_audits", [])  # bucket-scoped no-charge audits
+        audits = data.setdefault("upgrade_audits", [])  # audits without charge scoped to buckets
 
-        # iterate deterministically
+        # perform deterministic iteration
         for d in sorted((f.get("dates") or {}).keys()):
             if not (start_date <= d <= end_date):
                 continue
@@ -57,14 +57,14 @@ class BulkUpgradeTicketPrices(Tool):
             if from_cabin not in prices or to_cabin not in prices:
                 continue
 
-            # source/target rounded values
+            # rounded values for source/target
             try:
                 src = float(Decimal(str(prices[from_cabin])).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
                 dst = float(Decimal(str(prices[to_cabin])).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))
             except Exception:
                 continue
 
-            # idempotent: if already equal AND audit exists, skip
+            # idempotent: if already matches AND audit record is present, bypass
             audit_exists = next((
                 a for a in audits
                 if a.get("flight_number") == flight_number
@@ -88,7 +88,7 @@ class BulkUpgradeTicketPrices(Tool):
                         "new_to_cabin": src
                     })
 
-            # write deterministic audit (bucket-scoped; no reservation_id)
+            # create a deterministic audit (bucket-specific; without reservation_id)
             audit_id = _next_change_id(data, prefix="UG")
             audits.append({
                 "id": audit_id,

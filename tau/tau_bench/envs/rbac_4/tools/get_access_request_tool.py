@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Technologies
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class GetAccessRequestTool(Tool):
 
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Expect: data["access_requests"] is a list of dicts from /mnt/data/access_requests.json
+        # Assume: data["access_requests"] contains a list of dictionaries sourced from /mnt/data/access_requests.json.
         access_requests = data.get("access_requests", [])
         if not isinstance(access_requests, list):
             return json.dumps({"error": "access_requests must be a list"}, indent=2)
@@ -19,7 +19,7 @@ class GetAccessRequestTool(Tool):
         if not isinstance(request_id, str) or not request_id.strip():
             return json.dumps({"error": "request_id must be a non-empty string"}, indent=2)
 
-        # Read-only lookup
+        # Immutable reference search
         for row in access_requests:
             if isinstance(row, dict) and row.get("request_id") == request_id:
                 return json.dumps({"access_request": row}, indent=2)

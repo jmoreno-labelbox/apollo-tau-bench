@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class CreatePendingOrder(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         user_id = kwargs.get('user_id')
-        item_details = kwargs.get('item_details') # List of {item_id, quantity}
+        item_details = kwargs.get('item_details') # Collection of {item_id, quantity} pairs.
         if not user_id or not item_details:
             return json.dumps({'error': 'user_id and item_details are required'})
 

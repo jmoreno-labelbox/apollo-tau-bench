@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class CreateInventoryRecord(Tool):
         if not sku or not warehouse_id:
             return json.dumps({"error": "SKU and warehouse_id are required."})
 
-        # Check if the record already exists
+        # Verify if the record is already present.
         inventory_items = list(data.get("inventory", {}).values())
         for item in inventory_items:
             if item.get("sku") == sku and item.get("warehouse_id") == warehouse_id:
@@ -26,7 +26,7 @@ class CreateInventoryRecord(Tool):
                     }
                 )
 
-        # Get product and warehouse details to populate the new record
+        # Retrieve product and warehouse information to fill in the new entry.
         product_details = {}
         products = list(data.get("product_master", {}).values())
         for p in products:
@@ -47,7 +47,7 @@ class CreateInventoryRecord(Tool):
                 }
             )
 
-        # Auto-increment inventory ID
+        # Automatically increment inventory identifier
         max_inv_num = 0
         for item in inventory_items:
             inv_id = item.get("inventory_id", "INV-0000")
@@ -71,7 +71,7 @@ class CreateInventoryRecord(Tool):
             "quantity_damaged": 0,
             "unit_cost": product_details.get(
                 "unit_price"
-            ),  # Using unit_price as a proxy for cost
+            ),  # Utilizing unit_price as a substitute for cost.
             "total_value": 0.00,
             "currency": product_details.get("currency"),
             "unit_weight_kg": product_details.get("weight_kg"),
@@ -80,7 +80,7 @@ class CreateInventoryRecord(Tool):
             "expiration_date": None,
             "received_date": None,
             "last_counted_date": None,
-            "reorder_point": 0,  # Default reorder point
+            "reorder_point": 0,  # Standard reorder threshold
             "stock_status": "Out of Stock",
             "storage_requirements": product_details.get("storage_requirements"),
         }

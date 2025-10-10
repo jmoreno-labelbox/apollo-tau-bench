@@ -1,7 +1,7 @@
-# Copyright Sierra
+# Sierra copyright.
 
 
-# Helper function
+# Utility function
 import uuid
 
 def generate_unique_id():
@@ -10,7 +10,7 @@ def generate_unique_id():
 
 
 
-# Helper function
+# Utility function
 from datetime import datetime
 
 def get_current_timestamp():

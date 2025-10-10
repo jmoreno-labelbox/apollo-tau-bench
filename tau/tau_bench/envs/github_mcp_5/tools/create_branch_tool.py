@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -29,13 +29,13 @@ class CreateBranchTool(Tool):
                 "message": f"Repository '{repo}' not found for owner '{owner}'.",
             }, indent=2)
 
-        # Simulate creating a branch
+        # Emulate the process of branch creation.
         repository.setdefault('branches', []).append({
             "name": new_branch_name,
             "commit_sha": sha
         })
-        repository.setdefault('branch_files', []).append([]) # Add empty file list for new branch
-        repository.setdefault('branch_contents', []).append([]) # Add empty contents list
+        repository.setdefault('branch_files', []).append([]) # Create an empty file list for the new branch.
+        repository.setdefault('branch_contents', []).append([]) # Initialize an empty list for contents.
 
         return json.dumps({
             "status": "success",

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -26,7 +26,7 @@ class GetEmailThreadConversationsTool(Tool):
         if not include_drafts:
             candidate_emails = [e for e in candidate_emails if not e.get("draft_flag")]
 
-        # Group by thread_id
+        # Aggregate by thread_id
         threads = {}
         for email in candidate_emails:
             thread_id = email.get("thread_id_nullable")
@@ -35,7 +35,7 @@ class GetEmailThreadConversationsTool(Tool):
                     threads[thread_id] = []
                 threads[thread_id].append(email)
 
-        # Sort emails within each thread by date
+        # Organize emails in each thread chronologically.
         for thread_id in threads:
             threads[thread_id].sort(key=lambda e: e.get("date_ts", ""))
 

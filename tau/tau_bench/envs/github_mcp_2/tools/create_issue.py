@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -31,10 +31,10 @@ class CreateIssue(Tool):
             "creator": me,
             "comments": [],
         }
-        # print("issue:", issue)
+        # print("problem:", issue)
 
         _issues(data).append(issue)
-        # print("final data:", _issues(data))
+        # print("final output:", _issues(data))
         return json.dumps({"message": "Issue created", "number": number}, indent=2)
 
     @staticmethod

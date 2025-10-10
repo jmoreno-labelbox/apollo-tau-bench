@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -31,6 +31,6 @@ class GetDiskSpaceTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         path = kwargs["path"]
-        available_space = 10**12  # 1TB
+        available_space = 10**12  # 1 Terabyte
         data[f"disk_space_{path.replace('/', '_')}"] = available_space
         return json.dumps({"available_space": available_space, "path": path})

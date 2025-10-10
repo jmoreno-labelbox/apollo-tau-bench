@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class CreateGameDayEvent(Tool):
         is_manual_alert = kwargs.get("is_manual_alert")
         suggestion_text = kwargs.get("suggestion_text")
 
-        # 1) Validate required inputs
+        # 1) Verify mandatory inputs
         missing = []
         if game_pk is None:
             missing.append("game_pk")
@@ -41,22 +41,22 @@ class CreateGameDayEvent(Tool):
         if missing:
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         events: List[Dict[str, Any]] = list(data.get("game_day_events", {}).values())
 
-        # 4) Create new event row
+        # 4) Add a new event entry
         new_event = {
             "event_id": get_next_event_id(data),
             "game_pk": game_pk,
             "pitch_id": pitch_id,
-            "timestamp_utc": get_current_timestamp(),  # Could be filled later if needed
+            "timestamp_utc": get_current_timestamp(),  # May be populated later if required.
             "leverage_index": leverage_index,
             "is_manual_alert": is_manual_alert,
             "suggestion_text": suggestion_text,
             "draft_status": "draft"
         }
 
-        # 5) Insert into DB
+        # 5) Add to database
         events.append(new_event)
 
         return json.dumps(new_event, indent=2)

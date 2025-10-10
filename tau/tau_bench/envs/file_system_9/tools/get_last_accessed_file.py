@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class GetLastAccessedFile(Tool):
         server_hostname = kwargs.get("server_hostname")
         
         latest_file_path = None
-        latest_timestamp = "1970-01-01T00:00:00Z" # Initialize with a very old timestamp
+        latest_timestamp = "1970-01-01T00:00:00Z" # Set the initial value to a significantly outdated timestamp.
 
         server_found = False
         for server in list(data.get("file_system", {}).values()):
@@ -23,7 +23,7 @@ class GetLastAccessedFile(Tool):
                         if file.get("last_accessed") > latest_timestamp:
                             latest_timestamp = file.get("last_accessed")
                             latest_file_path = f"{directory.get('path')}/{file.get('filename')}"
-                break # Stop after finding the server
+                break # Terminate upon locating the server.
         
         if not server_found:
             return json.dumps({"error": f"Server not found: {server_hostname}"})

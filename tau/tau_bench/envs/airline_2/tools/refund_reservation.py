@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class RefundReservation(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], reservation_id: str) -> str:
         """Refund a reservation if it exists; return success or error message."""
-        # Reconstruct kwargs from explicit params to keep body unchanged
+        # Rebuild kwargs from specified parameters to maintain the original body.
         kwargs = {__k: __v for __k, __v in [('reservation_id', reservation_id)] if __v is not None}
 
         reservation_id = kwargs.get("reservation_id")

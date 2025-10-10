@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,14 +20,14 @@ class SearchUsers(Tool):
 
         users = list(data.get('users', {}).values())
 
-        # If a user_id is provided, it has priority and returns a single user.
+        # When a user_id is supplied, it takes precedence and retrieves a specific user.
         if user_id:
             for user in users:
                 if user.get('user_id') == user_id:
                     return json.dumps(user, indent=2)
             return json.dumps({"error": f"User with ID '{user_id}' not found."})
 
-        # If user_id is not provided, executes the search by other fields and returns a list.
+        # If user_id is absent, it performs the search using alternative fields and returns a list.
         if not name and not research_field:
             return json.dumps(users, indent=2)
 

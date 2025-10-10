@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -38,12 +38,12 @@ class MergeBranch(Tool):
                 indent=2
             )
 
-        # Load repositories DB
+        # Load the repositories database
         repos: List[Dict[str, Any]] = list(data.get("repositories", {}).values())
         if not isinstance(repos, list):
             return json.dumps({"error": "Invalid database: 'repositories' must be a list."}, indent=2)
 
-        # Locate repository
+        # Find the repository.
         repo = next((r for r in repos if r.get("owner") == owner and r.get("repo_name") == repo_name), None)
         if repo is None:
             return json.dumps({"error": f"Repository '{owner}/{repo_name}' not found."}, indent=2)
@@ -57,7 +57,7 @@ class MergeBranch(Tool):
         src_idx = branches.index(source_branch_name)
         tgt_idx = branches.index(target_branch_name)
 
-        # Ensure per-branch arrays are present and padded
+        # Verify that per-branch arrays exist and are appropriately padded.
         branch_files_all: List[List[str]] = repo.setdefault("branch_files", [])
         branch_contents_all: List[List[str]] = repo.setdefault("branch_contents", [])
         branch_shas: List[str] = repo.setdefault("branch_shas", [])
@@ -66,33 +66,33 @@ class MergeBranch(Tool):
         while len(branch_contents_all) < len(branches): branch_contents_all.append([])
         while len(branch_shas)        < len(branches): branch_shas.append("")
 
-        # Source snapshot
+        # Original snapshot
         src_files = list(branch_files_all[src_idx])
         src_contents_full = list(branch_contents_all[src_idx])
-        # Normalize content length to file list length
+        # Standardize content size relative to the number of files.
         normalized_src_contents: List[str] = []
         for i, _path in enumerate(src_files):
             normalized_src_contents.append(src_contents_full[i] if i < len(src_contents_full) else "")
 
-        # Replace target with source snapshot
+        # Substitute target with source snapshot.
         branch_files_all[tgt_idx] = list(src_files)
         branch_contents_all[tgt_idx] = list(normalized_src_contents)
 
-        # If target is default branch, mirror to repo-level files
+        # If the target is the default branch, synchronize with repository-level files.
         default_branch = repo.get("default_branch", "main")
         if target_branch_name == default_branch:
             repo["file_paths"] = list(src_files)
             repo["file_contents"] = list(normalized_src_contents)
 
-        # Deterministic timestamp and new target SHA
+        # Fixed timestamp and updated target SHA
         new_ts = get_current_updated_timestamp()
         repo["updated_ts"] = new_ts
 
-        new_target_sha = get_next_merge_sha(data)  # e.g., "branch_sha_<N>"
+        new_target_sha = get_next_merge_sha(data)  # "branch_sha_number_<N>"
 
         branch_shas[tgt_idx] = new_target_sha
 
-        # Terminal log
+        # Command line output
         add_terminal_message(
             data,
             f"Merged '{source_branch_name}' into '{target_branch_name}' for {owner}/{repo_name} with SHA {new_target_sha}.",

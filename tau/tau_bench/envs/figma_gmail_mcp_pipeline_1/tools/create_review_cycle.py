@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class CreateReviewCycle(Tool):  # WRITE
+class CreateReviewCycle(Tool):  # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
@@ -13,19 +13,19 @@ class CreateReviewCycle(Tool):  # WRITE
         status: str,
         thread_id_nullable: str = None
     ) -> str:
-        # Validate input
+        # Verify user input.
         if not isinstance(artifact_id, str) or not artifact_id:
             return json.dumps({"error": "artifact_id must be a non-empty string"})
         allowed_status = ["NEEDS_REVIEW", "APPROVED", "CHANGES_REQUESTED", "ESCALATED", "IN_FLIGHT"]
         if status not in allowed_status:
             return json.dumps({"error": f"Invalid status. Allowed: {allowed_status}"})
         review_cycles = data.get("review_cycles", [])
-        # Generate new cycle_id
+        # Create a new cycle identifier.
         next_num = len(review_cycles) + 1
         cycle_id = f"cycle_{next_num:03d}"
         now = "2025-08-21T16:00:00Z"
         created_ts = now
-        # Default SLA: 3 days from now
+        # Standard SLA: 3 days from the current date.
         sla_deadline_ts = "2025-08-24T16:00:00Z"
         new_cycle = {
             "cycle_id": cycle_id,

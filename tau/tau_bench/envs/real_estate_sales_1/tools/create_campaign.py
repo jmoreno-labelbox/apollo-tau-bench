@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,9 +19,9 @@ class CreateCampaign(Tool):
                 "error": "name, type, and created_by are required"
             }, indent=2)
         
-        # Create campaign record
+        # Generate campaign entry.
         campaign = {
-            "campaign_id": 101,  # In real system would be auto-generated
+            "campaign_id": 101,  # In a real system, this would be generated automatically.
             "name": name,
             "type": campaign_type,
             "created_by": created_by,

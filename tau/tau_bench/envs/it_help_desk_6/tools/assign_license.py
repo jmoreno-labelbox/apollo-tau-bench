@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright held by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class AssignLicense(Tool):
         if inv["used_seats"] + inv["reserved_seats"] + 1 > inv["total_seats"]:
             return json.dumps({"status": "error", "reason": "no_capacity"})
 
-        # Directly modify the dictionary in the list
+        # Alter the dictionary contained within the list directly.
         for item in data["license_inventory"]:
             if item["license_id"] == license_id:
                 item["used_seats"] += 1

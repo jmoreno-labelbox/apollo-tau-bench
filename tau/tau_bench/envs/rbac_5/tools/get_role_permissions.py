@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class GetRolePermissions(Tool):
 
         mappings = data.get("role_permissions", [])
 
-        # Filter
+        # Refine
         out = []
         for rp in mappings:
             if role_id and rp.get("role_id") != role_id:
@@ -36,7 +36,7 @@ class GetRolePermissions(Tool):
                 continue
             out.append(dict(rp))
 
-        # Optional expansions
+        # Optional extensions
         if include_role or include_permission:
             role_map = {r.get("role_id"): r for r in list(data.get("roles", {}).values())}
             perm_map = {p.get("permission_id"): p for p in list(data.get("permissions", {}).values())}

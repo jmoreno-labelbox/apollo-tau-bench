@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class CalculateShippingCost(Tool):
 
         Data Sources: couriers.json (courier_id, name, coverage_area, contact_info, base_cost, rating, service_types)
         """
-        # Rule: Assign couriers only if destination country matches their coverage areas
+        # Condition: Assign couriers solely when the destination country is within their service regions.
         couriers = data.get("couriers", [])
         eligible_couriers = []
 
@@ -28,12 +28,12 @@ class CalculateShippingCost(Tool):
                 "status": "failed"
             })
 
-        # Select courier based on courier_id parameter or use automatic selection
+        # Choose the courier using the courier_id parameter or opt for automatic selection.
         selected_courier = None
         courier_selection_method = "automatic"
 
         if courier_id:
-            # Find the specific courier if provided
+            # Identify the designated courier if available.
             selected_courier = next((c for c in eligible_couriers if c.get("courier_id") == courier_id), None)
 
             if not selected_courier:
@@ -44,15 +44,15 @@ class CalculateShippingCost(Tool):
                 })
             courier_selection_method = "specific"
         else:
-            # Use automatic selection logic (first available courier)
+            # Implement automatic courier selection (first available option).
             selected_courier = eligible_couriers[0]
 
-        # Process location information if provided
+        # Handle location data if available.
         delivery_location = None
         location_surcharge = 0.0
 
         if location:
-            # Validate location has required fields
+            # Check that the location contains all necessary fields.
             required_location_fields = ["city", "country"]
             missing_fields = [field for field in required_location_fields if not location.get(field)]
 
@@ -71,48 +71,48 @@ class CalculateShippingCost(Tool):
                 "country": location.get("country")
             }
 
-            # Verify location country matches destination_country parameter
+            # Check if the location's country corresponds to the destination_country parameter.
             if delivery_location["country"] != destination_country:
                 return json.dumps({
                     "error": f"Location country '{delivery_location['country']}' does not match destination_country '{destination_country}'",
                     "status": "failed"
                 })
 
-            # Apply location-based surcharges (simplified logic)
+            # Implement location-dependent fees (streamlined approach)
             city = delivery_location["city"].lower()
             state = delivery_location.get("state", "").lower()
 
-            # Remote area surcharge for certain locations
+            # Additional fee for specific remote locations.
             remote_cities = ["anchorage", "honolulu", "fairbanks", "juneau"]
             if city in remote_cities:
                 location_surcharge += 25.0
 
-            # Rural area surcharge based on ZIP code patterns (simplified)
+            # Surcharge for rural areas determined by ZIP code trends (simplified)
             zip_code = delivery_location.get("zip", "")
             if zip_code and len(zip_code) >= 5:
-                # Example: certain ZIP code ranges might be considered rural
-                if zip_code.startswith(("9999", "0000")):  # Placeholder logic
+                # Specific ZIP code ranges may be classified as rural.
+                if zip_code.startswith(("9999", "0000")):  # Stub functionality
                     location_surcharge += 10.0
 
-        # Get courier-specific pricing information
+        # Retrieve pricing details specific to the courier.
         courier_base_cost = selected_courier.get("base_cost", 9.99)
         courier_rating = selected_courier.get("rating", 0)
         courier_service_types = selected_courier.get("service_types", ["standard"])
         courier_specialties = selected_courier.get("specialties", [])
 
-        # Calculate courier-specific adjustments
+        # Compute adjustments specific to the courier.
         courier_adjustment = 0.0
         service_quality_bonus = 0.0
 
-        # Premium pricing for high-rated couriers
+        # Elevated pricing for top-rated delivery personnel.
         if courier_rating >= 4.5:
-            service_quality_bonus = 2.00  # Premium service surcharge
+            service_quality_bonus = 2.00  # Additional fee for premium service
         elif courier_rating >= 4.0:
-            service_quality_bonus = 1.00  # Good service slight surcharge
+            service_quality_bonus = 1.00  # Quality service with a minor additional fee.
         elif courier_rating < 3.0:
-            courier_adjustment = -1.00  # Discount for lower-rated couriers
+            courier_adjustment = -1.00  # Reduced fees for couriers with lower ratings
 
-        # Service type adjustments
+        # Modifications to service type
         service_type_surcharge = 0.0
         primary_service_type = courier_service_types[0] if courier_service_types else "standard"
 
@@ -123,33 +123,33 @@ class CalculateShippingCost(Tool):
         elif "same-day" in courier_service_types:
             service_type_surcharge = 25.00
 
-        # Specialty service adjustments
+        # Modifications to specialized services
         specialty_adjustment = 0.0
         if "urban" in courier_specialties and location:
             city = delivery_location["city"].lower()
             major_cities = ["new york", "los angeles", "chicago", "houston", "phoenix"]
             if city in major_cities:
-                specialty_adjustment = -2.00  # Discount for urban specialists in major cities
+                specialty_adjustment = -2.00  # Reduction for urban experts in key metropolitan areas.
 
         if "rural" in courier_specialties and location:
             zip_code = delivery_location.get("zip", "")
             if zip_code and len(zip_code) >= 5:
-                # Rural areas benefit from rural specialists
-                if not zip_code.startswith(("100", "200", "300", "400", "500")):  # Non-major metro areas
+                # Rural regions gain advantages from specialists in rural fields.
+                if not zip_code.startswith(("100", "200", "300", "400", "500")):  # Minor metropolitan regions
                     specialty_adjustment = -3.00
 
-        # Basic shipping cost calculation with courier-specific base cost
+        # Fundamental shipping fee computation using base rates specific to the courier.
         base_cost = courier_base_cost
-        weight_cost = total_items * 2.50  # $2.50 per unit weight
+        weight_cost = total_items * 2.50  # $2.50 for each unit of weight
 
-        # Rule: High-value orders (>$1000 total) require payment verification before fulfillment
+        # Policy: Orders exceeding $1000 must undergo payment verification prior to processing.
         insurance_required = order_value > 1000.0
-        insurance_cost = (order_value * 0.015) if insurance_required else 0  # 1.5% of order value
+        insurance_cost = (order_value * 0.015) if insurance_required else 0  # 1.5% of the total order amount
 
-        # International shipping surcharge
+        # Additional fee for international shipping
         international_surcharge = 15.00 if destination_country != "USA" else 0
 
-        # Calculate total shipping cost with all adjustments
+        # Compute the overall shipping expenses including all modifications.
         total_shipping_cost = (
             base_cost +
             weight_cost +
@@ -162,8 +162,8 @@ class CalculateShippingCost(Tool):
             specialty_adjustment
         )
 
-        # Ensure minimum shipping cost
-        total_shipping_cost = max(total_shipping_cost, 5.00)  # Minimum $5.00 shipping
+        # Optimize for lowest shipping expense.
+        total_shipping_cost = max(total_shipping_cost, 5.00)  # Shipping starts at $5.00.
 
         result = {
             "status": "success",

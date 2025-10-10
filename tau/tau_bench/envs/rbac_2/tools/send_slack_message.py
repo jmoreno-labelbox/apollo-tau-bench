@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,7 +25,7 @@ class SendSlackMessage(Tool):
             "username": "RBAC_BOT",
             "message": kwargs.get("message"),
             "channel": kwargs.get("channel"),
-            "reply_to_message_id": kwargs.get("reply_to_message_id", None) # Optional for threading
+            "reply_to_message_id": kwargs.get("reply_to_message_id", None) # Threading is optional.
         }
 
         slack_messages.append(new_message)

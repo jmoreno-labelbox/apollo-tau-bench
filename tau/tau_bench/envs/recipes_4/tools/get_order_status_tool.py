@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -44,7 +44,7 @@ class GetOrderStatusTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains the fully detailed and hydrated order object.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Data
         param_definitions = {
             "order_id": {"type": int, "required": True}
         }
@@ -54,13 +54,13 @@ class GetOrderStatusTool(Tool):
 
         order_id = kwargs["order_id"]
 
-        # 2. Data Retrieval
+        # 2. Data Extraction
         order_record = next((o for o in list(data.get("orders", {}).values()) if o.get("order_id") == order_id), None)
 
         if not order_record:
             return _build_error_response("NOT_FOUND", {"entity": "Order", "entity_id": order_id})
 
-        # 3. Data Enrichment (Hydration)
+        # 3. Data Enhancement (Hydration)
         order_items = [item for item in data.get("order_items", []) if item.get("order_id") == order_id]
         all_products = data.get("store_products", [])
 
@@ -68,11 +68,11 @@ class GetOrderStatusTool(Tool):
         for item in order_items:
             enriched_item = item.copy()
 
-            # Enrich with the main product name
+            # Augment with the primary product name.
             product_info = next((p for p in all_products if p.get("product_id") == item.get("product_id")), None)
             enriched_item["product_name"] = product_info.get("product_name") if product_info else "Unknown Product"
 
-            # Enrich with the substitute product name, if applicable
+            # Add the alternative product name if relevant.
             sub_id = item.get("substitute_product_id")
             if sub_id:
                 sub_info = next((p for p in all_products if p.get("product_id") == sub_id), None)
@@ -80,9 +80,9 @@ class GetOrderStatusTool(Tool):
 
             enriched_items.append(enriched_item)
 
-        # 4. Build the final response object
+        # 4. Construct the completed response object.
         detailed_order = order_record.copy()
         detailed_order["items"] = enriched_items
 
-        # 5. Return the standardized success response
+        # 5. Return the uniform success response.
         return _build_success_response(detailed_order)

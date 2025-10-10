@@ -1,0 +1,251 @@
+[
+  {
+    "task_id": 0,
+    "reward": 1.0,
+    "info": {
+      "task": {
+        "user_id": "recipes_v5_0001",
+        "actions": [
+          {
+            "name": "CreateMealPlan",
+            "kwargs": {
+              "household_id": 201,
+              "week_start_date": "2026-09-07",
+              "created_by_user_id": 101
+            }
+          },
+          {
+            "name": "BulkAddMealPlanEntries",
+            "kwargs": {
+              "meal_plan_id": 6003,
+              "week_start_date": "2026-09-07",
+              "selected_recipe_ids_json": "[401,404,406,423,424,433,434]"
+            }
+          },
+          {
+            "name": "CreateGroceryListFromMealPlan",
+            "kwargs": {
+              "meal_plan_id": 6003,
+              "household_id": 201,
+              "created_by_user_id": 101
+            }
+          },
+          {
+            "name": "CategorizeGroceryListSections",
+            "kwargs": {
+              "list_id": 8003
+            }
+          }
+        ],
+        "instruction": "Arrange a FreshMart\u2011ready Dinner week for household 201 starting on 2026-09-07 with these exact seven dinners in sequence: 401, 404, 406, 423, 424, 433, 434. Compile and sort the grocery list. Provide the list_id.",
+        "outputs": []
+      },
+      "source": "user",
+      "user_cost": 0.001975,
+      "reward_info": {
+        "reward": 1.0,
+        "info": {
+          "r_actions": 1.0,
+          "gt_data_hash": "9966d8bfb4d4a0b317b157a3d843dd43f8bffcda1cced6a69da8d3cdda05887e"
+        },
+        "actions": [
+          {
+            "name": "CreateMealPlan",
+            "kwargs": {
+              "household_id": 201,
+              "week_start_date": "2026-09-07",
+              "created_by_user_id": 101
+            }
+          },
+          {
+            "name": "BulkAddMealPlanEntries",
+            "kwargs": {
+              "meal_plan_id": 6003,
+              "week_start_date": "2026-09-07",
+              "selected_recipe_ids_json": "[401,404,406,423,424,433,434]"
+            }
+          },
+          {
+            "name": "CreateGroceryListFromMealPlan",
+            "kwargs": {
+              "meal_plan_id": 6003,
+              "household_id": 201,
+              "created_by_user_id": 101
+            }
+          },
+          {
+            "name": "CategorizeGroceryListSections",
+            "kwargs": {
+              "list_id": 8003
+            }
+          }
+        ]
+      }
+    },
+    "traj": [
+      {
+        "role": "system",
+        "content": "\n\"As an AI assistant, your responsibilities include household meal planning, managing grocery lists, performing store checks, and placing orders. You must utilize solely the supplied tools for all data reading and writing operations.\",\n    \"Perform only a single tool invocation in each step. If a tool requires an id generated in a prior step, supply the precise value returned\u2014do not infer or estimate.\",\n    \"Ensure all write operations are deterministic. Generate new ids by incrementing the current maximum id by one. Always apply the fixed timestamps and fee calculations as defined by the tools.\",\n    \"Explicitly observe any constraints provided in the task, such as dates, counts, dietary restrictions, cuisines, or budgets. If these are not specified, select appropriate defaults derived from household data.\",\n    \"Apply recipe filters as specified in the request. Implement recency limits or per\u2011cuisine limits solely when they are mentioned in the task.\",\n    \"If child\u2011friendliness or school restrictions are indicated, create and save notes, and verify that chosen recipes adhere to these requirements.\",\n    \"To create grocery lists, combine recipe_ingredients from the chosen recipes, adding together quantities grouped by (ingredient_id, unit).\",\n    \"Assign grocery items to categories based on ingredients.grocery_section if this information exists.\",\n    \"Apply pantry and last\u201130\u2011day overlap flags exclusively when these are specified in the task request.\",\n    \"Upon a request to verify store availability, reference store_products to identify and mark items that are low in stock or unavailable. Offer substitutions solely when requested, ensuring all suggestions comply with the specified task constraints.\",\n    \"When substitutions are made, modify grocery_list_items to reflect the replacement ingredient and systematically update its grocery_section.\",\n    \"Orders must originate from one grocery list, pertain to one store, and correspond to a single scheduled slot. Select the lowest-priced available products by default, except where explicit overrides are specified.\",\n    \"Order totals must be calculated deterministically: total_cents equals subtotal_cents plus 200. Assign status_enum='placed' exclusively after both items and totals have been established.\",\n    \"Packet URIs must be deterministic, following the format 'packet://meal_plan/<meal_plan_id>'. When a task requests data retrieval, employ getter tools to provide the corresponding details.\",\n    \"If an operation cannot proceed due to insufficient data or constraint violations, halt execution and return the tool\u2019s error; do not generate or invent any values.\",\n    \"In cases where the task text contradicts deterministic tool behavior or policy, adhere to the tool\u2019s behavior and revise the task to ensure compliance.\",\n"
+      },
+      {
+        "role": "user",
+        "content": "Hi! I'd like to schedule a FreshMart-ready dinner week for my household starting on September 7, 2026. Can you assist with that?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{}",
+              "name": "get_household_by_user_id"
+            },
+            "id": "call_rgTtoa59xrL0o6mUPQMHLy2x",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_rgTtoa59xrL0o6mUPQMHLy2x",
+        "name": "get_household_by_user_id",
+        "content": "{\n  \"error\": \"no households available\"\n}"
+      },
+      {
+        "content": "It seems that there are no households available for your account. Please check your account settings or provide me with the necessary details to assist you further.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Oh, my mistake! The household number is 201. Can you set it up for that household?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"household_id\":201,\"week_start_date\":\"2026-09-07\",\"created_by_user_id\":1}",
+              "name": "create_meal_plan"
+            },
+            "id": "call_hUpyJuHPDai4Dg3xIHa8jjSJ",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_hUpyJuHPDai4Dg3xIHa8jjSJ",
+        "name": "create_meal_plan",
+        "content": "Error: name '_max_id' is not defined"
+      },
+      {
+        "content": "It seems there was an error while trying to create the meal plan. Unfortunately, I cannot proceed without resolving this issue. Please try again later or check if there are any updates needed for your account.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Actually, I also have the specific dinner sequence for the week. Maybe setting it up with those might help. Would you like me to provide the details?"
+      },
+      {
+        "content": "Yes, please provide the specific dinner sequence for the week, and I'll do my best to assist you with setting it up.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Sure! Could you arrange the dinners in this order: 401, 404, 406, 423, 424, 433, and 434, for the week starting September 7, 2026?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"household_id\":201,\"week_start_date\":\"2026-09-07\",\"created_by_user_id\":1}",
+              "name": "create_meal_plan"
+            },
+            "id": "call_6r2VEiRKUxtjkxJmMCFm9Yvf",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_6r2VEiRKUxtjkxJmMCFm9Yvf",
+        "name": "create_meal_plan",
+        "content": "Error: name '_max_id' is not defined"
+      },
+      {
+        "content": "It appears that I'm still encountering an issue when trying to create the meal plan. Unfortunately, I cannot proceed with setting up the dinners at this time. Please try again later or check if there are any updates needed for your account.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Alright, can we compile and organize a grocery list based on those dinners in the meantime?"
+      },
+      {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+          {
+            "function": {
+              "arguments": "{\"recipe_ids_json\": \"[401, 404, 406, 423, 424, 433, 434]\", \"meal_type\": \"Dinner\"}",
+              "name": "list_recipes_by_filters"
+            },
+            "id": "call_ogUUj8jVDWhrZqXSAw6GvzLH",
+            "type": "function"
+          }
+        ],
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "tool",
+        "tool_call_id": "call_ogUUj8jVDWhrZqXSAw6GvzLH",
+        "name": "list_recipes_by_filters",
+        "content": "Error: name '_all_recipe_ids_filtered' is not defined"
+      },
+      {
+        "content": "It seems that I'm unable to retrieve the recipes based on the provided dinner sequence due to a technical issue. Unfortunately, I cannot proceed with compiling the grocery list at this time. Please try again later or check if there are any updates needed for your account.",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "Okay, got it. I do need the list ID once the grocery list is sorted. Could you let me know when that's ready or when I should try again?"
+      },
+      {
+        "content": "I apologize for the inconvenience, but due to the current technical issues, I'm unable to create the grocery list or provide a list ID at this time. I recommend trying again later. If you have any other questions or need assistance with something else, feel free to ask!",
+        "role": "assistant",
+        "tool_calls": null,
+        "function_call": null,
+        "annotations": []
+      },
+      {
+        "role": "user",
+        "content": "No problem, I'll check back later. Thank you for trying! ###STOP###"
+      }
+    ],
+    "trial": 0
+  }
+]

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class ComposeReleaseEmailDraftTool(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         release_id = _require_str(kwargs.get("release_id"), "release_id")
-        thread_id = _require_str(kwargs.get("thread_id"), "thread_id")  # existing or new thread id
+        thread_id = _require_str(kwargs.get("thread_id"), "thread_id")  # identifier for an existing or new thread
         from_email = _require_str(kwargs.get("from_email"), "from_email")
         created_ts = _require_str(kwargs.get("created_ts"), "created_ts")
         subject = _require_str(kwargs.get("subject"), "subject")

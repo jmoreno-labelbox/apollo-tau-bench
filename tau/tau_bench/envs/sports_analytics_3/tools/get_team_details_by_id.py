@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class GetTeamDetailsById(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         team_id = kwargs.get("team_id")
 
-        # 1) Validate
+        # 1) Verify
         if team_id is None:
             return json.dumps({"error": "Missing required field: team_id"}, indent=2)
 
-        # 2) Get DB from passed-in data
+        # 2) Retrieve the database from the provided data.
         teams = list(data.get("teams", {}).values())
 
-        # 3) Exact match lookup
+        # 3) Precise match retrieval
         for team in teams:
             if team.get("team_id") == team_id:
                 return json.dumps(team, indent=2)

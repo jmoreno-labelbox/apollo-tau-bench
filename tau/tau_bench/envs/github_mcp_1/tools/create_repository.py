@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -34,10 +34,10 @@ class CreateRepository(Tool):
 
 
 
-        # Normalize description to the nullable field name used in the DB
+        # Standardize the description to match the nullable field name utilized in the database.
         description_nullable = description if description is not None else None
 
-        # Collision handling: if (owner, repo_name) exists, try single '_v2' suffix
+        # Collision management: if (owner, repo_name) is found, attempt a '_v2' suffix.
         def _exists(o: str, n: str) -> bool:
             return any(r.get("owner") == o and r.get("repo_name") == n for r in repos)
 
@@ -48,25 +48,25 @@ class CreateRepository(Tool):
                     {"error": f"Repository '{owner}/{repo_name}' exists and '{candidate}' also exists."},
                     indent=2
                 )
-            repo_name = candidate  # single deterministic suffix
+            repo_name = candidate  # unique deterministic suffix
 
-        # Deterministic timestamps
+        # Fixed timestamps
         created_ts = get_current_timestamp()
-        updated_ts = created_ts  # start equal on creation
+        updated_ts = created_ts  # initialize as equal upon instantiation
 
-        # Defaults
+        # Predefined values
         default_branch = "main"
         branches = ["main"]
 
-        # Deterministic SHA for 'main'
+        # Deterministic SHA for 'main' function
         main_sha = get_next_branch_sha(data)
         branch_shas = [main_sha]
 
-        # Auto-init file tree (repo-wide)
+        # Automatically initialize the file structure for the entire repository.
         file_paths= []
         file_contents= []
 
-        # Per-branch aligned structures
+        # Structures aligned for each branch
         branch_files = [[]]
         branch_contents = [[]]
 
@@ -77,7 +77,7 @@ class CreateRepository(Tool):
             branch_files = [file_paths.copy()]
             branch_contents = [file_contents.copy()]
 
-        # Assemble the new repo record following existing schema
+        # Create the new repository entry according to the current schema.
         new_repo = {
             "owner": owner,
             "repo_name": repo_name,
@@ -95,7 +95,7 @@ class CreateRepository(Tool):
             "updated_ts": updated_ts,
         }
 
-        # Insert deterministically at the end
+        # Append in a deterministic manner at the end.
         repos.append(new_repo)
 
         add_terminal_message(data, f"Repository '{owner}/{repo_name}' created.", get_current_timestamp())

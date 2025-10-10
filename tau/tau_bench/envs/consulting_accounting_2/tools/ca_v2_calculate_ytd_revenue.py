@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class CaV2CalculateYtdRevenue(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         year = kwargs.get("year", "2024")
-        tax_rate = kwargs.get("tax_rate", 0.265)  # 26.5% default
+        tax_rate = kwargs.get("tax_rate", 0.265)  # 26.5% failure rate
 
         invoices = data.get("invoices", [])
         ytd_invoices = [inv for inv in invoices
@@ -22,7 +22,7 @@ class CaV2CalculateYtdRevenue(Tool):
 
         revenue_by_month = {}
         for invoice in ytd_invoices:
-            month = invoice.get("invoice_date", "")[:7]  # YYYY-MM
+            month = invoice.get("invoice_date", "")[:7]  # Year and month format.
             if month not in revenue_by_month:
                 revenue_by_month[month] = 0
             revenue_by_month[month] += invoice.get("subtotal", 0)

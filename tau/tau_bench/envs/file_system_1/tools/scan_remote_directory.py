@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class ScanRemoteDirectory(Tool):
             if server.get('hostname') == hostname:
                 for directory in server.get('directories', []):
                     if directory.get('path') == directory_path:
-                        # This is a simplified simulation
+                        # This is a basic simulation.
                         found_files.extend(directory.get('files', []))
         return json.dumps({"files_found": found_files, "count": len(found_files)})
 

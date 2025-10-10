@@ -1,25 +1,25 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class FilterFigmaArtifactsByTags(Tool):  # READ
+class FilterFigmaArtifactsByTags(Tool):  # READ DATA
     @staticmethod
     def invoke(
         data: Dict[str, Any],
         tags: List[str]
     ) -> str:
-        # Validate input
+        # Check the input for correctness.
         if not isinstance(tags, list) or not all(isinstance(tag, str) for tag in tags):
             return json.dumps({"error": "tags must be a list of strings"})
         artifacts = data.get("figma_artifacts", [])
-        # Collect all unique tags from artifacts
+        # Gather all distinct tags from the artifacts.
         all_tags = set()
         for artifact in artifacts:
             all_tags.update(artifact.get("current_tags", []))
-        # Check if all input tags are realistic
+        # Verify the validity of all input tags.
         unrealistic = [tag for tag in tags if tag not in all_tags]
         if unrealistic:
             return json.dumps({"error": f"Unrealistic tags: {unrealistic}. These tags do not appear in any artifact."})

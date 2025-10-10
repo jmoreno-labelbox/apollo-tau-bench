@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,8 +18,8 @@ class UpdateUserMembership(Tool):
         membership_level: str = None
     ) -> str:
         
-        # Validate required parameters
-        # Use membership_level if new_membership is not provided
+        # Check for necessary parameters.
+        # Utilize membership_level when new_membership is absent.
         if not new_membership and membership_level:
             new_membership = membership_level
             
@@ -29,7 +29,7 @@ class UpdateUserMembership(Tool):
                 "required": ["user_email", "new_membership or membership_level"]
             })
 
-        # Validate membership level
+        # Check the membership tier.
         valid_memberships = ["basic", "silver", "gold", "platinum"]
         if new_membership not in valid_memberships:
             return json.dumps({
@@ -38,7 +38,7 @@ class UpdateUserMembership(Tool):
                 "received": new_membership
             })
 
-        # Find user
+        # Locate user
         users = list(data.get("users", {}).values())
         target_user = None
         user_index = None
@@ -55,7 +55,7 @@ class UpdateUserMembership(Tool):
                 "email": user_email
             })
 
-        # Update membership
+        # Revise membership details.
         old_membership = target_user.get("membership", "basic")
         data["users"][user_index]["membership"] = new_membership
 

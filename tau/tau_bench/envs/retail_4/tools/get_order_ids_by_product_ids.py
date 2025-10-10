@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,14 +16,14 @@ class GetOrderIdsByProductIds(Tool):
         if not product_ids:
             return json.dumps({"error": "Product IDs list cannot be empty", "status": "failed"})
 
-        # Rule: Validate user identity exists before processing any user requests (if user_id provided)
+        # Condition: Confirm the existence of the user identity prior to handling any user requests (if user_id is supplied).
         if user_id:
             users = list(data.get("users", {}).values())
             user = next((u for u in users if u.get("user_id") == user_id), None)
             if not user:
                 return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
-        # Search through all orders to find matches
+        # Scan all orders for matches.
         orders = list(data.get("orders", {}).values())
         matching_orders = []
 
@@ -32,11 +32,11 @@ class GetOrderIdsByProductIds(Tool):
             order_user_id = order.get("user_id")
             order_items = order.get("items", [])
 
-            # Filter by user_id if specified
+            # Apply a filter based on user_id if provided.
             if user_id and order_user_id != user_id:
                 continue
 
-            # Check which products this order contains
+            # Verify the products included in this order.
             for item in order_items:
                 item_product_id = item.get("product_id")
                 if item_product_id in product_ids:
@@ -46,9 +46,9 @@ class GetOrderIdsByProductIds(Tool):
                         "order_status": order.get("status"),
                         "order_date": order.get("timestamp")
                     })
-                    break  # Found a match, no need to check other items in this order
+                    break  # Match found; no further checks required for this order.
 
-        # Remove duplicates and get unique order IDs
+        # Eliminate duplicates to retrieve distinct order IDs.
         unique_order_ids = list(set(order["order_id"] for order in matching_orders))
 
         result = {

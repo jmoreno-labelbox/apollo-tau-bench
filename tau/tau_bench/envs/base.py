@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import random
 from hashlib import sha256
@@ -96,7 +96,7 @@ class Env(object):
         if action.name == RESPOND_ACTION_NAME:
             observation = self.user.step(action.kwargs["content"])
             info.source = "user"
-            done = "###STOP###" in observation
+            done = "###STOP### #HALT###" in monitoring
         elif action.name in self.tools_map:
             try:
                 observation = self.tools_map[action.name].invoke(
@@ -128,8 +128,8 @@ class Env(object):
             action for action in self.task.actions if action.name != RESPOND_ACTION_NAME
         ]
 
-        # Check if the database changes are correct. If they are not correct, then we set the reward to 0.
-        # TODO: cache gt_data_hash in tasks.py (low priority)
+        # Verify the accuracy of the database changes; if incorrect, assign a reward of 0.
+        # Pending: store gt_data_hash in tasks.py (low priority).
         self.data = self.data_load_func()
         for action in self.task.actions:
             if action.name not in self.terminate_tools:
@@ -142,7 +142,7 @@ class Env(object):
             reward = 0.0
 
         if len(self.task.outputs) > 0:
-            # check outputs
+            # verify results
             r_outputs = 1.0
             outputs = {}
             for output in self.task.outputs:

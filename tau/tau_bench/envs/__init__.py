@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from typing import Optional, Union
 import importlib
@@ -15,11 +15,11 @@ def get_env(
     user_provider: Optional[str] = None,
     task_index: Optional[int] = None,
 ) -> Env:
-    # Dynamic import path: allow alternate envs package via env var
+    # Dynamic import path: permit alternative environment packages through environment variable.
     envs_pkg = os.environ.get("TAU_BENCH_ENVS_PACKAGE", "tau_bench.envs")
     try:
         module = importlib.import_module(f"{envs_pkg}.{env_name}")
-        # Find an exported Env class ending with 'DomainEnv'
+        # Locate a publicly available Env class that concludes with 'DomainEnv'.
         for attr in dir(module):
             if attr.endswith("DomainEnv"):
                 EnvCls = getattr(module, attr)
@@ -31,11 +31,11 @@ def get_env(
                     task_index=task_index,
                 )
     except Exception:
-        # Fall back to static mapping below
+        # Revert to the static mapping provided below.
         pass
-    # dynamic import root
+    # import root dynamically
     envs_pkg = os.environ.get("TAU_BENCH_ENVS_PACKAGE", "tau_bench.envs")
-    # fast path for retail/airline for backwards-compat
+    # optimized route for retail/airline to maintain backwards compatibility
     if env_name in ["retail", "airline"]:
         module = importlib.import_module(f"{envs_pkg}.{env_name}")
         EnvCls = getattr(module, "MockRetailDomainEnv" if env_name.startswith("retail") else "MockAirlineDomainEnv")

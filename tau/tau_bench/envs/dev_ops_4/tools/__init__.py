@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .get_build_run_details import GetBuildRunDetails
 from .list_failed_build_runs_by_branch import ListFailedBuildRunsByBranch

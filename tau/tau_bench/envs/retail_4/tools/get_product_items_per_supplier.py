@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright Sierra Inc.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class GetProductItemsPerSupplier(Tool):
 
         Data Sources: suppliers.json (supplier_id, products, item_stock), products.json (product details, variants)
         """
-        # Find the specified supplier
+        # Locate the designated supplier.
         suppliers = data.get("suppliers", [])
         target_supplier = None
 
@@ -29,12 +29,12 @@ class GetProductItemsPerSupplier(Tool):
                 "status": "failed"
             })
 
-        # Get product information for mapping items to products
+        # Retrieve product details for associating items with products.
         products = list(data.get("products", {}).values())
         product_details_map = {}
         item_to_product_map = {}
 
-        # Handle product_type parameter - convert string to list if needed
+        # Process the product_type parameter - transform it from a string to a list if necessary.
         product_type_list = []
         if product_type is not None:
             if isinstance(product_type, str):
@@ -47,7 +47,7 @@ class GetProductItemsPerSupplier(Tool):
                     "status": "failed"
                 })
 
-        # Convert product_type to lowercase for case-insensitive matching
+        # Transform product_type to lowercase for matching without case sensitivity.
         product_type_lower = []
         if product_type_list:
             product_type_lower = [ptype.lower() for ptype in product_type_list]
@@ -57,14 +57,14 @@ class GetProductItemsPerSupplier(Tool):
             product_name = product.get("name", "").lower()
 
             if product_id:
-                # Apply product type filter if specified
+                # Implement the product type filter if it is defined.
                 if product_type_lower:
                     type_matches = any(
                         ptype in product_name
                         for ptype in product_type_lower
                     )
                     if not type_matches:
-                        continue  # Skip this product if it doesn't match the type filter
+                        continue  # Exclude this product if it doesn't fit the type filter.
 
                 product_details_map[product_id] = {
                     "product_id": product_id,
@@ -73,16 +73,16 @@ class GetProductItemsPerSupplier(Tool):
                     "variants": product.get("variants", {})
                 }
 
-                # Map each item to its product
+                # Associate each item with its corresponding product.
                 variants = product.get("variants", {})
                 for item_id in variants.keys():
                     item_to_product_map[item_id] = product_id
 
-        # Get supplier information
+        # Retrieve supplier details.
         supplier_products = target_supplier.get("products", [])
         supplier_item_stock = target_supplier.get("item_stock", {})
 
-        # Process items based on stock_available filter and product type filter
+        # Filter and process items according to stock availability and product type.
         filtered_items = {}
         stock_summary = {
             "total_items": len(supplier_item_stock),
@@ -94,18 +94,18 @@ class GetProductItemsPerSupplier(Tool):
         }
 
         for item_id, stock_level in supplier_item_stock.items():
-            # Apply stock filter
+            # Implement stock filter.
             include_item = True
 
             if stock_available is True:
-                # Only include items with numeric stock levels
+                # Include only items that have numerical stock quantities.
                 include_item = isinstance(stock_level, (int, str)) and str(stock_level).isdigit() and int(stock_level) > 0
             elif stock_available is False:
-                # Only include out_of_stock or discontinued items
+                # Include only items that are out of stock or discontinued.
                 include_item = stock_level in ["out_of_stock", "discontinued"]
-            # If stock_available is None, include all items
+            # If stock_available is null, incorporate all items.
 
-            # Update stock summary
+            # Revise inventory summary
             if stock_level == "out_of_stock":
                 stock_summary["out_of_stock_items"] += 1
             elif stock_level == "discontinued":
@@ -114,16 +114,16 @@ class GetProductItemsPerSupplier(Tool):
                 stock_summary["available_items"] += 1
 
             if include_item:
-                # Find which product this item belongs to
+                # Determine the associated product for this item.
                 product_id = item_to_product_map.get(item_id)
 
                 if product_id:
-                    # Check if product passes the type filter (it should already be in product_details_map if it passes)
+                    # Verify if the product meets the type filter criteria (it should already exist in product_details_map if it does).
                     if product_id in product_details_map:
                         if product_id not in filtered_items:
                             filtered_items[product_id] = []
 
-                        # Get item details from product variants
+                        # Retrieve details of items from product variants.
                         product_info = product_details_map.get(product_id, {})
                         variants = product_info.get("variants", {})
                         item_variant_info = variants.get(item_id, {})
@@ -140,10 +140,10 @@ class GetProductItemsPerSupplier(Tool):
                             }
                         })
                     else:
-                        # Item belongs to a product that was filtered out by product type
+                        # The item is associated with a product that has been excluded based on its type.
                         stock_summary["filtered_out_items"] += 1
                 else:
-                    # Item not mapped to any product
+                    # No product associated with the item.
                     stock_summary["unmapped_items"] += 1
                     if "unmapped_items" not in filtered_items:
                         filtered_items["unmapped_items"] = []
@@ -160,22 +160,22 @@ class GetProductItemsPerSupplier(Tool):
                         }
                     })
 
-        # Build detailed product information (only for products that match the type filter)
+        # Generate comprehensive product details exclusively for items that meet the type filter criteria.
         products_with_items = []
 
-        # Instead of iterating through supplier_products, iterate through filtered_items
+        # Loop through filtered_items instead of supplier_products.
         for product_id, product_items in filtered_items.items():
-            # Skip unmapped_items key
+            # Omit the unmapped_items key.
             if product_id == "unmapped_items":
                 continue
 
-            # Only process products that are in our filtered product_details_map
+            # Process only those products present in the filtered product_details_map.
             if product_id in product_details_map:
                 product_info = product_details_map.get(product_id)
 
-                # Only include products that have items after filtering
+                # Include only products that contain items post-filtering.
                 if product_items:
-                    # Calculate product-level stock summary
+                    # Compute the summary of stock at the product level.
                     product_stock_summary = {
                         "total_items": len(product_items),
                         "available_items": len([item for item in product_items if item["stock_status"] == "available"]),
@@ -192,7 +192,7 @@ class GetProductItemsPerSupplier(Tool):
                         "items": product_items
                     })
 
-        # Add unmapped items if any exist
+        # Include any existing unmapped items.
         unmapped_items = filtered_items.get("unmapped_items", [])
 
         result = {

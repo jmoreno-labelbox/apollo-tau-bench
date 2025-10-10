@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -47,7 +47,7 @@ class UpsertEmailTool(Tool):
             emails.append(rec)
             return json.dumps(rec, indent=2)
 
-        # UPDATE (exclusive fields only)
+        # MODIFY (exclusive attributes only)
         if sender is not None:
             rec["sender"] = sender
         if receiver is not None:

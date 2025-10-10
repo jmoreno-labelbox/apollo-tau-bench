@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,14 +15,14 @@ class GetGradesByPitchIds(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         pitch_ids = kwargs.get("pitch_ids")
 
-        # 1) Validate
+        # 1) Verify
         if not isinstance(pitch_ids, list) or len(pitch_ids) == 0:
             return json.dumps({"error": "Missing required field: pitch_ids (non-empty list of integers)"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         grades: List[Dict[str, Any]] = list(data.get("pitch_execution_grades", {}).values())
 
-        # 3) Collect matches
+        # 3) Gather matches
         id_set = set(pitch_ids)
         matches = [rec for rec in grades if rec.get("pitch_id") in id_set]
 

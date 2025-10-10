@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,7 +23,7 @@ class FindAccessRequestByDetails(Tool):
             if (request.get("user_id") == user_id and
                 request.get("requested_role_id") == role_id and
                 request.get("resource_id") == resource_id):
-                # 3. If a match is found, return the entire request object.
+                # 3. If a match is identified, return the complete request object.
                 return json.dumps(request)
 
         return json.dumps({"error": "No matching access request found for the provided details."})

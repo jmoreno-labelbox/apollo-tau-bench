@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class SendSlackMessage(Tool):
         new_id = f"msg_{max((int(m['message_id'].split('_')[-1]) for m in messages), default=0) + 1:03d}"
         channel_name = kwargs.get("channel_name")
 
-        # Automatically generate appropriate message based on channel name
+        # Dynamically create a suitable message according to the channel name.
         if channel_name == "System Alerts":
             message = f"System alert notification sent to {channel_name} channel at {new_id}"
         elif channel_name == "Operations":

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class CheckSupplyOrderStatus(Tool):
         """
         Check supply order status for inventory replenishment planning
         """
-        # Rule: Supply orders must reference valid supplier_id and existing product_id
+        # Requirement: Supply orders should include a valid supplier_id and a corresponding product_id.
         supply_orders = data.get("supply_orders", [])
         product_supply_orders = [so for so in supply_orders if so.get("product_id") == product_id]
 
@@ -21,7 +21,7 @@ class CheckSupplyOrderStatus(Tool):
                 "status": "not_found"
             })
 
-        # Rule: Supply orders with status 'cancelled' require alternative sourcing and cannot be fulfilled
+        # Condition: Orders marked as 'cancelled' need alternative sourcing and cannot be processed.
         active_orders = []
         cancelled_orders = []
         fulfilled_orders = []
@@ -35,7 +35,7 @@ class CheckSupplyOrderStatus(Tool):
             elif status == "pending":
                 active_orders.append(order)
 
-        # Calculate totals
+        # Compute sums
         total_pending_quantity = sum(order.get("quantity", 0) for order in active_orders)
         total_fulfilled_quantity = sum(order.get("quantity", 0) for order in fulfilled_orders)
         total_cancelled_quantity = sum(order.get("quantity", 0) for order in cancelled_orders)

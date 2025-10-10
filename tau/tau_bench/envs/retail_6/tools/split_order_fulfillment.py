@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class SplitOrderFulfillment(Tool):
         order = _find_order(data, order_id)
         if not order:
             return json.dumps({"error":f"order_id {order_id} not found"}, indent=2)
-        # Create or overwrite tracking record
+        # Generate or update tracking entry.
         tr_list = data.setdefault('tracking', [])
         tr = _find_tracking(data, tracking_id)
         if not tr:
@@ -32,7 +32,7 @@ class SplitOrderFulfillment(Tool):
             tr['delivery_options'] = delivery_options
             tr['order_id'] = order_id
             tr['address'] = address or order.get('address')
-        # Link to order fulfillments
+        # Connection to order completions
         fl = _ensure_list(order, 'fulfillments')
         payload = {"tracking_id":[tracking_id], "item_ids": item_ids}
         if payload not in fl:

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class CreateClientNote(Tool):
                 "error": "client_id, broker_id, and note_text are required"
             }, indent=2)
         
-        # Create client note
+        # Generate client documentation.
         note = {
             "note_id": 801,
             "client_id": client_id,

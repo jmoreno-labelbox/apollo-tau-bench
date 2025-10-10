@@ -1,8 +1,8 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 
 
-# Helper functions
+# Utility functions
 def _params(data, kwargs):
     """Merge data and kwargs into params dict."""
     return {**data, **kwargs}

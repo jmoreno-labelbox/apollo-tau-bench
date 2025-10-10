@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright held by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,13 +10,13 @@ class create_customer(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         customers = list(data.get("customers", {}).values())
 
-        # Timestamp needs to be sent for database records
+        # A timestamp must be included for database entries.
         timestamp = kwargs.get("timestamp")
 
-        # These values must be sent
+        # These values need to be transmitted.
         required_cols = ["name", "phone_number", "email", "address", "birthdate"]
 
-        # These values have defaults if not sent
+        # Default values are used if none are provided.
         optional_cols = ["loyalty_points", "membership_level", "opt_in_marketing"]
 
         required_values = {k: kwargs.get(k) for k in required_cols}
@@ -27,7 +27,7 @@ class create_customer(Tool):
         }
         optional_values.update({k: kwargs[k] for k in optional_cols if k in kwargs})
 
-        # These values are calculated by the function
+        # The function computes these values.
         fill_in = {
             "customer_id": "CUST-5{customer_id:03}".format(
                 customer_id=max(
@@ -40,7 +40,7 @@ class create_customer(Tool):
             "status": "active",
         }
 
-        # Throw an error if any of the required values are missing
+        # Raise an error if any essential values are absent.
         if any([required_values[k] is None for k in required_values.keys()]):
             return json.dumps(
                 {
@@ -52,8 +52,8 @@ class create_customer(Tool):
                 indent=2,
             )
 
-        # This is the order that the items appear in the database
-        # May not be necessary since dictionaries are unordered, but it can make valiation easier if the items appear in the same order everytime
+        # This is the sequence in which the items are listed in the database.
+        # Although dictionaries are inherently unordered, maintaining a consistent item order can simplify validation.
         col_order = [
             "customer_id",
             "name",
@@ -69,16 +69,16 @@ class create_customer(Tool):
             "status",
         ]
 
-        # Order the items
+        # Arrange the items.
         row = required_values | optional_values | fill_in
         row_final = OrderedDict()
         for k in col_order:
             row_final[k] = row[k]
 
-        # Add to the database
+        # Insert into the database.
         customers.append(json.dumps(row_final, indent=2))
 
-        # Return the whole row for reference
+        # Retrieve the entire row for reference.
         return json.dumps(row_final, indent=2)
 
     @staticmethod

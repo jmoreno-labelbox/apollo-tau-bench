@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Intellectual property owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,9 +11,9 @@ class SearchPurchaseOrders(Tool):
         supplier_id = kwargs.get("supplier_id")
         status = kwargs.get("status")
 
-        # Since we don't have purchase_orders data, we'll search inbound_shipments
-        # which represent orders that have been placed and are being fulfilled
-        inbound_shipments = list(data.get("inbound_shipments", {}).values())
+        # Lacking purchase_orders data, we will query inbound_shipments instead.
+        # denotes orders that have been submitted and are currently in the fulfillment process
+        inbound_shipments = data.get("inbound_shipments", [])
         results = []
 
         for shipment in inbound_shipments:
@@ -22,12 +22,12 @@ class SearchPurchaseOrders(Tool):
             if supplier_id and shipment.get("supplier_id") != supplier_id:
                 match = False
             if status:
-                # Map shipment status to purchase order equivalent status
+                # Associate shipment status with corresponding purchase order status.
                 po_status = "Delivered" if shipment.get("status") == "Received" else shipment.get("status")
                 if po_status != status:
                     match = False
             if match:
-                # Convert shipment data to purchase order format
+                # Transform shipment information into purchase order structure.
 
                 po_data = {
                     "po_id": shipment.get("purchase_order_number"),

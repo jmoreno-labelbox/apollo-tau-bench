@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,21 +18,21 @@ class CaV2CalculateExpenseSummary(Tool):
         expenses = data.get("expenses", [])
         expense_categories = data.get("expense_categories", [])
 
-        # Filter expenses by date range
+        # Select expenses within a specified date range.
         if start_date and end_date:
             filtered_expenses = [exp for exp in expenses
                                if start_date <= exp.get("expense_date", "") <= end_date]
         else:
-            # Filter expenses by year
+            # Sort expenses by year.
             filtered_expenses = [exp for exp in expenses
                                if exp.get("expense_date", "").startswith(year)]
 
-        # Filter by categories if specified
+        # Apply category filters if provided.
         if category_filter:
             filtered_expenses = [exp for exp in filtered_expenses
                                if exp.get("category_code") in category_filter]
 
-        # Group by category
+        # Categorize by grouping
         category_summary = {}
         for expense in filtered_expenses:
             category_code = expense.get("category_code")
@@ -50,13 +50,13 @@ class CaV2CalculateExpenseSummary(Tool):
             category_summary[category_code]["total_deductible"] += allowed_amount
             category_summary[category_code]["count"] += 1
 
-        # Add category names and ensure deductible doesn't exceed gross
+        # Incorporate category labels and verify that the deductible remains less than or equal to the gross amount.
         for category_code, summary in category_summary.items():
             category_info = _find_one(expense_categories, "category_code", category_code)
             summary["category_name"] = category_info.get("name", "Unknown") if category_info else "Unknown"
             summary["deductible_percent"] = category_info.get("deductible_percent", 0) if category_info else 0
 
-            # Ensure deductible never exceeds gross amount
+            # Verify that the deductible does not surpass the total amount.
             if summary["total_deductible"] > summary["total_gross"]:
                 summary["total_deductible"] = summary["total_gross"]
 

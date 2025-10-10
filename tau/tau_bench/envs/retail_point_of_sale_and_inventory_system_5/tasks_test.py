@@ -1,7 +1,7 @@
 from tau_bench.types import Action, Task
 import hashlib
 
-# Helper to generate deterministic adjustment and transfer IDs
+# Utility for creating consistent adjustment and transfer identifiers.
 
 def adj_id(store_id, sku):
     return f"ADJ-{hashlib.sha256(f'{store_id}-{sku}'.encode()).hexdigest()[:6].upper()}"
@@ -502,7 +502,7 @@ TASKS = [
             Action(name="GetStoreInventory", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04"}),
             Action(name="GetPhysicalCount", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "auditor_id": "EMP-1015"}),
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 90, "physical_count": 90, "unit_cost": 9.9}),
-            # No recount triggered since discrepancy is 0, which is below threshold
+            # Recount not initiated as the discrepancy of 0 is below the threshold.
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "auditor_id": "EMP-1015", "result": "discrepancy_logged", "timestamp": "2025-07-01T16:00:00Z", "photo": "photo034.jpg", "digital_signature": "SIG-034"}),
         ],
         outputs=[]
@@ -678,7 +678,7 @@ TASKS = [
         ),
         actions=[
             Action(name="ListStoreSkus", kwargs={"store_id": "STORE-003"}),
-            # Only proceed if SKU list succeeds:
+            # Proceed only if the SKU list is successful:
             Action(name="ListActivePromotions", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "auditor_id": "EMP-3001", "result": "promotion_checked", "timestamp": "2025-08-24T11:00:00Z", "photo": "photo077_new.jpg", "digital_signature": "SIG-077N"}),
         ],
@@ -692,7 +692,7 @@ TASKS = [
             Action(name="GetStoreInventory", kwargs={"store_id": "STORE-001", "sku": "BOOK-KDSSTY01"}),
             Action(name="GetPhysicalCount", kwargs={"store_id": "STORE-001", "sku": "BOOK-KDSSTY01", "auditor_id": "EMP-1002"}),
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 40, "physical_count": 40, "unit_cost": 4.2}),
-            # No escalation since discrepancy is 0, which is not > $40
+            # No escalation needed as the discrepancy is 0, which does not exceed $40.
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "BOOK-KDSSTY01", "auditor_id": "EMP-1002", "result": "discrepancy_logged", "timestamp": "2025-07-01T17:30:00Z", "photo": "photo048.jpg", "digital_signature": "SIG-048"}),
         ],
         outputs=[]
@@ -1137,21 +1137,21 @@ TASKS = [
         actions=[
             Action(name="ListStoreSkus", kwargs={"store_id": "STORE-001"}),
             Action(name="GetStoreInventory", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01"}),
-            # Only proceed if get_store_inventory returns a valid record:
+            # Continue only if get_store_inventory yields a valid result:
             Action(name="FlagExpiredProducts", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "as_of_date": "2025-09-08"}),
-            # Only proceed if expired products are flagged:
+            # Continue only if expired items are marked.
             Action(name="CreateInventoryAdjustment", kwargs={
                 "store_id": "STORE-001",
                 "sku": "HOME-BTHTWL01",
                 "amount": -12.0,
                 "reason": "expired_stock"
             }),
-            # Only proceed if adjustment creation succeeds:
+            # Continue only if the adjustment creation is successful:
             Action(name="DualApproval", kwargs={
                 "adjustment_id": adj_id("STORE-001", "HOME-BTHTWL01"),
                 "approver_id": "EMP-1003"
             }),
-            # Only proceed if dual approval succeeds:
+            # Continue only if both approvals are successful:
             Action(name="LogAuditResult", kwargs={
                 "store_id": "STORE-001",
                 "sku": "HOME-BTHTWL01",
@@ -1172,9 +1172,9 @@ TASKS = [
         ),
         actions=[
             Action(name="GetStoreInventory", kwargs={"store_id": "STORE-001", "sku": "GROC-ALMBTR500"}),
-            # Only proceed if get_store_inventory returns a valid record:
+            # Continue only if get_store_inventory yields a valid record:
             Action(name="GetPhysicalCount", kwargs={"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "auditor_id": "EMP-1002"}),
-            # Only proceed if get_physical_count returns a valid count:
+            # Continue only if get_physical_count yields a valid result.
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 60, "physical_count": 60, "unit_cost": 7.85}),
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "GROC-ALMBTR500", "amount": 0.0, "reason": "audit_discrepancy"}),
             Action(name="DualApproval", kwargs={"adjustment_id": adj_id("STORE-001", "GROC-ALMBTR500"), "approver_id": "EMP-1003"}),
@@ -1192,27 +1192,27 @@ TASKS = [
         actions=[
             Action(name="ListStoreSkus", kwargs={"store_id": "STORE-003"}),
             Action(name="GetStoreInventory", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04"}),
-            # Only proceed if get_store_inventory returns a valid record:
+            # Continue only if get_store_inventory provides a valid entry:
             Action(name="GetPhysicalCount", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "auditor_id": "EMP-3001"}),
-            # Only proceed if physical count succeeds:
+            # Proceed only if the physical count is successful.
             Action(name="ComputeDiscrepancyAmount", kwargs={
                 "system_count": 90,
                 "physical_count": 90,
                 "unit_cost": 9.9
             }),
-            # Only proceed if discrepancy computation succeeds:
+            # Continue only if the discrepancy calculation is successful:
             Action(name="CreateInventoryAdjustment", kwargs={
                 "store_id": "STORE-003",
                 "sku": "ELEC-RCHAA04",
                 "amount": 0.0,
                 "reason": "audit_discrepancy"
             }),
-            # Only proceed if adjustment creation succeeds:
+            # Proceed only if the adjustment is successfully created:
             Action(name="DualApproval", kwargs={
                 "adjustment_id": adj_id("STORE-003", "ELEC-RCHAA04"),
                 "approver_id": "EMP-3002"
             }),
-            # Only proceed if dual approval succeeds:
+            # Continue only if both approvals are successful:
             Action(name="LogAuditResult", kwargs={
                 "store_id": "STORE-003",
                 "sku": "ELEC-RCHAA04",
@@ -1233,27 +1233,27 @@ TASKS = [
         actions=[
             Action(name="ListStoreSkus", kwargs={"store_id": "STORE-003"}),
             Action(name="GetStoreInventory", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04"}),
-            # Only proceed if get_store_inventory returns a valid record:
+            # Continue only if get_store_inventory provides a valid entry:
             Action(name="GetPhysicalCount", kwargs={"store_id": "STORE-003", "sku": "ELEC-RCHAA04", "auditor_id": "EMP-3001"}),
-            # Only proceed if physical count succeeds:
+            # Continue only if the physical count is successful:
             Action(name="ComputeDiscrepancyAmount", kwargs={
                 "system_count": 90,
                 "physical_count": 90,
                 "unit_cost": 9.9
             }),
-            # Only proceed if discrepancy computation succeeds:
+            # Proceed only if the discrepancy calculation is successful:
             Action(name="CreateInventoryAdjustment", kwargs={
                 "store_id": "STORE-003",
                 "sku": "ELEC-RCHAA04",
                 "amount": 0.0,
                 "reason": "audit_discrepancy"
             }),
-            # Only proceed if adjustment creation succeeds:
+            # Continue only if the adjustment creation is successful:
             Action(name="DualApproval", kwargs={
                 "adjustment_id": adj_id("STORE-003", "ELEC-RCHAA04"),
                 "approver_id": "EMP-3002"
             }),
-            # Only proceed if dual approval succeeds:
+            # Proceed only if both approvals are successful:
             Action(name="LogAuditResult", kwargs={
                 "store_id": "STORE-003",
                 "sku": "ELEC-RCHAA04",
@@ -1274,27 +1274,27 @@ TASKS = [
         actions=[
             Action(name="ListStoreSkus", kwargs={"store_id": "STORE-001"}),
             Action(name="GetStoreInventory", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01"}),
-            # Only proceed if get_store_inventory returns a valid record:
+            # Continue only if get_store_inventory provides a valid entry:
             Action(name="GetPhysicalCount", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002"}),
-            # Only proceed if physical count succeeds:
+            # Continue only if the physical count is successful.
             Action(name="ComputeDiscrepancyAmount", kwargs={
                 "system_count": 100,
                 "physical_count": 100,
                 "unit_cost": 6.0
             }),
-            # Only proceed if discrepancy computation succeeds:
+            # Continue only if the discrepancy calculation is successful:
             Action(name="CreateInventoryAdjustment", kwargs={
                 "store_id": "STORE-001",
                 "sku": "HOME-BTHTWL01",
                 "amount": 0.0,
                 "reason": "audit_discrepancy"
             }),
-            # Only proceed if adjustment creation succeeds:
+            # Continue only if the adjustment creation is successful.
             Action(name="DualApproval", kwargs={
                 "adjustment_id": adj_id("STORE-001", "HOME-BTHTWL01"),
                 "approver_id": "EMP-1003"
             }),
-            # Only proceed if dual approval succeeds:
+            # Continue only if both approvals are successful:
             Action(name="LogAuditResult", kwargs={
                 "store_id": "STORE-001",
                 "sku": "HOME-BTHTWL01",
@@ -1634,9 +1634,9 @@ TASKS = [
         actions=[
             Action(name="ListStoreSkus", kwargs={"store_id": "STORE-001"}),
             Action(name="GetStoreInventory", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01"}),
-            # Only proceed if get_store_inventory returns a valid record:
+            # Continue only if get_store_inventory provides a valid entry:
             Action(name="GetPhysicalCount", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1002"}),
-            # Only proceed if get_physical_count returns a valid count:
+            # Proceed only if get_physical_count yields a valid result:
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 100, "physical_count": 100, "unit_cost": 6.0}),
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": 0.0, "reason": "audit_discrepancy"}),
             Action(name="DualApproval", kwargs={"adjustment_id": adj_id("STORE-001", "HOME-BTHTWL01"), "approver_id": "EMP-1003"}),
@@ -1656,9 +1656,9 @@ TASKS = [
             Action(name="GetPhysicalCount", kwargs={"store_id": "STORE-002", "sku": "CLTH-SLFJEAN34", "auditor_id": "EMP-1050"}),
             Action(name="LogTransfer", kwargs={"from_store": "STORE-002", "to_store": "STORE-004", "sku": "CLTH-SLFJEAN34", "quantity": 8}),
             Action(name="CreateTransferOrder", kwargs={"from_store": "STORE-002", "to_store": "STORE-004", "sku": "CLTH-SLFJEAN34", "quantity": 8}),
-            # Use the transfer_id returned by create_transfer_order for all subsequent steps
+            # Utilize the transfer_id obtained from create_transfer_order for all following actions.
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-002", "sku": "CLTH-SLFJEAN34", "amount": -176.0}),
-            # Use the adjustment_id returned by create_inventory_adjustment for all subsequent steps
+            # Utilize the adjustment_id provided by create_inventory_adjustment for all following actions.
             Action(name="DualApproval", kwargs={"adjustment_id": adj_id("STORE-002", "CLTH-SLFJEAN34")}),
             Action(name="UpdateTransferCompliance", kwargs={"transfer_id": trf_id("STORE-002", "STORE-004", "CLTH-SLFJEAN34"), "status": "dual_approved"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-002", "sku": "CLTH-SLFJEAN34", "auditor_id": "EMP-1050", "timestamp": "2025-07-03T09:00:00Z", "photo": "photo080.jpg", "digital_signature": "SIG-080"}),
@@ -1675,7 +1675,7 @@ TASKS = [
             Action(name="GetPhysicalCount", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1061"}),
             Action(name="ComputeDiscrepancyAmount", kwargs={"system_count": 100, "physical_count": 100, "unit_cost": 6.0}),
             Action(name="CreateInventoryAdjustment", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "amount": 0.0, "reason": "audit_discrepancy"}),
-            # Use the adjustment_id returned by create_inventory_adjustment for dual_approval
+            # Utilize the adjustment_id obtained from create_inventory_adjustment for dual approval.
             Action(name="DualApproval", kwargs={"adjustment_id": adj_id("STORE-001", "HOME-BTHTWL01"), "approver_id": "EMP-1002"}),
             Action(name="LogAuditResult", kwargs={"store_id": "STORE-001", "sku": "HOME-BTHTWL01", "auditor_id": "EMP-1061", "timestamp": "2025-07-03T00:00:00Z", "photo": "photo098.jpg", "digital_signature": "SIG-098"}),
         ],

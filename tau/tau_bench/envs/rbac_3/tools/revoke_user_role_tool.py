@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -37,7 +37,7 @@ class RevokeUserRoleTool(Tool):
         if removed:
             data["user_roles"] = kept
 
-        # Prepare audit log info
+        # Gather audit log details.
         action_details = "REMOVED" if removed else "NOOP"
         log_info = {
             "log_id": f"LOG-{user_id}-{role_id}-revoke",

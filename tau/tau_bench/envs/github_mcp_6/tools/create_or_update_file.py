@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,7 +12,7 @@ class CreateOrUpdateFile(Tool):
         repositories = list(data.get("repositories", {}).values())
         commits = list(data.get("commits", {}).values())
 
-        # Find the repository
+        # Locate the repository.
         target_repo = None
         for repository in repositories:
             if repository["owner"] == owner and repository["repo_name"] == repo:
@@ -22,13 +22,13 @@ class CreateOrUpdateFile(Tool):
         if not target_repo:
             return json.dumps({"error": f"Repository {owner}/{repo} not found"}, indent=2)
 
-        # Find branch index
+        # Locate the index of the branch.
         try:
             branch_idx = target_repo["branches"].index(branch)
         except ValueError:
             return json.dumps({"error": f"Branch {branch} not found in repository"}, indent=2)
 
-        # Update file in branch
+        # Modify file in branch
         if path not in target_repo["branch_files"][branch_idx]:
             target_repo["branch_files"][branch_idx].append(path)
             target_repo["branch_contents"][branch_idx].append(content)
@@ -36,10 +36,10 @@ class CreateOrUpdateFile(Tool):
             file_idx = target_repo["branch_files"][branch_idx].index(path)
             target_repo["branch_contents"][branch_idx][file_idx] = content
 
-        # Create commit entry
+        # Generate commit message
         commit_sha = f"commit_{len(commits) + 1}_{path.replace('/', '_')}"
 
-        # Add to commits data
+        # Append to commit records.
         repo_commits = None
         for commit_entry in commits:
             if commit_entry["owner"] == owner and commit_entry["repo_name"] == repo:

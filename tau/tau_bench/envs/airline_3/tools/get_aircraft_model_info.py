@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class GetAircraftModelInfo(Tool):
                 break
 
         if not target_model:
-            # Aircraft model not found - return helpful information instead of error
+            # Aircraft model missing - provide useful information rather than an error.
             available_models = [model.get("model_id") for model in aircraft_models]
             response = {
                 "status": "aircraft_model_not_available",
@@ -41,7 +41,7 @@ class GetAircraftModelInfo(Tool):
             }
             return json.dumps(response, indent=2)
 
-        # Get aircraft instances using this model
+        # Obtain aircraft instances with this model.
         aircraft = list(data.get("aircraft", {}).values())
         model_aircraft = []
         for ac in aircraft:
@@ -53,7 +53,7 @@ class GetAircraftModelInfo(Tool):
                     "current_location": ac.get("current_location", {}).get("iata_code")
                 })
 
-        # Calculate fleet statistics
+        # Compute fleet metrics.
         total_fleet_size = len(model_aircraft)
         operational_count = len([ac for ac in model_aircraft if ac.get("status") == "operational"])
         maintenance_count = len([ac for ac in model_aircraft if ac.get("status") == "maintenance"])
@@ -79,7 +79,7 @@ class GetAircraftModelInfo(Tool):
             "aircraft_instances": model_aircraft
         }
 
-        # Add performance metrics if available
+        # Include performance metrics if they are accessible.
         if target_model.get("range_km"):
             response["performance_metrics"] = {
                 "range_miles": round(target_model.get("range_km") * 0.621371, 1),

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -23,11 +23,11 @@ class VerifyRouteCreationTool(Tool):
         route_exists = route is not None
         properties_count = len(route.get("stops_ordered_json") or []) if route else 0
 
-        # events = {int(e.get("event_id")): e for e in data.get("calendar_events", []) if e.get("event_id") is not None}
-        # event = events.get(int(event_id))
-        # event_created = event is not None
+        # events = {int(e["event_id"]): e for e in data.get("calendar_events", []) if e.get("event_id") is not None}
+        # event = events[int(event_id)]
+        # event_created = event exists
 
-        # Travel constraints met: if map_url exists and >= 1 stop
+        # Travel requirements satisfied: if map_url is present and there is at least one stop.
         travel_constraints_met = bool(
             route and route.get("map_url") and properties_count >= 1
         )
@@ -40,7 +40,7 @@ class VerifyRouteCreationTool(Tool):
                 "travel_constraints_met": bool(travel_constraints_met),
                 "broker_notified": (
                     True
-                ),  # assume notification handled via email/log elsewhere
+                ),  # assume notification is managed through email or logged in another location
                 "schedule_complete": bool(route_exists and travel_constraints_met),
             }
         }

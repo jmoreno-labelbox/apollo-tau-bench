@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -13,7 +13,7 @@ class AddOrderItemsFromList(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         order_id = kwargs.get("order_id")
         store_id = kwargs.get("store_id")
-        product_overrides = kwargs.get("product_overrides", {})  # optional {ingredient_id: product_id}
+        product_overrides = kwargs.get("product_overrides", {})  # optional {ingredient_id: associated_product_id}
         if order_id is None or store_id is None:
             return _json_dump({"error": "order_id and store_id are required"})
         order = _require(data, "orders", "order_id", int(order_id))
@@ -50,7 +50,7 @@ class AddOrderItemsFromList(Tool):
             created_ids.append(next_oi)
             subtotal += int(product.get("price_cents", 0))
         order["subtotal_cents"] = subtotal
-        order["total_cents"] = subtotal  # deterministic (no implicit fees)
+        order["total_cents"] = subtotal  # predictable (no hidden charges)
         return _json_dump({"created_order_item_ids": created_ids, "subtotal_cents": order["subtotal_cents"], "total_cents": order["total_cents"]})
 
     @staticmethod

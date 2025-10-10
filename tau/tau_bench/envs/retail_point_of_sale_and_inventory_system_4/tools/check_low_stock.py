@@ -1,11 +1,11 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class CheckLowStock(Tool): # WRITE
+class CheckLowStock(Tool): # CREATE
     @staticmethod
     def invoke(data: Dict[str, Any], store_id: str, current_time: str) -> str:
         db = list(data.get("inventory", {}).values())

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .create_review_cycle import create_review_cycle
 from .link_cycle_to_thread import link_cycle_to_thread

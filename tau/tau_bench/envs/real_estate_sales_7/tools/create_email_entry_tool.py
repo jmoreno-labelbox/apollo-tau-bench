@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class CreateEmailEntryTool(Tool):
 
         campaign_id = kwargs.get("campaign_id")
 
-        # --- Auto-generate subject and body_uri if not provided ---
+        # --- Automatically create subject and body_uri if they are not supplied ---
         if not subject or not body_uri:
             comp_reports = [
                 r
@@ -74,7 +74,7 @@ class CreateEmailEntryTool(Tool):
                 elif template_code == "follow_up":
                     subject = f"Following Up on Your Real Estate Needs"
                 else:
-                    # Fallback logic based on report status
+                    # Alternative logic depending on the report's status
                     if report_status == "sent_to_client":
                         subject = f"Your comparable analysis for {subject_property} is complete"
                     elif report_status == "ready_for_review":
@@ -118,10 +118,10 @@ class CreateEmailEntryTool(Tool):
                 elif report_id:
                     body_uri = f"https://storage.example.com/emails/email_comp_{int(report_id):03d}.html"
                 else:
-                    # Default to comp report style
+                    # Set to the default configuration for the comparison report format.
                     body_uri = f"https://storage.example.com/emails/email_comp_{int(client_id):03d}.html"
 
-        # --- Create Email Entry ---
+        # --- Generate Email Record ---
         email_rows = data.setdefault("emails", [])
         email_id = _next_int_id(email_rows, "email_id")
         email_rec = {
@@ -136,7 +136,7 @@ class CreateEmailEntryTool(Tool):
         }
         email_rows.append(email_rec)
 
-        # --- Create Audit Event Entry ---
+        # --- Generate Audit Log Entry ---
         audit_rows = data.setdefault("audit_events", [])
         audit_event_id = _next_int_id(audit_rows, "event_id")
         audit_rec = {

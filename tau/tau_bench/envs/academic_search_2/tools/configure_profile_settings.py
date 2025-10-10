@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright held by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -31,7 +31,7 @@ class ConfigureProfileSettings(Tool):
             return json.dumps({"success": True, "configured_settings": user_pref})
         else:
             new_pref = {
-                "preference_id": f"pref_{uuid.uuid4().hex[:4]}", # Gera um ID único
+                "preference_id": f"pref_{uuid.uuid4().hex[:4]}", # Cria um identificador exclusivo.
                 "user_id": user_id,
                 "notification_channel": notification_channel,
                 "ui_theme": ui_theme
@@ -42,7 +42,7 @@ class ConfigureProfileSettings(Tool):
                 del new_pref['ui_theme']
 
             preferences.append(new_pref)
-            data['user_preferences'] = preferences # Garante que a lista atualizada seja salva de volta no 'data'
+            data['user_preferences'] = preferences # Assegura que a lista atualizada seja gravada novamente em 'data'.
             return json.dumps({"success": True, "configured_settings": new_pref})
 
     @staticmethod

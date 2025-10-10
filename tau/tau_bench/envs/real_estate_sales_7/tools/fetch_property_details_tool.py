@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,7 +19,7 @@ class FetchPropertyDetailsTool(Tool):
         sales_history = _collect_sales_history(data, property_id)
         latest_sale = _latest(sales_history, "sale_date") if sales_history else None
 
-        # Open house windows for this property
+        # Enable windows for this property.
         open_houses = [
             oh
             for oh in data.get("open_houses", [])

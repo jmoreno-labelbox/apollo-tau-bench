@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from datetime import datetime
 import json
@@ -19,7 +19,7 @@ class ComputeInvoiceAging(Tool):
         if not invoice:
             return json.dumps({"error": "invoice not found"})
 
-        due_date = datetime.strptime(invoice["invoice_date"], "%Y-%m-%d")  # assume net 0 / same day due
+        due_date = datetime.strptime(invoice["invoice_date"], "%Y-%m-%d")  # consider net 0 / due on the same day
         days_overdue = (as_of_date - due_date).days
 
         if days_overdue < 0:

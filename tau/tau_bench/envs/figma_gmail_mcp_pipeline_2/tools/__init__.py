@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 from .get_artifact_with_id import GetArtifactWithId
 from .get_all_artifacts_of_type_with_tags_and_email import GetAllArtifactsOfTypeWithTagsAndEmail

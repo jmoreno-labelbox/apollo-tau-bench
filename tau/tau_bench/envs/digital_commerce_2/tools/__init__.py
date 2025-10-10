@@ -1,7 +1,7 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 
-# Helper function
+# Utility function
 def _money(amount):
     """Format amount as money string."""
     return f"${amount:.2f}"

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Sierra Copyright
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,12 +25,12 @@ class ListUsersWithAccessToResource(Tool):
         include_user_details = kwargs.get("include_user_details", False)
         include_role_details = kwargs.get("include_role_details", False)
 
-        # Build permission and role mappings
+        # Create mappings for permissions and roles.
         perms = [p for p in list(data.get("permissions", {}).values()) if p.get("resource_id") == resource_id]
         perm_ids = {p.get("permission_id") for p in perms if p.get("permission_id")}
         role_ids = {rp.get("role_id") for rp in data.get("role_permissions", []) if rp.get("permission_id") in perm_ids}
 
-        # Build helpers
+        # Construct utility functions
         user_map = {u.get("user_id"): u for u in list(data.get("users", {}).values())}
         role_map = {r.get("role_id"): r for r in list(data.get("roles", {}).values())}
 
@@ -38,7 +38,7 @@ class ListUsersWithAccessToResource(Tool):
             exp = _parse_iso(ur.get("expires_on"))
             return (exp is None) or (exp > on_dt)
 
-        # Aggregate users with matching roles
+        # Group users by their corresponding roles.
         acc: Dict[str, Dict[str, Any]] = {}
         for ur in data.get("user_roles", []):
             if ur.get("role_id") in role_ids and (not only_active or is_active(ur)):

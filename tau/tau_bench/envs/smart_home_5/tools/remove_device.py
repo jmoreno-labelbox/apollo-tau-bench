@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class RemoveDevice(Tool):
         if len(devices) == initial_len:
             return json.dumps({"error": f"Device with ID '{device_id}' not found."}, indent=2)
 
-        # Also remove from rooms
+        # Additionally, eliminate from rooms.
         rooms = data.get('rooms', [])
         for room in rooms:
             if device_id in room.get('devices', []):

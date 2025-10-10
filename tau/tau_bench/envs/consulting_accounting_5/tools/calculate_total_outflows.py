@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from datetime import datetime
 import json
@@ -21,9 +21,9 @@ class CalculateTotalOutflows(Tool):
             if not schedule.get("is_active"):
                 continue
 
-            # This is a simplified logic for monthly/quarterly payments
+            # This represents a streamlined approach for handling monthly and quarterly payments.
             if schedule["frequency"] == "monthly":
-                # Check for payment in the start month and next month to cover the 30-day window
+                # Verify payments for the current and following month to ensure a 30-day coverage.
                 for month_offset in range(2):
                     current_month_start = (start_date.replace(day=1) + timedelta(days=32 * month_offset)).replace(day=1)
                     if schedule["payment_day"] != "variable":

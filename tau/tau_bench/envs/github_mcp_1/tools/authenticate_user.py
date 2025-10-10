@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,24 +22,24 @@ class AuthenticateUser(Tool):
                 indent=2
             )
 
-        # Primary store: data.get("authentication", [])
+        # Main storage: data.get("authentication", [])
         authentication = data.get("authentication", [])
 
-        # Fallback if the DB was provided as a top-level list
+        # Alternative handling if the database is given as a top-level array.
         if not isinstance(authentication, list) and isinstance(data, list):
             authentication = data
 
-        # Lookup by username first
+        # Prioritize searching by username initially.
         user = next((u for u in authentication if u.get("username") == username), None)
         if not user:
             return json.dumps({"error": "User not found."}, indent=2)
 
-        # Validate remaining credentials
+        # Check the validity of the remaining credentials.
         if user.get("email") != email or user.get("auth_key") != auth_key:
             return json.dumps({"error": "Credentials invalid."}, indent=2)
     
 
-        # Success: include full user record
+        # Success: add complete user information
         return json.dumps(
             {
                 "success": f"User '{username}' authenticated successfully.",

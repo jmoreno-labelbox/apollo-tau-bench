@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,14 +17,14 @@ class CreateUserTool(Tool):
         department = kwargs.get("department")
         mfa_enabled = kwargs.get("mfa_enabled", False)
 
-        # Validation: ensure username/email are unique
+        # Verification: confirm that username/email is distinct.
         for u in users:
             if u["username"] == username:
                 return json.dumps({"error": f"Username {username} already exists"}, indent=2)
             if u["email"] == email:
                 return json.dumps({"error": f"Email {email} already exists"}, indent=2)
 
-        # Deterministic new user_id
+        # Predictable new user_id
         new_id = f"U-{len(users) + 1:03d}"
         users.append({
             "user_id": new_id,
@@ -35,7 +35,7 @@ class CreateUserTool(Tool):
             "mfa_enabled": mfa_enabled
         })
 
-        # Audit log entry
+        # Entry for audit log
         new_log_id = f"L-{len(audit_logs) + 1:03d}"
         audit_logs.append({
             "log_id": new_log_id,

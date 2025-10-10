@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -10,7 +10,7 @@ class ListCommitsTool(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         owner = kwargs.get('owner')
         repo = kwargs.get('repo')
-        path = kwargs.get('path') # This parameter seems unused in the provided data structure for commits, but kept for consistency if needed later.
+        path = kwargs.get('path') # This parameter appears to be unused in the current commit data structure but is retained for potential future use.
 
         if not all([owner, repo]):
             return json.dumps({
@@ -29,8 +29,8 @@ class ListCommitsTool(Tool):
             }, indent=2)
 
         commits_data = repository.get('commits', [])
-        # In a real scenario, you might filter commits by branch, path, etc.
-        # For this simulation, we return all commits associated with the repository.
+        # In a practical situation, filtering commits by branch, path, and other criteria may be applied.
+        # This simulation retrieves all commits linked to the repository.
         return json.dumps({
             "status": "success",
             "commits": commits_data

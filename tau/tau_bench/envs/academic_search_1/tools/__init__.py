@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .search_users import SearchUsers
 from .create_log_entry import CreateLogEntry

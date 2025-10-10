@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,7 +25,7 @@ class CreateWorkflow(Tool):
         status = kwargs.get("status")
         
 
-        # Validate required fields
+        # Check mandatory fields for correctness.
         missing = [f for f in ["dag_name", "status"] if kwargs.get(f) is None]
         if missing:
             return json.dumps({"error": f"Missing required field(s): {', '.join(missing)}"}, indent=2)

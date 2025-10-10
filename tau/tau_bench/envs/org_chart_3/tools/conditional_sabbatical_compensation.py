@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class conditional_sabbatical_compensation(Tool):
 
         current_level = employee.get("level_id", "")
 
-        # Simple level comparison (assuming L.1, L.2, L.3, L.4, L.5 format)
+        # Basic level comparison (presuming L.1, L.2, L.3, L.4, L.5 structure)
         def level_to_number(level_str):
             try:
                 return float(level_str.replace("L.", ""))
@@ -28,12 +28,12 @@ class conditional_sabbatical_compensation(Tool):
         threshold_level_num = level_to_number(level_threshold)
 
         if current_level_num >= threshold_level_num:
-            # Maintain full compensation - paid sabbatical
+            # Ensure complete pay during sabbatical leave.
             leave_type = paid_leave_type
             compensation_maintained = True
             action_taken = f"Paid sabbatical approved - level {current_level} meets threshold {level_threshold}"
         else:
-            # Reduce compensation - unpaid sabbatical
+            # Decrease payment - unpaid leave of absence.
             leave_type = unpaid_leave_type
             compensation_maintained = False
             action_taken = f"Unpaid sabbatical approved - level {current_level} below threshold {level_threshold}"

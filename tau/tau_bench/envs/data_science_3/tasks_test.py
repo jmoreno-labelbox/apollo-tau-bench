@@ -1,30 +1,30 @@
 from tau_bench.types import Action, Task
 
 TASKS = [
-   # Task(
-   #      annotator="R",
-   #      user_id="ds_v3_1000",
-   #      instruction=(
-   #          "You define an October-2025 backfill cutoff and validate configuration. End state: "
-   #          "project config has backfill_cutoff '2025-10-18T17:00:00Z' and is retrievable; "
-   #          "terminal log event 'BACKFILL_CUTOFF_CONFIRMED' with message 'October backfill cutoff finalized.' exists and is readable; "
-   #          "a QC PDF exists for label 'QC_CONFIG_BACKFILL_2025-10' with artifact_type 'pdf' and is accessible."
+   # Job(
+   # labeler="R",
+   # user_identifier="ds_v3_1000",
+   # command=(
+   # "Set an October 2025 backfill cutoff and verify the configuration. Final outcome:"
+   # "Project configuration includes backfill_cutoff '2025-10-18T17:00:00Z' and is accessible;"
+   # "Readable terminal log event 'BACKFILL_CUTOFF_CONFIRMED' with message 'October backfill cutoff finalized.' exists;"
+   # "A QC PDF is available for the label 'QC_CONFIG_BACKFILL_2025-10' with artifact type 'pdf' and can be accessed."
    #      ),
-   #      actions=[
+   # actions_list=[
    #          Action(name="UpdateProjectConfig", kwargs={"updates": {"backfill_cutoff": "2025-10-18T17:00:00Z"}}),
-   #          Action(name="GetProjectConfig", kwargs={"key": "backfill_cutoff"}),
+   # Action(name="RetrieveProjectConfiguration", kwargs={"key": "backfill_cutoff"}),
    #
-   #          Action(name="RecordTerminalLog", kwargs={"event_type": "BACKFILL_CUTOFF_CONFIRMED", "message": "October backfill cutoff finalized."}),
-   #          Action(name="ListTerminalLog", kwargs={"event_type": "BACKFILL_CUTOFF_CONFIRMED"}),
+   # Action(name="RecordTerminalLog", kwargs={"event_type": "BACKFILL_CUTOFF_CONFIRMED", "message": "Backfill cutoff for October confirmed."}),
+   # Action(name="ListTerminalLog", kwargs={"event_type": "BACKFILL_CUTOFF_VERIFIED"}),
    #
    #          Action(name="ExportQcFigure", kwargs={"figure_label": "QC_CONFIG_BACKFILL_2025-10"}),
    #          Action(name="InsertQcFigure", kwargs={"figure_label": "QC_CONFIG_BACKFILL_2025-10", "figure_path": "https://storage.example.com/reports/QC_CONFIG_BACKFILL_2025-10.pdf", "artifact_type": "pdf"}),
    #          Action(name="GetQcFigure", kwargs={"figure_label": "QC_CONFIG_BACKFILL_2025-10"}),
    #      ],
-   #      outputs=[
+   # results=[
    #          "config.backfill_cutoff=2025-10-18T17:00:00Z | "
-   #          "log.event_type=BACKFILL_CUTOFF_CONFIRMED; log.message=October backfill cutoff finalized. | "
-   #          "qc.figure_label=QC_CONFIG_BACKFILL_2025-10; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_BACKFILL_2025-10.pdf"
+   # "log.event_type=BACKFILL_CUTOFF_CONFIRMED; log.message=Backfill cutoff for October has been confirmed."
+   # qc.figure_label=QC_CONFIG_BACKFILL_2025-10; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_BACKFILL_2025-10.pdf
    #      ],
    #  ),
 
@@ -68,35 +68,35 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task(
-    #     annotator="R",
-    #     user_id="ds_v3_1003",
-    #     instruction=(
-    #         "You create an urban flood risk dataset 'urban_flood_v1' for 2025‑07. End state: "
-    #         "dataset 'urban_flood_v1' (version '1.0') with columns ['rainfall','drainage_capacity','flood_risk'] is recorded and retrievable; "
-    #         "feature file '/features/urban_flood_v1.parquet' exists and is readable; "
-    #         "a QC PDF exists for label 'QC_URBAN_FLOOD_2025-07' with artifact_type 'pdf' and is accessible; "
-    #         "stakeholder output 'Urban Flood Jul 2025' (audience 'internal') references 'https://storage.example.com/reports/QC_URBAN_FLOOD_2025-07.pdf' and is readable."
+    # Operation(
+    # labeler="R",
+    # user_id = "ds_v3_1003",
+    # command=(
+    # "Generate an urban flood risk dataset 'urban_flood_v1' for July 2025. Final outcome:"
+    # "Dataset 'urban_flood_v1' (version '1.0') featuring columns ['rainfall', 'drainage_capacity', 'flood_risk'] is stored and accessible;"
+    # "The feature file '/features/urban_flood_v1.parquet' is present and accessible;"
+    # "A QC PDF is available for label 'QC_URBAN_FLOOD_2025-07' with artifact type 'pdf' and is accessible."
+    # "Internal stakeholder output 'Urban Flood Jul 2025' links to 'https://storage.example.com/reports/QC_URBAN_FLOOD_2025-07.pdf' and is accessible."
     #     ),
-    #     actions=[
-    #         Action(name="InsertFeatureSet", kwargs={"feature_set_name": "urban_flood_v1", "version": "1.0", "columns": ["rainfall","drainage_capacity","flood_risk"]}),
-    #         Action(name="GetFeatureSetDetails", kwargs={"feature_set_name": "urban_flood_v1"}),
+    # actionList=[
+    # Action(name="InsertFeatureSet", kwargs={"feature_set_name": "urban_flood_v1", "version": "1.0", "columns": ["rainfall", "drainage_capacity", "flood_risk"]}),
+    # Action(name="RetrieveFeatureSetDetails", kwargs={"feature_set_name": "urban_flood_v1"}),
     #
-    #         Action(name="InsertFile", kwargs={"path": "/features/urban_flood_v1.parquet", "mime_type": "application/parquet"}),
+    # Action(name="InsertFile", kwargs={"path": "/features/urban_flood_v1.parquet", "mimeType": "application/parquet"}),
     #         Action(name="GetFile", kwargs={"path": "/features/urban_flood_v1.parquet"}),
     #
     #         Action(name="ExportQcFigure", kwargs={"figure_label": "QC_URBAN_FLOOD_2025-07"}),
     #         Action(name="InsertQcFigure", kwargs={"figure_label": "QC_URBAN_FLOOD_2025-07", "figure_path": "https://storage.example.com/reports/QC_URBAN_FLOOD_2025-07.pdf", "artifact_type": "pdf"}),
     #         Action(name="GetQcFigure", kwargs={"figure_label": "QC_URBAN_FLOOD_2025-07"}),
     #
-    #         Action(name="InsertStakeholderOutput", kwargs={"output_label": "Urban Flood Jul 2025", "audience": "internal", "artifact_path": "https://storage.example.com/reports/QC_URBAN_FLOOD_2025-07.pdf"}),
-    #         Action(name="GetStakeholderOutput", kwargs={"output_label": "Urban Flood Jul 2025"}),
+    # Action(name="InsertStakeholderOutput", kwargs={"output_label": "Urban Flood July 2025", "audience": "internal", "artifact_path": "https://storage.example.com/reports/QC_URBAN_FLOOD_2025-07.pdf"}),
+    # Action(name="RetrieveStakeholderOutput", kwargs={"output_label": "Urban Flood July 2025"}),
     #     ],
-    #     outputs=[
-    #         "feature_set.name=urban_flood_v1; version=1.0; columns=rainfall|drainage_capacity|flood_risk | "
-    #         "file.path=/features/urban_flood_v1.parquet; file.mime=application/parquet | "
-    #         "qc.figure_label=QC_URBAN_FLOOD_2025-07; qc.figure_path=https://storage.example.com/reports/QC_URBAN_FLOOD_2025-07.pdf | "
-    #         "stakeholder.output_label=Urban Flood Jul 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_URBAN_FLOOD_2025-07.pdf"
+    # results=[
+    # feature_set.name=urban_flood_v1; version=1.0; attributes=rainfall|drainage_capacity|flood_risk|
+    # file.path=/features/urban_flood_v1.parquet; file.mime=application/parquet |
+    # qc.figure_label=QC_URBAN_FLOOD_2025-07; qc.figure_path=https://storage.example.com/reports/QC_URBAN_FLOOD_2025-07.pdf |
+    # "stakeholder.output_label=Urban Flood July 2025; audience=internal; artifact_path=https://storage.example.com/reports/QC_URBAN_FLOOD_2025-07.pdf"
     #     ],
     # ),
 
@@ -282,31 +282,31 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task(
-    #     annotator="R",
-    #     user_id="ds_v3_1014",
-    #     instruction=(
-    #         "You configure a July-2025 model retrain window and validate it. End state: "
-    #         "project config has retrain_window_start '2025-07-01T00:00:00Z' and retrain_window_end '2025-07-31T23:59:59Z' and is readable; "
-    #         "terminal log event 'MODEL_RETRAIN_WINDOW_SET' with message 'July retrain window applied.' exists and is readable; "
-    #         "a QC PDF exists for label 'QC_CONFIG_RETRAIN_2025-07' with figure record stored (artifact_type 'pdf') and readable."
+    # Operation(
+    # labeler="R",
+    # user_identifier="ds_v3_1014",
+    # command=(
+    # "You set up a retraining window for July 2025 and verify it. Final outcome:"
+    # "Project configuration includes retrain_window_start set to '2025-07-01T00:00:00Z' and retrain_window_end set to '2025-07-31T23:59:59Z', and it is accessible."
+    # "Readable terminal log event 'MODEL_RETRAIN_WINDOW_SET' with message 'July retrain window applied.' is present;"
+    # "A QC PDF for label 'QC_CONFIG_RETRAIN_2025-07' is available, containing a figure record (artifact_type 'pdf') and is accessible."
     #     ),
-    #     actions=[
+    # operations=[
     #         Action(name="UpdateProjectConfig", kwargs={"updates": {"retrain_window_start": "2025-07-01T00:00:00Z", "retrain_window_end": "2025-07-31T23:59:59Z"}}),
     #         Action(name="GetProjectConfig", kwargs={"key": "retrain_window_start"}),
     #         Action(name="GetProjectConfig", kwargs={"key": "retrain_window_end"}),
     #
-    #         Action(name="RecordTerminalLog", kwargs={"event_type": "MODEL_RETRAIN_WINDOW_SET", "message": "July retrain window applied."}),
-    #         Action(name="ListTerminalLog", kwargs={"event_type": "MODEL_RETRAIN_WINDOW_SET"}),
+    # Action(name="RecordTerminalLog", kwargs={"event_type": "MODEL_RETRAIN_WINDOW_SET", "message": "Retrain window for July has been set."}),
+    # Action(name="ListTerminalLog", kwargs={"event_type": "MODEL_RETRAIN_WINDOW_CONFIGURED"}),
     #
     #         Action(name="ExportQcFigure", kwargs={"figure_label": "QC_CONFIG_RETRAIN_2025-07"}),
     #         Action(name="InsertQcFigure", kwargs={"figure_label": "QC_CONFIG_RETRAIN_2025-07", "figure_path": "https://storage.example.com/reports/QC_CONFIG_RETRAIN_2025-07.pdf", "artifact_type": "pdf"}),
     #         Action(name="GetQcFigure", kwargs={"figure_label": "QC_CONFIG_RETRAIN_2025-07"}),
     #     ],
-    #     outputs=[
-    #         "config.retrain_window_start=2025-07-01T00:00:00Z; config.retrain_window_end=2025-07-31T23:59:59Z | "
-    #         "log.event_type=MODEL_RETRAIN_WINDOW_SET; log.message=July retrain window applied. | "
-    #         "qc.figure_label=QC_CONFIG_RETRAIN_2025-07; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_RETRAIN_2025-07.pdf"
+    # results=[
+    # "config.retrain_window_start=2025-07-01T00:00:00Z; config.retrain_window_end=2025-07-31T23:59:59Z |"
+    # "log.event_type=MODEL_RETRAIN_WINDOW_SET; log.message=Retrain window for July has been established."
+    # qc.figure_label=QC_CONFIG_RETRAIN_2025-07; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_RETRAIN_2025-07.pdf
     #     ],
     # ),
 
@@ -520,30 +520,30 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task(
-    #     annotator="R",
-    #     user_id="ds_v3_802",
-    #     instruction=(
-    #         "You define a November-2025 backfill cutoff and confirm readiness. End state: "
-    #         "project config has backfill_cutoff '2025-11-20T18:00:00Z' and is readable; "
-    #         "terminal log event 'BACKFILL_CUTOFF_SET' with message 'Backfill cutoff applied for late November runs.' exists and is readable; "
-    #         "a QC PDF exists for label 'QC_CONFIG_BACKFILL_2025-11' with figure record stored (artifact_type 'pdf') and readable."
+    # Operation(
+    # labeler="R",
+    # user_identifier="ds_v3_802",
+    # command=(
+    # "Set a backfill deadline for November 2025 and verify preparedness. Final outcome:"
+    # "Project configuration includes a readable backfill_cutoff set to '2025-11-20T18:00:00Z';"
+    # "Terminal log event 'BACKFILL_CUTOFF_SET' with the message 'Backfill cutoff implemented for late November executions.' is present and accessible;"
+    # "A QC PDF is available for label 'QC_CONFIG_BACKFILL_2025-11' containing a figure record (artifact_type 'pdf') that is accessible."
     #     ),
-    #     actions=[
+    # operations=[
     #         Action(name="UpdateProjectConfig", kwargs={"updates": {"backfill_cutoff": "2025-11-20T18:00:00Z"}}),
     #         Action(name="GetProjectConfig", kwargs={"key": "backfill_cutoff"}),
     #
-    #         Action(name="RecordTerminalLog", kwargs={"event_type": "BACKFILL_CUTOFF_SET", "message": "Backfill cutoff applied for late November runs."}),
-    #         Action(name="ListTerminalLog", kwargs={"event_type": "BACKFILL_CUTOFF_SET"}),
+    # Action(name="RecordTerminalLog", kwargs={"event_type": "BACKFILL_CUTOFF_SET", "message": "Applied backfill cutoff for late November executions."}),
+    # Action(name="ListTerminalLog", kwargs={"event_type": "BACKFILL_CUTOFF_CONFIGURED"}),
     #
     #         Action(name="ExportQcFigure", kwargs={"figure_label": "QC_CONFIG_BACKFILL_2025-11"}),
     #         Action(name="InsertQcFigure", kwargs={"figure_label": "QC_CONFIG_BACKFILL_2025-11", "figure_path": "https://storage.example.com/reports/QC_CONFIG_BACKFILL_2025-11.pdf", "artifact_type": "pdf"}),
     #         Action(name="GetQcFigure", kwargs={"figure_label": "QC_CONFIG_BACKFILL_2025-11"}),
     #     ],
-    #     outputs=[
-    #         "config.backfill_cutoff=2025-11-20T18:00:00Z | "
-    #         "log.event_type=BACKFILL_CUTOFF_SET; log.message=Backfill cutoff applied for late November runs. | "
-    #         "qc.figure_label=QC_CONFIG_BACKFILL_2025-11; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_BACKFILL_2025-11.pdf"
+    # results=[
+    # "config.backfill_cutoff=2025-11-20T18:00:00Z |"
+    # "log.event_type=BACKFILL_CUTOFF_SET; log.message=Backfill cutoff established for late November executions."
+    # qc.figure_label=QC_CONFIG_BACKFILL_2025-11; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_BACKFILL_2025-11.pdf
     #     ],
     # ),
 
@@ -785,30 +785,30 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task(
-    #     annotator="R",
-    #     user_id="ds_v3_716",
-    #     instruction=(
-    #         "You set a July-2025 ingestion deadline and validate readiness. End state: "
-    #         "project config has ingestion_deadline '2025-07-15T12:00:00Z' and is readable; "
-    #         "terminal log event 'INGESTION_DEADLINE_SET' with message 'Deadline established for mid-July ingestion.' exists and is readable; "
-    #         "a QC PDF exists for label 'QC_CONFIG_INGESTION_2025-07' with figure record stored (artifact_type 'pdf') and readable."
+    # Operation(
+    # labeler="R",
+    # user_id="ds_version_3_716",
+    # command=(
+    # "Establish a July 2025 ingestion cutoff and confirm preparedness. Final outcome:"
+    # "Project configuration includes ingestion_deadline '2025-07-15T12:00:00Z' and is accessible;"
+    # "Readable terminal log event 'INGESTION_DEADLINE_SET' with message 'Deadline set for mid-July ingestion' is present;"
+    # "A QC PDF is available for the label 'QC_CONFIG_INGESTION_2025-07', containing a stored figure record (artifact_type 'pdf') that is accessible."
     #     ),
-    #     actions=[
+    # tasks=[
     #         Action(name="UpdateProjectConfig", kwargs={"updates": {"ingestion_deadline": "2025-07-15T12:00:00Z"}}),
-    #         Action(name="GetProjectConfig", kwargs={"key": "ingestion_deadline"}),
+    # Action(name="RetrieveProjectSettings", kwargs={"key": "ingestion_deadline"}),
     #
-    #         Action(name="RecordTerminalLog", kwargs={"event_type": "INGESTION_DEADLINE_SET", "message": "Deadline established for mid-July ingestion."}),
-    #         Action(name="ListTerminalLog", kwargs={"event_type": "INGESTION_DEADLINE_SET"}),
+    # Action(name="RecordTerminalLog", kwargs={"event_type": "INGESTION_DEADLINE_SET", "message": "Mid-July ingestion deadline has been set."}),
+    # Action(name="ListTerminalLog", kwargs={"event_type": "INGESTION_DEADLINE_CONFIGURED"}),
     #
     #         Action(name="ExportQcFigure", kwargs={"figure_label": "QC_CONFIG_INGESTION_2025-07"}),
     #         Action(name="InsertQcFigure", kwargs={"figure_label": "QC_CONFIG_INGESTION_2025-07", "figure_path": "https://storage.example.com/reports/QC_CONFIG_INGESTION_2025-07.pdf", "artifact_type": "pdf"}),
     #         Action(name="GetQcFigure", kwargs={"figure_label": "QC_CONFIG_INGESTION_2025-07"}),
     #     ],
-    #     outputs=[
-    #         "config.ingestion_deadline=2025-07-15T12:00:00Z | "
-    #         "log.event_type=INGESTION_DEADLINE_SET; log.message=Deadline established for mid-July ingestion. | "
-    #         "qc.figure_label=QC_CONFIG_INGESTION_2025-07; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_INGESTION_2025-07.pdf"
+    # results=[
+    # "config.ingestion_deadline=2025-07-15T12:00:00Z |"
+    # "log.event_type=INGESTION_DEADLINE_SET; log.message=Deadline set for ingestion in mid-July. |"
+    # qc.figure_label=QC_CONFIG_INGESTION_2025-07; qc.figure_path=https://storage.example.com/reports/QC_CONFIG_INGESTION_2025-07.pdf
     #     ],
     # ),
   Task(
@@ -897,67 +897,67 @@ TASKS = [
         outputs=[]
     ),
 
-    # Task(
-    #     annotator="R",
+    # Operation(
+    # labeler="R",
     #     user_id="ds_v3_604",
-    #     instruction=(
-    #         "You publish feature set 'cargo_throughput_summary_v3' version 3.0 and mark it active. End state: "
-    #         "feature_set 'cargo_throughput_summary_v3' with columns ['total_cargo','avg_loading_time','avg_unloading_time'] is recorded; "
-    #         "feature file '/features/cargo_throughput_summary_v3.parquet' exists and is readable; "
-    #         "project config 'active_feature_set' equals 'cargo_throughput_summary_v3'; "
-    #         "a QC PDF exists for label 'QC_CARGO_THROUGHPUT_2025-03' and is readable."
+    # command=(
+    # "Activate version 3.0 of the 'cargo_throughput_summary_v3' feature set."
+    # "Feature set 'cargo_throughput_summary_v3' containing the columns ['total_cargo', 'avg_loading_time', 'avg_unloading_time'] has been saved;"
+    # "The feature file '/features/cargo_throughput_summary_v3.parquet' is present and accessible;"
+    # "set 'active_feature_set' in project configuration to 'cargo_throughput_summary_v3';"
+    # "A readable QC PDF is available for the label 'QC_CARGO_THROUGHPUT_2025-03'."
     #     ),
-    #     actions=[
-    #         Action(name="InsertFeatureSet", kwargs={"feature_set_name": "cargo_throughput_summary_v3", "version": "3.0", "columns": ["total_cargo","avg_loading_time","avg_unloading_time"]}),
-    #         Action(name="GetFeatureSetDetails", kwargs={"feature_set_name": "cargo_throughput_summary_v3"}),
+    # tasks=[
+    # Action(name="InsertFeatureSet", kwargs={"feature_set_name": "cargo_throughput_summary_v3", "version": "3.0", "columns": ["total_cargo", "avg_loading_time", "avg_unloading_time"]}),
+    # Action(name="RetrieveFeatureSetDetails", kwargs={"feature_set_name": "cargo_throughput_summary_v3"}),
     #
-    #         Action(name="InsertFile", kwargs={"path": "/features/cargo_throughput_summary_v3.parquet", "mime_type": "application/parquet"}),
+    # Action(name="InsertFile", kwargs={"path": "/features/cargo_throughput_summary_v3.parquet", "mimeType": "application/parquet"}),
     #         Action(name="GetFile", kwargs={"path": "/features/cargo_throughput_summary_v3.parquet"}),
     #
     #         Action(name="UpdateProjectConfig", kwargs={"updates": {"active_feature_set": "cargo_throughput_summary_v3"}}),
-    #         Action(name="GetProjectConfig", kwargs={"key": "active_feature_set"}),
+    # Action(name="RetrieveProjectConfiguration", kwargs={"key": "active_feature_set"}),
     #
     #         Action(name="ExportQcFigure", kwargs={"figure_label": "QC_CARGO_THROUGHPUT_2025-03"}),
     #         Action(name="InsertQcFigure", kwargs={"figure_label": "QC_CARGO_THROUGHPUT_2025-03", "figure_path": "https://storage.example.com/reports/QC_CARGO_THROUGHPUT_2025-03.pdf", "artifact_type": "pdf"}),
     #         Action(name="GetQcFigure", kwargs={"figure_label": "QC_CARGO_THROUGHPUT_2025-03"}),
     #     ],
-    #     outputs=[
-    #         "feature_set.name=cargo_throughput_summary_v3; version=3.0; columns=total_cargo|avg_loading_time|avg_unloading_time | "
-    #         "file.path=/features/cargo_throughput_summary_v3.parquet; file.mime=application/parquet | "
-    #         "config.active_feature_set=cargo_throughput_summary_v3 | "
-    #         "qc.figure_label=QC_CARGO_THROUGHPUT_2025-03; qc.figure_path=https://storage.example.com/reports/QC_CARGO_THROUGHPUT_2025-03.pdf"
+    # results=[
+    # feature_set.name=cargo_throughput_summary_v3; version=3.0; columns=total_cargo|average_loading_time|average_unloading_time|
+    # "file.path=/features/cargo_throughput_summary_v3.parquet; file.mime=application/parquet |"
+    # "config.active_feature_set=cargo_throughput_summary_v3 |"
+    # qc.figure_label=QC_CARGO_THROUGHPUT_2025-03; qc.figure_path=https://storage.example.com/reports/QC_CARGO_THROUGHPUT_2025-03.pdf
     #     ],
     # ),
 
-    # Task(
-    #     annotator="R",
+    # Operation(
+    # labeler="R",
     #     user_id="ds_v3_605",
-    #     instruction=(
-    #         "You curate feature set 'port_utilization_stats_v4' version 4.2 and activate it. End state: "
-    #         "feature_set 'port_utilization_stats_v4' with columns ['berth_occupancy','avg_turnaround_time','peak_traffic_hour'] is recorded; "
-    #         "feature file '/features/port_utilization_stats_v4.parquet' exists and is readable; "
-    #         "project config 'active_feature_set' equals 'port_utilization_stats_v4'; "
-    #         "a QC PDF exists for label 'QC_PORT_UTILIZATION_2025-03' and is readable."
+    # command=(
+    # "You manage and enable feature set 'port_utilization_stats_v4' version 4.2. Final status:"
+    # "Recorded feature_set 'port_utilization_stats_v4' containing columns ['berth_occupancy','avg_turnaround_time','peak_traffic_hour']."
+    # "Feature file '/features/port_utilization_stats_v4.parquet' is present and accessible;"
+    # "set 'active_feature_set' in project configuration to 'port_utilization_stats_v4';"
+    # "A QC PDF is available for the label 'QC_PORT_UTILIZATION_2025-03' and can be accessed."
     #     ),
-    #     actions=[
-    #         Action(name="InsertFeatureSet", kwargs={"feature_set_name": "port_utilization_stats_v4", "version": "4.2", "columns": ["berth_occupancy","avg_turnaround_time","peak_traffic_hour"]}),
+    # actionList=[
+    # Action(name="InsertFeatureSet", kwargs={"feature_set_name": "port_utilization_stats_v4", "version": "4.2", "columns": ["berth_occupancy", "average_turnaround_time", "peak_traffic_hour"]}),
     #         Action(name="GetFeatureSetDetails", kwargs={"feature_set_name": "port_utilization_stats_v4"}),
     #
-    #         Action(name="InsertFile", kwargs={"path": "/features/port_utilization_stats_v4.parquet", "mime_type": "application/parquet"}),
+    # Action(name="InsertFile", kwargs={"path": "/features/port_utilization_stats_v4.parquet", "mime_type": "application/octet-stream"}),
     #         Action(name="GetFile", kwargs={"path": "/features/port_utilization_stats_v4.parquet"}),
     #
     #         Action(name="UpdateProjectConfig", kwargs={"updates": {"active_feature_set": "port_utilization_stats_v4"}}),
-    #         Action(name="GetProjectConfig", kwargs={"key": "active_feature_set"}),
+    # Action(name="GetProjectConfig", kwargs={"key": "current_feature_set"}),
     #
     #         Action(name="ExportQcFigure", kwargs={"figure_label": "QC_PORT_UTILIZATION_2025-03"}),
     #         Action(name="InsertQcFigure", kwargs={"figure_label": "QC_PORT_UTILIZATION_2025-03", "figure_path": "https://storage.example.com/reports/QC_PORT_UTILIZATION_2025-03.pdf", "artifact_type": "pdf"}),
     #         Action(name="GetQcFigure", kwargs={"figure_label": "QC_PORT_UTILIZATION_2025-03"}),
     #     ],
-    #     outputs=[
-    #         "feature_set.name=port_utilization_stats_v4; version=4.2; columns=berth_occupancy|avg_turnaround_time|peak_traffic_hour | "
-    #         "file.path=/features/port_utilization_stats_v4.parquet; file.mime=application/parquet | "
-    #         "config.active_feature_set=port_utilization_stats_v4 | "
-    #         "qc.figure_label=QC_PORT_UTILIZATION_2025-03; qc.figure_path=https://storage.example.com/reports/QC_PORT_UTILIZATION_2025-03.pdf"
+    # results=[
+    # feature_set.name=port_utilization_stats_v4; version=4.2; columns=berth_occupancy|average_turnaround_time|peak_traffic_hour|
+    # "file.path=/features/port_utilization_stats_v4.parquet; file.mime=application/parquet |"
+    # "config.active_feature_set=port_utilization_stats_v4 |"
+    # qc.figure_label=QC_PORT_UTILIZATION_2025-03; qc.figure_path=https://storage.example.com/reports/QC_PORT_UTILIZATION_2025-03.pdf
     #     ],
     # ),
 

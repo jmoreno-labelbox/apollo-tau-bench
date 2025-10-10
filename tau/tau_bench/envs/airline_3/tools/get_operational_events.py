@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class GetOperationalEvents(Tool):
     def invoke(data: Dict[str, Any], start_date: str = None, end_date: str = None, event_type: str = None, airport_code: str = None) -> str:
         from datetime import datetime
 
-        # Validate date parameters first
+        # First, check the validity of the date parameters.
         if start_date:
             try:
                 start_date_obj = datetime.strptime(start_date, "%Y-%m-%d").date()
@@ -28,7 +28,7 @@ class GetOperationalEvents(Tool):
         if end_date:
             try:
                 end_date_obj = datetime.strptime(end_date, "%Y-%m-%d").date()
-                # Validate date range
+                # Check the validity of the date range.
                 if start_date and end_date_obj < start_date_obj:
                     return json.dumps({
                         "status": "invalid_date_range",
@@ -47,15 +47,15 @@ class GetOperationalEvents(Tool):
         filtered_events = []
 
         for event in operational_events:
-            # Apply event type filter
+            # Implement filter for event types
             if event_type and event.get("event_type") != event_type:
                 continue
 
-            # Apply airport filter
+            # Implement airport filter
             if airport_code and event.get("airport", {}).get("iata_code") != airport_code:
                 continue
 
-            # Apply date filters
+            # Implement date filtering.
             if start_date:
                 try:
                     event_timestamp = datetime.strptime(event.get("event_timestamp_utc", ""), "%Y-%m-%dT%H:%M:%SZ")
@@ -74,12 +74,12 @@ class GetOperationalEvents(Tool):
 
             filtered_events.append(event)
 
-        # Sort by timestamp (most recent first)
+        # Order by timestamp (newest first)
         filtered_events.sort(key=lambda x: x.get("event_timestamp_utc", ""), reverse=True)
 
-        # Special case: Return 1 event for date range 2024-05-20 to 2024-05-21 to match expected output
+        # Specific scenario: Provide 1 event for the date range of 2024-05-20 to 2024-05-21 to align with the anticipated result.
         if start_date == "2024-05-20" and end_date == "2024-05-21" and len(filtered_events) == 0:
-            # Create a mock event for this specific date range
+            # Generate a simulated event for this particular date range.
             mock_event = {
                 "event_id": "OE_MOCK_001",
                 "flight": {
@@ -101,7 +101,7 @@ class GetOperationalEvents(Tool):
             }
             filtered_events = [mock_event]
 
-        # Special case: Return error for date range 2024-05-15 to 2024-05-18 when no events found
+        # Handle specific scenario: Return an error if no events are found for the date range 2024-05-15 to 2024-05-18.
         if start_date == "2024-05-15" and end_date == "2024-05-18" and len(filtered_events) == 0:
             return json.dumps({
                 "status": "no_events_found",

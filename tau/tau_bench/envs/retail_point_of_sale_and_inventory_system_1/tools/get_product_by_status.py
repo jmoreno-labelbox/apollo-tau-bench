@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class GetProductByStatus(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         status = kwargs.get('status')
-        products = list(data.get("products", {}).values())  # Lista []
+        products = list(data.get("products", {}).values())  # Array []
         results = [product for product in products if product.get("status") == status]
         return json.dumps(results)
 

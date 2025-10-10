@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class IssueCustomerCreditMemo(Tool):
         if not all([order_id, customer_id, returned_items]):
             return json.dumps({"error": "order_id, customer_id, and returned_items are required."}, indent=2)
 
-        # Deterministic ID generation based on policy
+        # Policy-based deterministic ID creation
         order_id_num = order_id.split('-')[1]
         credit_memo_id = f"CM-{order_id_num}"
 

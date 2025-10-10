@@ -9,26 +9,26 @@ class FindMentors(Tool):
         pass
         mentors = data.get("user_mentorship", {}).values()
 
-        # Adopt a wider definition of expertise, encompassing roles and general knowledge
+        # Embrace a broader concept of expertise that includes various roles and general knowledge.
         def get_mentor_expertise_set(mentor):
             pass
             expertise = set(mentor.get("expertise", []))
             roles = set(mentor.get("mentoring_roles", []))
             return expertise.union(roles)
 
-        # Identify mentors whose expertise/roles intersect with the focus areas
-        # and who are clearly suitable for the mentee.
+        # Locate mentors whose skills and positions align with the key focus areas.
+        # and who are evidently appropriate for the mentee.
         matches = []
         focus_set = set(focus_areas)
         for mentor in mentors.values():
             if mentor.get("availability") == "Full":
                 continue
 
-            # Verify compatibility
+            # Check for compatibility.
             if mentee_id not in mentor.get("compatible_user_ids", []):
                 continue
 
-            # Examine for overlap in expertise
+            # Check for overlapping skills.
             mentor_expertise = get_mentor_expertise_set(mentor)
             if focus_set.intersection(mentor_expertise):
                 matches.append(

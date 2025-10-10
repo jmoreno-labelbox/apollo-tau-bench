@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .get_store_inventory import GetStoreInventory
 from .get_physical_count import GetPhysicalCount

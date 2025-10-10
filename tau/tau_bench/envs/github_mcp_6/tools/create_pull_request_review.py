@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class CreatePullRequestReview(Tool):
                 try:
                     pr_idx = pr_entry["pr_numbers"].index(pullNumber)
 
-                    # Add review to existing structure
+                    # Incorporate review into the current framework.
                     if not pr_entry["pr_comments"][pr_idx]:
                         pr_entry["pr_comments"][pr_idx] = [[]]
                         pr_entry["pr_comment_users"][pr_idx] = [[]]
@@ -35,7 +35,7 @@ class CreatePullRequestReview(Tool):
                 except ValueError:
                     pass
 
-        return json.dumps({"error": f"Pull request #{pullNumber} not found"}, indent=2)
+        return json.dumps({"error": f"Pull request # {pullNumber} is missing"}, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

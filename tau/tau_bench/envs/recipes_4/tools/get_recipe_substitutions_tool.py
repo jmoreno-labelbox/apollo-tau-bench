@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -56,7 +56,7 @@ class GetRecipeSubstitutionsTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains a list of substitution suggestions.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Data
         param_definitions = {
             "recipe_id": {"type": int, "required": True},
             "ingredient_id_to_replace": {"type": int, "required": True}
@@ -71,7 +71,7 @@ class GetRecipeSubstitutionsTool(Tool):
         recipe_id = kwargs["recipe_id"]
         ing_id_to_replace = kwargs["ingredient_id_to_replace"]
 
-        # 2. Pre-condition Checks
+        # 2. Preconditions Validation
         if not any(r.get("recipe_id") == recipe_id for r in list(data.get("recipes", {}).values())):
             return _build_error_response("NOT_FOUND", {"entity": "Recipe", "entity_id": recipe_id})
 
@@ -85,10 +85,10 @@ class GetRecipeSubstitutionsTool(Tool):
                 "entity": f"Ingredient {ing_id_to_replace} is not part of Recipe {recipe_id}"
             })
 
-        # 3. Get suggestions from the knowledge base
+        # 3. Retrieve recommendations from the knowledge base.
         suggestions = SUBSTITUTION_RULES.get(ing_id_to_replace, [])
 
-        # 4. Enrich suggestions with ingredient names
+        # 4. Enhance recommendations by including ingredient names.
         enriched_suggestions = []
         all_ingredients_meta = list(data.get("ingredients", {}).values())
         for suggestion in suggestions:
@@ -100,5 +100,5 @@ class GetRecipeSubstitutionsTool(Tool):
                 enriched_suggestion["substitute_ingredient_name"] = sub_meta.get("ingredient_name")
                 enriched_suggestions.append(enriched_suggestion)
 
-        # 5. Return the standardized success response
+        # 5. Provide the uniform success response.
         return _build_success_response(enriched_suggestions)

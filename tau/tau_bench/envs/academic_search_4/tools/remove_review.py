@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class RemoveReview(Tool):
 
         reviews = list(data.get('reviews', {}).values())
         original_count = len(reviews)
-        # Note: In a real DB, this would be a direct delete. Here we filter the list.
+        # Reminder: In an actual database, this would perform a direct deletion. Instead, we are filtering the list.
         data['reviews'] = [r for r in reviews if r.get('review_id') != review_id]
 
         if len(data['reviews']) < original_count:

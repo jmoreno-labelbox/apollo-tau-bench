@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,21 +15,21 @@ class CreateOrder(Tool):
         Writes to: orders.json (creates new order entry)
         Data Sources: users.json, products.json for validation
         """
-        # Validate return parameters if provided
+        # Check the return parameters for validity if they are given.
         if return_refund_amount is not None and return_refund_amount < 0:
             return json.dumps({
                 "error": "Return refund amount cannot be negative",
                 "status": "failed"
             })
 
-        # Rule: Validate user identity exists before processing any user requests
+        # Condition: Confirm user identity is present prior to handling any requests.
         users = list(data.get("users", {}).values())
         user = next((u for u in users if u.get("user_id") == user_id), None)
 
         if not user:
             return json.dumps({"error": f"User {user_id} not found", "status": "failed"})
 
-        # Validate return order exists if return_order_id is provided
+        # Check if the return order is present when return_order_id is supplied.
         if return_order_id:
             orders = list(data.get("orders", {}).values())
             return_order_found = False
@@ -44,14 +44,14 @@ class CreateOrder(Tool):
                     "status": "failed"
                 })
 
-        # Validate payment methods and prepare payment breakdown
+        # Verify payment options and generate payment summary.
         payment_methods = user.get("payment_methods", {})
         selected_payments = []
 
         for payment_method_source in payment_method_sources:
             selected_payment = None
 
-            # Find payment method by ID
+            # Retrieve payment method using its identifier.
             for method_id in payment_methods:
                 if payment_method_source in method_id:
                     selected_payment = payment_methods[method_id]
@@ -71,17 +71,17 @@ class CreateOrder(Tool):
             }
             selected_payments.append(payment_info)
 
-        # Validate and process items
+        # Verify and handle items.
         products = list(data.get("products", {}).values())
         order_items = []
         subtotal_amount = 0.0
 
-        # Rule: Multi-item orders need all items available before confirmation
+        # Condition: All items in multi-item orders must be in stock prior to confirmation.
         for item in items:
             item_id = item.get("item_id")
             quantity = item.get("quantity", 1)
 
-            # Rule: Confirm item_id exists in product variants before including in orders
+            # Policy: Verify the presence of item_id in product variants prior to adding to orders.
             variant_found = None
             product_found = None
 
@@ -95,14 +95,14 @@ class CreateOrder(Tool):
             if not variant_found:
                 return json.dumps({"error": f"Item {item_id} not found in catalog", "status": "failed"})
 
-            # Rule: Check product availability status before allocation - never allocate unavailable items
+            # Guideline: Verify product availability prior to allocation - do not allocate items that are not available.
             if not variant_found.get("available", False):
                 return json.dumps({
                     "error": f"Item {item_id} ({product_found.get('name')}) is not available",
                     "status": "failed"
                 })
 
-            # Rule: Use exact variant pricing from product catalog
+            # Guideline: Apply precise variant pricing from the product catalog.
             unit_price = variant_found.get("price", 0)
             line_total = unit_price * quantity
             subtotal_amount += line_total
@@ -116,10 +116,10 @@ class CreateOrder(Tool):
                 "quantity": quantity
             })
 
-        # Calculate total before refund deduction
+        # Compute the total prior to refund subtraction.
         total_before_refund = subtotal_amount
 
-        # Add shipping costs if provided
+        # Include shipping fees if available.
         if "shipping_cost" in kwargs:
             shipping_cost = kwargs["shipping_cost"]
             if shipping_cost < 0:
@@ -132,7 +132,7 @@ class CreateOrder(Tool):
                 return json.dumps({"error": "Tax amount cannot be negative", "status": "failed"})
             total_before_refund += tax_amount
 
-        # Apply return refund deduction
+        # Implement return refund adjustment.
         refund_applied = 0.0
         customer_refund_due = 0.0
         total_amount = total_before_refund
@@ -141,45 +141,45 @@ class CreateOrder(Tool):
             refund_applied = min(return_refund_amount, total_before_refund)
             total_amount = max(0, total_before_refund - return_refund_amount)
 
-            # Calculate customer refund if return refund exceeds order total
+            # Determine the customer refund if the return amount surpasses the order total.
             if return_refund_amount > total_before_refund:
                 customer_refund_due = return_refund_amount - total_before_refund
 
-        # Only proceed with payment processing if there's a remaining amount to pay
+        # Proceed with payment processing only if there is an outstanding balance.
         payment_breakdown = []
         payment_validation = {"overall_valid": True, "messages": []}
 
         if total_amount > 0:
-            # Calculate payment allocation across multiple payment methods with smart allocation
+            # Determine payment distribution among various methods using intelligent allocation.
             remaining_amount = total_amount
 
             for i, payment_info in enumerate(selected_payments):
                 payment_source = payment_info["payment_source"]
                 payment_details = payment_info["payment_details"]
 
-                # Determine how much to allocate to this payment method
+                # Calculate the allocation amount for this payment method.
                 if payment_source == "gift_card":
-                    # For gift cards, allocate up to available balance
+                    # Distribute up to the available balance for gift cards.
                     available_balance = payment_details.get("balance", 0)
                     allocated_amount = min(available_balance, remaining_amount)
 
-                    # Validate gift card has some balance
+                    # Check that the gift card has a positive balance.
                     if available_balance == 0:
                         payment_validation["overall_valid"] = False
                         payment_validation["messages"].append(f"{payment_info['payment_method_id']}: Gift card has no available balance")
                         allocated_amount = 0
                 else:
-                    # For other payment methods, allocate remaining amount
-                    if i == len(selected_payments) - 1:  # Last payment method gets remaining amount
+                    # Distribute the leftover balance for alternative payment options.
+                    if i == len(selected_payments) - 1:  # The final payment method receives the leftover balance.
                         allocated_amount = remaining_amount
                     else:
-                        # Calculate even distribution among remaining non-gift-card methods
+                        # Compute equal allocation across the other non-gift-card payment methods.
                         remaining_methods = len(selected_payments) - i
                         allocated_amount = round(remaining_amount / remaining_methods, 2)
                         if allocated_amount > remaining_amount:
                             allocated_amount = remaining_amount
 
-                # Validate payment method
+                # Verify payment option
                 method_validation = {"valid": True, "message": "Payment method validated"}
                 if payment_source == "gift_card":
                     available_balance = payment_details.get("balance", 0)
@@ -189,10 +189,10 @@ class CreateOrder(Tool):
                             "message": "Gift card has no available balance"
                         }
                     elif allocated_amount < remaining_amount and allocated_amount == available_balance:
-                        # Gift card doesn't cover full remaining amount, but this is handled by allocation logic
+                        # The gift card does not cover the entire remaining balance, but this is managed by the allocation process.
                         method_validation["message"] = f"Gift card covers ${allocated_amount:.2f} of remaining ${remaining_amount:.2f}"
 
-                if allocated_amount > 0:  # Only add payment methods that have allocated amounts
+                if allocated_amount > 0:  # Include only payment methods with assigned amounts.
                     payment_breakdown.append({
                         "payment_method_id": payment_info["payment_method_id"],
                         "payment_source": payment_source,
@@ -204,11 +204,11 @@ class CreateOrder(Tool):
                 if not method_validation["valid"]:
                     payment_validation["overall_valid"] = False
 
-                # Break if we've allocated the full amount
-                if remaining_amount <= 0.01:  # Account for floating point precision
+                # Exit if the total allocation has been reached.
+                if remaining_amount <= 0.01:  # Consider floating point accuracy.
                     break
 
-            # Check if we still have remaining amount after all allocations
+            # Verify if there is any leftover amount after all distributions.
             if remaining_amount > 0.01:
                 payment_validation["overall_valid"] = False
                 payment_validation["messages"].append(f"Insufficient payment methods to cover ${remaining_amount:.2f}")
@@ -223,18 +223,18 @@ class CreateOrder(Tool):
                     "status": "failed"
                 })
 
-        # Generate new order ID
+        # Create a new order identifier.
         existing_orders = list(data.get("orders", {}).values())
         order_number = len(existing_orders) + 1
         new_order_id = f"#W{str(order_number).zfill(7)}"
 
-        # Rule: High-value orders (>$1000 total) require payment verification before fulfillment
+        # Policy: Orders exceeding $1000 must undergo payment verification prior to processing.
         requires_verification = total_before_refund > 1000.0
 
-        # Create payment history entries for all payment methods
+        # Generate payment history records for every payment option.
         payment_history = []
 
-        # Add refund deduction entry if applicable
+        # Include refund deduction record if necessary.
         if refund_applied > 0:
             payment_history.append({
                 "transaction_type": "refund_deduction",
@@ -244,7 +244,7 @@ class CreateOrder(Tool):
                 "description": f"Refund deduction from return order {return_order_id}"
             })
 
-        # Add payment entries for remaining amount
+        # Insert payment records for the outstanding balance.
         for payment in payment_breakdown:
             if payment["allocated_amount"] > 0:
                 payment_history.append({
@@ -255,7 +255,7 @@ class CreateOrder(Tool):
                     "processed_date": datetime.now().isoformat()
                 })
 
-        # Create new order object
+        # Instantiate a new order object.
         new_order = {
             "order_id": new_order_id,
             "user_id": user_id,
@@ -269,7 +269,7 @@ class CreateOrder(Tool):
             "timestamp": datetime.now().isoformat()
         }
 
-        # Add return-related information if this is a replacement order
+        # Include return details if this order is a replacement.
         if return_refund_amount is not None:
             new_order["return_replacement_info"] = {
                 "original_return_order_id": return_order_id,
@@ -278,17 +278,17 @@ class CreateOrder(Tool):
                 "replacement_order": True
             }
 
-        # WRITE OPERATION: Add new order to orders.json
+        # INSERT OPERATION: Append a new order to orders.json
         if "orders" not in data:
             data["orders"] = []
         data["orders"].append(new_order)
 
-        # WRITE OPERATION: Update user's order list in users.json
+        # UPDATE OPERATION: Modify the user's order list in users.json.
         if "orders" not in user:
             user["orders"] = []
         user["orders"].append(new_order_id)
 
-        # Calculate final amounts for response
+        # Compute the final values for the response.
         final_payment_amount = sum(p["allocated_amount"] for p in payment_breakdown)
 
         result = {

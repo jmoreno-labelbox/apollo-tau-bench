@@ -6,7 +6,7 @@ from typing import Any
 class RecommendSkillTraining(Tool):
     @staticmethod
     def invoke(data: dict[str, Any], user_id: str = None, skill: str = None) -> str:
-        # Confirm that the skill is pertinent to available roles
+        # Verify that the skill is relevant to the open positions.
         valid_skills = set()
         for role_entry in data.get("role_skill_catalog", {}).values():
             skills = role_entry.get("required_skills", [])
@@ -17,11 +17,11 @@ class RecommendSkillTraining(Tool):
                     elif isinstance(skill_item, dict) and skill_item.get("skill"):
                         valid_skills.add(skill_item.get("skill"))
 
-        # If the skill is absent from the catalog, omit the recommendation
+        # Exclude the recommendation if the skill is not listed in the catalog.
         if skill not in valid_skills:
             return f"Skill '{skill}' not found in catalog - no training recommendation made"
 
-        # Generate a training recommendation containing only necessary data
+        # Create a training suggestion that includes only essential information.
         recommendation = {
             "user_id": user_id,
             "skill": skill,

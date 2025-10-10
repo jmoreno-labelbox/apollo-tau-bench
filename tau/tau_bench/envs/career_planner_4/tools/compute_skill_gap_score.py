@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -8,8 +8,8 @@ from tau_bench.envs.tool import Tool
 class compute_skill_gap_score(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], user_id: str) -> str:
-        # Mock computation - in real system would analyze actual skill gaps
-        score = 45  # Mock score below threshold
+        # Simulated calculation - in a real system, it would assess genuine skill deficiencies.
+        score = 45  # Simulated score under limit
         return json.dumps({"readiness_score": score, "user_id": user_id}, indent=2)
 
     @staticmethod

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,11 +21,11 @@ class PerformPhysicalCount(Tool):
         if not inventory_item:
             return json.dumps({"error": f"Inventory not found for SKU {sku} in warehouse {warehouse_id}"})
 
-        # Simulate physical count with slight variance
+        # Emulate physical inventory with minor discrepancies.
         system_count = inventory_item.get("quantity_on_hand", 0)
         if quantity_available_flag:
             system_count = inventory_item.get("quantity_available", 0)
-        physical_count = system_count - int(system_count * 0.0075)  # 0.75% variance
+        physical_count = system_count - int(system_count * 0.0075)  # 0.0075 variability
         if instruction_amount:
             physical_count = instruction_amount
 

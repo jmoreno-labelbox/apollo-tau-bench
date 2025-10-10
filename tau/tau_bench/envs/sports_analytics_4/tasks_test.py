@@ -421,8 +421,8 @@ Task(
         Action(name="wrokingRun", kwargs={"dag_name": "in_game", "status": "running", "game_pk": "2024000180"}),
         Action(name="dbMod", kwargs={"date": "2024-11-30"}),
         Action(name="wrokingRun", kwargs={"dag_name": "model_freshness", "status": "success", "report_id": "FRESH-2024-11-30"}),
-        Action(name="getPitch", kwargs={"game_pk": "2024000180", "time_window": "pitches_live"}),  # fixed deterministic
-        Action(name="norming", kwargs={"source_table": "pitches_live"}),  # aligned with deterministic handle
+        Action(name="getPitch", kwargs={"game_pk": "2024000180", "time_window": "pitches_live"}),  # resolved to be deterministic
+        Action(name="norming", kwargs={"source_table": "pitches_live"}),  # synchronized with a fixed handler
         Action(name="dataPoll", kwargs={"data_inputs": ["12x12_catcher_view"]}),
         Action(name="spatArt", kwargs={"game_pk": "2024000180", "artifact_name": "12x12_catcher_view", "qc_status": "passed"}),
         Action(name="makeEvent", kwargs={"game_pk": "2024000180", "leverage_index": 3.0, "is_manual_alert": False, "suggestion_text": "situational awareness"}),
@@ -1419,19 +1419,19 @@ Task(
     actions=[
         Action(name="wrokingRun", kwargs={"dag_name": "in_game", "status": "running", "game_pk": "2024000089"}),
 
-        # artifact validation first (per instruction)
+        # validate the artifact initially (as instructed)
         Action(name="norming", kwargs={"source_table": "pitches_live"}),
         Action(name="spatArt", kwargs={"game_pk": "2024000089", "artifact_name": "12x12_catcher_view"}),
 
-        # now model freshness
+        # currently assess model freshness
         Action(name="dbMod", kwargs={"date": "2024-10-15"}),
         Action(name="wrokingRun", kwargs={"dag_name": "model_freshness", "status": "success", "report_id": "FRESH-2024-10-15"}),
 
-        # alert + logs
+        # notification and records
         Action(name="makeEvent", kwargs={"game_pk": "2024000089", "leverage_index": 1.9, "is_manual_alert": True, "suggestion_text": "defensive alignment check"}),
         Action(name="makeLogs", kwargs={"source_name": "in_game_snapshot", "status_code": 200, "logs_ingested": 90}),
 
-        # finish
+        # complete
         Action(name="wrokingRun", kwargs={"dag_name": "in_game", "status": "completed", "game_pk": "2024000089"}),
     ],
     outputs=[]
@@ -1670,7 +1670,7 @@ Task(
         Action(name="wrokingRun", kwargs={"dag_name": "in_game", "status": "running", "game_pk": "2024000074"}),
         Action(name="dbMod", kwargs={"date": "2024-10-04"}),
         Action(name="wrokingRun", kwargs={"dag_name": "model_freshness", "status": "success", "report_id": "FRESH-2024-10-04"}),
-        Action(name="getPitch", kwargs={"game_pk": "2024000074", "time_window": "pitches_live"}),  # fixed deterministic arg
+        Action(name="getPitch", kwargs={"game_pk": "2024000074", "time_window": "pitches_live"}),  # corrected fixed argument
         Action(name="norming", kwargs={"source_table": "pitches_live"}),
         Action(name="spatArt", kwargs={"game_pk": "2024000074", "artifact_name": "12x12_catcher_view", "qc_status": "passed"}),
         Action(name="makeEvent", kwargs={"game_pk": "2024000074", "leverage_index": 2.1, "is_manual_alert": False, "suggestion_text": "timing evaluation"}),
@@ -1901,9 +1901,9 @@ Task(
         Action(name="wrokingRun", kwargs={"dag_name": "in_game", "status": "running", "game_pk": "2024000057"}),
         Action(name="dbMod", kwargs={"date": "2024-09-17"}),
         Action(name="wrokingRun", kwargs={"dag_name": "model_freshness", "status": "success", "report_id": "FRESH-2024-09-17"}),
-        # ✅ deterministic constant
+        # ✅ fixed constant
         Action(name="getPitch", kwargs={"game_pk": "2024000057", "time_window": "pitches_live"}),
-        # ✅ must match getPitch output
+        # ✅ should align with getPitch output
         Action(name="norming", kwargs={"source_table": "df__pitches_live"}),
         Action(name="spatArt", kwargs={"game_pk": "2024000057", "artifact_name": "12x12_catcher_view", "qc_status": "passed"}),
         Action(name="makeEvent", kwargs={"game_pk": "2024000057", "leverage_index": 1.8, "is_manual_alert": False, "suggestion_text": "timing evaluation"}),
@@ -2084,19 +2084,19 @@ Task(
     actions=[
         Action(name="wrokingRun", kwargs={"dag_name": "in_game", "status": "running", "game_pk": "2024000172"}),
 
-        # ✅ artifact QC path (no unused getPitch, deterministic naming)
+        # ✅ artifact quality control pathway (eliminated unused getPitch, consistent naming)
         Action(name="norming", kwargs={"source_table": "pitches_live"}),
         Action(name="spatArt", kwargs={"game_pk": "2024000172", "artifact_name": "12x12_catcher_view"}),
 
-        # ✅ freshness certification
+        # ✅ freshness validation
         Action(name="dbMod", kwargs={"date": "2024-11-22"}),
         Action(name="wrokingRun", kwargs={"dag_name": "model_freshness", "status": "success", "report_id": "FRESH-2024-11-22"}),
 
-        # ✅ alerts + ingestion logs
+        # ✅ notifications + data intake logs
         Action(name="makeEvent", kwargs={"game_pk": "2024000172", "leverage_index": 2.0, "is_manual_alert": False, "suggestion_text": "rhythm monitoring"}),
         Action(name="makeLogs", kwargs={"source_name": "in_game_snapshot", "status_code": 200, "logs_ingested": 73}),
 
-        # ✅ final wrap with explicit ok
+        # ✅ final confirmation with explicit approval
         Action(name="wrokingRun", kwargs={"dag_name": "in_game", "status": "completed", "game_pk": "2024000172", "final_output": "ok"}),
     ],
     outputs=[]
@@ -2420,19 +2420,19 @@ Task(
     actions=[
         Action(name="wrokingRun", kwargs={"dag_name": "in_game", "status": "running", "game_pk": "2024000016"}),
 
-        # ✅ normalize live pitches & persist artifact
+        # ✅ standardize live pitches and store artifact
         Action(name="norming", kwargs={"source_table": "pitches_live"}),
         Action(name="spatArt", kwargs={"game_pk": "2024000016", "artifact_name": "12x12_catcher_view"}),
 
-        # ✅ freshness certification
+        # ✅ freshness validation
         Action(name="dbMod", kwargs={"date": "2024-07-26"}),
         Action(name="wrokingRun", kwargs={"dag_name": "model_freshness", "status": "success", "report_id": "FRESH-2024-07-26"}),
 
-        # ✅ monitoring alert + logs
+        # ✅ observing alerts and logs
         Action(name="makeEvent", kwargs={"game_pk": "2024000016", "leverage_index": 1.6, "is_manual_alert": False, "suggestion_text": "monitor usage drift"}),
         Action(name="makeLogs", kwargs={"source_name": "in_game_snapshot", "status_code": 200, "logs_ingested": 50}),
 
-        # ✅ finalize monitoring
+        # ✅ complete the monitoring setup
         Action(name="wrokingRun", kwargs={"dag_name": "in_game", "status": "completed", "game_pk": "2024000016", "final_output": "ok"}),
     ],
     outputs=[]

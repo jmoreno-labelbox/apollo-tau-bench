@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,7 +25,7 @@ class ReviewPolicyExceptionTool(Tool):
                 pe["reviewed_on"] = _HARD_TS
                 if notes:
                     pe["decision_notes"] = notes
-                # audit
+                # review
                 logs = data.setdefault("audit_logs", [])
                 log_id = f"LOG-{exception_id}-decision"
                 audit_entry = {

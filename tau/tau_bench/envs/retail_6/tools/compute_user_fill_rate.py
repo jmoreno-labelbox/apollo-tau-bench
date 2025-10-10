@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class ComputeUserFillRate(Tool):
         total = sum(len(o.get('items', [])) for o in user_orders)
         delivered = 0
         for o in user_orders:
-            # count items in fulfillments for which tracking shows delivered
+            # count the fulfillments where tracking indicates delivery is complete
             for f in o.get('fulfillments', []):
                 for tid in f.get('tracking_id', []):
                     tr = _find_tracking(data, tid)

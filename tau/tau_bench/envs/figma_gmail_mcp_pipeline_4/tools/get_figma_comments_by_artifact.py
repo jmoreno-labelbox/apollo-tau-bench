@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,17 +21,17 @@ class GetFigmaCommentsByArtifact(Tool):
 
         figma_comments = data.get('figma_comments', [])
 
-        # If comment_id is provided, return specific comment
+        # Return the specific comment if a comment_id is supplied.
         if comment_id:
             for comment in figma_comments:
                 if comment.get('comment_id') == comment_id:
                     return json.dumps(comment, indent=2)
             return json.dumps({"error": f"Comment with ID '{comment_id}' not found."})
 
-        # Filter comments by criteria
+        # Apply filters to comments based on specified criteria.
         results = []
         for comment in figma_comments:
-            # Apply filters
+            # Implement filters
             if artifact_id:
                 if comment.get('artifact_id') != artifact_id:
                     continue
@@ -49,7 +49,7 @@ class GetFigmaCommentsByArtifact(Tool):
                 if not any(keyword.lower() in content for keyword in content_keywords):
                     continue
 
-            # Apply date filters
+            # Implement date constraints
             if created_after:
                 comment_created = comment.get('created_ts', '')
                 if comment_created < created_after:

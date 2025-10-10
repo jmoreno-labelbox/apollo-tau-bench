@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -35,7 +35,7 @@ class GetUserRoles(Tool):
         if only_active:
             assignments = [ur for ur in assignments if is_active(ur)]
 
-        # Build role map
+        # Create role mapping.
         role_map = {r["role_id"]: r for r in list(data.get("roles", {}).values()) if "role_id" in r}
         out = []
 

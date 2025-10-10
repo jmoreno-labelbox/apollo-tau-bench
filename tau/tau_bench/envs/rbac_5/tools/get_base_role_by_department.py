@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class GetBaseRoleByDepartment(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         department = (kwargs.get("department", "") or "").strip().lower()
 
-        # Map departments to base role names
+        # Associate departments with core role identifiers.
         department_role_map = {
             "engineering": "engineering-base",
             "marketing": "marketing-base",
@@ -30,7 +30,7 @@ class GetBaseRoleByDepartment(Tool):
         if not role_name:
             return json.dumps({"error": f"No base role found for department '{department}'"})
 
-        # Find the role
+        # Identify the function.
         roles = list(data.get("roles", {}).values())
         for role in roles:
             if role.get("role_name") == role_name:

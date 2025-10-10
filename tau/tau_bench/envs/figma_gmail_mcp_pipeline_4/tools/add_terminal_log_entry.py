@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -19,26 +19,26 @@ class AddTerminalLogEntry(Tool):
         if not log_message:
             return json.dumps({"error": "log_message is required."})
 
-        # Validate log level
+        # Check the log level for validity.
         valid_levels = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
         if log_level not in valid_levels:
             return json.dumps({"error": f"Invalid log level. Must be one of: {', '.join(valid_levels)}"})
 
         terminal_logs = data.get('terminal_logs', [])
 
-        # Create new log entry
+        # Generate a new log record.
         new_log = {
             "log_ts": datetime.now().isoformat(),
             "message": f"{log_level}: {log_message}"
         }
 
-        # Add optional metadata
+        # Include additional metadata as needed.
         if component:
             new_log["component"] = component
         if user_email:
             new_log["user_email"] = user_email
 
-        # Add to logs
+        # Log the information.
         terminal_logs.append(new_log)
 
         return json.dumps({

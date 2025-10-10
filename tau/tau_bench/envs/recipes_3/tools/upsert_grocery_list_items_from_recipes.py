@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -36,7 +36,7 @@ class UpsertGroceryListItemsFromRecipes(Tool):
             }
             gli_tbl.append(rec)
             created_ids.append(next_item)
-        # Deterministic header write to ensure write semantics even if no items created
+        # Deterministic header write to guarantee write semantics regardless of item creation.
         gl = _require(data, "grocery_lists", "list_id", int(list_id))
         if gl is not None:
             gl["last_upserted_at"] = "2025-01-01T12:05:00"

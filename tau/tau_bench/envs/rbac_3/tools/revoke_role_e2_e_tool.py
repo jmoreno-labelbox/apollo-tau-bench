@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -30,7 +30,7 @@ class RevokeRoleE2ETool(Tool):
             )
         )
 
-        # Ensure audit entry (deterministic id)
+        # Guarantee audit log entry (fixed identifier)
         audit = json.loads(
             AppendAuditLogTool.invoke(
                 data,

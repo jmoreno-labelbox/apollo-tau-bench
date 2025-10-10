@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 from .get_household_profile_tool import GetHouseholdProfileTool
 from .list_household_members_tool import ListHouseholdMembersTool

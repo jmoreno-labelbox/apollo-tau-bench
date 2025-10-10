@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,8 +9,8 @@ class calculate_progress_increment(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], current_progress: Any, increment: int) -> str:
         if current_progress == "get_from_goal":
-            # This would be dynamically calculated based on the goal
-            calculated_value = min(100, increment)  # Simplified
+            # This will be calculated dynamically according to the objective.
+            calculated_value = min(100, increment)  # Streamlined
         else:
             calculated_value = min(100, current_progress + increment)
 

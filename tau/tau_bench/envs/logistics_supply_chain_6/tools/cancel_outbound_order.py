@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,18 +16,18 @@ class CancelOutboundOrder(Tool):
         for order in orders:
             if order.get("order_id") == order_id:
                 # if order["status"] in ["Shipped", "Delivered"]:
-                #     return json.dumps({"error": f"Cannot cancel order {order_id} with status '{order['status']}'"}, indent=2)
+                # return json.dumps({"error": f"Unable to cancel order {order_id} due to status '{order['status']}'"}, indent=2)
 
-                # De-allocate stock
-                # warehouse_id = order["warehouse_id"]
-                # for item in order["items"]:
-                #     sku = item["sku"]
-                #     quantity = item["quantity"]
-                #     for inv_item in inventory:
+                # Release stock resources
+                # warehouse_id = order.get("warehouse_id")
+                # for item in order.items:
+                # sku = item.get("sku")
+                # quantity = item.get("quantity")
+                # for item in inventory:
                 #         if inv_item["warehouse_id"] == warehouse_id and inv_item["sku"] == sku:
-                #             inv_item["quantity_allocated"] -= quantity
-                #             inv_item["quantity_available"] += quantity
-                #             break
+                # inv_item["quantity_allocated"] -= quantity;
+                # inv_item["quantity_available"] = inv_item["quantity_available"] + quantity
+                # exit
 
                 order["status"] = "Cancelled"
                 return json.dumps({"order_id": order_id, "status": "Cancelled"}, indent=2)

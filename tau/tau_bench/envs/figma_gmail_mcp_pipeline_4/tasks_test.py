@@ -1090,7 +1090,7 @@ TASKS = [
             Action(name="GetAssetExportSummary", kwargs={"asset_id": "asset_007"}),
             Action(name="UpdateFigmaCommentStatus", kwargs={"comment_id": "comment_006", "new_status": "IN_PROGRESS", "resolution_notes": "Accessibility improvements in progress - adding ARIA labels and keyboard navigation support", "assignee_email": "jake.design@company.com", "priority_level": "HIGH"}),
             Action(name="GetGmailThreadsByLabels", kwargs={"thread_id": "thread_004"}),
-            Action(name="GetGmailThreadsByLabels", kwargs={"thread_id": "thread_005"}),  # Additional action
+            Action(name="GetGmailThreadsByLabels", kwargs={"thread_id": "thread_005"}),  # Supplementary operation
             Action(name="GetFigmaCommentsByArtifact", kwargs={"artifact_id": "art_008", "resolved_status": False}),
             Action(name="UpdateAssetExportStatus", kwargs={"asset_id": "asset_007", "new_status": "COMPLETED", "notes": "Admin header accessibility export completed with ARIA labels", "dlp_scan_status": "CLEAN"})
         ],
@@ -1107,7 +1107,7 @@ TASKS = [
             Action(name="GetAuditsByStatus", kwargs={"audit_id": "audit_002"}),
             Action(name="UpdateAuditReportStatus", kwargs={"audit_id": "audit_002", "new_status": "COMPLETED", "completion_notes": "Mobile component audit completed with accessibility integration"}),
             Action(name="UpdateGmailThreadPriority", kwargs={"thread_id": "thread_002", "new_priority": "CRITICAL", "urgency_reason": "Mobile application release requires immediate coordination", "escalate_to": ["jake.design@company.com", "mobile.team@company.com"]}),
-            Action(name="UpdateGmailThreadPriority", kwargs={"thread_id": "thread_005", "new_priority": "NORMAL", "urgency_reason": "Mobile component design review required"}),  # Additional action
+            Action(name="UpdateGmailThreadPriority", kwargs={"thread_id": "thread_005", "new_priority": "NORMAL", "urgency_reason": "Mobile component design review required"}),  # Supplementary operation
             Action(name="GetReviewApprovalsSummary", kwargs={"approval_id": "approval_002", "cycle_id": "cycle_002"}),
             Action(name="GetAuditsByStatus", kwargs={"created_after": "2024-08-19T12:00:00Z", "audit_type": "A11Y"}),
             Action(name="UpdateGmailThreadPriority", kwargs={"thread_id": "thread_007", "new_priority": "HIGH", "urgency_reason": "Mobile app release coordination support required"})
@@ -1123,7 +1123,7 @@ TASKS = [
         ),
         actions=[
             Action(name="GetAuditsByStatus", kwargs={"audit_id": "audit_002"}),
-            Action(name="GetAuditsByStatus", kwargs={"audit_id": "audit_003"}),  # Additional action
+            Action(name="GetAuditsByStatus", kwargs={"audit_id": "audit_003"}),  # Supplementary operation
             Action(name="UpdateAuditReportStatus", kwargs={"audit_id": "audit_002", "new_status": "COMPLETED", "completion_notes": "Mobile component audit completed with accessibility integration"}),
             Action(name="UpdateGmailThreadPriority", kwargs={"thread_id": "thread_002", "new_priority": "CRITICAL", "urgency_reason": "Mobile application release requires immediate coordination", "escalate_to": ["jake.design@company.com", "mobile.team@company.com"]}),
             Action(name="GetReviewApprovalsSummary", kwargs={"approval_id": "approval_002", "cycle_id": "cycle_002"}),

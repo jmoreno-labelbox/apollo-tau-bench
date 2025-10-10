@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -25,7 +25,7 @@ class GetPullRequest(Tool):
                 except ValueError:
                     pass
 
-        return json.dumps({"error": f"Pull request #{pullNumber} not found"}, indent=2)
+        return json.dumps({"error": f"Pull request # {pullNumber} could not be located"}, indent=2)
 
     @staticmethod
     def get_info() -> Dict[str, Any]:

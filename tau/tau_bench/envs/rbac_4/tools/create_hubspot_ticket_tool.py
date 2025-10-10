@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -18,7 +18,7 @@ class CreateHubspotTicketTool(Tool):
         category = kwargs.get("category")
         priority = kwargs.get("priority", "MEDIUM")
 
-        # Deterministic ticket ID
+        # Predictable ticket identifier
         new_id = f"TI-{len(tickets) + 1:03d}"
         fixed_time = "2025-08-11 12:00:00+00:00"
 

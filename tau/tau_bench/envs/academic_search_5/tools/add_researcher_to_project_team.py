@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class AddResearcherToProjectTeam(Tool):
         projects = list(data.get('projects', {}).values())
         for project in projects:
             if project.get('project_id') == project_id:
-                # This assumes the data model can be extended with a 'team_members' list.
+                # This presumes that the data model can incorporate a 'team_members' array.
                 if 'team_members' not in project:
                     project['team_members'] = []
                 if user_id not in project['team_members'] and user_id != project.get('lead_researcher_id'):

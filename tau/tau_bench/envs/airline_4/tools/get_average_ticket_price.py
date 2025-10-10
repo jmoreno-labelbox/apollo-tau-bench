@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -55,7 +55,7 @@ class GetAverageTicketPrice(Tool):
         exclude_dates: Optional[List[str]] = None,
         outlier_policy: Optional[Dict[str, Any]] = None,
         min_samples: int = 0,
-        fallback: Optional[Dict[str, Any]] = None,   # <- accept fallback
+        fallback: Optional[Dict[str, Any]] = None,   # <- permit fallback
         include: Optional[Dict[str, Any]] = None,
         price_component: str = "base_fare"
     ) -> str:
@@ -72,12 +72,12 @@ class GetAverageTicketPrice(Tool):
         if not flight:
             return _json({"error":"flight_not_found"})
 
-        # 1st pass
+        # initial attempt
         prices, used_days = GetAverageTicketPrice._collect_prices(
             flight, fare_class, start_date, end_date, exclude_dates
         )
 
-        # optional outlier filtering
+        # conditional outlier removal
         if outlier_policy.get("method") == "iqr":
             try:
                 k = float(outlier_policy.get("k", 1.5))
@@ -85,7 +85,7 @@ class GetAverageTicketPrice(Tool):
                 k = 1.5
             prices = GetAverageTicketPrice._iqr_filter(prices, k)
 
-        # fallback expansion (one shot)
+        # single attempt fallback expansion
         if min_samples and len(prices) < min_samples and fallback:
             try:
                 exp = int(fallback.get("expand_window_days", 0))
@@ -107,7 +107,7 @@ class GetAverageTicketPrice(Tool):
                     except Exception:
                         k = 1.5
                     prices = GetAverageTicketPrice._iqr_filter(prices, k)
-                start_date, end_date = s2, e2  # report the expanded window
+                start_date, end_date = s2, e2  # log the enlarged window
 
         if not prices:
             return _json({"error":"no_prices_in_range"})
@@ -154,7 +154,7 @@ class GetAverageTicketPrice(Tool):
                             }
                         },
                         "min_samples": {"type": "integer"},
-                        "fallback": {  # <- document fallback
+                        "fallback": {  # <- fallback for document
                             "type": "object",
                             "properties": {
                                 "expand_window_days": {"type": "integer"},

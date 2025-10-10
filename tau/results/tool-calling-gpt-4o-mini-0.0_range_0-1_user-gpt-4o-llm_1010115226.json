@@ -1,0 +1,12 @@
+[
+  {
+    "task_id": 0,
+    "reward": 0.0,
+    "info": {
+      "error": "'<' not supported between instances of 'slice' and 'str'",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/run.py\", line 214, in _run\n    res = agent.solve(\n        env=isolated_env,\n        task_index=idx,\n    )\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/agents/tool_calling_agent.py\", line 50, in solve\n    env_response = env.step(action)\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/base.py\", line 115, in step\n    reward_res = self.calculate_reward()\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/base.py\", line 137, in calculate_reward\n    gt_data_hash = self.get_data_hash()\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/base.py\", line 122, in get_data_hash\n    return consistent_hash(to_hashable(self.data))\n                           ~~~~~~~~~~~^^^^^^^^^^^\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/base.py\", line 29, in to_hashable\n    return tuple((key, to_hashable(value)) for key, value in sorted(item.items()))\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/base.py\", line 29, in <genexpr>\n    return tuple((key, to_hashable(value)) for key, value in sorted(item.items()))\n                       ~~~~~~~~~~~^^^^^^^\n  File \"/Users/sebastianalgharaballi-yanow/apollo-tau-bench-1/tau/tau_bench/envs/base.py\", line 29, in to_hashable\n    return tuple((key, to_hashable(value)) for key, value in sorted(item.items()))\n                                                             ~~~~~~^^^^^^^^^^^^^^\nTypeError: '<' not supported between instances of 'slice' and 'str'\n"
+    },
+    "traj": [],
+    "trial": 0
+  }
+]

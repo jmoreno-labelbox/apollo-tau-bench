@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class CreateArchive(Tool):
     """Creates a new archive instruction and a simulated archive file in the file_system.json state."""
     @staticmethod
     def invoke(data: Dict[str, Any], **kwargs) -> str:
-        # Part 1: Create the instruction in archive_instructions.json
+        # Section 1: Generate the directive in archive_instructions.json.
         archive_instructions = list(data.get("archive_instructions", {}).values())
         max_id = 0
         if archive_instructions:
@@ -38,12 +38,12 @@ class CreateArchive(Tool):
         }
         data["archive_instructions"].append(new_archive_instruction)
 
-        # Part 2: Create the simulated file in file_system.json
+        # Section 2: Generate the mock file in file_system.json
         filepaths = kwargs.get("filepaths", [])
         if not filepaths:
              return json.dumps({"error": "No filepaths provided for archive creation."})
 
-        # Find the server and calculate the size from the source files
+        # Locate the server and determine the size based on the source files.
         source_server = None
         total_size = 0
         for path in filepaths:
@@ -62,7 +62,7 @@ class CreateArchive(Tool):
         if not source_server:
             return json.dumps({"error": f"Could not find the source server for files: {filepaths}"})
 
-        archive_size = int(total_size * 0.8) # Simulate 80% compression
+        archive_size = int(total_size * 0.8) # Emulate 80% data compression.
         archive_checksum = 'a1f2e3d4c5b6789012345678901234567890abcd'
         new_archive_file = {
             "filename": f"{archive_name}.tar.gz",
@@ -73,7 +73,7 @@ class CreateArchive(Tool):
             "checksum": archive_checksum
         }
         
-        # Add the archive to the destination directory on the source server
+        # Transfer the archive to the target directory on the source server.
         dest_dir_found = False
         for directory in source_server["directories"]:
             if directory["path"] == destination_directory:

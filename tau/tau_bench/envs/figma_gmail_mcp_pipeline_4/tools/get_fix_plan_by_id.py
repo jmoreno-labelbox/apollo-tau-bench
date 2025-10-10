@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,21 +20,21 @@ class GetFixPlanById(Tool):
         fix_plans = data.get('fix_plans', [])
         fix_items = data.get('fix_items', [])
 
-        # Find the requested fix plan
+        # Locate the proposed solution outline.
         plan = next((p for p in fix_plans if p.get('plan_id') == plan_id), None)
         if not plan:
             return json.dumps({"error": f"Fix plan with ID '{plan_id}' not found"})
 
-        result = dict(plan)  # Create a copy of the plan
+        result = dict(plan)  # Duplicate the plan.
 
-        # Include related items if requested
+        # Add associated items upon request.
         if include_items:
             result['items'] = [
                 item for item in fix_items
                 if item.get('plan_id') == plan_id
             ]
 
-        # Add additional metadata
+        # Incorporate extra metadata.
         result['item_count'] = len(result.get('items', []))
         result['open_item_count'] = len([i for i in result.get('items', [])
                                        if i.get('status') != 'RESOLVED'])

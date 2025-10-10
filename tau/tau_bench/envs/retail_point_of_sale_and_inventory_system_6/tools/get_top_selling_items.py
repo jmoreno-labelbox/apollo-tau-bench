@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -17,7 +17,7 @@ class get_top_selling_items(Tool):
 
         item_tracker = defaultdict(int)
         for transaction in transactions:
-            # Filter on any sent values
+            # Apply a filter to all provided values.
             if all([filter_values[k] == transaction[k] for k in filter_values.keys()]):
                 line_items = transaction["line_items"]
                 for item in line_items:
@@ -25,7 +25,7 @@ class get_top_selling_items(Tool):
 
         out = OrderedDict()
 
-        # Sort the values by total and get the top n items
+        # Order the values by total and retrieve the top n entries.
         sort = sorted(item_tracker, key=item_tracker.get, reverse=True)
         if n_values is not None:
             sort = sort[:n_values]

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,7 +11,7 @@ class CreateCloudWatchDashboard(Tool):
     def invoke(data, environment: str, purpose: str = "cache") -> str:
         dashboards = _ensure_table(data, "aws_cloudwatch_dashboards")
         dashboard_name = _stable_id("dash", environment, purpose)
-        url = f"https://console.aws.amazon.com/cloudwatch/home#dashboards:name={dashboard_name}"
+        url = f"https://console.aws.amazon.com/cloudwatch/home# dashboards:name={dashboard_identifier}
         row = _find_one(dashboards, dashboard_name=dashboard_name)
         payload = {
             "dashboard_name": dashboard_name,

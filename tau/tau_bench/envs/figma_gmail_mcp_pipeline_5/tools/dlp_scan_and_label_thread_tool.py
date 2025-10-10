@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,11 +16,11 @@ class DlpScanAndLabelThreadTool(Tool):
         if not (thread_id and label_if_found and changed_ts):
             return json.dumps({"error":"thread_id, label_if_found, changed_ts required"})
 
-        # Reuse DLP scan
+        # Utilize existing DLP scan.
         scan = json.loads(DlpScanThreadTool.invoke(data, thread_id=thread_id))
         found = scan.get("blocked_terms_found", [])
         if found:
-            # apply label
+            # assign label
             _ = UpdateThreadLabelsTool.invoke(data, thread_id=thread_id, add_labels=[label_if_found], remove_labels=[], changed_ts=changed_ts)
         return json.dumps({"thread_id": thread_id, "blocked_terms_found": found, "label_applied": bool(found)}, indent=2)
 

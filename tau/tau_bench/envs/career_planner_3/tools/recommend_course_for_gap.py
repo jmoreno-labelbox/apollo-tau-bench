@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,11 +20,11 @@ class RecommendCourseForGap(Tool):
         if not user_gaps:
             return json.dumps({"error": "No gap found."}, indent=2)
 
-        # Find the highest priority skill gap with available courses
+        # Identify the most critical skill deficiency alongside the corresponding courses.
         skill_gaps = user_gaps[0].get("skill_gaps", [])
         highest_priority_gap = None
 
-        # Sort by priority (High -> Medium -> Low) and gap severity (High -> Medium -> Low)
+        # Order by priority (High, Medium, Low) and severity of gap (High, Medium, Low).
         priority_order = {"High": 3, "Medium": 2, "Low": 1}
         severity_order = {"High": 3, "Medium": 2, "Low": 1}
 
@@ -33,7 +33,7 @@ class RecommendCourseForGap(Tool):
                 if not highest_priority_gap:
                     highest_priority_gap = skill_gap
                 else:
-                    # Compare by priority first, then by severity
+                    # First, compare based on priority, followed by severity.
                     current_priority = priority_order.get(
                         skill_gap.get("priority", "Low"), 1
                     )
@@ -55,7 +55,7 @@ class RecommendCourseForGap(Tool):
                         highest_priority_gap = skill_gap
 
         if highest_priority_gap:
-            # Return the first course for the highest priority gap (deterministic)
+            # Retrieve the initial course for the highest priority gap (deterministic).
             return json.dumps(
                 {
                     "recommended_course": highest_priority_gap.get(

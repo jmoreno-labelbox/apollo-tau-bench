@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,7 +15,7 @@ class GetAverageDailySalesForCategoryInPeriod(Tool):
         end_date = kwargs.get("end_date")
         sales_data = list(data.get("f_sales", {}).values())
         
-        # Calculate the number of days in the period
+        # Determine the total days within the timeframe.
         start = datetime.strptime(start_date, "%Y-%m-%d")
         end = datetime.strptime(end_date, "%Y-%m-%d")
         days_in_period = (end - start).days + 1
@@ -30,7 +30,7 @@ class GetAverageDailySalesForCategoryInPeriod(Tool):
                 total_units += entry.get("units", 0)
                 total_revenue += entry.get("revenue", 0)
         
-        # Calculate averages
+        # Compute averages
         avg_units = total_units / days_in_period if days_in_period > 0 else 0
         avg_revenue = total_revenue / days_in_period if days_in_period > 0 else 0
         

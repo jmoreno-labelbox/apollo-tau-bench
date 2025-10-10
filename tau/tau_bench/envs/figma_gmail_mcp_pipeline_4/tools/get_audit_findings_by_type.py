@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,8 +22,8 @@ class GetAuditFindingsByType(Tool):
 
         results = []
 
-        # Process DS findings
-        if not violation_type:  # Only check DS findings if no violation_type specified
+        # Handle data science discoveries.
+        if not violation_type:  # Verify DS findings solely when no violation_type is provided.
             for finding in audit_findings_ds:
                 if finding_type and finding.get("finding_type") != finding_type:
                     continue
@@ -37,8 +37,8 @@ class GetAuditFindingsByType(Tool):
                     "finding": finding
                 })
 
-        # Process A11y findings
-        if not finding_type:  # Only check A11y findings if no finding_type specified
+        # Handle A11y issues.
+        if not finding_type:  # Verify A11y issues solely when no finding_type is defined.
             for finding in audit_findings_a11y:
                 if violation_type and finding.get("violation_type") != violation_type:
                     continue
@@ -52,7 +52,7 @@ class GetAuditFindingsByType(Tool):
                     "finding": finding
                 })
 
-        # Apply limit
+        # Set boundary
         results = results[:limit]
 
         return json.dumps({

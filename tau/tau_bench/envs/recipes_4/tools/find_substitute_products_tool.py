@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -52,7 +52,7 @@ class FindSubstituteProductsTool(Tool):
             A dictionary following the standard response format. On success,
             the 'data' key contains a list of substitution suggestions.
         """
-        # 1. Validate Inputs
+        # 1. Verify Input Data
         param_definitions = {
             "store_id": {"type": int, "required": True},
             "problem_items": {"type": list, "required": True},
@@ -64,28 +64,28 @@ class FindSubstituteProductsTool(Tool):
         store_id = kwargs["store_id"]
         problem_items = kwargs["problem_items"]
 
-        # 2. Pre-condition Check
+        # 2. Condition Verification Before Execution
         if not any(s.get("store_id") == store_id for s in data.get("stores", [])):
             return _build_error_response("NOT_FOUND", {"entity": "Store", "entity_id": store_id})
 
-        # 3. Core Logic
+        # 3. Fundamental Logic
         suggestions = []
         all_store_products = data.get("store_products", [])
 
         for item in problem_items:
             original_ingredient_id = item.get("ingredient_id")
 
-            # Find substitution rules for the problematic ingredient
+            # Determine replacement guidelines for the issue ingredient.
             substitute_options = INGREDIENT_SUBSTITUTE_MAP.get(original_ingredient_id, [])
 
             for sub_ingredient_id in substitute_options:
-                # Find all products for the substitute ingredient at the store
+                # Locate all items for the alternative ingredient in the store.
                 candidate_products = [
                     p for p in all_store_products
                     if p.get("store_id") == store_id and p.get("ingredient_id") == sub_ingredient_id
                 ]
 
-                # Find the best available option (in stock and cheapest)
+                # Identify the most affordable option that is currently in stock.
                 in_stock_products = [p for p in candidate_products if p.get("stock_status_enum") in ("in_stock", "low")]
 
                 if in_stock_products:
@@ -98,8 +98,8 @@ class FindSubstituteProductsTool(Tool):
                         "substitute_product_name": best_sub_product.get("product_name"),
                         "price_cents": best_sub_product.get("price_cents")
                     })
-                    # Found a valid substitute, stop searching for this item
+                    # Identified an acceptable alternative, cease the search for this item.
                     break
 
-        # 4. Response
+        # 4. Reply
         return _build_success_response(suggestions)

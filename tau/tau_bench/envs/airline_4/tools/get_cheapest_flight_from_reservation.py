@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -42,18 +42,18 @@ class GetCheapestFlightFromReservation(Tool):
                 return None
 
         evaluated: List[Dict[str, Any]] = []
-        # candidates: (price_float, iso_day, flight_number, leg_out)
+        # options: (price_float, iso_day, flight_number, leg_out)
         candidates: List[Tuple[float, str, str, Dict[str, Any]]] = []
 
         for leg in legs:
             orig_date = leg.get("date")
-            iso_day = _to_iso_day(orig_date)  # normalize once
+            iso_day = _to_iso_day(orig_date)  # perform normalization a single time
 
             leg_out = {
                 "flight_number": leg.get("flight_number"),
                 "origin": leg.get("origin"),
                 "destination": leg.get("destination"),
-                # Export normalized ISO day for downstream consumers
+                # Provide the standardized ISO day format for downstream users.
                 "date": iso_day,
             }
 
@@ -74,7 +74,7 @@ class GetCheapestFlightFromReservation(Tool):
                             if price is not None:
                                 price_source = "flights_json"
 
-            # If we still don't have a price, or status is disallowed, record and skip
+            # If there is no price available or the status is set to disallowed, log it and proceed without processing.
             if price is None:
                 leg_out["error"] = "price_unavailable"
                 evaluated.append(leg_out)
@@ -85,12 +85,12 @@ class GetCheapestFlightFromReservation(Tool):
                 evaluated.append(leg_out)
                 continue
 
-            # Successful candidate
+            # Chosen applicant
             leg_out["price"] = price
             leg_out["price_source"] = price_source or "reservation"
             evaluated.append(leg_out)
 
-            # Deterministic sort tuple: (price_float, iso_day_str, flight_number_str)
+            # Ordered tuple for sorting: (price_float, iso_day_str, flight_number_str)
             d_key = iso_day or "9999-12-31"
             fn = (leg_out.get("flight_number") or "")
             candidates.append((price, d_key, fn, leg_out))

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -15,12 +15,12 @@ class SetAccountGroups(Tool):
             return json.dumps({"status": "error", "reason": "account_not_found"})
         old = set(acct.get("group_ids", []))
         new = set(group_ids)
-        # compute diffs for audit
+        # calculate differences for auditing
         to_add = sorted(list(new - old))
         to_remove = sorted(list(old - new))
         acct["group_ids"] = sorted(group_ids)
         if not to_add and not to_remove:
-            # Even if no changes, policy implies an audit entry should be created for the action.
+            # Regardless of changes, the policy mandates that an audit entry must be generated for the action.
             _append_row(
                 data["group_membership_audit"],
                 {

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -22,23 +22,23 @@ class GetModelDetailByGame(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         game_pk = kwargs.get("game_pk")
 
-        # 1) Validate
+        # 1) Verify
         if game_pk is None:
             return json.dumps({"error": "Missing required field: game_pk"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database.
         models: List[Dict[str, Any]] = list(data.get("umpire_game_models", {}).values())
 
-        # 3) Collect matches
+        # 3) Gather matches
         matches = [row for row in models if row.get("game_pk") == game_pk]
 
         if not matches:
             return json.dumps({"error": f"No model details found for game_pk {game_pk}"}, indent=2)
 
-        # 4) Deterministic order
+        # 4) Fixed sequence
         matches.sort(key=lambda r: int(r.get("umpire_game_id", 0)))
 
-        # 5) Return
+        # 5) Output
         return json.dumps(matches, indent=2)
 
     @staticmethod

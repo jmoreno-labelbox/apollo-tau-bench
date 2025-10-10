@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -32,7 +32,7 @@ class SshConnectivityVerifierTool(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         server_address = kwargs["remote_address"]
 
-        # Always returns successful connection for simulation purposes
+        # Consistently provides a successful connection for testing scenarios.
         response_data = {
             "status": "connected",
             "remote_address": server_address

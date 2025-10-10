@@ -1,7 +1,7 @@
 from tau_bench.types import Action, Task
 
 TASKS = [
-    # Task 1: Basic course enrollment with skill validation (Complexity: 8)
+    # Task 1: Enroll in a basic course while validating skills (Difficulty: 8)
     Task(
         user_id="res_01",
         instruction="Ensure Jack Wang (U301) is registered for the Machine Learning course C1005 and update his promotion goal G301-1 to reflect the enrollment on 2025-10-02.",
@@ -35,7 +35,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 2: Team assignment with basic mentorship setup (Complexity: 9)
+    # Task 2: Group project incorporating fundamental mentoring framework (Complexity: 9)
     Task(
         user_id="res_02",
         instruction="Place Ava Nguyen in the Analytics Team and set up a mentorship link with mentor M100, concentrating on analytics and career advancement. Next, inform him with this message: 'Welcome to the Analytics Team! You have been assigned a mentor to support your career growth.', and then inform HR with the following message: 'Ava Nguyen has been added to the Analytics Team and assigned mentor.'",
@@ -78,7 +78,7 @@ TASKS = [
             "notified",
         ],
     ),
-    # Task 3: Skills assessment with course recommendation (Complexity: 10)
+    # Task 3: Evaluation of skills with suggested courses (Complexity: 10)
     Task(
         user_id="res_03",
         instruction="Assign Alexander Adams to a foundational UX course to boost her skills and update her development goal with 'Active - Course Assigned'. Afterwards, send her a notification with the message: 'You have been enrolled in the 'UX Design Fundamentals' course to support your development goals.', and then inform hr with the message: 'Alexander Adams has been enrolled in course UX Design Fundamentals'",
@@ -126,7 +126,7 @@ TASKS = [
             "notified",
         ],
     ),
-    # Task 4: Mentorship session scheduling with capacity check (Complexity: 8)
+    # Task 4: Schedule mentorship sessions while verifying capacity (Complexity: 8)
     Task(
         user_id="res_04",
         instruction="Set up the next mentorship session for David Adams (U304) two weeks from today on 2025-10-16. Inform him with the message: 'Your next mentorship session has been scheduled. Please check your calendar for details.'",
@@ -163,7 +163,7 @@ TASKS = [
             "notified_user",
         ],
     ),
-    # Task 5: Certification tracking with goal alignment (Complexity: 11)
+    # Task 5: Monitoring certifications with alignment to objectives (Complexity: 11)
     Task(
         user_id="res_05",
         instruction="Handle the registration of the 'AWS Security Specialty' certification from 'AWS' for David Adams, assigning a new certification ID 'C7011' and set up the exam for 60 days from today. Modify his certification goal to denote a 10% advancement. Inform HR through the message: 'David Adams (U303) has registered for the AWS Security Specialty exam.'",
@@ -213,7 +213,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 6: Course progress update with goal synchronization (Complexity: 9)
+    # Task 6: Update course progress while aligning goals (Complexity: 9)
     Task(
         user_id="res_06",
         instruction="Update Harper Bennett's 'Python' course progress to 50%. Additionally, adjust the 'last_updated' field concerning her career goal related to 'Python'. Finally, send a notification to her with the message: 'Your progress on the Python course has been updated to 50%. Keep up the great work!' and alert HR with the message: 'Harper Bennett has reached a 50% progress milestone in her Python course, supporting her development goal.'",
@@ -267,7 +267,7 @@ TASKS = [
             "notified",
         ],
     ),
-    # Task 7: Workflow stage advancement with validation (Complexity: 10)
+    # Task 7: Progressing through workflow stages with verification (Complexity: 10)
     Task(
         user_id="res_07",
         instruction="Progress Harper Bennett's promotion workflow to the 'Development Plan' phase. Determine who the designated planner is for this stage, find out their full name, and update the workflow notes to indicate their assignment. Enroll Ava in the course recommended by the workflow. Additionally, update her career goal related to 'Python' by including: 'Development plan now active under WF001.' in the description. Notify Ava with the message: 'Your promotion workflow has progressed to the Development Plan stage and you have been enrolled in required training.' and inform the assigned planner with the message: 'You have been designated as the planner for Harper Bennett's development plan in promotion workflow WF001.'",
@@ -335,7 +335,7 @@ TASKS = [
             "notified_user",
         ],
     ),
-    # Task 8: Dual competency development with mentorship enhancement (Complexity: 12)
+    # Task 8: Advancement of dual skills through improved mentorship (Complexity: 12)
     Task(
         user_id="res_08",
         instruction="Initially, confirm that Robert Thompson satisfies the '3+ years PM experience' requirement for the 'Project Management Professional (PMP)' course. If he does, proceed to enroll him. Then, update his goal related to 'Staff SRE' by appending the note: 'PMP course enrolled to support leadership path.' Moreover, update his mentorship relationship by adding 'Strategic Leadership' to the current focus areas. Finally, notify both Alexander and his manager about the enrollment using the message: 'Robert Thompson has been enrolled in the PMP course to support his strategic development goals.'",
@@ -406,7 +406,7 @@ TASKS = [
             "notified_user",
         ],
     ),
-    # Task 9: Data visualization competency with specialized training (Complexity: 11)
+    # Task 9: Proficiency in data visualization through targeted training (Complexity: 11)
     Task(
         user_id="res_09",
         instruction="Facilitate David Adams's growth by enrolling him in the 'Data Visualization with Tableau' course. Modify his primary goal metric associated with 'AWS Security' to include 'Pass AWS Security Specialty exam and complete Tableau course'. Additionally, revise his mentorship details by incorporating 'Data Visualization' into the focus areas. Inform him with the message: 'You have been enrolled in a Tableau course as a foundational step towards your AWS Security goal, which has been updated to reflect this.' and alert HR with the message: 'David Adams has been enrolled in supplemental Tableau training to support his primary AWS Security goal.'",
@@ -478,7 +478,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 10: Cross-functional team integration with accessibility focus (Complexity: 12)
+    # Task 10: Integration of cross-disciplinary teams with an emphasis on accessibility (Complexity: 12)
     Task(
         user_id="res_10",
         instruction="Place Alexander Adams on the 'Product Design Team'. Augment her primary career goal by adding the note: 'Now a member of the Product Design Team to lead accessibility initiatives.' Arrange a mentorship session for the following week. Inform Chloe with the message: 'You have been assigned to the Product Design Team to lead accessibility initiatives. Your career goal has been updated and a mentorship session is scheduled.' Also, notify her new manager and HR with the message: 'Alexander Adams has been assigned to the Product Design Team to lead accessibility initiatives. Her development plan has been updated.'",
@@ -538,7 +538,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 11: ML specialization with backup mentorship (Complexity: 13)
+    # Task 11: ML specialization with supplementary guidance (Complexity: 13)
     Task(
         user_id="res_11",
         instruction="Facilitate Ava Nguyen's development by enrolling him in the 'Machine Learning Specialization' course. Revise his goal concerning 'Director of Data Science' to incorporate this enrollment by adding 'and complete ML Specialization' to its metric. Additionally, augment his mentorship relationship by including 'Machine Learning' in the current focus areas. Inform him with the message: 'You have been enrolled in the ML Specialization as a step towards your Director goal, which has been updated to reflect this.' and inform HR with the message: 'Ava Nguyen has been enrolled in supplemental ML training to support his primary promotion goal.'",
@@ -610,7 +610,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 12: Performance intervention with comprehensive support (Complexity: 14)
+    # Task 12: Performance enhancement with extensive assistance (Complexity: 14)
     Task(
         user_id="res_12",
         instruction="Facilitate Michael Rodriguez' performance enhancement by enrolling him in the 'UX Design Fundamentals' course. Establish a new 'Skill Development' goal for him with ID 'G304-2' and description 'Complete UX Design Fundamentals to strengthen technical foundations'. Strengthen his mentorship relationship by adding 'Technical Foundation Support' to the focus areas. Inform him with the message: 'A performance support plan has been initiated. You have been enrolled in a foundational course and a new goal has been set. Please connect with your mentor.' and inform HR with the message: 'A performance support plan has been activated for Michael Rodriguez, including course enrollment and a new development goal.'",
@@ -670,7 +670,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 13: Comprehensive progress analysis with targeted interventions (Complexity: 15)
+    # Task 13: In-depth progress assessment with focused actions (Complexity: 15)
     Task(
         user_id="res_13",
         instruction="To bridge skill gaps, register Harper Bennett for the 'Machine Learning Specialization' course. Modify her goal associated with 'Python' to incorporate this new training. Additionally, create a new mentorship link for her by choosing the first available mentor (starting alphabetically from M100) concentrating on 'Machine Learning'. Inform her with the message: 'To support your career advancement, you have been enrolled in the Machine Learning Specialization course and assigned a new mentor.' and inform HR with the message: 'Harper Bennett has been enrolled in targeted ML training and assigned a mentor to address identified skill gaps.'",
@@ -732,7 +732,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 14: Technical competency advancement with certification alignment (Complexity: 13)
+    # Task 14: Enhancing technical skills through certification alignment (Complexity: 13)
     Task(
         user_id="res_14",
         instruction="In order to enhance David Adams's technical skills, register him for the 'Advanced Python' course. Change his goal concerning 'AWS Security' by setting its completion date to 90 days from now. Moreover, revise his mentorship engagement to set the focus areas to Cloud Security, Compliance, and Python Development. Inform him with the message: 'To support your technical development, you have been enrolled in the Advanced Python course. Your AWS certification goal and mentorship plan have been updated accordingly.' and inform HR with the message: 'David Adams has been enrolled in Python training to complement his cloud security goals. His development plan has been updated.'",
@@ -799,7 +799,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 15: AWS certification pathway with readiness assessment (Complexity: 12)
+    # Task 15: AWS certification track with preparedness evaluation (Difficulty: 12)
     Task(
         user_id="res_15",
         instruction="In order to prepare Michael Rodriguez for certification, modify his primary career objective related to 'DesignOps' by adding the note: 'This goal is supported by pursuing AWS Solutions Architect certification.' Register him for the 'AWS Solutions Architect Associate' exam (cert ID 'C7012') happening in 180 days. Additionally, adjust his mentorship focus areas to encompass 'AWS Certification Prep'. Inform him with the message: 'A new development path has been created for you to pursue AWS certification. Your primary career goal and mentorship plan have been updated.' and inform HR with the message: 'A certification path for AWS Solutions Architect Associate has been established for Michael Rodriguez.'",
@@ -874,7 +874,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 16: Mentor capacity optimization with reassignment (Complexity: 11)
+    # Task 16: Optimizing mentor capacity through reassignment (Complexity: 11)
     Task(
         user_id="res_16",
         instruction="To improve mentor capacity, transfer Alexander Adams to a different mentor. The replacement mentor must be the one with the fewest current mentees (checking M101, M102, and M103), with alphabetical order used as a tiebreaker. The new relationship should maintain the focus areas from the previous one. The prior relationship should be labeled as 'Inactive - Reassigned'. Notify Chloe with the message: 'To ensure you continue to receive quality support, your mentorship has been reassigned to a new mentor. Please check your profile for details.' and inform HR with the message: 'Mentor load balancing has been performed. Alexander Adams has been reassigned to a new mentor.'",
@@ -933,7 +933,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 17: Data visualization mastery with specialized mentorship (Complexity: 12)
+    # Task 17: Achieve expertise in data visualization through tailored guidance (Complexity: 12)
     Task(
         user_id="res_17",
         instruction="To verify Harper Bennett's capability in data visualization, sign her up for the 'Data Visualization with Tableau' course. Initiate a new 'Skill Development' goal for her using ID 'G302-2' and include the description 'Achieve proficiency in Tableau for clinical analytics'. Also, set up a new mentorship for her with the available mentor found by checking M100-M103, prioritized by the lowest workload, then alphabetically, focusing on Clinical Analytics, Python, and Tableau. Inform her with the message: 'A new development path has been created for you to master data visualization. You have been enrolled in a Tableau course, and a new goal and mentorship have been established.' and alert HR with the message: 'Harper Bennett has been enrolled in Tableau training with a new goal and mentorship to support her data visualization competency.'",
@@ -1000,7 +1000,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 18: Goal progress validation with technical advancement (Complexity: 10)
+    # Task 18: Validate goal progress using technological enhancements (Complexity: 10)
     Task(
         user_id="res_18",
         instruction="To confirm the progress of David Adams's AWS Security goal, register him in the 'Advanced Python' course. Adjust his 'AWS Security' goal progress to reflect 25%. Arrange for a mentorship session to occur 14 days from today. Inform him with the message: 'Your AWS Security goal progress has been updated. You have been enrolled in a new course and a mentorship session has been scheduled to discuss your technical advancement.' and alert HR with the message: 'David Adams's AWS Security goal has been updated with a new course enrollment and a scheduled mentorship session.'",
@@ -1057,7 +1057,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 19: Cross-functional competency with team integration (Complexity: 13)
+    # Task 19: Interdisciplinary skills with team collaboration (Complexity: 13)
     Task(
         user_id="res_19",
         instruction="Handle Michael Rodriguez' preparation for cross-functional leadership by enrolling him in the 'Machine Learning Specialization' program. Introduce a new 'Leadership' goal with the ID 'G304-2', described as 'Lead a cross-functional design project leveraging ML insights'. Update his mentorship focus areas to ['Design Operations', 'Leadership', 'Process Management', 'Cross-functional Collaboration']. Inform him with the message: 'To support your growth into cross-functional leadership, you have been enrolled in a Machine Learning course and a new leadership goal has been created.' and inform HR with the message: 'Michael Rodriguez has been enrolled in ML training to support a new cross-functional leadership goal.'",
@@ -1126,7 +1126,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 20: Strategic development with Agile competency (Complexity: 11)
+    # Task 20: Agile proficiency in strategic development (Complexity: 11)
     Task(
         user_id="res_20",
         instruction="Coordinate the creation of a strategic development plan for Michael Rodriguez by enrolling him in the 'Agile Product Management' course. Update his mentorship focus areas by adding 'Agile Methodologies'. Arrange a mentorship session to occur 14 days from today. Inform him with the message: 'A new strategic development plan has been initiated. You have been enrolled in an Agile course, and a mentorship session has been scheduled to discuss next steps.' and inform HR with the message: 'A strategic development plan has been established for Michael Rodriguez, including Agile course enrollment and mentorship alignment.'",
@@ -1186,7 +1186,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 21: ML competency validation with workflow coordination (Complexity: 14)
+    # Task 21: Validation of ML skills with workflow management (Complexity: 14)
     Task(
         user_id="res_21",
         instruction="Ensure Ava Nguyen's ML skills by registering him for the 'Machine Learning Specialization' course. Adjust his goal concerning the Director of Data Science to a 45% completion rate. Additionally, modify his mentorship relationship to highlight Leadership, Data Science, Career Growth, and Machine Learning as focus areas. Inform HR with the message: 'Ava Nguyen has been enrolled in the Machine Learning Specialization to validate competency for his promotion goal. His development plan has been updated.'",
@@ -1249,7 +1249,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 22: Development Plan coordination with dual course assignment (Complexity: 13)
+    # Task 22: Coordination of the development plan with simultaneous course assignment (Complexity: 13)
     Task(
         user_id="res_22",
         instruction="Create a development plan for Harper Bennett by moving her promotion workflow to the 'Development Plan' phase and scheduling a review date 60 days from now. Enroll her in the 'Machine Learning Specialization' and 'Data Visualization with Tableau' courses. Modify her goal associated with 'Python' to show 40% progress. Communicate to her with the message: 'Your development plan has been established. You have been enrolled in new courses to support your promotion goals.' and notify HR with the message: 'A development plan for Harper Bennett has been established, including new course enrollments and a scheduled review date.'",
@@ -1326,7 +1326,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 23: Leadership advancement with mentorship enhancement (Complexity: 12)
+    # Task 23: Improvement of leadership through enhanced mentorship (Complexity: 12)
     Task(
         user_id="res_23",
         instruction="In order to groom Alexander Adams for a leadership position, register her in the 'Agile Product Management' course. Amend her primary goal relating to accessibility to add the note: 'and master Agile methodologies for future leadership roles.' Additionally, modify her mentorship focus areas to encompass 'Agile Leadership'. Inform Chloe, her manager, and HR with the message: 'A new leadership development plan has been initiated for Alexander Adams. She has been enrolled in Agile training, and her career goal and mentorship plan have been updated to support this.'",
@@ -1403,7 +1403,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 24: Post-MBA strategic positioning with certification planning (Complexity: 14)
+    # Task 24: Strategic positioning after MBA with certification strategy (Complexity: 14)
     Task(
         user_id="res_24",
         instruction="To carve out a post-MBA strategic leadership route for David Adams, sign him up for the 'Project Management Professional (PMP)' certification (cert ID 'C7014') with an exam scheduled 225 days from today. Enlist him in the 'Agile Product Management' course. Establish a new 'Leadership' goal with ID 'G303-2' and description 'Achieve PMP certification and demonstrate strategic leadership'. Revise his mentorship focus areas to include 'Strategic Leadership'. Communicate to him with the message: 'Your post-MBA leadership pathway has been established. You have been registered for the PMP exam, enrolled in a new course, and a new goal has been created.' and inform HR with the message: 'A post-MBA strategic leadership pathway has been established for David Adams, including PMP registration and a new development goal.'",
@@ -1484,7 +1484,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 25: Stakeholder management competency with mentor coordination (Complexity: 11)
+    # Task 25: Managing stakeholders and coordinating with mentors (Complexity: 11)
     Task(
         user_id="res_25",
         instruction="Handle the enhancement of Michael Rodriguez' stakeholder management skills by enrolling him in the 'Project Management Professional (PMP)' course. Amend his mentorship focus areas to encompass 'Stakeholder Alignment'. Inform him with the message: 'To advance your stakeholder management competency, you have been enrolled in a leadership course and your mentorship plan has been updated.' and alert HR with the message: 'Michael Rodriguez has been enrolled in leadership training to support his stakeholder management competency.'",
@@ -1539,7 +1539,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 26: Foundation skills acceleration with goal synchronization (Complexity: 9)
+    # Task 26: Acceleration of foundational skills with aligned objectives (Complexity: 9)
     Task(
         user_id="res_26",
         instruction="Coordinate the acceleration of Harper Bennett's foundation skills by enrolling her in the 'Advanced Python' course. Update her progress related to 'Python' by adjusting it to 10%. Inform her with the message: 'To accelerate your foundation skills, you have been enrolled in the Advanced Python course and your goal progress has been updated.' and notify HR with the message: 'Harper Bennett has been enrolled in Python training to accelerate her foundation skills. Her goal progress has been synchronized.'",
@@ -1590,7 +1590,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 27: Mentor capacity monitoring with alert generation (Complexity: 7)
+    # Task 27: Supervise mentor capacity with alert system implementation (Complexity: 7)
     Task(
         user_id="res_27",
         instruction="To enhance mentor capacity for Mentor M100, reassign their latest mentee, Alexander Adams, to a different mentor. Choose the new mentor with the lowest current mentee count from M101, M102, and M103, using an alphabetical order if needed to decide ties. Ensure the new relationship retains the focus areas of the previous one. Label the previous relationship as 'Inactive - Reassigned'. Inform Chloe with the message: 'To ensure you continue to receive quality support, your mentorship has been reassigned to a new mentor. Please check your profile for details.' and notify HR with the message: 'Mentor load balancing has been performed. Alexander Adams has been reassigned from Mentor M100 to a new mentor to optimize capacity.'",
@@ -1645,7 +1645,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 28: Skill gap remediation with ML specialization (Complexity: 10)
+    # Task 28: Addressing skill gaps through ML specialization (Complexity: 10)
     Task(
         user_id="res_28",
         instruction="To fill Harper Bennett's skill gaps, register her in the 'Machine Learning Specialization' course. Align her 'Python' goal by updating its progress to 15%. Inform her with the message: 'To address your skill gaps, you have been enrolled in the Machine Learning Specialization and your goal progress has been updated.' and notify HR with the message: 'Harper Bennett has been enrolled in ML training to address identified skill gaps. Her goal progress has been synchronized.'",
@@ -1699,7 +1699,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 29: Transition goal management with market alignment (Complexity: 8)
+    # Task 29: Manage transition goals in accordance with market alignment (Complexity: 8)
     Task(
         user_id="res_29",
         instruction="Handle the synchronization of Ava Nguyen's 'Director of Data Science' goal by aligning its progress with his current average course completion rate. Should the updated progress exceed 50%, arrange a review meeting with his mentor for the following week. Inform Jack of the goal update, and should a session be arranged, include this detail in his notification and also inform his mentor.",
@@ -1752,7 +1752,7 @@ TASKS = [
             "notified_user",
         ],
     ),
-    # Task 30: Analytics mastery enhancement with supplemental training (Complexity: 9)
+    # Task 30: Improvement of analytics expertise through additional training (Complexity: 9)
     Task(
         user_id="res_30",
         instruction="Coordinate Ava Nguyen's advancement in analytics by registering him for the 'Data Visualization with Tableau' course. Keep track of this by adjusting his 'Director of Data Science' goal progress to 50%. Notify him with the message: 'To enhance your analytics mastery, you have been enrolled in a Tableau course and your goal progress has been updated.' and inform HR with the message: 'Ava Nguyen has been enrolled in supplemental Tableau training to support his analytics mastery. His goal progress has been updated.'",
@@ -1806,7 +1806,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 31: Workflow progression with skill validation (Complexity: 12)
+    # Task 31: Workflow advancement with competency verification (Complexity: 12)
     Task(
         user_id="res_31",
         instruction="Ensure Harper Bennett's promotion workflow is advanced to Development Plan with verification of Skills Assessment completion and initiation of ML course enrollment.",
@@ -1853,7 +1853,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 32: Leadership coaching optimization with milestone achievement (Complexity: 13)
+    # Task 32: Enhancing leadership coaching through milestone completion (Complexity: 13)
     Task(
         user_id="res_32",
         instruction="In order to complete Robert Thompson' leadership development, confirm that his primary goal associated with 'Staff SRE' is recorded as 100% finished, and add the note 'Final leadership milestone achieved.' to its description. Arrange a concluding coaching session with his mentor for the coming week. Inform Alexander, his mentor, and HR by sending the message: 'Robert Thompson has successfully completed his Staff SRE leadership goal. A final coaching session has been scheduled to conclude his development plan.'",
@@ -1911,7 +1911,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 33: Performance review with goal advancement (Complexity: 11)
+    # Task 33: Evaluation of performance with objective progression (Complexity: 11)
     Task(
         user_id="res_33",
         instruction="Upon the completion of his quarterly performance review, adjust Ava Nguyen's goal for the 'Director of Data Science' by updating its progress to 65%. Inform him with the message: 'Your quarterly performance review has been completed and your promotion goal progress has been updated.' and alert HR with the message: 'The quarterly performance review for Ava Nguyen is complete. His promotion goal has been updated accordingly.'",
@@ -1957,7 +1957,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 34: Accelerated learning with workflow advancement (Complexity: 14)
+    # Task 34: Enhanced learning through workflow progression (Complexity: 14)
     Task(
         user_id="res_34",
         instruction="Conduct an accelerated learning program initiation for Harper Bennett by adjusting her 'Advanced Python' course progress to 25%. Move her promotion workflow to the 'Training Assignment' phase. Modify her goal related to 'Python' to reflect 45% progress. Inform her with the message: 'Your accelerated learning program has been initiated. Your course and goal progress have been updated, and your promotion workflow has been advanced.' and alert HR with the message: 'An accelerated learning program for Harper Bennett has been initiated. Her promotion workflow has advanced to the Training Assignment stage.'",
@@ -2028,7 +2028,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 35: Cross-functional analytics integration (Complexity: 12)
+    # Task 35: Integration of cross-functional analytics (Complexity: 12)
     Task(
         user_id="res_35",
         instruction="To facilitate Ava Nguyen's role in cross-functional integration, assign her to the 'Product Design Team'. Initiate a new 'Cross-functional Development' goal with ID 'G305-2' and description 'Master analytics-design integration'. Establish a mentorship with the first available mentor (reviewing M100-M103 by lowest workload, then by name) focusing on areas ['Product Marketing', 'Data Analytics', 'Design Thinking']. Inform her with the message: 'Your cross-functional development path has been established. You have been assigned to a new team, and a new goal and mentorship have been created.' and inform HR with the message: 'Ava Nguyen has been assigned to the Product Design Team to support cross-functional development. A new goal and mentorship have been established.'",
@@ -2093,7 +2093,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 36: Comprehensive certification strategy with goal alignment (Complexity: 13)
+    # Task 36: Detailed certification plan with objective synchronization (Complexity: 13)
     Task(
         user_id="res_36",
         instruction="In order to define David Adams's path for PMP certification, enroll him in the 'Project Management Professional (PMP)' exam (cert ID 'C7015') taking place 230 days from today. Set up a new 'Certification' goal with ID 'G303-2' and description 'Achieve PMP certification'. Adjust his mentorship focus areas to incorporate 'PMP Certification Strategy'. Let him know with the message: 'Your PMP certification strategy has been established. You have been registered for the exam, and a new goal and mentorship focus have been created.' and let HR know with the message: 'A PMP certification strategy has been established for David Adams, including exam registration and a new development goal.'",
@@ -2165,7 +2165,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 37: Advanced accessibility leadership with UX enhancement (Complexity: 14)
+    # Task 37: Enhanced UX leadership in advanced accessibility (Complexity: 14)
     Task(
         user_id="res_37",
         instruction="To advance Alexander Adams towards a leadership role in accessibility, register her for the 'UX Design Fundamentals' course. Coordinate a mentorship session to occur 16 days from today. Adjust her mentorship focus areas to incorporate 'Advanced Accessibility Strategy'. Inform her with the message: 'Your pathway towards advanced accessibility leadership has been set. You are now enrolled in a new course, and a mentorship session is arranged.' Also, inform HR with the message: 'Alexander Adams's advanced accessibility leadership pathway is now established, including a new course enrollment and mentorship coordination.'",
@@ -2222,7 +2222,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 38: Enterprise performance optimization with executive development (Complexity: 15)
+    # Task 38: Enhancing enterprise performance through executive training (Complexity: 15)
     Task(
         user_id="res_38",
         instruction="To prepare Robert Thompson for enterprise-level performance, arrange an executive coaching session to take place 10 days from now. Modify his mentorship focus areas to add 'Executive Coaching'. Communicate with him using the message: 'To aid your enterprise-level performance objectives, an executive coaching session has been arranged and your mentorship plan is updated.' Additionally, inform HR with the message: 'An executive coaching session has been organized for Robert Thompson to further his enterprise-level performance objectives.'",
@@ -2273,7 +2273,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 39: Advanced coaching with strategic goal advancement (Complexity: 11)
+    # Task 39: Enhanced coaching focused on strategic goal progression (Complexity: 11)
     Task(
         user_id="res_39",
         instruction="Enhance Robert Thompson' primary career development goal by advancing its progress to 50%. Additionally, arrange a mentorship session set for 12 days from today to monitor his progress. Inform him with the message: 'Your career advancement goal has been updated. A new mentorship session has been scheduled to track your progress.' and inform HR with the message: 'Robert Thompson' primary career goal has been advanced and a new mentorship session has been scheduled.'",
@@ -2321,7 +2321,7 @@ TASKS = [
             '"notified": "HR"',
         ],
     ),
-    # Task 40: Comprehensive skill validation with certification readiness (Complexity: 15)
+    # Task 40: Thorough skill assessment with certification preparedness (Complexity: 15)
     Task(
         user_id="res_40",
         instruction="To finalize David Adams's skill verification, increase his 'AWS Security' goal progress to 70%. Arrange a mentorship session for 20 days from today to verify certification readiness. Communicate to him with the message: 'Your skill validation is complete. Your goal progress has been updated, and a mentorship session has been scheduled to confirm certification readiness.' and communicate to HR with the message: 'A comprehensive skill validation for David Adams has been completed. His goal progress has been updated and a mentorship session is scheduled.'",

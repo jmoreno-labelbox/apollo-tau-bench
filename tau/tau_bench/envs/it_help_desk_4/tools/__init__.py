@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 from .get_user_by_upn_or_hr_id import GetUserByUpnOrHrId
 from .create_directory_account import CreateDirectoryAccount

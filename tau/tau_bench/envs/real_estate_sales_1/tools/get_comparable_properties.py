@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class GetComparableProperties(Tool):
         if not property_id:
             return json.dumps({"error": "property_id is required"}, indent=2)
         
-        # Get comparables for property
+        # Retrieve comparable properties.
         comparables = list(data.get('comparables', {}).values())
         property_comps = [c for c in comparables if c.get('property_id') == property_id]
         

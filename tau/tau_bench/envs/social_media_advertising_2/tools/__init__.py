@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright belongs to Sierra
 
 from .get_plan_on_date import GetPlanOnDate
 from .find_adset_in_plan import FindAdsetInPlan

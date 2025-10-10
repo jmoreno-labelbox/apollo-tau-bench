@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -14,7 +14,7 @@ class DeleteDevice(Tool):
         if idx is None:
             return json.dumps({"error": f"device '{device_id}' not found"}, indent=2)
         removed = devices.pop(idx)
-        # prune from rooms
+        # remove from rooms
         for room in data.get("rooms", []):
             if device_id in room.get("devices", []):
                 room["devices"].remove(device_id)

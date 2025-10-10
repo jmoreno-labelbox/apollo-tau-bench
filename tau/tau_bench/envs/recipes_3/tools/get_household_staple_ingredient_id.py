@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -8,7 +8,7 @@ from tau_bench.envs.tool import Tool
 class GetHouseholdStapleIngredientId(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], household_id: int) -> str:
-        # Resolve a staple ingredient by heuristic: pick a true pantry_staple_flag ingredient that exists in inventory for household
+        # Identify a pantry staple by using a heuristic: select an ingredient marked with pantry_staple_flag that is available in the household inventory.
         inv = [
             i
             for i in data.get("inventory_items", [])

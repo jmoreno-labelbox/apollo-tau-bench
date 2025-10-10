@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class UpdateInventoryStatus(Tool):
         for item in inventory_items:
             if item.get("inventory_id") == inventory_id:
                 item["stock_status"] = new_status
-                # When quarantining, make quantity unavailable
+                # During quarantine, render quantity inaccessible.
                 if new_status.lower() == "quarantined":
                     item["quantity_available"] = 0
                 return json.dumps(

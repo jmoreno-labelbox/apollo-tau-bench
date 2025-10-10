@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -38,7 +38,7 @@ class AuthenticateUserTool(Tool):
 
         users = data.get('authentication', [])
         user = next((c for c in users if c["username"] == user_name), None)
-        # user = get_data(users, user_name)
+        # user = retrieve_data(users, user_name)
 
         if not user:
             return json.dumps(
@@ -56,7 +56,7 @@ class AuthenticateUserTool(Tool):
                 indent=2,
             )
         else:
-            # Simulate document verification logic
+            # Imitate the logic for verifying documents.
             return json.dumps(
                 {"status": "success", "verified": True, "confidence": 0.97}, indent=2
             )

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -29,6 +29,6 @@ class ComputeChecksumTool(Tool):
             return json.dumps({"error": f"Log '{log_name}' not found."})
         content_str = json.dumps(data[log_name], sort_keys=True)
         checksum = hashlib.sha256(content_str.encode()).hexdigest()
-        # persist checksum under a deterministic key '<log_name>.sha256'
+        # store checksum using a consistent key '<log_name>.sha256'
         data[f"{log_name}.sha256"] = checksum
         return json.dumps({"log_name": log_name, "checksum": checksum})

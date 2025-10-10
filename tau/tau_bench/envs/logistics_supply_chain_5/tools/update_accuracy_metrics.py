@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -16,7 +16,7 @@ class UpdateAccuracyMetrics(Tool):
         if not warehouse:
             return json.dumps({"error": f"Warehouse {warehouse_id} not found"})
 
-        # Calculate accuracy metrics
+        # Compute accuracy measurements.
         warehouse_inventory = [item for item in inventory if item.get("warehouse_id") == warehouse_id]
         warehouse_counts = [count for count in cycle_counts if count.get("warehouse_id") == warehouse_id]
 

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,7 +27,7 @@ class GetSupplyOrderDetails(Tool):
                 "status": "not_found"
             })
 
-        # Enrich with supplier information
+        # Enhance with vendor details.
         supplier_id = supply_order_found.get("supplier_id")
         suppliers = data.get("suppliers", [])
         supplier_info = {}
@@ -40,11 +40,11 @@ class GetSupplyOrderDetails(Tool):
                 }
                 break
 
-        # Calculate order metrics
+        # Compute order statistics.
         order_date = supply_order_found.get("order_date", "")
         status = supply_order_found.get("status")
 
-        # Calculate days since order
+        # Determine the number of days since the order was placed.
         days_since_order = 0
         if order_date:
             try:
@@ -53,7 +53,7 @@ class GetSupplyOrderDetails(Tool):
             except:
                 days_since_order = 0
 
-        # Determine urgency based on status and age
+        # Assess urgency by evaluating status and age.
         urgency = "normal"
         if status == "pending" and days_since_order > 30:
             urgency = "high"

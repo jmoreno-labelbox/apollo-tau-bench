@@ -225,26 +225,26 @@ TASKS = [
             "Facilitate the onboarding of 'XGBoost_Rainfall_v1' while logging a validation set for July-2025. Final state: the model 'XGBoost_Rainfall_v1' (type 'xgboost', framework 'xgboost', version '1.0', status 'staged') is registered and accessible; the validation batch 'VAL_RAIN_2025-07' contains a single record ('2025-07-15T00:00:00Z', 124.3) which is accessible; an R² value of 0.93 is noted for the validation set and viewable; the QC report 'QC_RAIN_VAL_2025-07' (pdf) is archived and recoverable."
         ),
         actions=[
-            # Model artifact (write → verify)
+            # Model asset (create → validate)
             Action(name="StoreModelArtifact",
                    kwargs={"model_name": "XGBoost_Rainfall_v1", "model_type": "xgboost",
                            "framework": "xgboost", "version": "1.0", "status": "staged"}),
             Action(name="FetchModelRecord", kwargs={"model_name": "XGBoost_Rainfall_v1"}),
 
-            # Predictions (write → verify)
+            # Forecasts (create → confirm)
             Action(name="WritePredictionLot",
                    kwargs={"batch_name": "VAL_RAIN_2025-07", "model_name": "XGBoost_Rainfall_v1", "items": [
                        {"timestamp": "2025-07-15T00:00:00Z", "prediction": 124.3}
                    ]}),
             Action(name="ReadPredictionLots", kwargs={"batch_name": "VAL_RAIN_2025-07"}),
 
-            # Metric (write → verify)
+            # Metric (create → validate)
             Action(name="LogModelMetric",
                    kwargs={"model_name": "XGBoost_Rainfall_v1", "metric_name": "R2", "value": 0.93,
                            "dataset_split": "validation"}),
             Action(name="ReadModelMetrics", kwargs={"model_name": "XGBoost_Rainfall_v1"}),
 
-            # QC report (write → verify)
+            # QC report (verify → validate)
             Action(name="RecordQcReport",
                    kwargs={"figure_label": "QC_RAIN_VAL_2025-07",
                            "figure_path": "https://storage.example.com/reports/QC_RAIN_VAL_2025-07.pdf",

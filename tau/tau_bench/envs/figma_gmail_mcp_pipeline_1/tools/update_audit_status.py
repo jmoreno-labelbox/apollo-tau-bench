@@ -1,33 +1,33 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
 from tau_bench.envs.tool import Tool
 
 
-class UpdateAuditStatus(Tool):  # WRITE
+class UpdateAuditStatus(Tool):  # CREATE
     @staticmethod
     def invoke(
         data: Dict[str, Any],
         audit_id: str,
         status: str
     ) -> str:
-        # Validate input
+        # Verify input data.
         if not isinstance(audit_id, str) or not audit_id:
             return json.dumps({"error": "audit_id must be a non-empty string"})
 
         if not isinstance(status, str) or not status:
             return json.dumps({"error": "status must be a non-empty string"})
 
-        # Validate status value
+        # Check the validity of the status value.
         allowed_statuses = ["RUNNING", "COMPLETED", "FAILED", "CANCELLED"]
         if status not in allowed_statuses:
             return json.dumps({"error": f"Invalid status. Allowed: {allowed_statuses}"})
 
-        # Get audits data
+        # Retrieve audit information.
         audits = data.get("audits", [])
 
-        # Find the audit to update
+        # Locate the audit for updating.
         audit_to_update = None
         for audit in audits:
             if audit.get("audit_id") == audit_id:
@@ -37,7 +37,7 @@ class UpdateAuditStatus(Tool):  # WRITE
         if not audit_to_update:
             return json.dumps({"error": f"Audit with ID '{audit_id}' not found"})
 
-        # Update the status
+        # Revise the status.
         old_status = audit_to_update.get("status")
         audit_to_update["status"] = status
 

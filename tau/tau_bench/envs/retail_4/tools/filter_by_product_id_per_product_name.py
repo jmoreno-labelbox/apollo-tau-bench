@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -21,7 +21,7 @@ class FilterByProductIdPerProductName(Tool):
                 "status": "failed"
             })
 
-        # Clean and validate input
+        # Sanitize and verify input data.
         cleaned_product_names = []
         for name in product_names:
             if not name or not str(name).strip():
@@ -29,7 +29,7 @@ class FilterByProductIdPerProductName(Tool):
             else:
                 cleaned_product_names.append(str(name).strip())
 
-        # Convert product_ids filter to set for faster lookup
+        # Change product_ids filter to a set for improved lookup speed.
         product_ids_filter = None
         if product_ids:
             product_ids_filter = set(product_ids)
@@ -40,7 +40,7 @@ class FilterByProductIdPerProductName(Tool):
         total_not_found = 0
         total_filtered_out = 0
 
-        # Process each product name in order
+        # Handle each product name sequentially.
         for i, search_name in enumerate(cleaned_product_names):
             if not search_name:
                 result_mapping.append({
@@ -54,7 +54,7 @@ class FilterByProductIdPerProductName(Tool):
                 total_not_found += 1
                 continue
 
-            # Find matching product (case-insensitive)
+            # Locate corresponding product (case insensitive)
             matching_product = None
             match_type = "not_found"
 
@@ -62,16 +62,16 @@ class FilterByProductIdPerProductName(Tool):
                 stored_name = product.get("name", "")
                 product_id = product.get("product_id")
 
-                # Apply product_ids filter if specified
+                # Use the product_ids filter if provided.
                 if product_ids_filter and product_id not in product_ids_filter:
-                    continue  # Skip products not in the filter list
+                    continue  # Exclude products not present in the filter list.
 
-                # Exact match (case-insensitive)
+                # Case-insensitive exact match
                 if stored_name.lower() == search_name.lower():
                     matching_product = product
                     match_type = "exact_match"
                     break
-                # Partial match (case-insensitive) - only if no exact match found
+                # Case-insensitive partial match only occurs when an exact match is absent.
                 elif search_name.lower() in stored_name.lower() and not matching_product:
                     matching_product = product
                     match_type = "partial_match"
@@ -87,7 +87,7 @@ class FilterByProductIdPerProductName(Tool):
                 })
                 total_matches += 1
             else:
-                # Check if there would have been a match without the product_ids filter
+                # Verify if a match would have occurred without applying the product_ids filter.
                 if product_ids_filter:
                     found_without_filter = False
                     for product in products:
@@ -128,7 +128,7 @@ class FilterByProductIdPerProductName(Tool):
                     })
                     total_not_found += 1
 
-        # Create simple arrays for easy access
+        # Initialize basic arrays for straightforward retrieval.
         product_ids_array = [mapping.get("product_id") for mapping in result_mapping]
         successful_matches = [mapping for mapping in result_mapping if mapping["status"] == "success"]
         failed_matches = [mapping for mapping in result_mapping if mapping["status"] == "failed"]

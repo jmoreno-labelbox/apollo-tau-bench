@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -20,7 +20,7 @@ class GetAuditFindingsSummary(Tool):
         audit_findings_ds = data.get('audit_findings_ds', [])
         audit_findings_a11y = data.get('audit_findings_a11y', [])
 
-        # If audit_id is provided, return specific audit findings
+        # Return specific audit findings if an audit_id is given.
         if audit_id:
             audit_info = None
             for audit in audits:
@@ -31,7 +31,7 @@ class GetAuditFindingsSummary(Tool):
             if not audit_info:
                 return json.dumps({"error": f"Audit with ID '{audit_id}' not found."})
 
-            # Get findings for this audit
+            # Retrieve results for this audit.
             ds_findings = [f for f in audit_findings_ds if f.get('audit_id') == audit_id]
             a11y_findings = [f for f in audit_findings_a11y if f.get('audit_id') == audit_id]
 
@@ -58,11 +58,11 @@ class GetAuditFindingsSummary(Tool):
 
             return json.dumps(summary, indent=2)
 
-        # Return summary across all audits
+        # Provide a summary for all audits.
         all_ds_findings = audit_findings_ds
         all_a11y_findings = audit_findings_a11y
 
-        # Apply filters
+        # Implement filters
         if finding_type:
             all_ds_findings = [f for f in all_ds_findings if f.get('finding_type') == finding_type]
 
@@ -87,7 +87,7 @@ class GetAuditFindingsSummary(Tool):
             }
         }
 
-        # Group design system findings
+        # Aggregate design system insights
         for finding in all_ds_findings:
             finding_type = finding.get('finding_type')
             severity = finding.get('severity')
@@ -100,7 +100,7 @@ class GetAuditFindingsSummary(Tool):
                 summary["design_system_findings"]["by_severity"][severity] = 0
             summary["design_system_findings"]["by_severity"][severity] += 1
 
-        # Group accessibility findings
+        # Consolidate accessibility results
         for finding in all_a11y_findings:
             violation_type = finding.get('violation_type')
             severity = finding.get('severity')

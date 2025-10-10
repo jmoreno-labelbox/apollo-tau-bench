@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright © Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class GetTeamDetailsByAbbreviation(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         abbreviation = kwargs.get("abbreviation")
 
-        # 1) Validate
+        # 1) Verify
         if not isinstance(abbreviation, str) or abbreviation == "":
             return json.dumps({"error": "Missing required field: abbreviation"}, indent=2)
 
-        # 2) Get DB from passed-in data
+        # Obtain the database from the provided data.
         teams = list(data.get("teams", {}).values())
 
-        # 3) Exact match lookup (no normalization)
+        # 3) Precise match retrieval (without normalization)
         for team in teams:
             if team.get("abbreviation") == abbreviation:
                 return json.dumps(team, indent=2)

@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -9,7 +9,7 @@ class ListChangedAssetsV2(Tool):
     @staticmethod
     def invoke(data: Dict[str, Any], commit_sha: str) -> str:
         catalog = _get_table(data, "asset_catalog")
-        # Deterministic: return assets whose updated_at exists (dataset simulated), ignore commit.
+        # Deterministic: retrieve assets with a valid updated_at field (simulated dataset), exclude commit.
         files = [row.get("asset_path") for row in catalog if row.get("asset_path")]
         return json.dumps({"files": files}, indent=2)
 

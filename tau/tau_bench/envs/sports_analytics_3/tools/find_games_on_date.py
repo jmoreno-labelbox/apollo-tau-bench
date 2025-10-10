@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class FindGamesOnDate(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         date = kwargs.get("date")
 
-        # 1) Validate
+        # 1) Verify
         if not isinstance(date, str) or date == "":
             return json.dumps({"error": "Missing required field: date (YYYY-MM-DD)"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database
         games: List[Dict[str, Any]] = list(data.get("games", {}).values())
 
-        # 3) Exact match on game_date (no normalization)
+        # 3) Exact comparison on game_date (without normalization)
         matching = [g for g in games if g.get("game_date") == date]
 
         if not matching:

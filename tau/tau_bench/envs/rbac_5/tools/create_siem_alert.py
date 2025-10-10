@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -27,18 +27,18 @@ class CreateSiemAlert(Tool):
         if not user_id or not resource_id:
             return json.dumps({"error": "user_id and resource_id required"})
 
-        # Validate severity
+        # Check severity level.
         valid_severities = ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
         if severity not in valid_severities:
             return json.dumps({"error": f"severity must be one of: {valid_severities}"})
 
-        # Validate user exists
+        # Check if the user is present.
         users = list(data.get("users", {}).values())
         user = _find_by_id(users, "user_id", user_id)
         if not user:
             return json.dumps({"error": f"User {user_id} not found"})
 
-        # Validate resource exists
+        # Check if the resource is present.
         resources = data.get("resources", [])
         resource = _find_by_id(resources, "resource_id", resource_id)
         if not resource:

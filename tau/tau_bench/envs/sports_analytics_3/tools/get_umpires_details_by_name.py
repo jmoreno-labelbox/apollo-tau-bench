@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -12,14 +12,14 @@ class GetUmpiresDetailsByName(Tool):
     def invoke(data: Dict[str, Any], **kwargs) -> str:
         full_name = kwargs.get("full_name")
 
-        # 1) Validate
+        # 1) Verify
         if not isinstance(full_name, str) or full_name == "":
             return json.dumps({"error": "Missing required field: full_name"}, indent=2)
 
-        # 2) Get DB
+        # Retrieve database
         umpires: List[Dict[str, Any]] = list(data.get("umpires", {}).values())
 
-        # 3) Exact match (no normalization)
+        # 3) Precise match (without normalization)
         for ump in umpires:
             if ump.get("full_name") == full_name:
                 return json.dumps(ump, indent=2)

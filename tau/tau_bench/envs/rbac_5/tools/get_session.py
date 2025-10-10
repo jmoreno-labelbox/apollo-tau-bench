@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra
 
 import json
 from typing import Any, Dict, List, Optional
@@ -24,23 +24,23 @@ class GetSession(Tool):
 
         sessions = data.get("sessions", [])
 
-        # If session_id is provided, return single session
+        # Return the single session if a session_id is supplied.
         if session_id:
             session = _find_by_id(sessions, "session_id", session_id)
             if not session:
                 return json.dumps({"error": f"session_id {session_id} not found"})
             return json.dumps({"ok": True, "session": session if session else "No sessions found"})
 
-        # Filter sessions based on provided criteria
+        # Select sessions according to specified conditions.
         filtered_sessions = []
         for session in sessions:
-            # Filter by user_id if provided
+            # Apply a filter based on the user_id if it exists.
             if user_id and session.get("user_id") != user_id:
                 continue
-            # Filter by ip_address if provided
+            # Apply filter based on ip_address if available.
             if ip_address and session.get("ip_address") != ip_address:
                 continue
-            # Filter by active status if requested
+            # Apply filter based on active status if specified.
             if only_active and session.get("end_time") is not None:
                 continue
             filtered_sessions.append(session)

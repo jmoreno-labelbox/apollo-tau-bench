@@ -1,4 +1,4 @@
-# Copyright Sierra
+# Copyright owned by Sierra.
 
 import json
 from typing import Any, Dict, List, Optional
@@ -11,15 +11,15 @@ class FetchBatchGameData(Tool):
         windows = kwargs.get("windows", [])
         batch_results = {}
 
-        # Get real data from JSON files
+        # Retrieve actual data from JSON files.
         pitches = data.get("pitches", [])
         games = data.get("games", [])
         players = data.get("players", [])
 
         for window in windows:
-            if "PA" in window:  # Plate appearances window
+            if "PA" in window:  # Window for plate appearances
                 count = int(window.replace("PA", ""))
-                # Filter pitches based on count limit
+                # Restrict pitches according to the maximum count.
                 filtered_pitches = pitches[:count] if len(pitches) >= count else pitches
                 batch_results[window] = {
                     "total_records": len(filtered_pitches),
@@ -27,7 +27,7 @@ class FetchBatchGameData(Tool):
                     "pitch_types": list(set(p.get("pitch_type") for p in filtered_pitches if p.get("pitch_type"))),
                     "data_quality": "good"
                 }
-            elif "games" in window:  # Games window
+            elif "games" in window:  # Game interface
                 count_str = window.replace("_games", "").replace("last_", "")
                 if count_str == "full_season":
                     filtered_games = games
@@ -40,7 +40,7 @@ class FetchBatchGameData(Tool):
                     "teams_involved": list(set([g.get("home_team_id") for g in filtered_games] + [g.get("away_team_id") for g in filtered_games])),
                     "data_quality": "good"
                 }
-            else:  # Other contexts
+            else:  # Additional scenarios
                 batch_results[window] = {
                     "data_available": len(pitches) > 0,
                     "records_count": len(pitches),
